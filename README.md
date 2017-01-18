@@ -1,10 +1,10 @@
-##患者主索引管理系统
-* 目前做为江西省人民医院
+##患者主索引管理系统(EMPI)
+* 患者主索引管理系统:(Enterprise Master Patient Index, EMPI)其主要用途是在一个复杂的医疗体系内，通过唯一的患者标识将多个医疗信息系统有效地关联在一起.
 
 ##修改catalina.sh
 	JAVA_OPTS="$JAVA_OPTS -server -Xms800m -Xmx800m -XX:PermSize=64m -XX:MaxNewSize=256m -XX:MaxPermSize=128m -Djava.awt.headless=true"
 
-##在%TOMCAT_HOM%/conf/server.xml其中：
+##在%TOMCAT_HOM%/conf/server.xml其中:
 	把
 	<Connector connectionTimeout="20000" port="8080" protocol="HTTP/1.1" redirectPort="8443"/>
 	替换成
