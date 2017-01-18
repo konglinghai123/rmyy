@@ -1,0 +1,30 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.ewcms</groupId>
+		<artifactId>parent</artifactId>
+		<version>1.0.0</version>
+		<relativePath>../parent/pom.xml</relativePath>
+	</parent>
+	<artifactId>base-entity</artifactId>
+	<packaging>jar</packaging>
+    <name>base-entity</name>
+    <url>https://github.com/ewcmsfree/rmyy/base-entity</url>
+    
+        <properties>
+        <support.basedir>${project.parent.parent.basedir}/src/support</support.basedir>
+        <site.basedir>${project.parent.parent.basedir}</site.basedir>
+        
+        <common.version>1.0.0</common.version>
+    </properties>
+    
+    <dependencies>
+		<dependency>
+			<groupId>com.ewcms</groupId>
+			<artifactId>base-common</artifactId>
+			<version>${common.version}</version>
+		</dependency>
+	</dependencies>
+    
+</project>
