@@ -28,8 +28,6 @@ script:
   - cd empi-web
   - mvn test -Pit
 
-
-
 notifications:
   email:
     - wu_zhijun@msn.com
