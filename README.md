@@ -1,6 +1,27 @@
 ##患者主索引管理系统(EMPI)
 * 患者主索引管理系统:(Enterprise Master Patient Index, EMPI)其主要用途是在一个复杂的医疗体系内，通过唯一的患者标识将多个医疗信息系统有效地关联在一起.
 
+### 使用的技术
+
+#### 后端
+* ORM框架: Hibernate + Spring Data JPA
+* IOC容器: Spring
+* WEB框架: SpringMVC
+* Secutiry框架: shiro
+
+#### 前端
+* jeasyui显示界面框架
+* jquery框架
+* jquery-Validation-Engine验证框架
+
+#### 开发工具
+* Eclipse
+* JDK1.7+
+* Maven3.0+
+
+#### 数据库
+* SQL Server 2008 R2
+
 ##修改catalina.sh
 	JAVA_OPTS="$JAVA_OPTS -server -Xms800m -Xmx800m -XX:PermSize=64m -XX:MaxNewSize=256m -XX:MaxPermSize=128m -Djava.awt.headless=true"
 
