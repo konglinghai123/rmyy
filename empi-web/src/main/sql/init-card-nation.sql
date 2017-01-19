@@ -1,10 +1,10 @@
 /**
  * 初始化民族
  */
-delete from card_nation;
+delete from dict_nation;
 
-SET IDENTITY_INSERT card_nation ON;
-insert into card_nation(id, name) values
+SET IDENTITY_INSERT dict_nation ON;
+insert into dict_nation(id, name) values
 (1,'汉族')
 ,(2,'蒙古族')
 ,(3,'回族')
@@ -64,4 +64,4 @@ insert into card_nation(id, name) values
 ,(57,'其它')
 ,(58,'外国血统中国籍人士')
 ;
-SET IDENTITY_INSERT card_nation OFF;
+SET IDENTITY_INSERT dict_nation OFF;

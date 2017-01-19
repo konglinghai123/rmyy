@@ -72,11 +72,11 @@ insert into sec_resource(id, icon, id_entity, name, parent_id, parent_ids, is_sh
 ,(100,'ewcms-monitor-jpaql-tree','ql','JPAQL执行',95,'0/1/95/','true',null,'/monitor/db/jpaqlIndex',5)
 ,(101,'ewcms-monitor-hibernate-tree','hibernate','Hibernate监控',95,'0/1/95/','true',null,'/monitor/hibernate/index',6)
 ,(102,'ztree_file','cardmanage','卡证服务',1,'0/1/','true','accordion','',8)
-,(103,'ewcms-system-icon-tree','patientbaseinfo','卡信息管理',102,'0/1/102/','true',NULL,'/card/manage/patientbaseinfo/index',1)
-,(104,'ztree_file','nation','民族',105,'0/1/105/','true',NULL,'/card/manage/nation/index',2)
+,(103,'ewcms-system-icon-tree','patientbaseinfo','卡信息管理',102,'0/1/102/','true',NULL,'/empi/card/manage/patientbaseinfo/index',1)
+,(104,'ztree_file','nation','民族',105,'0/1/105/','true',NULL,'/empi/dictionary/nation/index',2)
 ,(105,'ztree_file','dictionary','字典管理',1,'0/1/',	'true','accordion','',10)
-,(106,'ztree_file','certificatetype','证件类型',105,'0/1/105/','true',NULL,'/card/manage/certificatetype/index',1)
-,(107,'ewcms-system-externalds-tree','practicecard','诊疗卡管理',102,'0/1/102/','true',NULL,'/card/manage/practicecard/index',2)
+,(106,'ztree_file','certificatetype','证件类型',105,'0/1/105/','true',NULL,'/empi/dictionary/certificatetype/index',1)
+,(107,'ewcms-system-externalds-tree','practicecard','发诊疗卡',102,'0/1/102/','true',NULL,'/empi/card/manage/practicecard/index',2)
 ;
 SET IDENTITY_INSERT sec_resource OFF;
 
