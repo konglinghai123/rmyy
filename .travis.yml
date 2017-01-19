@@ -15,12 +15,6 @@ sqlserver:
 install:
   - mvn install -Dmaven.test.skip=true
 
-before_script:
-  - cd empi-web
-  - mvn clean
-  - mvn db:data
-  - cd ..
-
 script:
   - cd base-common
   - mvn test
@@ -31,3 +25,4 @@ script:
 notifications:
   email:
     - wu_zhijun@msn.com
+    - zhoudcrobin@qq.com
