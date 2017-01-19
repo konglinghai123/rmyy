@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ewcms.common.web.controller.BaseCRUDController;
+import com.ewcms.common.web.validate.ValidateResponse;
 import com.ewcms.empi.card.manage.entity.PatientBaseInfo;
+import com.ewcms.empi.card.manage.entity.PracticeCard;
 import com.ewcms.empi.card.manage.entity.Sex;
 import com.ewcms.empi.card.manage.service.PatientBaseInfoService;
 import com.ewcms.empi.card.manage.service.PracticeCardService;
@@ -39,7 +41,7 @@ public class PatientBaseInfoController extends BaseCRUDController<PatientBaseInf
     @Override
     protected void setCommonData(Model model) {
         super.setCommonData(model);
-        model.addAttribute("sexs", Sex.values());
+        model.addAttribute("sexList", Sex.values());
         model.addAttribute("nationList", nationService.findAll(new Sort("id")));
         model.addAttribute("certificateTypeList", certificateTypeService.findAll(new Sort("id")));
     }
@@ -50,4 +52,24 @@ public class PatientBaseInfoController extends BaseCRUDController<PatientBaseInf
 	public PatientBaseInfo readPatient(@RequestParam("certificateNo")String certificateNo,@RequestParam("certificateTypeId")Long certificateTypeId) {
 		return getPatientBaseInfoService().findByCertificateNoAndCertificateTypeId(certificateNo, certificateTypeId);
 	}
+	
+    @RequestMapping(value = "validate", method = RequestMethod.GET)
+    @ResponseBody
+    public Object validate(
+            @RequestParam("fieldId") String fieldId, @RequestParam("fieldValue") String fieldValue,
+            @RequestParam(value = "id", required = false) Long id) {
+
+        ValidateResponse response = ValidateResponse.newInstance();
+
+       if ("certificateNo".equals(fieldId)) {
+    	   PatientBaseInfo patientBaseInfo = getPatientBaseInfoService().findByCertificateNo(fieldValue);
+            if (patientBaseInfo == null|| (patientBaseInfo.getId().equals(id) && patientBaseInfo.getCertificateNo().equals(fieldValue))) {
+                //如果msg 不为空 将弹出提示框
+                response.validateSuccess(fieldId, "");
+            } else {
+                response.validateFail(fieldId, "证件号已存在");
+            }
+        }
+        return response.result();
+    }
 }

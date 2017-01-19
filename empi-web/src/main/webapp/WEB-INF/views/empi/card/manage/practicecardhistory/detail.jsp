@@ -8,6 +8,7 @@
 			    <th data-options="field:'id',hidden:true">编号</th>
 			    <th data-options="field:'operateDate',width:150">操作日期</th>
 			    <th data-options="field:'historyOperateInfo',width:80">操作</th>
+			    <th data-options="field:'statusInfo',width:80">变更状态</th>
 			    <th data-options="field:'operateUserName',width:80">操作员</th>
 			    <th data-options="field:'remark',width:80">说明</th>
 		</thead>

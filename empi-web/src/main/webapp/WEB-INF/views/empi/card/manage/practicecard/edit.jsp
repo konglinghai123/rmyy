@@ -5,7 +5,7 @@
 	<div id="edit-from" class="easyui-layout" data-options="fit:true,bordar:false">
 		<ewcms:showMessage/>
 		<div data-options="region:'center',border:false">	
-		 	<form:form id="editForm" action="${ctx}/empi/card/manage/practicecard/savedeposit" method="post" commandName="m"  class="form-horizontal">
+		 	<form:form id="editForm" action="${ctx}/empi/card/manage/practicecard/distribute" method="post" commandName="m"  class="form-horizontal">
 		    	<ewcms:showGlobalError commandName="m"/>
 		    	<form:hidden path="id"/>
 		    	<c:forEach var="selection" items="${selections}">
@@ -16,8 +16,8 @@
 				  		<td width="100%" colspan="6" style="padding:0px;">
 				  			<table width="100%">
 					        	<tr>
-							  		<td><form:label path="practiceNo">诊疗卡号：</form:label>&nbsp;<form:input path="practiceNo" cssClass="validate[required]"/></td>
-							  		<td><form:label path="depositOperate">是否收取押金：</form:label><form:select path="depositOperate"  items="${depositOperates}" itemLabel="info" cssClass="easyui-combobox" data-options="panelWidth:80,panelHeight:80,editable:false"/></td>
+							  		<td><form:label path="practiceNo">诊疗卡号：</form:label>&nbsp;<form:input path="practiceNo" cssClass="validate[required,ajax[ajaxNameCall]]"/></td>
+							  		<td><form:label path="depositOperate">是否收取押金（${depositParameterValue}）<form:hidden path="deposit" value="${depositParameterValue}"/>：</form:label><form:select path="depositOperate"  items="${depositOperateList}" itemLabel="info" cssClass="easyui-combobox" data-options="panelWidth:80,panelHeight:80,editable:false"/></td>
 							  		<td><form:label path="balance">充值金额：</form:label><form:input path="balance" cssClass="validate[required]"/>元</td>
 						    	</tr>				  			
 				  			</table>
@@ -27,10 +27,10 @@
 				  		<td width="80"><form:label path="patientBaseInfo.name">姓名：</form:label></td>
 				  		<td><form:input path="patientBaseInfo.name" id="name" cssClass="validate[required]"/></td>
 				  		<td><form:label path="patientBaseInfo.sex"></form:label>性别：</td>
-			    		<td><form:select path="patientBaseInfo.sex" id="sex" items="${sexs}" itemLabel="info" cssClass="easyui-combobox" data-options="panelWidth:80,panelHeight:80,editable:false"/></td>
+			    		<td><form:select path="patientBaseInfo.sex" id="sex" items="${sexList}" itemLabel="info" cssClass="easyui-combobox" data-options="panelWidth:80,panelHeight:80,editable:false"/></td>
 			    		<td><form:label path="patientBaseInfo.birthday">出生日期：</form:label></td>
-				  		<td><input type="text" id="birthday_show" value="${m.patientBaseInfo.birthday}" style="width:0px;height:0px;z-index:0;position:absolute;margin-top:5px;margin-left:5px;" size="0" readonly="readonly"/>
-						    <form:input id="birthday" cssClass="inputempty" path="patientBaseInfo.birthday" cssStyle="margin-left:0px;z-index:1;position:absolute;" /></td>
+				  		<td><input type="text" id="birthday_show" value="${m.patientBaseInfo.birthday}" class="validate[required, custom[date], past[2017-01-01]]" style="width:0px;height:0px;z-index:0;position:absolute;margin-top:5px;margin-left:5px;" size="0" readonly="readonly"/>
+						    <form:input id="birthday" cssClass="inputempty" path="patientBaseInfo.birthday"  cssStyle="margin-left:0px;z-index:1;position:absolute;" /></td>
 			    	</tr>
 			    	<tr>						    
 						<td><form:label path="patientBaseInfo.sourcePlace">来源地：</form:label></td>
@@ -39,7 +39,7 @@
 				  		<td><form:label path="patientBaseInfo.certificateType">证件类型：</form:label></td>
 				  		<td><form:select path="patientBaseInfo.certificateType.id" id="certificateTypeId" items="${certificateTypeList}" itemValue="id" itemLabel="name" cssClass="easyui-combobox" cssStyle="margin-left:0px;z-index:1;position:absolute;" data-options="panelWidth:150,panelHeight:130,editable:false"></form:select></td>
 				  		<td><form:label path="patientBaseInfo.certificateNo">证件号码：</form:label></td>
-				  		<td><form:input path="patientBaseInfo.certificateNo" id="certificateNo"/></td>	
+				  		<td><form:input path="patientBaseInfo.certificateNo" id="certificateNo" cssClass="validate[required]"/></td>	
 			    	</tr>
 			    	<tr>				  		
 				  								
@@ -107,7 +107,11 @@
 	    		parent.$('#edit-window').window('close');
 	    	</c:when>
 	    	<c:otherwise>
-
+				$.validationEngineLanguage.allRules.ajaxNameCall= {
+	                "url": "${ctx}/empi/card/manage/practicecard/validate",
+	                extraDataDynamic : ['#id'],
+	                "alertTextLoad": "* 正在验证，请稍等。。。"
+	            };
 	    		var validationEngine = $("#editForm").validationEngine({
 	    			promptPosition:'bottomRight',
 	    			showOneMessage: true

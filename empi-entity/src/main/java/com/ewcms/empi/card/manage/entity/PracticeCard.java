@@ -129,7 +129,7 @@ public class PracticeCard extends BaseEntity<Long> implements LogicDeleteable{
 	}
 	
 	public String getStatusInfo(){
-		return status == null ? PracticeCardStatus.invalid.getInfo() : status.getInfo();
+		return status == null ? PracticeCardStatus.normal.getInfo() : status.getInfo();
 	}
 	
 	@JSONField(format = "yyyy-MM-dd HH:mm:ss")

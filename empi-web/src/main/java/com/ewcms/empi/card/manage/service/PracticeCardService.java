@@ -10,23 +10,32 @@ import com.ewcms.common.service.BaseService;
 import com.ewcms.common.utils.EmptyUtil;
 import com.ewcms.empi.card.manage.entity.PatientBaseInfo;
 import com.ewcms.empi.card.manage.entity.PracticeCard;
+import com.ewcms.empi.card.manage.entity.PracticeCardDepositOperate;
 import com.ewcms.empi.card.manage.entity.PracticeCardHistory;
 import com.ewcms.empi.card.manage.entity.PracticeCardJournal;
 import com.ewcms.empi.card.manage.entity.PracticeCardJournalOperate;
 import com.ewcms.empi.card.manage.entity.PracticeCardOperate;
 import com.ewcms.empi.card.manage.entity.PracticeCardStatus;
+import com.ewcms.empi.card.manage.repository.PatientBaseInfoRepository;
+import com.ewcms.empi.card.manage.repository.PracticeCardRepository;
 
 /**
  *@author zhoudongchu
  */
 @Service
 public class PracticeCardService extends BaseService<PracticeCard, Long> {
+	private PracticeCardRepository getPracticeCardRepository() {
+		return (PracticeCardRepository) baseRepository;
+	}
 	
 	@Autowired
 	private PatientBaseInfoService patientBaseInfoService;
 	@Autowired
 	private PracticeCardJournalService practiceCardJournalService;
 
+	public PracticeCard findByPracticeNo(String practiceNo){
+		return getPracticeCardRepository().findByPracticeNo(practiceNo);
+	}
 	/**
 	 * 发诊疗卡
 	 * 
@@ -34,9 +43,13 @@ public class PracticeCardService extends BaseService<PracticeCard, Long> {
 	 * @param userId 操作员ID
 	 * @return 诊疗卡
 	 */
-	public PracticeCard saveDeposit(PracticeCard m, Long userId) {
+	public PracticeCard distribute(PracticeCard m, Long userId) {
+		PracticeCard dbPracticeCard = getPracticeCardRepository().findByPracticeNo(m.getPracticeNo());
+		if(EmptyUtil.isNotNull(dbPracticeCard))throw new BaseException("诊疗卡号已存在");
 		String certificateNo = m.getPatientBaseInfo().getCertificateNo();
 		if (EmptyUtil.isNull(certificateNo)) throw new BaseException("患者基本信息不存在");
+		if(m.getDepositOperate() == PracticeCardDepositOperate.redeposit)throw new BaseException("发诊疗卡不能退押金");
+		if(m.getDepositOperate() == PracticeCardDepositOperate.nodeposit)m.setDeposit(0D);//不收押金
 		
 		PracticeCardJournal practiceCardJournal = new PracticeCardJournal(m.getBalance(),"发诊疗卡充值",userId,PracticeCardJournalOperate.recharge);	
 		m.getPracticeCardJournals().add(practiceCardJournal);
@@ -171,5 +184,7 @@ public class PracticeCardService extends BaseService<PracticeCard, Long> {
     		}
     	}
     	return null;
-    }      
+    }  
+    
+    
 }

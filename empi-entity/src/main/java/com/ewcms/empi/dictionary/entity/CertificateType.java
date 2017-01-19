@@ -16,11 +16,11 @@ import com.ewcms.common.entity.BaseEntity;
  *@author zhoudongchu
  */
 @Entity
-@Table(name = "dict_certificate_type", uniqueConstraints = { @UniqueConstraint(name = "unique_dict_certificate_type_name", columnNames = "name") })
+@Table(name = "dict_certificate_type")
 public class CertificateType extends BaseEntity<Long> {
 	private static final long serialVersionUID = -3115806945777814138L;
 	@NotNull(message = "{not.null}")
-    @Column(name = "name", nullable = false)
+    @Column(name = "name", nullable = false, unique = true)
 	private String name;
 	public String getName() {
 		return name;

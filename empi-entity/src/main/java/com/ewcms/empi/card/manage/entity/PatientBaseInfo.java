@@ -352,11 +352,6 @@ public class PatientBaseInfo extends BaseEntity<Long> implements LogicDeleteable
     	return (practiceCards == null) ? Lists.<PracticeCard>newArrayList() : practiceCards;
     }
 
-    public void addPracticeCard(PracticeCard practiceCard) {
-    	practiceCard.setPatientBaseInfo(this);
-        getPracticeCards().add(practiceCard);
-    }
-
     public void setPracticeCards(List<PracticeCard> practiceCards) {
         this.practiceCards = practiceCards;
     }

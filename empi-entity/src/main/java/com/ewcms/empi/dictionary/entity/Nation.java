@@ -17,12 +17,12 @@ import com.ewcms.common.entity.BaseEntity;
  */
 
 @Entity
-@Table(name = "dict_nation", uniqueConstraints = { @UniqueConstraint(name = "unique_dict_nation_name", columnNames = "name") })
+@Table(name = "dict_nation")
 public class Nation extends BaseEntity<Long> {
 
 	private static final long serialVersionUID = 3535761977387920948L;
 	@NotNull(message = "{not.null}")
-	@Column(name = "name", nullable = false)
+	@Column(name = "name", nullable = false, unique = true)
 	private String name;
 
 	public String getName() {

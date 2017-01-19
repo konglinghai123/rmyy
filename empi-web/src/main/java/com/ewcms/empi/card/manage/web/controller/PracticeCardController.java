@@ -22,12 +22,15 @@ import com.alibaba.fastjson.JSON;
 import com.ewcms.common.entity.search.SearchParameter;
 import com.ewcms.common.web.controller.BaseCRUDController;
 import com.ewcms.common.web.validate.AjaxResponse;
+import com.ewcms.common.web.validate.ValidateResponse;
 import com.ewcms.empi.card.manage.entity.PracticeCard;
 import com.ewcms.empi.card.manage.entity.PracticeCardStatus;
 import com.ewcms.empi.card.manage.entity.Sex;
 import com.ewcms.empi.card.manage.service.PracticeCardService;
+import com.ewcms.empi.dictionary.entity.Nation;
 import com.ewcms.empi.dictionary.service.CertificateTypeService;
 import com.ewcms.empi.dictionary.service.NationService;
+import com.ewcms.empi.system.service.ParameterSetService;
 import com.ewcms.security.user.entity.User;
 import com.ewcms.security.user.web.bind.annotation.CurrentUser;
 import com.ewcms.empi.card.manage.entity.PracticeCardDepositOperate;
@@ -46,6 +49,8 @@ public class PracticeCardController extends BaseCRUDController<PracticeCard, Lon
 	private NationService nationService;
 	@Autowired
 	private CertificateTypeService certificateTypeService;
+	@Autowired
+	private ParameterSetService parameterSetService;
 	
     public PracticeCardController() {
         setListAlsoSetCommonData(true);
@@ -55,8 +60,9 @@ public class PracticeCardController extends BaseCRUDController<PracticeCard, Lon
     @Override
     protected void setCommonData(Model model) {
         super.setCommonData(model);
-        model.addAttribute("sexs", Sex.values());
-        model.addAttribute("depositOperates", PracticeCardDepositOperate.values());
+        model.addAttribute("depositParameterValue", parameterSetService.findOne("001").getVariableValue());
+        model.addAttribute("sexList", Sex.values());
+        model.addAttribute("depositOperateList", PracticeCardDepositOperate.values());
         model.addAttribute("statusList", PracticeCardStatus.values());
         model.addAttribute("nationList", nationService.findAll(new Sort("id")));
         model.addAttribute("certificateTypeList", certificateTypeService.findAll(new Sort("id")));
@@ -81,8 +87,8 @@ public class PracticeCardController extends BaseCRUDController<PracticeCard, Lon
 		return super.query(searchParameter, model);
 	}
 	
-	@RequestMapping(value = "savedeposit", method = RequestMethod.POST)
-	public String saveDeposit(Model model, @Valid @ModelAttribute("m") PracticeCard m, BindingResult result, @RequestParam(required = false) List<Long> selections,@CurrentUser User opUser) {
+	@RequestMapping(value = "distribute", method = RequestMethod.POST)
+	public String distribute(Model model, @Valid @ModelAttribute("m") PracticeCard m, BindingResult result, @RequestParam(required = false) List<Long> selections,@CurrentUser User opUser) {
 		if (hasError(m, result)) {
             return showSaveForm(model, selections);
         }
@@ -91,7 +97,7 @@ public class PracticeCardController extends BaseCRUDController<PracticeCard, Lon
 	    if (permissionList != null) {
 	    	this.permissionList.assertHasCreatePermission();
 	    }
-		PracticeCard lastM = getPracticeCardService().saveDeposit(m, opUser.getId());       
+		PracticeCard lastM = getPracticeCardService().distribute(m, opUser.getId());       
 		model.addAttribute("m", newModel());
 		model.addAttribute("lastM", JSON.toJSONString(lastM));		
 		return showSaveForm(model, selections);
@@ -176,4 +182,24 @@ public class PracticeCardController extends BaseCRUDController<PracticeCard, Lon
         }
 		return ajaxResponse;
 	}
+	
+    @RequestMapping(value = "validate", method = RequestMethod.GET)
+    @ResponseBody
+    public Object validate(
+            @RequestParam("fieldId") String fieldId, @RequestParam("fieldValue") String fieldValue,
+            @RequestParam(value = "id", required = false) Long id) {
+
+        ValidateResponse response = ValidateResponse.newInstance();
+
+       if ("practiceNo".equals(fieldId)) {
+    	   PracticeCard parcticeCard = getPracticeCardService().findByPracticeNo(fieldValue);
+            if (parcticeCard == null|| (parcticeCard.getId().equals(id) && parcticeCard.getPracticeNo().equals(fieldValue))) {
+                //如果msg 不为空 将弹出提示框
+                response.validateSuccess(fieldId, "");
+            } else {
+                response.validateFail(fieldId, "诊疗卡号已存在");
+            }
+        }
+        return response.result();
+    }
 }

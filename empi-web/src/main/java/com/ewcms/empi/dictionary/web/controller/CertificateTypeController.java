@@ -15,7 +15,7 @@ import com.ewcms.empi.dictionary.service.CertificateTypeService;
  *@author zhoudongchu
  */
 @Controller
-@RequestMapping(value = "/card/manage/certificatetype")
+@RequestMapping(value = "/empi/dictionary/certificatetype")
 public class CertificateTypeController extends BaseCRUDController<CertificateType, Long> {
 	private CertificateTypeService getCertificateTypeService(){
 		return (CertificateTypeService) baseService;

@@ -7,13 +7,13 @@
 			<tr>
 			    <th data-options="field:'ck',checkbox:true"></th>
 			    <th data-options="field:'id',hidden:true">编号</th>
-			    <th data-options="field:'patientId',width:100">患者ID号</th>
+			    <th data-options="field:'patientId',width:80">患者ID号</th>
 			    <th data-options="field:'name',width:80">姓名</th>
 			    <th data-options="field:'sexInfo',width:80">性别</th>
 			    <th data-options="field:'birthday',width:80">出生日期</th>
 			    <th data-options="field:'sourcePlace',width:80">来源地</th>
 			    <th data-options="field:'certificateTypeName',width:80">证件类别</th>
-			    <th data-options="field:'certificateNo',width:80">证件号码</th>
+			    <th data-options="field:'certificateNo',width:130">证件号码</th>
 			    <th data-options="field:'telephone',width:80">联系电话</th>
 			    <th data-options="field:'contactName',width:80">联系人姓名</th>
 			    <th data-options="field:'workUnit',width:80">工作单位</th>

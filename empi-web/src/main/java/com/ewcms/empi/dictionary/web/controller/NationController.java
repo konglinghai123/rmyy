@@ -15,7 +15,7 @@ import com.ewcms.empi.dictionary.service.NationService;
  *@author zhoudongchu
  */
 @Controller
-@RequestMapping(value = "/card/manage/nation")
+@RequestMapping(value = "/empi/dictionary/nation")
 public class NationController extends BaseCRUDController<Nation, Long> {
 	private NationService getNationService(){
 		return (NationService) baseService;

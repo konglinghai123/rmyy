@@ -63,6 +63,15 @@ public class PracticeCardHistory extends BaseEntity<Long> {
 	@Column(name = "history_status")
 	private PracticeCardStatus historyStatus = PracticeCardStatus.normal;
 	
+	public PracticeCardStatus getHistoryStatus() {
+		return historyStatus;
+	}
+	public void setHistoryStatus(PracticeCardStatus historyStatus) {
+		this.historyStatus = historyStatus;
+	}
+	public String getStatusInfo(){
+		return historyStatus == null ? PracticeCardStatus.invalid.getInfo() : historyStatus.getInfo();
+	}
 	public Date getOperateDate() {
 		return operateDate;
 	}
@@ -87,6 +96,7 @@ public class PracticeCardHistory extends BaseEntity<Long> {
 	public void setHistoryOperate(PracticeCardOperate historyOperate) {
 		this.historyOperate = historyOperate;
 	}
+	
 	public String getHistoryOperateInfo(){
 		return historyOperate == null ? PracticeCardOperate.distribute.getInfo() : historyOperate.getInfo();
 	}
