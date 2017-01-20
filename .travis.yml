@@ -1,16 +1,17 @@
+#目前集成网站不支持SQL Server数据库
 language: java
 
-env:
-  - DB=sqlserver
+#env:
+#  - DB=sqlserver
 
 jdk:
   - openjdk7
 
-sqlserver:
-  database: empi
-  username: sa
-  password : 123456
-  encoding: utf8
+#sqlserver:
+#  database: empi
+#  username: sa
+#  password : 123456
+#  encoding: utf8
 
 install:
   - mvn install -Dmaven.test.skip=true
@@ -19,8 +20,8 @@ script:
   - cd base-common
   - mvn test
   - cd ..
-  - cd empi-web
-  - mvn test -Pit
+#  - cd empi-web
+#  - mvn test -Pit
 
 notifications:
   email:

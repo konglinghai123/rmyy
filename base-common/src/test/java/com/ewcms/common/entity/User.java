@@ -1,7 +1,6 @@
 package com.ewcms.common.entity;
 
 import com.alibaba.fastjson.annotation.JSONField;
-import com.ewcms.common.entity.BaseSequenceEntity;
 import com.ewcms.common.plugin.entity.LogicDeleteable;
 import com.ewcms.common.utils.EmptyUtil;
 
@@ -15,7 +14,7 @@ import java.util.Date;
  * @author wu_zhijun
  */
 
-public class User extends BaseSequenceEntity<Long> implements LogicDeleteable {
+public class User extends BaseEntity<Long> implements LogicDeleteable {
 	
 	private static final long serialVersionUID = -6104610983204668263L;
 	
