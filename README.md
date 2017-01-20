@@ -46,12 +46,12 @@
 修改catalina.sh: JAVA_OPTS="$JAVA_OPTS -server -Xms800m -Xmx800m -XX:PermSize=64m -XX:MaxNewSize=256m -XX:MaxPermSize=128m -Djava.awt.headless=true"
 
 ####乱码的问题
-* 参数不乱码
+#####参数不乱码
 在%TOMCAT_HOM%/conf/server.xml其中:
 把
 <Connector connectionTimeout="20000" port="8080" protocol="HTTP/1.1" redirectPort="8443"/>
 替换成
 <Connector connectionTimeout="20000" port="8080" protocol="HTTP/1.1" redirectPort="8443" URIEncoding="UTF-8"/>       
         
- * 报表不乱码
+#####报表不乱码
 iReport开发的报表乱码，增加如下设置: CATALINA_OPTS='-Djava.awt.headless=true' 
