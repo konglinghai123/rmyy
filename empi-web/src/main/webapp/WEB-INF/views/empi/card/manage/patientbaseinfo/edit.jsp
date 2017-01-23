@@ -18,17 +18,16 @@
 				  		<td><form:label path="sex"></form:label>性别：</td>
 			    		<td><form:select path="sex" items="${sexList}" itemLabel="info" cssClass="easyui-combobox" data-options="panelWidth:80,panelHeight:80,editable:false"/></td>
 			    		<td><form:label path="birthday">出生日期：</form:label></td>
-				  		<td><input type="text" id="birthday_show" value="${m.birthday}" class="validate[required, custom[date], past[2017-01-01]]" style="width:0px;height:0px;z-index:0;position:absolute;margin-top:5px;margin-left:5px;" size="0" readonly="readonly"/>
+				  		<td><input type="text" id="birthday_show" value="${m.birthday}" class="validate[required, custom[date]]" style="width:0px;height:0px;z-index:0;position:absolute;margin-top:5px;margin-left:5px;" size="0" readonly="readonly"/>
 						    <form:input id="birthday" cssClass="inputempty" path="birthday"  cssStyle="margin-left:0px;z-index:1;position:absolute;" /></td>
 			    	</tr>
 			    	<tr>						    
-						<td><form:label path="sourcePlace">来源地：</form:label></td>
-				  		<td><form:input path="sourcePlace" cssClass="inputempty"/></td>
-
 				  		<td><form:label path="certificateType">证件类型：</form:label></td>
 				  		<td><form:select path="certificateType.id" items="${certificateTypeList}" itemValue="id" itemLabel="name" cssClass="easyui-combobox" cssStyle="margin-left:0px;z-index:1;position:absolute;" data-options="panelWidth:150,panelHeight:130,editable:false"></form:select></td>
 				  		<td><form:label path="certificateNo">证件号码：</form:label></td>
 				  		<td><form:input path="certificateNo" cssClass="validate[required,ajax[ajaxNameCall]]"/></td>	
+						<td><form:label path="sourcePlace">来源地：</form:label></td>
+				  		<td><form:input path="sourcePlace" cssClass="inputempty"/></td>				  		
 			    	</tr>
 			    	<tr>				  		
 				  								

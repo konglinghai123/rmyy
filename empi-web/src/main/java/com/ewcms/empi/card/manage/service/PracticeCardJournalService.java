@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import com.ewcms.common.exception.BaseException;
 import com.ewcms.common.service.BaseService;
 import com.ewcms.empi.card.manage.entity.PracticeCardJournal;
-import com.ewcms.empi.card.manage.entity.PracticeCardJournalOperate;
 
 /**
  *@author zhoudongchu

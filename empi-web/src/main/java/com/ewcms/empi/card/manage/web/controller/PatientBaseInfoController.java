@@ -12,10 +12,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.ewcms.common.web.controller.BaseCRUDController;
 import com.ewcms.common.web.validate.ValidateResponse;
 import com.ewcms.empi.card.manage.entity.PatientBaseInfo;
-import com.ewcms.empi.card.manage.entity.PracticeCard;
 import com.ewcms.empi.card.manage.entity.Sex;
 import com.ewcms.empi.card.manage.service.PatientBaseInfoService;
-import com.ewcms.empi.card.manage.service.PracticeCardService;
 import com.ewcms.empi.dictionary.service.CertificateTypeService;
 import com.ewcms.empi.dictionary.service.NationService;
 /**

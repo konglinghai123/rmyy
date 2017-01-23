@@ -36,7 +36,7 @@
 	</table>
 	<div id="tb" style="padding:5px;height:auto;">
 		<div class="toolbar" style="margin-bottom:2px">
-			<a class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true" id="tb-distribute" onclick="$.ewcms.add({title:'发诊疗卡',width:700,height:350});" href="javascript:void(0);">发诊疗卡</a>
+			<a class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true" id="tb-distribute" onclick="$.ewcms.add({title:'发诊疗卡',width:700,height:350,src:'${ctx}/empi/card/manage/practicecard/distribute'});" href="javascript:void(0);">发诊疗卡</a>
 			<a class="easyui-linkbutton" data-options="iconCls:'icon-remove',plain:true" id="tb-loss" href="javascript:void(0);">挂失</a>
 			<a class="easyui-linkbutton" data-options="iconCls:'icon-remove',plain:true" id="tb-cancelloss" href="javascript:void(0);">取消挂失</a>
 			<a class="easyui-linkbutton" data-options="iconCls:'icon-remove',plain:true" id="tb-close" href="javascript:void(0);">销户</a>
@@ -271,7 +271,6 @@ $(function(){
 				src: 'invalid',
 				grid : 'datagrid',
 				gridId : '#tt',
-				confirm : '确定要作废所选记录吗?',
 				getId : function(row){
 					return row.id;
 				}
@@ -283,15 +282,21 @@ $(function(){
 		  	$.messager.alert('提示','请选择要作废的记录','info');
 		  	return;
 		}
-		    
+	   	
+	   	if(rows.length > 1){
+		  	$.messager.alert('提示','请选择一条记录进行作废','info');
+		  	return;
+		}		    
 		var parameter='';
 		var selectedError = false;
+		var confirm = '';
 		$.each(rows,function(index,row){
 			if(row.statusInfo == '作废'){
 			  	selectedError = true;
 			  	return false;
 			}
 		    parameter += 'selections=' + opts.getId(row) +'&';
+		    confirm = '确定要作废' + row.practiceNo + '(' + row.patientBaseInfo.name + ')'+ '诊疗卡吗?';
 		});
 		
 		if(selectedError){
@@ -299,7 +304,7 @@ $(function(){
 		  	return;
 		}
 		
-		$.messager.confirm('提示', opts.confirm, function(r){
+		$.messager.confirm('提示', confirm, function(r){
 		     if (r){
 		            $.post(opts.src, parameter ,function(data){
 		            	if (data.success){
