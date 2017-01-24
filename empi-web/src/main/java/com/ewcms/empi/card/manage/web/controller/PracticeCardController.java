@@ -103,7 +103,7 @@ public class PracticeCardController extends BaseCRUDController<PracticeCard, Lon
 	@ResponseBody
 	public Map<String, Object> query(@ModelAttribute SearchParameter<Long> searchParameter, @PathVariable(value = "patientBaseInfoId")Long patientBaseInfoId, Model model){
 		searchParameter.getParameters().put("EQ_patientBaseInfo.id", patientBaseInfoId);
-		
+		searchParameter.getSorts().put("id", Direction.DESC);
 		return super.query(searchParameter, model);
 	}
 	

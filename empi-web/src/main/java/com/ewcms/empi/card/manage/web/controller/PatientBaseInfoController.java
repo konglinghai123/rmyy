@@ -1,7 +1,10 @@
 package com.ewcms.empi.card.manage.web.controller;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.ewcms.common.entity.search.SearchParameter;
 import com.ewcms.common.web.controller.BaseCRUDController;
 import com.ewcms.common.web.validate.ValidateResponse;
 import com.ewcms.empi.card.manage.entity.PatientBaseInfo;
@@ -45,6 +49,13 @@ public class PatientBaseInfoController extends BaseCRUDController<PatientBaseInf
     }
     
 	
+	@Override
+	public Map<String, Object> query(SearchParameter<Long> searchParameter,
+			Model model) {
+		searchParameter.getSorts().put("id", Direction.DESC);
+		return super.query(searchParameter, model);
+	}
+
 	@RequestMapping(value = "readpatient", method = RequestMethod.GET)
 	@ResponseBody
 	public PatientBaseInfo readPatient(@RequestParam("certificateNo")String certificateNo,@RequestParam("certificateTypeId")Long certificateTypeId) {

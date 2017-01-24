@@ -146,6 +146,8 @@ $(function(){
     			return 'background-color:#ffb5b5;color:#000000;';
     		} else if (row.statusInfo == '挂失'){
     			return 'background-color:#ffd9ec;color:#000000;';
+    		}else if (row.statusInfo == '销户'){
+    			return 'background-color:#c5f9ff;color:#000000;';
     		}
     	}
 	}); 

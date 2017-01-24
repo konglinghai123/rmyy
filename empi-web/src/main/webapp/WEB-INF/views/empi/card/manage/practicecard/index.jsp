@@ -46,17 +46,12 @@
         	<form id="queryform" style="padding:0;margin:0;">
         		<table class="formtable">
               		<tr>
+              		    <td >证件号码</td>
+    					<td ><input type="text" name="Like_patientBaseInfo.certificateNo" style="width:140px"/></td>
               			<td>诊疗卡号</td>
               			<td><input type="text" name="LIKE_practiceNo" style="width:140px"/></td>
     					<td >姓名</td>
     					<td ><input type="text" name="LIKE_patientBaseInfo.name" style="width:140px"/></td>
-           				<td>状态</td>
-    					<td>
-    						<form:select id="status" name="EQ_status" path="statusList" cssClass="easyui-combobox" cssStyle="width:140px;" data-options="panelHeight:'auto',editable:false">
-					  			<form:option value="" label="------请选择------"/>
-					  			<form:options items="${statusList}" itemLabel="info"/>
-							</form:select>
-						</td>
 						<td width="16%" colspan="2">
             				<a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="$.ewcms.query();">查询</a>
            					<a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-clear'" onclick="javascript:$('#queryform').form('reset');">清除</a>
@@ -64,10 +59,15 @@
            				</td>
            			</tr>
            			<tr>
-    					<td >患者索引号</td>
-    					<td ><input type="text" name="LIKE_patientBaseInfo.patientId" style="width:140px"/></td>
-    					<td >证件号码</td>
-    					<td ><input type="text" name="Like_patientBaseInfo.certificateNo" style="width:140px"/></td>
+    					<td >发卡日期从</td>
+    					<td ><input type="text" name="GTE_createDate" class="easyui-datetimebox" style="width:150px" data-options="editable:false"/> 至 <input type="text" name="LTE_createDate" class="easyui-datetimebox" style="width:150px" data-options="editable:false"/></td>
+           				<td>状态</td>
+    					<td>
+    						<form:select id="status" name="EQ_status" path="statusList" cssClass="easyui-combobox" cssStyle="width:140px;" data-options="panelHeight:'auto',editable:false">
+					  			<form:option value="" label="------请选择------"/>
+					  			<form:options items="${statusList}" itemLabel="info"/>
+							</form:select>
+						</td>
     					<td></td>
     					<td></td>
            			</tr>           			
@@ -94,6 +94,8 @@ $(function(){
     			return 'background-color:#ffb5b5;color:#000000;';
     		} else if (row.statusInfo == '挂失'){
     			return 'background-color:#ffd9ec;color:#000000;';
+    		}else if (row.statusInfo == '销户'){
+    			return 'background-color:#c5f9ff;color:#000000;';
     		}
     	},
 		view : detailview,
