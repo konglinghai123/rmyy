@@ -92,10 +92,10 @@
 		  	</form:form>
     	</div>
 		<div data-options="region:'south'" style="text-align:center;height:30px;border:0">
-	  		<a class="easyui-linkbutton" data-options="iconCls:'icon-save'" href="javascript:void(0);" onclick="javascript:$('#editForm').submit();">提交</a>
-	  		<a class="easyui-linkbutton" data-options="iconCls:'icon-undo'" href="javascript:void(0);" onclick="javascript:$('#editForm').form('reset');">重置</a>
-	  		<a class="easyui-linkbutton" id="readPatientByCertificate" data-options="iconCls:'icon-undo'" href="javascript:void(0);">证件读取</a>
-	  		<a class="easyui-linkbutton" data-options="iconCls:'icon-cancel'" href="javascript:void(0);" onclick="javascript:parent.$('#edit-window').window('close');">关闭</a>
+	  		<a class="easyui-linkbutton" data-options="iconCls:'icon-save'" href="javascript:void(0);" onclick="javascript:$('#editForm').submit();">提交(F10)</a>
+	  		<a class="easyui-linkbutton" data-options="iconCls:'icon-undo'" href="javascript:void(0);" onclick="javascript:$('#editForm').form('reset');">重置(F6)</a>
+	  		<a class="easyui-linkbutton" id="readPatientByCertificate" data-options="iconCls:'icon-undo'" href="javascript:void(0);">证件读取(F8)</a>
+	  		<a class="easyui-linkbutton" data-options="iconCls:'icon-cancel'" href="javascript:void(0);" onclick="javascript:parent.$('#edit-window').window('close');">关闭(F9)</a>
 		</div>
 	</div>
 <ewcms:footer/>
@@ -110,10 +110,12 @@
 		        $("input[name='selections']").each(function(i){
 		        	valArr[i] = $(this).val();
 		        });
-	    		parent.$('#tt').datagrid({	
-	    			queryParams: {
-	    			selections: valArr.join(',')
-	    		}});
+		        if(valArr.length > 0){
+		    		parent.$('#tt').datagrid({	
+		    			queryParams: {
+		    			selections: valArr.join(',')
+		    		}});
+		        }
 				$.validationEngineLanguage.allRules.ajaxNameCall= {
 	                "url": "${ctx}/empi/card/manage/practicecard/validate",
 	                extraDataDynamic : ['#id'],
@@ -133,41 +135,60 @@
 			}
 		});
 		
+		$(document).keydown(function(e){
+			if(e.ctrlKey && e.which == 121) {
+				$('#editForm').submit();
+			}
+			if(e.ctrlKey && e.which == 117) {
+				$('#editForm').form('reset');
+			}
+			if(e.ctrlKey && e.which == 119) {
+				readPatientByCertificate();
+			}
+			if(e.ctrlKey && e.which == 120) {
+				parent.$('#edit-window').window('close');
+			}
+		});	
+		
 		$('#readPatientByCertificate').bind('click', function(){
-			 	 $.ajax({url:"${ctx}/empi/card/manage/patientbaseinfo/readpatient",
-				 async:false,
-				 type:'get',
-				 dataType:"json",
-				 data:{certificateNo:$('#certificateNo').val(),certificateTypeId:$('#certificateTypeId').val()},
-				 success: function(data){
-					 $("#name").val(data.name);
-					 $('#birthday_show').val(data.birthday);
-					 $("#sourcePlace").val(data.sourcePlace);
-					 $("#telephone").val(data.telephone);
-					 $("#contactName").val(data.contactName);
-					 $("#workUnit").val(data.workUnit);
-					 $("#address").val(data.address);
-					 $("#profession").val(data.profession);
-					 $("#maritalStatus").val(data.maritalStatus);
-					 $("#medicalType").val(data.medicalType);
-					 $("#medicalOrganize").val(data.medicalOrganize);
-					 $("#medicalAccount").val(data.medicalAccount);
-					 $("#patientType").val(data.patientType);
-					 $("#contactTelephone").val(data.contactTelephone);
-					 $("#contactRelation").val(data.contactRelation);
-					 $("#contactAddress").val(data.contactAddress);
-					 $("#allergyHistory").val(data.allergyHistory);
-					 $("#familyHistory").val(data.familyHistory);
-					 $("#sex").combobox('setValue',data.sex);
-					 $("#nationId").combobox('setValue',data.nation.id);
-					 $("#birthday").datebox('setValue',data.birthday);
-				 },
-				 error: function(data){
-					 $.messager.alert('提示','未找到匹配的数据','info');
-				 }
-			 });
+			readPatientByCertificate();
 		});
 		
 	});
+	
+	function readPatientByCertificate(){
+	 	 $.ajax({url:"${ctx}/empi/card/manage/patientbaseinfo/readpatient",
+			 async:false,
+			 type:'get',
+			 dataType:"json",
+			 data:{certificateNo:$('#certificateNo').val(),certificateTypeId:$('#certificateTypeId').val()},
+			 success: function(data){
+				 $("#name").val(data.name);
+				 $('#birthday_show').val(data.birthday);
+				 $("#sourcePlace").val(data.sourcePlace);
+				 $("#telephone").val(data.telephone);
+				 $("#contactName").val(data.contactName);
+				 $("#workUnit").val(data.workUnit);
+				 $("#address").val(data.address);
+				 $("#profession").val(data.profession);
+				 $("#maritalStatus").val(data.maritalStatus);
+				 $("#medicalType").val(data.medicalType);
+				 $("#medicalOrganize").val(data.medicalOrganize);
+				 $("#medicalAccount").val(data.medicalAccount);
+				 $("#patientType").val(data.patientType);
+				 $("#contactTelephone").val(data.contactTelephone);
+				 $("#contactRelation").val(data.contactRelation);
+				 $("#contactAddress").val(data.contactAddress);
+				 $("#allergyHistory").val(data.allergyHistory);
+				 $("#familyHistory").val(data.familyHistory);
+				 $("#sex").combobox('setValue',data.sex);
+				 $("#nationId").combobox('setValue',data.nation.id);
+				 $("#birthday").datebox('setValue',data.birthday);
+			 },
+			 error: function(data){
+				 $.messager.alert('提示','未找到匹配的数据','info');
+			 }
+		 });		
+	}
 	//$.ewcms.refresh({operate : '${operate}', data : '${lastM}'});
 </script>
