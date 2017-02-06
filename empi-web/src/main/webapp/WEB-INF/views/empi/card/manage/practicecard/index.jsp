@@ -36,7 +36,7 @@
 	</table>
 	<div id="tb" style="padding:5px;height:auto;">
 		<div class="toolbar" style="margin-bottom:2px">
-			<a class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true" id="tb-distribute" onclick="$.ewcms.add({title:'发诊疗卡',width:700,height:350});" href="javascript:void(0);">发诊疗卡</a>
+			<a class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true" id="tb-distribute" onclick="$.ewcms.add({title:'发诊疗卡',width:700,height:350,src:'${ctx}/empi/card/manage/practicecard/distribute'});" href="javascript:void(0);">发诊疗卡</a>
 			<a class="easyui-linkbutton" data-options="iconCls:'icon-remove',plain:true" id="tb-loss" href="javascript:void(0);">挂失</a>
 			<a class="easyui-linkbutton" data-options="iconCls:'icon-remove',plain:true" id="tb-cancelloss" href="javascript:void(0);">取消挂失</a>
 			<a class="easyui-linkbutton" data-options="iconCls:'icon-remove',plain:true" id="tb-close" href="javascript:void(0);">销户</a>
@@ -46,17 +46,12 @@
         	<form id="queryform" style="padding:0;margin:0;">
         		<table class="formtable">
               		<tr>
+              		    <td >证件号码</td>
+    					<td ><input type="text" name="Like_patientBaseInfo.certificateNo" style="width:140px"/></td>
               			<td>诊疗卡号</td>
               			<td><input type="text" name="LIKE_practiceNo" style="width:140px"/></td>
     					<td >姓名</td>
     					<td ><input type="text" name="LIKE_patientBaseInfo.name" style="width:140px"/></td>
-           				<td>状态</td>
-    					<td>
-    						<form:select id="status" name="EQ_status" path="statusList" cssClass="easyui-combobox" cssStyle="width:140px;" data-options="panelHeight:'auto',editable:false">
-					  			<form:option value="" label="------请选择------"/>
-					  			<form:options items="${statusList}" itemLabel="info"/>
-							</form:select>
-						</td>
 						<td width="16%" colspan="2">
             				<a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="$.ewcms.query();">查询</a>
            					<a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-clear'" onclick="javascript:$('#queryform').form('reset');">清除</a>
@@ -64,10 +59,15 @@
            				</td>
            			</tr>
            			<tr>
-    					<td >患者索引号</td>
-    					<td ><input type="text" name="LIKE_patientBaseInfo.patientId" style="width:140px"/></td>
-    					<td >证件号码</td>
-    					<td ><input type="text" name="Like_patientBaseInfo.certificateNo" style="width:140px"/></td>
+    					<td >发卡日期从</td>
+    					<td ><input type="text" name="GTE_createDate" class="easyui-datetimebox" style="width:150px" data-options="editable:false"/> 至 <input type="text" name="LTE_createDate" class="easyui-datetimebox" style="width:150px" data-options="editable:false"/></td>
+           				<td>状态</td>
+    					<td>
+    						<form:select id="status" name="EQ_status" path="statusList" cssClass="easyui-combobox" cssStyle="width:140px;" data-options="panelHeight:'auto',editable:false">
+					  			<form:option value="" label="------请选择------"/>
+					  			<form:options items="${statusList}" itemLabel="info"/>
+							</form:select>
+						</td>
     					<td></td>
     					<td></td>
            			</tr>           			
@@ -94,6 +94,8 @@ $(function(){
     			return 'background-color:#ffb5b5;color:#000000;';
     		} else if (row.statusInfo == '挂失'){
     			return 'background-color:#ffd9ec;color:#000000;';
+    		}else if (row.statusInfo == '销户'){
+    			return 'background-color:#c5f9ff;color:#000000;';
     		}
     	},
 		view : detailview,
@@ -271,7 +273,6 @@ $(function(){
 				src: 'invalid',
 				grid : 'datagrid',
 				gridId : '#tt',
-				confirm : '确定要作废所选记录吗?',
 				getId : function(row){
 					return row.id;
 				}
@@ -283,15 +284,21 @@ $(function(){
 		  	$.messager.alert('提示','请选择要作废的记录','info');
 		  	return;
 		}
-		    
+	   	
+	   	if(rows.length > 1){
+		  	$.messager.alert('提示','请选择一条记录进行作废','info');
+		  	return;
+		}		    
 		var parameter='';
 		var selectedError = false;
+		var confirm = '';
 		$.each(rows,function(index,row){
 			if(row.statusInfo == '作废'){
 			  	selectedError = true;
 			  	return false;
 			}
 		    parameter += 'selections=' + opts.getId(row) +'&';
+		    confirm = '确定要作废' + row.practiceNo + '(' + row.patientBaseInfo.name + ')'+ '诊疗卡吗?';
 		});
 		
 		if(selectedError){
@@ -299,7 +306,7 @@ $(function(){
 		  	return;
 		}
 		
-		$.messager.confirm('提示', opts.confirm, function(r){
+		$.messager.confirm('提示', confirm, function(r){
 		     if (r){
 		            $.post(opts.src, parameter ,function(data){
 		            	if (data.success){

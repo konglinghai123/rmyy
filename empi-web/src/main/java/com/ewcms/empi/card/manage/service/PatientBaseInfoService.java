@@ -32,7 +32,7 @@ public class PatientBaseInfoService extends BaseService<PatientBaseInfo, Long> {
 	public PatientBaseInfo update(PatientBaseInfo m) {
 		PatientBaseInfo dbPatientBaseInfo = null;
 		dbPatientBaseInfo = findByCertificateNo(m.getCertificateNo());
-		if (EmptyUtil.isNotNull(dbPatientBaseInfo))throw new BaseException("证件号码已存在");
+		if (EmptyUtil.isNotNull(dbPatientBaseInfo)&&dbPatientBaseInfo.getId() != m.getId())throw new BaseException("证件号码已存在");
 		
 		dbPatientBaseInfo = findOne(m.getId());
 		if (EmptyUtil.isNull(dbPatientBaseInfo))throw new BaseException("患者信息不存在");

@@ -4,8 +4,10 @@ import com.alibaba.fastjson.JSON;
 import com.ewcms.common.entity.AbstractEntity;
 import com.ewcms.common.entity.search.SearchParameter;
 import com.ewcms.common.service.BaseService;
+import com.ewcms.common.utils.EmptyUtil;
 import com.ewcms.common.web.controller.permission.PermissionList;
 import com.ewcms.common.web.validate.AjaxResponse;
+import com.google.common.collect.Lists;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
@@ -101,7 +103,7 @@ public abstract class BaseCRUDController<M extends AbstractEntity<ID>, ID extend
 		            model.addAttribute("m", newModel());
 		        }
 		        
-				//model.addAttribute("selections", Lists.<ID>newArrayList());
+//				model.addAttribute("selections", (EmptyUtil.isNull(selections)) ? Lists.<ID>newArrayList() : selections);
 			} else {
 				if (permissionList != null) {
 		            this.permissionList.assertHasUpdatePermission();

@@ -8,12 +8,11 @@
 			    <th data-options="field:'ck',checkbox:true"></th>
 			    <th data-options="field:'id',hidden:true">编号</th>
 			    <th data-options="field:'practiceNo',width:100">诊疗卡号</th>
+			     <th data-options="field:'createDate',width:150">发卡时间</th>
 			    <th data-options="field:'balance',width:80">余额</th>
 			    <th data-options="field:'statusInfo',width:80">诊疗卡状态</th>
-			    <th data-options="field:'deposit',width:80,
-			    	formatter:function(val,row){
-							return val ? '是' : '否';
-						}">是否收取押金</th>
+				<th data-options="field:'depositInfo',width:80">是否收取押金</th>
+				<th data-options="field:'deposit',width:80">押金金额</th>
 		</thead>
 	</table>
 	<div id="tb" style="padding:5px;height:auto;">

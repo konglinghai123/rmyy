@@ -8,9 +8,12 @@ package com.ewcms.common.entity.search;
 
 import static org.springframework.data.domain.Sort.Direction;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
+import com.ewcms.common.utils.EmptyUtil;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
@@ -91,7 +94,16 @@ public class SearchParameter<ID> {
 	public void setSorts(Map<String, Direction> sorts) {
 		this.sorts = sorts;
 	}
-
+	
+	public Boolean isParameterEmpty(){
+		Iterator<Entry<String, Object>>  it = parameters.entrySet().iterator();
+		while(it.hasNext()){
+			Entry<String, Object> entry = it.next();
+			if(EmptyUtil.isStringNotEmpty(entry.getValue())) return false;
+		}
+		return true;
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;

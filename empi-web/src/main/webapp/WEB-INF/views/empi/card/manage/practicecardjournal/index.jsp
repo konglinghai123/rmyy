@@ -11,7 +11,7 @@
 			    <th data-options="field:'journalOperateInfo',width:80">流水操作</th>
 			    <th data-options="field:'journalSum',width:80">金额</th>
 			    <th data-options="field:'operateUserName',width:80">操作员</th>
-			    <th data-options="field:'remark',width:80">说明</th>
+			    <th data-options="field:'remark',width:130">说明</th>
 			</tr>
 		</thead>
 	</table>

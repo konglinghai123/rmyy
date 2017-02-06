@@ -229,6 +229,7 @@
 					//$(opts.gridId).treegrid('reload');
 				} else {
 					$(opts.gridId).datagrid({
+						queryParams: {},
 						onBeforeLoad:function(param){
 							if(opts.selections.length > 0){
 								$.each(opts.selections,function(i,v){
