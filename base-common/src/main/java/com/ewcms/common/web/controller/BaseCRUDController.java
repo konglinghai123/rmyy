@@ -60,7 +60,7 @@ public abstract class BaseCRUDController<M extends AbstractEntity<ID>, ID extend
 		}
 	}
 
-	@RequestMapping(value = "index", method = RequestMethod.GET)
+	@RequestMapping(value = {"", "index"}, method = RequestMethod.GET)
 	public String index(Model model) {
 		if (permissionList != null) {
             this.permissionList.assertHasViewPermission();

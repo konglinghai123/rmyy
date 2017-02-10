@@ -53,7 +53,7 @@ public class HibernateCacheMonitorController extends BaseController{
 	private Statistics statistics = null;
 	long upSeconds = 1;
 	
-	@RequestMapping(value = "index")
+	@RequestMapping(value = {"", "index"}, method = RequestMethod.GET)
 	public String index(){
 		statistics = HibernateUtils.getSessionFactory(em).getStatistics();
 		

@@ -11,6 +11,7 @@ import java.util.Map;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ewcms.common.web.controller.BaseController;
@@ -29,7 +30,7 @@ import com.google.common.collect.Maps;
 @RequiresPermissions("monitor:jvm:*")
 public class JvmMonitorController extends BaseController {
 
-    @RequestMapping(value = "index")
+    @RequestMapping(value = {"", "index"}, method = RequestMethod.GET)
     public String index() {
         return viewName("index");
     }
