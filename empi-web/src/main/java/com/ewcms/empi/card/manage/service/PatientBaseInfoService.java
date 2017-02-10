@@ -21,11 +21,8 @@ public class PatientBaseInfoService extends BaseService<PatientBaseInfo, Long> {
 	@Override
 	public PatientBaseInfo save(PatientBaseInfo m) {
 		PatientBaseInfo dbPatientBaseInfo = findByCertificateNo(m.getCertificateNo());
-		if (EmptyUtil.isNotNull(dbPatientBaseInfo))throw new BaseException("证件号码已存在");
-		
-		PatientBaseInfo patientBaseInfo = super.save(m);
-		patientBaseInfo.setPatientId(String.format("%0"+ PatientBaseInfo.patientIdlength +"d", patientBaseInfo.getId()));
-		return super.update(patientBaseInfo);
+		if (EmptyUtil.isNotNull(dbPatientBaseInfo))throw new BaseException("证件号码已存在");		
+		return super.save(m);
 	}
 
 	@Override
@@ -36,15 +33,13 @@ public class PatientBaseInfoService extends BaseService<PatientBaseInfo, Long> {
 		
 		dbPatientBaseInfo = findOne(m.getId());
 		if (EmptyUtil.isNull(dbPatientBaseInfo))throw new BaseException("患者信息不存在");
-		
-		m.setPatientId(dbPatientBaseInfo.getPatientId());
 		return super.update(m);
 	}
 	
 	public PatientBaseInfo findByCertificateNo(String certificateNo){
 		return getPatientBaseInfoRepository().findByCertificateNo(certificateNo);
 	}
-	public PatientBaseInfo findByCertificateNoAndCertificateTypeId(String certificateNo,Long certificateTypeId){
-		return getPatientBaseInfoRepository().findByCertificateNoAndCertificateTypeId(certificateNo, certificateTypeId);
+	public PatientBaseInfo findByCertificateNoAndCertificateType(String certificateNo,String certificateType){
+		return getPatientBaseInfoRepository().findByCertificateNoAndCertificateType(certificateNo, certificateType);
 	}
 }

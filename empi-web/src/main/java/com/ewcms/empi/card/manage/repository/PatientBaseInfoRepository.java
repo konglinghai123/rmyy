@@ -8,5 +8,5 @@ import com.ewcms.empi.card.manage.entity.PatientBaseInfo;
  */
 public interface PatientBaseInfoRepository extends BaseRepository<PatientBaseInfo, Long> {
 	PatientBaseInfo findByCertificateNo(String certificateNo);
-	PatientBaseInfo findByCertificateNoAndCertificateTypeId(String certificateNo,Long certificateTypeId);
+	PatientBaseInfo findByCertificateNoAndCertificateType(String certificateNo,String certificateType);
 }
