@@ -35,12 +35,17 @@ public class PatientBaseInfoController extends BaseCRUDController<PatientBaseInf
     
 	
 	@Override
-	public Map<String, Object> query(SearchParameter<Long> searchParameter,
-			Model model) {
+	public Map<String, Object> query(SearchParameter<Long> searchParameter,Model model) {
 		searchParameter.getSorts().put("id", Direction.DESC);
 		return super.query(searchParameter, model);
 	}
-
+	
+	@RequestMapping(value = "readpatient", method = RequestMethod.GET)
+	@ResponseBody
+	public PatientBaseInfo readPatient(@RequestParam("certificateNo")String certificateNo,@RequestParam("certificateType")String certificateType) {
+		return getPatientBaseInfoService().findByCertificateNoAndCertificateType(certificateNo, certificateType);
+	}
+	
     @RequestMapping(value = "validate", method = RequestMethod.GET)
     @ResponseBody
     public Object validate(

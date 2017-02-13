@@ -71,7 +71,7 @@ public class PatientBaseInfo extends BaseEntity<Long> implements LogicDeleteable
 	private String sourcePlace;
 	@Column(name = "certificate_type", nullable = false)
 	private String certificateType;
-	@Column(name = "certificate_no", nullable = false, unique = true)
+	@Column(name = "certificate_no", nullable = false,unique = true)
 	private String certificateNo; 
 	@Column(name = "telephone")
 	private String telephone;
