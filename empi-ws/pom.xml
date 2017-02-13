@@ -1,0 +1,69 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<parent>
+		<artifactId>parent</artifactId>
+		<groupId>com.ewcms</groupId>
+		<version>1.0.0</version>
+		<relativePath>../parent/pom.xml</relativePath>
+	</parent>
+
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>empi-ws</artifactId>
+	<packaging>war</packaging>
+	<name>empi-ws</name>
+	<url>https://github.com/ewcmsfree/rmyy/empi-ws</url>
+
+	<properties>
+		<sqlserver.version>6.1.0.jre7</sqlserver.version>
+		<empi.version>1.0.0</empi.version>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.microsoft.sqlserver</groupId>
+			<artifactId>mssql-jdbc</artifactId>
+			<version>${sqlserver.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.googlecode.log4jdbc</groupId>
+			<artifactId>log4jdbc</artifactId>
+			<version>1.2</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-frontend-jaxws</artifactId>
+			<version>3.1.10</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-transports-http</artifactId>
+			<version>3.1.10</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.codehaus.woodstox</groupId>
+			<artifactId>stax2-api</artifactId>
+			<version>3.1.4</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.ewcms</groupId>
+			<artifactId>base-entity</artifactId>
+			<version>${empi.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.ewcms</groupId>
+			<artifactId>empi-entity</artifactId>
+			<version>${empi.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.ewcms</groupId>
+			<artifactId>empi-hl7v2</artifactId>
+			<version>${empi.version}</version>
+		</dependency>
+	</dependencies>
+</project>
