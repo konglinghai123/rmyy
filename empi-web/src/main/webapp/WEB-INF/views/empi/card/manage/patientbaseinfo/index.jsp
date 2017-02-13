@@ -7,18 +7,15 @@
 			<tr>
 			    <th data-options="field:'ck',checkbox:true"></th>
 			    <th data-options="field:'id',hidden:true">编号</th>
-			    <th data-options="field:'patientId',width:80">患者ID号</th>
-			    <th data-options="field:'name',width:80">姓名</th>
-			    <th data-options="field:'sexInfo',width:80">性别</th>
-			    <th data-options="field:'birthday',width:80">出生日期</th>
+			    <th data-options="field:'name',width:80,sortable:true">姓名</th>
+			    <th data-options="field:'sex',width:80">性别</th>
+			    <th data-options="field:'birthday',width:80,sortable:true">出生日期</th>
 			    <th data-options="field:'sourcePlace',width:80">来源地</th>
-			    <th data-options="field:'certificateTypeName',width:80">证件类别</th>
-			    <th data-options="field:'certificateNo',width:130">证件号码</th>
+			    <th data-options="field:'certificateType',width:80">证件类别</th>
+			    <th data-options="field:'certificateNo',width:130,sortable:true">证件号码</th>
 			    <th data-options="field:'telephone',width:80">联系电话</th>
-			    <th data-options="field:'contactName',width:80">联系人姓名</th>
-			    <th data-options="field:'workUnit',width:80">工作单位</th>
 			    <th data-options="field:'address',width:80">地址</th>
-			    <th data-options="field:'nationName',width:80">民族</th>
+			    <th data-options="field:'nation',width:80">民族</th>
 			    <th data-options="field:'profession',width:80">职业</th>
 			</tr>
 		</thead>
@@ -32,8 +29,6 @@
         	<form id="queryform" style="padding:0;margin:0;">
         		<table class="formtable">
               		<tr>
-              			<td width="5%">患者ID号</td>
-              			<td width="23%"><input type="text" name="LIKE_patientId" style="width:140px"/></td>
     					<td width="5%">姓名</td>
     					<td width="23%"><input type="text" name="LIKE_name" style="width:140px"/></td>
     					<td width="5%">证件号码</td>

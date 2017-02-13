@@ -2,39 +2,27 @@ package com.ewcms.empi.card.manage.entity;
 
 import java.util.Date;
 import java.util.List;
-
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
-
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.springframework.format.annotation.DateTimeFormat;
-
 import com.alibaba.fastjson.annotation.JSONField;
 import com.ewcms.common.entity.BaseEntity;
 import com.ewcms.common.plugin.entity.LogicDeleteable;
-import com.ewcms.common.utils.EmptyUtil;
-import com.ewcms.empi.dictionary.entity.CertificateType;
-import com.ewcms.empi.dictionary.entity.Nation;
-import com.google.common.collect.Lists;
 
 /**
  * 患者基本信息
  * <ul>
- * <li>patientId：患者唯一索引号</li>
  * <li>name:姓名</li>
  * <li>sex：性别</li>
  * <li>birthday：出生日期</li>
@@ -46,6 +34,7 @@ import com.google.common.collect.Lists;
  * <li>workUnit：工作单位</li>
  * <li>address：地址</li>
  * <li>nation：民族</li>
+ * <li>nationlity：国籍</li>
  * <li>profession：职业</li>
  * <li>maritalStatus：婚姻状况</li>
  * <li>medicalType：医保类别</li>
@@ -67,18 +56,12 @@ import com.google.common.collect.Lists;
 @Table(name = "card_patient_base_info")
 public class PatientBaseInfo extends BaseEntity<Long> implements LogicDeleteable{
 	private static final long serialVersionUID = -5543736099194132304L;
-	
-	public final static int patientIdlength = 10;
-//	@NotNull(message = "{not.null}")
-    @Column(name = "patient_id", unique = true, length=patientIdlength)
-	private String patientId;
+	public final static int patientIdlength = 20;
 	@NotNull(message = "{not.null}")
     @Column(name = "name", nullable = false)
 	private String name;
-	@Enumerated(EnumType.STRING)
 	@Column(name = "sex")
-	private Sex sex = Sex.male;
-	@NotNull(message = "{not.null}")
+	private String sex;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	@Temporal(TemporalType.DATE)
 	@Column(name = "birthday")
@@ -86,10 +69,8 @@ public class PatientBaseInfo extends BaseEntity<Long> implements LogicDeleteable
 	private Date birthday;
 	@Column(name = "source_place")
 	private String sourcePlace;
-//	@NotNull(message = "{not.null}")
-	@OneToOne(cascade = {CascadeType.REFRESH}, targetEntity = CertificateType.class)
-	@JoinColumn(name = "certificate_type_id")
-	private CertificateType certificateType;
+	@Column(name = "certificate_type", nullable = false)
+	private String certificateType;
 	@Column(name = "certificate_no", nullable = false, unique = true)
 	private String certificateNo; 
 	@Column(name = "telephone")
@@ -100,10 +81,10 @@ public class PatientBaseInfo extends BaseEntity<Long> implements LogicDeleteable
 	private String workUnit;
 	@Column(name = "address")
 	private String address;
-//	@NotNull(message = "{not.null}")
-	@OneToOne(cascade = {CascadeType.REFRESH}, targetEntity = Nation.class)
-	@JoinColumn(name = "nation_id")
-	private Nation nation;
+	@Column(name = "nation")
+	private String nation;
+	@Column(name = "nationlity")
+	private String nationlity;
 	@Column(name = "profession")
 	private String profession;
 	@Column(name = "marital_status")
@@ -134,15 +115,6 @@ public class PatientBaseInfo extends BaseEntity<Long> implements LogicDeleteable
     @Column(name = "is_deleted")
     private Boolean deleted = Boolean.FALSE;
     
-    public String getPatientId() {
-		return patientId;
-	}
-
-	public void setPatientId(String patientId) {
-		this.patientId = patientId;
-	}
-
-	
 	public String getName() {
 		return name;
 	}
@@ -151,18 +123,14 @@ public class PatientBaseInfo extends BaseEntity<Long> implements LogicDeleteable
 		this.name = name;
 	}
 
-	public Sex getSex() {
+	public String getSex() {
 		return sex;
 	}
 
-	public void setSex(Sex sex) {
+	public void setSex(String sex) {
 		this.sex = sex;
 	}
-	
-	public String getSexInfo(){
-		return sex == null ? Sex.male.getInfo() : sex.getInfo();
-	}
-	
+
 	public Date getBirthday() {
 		return birthday;
 	}
@@ -178,18 +146,13 @@ public class PatientBaseInfo extends BaseEntity<Long> implements LogicDeleteable
 	public void setSourcePlace(String sourcePlace) {
 		this.sourcePlace = sourcePlace;
 	}
-	
-	@JSONField(serialize = false)
-	public CertificateType getCertificateType() {
+
+	public String getCertificateType() {
 		return certificateType;
 	}
 
-	public void setCertificateType(CertificateType certificateType) {
+	public void setCertificateType(String certificateType) {
 		this.certificateType = certificateType;
-	}
-	
-	public String getCertificateTypeName(){
-		return EmptyUtil.isNull(certificateType) ? "" : certificateType.getName();
 	}
 
 	public String getCertificateNo() {
@@ -208,22 +171,6 @@ public class PatientBaseInfo extends BaseEntity<Long> implements LogicDeleteable
 		this.telephone = telephone;
 	}
 
-	public String getContactName() {
-		return contactName;
-	}
-
-	public void setContactName(String contactName) {
-		this.contactName = contactName;
-	}
-
-	public String getWorkUnit() {
-		return workUnit;
-	}
-
-	public void setWorkUnit(String workUnit) {
-		this.workUnit = workUnit;
-	}
-
 	public String getAddress() {
 		return address;
 	}
@@ -232,18 +179,22 @@ public class PatientBaseInfo extends BaseEntity<Long> implements LogicDeleteable
 		this.address = address;
 	}
 
-	public Nation getNation() {
+	public String getNation() {
 		return nation;
 	}
 
-	public void setNation(Nation nation) {
+	public void setNation(String nation) {
 		this.nation = nation;
 	}
 
-	public String getNationName(){
-		return EmptyUtil.isNull(nation) ? "" : nation.getName();
+	public String getNationlity() {
+		return nationlity;
 	}
-	
+
+	public void setNationlity(String nationlity) {
+		this.nationlity = nationlity;
+	}
+
 	public String getProfession() {
 		return profession;
 	}
@@ -331,6 +282,35 @@ public class PatientBaseInfo extends BaseEntity<Long> implements LogicDeleteable
 	public void setFamilyHistory(String familyHistory) {
 		this.familyHistory = familyHistory;
 	}
+	
+	public String getContactName() {
+		return contactName;
+	}
+
+	public void setContactName(String contactName) {
+		this.contactName = contactName;
+	}
+
+	public String getWorkUnit() {
+		return workUnit;
+	}
+
+	public void setWorkUnit(String workUnit) {
+		this.workUnit = workUnit;
+	}
+
+	@JSONField(serialize = false)
+	public List<PracticeCard> getPracticeCards() {
+		return practiceCards;
+	}
+
+	public void setPracticeCards(List<PracticeCard> practiceCards) {
+		this.practiceCards = practiceCards;
+	}
+
+	public static int getPatientidlength() {
+		return patientIdlength;
+	}
 
 	@Override
     public Boolean getDeleted() {
@@ -345,14 +325,5 @@ public class PatientBaseInfo extends BaseEntity<Long> implements LogicDeleteable
     @Override
     public void markDeleted() {
         this.deleted = Boolean.TRUE;
-    }
-    
-    @JSONField(serialize = false)
-    public List<PracticeCard> getPracticeCards() {
-    	return (practiceCards == null) ? Lists.<PracticeCard>newArrayList() : practiceCards;
-    }
-
-    public void setPracticeCards(List<PracticeCard> practiceCards) {
-        this.practiceCards = practiceCards;
     }
 }
