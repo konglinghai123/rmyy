@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE xml>
-<ehcache updateCheck="false" name="ewcms">
+<ehcache updateCheck="false" name="empi-web">
 
-    <diskStore path="java.io.tmpdir/ehcache/ewcms/manage"/>
+    <diskStore path="java.io.tmpdir/ehcache/empi-web/manage"/>
 
     <defaultCache
             maxEntriesLocalHeap="1000"

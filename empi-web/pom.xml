@@ -156,6 +156,9 @@
 
 		<sqlserver.version>6.1.0.jre7</sqlserver.version>
 
+		<yuicompressor.version>2.4.2</yuicompressor.version>
+
+
 		<lucene.version>3.0.2</lucene.version>
 		<nekohtml.version>1.9.15</nekohtml.version>
 		<solr.versino>1.4.1</solr.versino>
@@ -174,6 +177,12 @@
 			<artifactId>log4jdbc</artifactId>
 			<version>1.2</version>
 		</dependency>
+
+		<dependency>
+            <groupId>com.yahoo.platform.yui</groupId>
+            <artifactId>yuicompressor</artifactId>
+            <version>${yuicompressor.version}</version>
+        </dependency>
 
 		<dependency>
 			<groupId>org.apache.lucene</groupId>
@@ -196,7 +205,7 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-
+		
 		<dependency>
 			<groupId>com.ewcms</groupId>
 			<artifactId>base-entity</artifactId>
@@ -221,7 +230,7 @@
 			<groupId>com.ewcms</groupId>
 			<artifactId>empi-entity</artifactId>
 			<version>${empi.version}</version>
-		</dependency>		
+		</dependency>
 	</dependencies>
 
 	<profiles>
