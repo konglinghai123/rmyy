@@ -1,4 +1,4 @@
-package com.ewcms.servlet;
+package com.ewcms.web.servlet;
 
 import java.io.IOException;
 import java.util.Map;
@@ -24,7 +24,7 @@ import ca.uhn.hl7v2.protocol.ReceivingApplicationException;
  * @author wu_zhijun
  */
 @WebServlet(urlPatterns = "/hl7v2", asyncSupported = false)
-public class HL7V2Servlet extends HohServlet {
+public class Hl7v2Servlet extends HohServlet {
 
 	private static final long serialVersionUID = 8222293165976114636L;
 

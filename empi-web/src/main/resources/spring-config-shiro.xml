@@ -134,8 +134,6 @@
 				/favicon.ico = anon
 				/register/validate = anon
 				/register* = anon
-				/agreement = anon
-				/hl7v2 = anon
 				/logout = logout
 				/login = jCaptchaValidate,authc
 				/** = sysUser,onlineSession,user,syncOnlineSession,perms,roles

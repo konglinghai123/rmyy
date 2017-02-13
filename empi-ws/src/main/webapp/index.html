@@ -9,18 +9,18 @@
 	<body>
 		<table>
 			<tr>
-				<td>执行地址：http://localhost:8080/empi-ws/webservice/patient</td>
+				<td>执行SayHello方法，请输入name:</td>
 				<td><input type="text" id="name" name="name" /></td>
 				<td><input type="button" id="execute" value="执行"/></td>
 			</tr>
 			<tr>
 				<td colspan="3">
-					<div id="ajaxBack"></div>
+					<input type="button" value="查看WSDL" onclick="javascript:window.open('http://localhost:8080/empi-ws/webservice');" />
 				</td>
 			</tr>
 			<tr>
 				<td colspan="3">
-					<input type="button" value="查看WSDL" onclick="javascript:window.open('http://localhost:8080/empi-ws/webservice');" />
+					<div id="ajaxBack"></div>
 				</td>
 			</tr>
 		</table>
