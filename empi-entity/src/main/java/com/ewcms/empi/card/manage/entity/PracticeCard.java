@@ -57,7 +57,7 @@ public class PracticeCard extends BaseEntity<Long> implements LogicDeleteable{
 	public void setPracticeNo(String practiceNo) {
 		this.practiceNo = practiceNo;
 	}
-
+	@JSONField(format = "yyyy-MM-dd HH:mm:ss")
 	public Date getCreateDate() {
 		return createDate;
 	}
@@ -66,7 +66,6 @@ public class PracticeCard extends BaseEntity<Long> implements LogicDeleteable{
 		this.createDate = createDate;
 	}
 
-	@JSONField(serialize = false)
 	public PatientBaseInfo getPatientBaseInfo() {
 		return patientBaseInfo;
 	}
