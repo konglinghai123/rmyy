@@ -1,0 +1,13 @@
+<!-- Bootstrap styles -->
+<link rel="stylesheet" href="${ctx}/static/fileupload/bootstrap/3.3.7/css/bootstrap.min.css?1">
+<!-- Generic page styles -->
+<link rel="stylesheet" href="${ctx}/static/fileupload/jQuery-File-Upload/css/style.css">
+<!-- blueimp Gallery styles -->
+<link rel="stylesheet" href="${ctx}/static/fileupload/Gallery/css/blueimp-gallery.min.css">
+<!-- CSS to style the file input field as button and adjust the Bootstrap progress bars -->
+<link rel="stylesheet" href="${ctx}/static/fileupload/jQuery-File-Upload/css/jquery.fileupload.css?14">
+<link rel="stylesheet" href="${ctx}/static/fileupload/jQuery-File-Upload/css/jquery.fileupload-ui.css?14">
+<!-- CSS adjustments for browsers with JavaScript disabled -->
+<noscript><link rel="stylesheet" href="${ctx}/static/fileupload/jQuery-File-Upload/css/jquery.fileupload-noscript.css"></noscript>
+<noscript><link rel="stylesheet" href="${ctx}/static/fileupload/jQuery-File-Upload/css/jquery.fileupload-ui-noscript.css?1"></noscript>
+
