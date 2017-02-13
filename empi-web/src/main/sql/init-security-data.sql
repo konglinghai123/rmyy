@@ -73,6 +73,8 @@ insert into sec_resource(id, icon, id_entity, name, parent_id, parent_ids, is_sh
 ,(101,'ewcms-monitor-hibernate-tree','hibernate','Hibernate监控',95,'0/1/95/','true',null,'/monitor/hibernate/index',6)
 ,(102,'ztree_file','cardmanage','卡证服务',1,'0/1/','true','accordion','',8)
 ,(103,'empi-card-patient-tree','patientbaseinfo','患者信息管理',102,'0/1/102/','true',NULL,'/empi/card/manage/patientbaseinfo/index',1)
+,(104,'empi-dictionary-certificatetype-tree','','匹配规则管理',102,'0/1/102/','true',NULL,'/empi/card/manage/matchrule/index',2)
+,(105,'empi-card-practicecard-tree','','诊疗卡管理',102,'0/1/102/','true',NULL,'/empi/card/manage/practicecard/index',3)
 ;
 SET IDENTITY_INSERT sec_resource OFF;
 
