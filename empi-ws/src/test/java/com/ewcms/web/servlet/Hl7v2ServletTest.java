@@ -1,4 +1,4 @@
-package com.ewcms.servlet;
+package com.ewcms.web.servlet;
 
 import java.io.IOException;
 
@@ -23,7 +23,7 @@ import ca.uhn.hl7v2.parser.PipeParser;
  *
  * @author wu_zhijun
  */
-public class HL7V2ServletTest {
+public class Hl7v2ServletTest {
 
 	@Test
 	public void testHL7V2Servlet() {

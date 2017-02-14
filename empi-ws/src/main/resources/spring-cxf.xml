@@ -15,7 +15,7 @@
 	<import resource="classpath:META-INF/cxf/cxf.xml" />
 	<import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
 	
-	<context:component-scan base-package="com.ewcms.webservice"/>
+	<context:component-scan base-package="com.ewcms"/>
 
-	<jaxws:endpoint id="patient" implementor="#patientService" address="/patient" />
+	<jaxws:endpoint id="patient" implementor="#patientWebService" address="/patient" />
 </beans>

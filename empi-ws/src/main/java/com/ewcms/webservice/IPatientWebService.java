@@ -13,13 +13,13 @@ import javax.xml.ws.soap.SOAPBinding;
  */
 @WebService(targetNamespace = "http://ewcms.com/patient")
 @BindingType(SOAPBinding.SOAP12HTTP_BINDING)
-public interface IPatientService {
+public interface IPatientWebService {
 	
 	@WebMethod(operationName = "sayHello")
 	@WebResult(name = "out")
 	public String sayHello(@WebParam(name = "name", targetNamespace = "http://ewcms.com/patient")String name);
 	
-	@WebMethod(operationName = "findByCardId")
+	@WebMethod(operationName = "findPatientId")
 	@WebResult(name = "patientId")
-	public Long findByCardId(@WebParam(name = "cardId", targetNamespace = "http://ewcms.com/patient")String cardId);
+	public Long findPatientId(@WebParam(name = "practiceNo", targetNamespace = "http://ewcms.com/patient")String practiceNo, @WebParam(name = "deleted")Boolean deleted);
 }
