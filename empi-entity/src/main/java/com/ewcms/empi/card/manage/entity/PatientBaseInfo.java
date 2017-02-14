@@ -33,6 +33,9 @@ import com.ewcms.common.plugin.entity.LogicDeleteable;
  * <li>contactName：联系人姓名</li>
  * <li>workUnit：工作单位</li>
  * <li>address：地址</li>
+ * <li>province：省</li>
+ * <li>city：市</li>
+ * <li>birthPlace：出生地</li>
  * <li>nation：民族</li>
  * <li>nationlity：国籍</li>
  * <li>profession：职业</li>
@@ -81,6 +84,12 @@ public class PatientBaseInfo extends BaseEntity<Long> implements LogicDeleteable
 	private String workUnit;
 	@Column(name = "address")
 	private String address;
+	@Column(name = "province")
+	private String province;
+	@Column(name = "city")
+	private String city;
+	@Column(name = "birth_place")
+	private String birthPlace;
 	@Column(name = "nation")
 	private String nation;
 	@Column(name = "nationlity")
@@ -310,6 +319,30 @@ public class PatientBaseInfo extends BaseEntity<Long> implements LogicDeleteable
 
 	public static int getPatientidlength() {
 		return patientIdlength;
+	}
+
+	public String getProvince() {
+		return province;
+	}
+
+	public void setProvince(String province) {
+		this.province = province;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	public String getBirthPlace() {
+		return birthPlace;
+	}
+
+	public void setBirthPlace(String birthPlace) {
+		this.birthPlace = birthPlace;
 	}
 
 	@Override

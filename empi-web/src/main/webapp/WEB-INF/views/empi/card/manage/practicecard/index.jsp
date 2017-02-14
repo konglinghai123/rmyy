@@ -27,7 +27,7 @@
 	</table>
 	<div id="tb" style="padding:5px;height:auto;">
 		<div class="toolbar" style="margin-bottom:2px">
-			<a class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true" id="tb-distribute" onclick="$.ewcms.add({title:'发诊疗卡',width:700,height:350,src:'${ctx}/empi/card/manage/practicecard/distribute'});" href="javascript:void(0);">发诊疗卡</a>
+			<a class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true" id="tb-distribute" onclick="$.ewcms.add({title:'发诊疗卡',width:700,height:380,src:'${ctx}/empi/card/manage/practicecard/distribute'});" href="javascript:void(0);">发诊疗卡</a>
 		</div>
 		<div style="padding-left:5px;">
         	<form id="queryform" style="padding:0;margin:0;">
