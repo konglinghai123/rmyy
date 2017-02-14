@@ -6,10 +6,10 @@ import com.ewcms.common.entity.search.utils.SearchableConvertUtils;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
-import org.apache.shiro.util.CollectionUtils;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.util.CollectionUtils;
 
 import java.util.Collection;
 import java.util.Collections;
