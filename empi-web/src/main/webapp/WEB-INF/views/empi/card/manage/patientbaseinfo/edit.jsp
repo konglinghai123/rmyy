@@ -30,7 +30,6 @@
 				  		<td><form:input path="sourcePlace" cssClass="inputempty"/></td>				  		
 			    	</tr>
 			    	<tr>				  		
-				  								
 						<td><form:label path="telephone">联系电话：</form:label></td>
 				  		<td><form:input path="telephone" cssClass="inputempty"/></td>
 				  		<td><form:label path="nationlity">国籍：</form:label></td>
@@ -38,13 +37,21 @@
 				  		<td><form:label path="nation">民族：</form:label></td>
 						<td><form:input path="nation" cssClass="inputempty"/></td>
 			    	</tr>			    		
-		        	<tr>				  		
+		        	<tr>			  		
 				  		<td><form:label path="workUnit">工作单位：</form:label></td>
 				  		<td colspan="2"><form:input path="workUnit" cssClass="inputempty" size="35"/></td>
 				  		
 				  		<td><form:label path="address">通讯地址：</form:label></td>
 				  		<td colspan="2"><form:input path="address"  cssClass="inputempty" size="35"/></td>
 			    	</tr>	
+			    	<tr>				  		
+						<td><form:label path="province">省：</form:label></td>
+				  		<td><form:input path="province" cssClass="inputempty"/></td>
+				  		<td><form:label path="city">市：</form:label></td>
+				  		<td><form:input path="city" cssClass="inputempty"/></td>
+				  		<td><form:label path="birthPlace">出生地：</form:label></td>
+						<td><form:input path="birthPlace" cssClass="inputempty"/></td>
+			    	</tr>
 			    	<tr>
 						<td><form:label path="profession">职业：</form:label></td>
 				  		<td><form:input path="profession" cssClass="inputempty"/></td>

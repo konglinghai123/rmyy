@@ -53,6 +53,14 @@
 				  		<td><form:label path="patientBaseInfo.address">通讯地址：</form:label></td>
 				  		<td colspan="2"><form:input path="patientBaseInfo.address" id="address" cssClass="inputempty" size="35"/></td>
 			    	</tr>	
+			    	<tr>				  		
+						<td><form:label path="patientBaseInfo.province">省：</form:label></td>
+				  		<td><form:input path="patientBaseInfo.province" id="province" cssClass="inputempty"/></td>
+				  		<td><form:label path="patientBaseInfo.city">市：</form:label></td>
+				  		<td><form:input path="patientBaseInfo.city" id="city" cssClass="inputempty"/></td>
+				  		<td><form:label path="patientBaseInfo.birthPlace">出生地：</form:label></td>
+						<td><form:input path="patientBaseInfo.birthPlace" id="birthPlace" cssClass="inputempty"/></td>
+			    	</tr>			    	
 			    	<tr>
 						<td><form:label path="patientBaseInfo.profession">职业：</form:label></td>
 				  		<td><form:input path="patientBaseInfo.profession" id="profession" cssClass="inputempty"/></td>
@@ -170,6 +178,9 @@
 				 $("#sex").val(data.sex);
 				 $("#nation").val(data.nation);
 				 $("#nationlity").val(data.nationlity);
+				 $("#province").val(data.province);
+				 $("#city").val(data.city);
+				 $("#birthPlace").val(data.birthPlace);
 				 $("#birthday").datebox('setValue',data.birthday);
 			 },
 			 error: function(data){
