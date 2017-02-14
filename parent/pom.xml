@@ -21,7 +21,7 @@
 		<module>../empi-web</module>
 		<module>../empi-sms</module>
 		<module>../empi-ws</module>
-		<module>../empi-hl7v2x</module>
+		<module>../empi-hl7v2</module>
 	</modules>
 
 	<repositories>
