@@ -19,9 +19,9 @@
 		<module>../base-shiro</module>
 		<module>../empi-entity</module>
 		<module>../empi-web</module>
-		<module>../empi-sms</module>
 		<module>../empi-hl7v2</module>
 		<module>../empi-ws</module>
+		<!-- <module>../empi-sms</module> -->
 	</modules>
 
 	<repositories>
