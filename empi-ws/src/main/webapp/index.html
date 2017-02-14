@@ -9,36 +9,61 @@
 	<body>
 		<table>
 			<tr>
-				<td>执行SayHello方法，请输入name:</td>
-				<td><input type="text" id="name" name="name" /></td>
-				<td><input type="button" id="execute" value="执行"/></td>
+				<td>卡号:</td>
+				<td><input type="text" id="practiceNo" name="practiceNo" /></td>
 			</tr>
 			<tr>
-				<td colspan="3">
+				<td>是否删除：</td>
+				<td><input type="radio" value="false" name="deleted" checked="checked">FALSE</input><input type="radio" value="true" name="deleted">TRUE</input></td>
+			</tr>
+			<tr>
+				<td>HL7版本号：</td>
+				<td>
+					<select id="version" name="version">
+						<option value ="v2.1">v2.1</option>
+						<option value ="v2.2">v2.2</option>
+						<option value ="v2.3">v2.3</option>
+						<option value="v2.3.1">v2.3.1</option>
+						<option value="v2.4">v2.4</option>
+						<option value="v2.5">v2.5</option>
+						<option value="v2.5.1">v2.5.1</option>
+						<option value="v2.6">v2.6</option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<input type="button" id="executeLong" value="执行患者ID号"/><input type="button" id="executeHl7v2" value="执行HL7V2患者信息"/>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
 					<input type="button" value="查看WSDL" onclick="javascript:window.open('http://localhost:8080/empi-ws/webservice');" />
 				</td>
 			</tr>
 			<tr>
-				<td colspan="3">
+				<td colspan="2">
 					<div id="ajaxBack"></div>
 				</td>
 			</tr>
 		</table>
 		<script type="text/javascript">
 			$(function(){
-				$("#execute").bind('click', function(){
-					var val = $("#name").val();
+				$("#executeHl7v2").bind('click', function(){
+					var val = $("#practiceNo").val();
 					if($.trim(val)==""){
-						alert("请输入名称");
+						alert("请输入卡号");
 						return;
 					}
 					<!--可以通过拦截器获取请求信息-->
 					var str = '<?xml version="1.0" encoding="UTF-8"?>'+
 							'<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">'+
 							'<soap:Body>'+
-							'<ns2:sayHello xmlns:ns2="http://ewcms.com/patient">'+
-							'<name>' + val + '</name>'+
-							'</ns2:sayHello>' + 
+							'<ns2:findPatientIdHl7v2 xmlns:ns2="http://ewcms.com/patient">'+
+							'<practiceNo>' + val + '</practiceNo>'+
+							'<deleted>' +  $('input[name="deleted"]:checked').val() + '</deleted>' +
+							'<version>' +  $('#version').val() + '</version>' +
+							'</ns2:findPatientIdHl7v2>' + 
 							 '</soap:Body>'+
 							'</soap:Envelope>';
 								  
@@ -49,9 +74,40 @@
 						url:'http://localhost:8080/empi-ws/webservice/patient',		//直接发向这个地址
 						data:str,
 						success:function(data){
-							var ss = $(data).find("out").first().text();
+							var ss = "HL7患者信息：<br/>" + $(data).find("patientIdHl7v2").first().text();
 							$("#ajaxBack").html(ss).css("border","1px solid blue").css({width:'50%'}).appendTo($("body"));
 							$("#name").val("");
+						}
+					},"xml");//数据返回格式为xml
+				});
+				
+				$("#executeLong").bind('click', function(){
+					var val = $("#practiceNo").val();
+					if($.trim(val)==""){
+						alert("请输入卡号");
+						return;
+					}
+					<!--可以通过拦截器获取请求信息-->
+					var str = '<?xml version="1.0" encoding="UTF-8"?>'+
+							'<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">'+
+							'<soap:Body>'+
+							'<ns2:findPatientId xmlns:ns2="http://ewcms.com/patient">'+
+							'<practiceNo>' + val + '</practiceNo>'+
+							'<deleted>' + $('input[name="deleted"]:checked').val() + '</deleted>' +
+							'</ns2:findPatientId>' + 
+							 '</soap:Body>'+
+							'</soap:Envelope>';
+								  
+					$.ajax({
+						contentType:'application/xml;charset="UTF-8"',
+						dataType:'xml',//发送数据格式
+						type:'post',
+						url:'http://localhost:8080/empi-ws/webservice/patient',		//直接发向这个地址
+						data:str,
+						success:function(data){
+							var ss = "患者ID号：" + $(data).find("patientId").first().text();
+							$("#ajaxBack").html(ss).css("border","1px solid blue").css({width:'50%'}).appendTo($("body"));
+							$("#practiceNo").val("");
 						}
 					},"xml");//数据返回格式为xml
 				});

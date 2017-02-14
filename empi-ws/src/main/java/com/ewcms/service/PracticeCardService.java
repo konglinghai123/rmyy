@@ -3,6 +3,7 @@ package com.ewcms.service;
 import org.springframework.stereotype.Service;
 
 import com.ewcms.common.service.BaseService;
+import com.ewcms.empi.card.manage.entity.PatientBaseInfo;
 import com.ewcms.empi.card.manage.entity.PracticeCard;
 import com.ewcms.repository.PracticeCardRepository;
 
@@ -19,5 +20,9 @@ public class PracticeCardService extends BaseService<PracticeCard, Long>{
 	
 	public Long findPatientIdByPracticeNo(String practiceNo, Boolean deleted){
 		return getPracticeCardRepository().findPatientIdByPracticeNo(practiceNo, deleted);
+	}
+	
+	public PatientBaseInfo findPatientBaseInfoByPracticeNo(String practiceNo, Boolean deleted){
+		return getPracticeCardRepository().findPatientBaseInfoByPracticeNo(practiceNo, deleted);
 	}
 }

@@ -17,6 +17,8 @@
 	<properties>
 		<support.basedir>${project.parent.parent.basedir}/src/support</support.basedir>
 		<site.basedir>${project.parent.parent.basedir}</site.basedir>
+		
+		<empi.version>1.0.0</empi.version>
 	</properties>
 
 	<dependencies>
@@ -72,5 +74,10 @@
 			<version>2.2</version>
 		</dependency>
 		
+		<dependency>
+			<groupId>com.ewcms</groupId>
+			<artifactId>empi-entity</artifactId>
+			<version>${empi.version}</version>
+		</dependency>
 	</dependencies>
 </project>

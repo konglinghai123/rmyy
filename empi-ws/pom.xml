@@ -191,12 +191,6 @@
 		
 		<dependency>
 			<groupId>com.ewcms</groupId>
-			<artifactId>empi-entity</artifactId>
-			<version>${empi.version}</version>
-		</dependency>
-		
-		<dependency>
-			<groupId>com.ewcms</groupId>
 			<artifactId>empi-hl7v2</artifactId>
 			<version>${empi.version}</version>
 		</dependency>
