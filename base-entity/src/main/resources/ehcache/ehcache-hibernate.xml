@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE xml>
-<ehcache updateCheck="false" name="hibernate">
+<ehcache updateCheck="false" name="base-entity">
 
-    <diskStore path="java.io.tmpdir/ehcache/ewcms/hibernate"/>
+    <diskStore path="java.io.tmpdir/ehcache/base-entity/hibernate"/>
 
     <defaultCache
             maxEntriesLocalHeap="1000"

@@ -223,6 +223,11 @@
 		</dependency>
 		<dependency>
 			<groupId>com.ewcms</groupId>
+			<artifactId>base-scheduling</artifactId>
+			<version>${empi.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.ewcms</groupId>
 			<artifactId>base-shiro</artifactId>
 			<version>${empi.version}</version>
 		</dependency>

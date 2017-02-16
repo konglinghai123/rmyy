@@ -15,7 +15,7 @@ import com.ewcms.common.utils.LogUtils;
  */
 public class UserLogUtils {
 
-	private static final Logger SYS_USER_LOGGER = LoggerFactory.getLogger("ewcms-sys-user");
+	private static final Logger SYS_USER_LOGGER = LoggerFactory.getLogger("empi-sys-user");
 	
 	private static Logger getSysUserLog(){
 		return SYS_USER_LOGGER;

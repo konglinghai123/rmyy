@@ -54,22 +54,22 @@
     </logger>
 
     <!--错误日志-->
-    <logger name="ewcms-error" level="info">
+    <logger name="empi-error" level="info">
         <appender-ref ref="ERROR"/>
         <!-- 正式使用时注释下面 -->
         <appender-ref ref="STDOUT"/>
     </logger>
     
     <!--访问日志-->
-    <logger name="ewcms-access" level="info">
+    <logger name="empi-access" level="info">
         <appender-ref ref="ACCESS"/>
         <!-- 正式使用时注释下面 -->
         <appender-ref ref="STDOUT"/>
     </logger>
     
     <!--系统用户操作日志-->
-    <logger name="ewcms-user" level="info">
-        <appender-ref ref="EWCMS-USER"/>
+    <logger name="empi-user" level="info">
+        <appender-ref ref="EMPI-USER"/>
         <!-- 正式使用时注释下面 -->
         <appender-ref ref="STDOUT"/>
     </logger>

@@ -35,7 +35,7 @@ public class UserRealm extends AuthorizingRealm {
 //    @Autowired
 //    private UserAclService userAclService;
 
-    private static final Logger log = LoggerFactory.getLogger("ewcms-error");
+    private static final Logger log = LoggerFactory.getLogger("empi-error");
 
     @Autowired
     public UserRealm(ApplicationContext ctx) {

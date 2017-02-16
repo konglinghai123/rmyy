@@ -23,7 +23,7 @@
     </cache>
 
     <!-- 系统用户缓存  没必要过期 -->
-    <cache name="ewcms-userCache"
+    <cache name="empi-userCache"
            maxEntriesLocalHeap="10000"
            overflowToDisk="false"
            eternal="false"
@@ -33,7 +33,7 @@
            statistics="true"/>
 
     <!-- 系统用户授权缓存  没必要过期 -->
-    <cache name="ewcms-authCache"
+    <cache name="empi-authCache"
            maxEntriesLocalHeap="10000"
            overflowToDisk="false"
            eternal="false"
@@ -44,7 +44,7 @@
            statistics="true"/>
 
     <!-- 菜单缓存  没必要过期 -->
-    <cache name="ewcms-menuCache"
+    <cache name="empi-menuCache"
            maxEntriesLocalHeap="10000"
            overflowToDisk="false"
            eternal="false"
@@ -54,7 +54,7 @@
            statistics="true"/>
            
     <!-- ACL控制缓存 没必要过期 -->
-    <cache name="ewcms-aclCache"
+    <cache name="empi-aclCache"
     	   maxEntriesLocalHeap="10000"
            overflowToDisk="false"
            eternal="false"

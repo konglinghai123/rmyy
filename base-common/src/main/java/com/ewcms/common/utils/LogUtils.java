@@ -16,8 +16,8 @@ import java.util.Map;
 
 public class LogUtils {
 
-    public static final Logger ERROR_LOG = LoggerFactory.getLogger("ewcms-error");
-    public static final Logger ACCESS_LOG = LoggerFactory.getLogger("ewcms-access");
+    public static final Logger ERROR_LOG = LoggerFactory.getLogger("empi-error");
+    public static final Logger ACCESS_LOG = LoggerFactory.getLogger("empi-access");
 
     /**
      * 记录访问日志
