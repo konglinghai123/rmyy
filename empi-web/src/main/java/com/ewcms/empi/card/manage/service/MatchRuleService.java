@@ -22,6 +22,10 @@ public class MatchRuleService extends BaseService<MatchRule, Long> {
 		return getMatchRuleRepository().findByFieldName(fieldName);
 	}
 	
+	public List<MatchRule> findMatchRuleByMatched(){
+		return getMatchRuleRepository().findMatchRuleByMatched();
+	}
+	
 	public void matchFields(List<Long> matchFields){
 		Iterable<MatchRule> matchRules = findAll();
 		if (matchRules != null) {
