@@ -14,7 +14,6 @@
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>
-             classpath:spring-common.xml,
              classpath:spring-config.xml
          </param-value>
 	</context-param>
@@ -62,9 +61,6 @@
 		<filter-name>AccessLogFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 		<dispatcher>REQUEST</dispatcher>
-		<dispatcher>FORWARD</dispatcher>
-		<dispatcher>INCLUDE</dispatcher>
-		<dispatcher>ERROR</dispatcher>
 	</filter-mapping>
 
 	<filter>
@@ -80,9 +76,6 @@
 		<filter-name>shiroFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 		<dispatcher>REQUEST</dispatcher>
-		<dispatcher>FORWARD</dispatcher>
-		<dispatcher>INCLUDE</dispatcher>
-		<dispatcher>ERROR</dispatcher>
 	</filter-mapping>
 
 	<filter>
@@ -140,7 +133,7 @@
 
 	<error-page>
 		<error-code>404</error-code>
-		<location>/WEB-INF/jsp/error/error.jsp</location>
+		<location>/WEB-INF/views/error/error.jsp</location>
 	</error-page>
 	<error-page>
 		<error-code>400</error-code>
