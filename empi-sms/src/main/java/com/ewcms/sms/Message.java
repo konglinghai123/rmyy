@@ -30,7 +30,7 @@ public class Message {
 		//短信模板变量，传参数则("key”:"value")
 		req.setSmsParamString("{\"number\":\"" + createRandomVcode() + "\"}");
 		//(必写)短信接收号码。支持单个和多个手机号码，多个号码间用英文逗号隔开
-		req.setRecNum("18970986887,18970986851,13979180088");
+		req.setRecNum("18970986887");
 		//短信模板ID，传入的模板必须是在阿里大于"管理中心-短信模板管理"中的可用模板
 		req.setSmsTemplateCode("SMS_43155245");
 		//实例 化响应

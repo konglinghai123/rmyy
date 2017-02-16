@@ -3,14 +3,14 @@
 	xmlns="http://java.sun.com/xml/ns/javaee"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
 	metadata-complete="false" version="3.0">
-	
+
 	<display-name>empi-web</display-name>
-	
+
 	<context-param>
 		<param-name>webAppRootKey</param-name>
 		<param-value>empi-web</param-value>
 	</context-param>
-	
+
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>
@@ -18,15 +18,15 @@
              classpath:spring-config.xml
          </param-value>
 	</context-param>
-	
+
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
-	
+
 	<listener>
 		<listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
 	</listener>
-	
+
 	<filter>
 		<filter-name>Set Character Encoding</filter-name>
 		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
@@ -44,7 +44,7 @@
 		<filter-name>Set Character Encoding</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
-	
+
 	<filter>
 		<filter-name>AccessLogFilter</filter-name>
 		<filter-class>com.ewcms.common.web.filter.AccessLogFilter</filter-class>
@@ -62,8 +62,11 @@
 		<filter-name>AccessLogFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 		<dispatcher>REQUEST</dispatcher>
+		<dispatcher>FORWARD</dispatcher>
+		<dispatcher>INCLUDE</dispatcher>
+		<dispatcher>ERROR</dispatcher>
 	</filter-mapping>
-	
+
 	<filter>
 		<filter-name>shiroFilter</filter-name>
 		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
@@ -77,8 +80,11 @@
 		<filter-name>shiroFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 		<dispatcher>REQUEST</dispatcher>
+		<dispatcher>FORWARD</dispatcher>
+		<dispatcher>INCLUDE</dispatcher>
+		<dispatcher>ERROR</dispatcher>
 	</filter-mapping>
-	
+
 	<filter>
 		<filter-name>JCaptchaFilter</filter-name>
 		<filter-class>com.ewcms.common.web.jcaptcha.JCaptchaFilter</filter-class>
@@ -88,7 +94,7 @@
 		<filter-name>JCaptchaFilter</filter-name>
 		<url-pattern>/jcaptcha.jpg</url-pattern>
 	</filter-mapping>
-	
+
 	<filter>
 		<filter-name>DruidWebStatFilter</filter-name>
 		<filter-class>com.alibaba.druid.support.http.WebStatFilter</filter-class>
@@ -106,7 +112,7 @@
 		<filter-name>DruidWebStatFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
-	
+
 	<servlet>
 		<servlet-name>DruidStatView</servlet-name>
 		<servlet-class>com.alibaba.druid.support.http.StatViewServlet</servlet-class>
@@ -116,7 +122,7 @@
 		<servlet-name>DruidStatView</servlet-name>
 		<url-pattern>/monitor/druid/*</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>spring</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
@@ -131,7 +137,7 @@
 		<servlet-name>spring</servlet-name>
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
-	
+
 	<error-page>
 		<error-code>404</error-code>
 		<location>/WEB-INF/jsp/error/error.jsp</location>

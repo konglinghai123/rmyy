@@ -13,7 +13,7 @@
 	<name>empi-ws</name>
 	<url>https://github.com/ewcmsfree/rmyy/empi-ws</url>
 
-<build>
+	<build>
 		<finalName>${project.artifactId}</finalName>
 		<plugins>
 			<plugin>
@@ -40,7 +40,7 @@
 					</systemProperties>
 				</configuration>
 			</plugin>
-			
+
 			<plugin>
 				<groupId>org.apache.tomcat.maven</groupId>
 				<artifactId>tomcat7-maven-plugin</artifactId>
@@ -57,7 +57,7 @@
 					</systemProperties>
 				</configuration>
 			</plugin>
-			
+
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>native2ascii-maven-plugin</artifactId>
@@ -88,51 +88,21 @@
 					</dependency>
 				</dependencies>
 			</plugin>
-			<!-- 
-			<plugin>
-				<groupId>com.googlecode</groupId>
-                <artifactId>maven-db-plugin</artifactId>
-                <version>1.4</version>
-				<configuration>
-					<adminDbConnectionSettings>
-						<jdbcDriver>${connection.driver_class}</jdbcDriver>
-						<jdbcUrl>${connection.admin.url}</jdbcUrl>
-						<userName>${connection.username}</userName>
-						<password>${connection.password}</password>
-					</adminDbConnectionSettings>
-					<appDbConnectionSettings>
-						<jdbcDriver>${connection.driver_class}</jdbcDriver>
-						<jdbcUrl>${connection.admin.url}</jdbcUrl>
-						<userName>${connection.username}</userName>
-						<password>${connection.password}</password>
-					</appDbConnectionSettings>
-					<dbDataScriptsDirectory>
-						<param>src/main/sql</param>
-					</dbDataScriptsDirectory>
-					<dbSchemaScriptsDirectory>
-						<param>src/main/sql</param>
-					</dbSchemaScriptsDirectory>
-					<dbUpdateScriptsDirectory>
-						<param>src/main/sql</param>
-					</dbUpdateScriptsDirectory>
-					<dbCreateStatements>
-						create database ${db.name};
-					</dbCreateStatements>
-					<dbDropStatements>
-						drop database ${db.name};
-					</dbDropStatements>
-					<sqlDelimiter>;;</sqlDelimiter>
-					<scriptEncoding>UTF-8</scriptEncoding>
-				</configuration>
-				<dependencies>
-					<dependency>
-						<groupId>com.microsoft.sqlserver</groupId>
-						<artifactId>mssql-jdbc</artifactId>
-						<version>${sqlserver.version}</version>
-					</dependency>
-				</dependencies>
-			</plugin>
-			 -->
+			<!-- <plugin> <groupId>com.googlecode</groupId> <artifactId>maven-db-plugin</artifactId> 
+				<version>1.4</version> <configuration> <adminDbConnectionSettings> <jdbcDriver>${connection.driver_class}</jdbcDriver> 
+				<jdbcUrl>${connection.admin.url}</jdbcUrl> <userName>${connection.username}</userName> 
+				<password>${connection.password}</password> </adminDbConnectionSettings> 
+				<appDbConnectionSettings> <jdbcDriver>${connection.driver_class}</jdbcDriver> 
+				<jdbcUrl>${connection.admin.url}</jdbcUrl> <userName>${connection.username}</userName> 
+				<password>${connection.password}</password> </appDbConnectionSettings> <dbDataScriptsDirectory> 
+				<param>src/main/sql</param> </dbDataScriptsDirectory> <dbSchemaScriptsDirectory> 
+				<param>src/main/sql</param> </dbSchemaScriptsDirectory> <dbUpdateScriptsDirectory> 
+				<param>src/main/sql</param> </dbUpdateScriptsDirectory> <dbCreateStatements> 
+				create database ${db.name}; </dbCreateStatements> <dbDropStatements> drop 
+				database ${db.name}; </dbDropStatements> <sqlDelimiter>;;</sqlDelimiter> 
+				<scriptEncoding>UTF-8</scriptEncoding> </configuration> <dependencies> <dependency> 
+				<groupId>com.microsoft.sqlserver</groupId> <artifactId>mssql-jdbc</artifactId> 
+				<version>${sqlserver.version}</version> </dependency> </dependencies> </plugin> -->
 		</plugins>
 		<resources>
 			<resource>
@@ -144,11 +114,14 @@
 			</resource>
 		</resources>
 	</build>
-	
+
 	<properties>
 		<support.basedir>${project.parent.parent.basedir}/src/support</support.basedir>
 		<site.basedir>${project.parent.parent.basedir}</site.basedir>
-	
+
+		<jetty.version>9.4.0.v20161208</jetty.version>
+		<tomcat.maven.version>2.2</tomcat.maven.version>
+
 		<sqlserver.version>6.1.0.jre7</sqlserver.version>
 		<empi.version>1.0.0</empi.version>
 	</properties>
@@ -159,13 +132,13 @@
 			<artifactId>mssql-jdbc</artifactId>
 			<version>${sqlserver.version}</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>com.googlecode.log4jdbc</groupId>
 			<artifactId>log4jdbc</artifactId>
 			<version>1.2</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.apache.cxf</groupId>
 			<artifactId>cxf-rt-frontend-jaxws</artifactId>
@@ -176,32 +149,26 @@
 			<artifactId>cxf-rt-transports-http</artifactId>
 			<version>3.1.10</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.codehaus.woodstox</groupId>
 			<artifactId>stax2-api</artifactId>
 			<version>3.1.4</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>com.ewcms</groupId>
 			<artifactId>base-entity</artifactId>
 			<version>${empi.version}</version>
 		</dependency>
-		
-		<dependency>
-			<groupId>com.ewcms</groupId>
-			<artifactId>empi-entity</artifactId>
-			<version>${empi.version}</version>
-		</dependency>
-		
+
 		<dependency>
 			<groupId>com.ewcms</groupId>
 			<artifactId>empi-hl7v2</artifactId>
 			<version>${empi.version}</version>
 		</dependency>
 	</dependencies>
-	
+
 	<profiles>
 		<profile>
 			<id>development</id>
