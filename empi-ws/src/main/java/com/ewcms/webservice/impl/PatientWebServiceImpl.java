@@ -11,7 +11,7 @@ import ca.uhn.hl7v2.HL7Exception;
 
 import com.ewcms.WebServiceConstants;
 import com.ewcms.empi.card.manage.entity.PatientBaseInfo;
-import com.ewcms.hl7.createmessage.CreatePatientMessage;
+import com.ewcms.hl7.message.v2.CreatePatientMessage;
 import com.ewcms.service.PracticeCardService;
 import com.ewcms.webservice.IPatientWebService;
 
