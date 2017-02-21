@@ -40,6 +40,7 @@ public class PracticeCard extends BaseEntity<Long> implements LogicDeleteable{
 	@NotNull(message = "{not.null}")
     @Column(name = "practice_no", nullable = false, unique = true)
 	private String practiceNo;
+	@JSONField(format = "yyyy-MM-dd HH:mm:ss")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Column(name = "create_date")
     @Temporal(TemporalType.TIMESTAMP)
@@ -57,7 +58,7 @@ public class PracticeCard extends BaseEntity<Long> implements LogicDeleteable{
 	public void setPracticeNo(String practiceNo) {
 		this.practiceNo = practiceNo;
 	}
-	@JSONField(format = "yyyy-MM-dd HH:mm:ss")
+	
 	public Date getCreateDate() {
 		return createDate;
 	}
