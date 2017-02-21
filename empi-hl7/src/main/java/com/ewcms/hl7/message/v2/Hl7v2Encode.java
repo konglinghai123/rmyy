@@ -635,6 +635,16 @@ public class Hl7v2Encode {
 
 	@Override
 	public String toString() {
-		return super.toString();
+		return "Hl7v2Encode [practiceNo=" + practiceNo + ", id=" + id
+				+ ", name=" + name + ", birthday=" + birthday + ", sex=" + sex
+				+ ", nation=" + nation + ", address=" + address + ", province="
+				+ province + ", city=" + city + ", birthPlace=" + birthPlace
+				+ ", nationlity=" + nationlity + ", telephone=" + telephone
+				+ ", workUnit=" + workUnit + ", maritalStatus=" + maritalStatus
+				+ ", certificateNo=" + certificateNo + ", medicalAccount="
+				+ medicalAccount + ", contactName=" + contactName
+				+ ", contactTelephone=" + contactTelephone
+				+ ", contactRelation=" + contactRelation + ", contactAddress="
+				+ contactAddress + ", allergyHistory=" + allergyHistory + "]";
 	}
 }
