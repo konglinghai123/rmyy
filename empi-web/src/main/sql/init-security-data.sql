@@ -75,6 +75,7 @@ insert into sec_resource(id, icon, id_entity, name, parent_id, parent_ids, is_sh
 ,(103,'empi-card-patient-tree','patientbaseinfo','患者信息管理',102,'0/1/102/','true',NULL,'/empi/card/manage/patientbaseinfo/index',1)
 ,(104,'empi-dictionary-certificatetype-tree','','匹配规则管理',102,'0/1/102/','true',NULL,'/empi/card/manage/matchrule/index',2)
 ,(105,'empi-card-practicecard-tree','','诊疗卡管理',102,'0/1/102/','true',NULL,'/empi/card/manage/practicecard/index',3)
+,(107,'empi-card-close-tree','','客户端注册登记',102,'0/1/102/','true',NULL,'/empi/card/manage/clientenroll/index',4)
 ;
 SET IDENTITY_INSERT sec_resource OFF;
 
