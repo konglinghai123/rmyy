@@ -74,7 +74,7 @@ public class PatientMessage {
 		}
 	}
 	
-	public static Map<String, PatientBaseInfo> parserHl7v2(String message, String version) throws HL7Exception{
+	public static Map<String, PatientBaseInfo> parserHl7v2(String message, String version) throws HL7Exception, Exception{
 		if (EmptyUtil.isStringEmpty(message)) return null;
 		
 		if ("v2.1".equals(version) || "2.1".equals(version)) {
