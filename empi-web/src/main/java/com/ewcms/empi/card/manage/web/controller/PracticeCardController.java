@@ -106,7 +106,7 @@ public class PracticeCardController extends BaseCRUDController<PracticeCard, Lon
         ValidateResponse response = ValidateResponse.newInstance();
 
        if ("practiceNo".equals(fieldId)) {
-    	   PracticeCard parcticeCard = getPracticeCardService().findByPracticeNo(fieldValue);
+    	   PracticeCard parcticeCard = getPracticeCardService().findByPracticeNoAndDeleted(fieldValue,Boolean.FALSE);
             if (parcticeCard == null|| (parcticeCard.getId().equals(id) && parcticeCard.getPracticeNo().equals(fieldValue))) {
                 //如果msg 不为空 将弹出提示框
                 response.validateSuccess(fieldId, "");

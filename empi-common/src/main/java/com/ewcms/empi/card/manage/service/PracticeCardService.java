@@ -22,8 +22,8 @@ public class PracticeCardService extends BaseService<PracticeCard, Long> {
 	@Autowired
 	private PatientBaseInfoService patientBaseInfoService;
 
-	public PracticeCard findByPracticeNo(String practiceNo){
-		return getPracticeCardRepository().findByPracticeNo(practiceNo);
+	public PracticeCard findByPracticeNoAndDeleted(String practiceNo,Boolean deleted){
+		return getPracticeCardRepository().findByPracticeNoAndDeleted(practiceNo,deleted);
 	} 
 
 	/**
@@ -34,7 +34,7 @@ public class PracticeCardService extends BaseService<PracticeCard, Long> {
 	 * @return 诊疗卡
 	 */
 	public PracticeCard distribute(PracticeCard m) {
-		PracticeCard dbPracticeCard = getPracticeCardRepository().findByPracticeNo(m.getPracticeNo());
+		PracticeCard dbPracticeCard = findByPracticeNoAndDeleted(m.getPracticeNo(),Boolean.FALSE);
 		if(EmptyUtil.isNotNull(dbPracticeCard))throw new BaseException("诊疗卡号已存在");
 		String certificateNo = m.getPatientBaseInfo().getCertificateNo();
 		if (EmptyUtil.isNull(certificateNo)) throw new BaseException("患者基本信息不存在");
