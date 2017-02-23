@@ -1,4 +1,4 @@
-package com.ewcms.repository;
+package com.ewcms.empi.card.manage.repository;
 
 import org.springframework.data.jpa.repository.Query;
 

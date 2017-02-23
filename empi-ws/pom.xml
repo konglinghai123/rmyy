@@ -149,7 +149,7 @@
 
 		<dependency>
 			<groupId>com.ewcms</groupId>
-			<artifactId>empi-hl7</artifactId>
+			<artifactId>empi-common</artifactId>
 			<version>${empi.version}</version>
 		</dependency>
 	</dependencies>

@@ -8,11 +8,11 @@
 		<relativePath>../parent/pom.xml</relativePath>
 	</parent>
 
-	<artifactId>empi-hl7</artifactId>
+	<artifactId>empi-common</artifactId>
 	<packaging>jar</packaging>
-	<name>empi-hl7</name>
+	<name>empi-common</name>
 	<description>sms</description>
-	<url>https://github.com/ewcmsfree/rmyy/empi-hl7</url>
+	<url>https://github.com/ewcmsfree/rmyy/empi-common</url>
 
 	<properties>
 		<support.basedir>${project.parent.parent.basedir}/src/support</support.basedir>

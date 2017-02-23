@@ -29,8 +29,8 @@ public class Hl7v2Parser {
 		ca.uhn.hl7v2.model.v21.segment.PID pid = axx.getPID();
 			
 		String practiceNo = pid.getPid2_PATIENTIDEXTERNALEXTERNALID().getCk1_IDNumber().getValue();
-		Long patientId = Long.parseLong(pid.getPid3_PATIENTIDINTERNALINTERNALID().getCk1_IDNumber().getValue());
-		patientBaseInfo.setId(patientId);
+		
+		patientBaseInfo.setPatientId(pid.getPid3_PATIENTIDINTERNALINTERNALID().getCk1_IDNumber().getValue());
 		patientBaseInfo.setName(pid.getPid5_PATIENTNAME().getPn1_FamilyName().getValue());
 		patientBaseInfo.setBirthday(sdf.parse(pid.getPid7_DATEOFBIRTH().getValue()));
 		patientBaseInfo.setSex(pid.getPid8_SEX().getValue());
@@ -64,8 +64,8 @@ public class Hl7v2Parser {
 		ca.uhn.hl7v2.model.v22.segment.PID pid = axx.getPID();
 			
 		String practiceNo = pid.getPid2_PatientIDExternalID().getCk1_IDNumber().getValue();
-		Long patientId = Long.parseLong(pid.getPid3_PatientIDInternalID(0).getCm_pat_id1_IDNumber().getValue());
-		patientBaseInfo.setId(patientId);
+		
+		patientBaseInfo.setPatientId(pid.getPid3_PatientIDInternalID(0).getCm_pat_id1_IDNumber().getValue());
 		patientBaseInfo.setName(pid.getPid5_PatientName().getPn1_FamilyName().getValue());
 		patientBaseInfo.setBirthday(sdf.parse(pid.getPid7_DateOfBirth().getTs2_DegreeOfPrecision().getValue()));
 		patientBaseInfo.setSex(pid.getPid8_Sex().getValue());
@@ -182,7 +182,7 @@ public class Hl7v2Parser {
 		return result;
 	}
 	
-	public static Map<String, PatientBaseInfo> v24Parser(String message) throws HL7Exception, Exception{
+	public static PatientBaseInfo v24Parser(String message) throws HL7Exception, Exception{
 		PatientBaseInfo patientBaseInfo = new PatientBaseInfo();
 		
 		context.setModelClassFactory(new CanonicalModelClassFactory(ca.uhn.hl7v2.model.v24.message.ADT_AXX.class));
@@ -190,9 +190,8 @@ public class Hl7v2Parser {
 		ca.uhn.hl7v2.model.v24.message.ADT_AXX axx = (ca.uhn.hl7v2.model.v24.message.ADT_AXX) msg;
 		ca.uhn.hl7v2.model.v24.segment.PID pid = axx.getPID();
 			
-		String practiceNo = pid.getPid2_PatientID().getCx1_ID().getValue();
-		Long patientId = Long.parseLong(pid.getPid3_PatientIdentifierList(0).getCx1_ID().getValue());
-		patientBaseInfo.setId(patientId);
+		patientBaseInfo.setPracticeNo(pid.getPid2_PatientID().getCx1_ID().getValue());
+		patientBaseInfo.setPatientId(pid.getPid3_PatientIdentifierList(0).getCx1_ID().getValue());
 		patientBaseInfo.setName(pid.getPid5_PatientName(0).getXpn1_FamilyName().getFn1_Surname().getValue());
 		patientBaseInfo.setBirthday(sdf.parse(pid.getPid7_DateTimeOfBirth().getTs2_DegreeOfPrecision().getValue()));
 		patientBaseInfo.setSex(pid.getPid8_AdministrativeSex().getValue());
@@ -217,12 +216,8 @@ public class Hl7v2Parser {
 
 		ca.uhn.hl7v2.model.v24.segment.AL1 al1 = axx.getAL1();
 		patientBaseInfo.setAllergyHistory(al1.getAl13_AllergenCodeMnemonicDescription().getCe2_Text().getValue());
-
 		
-		Map<String, PatientBaseInfo> result = Maps.newHashMap();
-		result.put(practiceNo, patientBaseInfo);
-		
-		return result;		
+		return patientBaseInfo;		
 	}
 	
 	public static Map<String, PatientBaseInfo> v25Parser(String message) throws HL7Exception, Exception{

@@ -74,27 +74,27 @@ public class PatientMessage {
 		}
 	}
 	
-	public static Map<String, PatientBaseInfo> parserHl7v2(String message, String version) throws HL7Exception, Exception{
+	public static PatientBaseInfo parserHl7v2(String message, String version) throws HL7Exception, Exception{
 		if (EmptyUtil.isStringEmpty(message)) return null;
 		
-		if ("v2.1".equals(version) || "2.1".equals(version)) {
-			return Hl7v2Parser.v21Parser(message);
-		} else if ("v2.2".equals(version) || "2.2".equals(version)) {
-			return Hl7v2Parser.v22Parser(message);
-		} else if ("v2.3".equals(version) || "2.3".equals(version)) {
-			return Hl7v2Parser.v23Parser(message);
-		} else if ("v2.3.1".equals(version) || "2.3.1".equals(version)) {
-			return Hl7v2Parser.v231Parser(message);
-		} else if ("v2.4".equals(version) || "2.4".equals(version)) {
+//		if ("v2.1".equals(version) || "2.1".equals(version)) {
+//			return Hl7v2Parser.v21Parser(message);
+//		} else if ("v2.2".equals(version) || "2.2".equals(version)) {
+//			return Hl7v2Parser.v22Parser(message);
+//		} else if ("v2.3".equals(version) || "2.3".equals(version)) {
+//			return Hl7v2Parser.v23Parser(message);
+//		} else if ("v2.3.1".equals(version) || "2.3.1".equals(version)) {
+//			return Hl7v2Parser.v231Parser(message);
+//		} else if ("v2.4".equals(version) || "2.4".equals(version)) {
 			return Hl7v2Parser.v24Parser(message);
-		} else if ("v2.5".equals(version) || "2.5".equals(version)) {
-			return Hl7v2Parser.v25Parser(message);
-		} else if ("v2.5.1".equals(version) || "2.5.1".equals(version)) {
-			return Hl7v2Parser.v251Parser(message);
-		} else if ("v2.6".equals(version) || "2.6".equals(version)) {
-			return Hl7v2Parser.v26Parser(message);
-		} else {
-			return null;
-		}
+//		} else if ("v2.5".equals(version) || "2.5".equals(version)) {
+//			return Hl7v2Parser.v25Parser(message);
+//		} else if ("v2.5.1".equals(version) || "2.5.1".equals(version)) {
+//			return Hl7v2Parser.v251Parser(message);
+//		} else if ("v2.6".equals(version) || "2.6".equals(version)) {
+//			return Hl7v2Parser.v26Parser(message);
+//		} else {
+//			return null;
+//		}
 	}
 }

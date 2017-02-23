@@ -2,6 +2,7 @@ package com.ewcms.empi.card.manage.entity;
 
 import java.util.Date;
 import java.util.List;
+
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -12,10 +13,13 @@ import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
+
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.springframework.format.annotation.DateTimeFormat;
+
 import com.alibaba.fastjson.annotation.JSONField;
 import com.ewcms.common.entity.BaseEntity;
 import com.ewcms.common.plugin.entity.LogicDeleteable;
@@ -58,8 +62,9 @@ import com.ewcms.common.plugin.entity.LogicDeleteable;
 @Entity
 @Table(name = "card_patient_base_info")
 public class PatientBaseInfo extends BaseEntity<Long> implements LogicDeleteable{
+	
 	private static final long serialVersionUID = -5543736099194132304L;
-	public final static int patientIdlength = 20;
+	
 	@NotNull(message = "{not.null}")
     @Column(name = "name", nullable = false)
 	private String name;
@@ -124,6 +129,10 @@ public class PatientBaseInfo extends BaseEntity<Long> implements LogicDeleteable
 	private List<PracticeCard> practiceCards;
     @Column(name = "is_deleted")
     private Boolean deleted = Boolean.FALSE;
+    @Transient
+    private String patientId;
+    @Transient
+    private String practiceNo;
     
 	public String getName() {
 		return name;
@@ -318,10 +327,6 @@ public class PatientBaseInfo extends BaseEntity<Long> implements LogicDeleteable
 		this.practiceCards = practiceCards;
 	}
 
-	public static int getPatientidlength() {
-		return patientIdlength;
-	}
-
 	public String getProvince() {
 		return province;
 	}
@@ -344,6 +349,22 @@ public class PatientBaseInfo extends BaseEntity<Long> implements LogicDeleteable
 
 	public void setBirthPlace(String birthPlace) {
 		this.birthPlace = birthPlace;
+	}
+
+	public String getPatientId() {
+		return patientId;
+	}
+
+	public void setPatientId(String patientId) {
+		this.patientId = patientId;
+	}
+
+	public String getPracticeNo() {
+		return practiceNo;
+	}
+
+	public void setPracticeNo(String practiceNo) {
+		this.practiceNo = practiceNo;
 	}
 
 	@Override

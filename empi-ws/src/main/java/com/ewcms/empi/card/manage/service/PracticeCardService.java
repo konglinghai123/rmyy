@@ -1,11 +1,11 @@
-package com.ewcms.service;
+package com.ewcms.empi.card.manage.service;
 
 import org.springframework.stereotype.Service;
 
 import com.ewcms.common.service.BaseService;
 import com.ewcms.empi.card.manage.entity.PatientBaseInfo;
 import com.ewcms.empi.card.manage.entity.PracticeCard;
-import com.ewcms.repository.PracticeCardRepository;
+import com.ewcms.empi.card.manage.repository.PracticeCardRepository;
 
 /**
  *

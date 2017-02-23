@@ -20,8 +20,9 @@
 		<module>../base-shiro</module>
 		<module>../empi-entity</module>
 		<module>../empi-web</module>
-		<module>../empi-hl7</module>
+		<module>../empi-common</module>
 		<module>../empi-ws</module>
+		<module>../trace-web</module>
 		<!-- <module>../empi-sms</module> -->
 	</modules>
 
