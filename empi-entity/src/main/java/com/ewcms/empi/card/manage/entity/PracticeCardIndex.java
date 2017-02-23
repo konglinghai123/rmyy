@@ -2,31 +2,34 @@ package com.ewcms.empi.card.manage.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.Table;
-import com.ewcms.common.entity.BaseEntity;
+
+import com.ewcms.common.entity.AbstractEntity;
 import com.ewcms.common.plugin.entity.LogicDeleteable;
 
 /**
  * 诊疗卡主索引
  * 
  * <ul>
+ * <li>id：就诊卡卡号</li>
  * <li>patientId：同一患者索引号</li>
  * <li>patientBaseInfoId：患者信息ID</li>
- * <li>practiceCardId：就诊卡ID</li>
  * <li>deleted:是否删除(逻辑删除)</li>
  * </ul>
  *@author zhoudongchu
  */
 @Entity
 @Table(name = "card_practice_card_index")
-public class PracticeCardIndex extends BaseEntity<Long> implements LogicDeleteable{
-	private static final long serialVersionUID = 8834095514686869169L;
+public class PracticeCardIndex extends AbstractEntity<String> implements LogicDeleteable{
+	private static final long serialVersionUID = 9112182341482876514L;
+	@Id
+	private String id;
 	@Column(name = "patient_id")
 	private String patientId;
 	@Column(name = "patient_base_info_id")
 	private Long patientBaseInfoId;
-	@Column(name = "practice_card_id")
-	private Long practiceCardId;
+
 	@Column(name = "is_deleted")
     private Boolean deleted = Boolean.FALSE;
 	
@@ -46,14 +49,6 @@ public class PracticeCardIndex extends BaseEntity<Long> implements LogicDeleteab
 		this.patientBaseInfoId = patientBaseInfoId;
 	}
 
-	public Long getPracticeCardId() {
-		return practiceCardId;
-	}
-
-	public void setPracticeCardId(Long practiceCardId) {
-		this.practiceCardId = practiceCardId;
-	}
-
 	@Override
     public Boolean getDeleted() {
         return deleted;
@@ -68,4 +63,16 @@ public class PracticeCardIndex extends BaseEntity<Long> implements LogicDeleteab
     public void markDeleted() {
         this.deleted = Boolean.TRUE;
     }
+
+	@Override
+	public String getId() {
+		return id;
+	}
+
+	@Override
+	public void setId(String id) {
+		this.id  = id;
+
+	}
+
 }
