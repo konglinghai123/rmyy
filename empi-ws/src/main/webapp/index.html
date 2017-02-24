@@ -12,10 +12,12 @@
 				<td>卡号:</td>
 				<td><input type="text" id="practiceNo" name="practiceNo" /></td>
 			</tr>
+			<!-- 
 			<tr>
 				<td>是否删除：</td>
 				<td><input type="radio" value="false" name="deleted" checked="checked">FALSE</input><input type="radio" value="true" name="deleted">TRUE</input></td>
 			</tr>
+			 -->
 			<tr>
 				<td>HL7版本号：</td>
 				<td>
@@ -24,16 +26,26 @@
 						<option value ="v2.2">v2.2</option>
 						<option value ="v2.3">v2.3</option>
 						<option value="v2.3.1">v2.3.1</option>
-						<option value="v2.4">v2.4</option>
+						<option value="v2.4" selected="selected">v2.4</option>
 						<option value="v2.5">v2.5</option>
 						<option value="v2.5.1">v2.5.1</option>
-						<option value="v2.6" selected="selected">v2.6</option>
+						<option value="v2.6">v2.6</option>
 					</select>
 				</td>
 			</tr>
 			<tr>
+				<td>消息：</td>
+				<td><textarea id="hl7message" rows="10" cols="150"></textarea><br/>
+					<!-- 
+					colourised HL7 here:<br/>
+					<div id="out" style="border: 1px solid #808080; font-family: monospace; color: #000000; white-space: nowrap; overflow: auto;"></div><br/>
+					.. and HTML here:<br/>
+					<div id="outHtml" style="border: 1px solid #808080; font-family: monospace; color: #000000; white-space: nowrap; overflow: auto;"></div> --></td>
+			</tr>
+			<tr>
 				<td colspan="2">
 					<input type="button" id="executeLong" value="执行患者ID号"/><input type="button" id="executeHl7v2" value="执行HL7V2患者信息"/>
+					<input type="button" id="executeParse" value="执行HL7V2解析信息"/>
 				</td>
 			</tr>
 			<tr>
@@ -49,38 +61,6 @@
 		</table>
 		<script type="text/javascript">
 			$(function(){
-				$("#executeHl7v2").bind('click', function(){
-					var val = $("#practiceNo").val();
-					if($.trim(val)==""){
-						alert("请输入卡号");
-						return;
-					}
-					<!--可以通过拦截器获取请求信息-->
-					var str = '<?xml version="1.0" encoding="UTF-8"?>'+
-							'<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">'+
-							'<soap:Body>'+
-							'<ns2:findPatientIdHl7v2 xmlns:ns2="http://ewcms.com/patient">'+
-							'<practiceNo>' + val + '</practiceNo>'+
-							'<deleted>' +  $('input[name="deleted"]:checked').val() + '</deleted>' +
-							'<version>' +  $('#version').val() + '</version>' +
-							'</ns2:findPatientIdHl7v2>' + 
-							 '</soap:Body>'+
-							'</soap:Envelope>';
-								  
-					$.ajax({
-						contentType:'application/xml;charset="UTF-8"',
-						dataType:'xml',//发送数据格式
-						type:'post',
-						url:'http://localhost:8080/empi-ws/webservice/patient',		//直接发向这个地址
-						data:str,
-						success:function(data){
-							var ss = "HL7患者信息：<br/>" + $(data).find("patientIdHl7v2").first().text();
-							$("#ajaxBack").html(ss).css("border","1px solid blue").css({width:'50%'}).appendTo($("body"));
-							$("#name").val("");
-						}
-					},"xml");//数据返回格式为xml
-				});
-				
 				$("#executeLong").bind('click', function(){
 					var val = $("#practiceNo").val();
 					if($.trim(val)==""){
@@ -93,7 +73,6 @@
 							'<soap:Body>'+
 							'<ns2:findPatientId xmlns:ns2="http://ewcms.com/patient">'+
 							'<practiceNo>' + val + '</practiceNo>'+
-							'<deleted>' + $('input[name="deleted"]:checked').val() + '</deleted>' +
 							'</ns2:findPatientId>' + 
 							 '</soap:Body>'+
 							'</soap:Envelope>';
@@ -109,9 +88,144 @@
 							$("#ajaxBack").html(ss).css("border","1px solid blue").css({width:'50%'}).appendTo($("body"));
 							$("#practiceNo").val("");
 						}
-					},"xml");//数据返回格式为xml
+					});
+				});
+				
+				$("#executeHl7v2").bind('click', function(){
+					var val = $("#practiceNo").val();
+					if($.trim(val)==""){
+						alert("请输入卡号");
+						return;
+					}
+					<!--可以通过拦截器获取请求信息-->
+					var str = '<?xml version="1.0" encoding="UTF-8"?>'+
+							'<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">'+
+							'<soap:Body>'+
+							'<ns2:findPatientIdHl7v2 xmlns:ns2="http://ewcms.com/patient">'+
+							'<practiceNo>' + val + '</practiceNo>'+
+							'<version>' +  $('#version').val() + '</version>' +
+							'</ns2:findPatientIdHl7v2>' + 
+							 '</soap:Body>'+
+							'</soap:Envelope>';
+								  
+					$.ajax({
+						contentType:'application/xml;charset="UTF-8"',
+						dataType:'xml',//发送数据格式
+						type:'post',
+						url:'http://localhost:8080/empi-ws/webservice/patient',		//直接发向这个地址
+						data:str,
+						success:function(data){
+							var ss = "HL7患者信息：<br/>" + $(data).find("patientIdHl7v2").first().text();
+							$("#ajaxBack").html(ss).css("border","1px solid blue").css({width:'50%'}).appendTo($("body"));
+							$("#name").val("");
+							
+							$('#hl7message').val($(data).find("patientIdHl7v2").first().text());
+							//update();
+						}
+					});
+				});
+				
+				$("#executeParse").bind('click', function(){
+					var val = $("#hl7message").val();
+					if($.trim(val)==""){
+						alert("请输入HL7消息");
+						return;
+					}
+					<!--可以通过拦截器获取请求信息-->
+					var str = '<?xml version="1.0" encoding="UTF-8"?>'+
+							'<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">'+
+							'<soap:Body>'+
+							'<ns2:doPatientIdToHl7 xmlns:ns2="http://ewcms.com/patient">'+
+							'<hl7Message><![CDATA[' + val + ']]></hl7Message>'+
+							'<version>' +  $('#version').val() + '</version>' +
+							'</ns2:doPatientIdToHl7>' + 
+							 '</soap:Body>'+
+							'</soap:Envelope>';
+								  
+					$.ajax({
+						contentType:'application/xml;charset="UTF-8"',
+						dataType:'xml',//发送数据格式
+						type:'post',
+						url:'http://localhost:8080/empi-ws/webservice/patient',		//直接发向这个地址
+						data:str,
+						success:function(data){
+							var ss = "HL7患者信息：<br/>" + $(data).find("patientId").first().text();
+							$("#ajaxBack").html(ss).css("border","1px solid blue").css({width:'50%'}).appendTo($("body"));
+							$("#name").val("");
+							
+						}
+					});
 				});
 			});
+			function update() {
+				var value = document.getElementById('hl7message').value;
+		
+				var lines = value.split("\n");
+				var output = "";
+				for (var index in lines) {
+					var nextLine = lines[index];
+					if (nextLine.length < 3) {
+						output = output + nextLine + "<br>";
+						continue;
+					}
+					
+					var fields = nextLine.split("|");
+					for (var fIndex in fields) {
+						var nextField = fields[fIndex];
+						if (fIndex == 0) {
+							output = output + "<span style=\"color: #000080;\"><b>" + nextField + "</b></span>";
+						} else {
+							
+							var reps = nextField.split("~");
+							for (var rIndex in reps) {
+								var nextRep = reps[rIndex];
+								
+								if (rIndex > 0) {
+									output = output + "<span style=\"color: #808080;\">~</span>";
+								}
+		
+								var comps = nextRep.split("^");
+								for (var cIndex in comps) {
+									var nextComp = comps[cIndex];
+		
+									if (cIndex > 0) {
+										output = output + "<span style=\"color: #808080;\">^</span>";
+									}
+		
+									var subcomps = nextComp.split("&");
+									for (var sIndex in subcomps) {
+										var nextSubComp = subcomps[sIndex];
+										
+										if (sIndex > 0) {
+											output = output + "<span style=\"color: #808080;\">&</span>";
+										}
+										
+										if (nextSubComp.match(/^[0-9./]+/)) {
+											nextSubComp = "<span style=\"color: #990033;\">" + nextSubComp + "</span>";
+										}
+										
+										output = output + nextSubComp;
+										
+									}
+								}
+							}
+						}
+						
+						output = output + "<span style=\"color: #808080;\"><b>|</b></span>";
+						
+					}
+					
+					output = output + "<br>";
+				}
+				
+				document.getElementById('out').innerHTML = output;
+				
+				output = output.replace(/<br>/g, "<br>\n");
+				output = output.replace(/&/g, "&amp;");
+				output = output.replace(/>/g, "&gt;");
+				output = output.replace(/</g, "&lt;");
+				document.getElementById('outHtml').innerHTML = "<pre>" + output + "</pre>";
+			}
 		</script>
 	</body>
 </html>

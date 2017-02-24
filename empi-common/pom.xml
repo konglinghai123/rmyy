@@ -11,7 +11,7 @@
 	<artifactId>empi-common</artifactId>
 	<packaging>jar</packaging>
 	<name>empi-common</name>
-	<description>sms</description>
+	<description>empi-common</description>
 	<url>https://github.com/ewcmsfree/rmyy/empi-common</url>
 
 	<properties>

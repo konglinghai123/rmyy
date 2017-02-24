@@ -11,4 +11,17 @@ import com.ewcms.empi.system.entity.ParameterSet;
 @Service
 public class ParameterSetService extends BaseService<ParameterSet, String> {
 
+	public static final String FORMAT_PATIENT_ID_ID = "001";
+	
+	private Integer patientIdLength = 20;
+	
+	public Integer findPatientIdVariableValue(){
+		ParameterSet parameterSet = findOne(FORMAT_PATIENT_ID_ID);
+		if (parameterSet != null){
+			try{
+				patientIdLength = Integer.valueOf(parameterSet.getVariableValue());
+			} catch (Exception e){}
+		}
+		return patientIdLength;
+	}
 }

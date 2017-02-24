@@ -39,7 +39,7 @@ import ca.uhn.hl7v2.parser.Parser;
  */
 public class Hl7v2Encode {
 
-	private Parser parser = new DefaultHapiContext().getPipeParser();
+	private Parser parser = new DefaultHapiContext().getXMLParser();
 
 	private String practiceNo;
 	private String id;
@@ -56,6 +56,7 @@ public class Hl7v2Encode {
 	private String workUnit;
 	private String maritalStatus;
 	private String certificateNo;
+	private String certificateType;
 	private String medicalAccount;
 	private String contactName;
 	private String contactTelephone;
@@ -69,7 +70,7 @@ public class Hl7v2Encode {
 			Date birthday, String sex, String nation, String address,
 			String province, String city, String birthPlace,
 			String nationlity, String telephone, String workUnit, String maritalStatus,
-			String certificateNo, String medicalAccount,
+			String certificateNo, String certificateType, String medicalAccount,
 			String contactName, String contactTelephone, String contactRelation, 
 			String contactAddress, String allergyHistory) {
 		super();
@@ -89,6 +90,7 @@ public class Hl7v2Encode {
 		this.workUnit = workUnit;
 		this.maritalStatus = maritalStatus;
 		this.certificateNo = certificateNo;
+		this.certificateType = certificateType;
 		this.medicalAccount = medicalAccount;
 		this.contactName = contactName;
 		this.contactTelephone = contactTelephone;
@@ -109,9 +111,9 @@ public class Hl7v2Encode {
 		adt.initQuickstart("ADT", "A01", "P");
 
 		// 填充MSH段
-		ca.uhn.hl7v2.model.v21.segment.MSH mshSegment = adt.getMSH();
-		mshSegment.getSENDINGAPPLICATION().setValue("EMPI");
-		mshSegment.getSEQUENCENUMBER().setValue("empi-1.0");
+//		ca.uhn.hl7v2.model.v21.segment.MSH mshSegment = adt.getMSH();
+//		mshSegment.getSENDINGAPPLICATION().setValue("EMPI");
+//		mshSegment.getSEQUENCENUMBER().setValue("empi-1.0");
 
 		// 填充PID段
 		ca.uhn.hl7v2.model.v21.segment.PID pid = adt.getPID();
@@ -130,6 +132,7 @@ public class Hl7v2Encode {
 		pid.getPid14_PHONENUMBERBUSINESS(0).setValue(getWorkUnit());
 		pid.getPid16_MARITALSTATUS().setValue(getMaritalStatus());
 		pid.getPid18_PATIENTACCOUNTNUMBER().getCk1_IDNumber().setValue(getCertificateNo());
+		pid.getPid18_PATIENTACCOUNTNUMBER().getCk2_CheckDigit().setValue(getCertificateType());
 		pid.getPid19_SSNNUMBERPATIENT().setValue(getMedicalAccount());
 		//TODO birthPlace未找到定义的PID
 		
@@ -158,9 +161,9 @@ public class Hl7v2Encode {
 		adt.initQuickstart("ADT", "A01", "P");
 
 		// 填充MSH段
-		ca.uhn.hl7v2.model.v22.segment.MSH mshSegment = adt.getMSH();
-		mshSegment.getSendingApplication().setValue("EMPI");
-		mshSegment.getSequenceNumber().setValue("empi-1.0");
+//		ca.uhn.hl7v2.model.v22.segment.MSH mshSegment = adt.getMSH();
+//		mshSegment.getSendingApplication().setValue("EMPI");
+//		mshSegment.getSequenceNumber().setValue("empi-1.0");
 
 		// 填充PID段
 		ca.uhn.hl7v2.model.v22.segment.PID pid = adt.getPID();
@@ -179,6 +182,7 @@ public class Hl7v2Encode {
 		pid.getPid14_PhoneNumberBusiness(0).setValue(getWorkUnit());
 		pid.getPid16_MaritalStatus().setValue(getMaritalStatus());
 		pid.getPid18_PatientAccountNumber().getCk1_IDNumber().setValue(getCertificateNo());
+		pid.getPid18_PatientAccountNumber().getCk2_CheckDigit().setValue(getCertificateType());
 		pid.getPid19_SocialSecurityNumberPatient().setValue(getMedicalAccount());
 		pid.getPid23_BirthPlace().setValue(getBirthPlace());
 
@@ -201,9 +205,9 @@ public class Hl7v2Encode {
 		adt.initQuickstart("ADT", "A01", "P");
 
 		// 填充MSH段
-		ca.uhn.hl7v2.model.v23.segment.MSH mshSegment = adt.getMSH();
-		mshSegment.getSendingApplication().getNamespaceID().setValue("EMPI");
-		mshSegment.getSequenceNumber().setValue("empi-1.0");
+//		ca.uhn.hl7v2.model.v23.segment.MSH mshSegment = adt.getMSH();
+//		mshSegment.getSendingApplication().getNamespaceID().setValue("EMPI");
+//		mshSegment.getSequenceNumber().setValue("empi-1.0");
 
 		// 填充PID段
 		ca.uhn.hl7v2.model.v23.segment.PID pid = adt.getPID();
@@ -222,6 +226,7 @@ public class Hl7v2Encode {
 		pid.getPid14_PhoneNumberBusiness(0).getXtn9_AnyText().setValue(getWorkUnit());
 		pid.getPid16_MaritalStatus(0).setValue(getMaritalStatus());
 		pid.getPid18_PatientAccountNumber().getCx1_ID().setValue(getCertificateNo());
+		pid.getPid18_PatientAccountNumber().getCx2_CheckDigit().setValue(getCertificateType());
 		pid.getPid19_SSNNumberPatient().setValue(getMedicalAccount());
 		pid.getPid23_BirthPlace().setValue(getBirthPlace());
 
@@ -246,10 +251,10 @@ public class Hl7v2Encode {
 //		oru.initQuickstart("ORU", "R01", "p");
 
 		// 填充MSH段
-		ca.uhn.hl7v2.model.v231.segment.MSH mshSegment = adt.getMSH();
+//		ca.uhn.hl7v2.model.v231.segment.MSH mshSegment = adt.getMSH();
 //		ca.uhn.hl7v2.model.v231.segment.MSH mshSegment = oru.getMSH();
-		mshSegment.getSendingApplication().getNamespaceID().setValue("EMPI");
-		mshSegment.getSequenceNumber().setValue("empi-1.0");
+//		mshSegment.getSendingApplication().getNamespaceID().setValue("EMPI");
+//		mshSegment.getSequenceNumber().setValue("empi-1.0");
 
 		// 填充PID段
 		ca.uhn.hl7v2.model.v231.segment.PID pid = adt.getPID();
@@ -268,7 +273,8 @@ public class Hl7v2Encode {
 		pid.getPid13_PhoneNumberHome(0).getXtn7_PhoneNumber().setValue(getTelephone());
 		pid.getPid14_PhoneNumberBusiness(0).getXtn9_AnyText().setValue(getWorkUnit());
 		pid.getPid16_MaritalStatus().getCe2_Text().setValue(getMaritalStatus());
-		pid.getPid18_PatientAccountNumber().getID().setValue(getCertificateNo());
+		pid.getPid18_PatientAccountNumber().getCx1_ID().setValue(getCertificateNo());
+		pid.getPid18_PatientAccountNumber().getCx2_CheckDigit().setValue(getCertificateType());
 		pid.getPid19_SSNNumberPatient().setValue(getMedicalAccount());
 		pid.getPid23_BirthPlace().setValue(getBirthPlace());
 
@@ -292,12 +298,12 @@ public class Hl7v2Encode {
 		adt.initQuickstart("ADT", "A01", "P");
 
 		// 填充MSH段
-		ca.uhn.hl7v2.model.v24.segment.MSH mshSegment = adt.getMSH();
+//		ca.uhn.hl7v2.model.v24.segment.MSH mshSegment = adt.getMSH();
+//		mshSegment.getMsh3_SendingApplication().getHd1_NamespaceID().setValue("HIS");
+//		mshSegment.getMsh4_SendingFacility().getHd1_NamespaceID().setValue("RIH");
+//		mshSegment.getMsh5_ReceivingApplication().getHd1_NamespaceID().setValue("EKG");
+//		mshSegment.getMsh6_ReceivingFacility().getHd1_NamespaceID().setValue("EKG");
 		
-		mshSegment.getMsh3_SendingApplication().getHd1_NamespaceID().setValue("EMPI");
-		mshSegment.getMsh3_SendingApplication().getHd3_UniversalIDType().setValue("JAVA");
-		mshSegment.getMsh13_SequenceNumber().setValue("1");
-
 		// 填充PID段
 		ca.uhn.hl7v2.model.v24.segment.PID pid = adt.getPID();
 
@@ -315,6 +321,7 @@ public class Hl7v2Encode {
 		pid.getPid14_PhoneNumberBusiness(0).getXtn9_AnyText().setValue(getWorkUnit());
 		pid.getPid16_MaritalStatus().getCe2_Text().setValue(getMaritalStatus());
 		pid.getPid18_PatientAccountNumber().getCx1_ID().setValue(getCertificateNo());
+		pid.getPid18_PatientAccountNumber().getCx2_CheckDigit().setValue(getCertificateType());
 		pid.getPid19_SSNNumberPatient().setValue(getMedicalAccount());
 		pid.getPid23_BirthPlace().setValue(getBirthPlace());
 		
@@ -336,9 +343,9 @@ public class Hl7v2Encode {
 		adt.initQuickstart("ADT", "A01", "P");
 
 		// 填充MSH段
-		ca.uhn.hl7v2.model.v25.segment.MSH mshSegment = adt.getMSH();
-		mshSegment.getSendingApplication().getNamespaceID().setValue("EMPI");
-		mshSegment.getSequenceNumber().setValue("empi-1.0");
+//		ca.uhn.hl7v2.model.v25.segment.MSH mshSegment = adt.getMSH();
+//		mshSegment.getSendingApplication().getNamespaceID().setValue("EMPI");
+//		mshSegment.getSequenceNumber().setValue("empi-1.0");
 
 		// 填充PID段
 		ca.uhn.hl7v2.model.v25.segment.PID pid = adt.getPID();
@@ -357,6 +364,7 @@ public class Hl7v2Encode {
 		pid.getPid14_PhoneNumberBusiness(0).getXtn9_AnyText().setValue(getWorkUnit());
 		pid.getPid16_MaritalStatus().getCe2_Text().setValue(getMaritalStatus());
 		pid.getPid18_PatientAccountNumber().getCx1_IDNumber().setValue(getCertificateNo());
+		pid.getPid18_PatientAccountNumber().getCx2_CheckDigit().setValue(getCertificateType());
 		pid.getPid19_SSNNumberPatient().setValue(getMedicalAccount());
 		pid.getPid23_BirthPlace().setValue(getBirthPlace());
 
@@ -378,9 +386,9 @@ public class Hl7v2Encode {
 		adt.initQuickstart("ADT", "A01", "P");
 
 		// 填充MSH段
-		ca.uhn.hl7v2.model.v251.segment.MSH mshSegment = adt.getMSH();
-		mshSegment.getSendingApplication().getNamespaceID().setValue("EMPI");
-		mshSegment.getSequenceNumber().setValue("empi-1.0");
+//		ca.uhn.hl7v2.model.v251.segment.MSH mshSegment = adt.getMSH();
+//		mshSegment.getSendingApplication().getNamespaceID().setValue("EMPI");
+//		mshSegment.getSequenceNumber().setValue("empi-1.0");
 
 		// 填充PID段
 		ca.uhn.hl7v2.model.v251.segment.PID pid = adt.getPID();
@@ -399,6 +407,7 @@ public class Hl7v2Encode {
 		pid.getPid14_PhoneNumberBusiness(0).getXtn9_AnyText().setValue(getWorkUnit());
 		pid.getPid16_MaritalStatus().getCe2_Text().setValue(getMaritalStatus());
 		pid.getPid18_PatientAccountNumber().getCx1_IDNumber().setValue(getCertificateNo());
+		pid.getPid18_PatientAccountNumber().getCx2_CheckDigit().setValue(getCertificateType());
 		pid.getPid19_SSNNumberPatient().setValue(getMedicalAccount());
 		pid.getPid23_BirthPlace().setValue(getBirthPlace());
 		
@@ -420,9 +429,9 @@ public class Hl7v2Encode {
 		adt.initQuickstart("ADT", "A01", "P");
 		
 		// 填充MSH段
-		ca.uhn.hl7v2.model.v26.segment.MSH mshSegment = adt.getMSH();
-		mshSegment.getSendingApplication().getNamespaceID().setValue("EMPI");
-		mshSegment.getSequenceNumber().setValue("empi-1.0");
+//		ca.uhn.hl7v2.model.v26.segment.MSH mshSegment = adt.getMSH();
+//		mshSegment.getSendingApplication().getNamespaceID().setValue("EMPI");
+//		mshSegment.getSequenceNumber().setValue("empi-1.0");
 
 		// 填充PID段
 		ca.uhn.hl7v2.model.v26.segment.PID pid = adt.getPID();
@@ -441,6 +450,7 @@ public class Hl7v2Encode {
 		pid.getPid14_PhoneNumberBusiness(0).getXtn9_AnyText().setValue(getWorkUnit());
 		pid.getPid16_MaritalStatus().getCwe2_Text().setValue(getMaritalStatus());
 		pid.getPid18_PatientAccountNumber().getCx1_IDNumber().setValue(getCertificateNo());
+		pid.getPid18_PatientAccountNumber().getCx2_IdentifierCheckDigit().setValue(getCertificateType());
 		pid.getPid19_SSNNumberPatient().setValue(getMedicalAccount());
 		pid.getPid23_BirthPlace().setValue(getBirthPlace());
 		
@@ -585,6 +595,14 @@ public class Hl7v2Encode {
 		this.certificateNo = certificateNo;
 	}
 
+	public String getCertificateType() {
+		return certificateType;
+	}
+
+	public void setCertificateType(String certificateType) {
+		this.certificateType = certificateType;
+	}
+
 	public String getMedicalAccount() {
 		return medicalAccount;
 	}
@@ -641,10 +659,11 @@ public class Hl7v2Encode {
 				+ province + ", city=" + city + ", birthPlace=" + birthPlace
 				+ ", nationlity=" + nationlity + ", telephone=" + telephone
 				+ ", workUnit=" + workUnit + ", maritalStatus=" + maritalStatus
-				+ ", certificateNo=" + certificateNo + ", medicalAccount="
-				+ medicalAccount + ", contactName=" + contactName
-				+ ", contactTelephone=" + contactTelephone
-				+ ", contactRelation=" + contactRelation + ", contactAddress="
-				+ contactAddress + ", allergyHistory=" + allergyHistory + "]";
+				+ ", certificateNo=" + certificateNo + ", certificateType="
+				+ certificateType + ", medicalAccount=" + medicalAccount
+				+ ", contactName=" + contactName + ", contactTelephone="
+				+ contactTelephone + ", contactRelation=" + contactRelation
+				+ ", contactAddress=" + contactAddress + ", allergyHistory="
+				+ allergyHistory + "]";
 	}
 }

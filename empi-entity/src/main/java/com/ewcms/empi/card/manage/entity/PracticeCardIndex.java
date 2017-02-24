@@ -22,14 +22,15 @@ import com.ewcms.common.plugin.entity.LogicDeleteable;
 @Entity
 @Table(name = "card_practice_card_index")
 public class PracticeCardIndex extends AbstractEntity<String> implements LogicDeleteable{
+	
 	private static final long serialVersionUID = 9112182341482876514L;
+
 	@Id
 	private String id;
 	@Column(name = "patient_id")
 	private String patientId;
 	@Column(name = "patient_base_info_id")
 	private Long patientBaseInfoId;
-
 	@Column(name = "is_deleted")
     private Boolean deleted = Boolean.FALSE;
 	

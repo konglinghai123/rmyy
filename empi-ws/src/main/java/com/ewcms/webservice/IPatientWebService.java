@@ -20,8 +20,10 @@ public interface IPatientWebService {
 	/**
 	 * 查询患者ID号
 	 * 
-	 * @param practiceNo 卡号
-	 * @param deleted 是否删除
+	 * @param practiceNo
+	 *            卡号
+	 * @param deleted
+	 *            是否删除
 	 * @return 患者ID号
 	 */
 	@WebMethod(operationName = "findPatientId")
@@ -32,17 +34,25 @@ public interface IPatientWebService {
 	/**
 	 * 查询患者ID号（组合成HL7消息）
 	 * 
-	 * @param hl7Message 传入的HL7消息
+	 * @param hl7Message
+	 *            传入的HL7消息
 	 * @return HL7消息
 	 */
-	public String doPatientIdToHl7(@WebParam(name = "hl7Message", targetNamespace = WebServiceConstants.PATIENT_TARGETNAMESPACE) String hl7Message);
-	
+	@WebMethod(operationName = "doPatientIdToHl7")
+	@WebResult(name = "patientId")
+	public String doPatientIdToHl7(
+			@WebParam(name = "hl7Message", targetNamespace = WebServiceConstants.PATIENT_TARGETNAMESPACE) String hl7Message,
+			@WebParam(name = "version", targetNamespace = WebServiceConstants.PATIENT_TARGETNAMESPACE) String version);
+
 	/**
 	 * 查询患者信息
 	 * 
-	 * @param practiceNo 卡号
-	 * @param deleted 是否删除
-	 * @param version 版本号(2.2, 2.3, 2.31, 2.4, 2.5, 2.5.1, 2.6)
+	 * @param practiceNo
+	 *            卡号
+	 * @param deleted
+	 *            是否删除
+	 * @param version
+	 *            版本号(2.2, 2.3, 2.31, 2.4, 2.5, 2.5.1, 2.6)
 	 * @return HL7患者信息
 	 */
 	@WebMethod(operationName = "findPatientIdHl7v2")

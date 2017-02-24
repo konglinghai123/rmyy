@@ -2,7 +2,6 @@ package com.ewcms.hl7.message.v2;
 
 import java.io.IOException;
 import java.util.Date;
-import java.util.Map;
 
 import com.ewcms.common.utils.EmptyUtil;
 import com.ewcms.empi.card.manage.entity.PatientBaseInfo;
@@ -24,7 +23,7 @@ public class PatientMessage {
 		String sex = patientBaseInfo.getSex(); // 性别
 		Date birthday = patientBaseInfo.getBirthday(); // 出生日期
 //		String sourcePlace = patientBaseInfo.getSourcePlace(); // 来源地
-//		String certificateType = patientBaseInfo.getCertificateType(); // 证件类别
+		String certificateType = patientBaseInfo.getCertificateType(); // 证件类别
 		String certificateNo = patientBaseInfo.getCertificateNo(); // 证件号码
 		String telephone = patientBaseInfo.getTelephone(); // 联系电话
 		String contactName = patientBaseInfo.getContactName(); // 联系人姓名
@@ -49,7 +48,7 @@ public class PatientMessage {
 
 		Hl7v2Encode hl7v2Encode = new Hl7v2Encode(practiceNo, id, name,
 				birthday, sex, nation, address, province, city, birthPlace, nationlity,
-				telephone, workUnit, maritalStatus, certificateNo, medicalAccount,
+				telephone, workUnit, maritalStatus, certificateNo, certificateType, medicalAccount,
 				contactName, contactTelephone, contactRelation, contactAddress,
 				allergyHistory);
 
@@ -77,24 +76,24 @@ public class PatientMessage {
 	public static PatientBaseInfo parserHl7v2(String message, String version) throws HL7Exception, Exception{
 		if (EmptyUtil.isStringEmpty(message)) return null;
 		
-//		if ("v2.1".equals(version) || "2.1".equals(version)) {
-//			return Hl7v2Parser.v21Parser(message);
-//		} else if ("v2.2".equals(version) || "2.2".equals(version)) {
-//			return Hl7v2Parser.v22Parser(message);
-//		} else if ("v2.3".equals(version) || "2.3".equals(version)) {
-//			return Hl7v2Parser.v23Parser(message);
-//		} else if ("v2.3.1".equals(version) || "2.3.1".equals(version)) {
-//			return Hl7v2Parser.v231Parser(message);
-//		} else if ("v2.4".equals(version) || "2.4".equals(version)) {
+		if ("v2.1".equals(version) || "2.1".equals(version)) {
+			return Hl7v2Parser.v21Parser(message);
+		} else if ("v2.2".equals(version) || "2.2".equals(version)) {
+			return Hl7v2Parser.v22Parser(message);
+		} else if ("v2.3".equals(version) || "2.3".equals(version)) {
+			return Hl7v2Parser.v23Parser(message);
+		} else if ("v2.3.1".equals(version) || "2.3.1".equals(version)) {
+			return Hl7v2Parser.v231Parser(message);
+		} else if ("v2.4".equals(version) || "2.4".equals(version)) {
 			return Hl7v2Parser.v24Parser(message);
-//		} else if ("v2.5".equals(version) || "2.5".equals(version)) {
-//			return Hl7v2Parser.v25Parser(message);
-//		} else if ("v2.5.1".equals(version) || "2.5.1".equals(version)) {
-//			return Hl7v2Parser.v251Parser(message);
-//		} else if ("v2.6".equals(version) || "2.6".equals(version)) {
-//			return Hl7v2Parser.v26Parser(message);
-//		} else {
-//			return null;
-//		}
+		} else if ("v2.5".equals(version) || "2.5".equals(version)) {
+			return Hl7v2Parser.v25Parser(message);
+		} else if ("v2.5.1".equals(version) || "2.5.1".equals(version)) {
+			return Hl7v2Parser.v251Parser(message);
+		} else if ("v2.6".equals(version) || "2.6".equals(version)) {
+			return Hl7v2Parser.v26Parser(message);
+		} else {
+			return null;
+		}
 	}
 }

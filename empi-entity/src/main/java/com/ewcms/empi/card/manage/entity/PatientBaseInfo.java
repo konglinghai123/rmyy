@@ -77,7 +77,7 @@ public class PatientBaseInfo extends BaseEntity<Long> implements LogicDeleteable
 	private Date birthday;
 	@Column(name = "source_place")
 	private String sourcePlace;
-	@Column(name = "certificate_type", nullable = false)
+	@Column(name = "certificate_type")
 	private String certificateType;
 	//TODO 兼容医院系统老数据，证件号不作唯一性约束
 	@Column(name = "certificate_no", nullable = false)

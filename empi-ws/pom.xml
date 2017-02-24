@@ -143,12 +143,6 @@
 
 		<dependency>
 			<groupId>com.ewcms</groupId>
-			<artifactId>base-entity</artifactId>
-			<version>${empi.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>com.ewcms</groupId>
 			<artifactId>empi-common</artifactId>
 			<version>${empi.version}</version>
 		</dependency>
