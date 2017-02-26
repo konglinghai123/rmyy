@@ -22,8 +22,10 @@
 		<module>../empi-web</module>
 		<module>../empi-common</module>
 		<module>../empi-ws</module>
-		<module>../trace-web</module>
+		<!-- 短信平台 -->
 		<!-- <module>../empi-sms</module> -->
+		<!-- 追溯查询 -->
+		<!-- <module>../trace-web</module> -->
 	</modules>
 
 	<repositories>
