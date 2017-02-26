@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE xml>
-<configuration debug="false">
+<configuration scan="true" scanPeriod="10 seconds" debug="false">
+	
+	<!-- 打印logback初始化日志系统信息，debug="true"是同等效果 -->
+	<!-- <statusListener class="ch.qos.logback.core.status.OnConsoleStatusListener"/> -->
 	
     <!-- 控制台 -->
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger - %msg%n</pattern>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36}.%M - %msg%n</pattern>
         </encoder>
     </appender>
+    
     <!-- 出错日志 appender  -->
     <appender name="ERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
@@ -18,9 +22,11 @@
             <maxHistory>60</maxHistory>
         </rollingPolicy>
         <encoder>
-            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger - %msg%n</pattern>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36}.%M - %msg%n</pattern>
+            <charset>UTF-8</charset>
         </encoder>
     </appender>
+    
     <!-- 访问日志 appender  -->
     <appender name="ACCESS" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
@@ -30,26 +36,15 @@
             <maxHistory>60</maxHistory>
         </rollingPolicy>
         <encoder>
-            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger - %msg%n</pattern>
-        </encoder>
-    </appender>
-
-    <!-- 访问日志 appender  -->
-    <appender name="EMPI-WS-User" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <!-- 按天回滚 daily -->
-            <fileNamePattern>${log.dir}/empi-ws-sys-user-%d{yyyy-MM-dd}.log</fileNamePattern>
-            <!-- 日志最大的历史 60天 -->
-            <maxHistory>60</maxHistory>
-        </rollingPolicy>
-        <encoder>
-            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger - %msg%n</pattern>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36}.%M - %msg%n</pattern>
+            <charset>UTF-8</charset>
         </encoder>
     </appender>
 
     <root level="info"/>
 
-    <logger name="org.apache" level="debug">
+	<!-- 打印org.apache文件夹下的日志 -->
+    <logger name="org.apache" level="info">
         <appender-ref ref="STDOUT"/>
     </logger>
 
@@ -67,20 +62,13 @@
         <appender-ref ref="STDOUT"/>
     </logger>
     
-    <!--系统用户操作日志-->
-    <logger name="empi-user" level="info">
-        <appender-ref ref="EMPI-USER"/>
-        <!-- 正式使用时注释下面 -->
-        <appender-ref ref="STDOUT"/>
-    </logger>
-
-    <!-- cache 
-    <logger name="com.ewcms.extra.aop" level="debug">
-    	<appender-ref ref="STDOUT"/>
-    </logger>
-	-->
+	<!-- jdbc.sqlonly不显示sql执行的时间 -->
+	<logger name="jdbc.sqlonly" level="debug">
+		<appender-ref ref="STDOUT"/>
+	</logger>
 	
-	<logger name="jdbc.sqltiming" level="info">
+	<!-- jdbc.sqltiming显示sql执行的时间(executeed 2 msec) -->
+	<logger name="jdbc.sqltiming" level="debug">
 		<appender-ref ref="STDOUT"/>
 	</logger>
 	
