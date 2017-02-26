@@ -8,6 +8,7 @@ import org.junit.Test;
 import ca.uhn.hl7v2.HL7Exception;
 
 import com.ewcms.empi.card.manage.entity.PatientBaseInfo;
+import com.ewcms.hl7v2.message.PatientMessage;
 
 /**
  *
@@ -19,11 +20,13 @@ public class PatientMessageTest {
 	public void testCreateHl7v2(){
 		PatientBaseInfo patientBaseInfo = init();
 		String practiceNo = "000000001";
-		String version = "v2.3";
+		String version = "v2.4";
 		Integer patientIdLen = 10;
+		String messageTriggerEvent = "A01";
+		String processingId = "T";
 		
 		try {
-			String message = PatientMessage.createHl7v2(patientBaseInfo, practiceNo, version, patientIdLen);
+			String message = PatientMessage.createHl7v2ER7(patientBaseInfo, practiceNo, version, patientIdLen, messageTriggerEvent, processingId);
 			System.out.println("HL7V2 : " + message);
 		} catch (HL7Exception | IOException e) {
 			System.out.println(e.toString());
@@ -34,11 +37,13 @@ public class PatientMessageTest {
 	public void testParserHl7v2(){
 		PatientBaseInfo patientBaseInfo = init();
 		String practiceNo = "000000001";
-		String version = "v2.3";
+		String version = "v2.4";
 		Integer patientIdLen = 10;
+		String messageTriggerEvent = "A01";
+		String processingId = "T";
 		
 		try {
-			String message = PatientMessage.createHl7v2(patientBaseInfo, practiceNo, version, patientIdLen);
+			String message = PatientMessage.createHl7v2ER7(patientBaseInfo, practiceNo, version, patientIdLen, messageTriggerEvent, processingId);
 			PatientBaseInfo vo = PatientMessage.parserHl7v2(message, version);
 			System.out.println(vo.getPatientId());
 			System.out.println(vo.getName());
@@ -57,6 +62,7 @@ public class PatientMessageTest {
 		patientBaseInfo.setSex("男");
 		patientBaseInfo.setBirthday(new Date());
 		patientBaseInfo.setSourcePlace("南昌");
+		patientBaseInfo.setCertificateType("身份证");
 		patientBaseInfo.setCertificateNo("360102198002195312");
 		patientBaseInfo.setTelephone("13177840351");
 		patientBaseInfo.setContactName("数据测试");

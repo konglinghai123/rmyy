@@ -23,7 +23,7 @@ import com.ewcms.empi.card.manage.service.PatientBaseInfoService;
 import com.ewcms.empi.card.manage.service.PracticeCardIndexService;
 import com.ewcms.empi.card.manage.service.PracticeCardService;
 import com.ewcms.empi.system.service.ParameterSetService;
-import com.ewcms.hl7.message.v2.PatientMessage;
+import com.ewcms.hl7v2.message.PatientMessage;
 import com.ewcms.webservice.IPatientWebService;
 
 /**
@@ -55,7 +55,6 @@ public class PatientWebServiceImpl implements IPatientWebService {
 	public String doPatientIdToHl7(String hl7Message, String version) {
 		String patientIdStr = null;
 		try {
-			
 			PatientBaseInfo patientBaseInfo = PatientMessage.parserHl7v2(hl7Message, version);
 			
 			String practiceNo = patientBaseInfo.getPracticeNo();
@@ -110,10 +109,15 @@ public class PatientWebServiceImpl implements IPatientWebService {
 	}
 	
 	@Override
-	public String findPatientIdHl7v2(String practiceNo, String version) {
+	public String findPatientIdHl7v2(String practiceNo, String version, String messageTriggerEvent, String processingId, String style) {
 		PracticeCard practiceCard = practiceCardService.findByPracticeNoAndDeleted(practiceNo, Boolean.FALSE);
 		try {
-			return PatientMessage.createHl7v2(practiceCard.getPatientBaseInfo(), practiceNo, version, parameterSetService.findPatientIdVariableValue());
+			if ("er7".equals(style.toLowerCase())){
+				return PatientMessage.createHl7v2ER7(practiceCard.getPatientBaseInfo(), practiceNo, version, parameterSetService.findPatientIdVariableValue(), messageTriggerEvent, processingId);
+				
+			} else {
+				return PatientMessage.createHl7v2XML(practiceCard.getPatientBaseInfo(), practiceNo, version, parameterSetService.findPatientIdVariableValue(), messageTriggerEvent, processingId);
+			}
 		} catch (HL7Exception e) {
 			return null;
 		} catch (IOException e) {

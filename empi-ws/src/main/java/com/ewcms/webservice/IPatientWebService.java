@@ -47,17 +47,17 @@ public interface IPatientWebService {
 	/**
 	 * 查询患者信息
 	 * 
-	 * @param practiceNo
-	 *            卡号
-	 * @param deleted
-	 *            是否删除
-	 * @param version
-	 *            版本号(2.2, 2.3, 2.31, 2.4, 2.5, 2.5.1, 2.6)
+	 * @param practiceNo 卡号
+	 * @param deleted 是否删除
+	 * @param version 版本号(2.2, 2.3, 2.31, 2.4, 2.5, 2.5.1, 2.6)
 	 * @return HL7患者信息
 	 */
 	@WebMethod(operationName = "findPatientIdHl7v2")
 	@WebResult(name = "patientIdHl7v2")
 	public String findPatientIdHl7v2(
 			@WebParam(name = "practiceNo", targetNamespace = WebServiceConstants.PATIENT_TARGETNAMESPACE) String practiceNo,
-			@WebParam(name = "version", targetNamespace = WebServiceConstants.PATIENT_TARGETNAMESPACE) String version);
+			@WebParam(name = "version", targetNamespace = WebServiceConstants.PATIENT_TARGETNAMESPACE) String version,
+			@WebParam(name = "messageTriggerEvent", targetNamespace = WebServiceConstants.PATIENT_TARGETNAMESPACE) String messageTriggerEvent,
+			@WebParam(name = "processingId", targetNamespace = WebServiceConstants.PATIENT_TARGETNAMESPACE) String processingId,
+			@WebParam(name = "style", targetNamespace = WebServiceConstants.PATIENT_TARGETNAMESPACE) String style);
 }

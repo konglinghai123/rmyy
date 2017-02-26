@@ -1,4 +1,4 @@
-package com.ewcms.hl7.message.v2;
+package com.ewcms.hl7v2.message;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -24,7 +24,7 @@ public class Hl7v2Parser {
 		
 		context.setModelClassFactory(new CanonicalModelClassFactory(ca.uhn.hl7v2.model.v21.message.ADT_AXX.class));
 		
-		Message msg = context.getGenericParser().parse(message);
+		Message msg = context.getPipeParser().parse(message);
 		
 		ca.uhn.hl7v2.model.v21.message.ADT_AXX axx = (ca.uhn.hl7v2.model.v21.message.ADT_AXX) msg;
 		ca.uhn.hl7v2.model.v21.segment.PID pid = axx.getPID();
@@ -63,7 +63,7 @@ public class Hl7v2Parser {
 		
 		context.setModelClassFactory(new CanonicalModelClassFactory(ca.uhn.hl7v2.model.v22.message.ADT_AXX.class));
 		
-		Message msg = context.getGenericParser().parse(message);
+		Message msg = context.getPipeParser().parse(message);
 		
 		ca.uhn.hl7v2.model.v22.message.ADT_AXX axx = (ca.uhn.hl7v2.model.v22.message.ADT_AXX) msg;
 		ca.uhn.hl7v2.model.v22.segment.PID pid = axx.getPID();
@@ -106,7 +106,7 @@ public class Hl7v2Parser {
 		
 		context.setModelClassFactory(new CanonicalModelClassFactory(ca.uhn.hl7v2.model.v23.message.ADT_AXX.class));
 		
-		Message msg = context.getGenericParser().parse(message);
+		Message msg = context.getPipeParser().parse(message);
 		
 		ca.uhn.hl7v2.model.v23.message.ADT_AXX axx = (ca.uhn.hl7v2.model.v23.message.ADT_AXX) msg;
 		ca.uhn.hl7v2.model.v23.segment.PID pid = axx.getPID();
@@ -123,8 +123,8 @@ public class Hl7v2Parser {
 		patientBaseInfo.setCity(pid.getPid11_PatientAddress(0).getXad3_City().getValue());
 		patientBaseInfo.setProvince(pid.getPid11_PatientAddress(0).getXad4_StateOrProvince().getValue());
 		patientBaseInfo.setNationlity(pid.getPid11_PatientAddress(0).getXad6_Country().getValue());
-		patientBaseInfo.setTelephone(pid.getPid13_PhoneNumberHome(0).getXtn7_PhoneNumber().getValue());
-		patientBaseInfo.setWorkUnit(pid.getPid14_PhoneNumberBusiness(0).getXtn9_AnyText().getValue());
+		patientBaseInfo.setTelephone(pid.getPid13_PhoneNumberHome(0).getXtn9_AnyText().getValue());
+		patientBaseInfo.setWorkUnit(pid.getPid14_PhoneNumberBusiness(0).getXtn7_PhoneNumber().getValue());
 		patientBaseInfo.setMaritalStatus(pid.getPid16_MaritalStatus(0).getValue());
 		patientBaseInfo.setCertificateNo(pid.getPid18_PatientAccountNumber().getCx1_ID().getValue());
 		patientBaseInfo.setCertificateType(pid.getPid18_PatientAccountNumber().getCx2_CheckDigit().getValue());
@@ -150,7 +150,7 @@ public class Hl7v2Parser {
 		
 		context.setModelClassFactory(new CanonicalModelClassFactory(ca.uhn.hl7v2.model.v231.message.ADT_AXX.class));
 		
-		Message msg = context.getGenericParser().parse(message);
+		Message msg = context.getPipeParser().parse(message);
 		
 		ca.uhn.hl7v2.model.v231.message.ADT_AXX axx = (ca.uhn.hl7v2.model.v231.message.ADT_AXX) msg;
 		ca.uhn.hl7v2.model.v231.segment.PID pid = axx.getPID();
@@ -194,7 +194,7 @@ public class Hl7v2Parser {
 		
 		context.setModelClassFactory(new CanonicalModelClassFactory(ca.uhn.hl7v2.model.v24.message.ADT_AXX.class));
 		
-		Message msg = context.getGenericParser().parse(message);
+		Message msg = context.getPipeParser().parse(message);
 		
 		ca.uhn.hl7v2.model.v24.message.ADT_AXX axx = (ca.uhn.hl7v2.model.v24.message.ADT_AXX) msg;
 		ca.uhn.hl7v2.model.v24.segment.PID pid = axx.getPID();
@@ -237,7 +237,7 @@ public class Hl7v2Parser {
 		
 		context.setModelClassFactory(new CanonicalModelClassFactory(ca.uhn.hl7v2.model.v25.message.ADT_AXX.class));
 		
-		Message msg = context.getGenericParser().parse(message);
+		Message msg = context.getPipeParser().parse(message);
 		
 		ca.uhn.hl7v2.model.v25.message.ADT_AXX axx = (ca.uhn.hl7v2.model.v25.message.ADT_AXX) msg;
 		ca.uhn.hl7v2.model.v25.segment.PID pid = axx.getPID();
@@ -280,7 +280,7 @@ public class Hl7v2Parser {
 		
 		context.setModelClassFactory(new CanonicalModelClassFactory(ca.uhn.hl7v2.model.v251.message.ADT_AXX.class));
 		
-		Message msg = context.getGenericParser().parse(message);
+		Message msg = context.getPipeParser().parse(message);
 		
 		ca.uhn.hl7v2.model.v251.message.ADT_AXX axx = (ca.uhn.hl7v2.model.v251.message.ADT_AXX) msg;
 		ca.uhn.hl7v2.model.v251.segment.PID pid = axx.getPID();
@@ -323,7 +323,7 @@ public class Hl7v2Parser {
 		
 		context.setModelClassFactory(new CanonicalModelClassFactory(ca.uhn.hl7v2.model.v26.message.ADT_AXX.class));
 		
-		Message msg = context.getGenericParser().parse(message);
+		Message msg = context.getPipeParser().parse(message);
 		
 		ca.uhn.hl7v2.model.v26.message.ADT_AXX axx = (ca.uhn.hl7v2.model.v26.message.ADT_AXX) msg;
 		ca.uhn.hl7v2.model.v26.segment.PID pid = axx.getPID();

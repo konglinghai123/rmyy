@@ -1,4 +1,4 @@
-package com.ewcms.hl7.message.v2;
+package com.ewcms.hl7v2.message;
 
 import java.io.IOException;
 import java.util.Date;
@@ -14,10 +14,61 @@ import ca.uhn.hl7v2.HL7Exception;
  */
 public class PatientMessage {
 
-	public static String createHl7v2(PatientBaseInfo patientBaseInfo, String practiceNo, String version, Integer patientIdLen) throws HL7Exception, IOException {
+	public static String createHl7v2XML(PatientBaseInfo patientBaseInfo, String practiceNo, String version, Integer patientIdLen, String messageTriggerEvent, String processingId) throws HL7Exception, IOException {
 		if (patientBaseInfo == null)
 			return "";
 
+		Hl7v2Encode hl7v2Encode = encode(patientBaseInfo, practiceNo, patientIdLen);
+		
+		if ("v2.1".equals(version) || "2.1".equals(version)) {
+			return hl7v2Encode.getV21XML(messageTriggerEvent, processingId);
+		} else if ("v2.2".equals(version) || "2.2".equals(version)) {
+			return hl7v2Encode.getV22XML(messageTriggerEvent, processingId);
+		} else if ("v2.3".equals(version) || "2.3".equals(version)) {
+			return hl7v2Encode.getV23XML(messageTriggerEvent, processingId);
+		} else if ("v2.3.1".equals(version) || "2.3.1".equals(version)) {
+			return hl7v2Encode.getV231XML(messageTriggerEvent, processingId);
+		} else if ("v2.4".equals(version) || "2.4".equals(version)) {
+			return hl7v2Encode.getV24XML(messageTriggerEvent, processingId);
+		} else if ("v2.5".equals(version) || "2.5".equals(version)) {
+			return hl7v2Encode.getV25XML(messageTriggerEvent, processingId);
+		} else if ("v2.5.1".equals(version) || "2.5.1".equals(version)) {
+			return hl7v2Encode.getV251XML(messageTriggerEvent, processingId);
+		} else if ("v2.6".equals(version) || "2.6".equals(version)) {
+			return hl7v2Encode.getV26XML(messageTriggerEvent, processingId);
+		} else {
+			return "";
+		}
+	}
+	
+	public static String createHl7v2ER7(PatientBaseInfo patientBaseInfo, String practiceNo, String version, Integer patientIdLen, String messageTriggerEvent, String processingId) throws HL7Exception, IOException {
+		if (patientBaseInfo == null)
+			return "";
+
+		Hl7v2Encode hl7v2Encode = encode(patientBaseInfo, practiceNo, patientIdLen);
+		
+		if ("v2.1".equals(version) || "2.1".equals(version)) {
+			return hl7v2Encode.getV21ER7(messageTriggerEvent, processingId);
+		} else if ("v2.2".equals(version) || "2.2".equals(version)) {
+			return hl7v2Encode.getV22ER7(messageTriggerEvent, processingId);
+		} else if ("v2.3".equals(version) || "2.3".equals(version)) {
+			return hl7v2Encode.getV23ER7(messageTriggerEvent, processingId);
+		} else if ("v2.3.1".equals(version) || "2.3.1".equals(version)) {
+			return hl7v2Encode.getV231ER7(messageTriggerEvent, processingId);
+		} else if ("v2.4".equals(version) || "2.4".equals(version)) {
+			return hl7v2Encode.getV24ER7(messageTriggerEvent, processingId);
+		} else if ("v2.5".equals(version) || "2.5".equals(version)) {
+			return hl7v2Encode.getV25ER7(messageTriggerEvent, processingId);
+		} else if ("v2.5.1".equals(version) || "2.5.1".equals(version)) {
+			return hl7v2Encode.getV251ER7(messageTriggerEvent, processingId);
+		} else if ("v2.6".equals(version) || "2.6".equals(version)) {
+			return hl7v2Encode.getV26ER7(messageTriggerEvent, processingId);
+		} else {
+			return "";
+		}
+	}
+	
+	private static Hl7v2Encode encode(PatientBaseInfo patientBaseInfo, String practiceNo, Integer patientIdLen){
 		String id = String.format("%0" + patientIdLen + "d", patientBaseInfo.getId()); // 患者ID号
 		String name = patientBaseInfo.getName(); // 姓名
 		String sex = patientBaseInfo.getSex(); // 性别
@@ -46,31 +97,13 @@ public class PatientMessage {
 		String allergyHistory = patientBaseInfo.getAllergyHistory(); // 过敏史
 //		String familyHistory = patientBaseInfo.getFamilyHistory(); // 家族史
 
-		Hl7v2Encode hl7v2Encode = new Hl7v2Encode(practiceNo, id, name,
+		Hl7v2Encode encode = new Hl7v2Encode(practiceNo, id, name,
 				birthday, sex, nation, address, province, city, birthPlace, nationlity,
 				telephone, workUnit, maritalStatus, certificateNo, certificateType, medicalAccount,
 				contactName, contactTelephone, contactRelation, contactAddress,
 				allergyHistory);
-
-		if ("v2.1".equals(version) || "2.1".equals(version)) {
-			return hl7v2Encode.v21Encode();
-		} else if ("v2.2".equals(version) || "2.2".equals(version)) {
-			return hl7v2Encode.v22Encode();
-		} else if ("v2.3".equals(version) || "2.3".equals(version)) {
-			return hl7v2Encode.v23Encode();
-		} else if ("v2.3.1".equals(version) || "2.3.1".equals(version)) {
-			return hl7v2Encode.v231Encode();
-		} else if ("v2.4".equals(version) || "2.4".equals(version)) {
-			return hl7v2Encode.v24Encode();
-		} else if ("v2.5".equals(version) || "2.5".equals(version)) {
-			return hl7v2Encode.v25Encode();
-		} else if ("v2.5.1".equals(version) || "2.5.1".equals(version)) {
-			return hl7v2Encode.v251Encode();
-		} else if ("v2.6".equals(version) || "2.6".equals(version)) {
-			return hl7v2Encode.v26Encode();
-		} else {
-			return "";
-		}
+		
+		return encode;
 	}
 	
 	public static PatientBaseInfo parserHl7v2(String message, String version) throws HL7Exception, Exception{

@@ -1,4 +1,4 @@
-package com.ewcms.hl7.message.v2;
+package com.ewcms.hl7v2.message;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -6,6 +6,7 @@ import java.util.Date;
 
 import ca.uhn.hl7v2.DefaultHapiContext;
 import ca.uhn.hl7v2.HL7Exception;
+import ca.uhn.hl7v2.HapiContext;
 import ca.uhn.hl7v2.parser.Parser;
 
 /**
@@ -39,8 +40,8 @@ import ca.uhn.hl7v2.parser.Parser;
  */
 public class Hl7v2Encode {
 
-	private Parser parser = new DefaultHapiContext().getXMLParser();
-
+	private static HapiContext hapiContext = new DefaultHapiContext();
+	
 	private String practiceNo;
 	private String id;
 	private String name;
@@ -99,22 +100,49 @@ public class Hl7v2Encode {
 		this.allergyHistory = allergyHistory;
 	}
 
+	/****************************************************************v2.1版本*********************************************************/
 	/**
-	 * v2.1的版本解码
+	 * 把消息组合成版本为v2.1的ER7格式
+	 *  
+	 * @param messageTriggerEvent 消息触发事件插入MSG-9-2. 例如: "A01"
+	 * @param processingId 消息处理ID插入MSH-11. 例如: "T" (for TEST) or "P" for (PRODUCTION)
+	 * @return ER7消息字符串
+	 * @throws HL7Exception
+	 * @throws IOException
+	 */
+	public String getV21ER7(String messageTriggerEvent, String processingId) throws HL7Exception, IOException{
+		Parser parser = hapiContext.getPipeParser();
+		return parser.encode(getV21_ADT_XX(messageTriggerEvent, processingId));
+	}
+	
+	/**
+	 * 把消息组合成版本为v2.1的XML格式
 	 * 
+	 * @param messageTriggerEvent 消息触发事件插入MSG-9-2. 例如: "A01"
+	 * @param processingId 消息处理ID插入MSH-11. 例如: "T" (for TEST) or "P" for (PRODUCTION)
+	 * @return XML消息字符串
+	 * @throws HL7Exception
+	 * @throws IOException
+	 */
+	public String getV21XML(String messageTriggerEvent, String processingId) throws HL7Exception, IOException{
+		Parser parser = hapiContext.getXMLParser();
+		return parser.encode(getV21_ADT_XX(messageTriggerEvent, processingId));
+	}
+	
+	/**
+	 * 使用v2.1版本
+	 * 
+	 * @param messageTriggerEvent
+	 * @param processingId
 	 * @return
 	 * @throws HL7Exception
 	 * @throws IOException
 	 */
-	public String v21Encode() throws HL7Exception, IOException {
-		ca.uhn.hl7v2.model.v21.message.ADT_A01 adt = new ca.uhn.hl7v2.model.v21.message.ADT_A01();
-		adt.initQuickstart("ADT", "A01", "P");
-
-		// 填充MSH段
-//		ca.uhn.hl7v2.model.v21.segment.MSH mshSegment = adt.getMSH();
-//		mshSegment.getSENDINGAPPLICATION().setValue("EMPI");
-//		mshSegment.getSEQUENCENUMBER().setValue("empi-1.0");
-
+	private ca.uhn.hl7v2.model.v21.message.ADT_AXX getV21_ADT_XX(String messageTriggerEvent, String processingId) throws HL7Exception, IOException{
+		ca.uhn.hl7v2.model.v21.message.ADT_AXX adt = new ca.uhn.hl7v2.model.v21.message.ADT_AXX();
+		
+		adt.initQuickstart("ADT", messageTriggerEvent, processingId);
+		
 		// 填充PID段
 		ca.uhn.hl7v2.model.v21.segment.PID pid = adt.getPID();
 
@@ -146,19 +174,51 @@ public class Hl7v2Encode {
 		//TODO allergyHistory过敏史未设置
 		//TOTO familyHistory家族史未设置
 
-		return parser.encode(adt);
+		return adt;
+	}
+	
+	/****************************************************************v2.2版本*********************************************************/
+	/**
+	 * 把消息组合成版本为v2.2的ER7格式
+	 *  
+	 * @param messageTriggerEvent 消息触发事件插入MSG-9-2. 例如: "A01"
+	 * @param processingId 消息处理ID插入MSH-11. 例如: "T" (for TEST) or "P" for (PRODUCTION)
+	 * @return ER7消息字符串
+	 * @throws HL7Exception
+	 * @throws IOException
+	 */
+	public String getV22ER7(String messageTriggerEvent, String processingId) throws HL7Exception, IOException{
+		Parser parser = hapiContext.getPipeParser();
+		return parser.encode(getV22_ADT_XX(messageTriggerEvent, processingId));
+	}
+	
+	/**
+	 * 把消息组合成版本为v2.2的XML格式
+	 * 
+	 * @param messageTriggerEvent 消息触发事件插入MSG-9-2. 例如: "A01"
+	 * @param processingId 消息处理ID插入MSH-11. 例如: "T" (for TEST) or "P" for (PRODUCTION)
+	 * @return XML消息字符串
+	 * @throws HL7Exception
+	 * @throws IOException
+	 */
+	public String getV22XML(String messageTriggerEvent, String processingId) throws HL7Exception, IOException{
+		Parser parser = hapiContext.getXMLParser();
+		return parser.encode(getV22_ADT_XX(messageTriggerEvent, processingId));
 	}
 
 	/**
-	 * v2.2的版本解码
+	 * v2.2的版本
 	 * 
+	 * @param messageTriggerEvent
+	 * @param processingId
 	 * @return
 	 * @throws HL7Exception
 	 * @throws IOException
 	 */
-	public String v22Encode() throws HL7Exception, IOException {
-		ca.uhn.hl7v2.model.v22.message.ADT_A01 adt = new ca.uhn.hl7v2.model.v22.message.ADT_A01();
-		adt.initQuickstart("ADT", "A01", "P");
+	private ca.uhn.hl7v2.model.v22.message.ADT_AXX getV22_ADT_XX(String messageTriggerEvent, String processingId) throws HL7Exception, IOException {
+		ca.uhn.hl7v2.model.v22.message.ADT_AXX adt = new ca.uhn.hl7v2.model.v22.message.ADT_AXX();
+		
+		adt.initQuickstart("ADT", messageTriggerEvent, processingId);
 
 		// 填充MSH段
 //		ca.uhn.hl7v2.model.v22.segment.MSH mshSegment = adt.getMSH();
@@ -197,12 +257,50 @@ public class Hl7v2Encode {
 		
 		al1.getAl13_AllergyCodeMnemonicDescription().getCe2_Text().setValue(getAllergyHistory());
 
-		return parser.encode(adt);
+		return adt;
 	}
 
-	public String v23Encode() throws HL7Exception, IOException {
-		ca.uhn.hl7v2.model.v23.message.ADT_A01 adt = new ca.uhn.hl7v2.model.v23.message.ADT_A01();
-		adt.initQuickstart("ADT", "A01", "P");
+	/****************************************************************v2.3版本*********************************************************/
+	/**
+	 * 把消息组合成版本为v2.3的ER7格式
+	 *  
+	 * @param messageTriggerEvent 消息触发事件插入MSG-9-2. 例如: "A01"
+	 * @param processingId 消息处理ID插入MSH-11. 例如: "T" (for TEST) or "P" for (PRODUCTION)
+	 * @return ER7消息字符串
+	 * @throws HL7Exception
+	 * @throws IOException
+	 */
+	public String getV23ER7(String messageTriggerEvent, String processingId) throws HL7Exception, IOException{
+		Parser parser = hapiContext.getPipeParser();
+		return parser.encode(getV23_ADT_XX(messageTriggerEvent, processingId));
+	}
+	
+	/**
+	 * 把消息组合成版本为v2.3的XML格式
+	 * 
+	 * @param messageTriggerEvent 消息触发事件插入MSG-9-2. 例如: "A01"
+	 * @param processingId 消息处理ID插入MSH-11. 例如: "T" (for TEST) or "P" for (PRODUCTION)
+	 * @return XML消息字符串
+	 * @throws HL7Exception
+	 * @throws IOException
+	 */
+	public String getV23XML(String messageTriggerEvent, String processingId) throws HL7Exception, IOException{
+		Parser parser = hapiContext.getXMLParser();
+		return parser.encode(getV23_ADT_XX(messageTriggerEvent, processingId));
+	}
+
+	/**
+	 * v2.3的版本
+	 * 
+	 * @param messageTriggerEvent
+	 * @param processingId
+	 * @return
+	 * @throws HL7Exception
+	 * @throws IOException
+	 */
+	private ca.uhn.hl7v2.model.v23.message.ADT_AXX getV23_ADT_XX(String messageTriggerEvent, String processingId) throws HL7Exception, IOException {
+		ca.uhn.hl7v2.model.v23.message.ADT_AXX adt = new ca.uhn.hl7v2.model.v23.message.ADT_AXX();
+		adt.initQuickstart("ADT", messageTriggerEvent, processingId);
 
 		// 填充MSH段
 //		ca.uhn.hl7v2.model.v23.segment.MSH mshSegment = adt.getMSH();
@@ -241,24 +339,58 @@ public class Hl7v2Encode {
 		
 		al1.getAl13_AllergyCodeMnemonicDescription().getCe2_Text().setValue(getAllergyHistory());
 		
-		return parser.encode(adt);
+		return adt;
 	}
 
-	public String v231Encode() throws HL7Exception, IOException {
-		ca.uhn.hl7v2.model.v231.message.ADT_A01 adt = new ca.uhn.hl7v2.model.v231.message.ADT_A01();
-		adt.initQuickstart("ADT", "A01", "P");
-//		ca.uhn.hl7v2.model.v231.message.ORU_R01 oru = new ca.uhn.hl7v2.model.v231.message.ORU_R01();
-//		oru.initQuickstart("ORU", "R01", "p");
+	/****************************************************************v2.3.1版本*********************************************************/
+	/**
+	 * 把消息组合成版本为v2.3.1的ER7格式
+	 *  
+	 * @param messageTriggerEvent 消息触发事件插入MSG-9-2. 例如: "A01"
+	 * @param processingId 消息处理ID插入MSH-11. 例如: "T" (for TEST) or "P" for (PRODUCTION)
+	 * @return ER7消息字符串
+	 * @throws HL7Exception
+	 * @throws IOException
+	 */
+	public String getV231ER7(String messageTriggerEvent, String processingId) throws HL7Exception, IOException{
+		Parser parser = hapiContext.getPipeParser();
+		return parser.encode(getV231_ADT_XX(messageTriggerEvent, processingId));
+	}
+	
+	/**
+	 * 把消息组合成版本为v2.3.1的XML格式
+	 * 
+	 * @param messageTriggerEvent 消息触发事件插入MSG-9-2. 例如: "A01"
+	 * @param processingId 消息处理ID插入MSH-11. 例如: "T" (for TEST) or "P" for (PRODUCTION)
+	 * @return XML消息字符串
+	 * @throws HL7Exception
+	 * @throws IOException
+	 */
+	public String getV231XML(String messageTriggerEvent, String processingId) throws HL7Exception, IOException{
+		Parser parser = hapiContext.getXMLParser();
+		return parser.encode(getV231_ADT_XX(messageTriggerEvent, processingId));
+	}
+
+	/**
+	 * v2.3.1的版本
+	 * 
+	 * @param messageTriggerEvent
+	 * @param processingId
+	 * @return
+	 * @throws HL7Exception
+	 * @throws IOException
+	 */
+	private ca.uhn.hl7v2.model.v231.message.ADT_AXX getV231_ADT_XX(String messageTriggerEvent, String processingId) throws HL7Exception, IOException {
+		ca.uhn.hl7v2.model.v231.message.ADT_AXX adt = new ca.uhn.hl7v2.model.v231.message.ADT_AXX();
+		adt.initQuickstart("ADT", messageTriggerEvent, processingId);
 
 		// 填充MSH段
 //		ca.uhn.hl7v2.model.v231.segment.MSH mshSegment = adt.getMSH();
-//		ca.uhn.hl7v2.model.v231.segment.MSH mshSegment = oru.getMSH();
 //		mshSegment.getSendingApplication().getNamespaceID().setValue("EMPI");
 //		mshSegment.getSequenceNumber().setValue("empi-1.0");
 
 		// 填充PID段
 		ca.uhn.hl7v2.model.v231.segment.PID pid = adt.getPID();
-//		ca.uhn.hl7v2.model.v231.segment.PID pid = oru.getPIDPD1NK1NTEPV1PV2ORCOBRNTEOBXNTECTI().getPIDPD1NK1NTEPV1PV2().getPID();
 
 		pid.getPid2_PatientID().getCx1_ID().setValue(getPracticeNo());
 		pid.getPid3_PatientIdentifierList(0).getCx1_ID().setValue(getId());
@@ -290,12 +422,50 @@ public class Hl7v2Encode {
 		
 		al1.getAl13_AllergyCodeMnemonicDescription().getCe2_Text().setValue(getAllergyHistory());
 
-		return parser.encode(adt);
+		return adt;
 	}
 
-	public String v24Encode() throws HL7Exception, IOException {
-		ca.uhn.hl7v2.model.v24.message.ADT_A01 adt = new ca.uhn.hl7v2.model.v24.message.ADT_A01();
-		adt.initQuickstart("ADT", "A01", "P");
+	/****************************************************************v2.4版本*********************************************************/
+	/**
+	 * 把消息组合成版本为v2.4的ER7格式
+	 *  
+	 * @param messageTriggerEvent 消息触发事件插入MSG-9-2. 例如: "A01"
+	 * @param processingId 消息处理ID插入MSH-11. 例如: "T" (for TEST) or "P" for (PRODUCTION)
+	 * @return ER7消息字符串
+	 * @throws HL7Exception
+	 * @throws IOException
+	 */
+	public String getV24ER7(String messageTriggerEvent, String processingId) throws HL7Exception, IOException{
+		Parser parser = hapiContext.getPipeParser();
+		return parser.encode(getV24_ADT_XX(messageTriggerEvent, processingId));
+	}
+	
+	/**
+	 * 把消息组合成版本为v2.4的XML格式
+	 * 
+	 * @param messageTriggerEvent 消息触发事件插入MSG-9-2. 例如: "A01"
+	 * @param processingId 消息处理ID插入MSH-11. 例如: "T" (for TEST) or "P" for (PRODUCTION)
+	 * @return XML消息字符串
+	 * @throws HL7Exception
+	 * @throws IOException
+	 */
+	public String getV24XML(String messageTriggerEvent, String processingId) throws HL7Exception, IOException{
+		Parser parser = hapiContext.getXMLParser();
+		return parser.encode(getV24_ADT_XX(messageTriggerEvent, processingId));
+	}
+
+	/**
+	 * v2.4的版本
+	 * 
+	 * @param messageTriggerEvent
+	 * @param processingId
+	 * @return
+	 * @throws HL7Exception
+	 * @throws IOException
+	 */
+	private ca.uhn.hl7v2.model.v24.message.ADT_AXX getV24_ADT_XX(String messageTriggerEvent, String processingId) throws HL7Exception, IOException {
+		ca.uhn.hl7v2.model.v24.message.ADT_AXX adt = new ca.uhn.hl7v2.model.v24.message.ADT_AXX();
+		adt.initQuickstart("ADT", messageTriggerEvent, processingId);
 
 		// 填充MSH段
 //		ca.uhn.hl7v2.model.v24.segment.MSH mshSegment = adt.getMSH();
@@ -335,12 +505,50 @@ public class Hl7v2Encode {
 		ca.uhn.hl7v2.model.v24.segment.AL1 al1 = adt.getAL1();
 		al1.getAl13_AllergenCodeMnemonicDescription().getCe2_Text().setValue(getAllergyHistory());
 
-		return parser.encode(adt);
+		return adt;
 	}
 
-	public String v25Encode() throws HL7Exception, IOException {
-		ca.uhn.hl7v2.model.v25.message.ADT_A01 adt = new ca.uhn.hl7v2.model.v25.message.ADT_A01();
-		adt.initQuickstart("ADT", "A01", "P");
+	/****************************************************************v2.5版本*********************************************************/
+	/**
+	 * 把消息组合成版本为v2.5的ER7格式
+	 *  
+	 * @param messageTriggerEvent 消息触发事件插入MSG-9-2. 例如: "A01"
+	 * @param processingId 消息处理ID插入MSH-11. 例如: "T" (for TEST) or "P" for (PRODUCTION)
+	 * @return ER7消息字符串
+	 * @throws HL7Exception
+	 * @throws IOException
+	 */
+	public String getV25ER7(String messageTriggerEvent, String processingId) throws HL7Exception, IOException{
+		Parser parser = hapiContext.getPipeParser();
+		return parser.encode(getV25_ADT_XX(messageTriggerEvent, processingId));
+	}
+	
+	/**
+	 * 把消息组合成版本为v2.5的XML格式
+	 * 
+	 * @param messageTriggerEvent 消息触发事件插入MSG-9-2. 例如: "A01"
+	 * @param processingId 消息处理ID插入MSH-11. 例如: "T" (for TEST) or "P" for (PRODUCTION)
+	 * @return XML消息字符串
+	 * @throws HL7Exception
+	 * @throws IOException
+	 */
+	public String getV25XML(String messageTriggerEvent, String processingId) throws HL7Exception, IOException{
+		Parser parser = hapiContext.getXMLParser();
+		return parser.encode(getV25_ADT_XX(messageTriggerEvent, processingId));
+	}
+
+	/**
+	 * v2.5的版本
+	 * 
+	 * @param messageTriggerEvent
+	 * @param processingId
+	 * @return
+	 * @throws HL7Exception
+	 * @throws IOException
+	 */
+	private ca.uhn.hl7v2.model.v25.message.ADT_AXX getV25_ADT_XX(String messageTriggerEvent, String processingId) throws HL7Exception, IOException {
+		ca.uhn.hl7v2.model.v25.message.ADT_AXX adt = new ca.uhn.hl7v2.model.v25.message.ADT_AXX();
+		adt.initQuickstart("ADT", messageTriggerEvent, processingId);
 
 		// 填充MSH段
 //		ca.uhn.hl7v2.model.v25.segment.MSH mshSegment = adt.getMSH();
@@ -378,12 +586,50 @@ public class Hl7v2Encode {
 		ca.uhn.hl7v2.model.v25.segment.AL1 al1 = adt.getAL1();
 		al1.getAl13_AllergenCodeMnemonicDescription().getCe2_Text().setValue(getAllergyHistory());
 
-		return parser.encode(adt);
+		return adt;
 	}
 
-	public String v251Encode() throws HL7Exception, IOException {
-		ca.uhn.hl7v2.model.v251.message.ADT_A01 adt = new ca.uhn.hl7v2.model.v251.message.ADT_A01();
-		adt.initQuickstart("ADT", "A01", "P");
+	/****************************************************************v2.5.1版本*********************************************************/
+	/**
+	 * 把消息组合成版本为v2.5.1的ER7格式
+	 *  
+	 * @param messageTriggerEvent 消息触发事件插入MSG-9-2. 例如: "A01"
+	 * @param processingId 消息处理ID插入MSH-11. 例如: "T" (for TEST) or "P" for (PRODUCTION)
+	 * @return ER7消息字符串
+	 * @throws HL7Exception
+	 * @throws IOException
+	 */
+	public String getV251ER7(String messageTriggerEvent, String processingId) throws HL7Exception, IOException{
+		Parser parser = hapiContext.getPipeParser();
+		return parser.encode(getV251_ADT_XX(messageTriggerEvent, processingId));
+	}
+	
+	/**
+	 * 把消息组合成版本为v2.5.1的XML格式
+	 * 
+	 * @param messageTriggerEvent 消息触发事件插入MSG-9-2. 例如: "A01"
+	 * @param processingId 消息处理ID插入MSH-11. 例如: "T" (for TEST) or "P" for (PRODUCTION)
+	 * @return XML消息字符串
+	 * @throws HL7Exception
+	 * @throws IOException
+	 */
+	public String getV251XML(String messageTriggerEvent, String processingId) throws HL7Exception, IOException{
+		Parser parser = hapiContext.getXMLParser();
+		return parser.encode(getV251_ADT_XX(messageTriggerEvent, processingId));
+	}
+
+	/**
+	 * v2.5.1的版本
+	 * 
+	 * @param messageTriggerEvent
+	 * @param processingId
+	 * @return
+	 * @throws HL7Exception
+	 * @throws IOException
+	 */
+	private ca.uhn.hl7v2.model.v251.message.ADT_AXX getV251_ADT_XX(String messageTriggerEvent, String processingId) throws HL7Exception, IOException {
+		ca.uhn.hl7v2.model.v251.message.ADT_AXX adt = new ca.uhn.hl7v2.model.v251.message.ADT_AXX();
+		adt.initQuickstart("ADT", messageTriggerEvent, processingId);
 
 		// 填充MSH段
 //		ca.uhn.hl7v2.model.v251.segment.MSH mshSegment = adt.getMSH();
@@ -421,12 +667,50 @@ public class Hl7v2Encode {
 		ca.uhn.hl7v2.model.v251.segment.AL1 al1 = adt.getAL1();
 		al1.getAl13_AllergenCodeMnemonicDescription().getCe2_Text().setValue(getAllergyHistory());
 
-		return parser.encode(adt);
+		return adt;
 	}
 
-	public String v26Encode() throws HL7Exception, IOException {
-		ca.uhn.hl7v2.model.v26.message.ADT_A01 adt = new ca.uhn.hl7v2.model.v26.message.ADT_A01();
-		adt.initQuickstart("ADT", "A01", "P");
+	/****************************************************************v2.6版本*********************************************************/
+	/**
+	 * 把消息组合成版本为v2.6的ER7格式
+	 *  
+	 * @param messageTriggerEvent 消息触发事件插入MSG-9-2. 例如: "A01"
+	 * @param processingId 消息处理ID插入MSH-11. 例如: "T" (for TEST) or "P" for (PRODUCTION)
+	 * @return ER7消息字符串
+	 * @throws HL7Exception
+	 * @throws IOException
+	 */
+	public String getV26ER7(String messageTriggerEvent, String processingId) throws HL7Exception, IOException{
+		Parser parser = hapiContext.getPipeParser();
+		return parser.encode(getV26_ADT_XX(messageTriggerEvent, processingId));
+	}
+	
+	/**
+	 * 把消息组合成版本为v2.6的XML格式
+	 * 
+	 * @param messageTriggerEvent 消息触发事件插入MSG-9-2. 例如: "A01"
+	 * @param processingId 消息处理ID插入MSH-11. 例如: "T" (for TEST) or "P" for (PRODUCTION)
+	 * @return XML消息字符串
+	 * @throws HL7Exception
+	 * @throws IOException
+	 */
+	public String getV26XML(String messageTriggerEvent, String processingId) throws HL7Exception, IOException{
+		Parser parser = hapiContext.getXMLParser();
+		return parser.encode(getV26_ADT_XX(messageTriggerEvent, processingId));
+	}
+
+	/**
+	 * v2.6的版本
+	 * 
+	 * @param messageTriggerEvent
+	 * @param processingId
+	 * @return
+	 * @throws HL7Exception
+	 * @throws IOException
+	 */
+	private ca.uhn.hl7v2.model.v26.message.ADT_AXX getV26_ADT_XX(String messageTriggerEvent, String processingId) throws HL7Exception, IOException {
+		ca.uhn.hl7v2.model.v26.message.ADT_AXX adt = new ca.uhn.hl7v2.model.v26.message.ADT_AXX();
+		adt.initQuickstart("ADT", messageTriggerEvent, processingId);
 		
 		// 填充MSH段
 //		ca.uhn.hl7v2.model.v26.segment.MSH mshSegment = adt.getMSH();
@@ -464,15 +748,7 @@ public class Hl7v2Encode {
 		ca.uhn.hl7v2.model.v26.segment.AL1 al1 = adt.getAL1();
 		al1.getAl13_AllergenCodeMnemonicDescription().getCwe2_Text().setValue(getAllergyHistory());
 
-		return parser.encode(adt);
-	}
-
-	public Parser getParser() {
-		return parser;
-	}
-
-	public void setParser(Parser parser) {
-		this.parser = parser;
+		return adt;
 	}
 
 	public String getPracticeNo() {
