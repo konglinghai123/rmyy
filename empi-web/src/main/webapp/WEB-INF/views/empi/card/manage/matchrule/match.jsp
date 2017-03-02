@@ -44,7 +44,7 @@
 			multiple:true,
 			cascadeCheck:false,
 			panelWidth:200,
-			panelHeight:70
+			panelHeight:150
 		});
 	});
 	

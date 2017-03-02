@@ -76,7 +76,7 @@ public class TextReport extends BaseEntity<Long> {
     @Column(name = "textentity")
     private byte[] textEntity;
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "createdate", columnDefinition = "Timestamp default CURRENT_DATE", insertable = false, updatable = false)
+    @Column(name = "createdate")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createDate;
     @Temporal(TemporalType.TIMESTAMP)

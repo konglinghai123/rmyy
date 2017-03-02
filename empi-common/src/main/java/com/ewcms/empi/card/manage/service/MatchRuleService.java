@@ -8,6 +8,7 @@ import com.ewcms.common.service.BaseService;
 import com.ewcms.common.utils.EmptyUtil;
 import com.ewcms.empi.card.manage.entity.MatchRule;
 import com.ewcms.empi.card.manage.repository.MatchRuleRepository;
+import com.google.common.collect.Lists;
 
 /**
  *@author zhoudongchu
@@ -23,7 +24,20 @@ public class MatchRuleService extends BaseService<MatchRule, Long> {
 	}
 	
 	public List<MatchRule> findMatchRuleByMatched(){
-		return getMatchRuleRepository().findMatchRuleByMatched();
+		List<MatchRule> matchRuleList;
+		matchRuleList = getMatchRuleRepository().findMatchRuleByMatched();
+		if(EmptyUtil.isCollectionEmpty(matchRuleList)){//默认证件号码、证件类型为匹配项
+			MatchRule matchRule = new MatchRule();
+			matchRule.setFieldName("certificateNo");
+			matchRule.setCnName("证件号码");
+			MatchRule matchRule1 = new MatchRule();
+			matchRule.setFieldName("certificateType");
+			matchRule.setCnName("证件类型");
+			matchRuleList = Lists.newArrayList();
+			matchRuleList.add(matchRule);
+			matchRuleList.add(matchRule1);
+		}
+		return matchRuleList;
 	}
 	
 	public void matchFields(List<Long> matchFields){

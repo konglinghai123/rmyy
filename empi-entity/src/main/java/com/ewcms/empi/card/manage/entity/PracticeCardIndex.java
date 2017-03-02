@@ -15,6 +15,7 @@ import com.ewcms.common.plugin.entity.LogicDeleteable;
  * <li>id：就诊卡卡号</li>
  * <li>patientId：同一患者索引号</li>
  * <li>patientBaseInfoId：患者信息ID</li>
+ * <li>pushed：是否要推送</li>
  * <li>deleted:是否删除(逻辑删除)</li>
  * </ul>
  *@author zhoudongchu
@@ -33,6 +34,8 @@ public class PracticeCardIndex extends AbstractEntity<String> implements LogicDe
 	private Long patientBaseInfoId;
 	@Column(name = "is_deleted")
     private Boolean deleted = Boolean.FALSE;
+	@Column(name = "is_pushed")
+    private Boolean pushed = Boolean.FALSE;
 	
 	public String getPatientId() {
 		return patientId;
@@ -48,6 +51,14 @@ public class PracticeCardIndex extends AbstractEntity<String> implements LogicDe
 
 	public void setPatientBaseInfoId(Long patientBaseInfoId) {
 		this.patientBaseInfoId = patientBaseInfoId;
+	}
+
+	public Boolean getPushed() {
+		return pushed;
+	}
+
+	public void setPushed(Boolean pushed) {
+		this.pushed = pushed;
 	}
 
 	@Override

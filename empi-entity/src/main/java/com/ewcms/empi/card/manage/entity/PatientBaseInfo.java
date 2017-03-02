@@ -1,5 +1,6 @@
 package com.ewcms.empi.card.manage.entity;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -127,6 +128,11 @@ public class PatientBaseInfo extends BaseEntity<Long> implements LogicDeleteable
 	@Basic(optional = true, fetch = FetchType.EAGER)
 	@OrderBy()
 	private List<PracticeCard> practiceCards;
+	@JSONField(format = "yyyy-MM-dd HH:mm:ss")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @Column(name = "update_date")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date updateDate = Calendar.getInstance().getTime();		
     @Column(name = "is_deleted")
     private Boolean deleted = Boolean.FALSE;
     @Transient
@@ -349,6 +355,14 @@ public class PatientBaseInfo extends BaseEntity<Long> implements LogicDeleteable
 
 	public void setBirthPlace(String birthPlace) {
 		this.birthPlace = birthPlace;
+	}
+
+	public Date getUpdateDate() {
+		return updateDate;
+	}
+
+	public void setUpdateDate(Date updateDate) {
+		this.updateDate = updateDate;
 	}
 
 	public String getPatientId() {

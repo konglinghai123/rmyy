@@ -8,4 +8,5 @@ import com.ewcms.empi.card.manage.entity.PracticeCard;
  */
 public interface PracticeCardRepository extends BaseRepository<PracticeCard, Long> {
 	PracticeCard findByPracticeNoAndDeleted(String practiceNo,Boolean deleted);
+	
 }

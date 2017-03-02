@@ -179,7 +179,7 @@ public class ChartReport extends BaseEntity<Long> {
     private Set<Parameter> parameters = Sets.newLinkedHashSet();
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "createdate", columnDefinition = "Timestamp default CURRENT_DATE", insertable = false, updatable = false)
+    @Column(name = "createdate")
     private Date createDate;
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Temporal(TemporalType.TIMESTAMP)

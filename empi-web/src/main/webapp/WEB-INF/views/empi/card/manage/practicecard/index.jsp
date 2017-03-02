@@ -28,6 +28,8 @@
 	<div id="tb" style="padding:5px;height:auto;">
 		<div class="toolbar" style="margin-bottom:2px">
 			<a class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true" id="tb-distribute" onclick="$.ewcms.add({title:'发诊疗卡',width:700,height:380,src:'${ctx}/empi/card/manage/practicecard/distribute'});" href="javascript:void(0);">发诊疗卡</a>
+			<a class="easyui-linkbutton" data-options="iconCls:'icon-edit',plain:true" id="tb-distribute" onclick="$.ewcms.add({title:'自动合并',width:400,height:300,src:'${ctx}/empi/card/manage/practicecard/autocombine'});" href="javascript:void(0);">自动合并</a>
+			<a class="easyui-linkbutton" data-options="iconCls:'icon-remove',plain:true" id="tb-distribute" onclick="$.ewcms.add({title:'人工合并',width:400,height:300,src:'${ctx}/empi/card/manage/practicecard/combine'});" href="javascript:void(0);">人工合并</a>
 		</div>
 		<div style="padding-left:5px;">
         	<form id="queryform" style="padding:0;margin:0;">

@@ -18,7 +18,6 @@ import com.ewcms.common.entity.AbstractEntity;
  *
  */
 @ContextConfiguration(locations = {
-		"classpath:spring-common.xml",
 		"classpath:spring-config.xml",
 		"classpath:spring-test-config.xml"
 })

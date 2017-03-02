@@ -1,10 +1,12 @@
 package com.ewcms.empi.card.manage.service;
 
+import java.util.Calendar;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
+
 import com.ewcms.common.entity.search.SearchOperator;
 import com.ewcms.common.entity.search.Searchable;
 import com.ewcms.common.exception.BaseException;
@@ -13,6 +15,7 @@ import com.ewcms.common.utils.EmptyUtil;
 import com.ewcms.common.utils.Reflections;
 import com.ewcms.empi.card.manage.entity.MatchRule;
 import com.ewcms.empi.card.manage.entity.PatientBaseInfo;
+import com.ewcms.empi.card.manage.entity.PracticeCard;
 import com.ewcms.empi.card.manage.repository.PatientBaseInfoRepository;
 
 /**
@@ -43,6 +46,7 @@ public class PatientBaseInfoService extends BaseService<PatientBaseInfo, Long> {
 		
 		dbPatientBaseInfo = findOne(m.getId());
 		if (EmptyUtil.isNull(dbPatientBaseInfo))throw new BaseException("患者信息不存在");
+		m.setUpdateDate(Calendar.getInstance().getTime());
 		return super.update(m);
 	}
 	
@@ -54,6 +58,10 @@ public class PatientBaseInfoService extends BaseService<PatientBaseInfo, Long> {
 		return getPatientBaseInfoRepository().findByCertificateNoAndCertificateType(certificateNo, certificateType);
 	}
 	
+	public List<PatientBaseInfo> findByMatchRule(List<MatchRule> matchRuleList){
+		return getPatientBaseInfoRepository().findByMatchRule(matchRuleList);
+	}	
+	
 	public List<PatientBaseInfo> match(PatientBaseInfo m){
 		List<MatchRule> matchRuleList = matchRuleService.findMatchRuleByMatched();//获取需要匹配的字段
 		Searchable searchable = Searchable.newSearchable();
@@ -61,7 +69,7 @@ public class PatientBaseInfoService extends BaseService<PatientBaseInfo, Long> {
 		for(MatchRule matchRule:matchRuleList){
 			searchable.addSearchFilter(matchRule.getFieldName(), SearchOperator.EQ, Reflections.getFieldValue(m, matchRule.getFieldName()));
 		}
-		searchable.addSort(Direction.ASC, "id");
+		searchable.addSort(Direction.DESC, "updateDate");
 		return findAllWithSort(searchable);
 	}
 }
