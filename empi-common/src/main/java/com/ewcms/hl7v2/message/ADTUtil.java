@@ -494,8 +494,7 @@ public class ADTUtil {
 				.getCx2_CheckDigit().getValue());
 		patientBaseInfo.setMedicalAccount(pid.getPid19_SSNNumberPatient()
 				.getValue());
-		patientBaseInfo.setBirthPlace(pid.getPid19_SSNNumberPatient()
-				.getValue());
+		patientBaseInfo.setBirthPlace(pid.getPid23_BirthPlace().getValue());
 
 		ca.uhn.hl7v2.model.v24.segment.NK1 nk1 = axx.getNK1();
 

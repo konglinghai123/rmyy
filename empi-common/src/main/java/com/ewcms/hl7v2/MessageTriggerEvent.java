@@ -66,7 +66,7 @@ public enum MessageTriggerEvent {
 	A52("A52", "ADT", "Cancel Leave of Absence fro a Patient", "取消患者暂离"),
 	A53("A53", "ADT", "Cancel Patient Returns from a Leave of Absence", "取消患者请假后返回"),
 	A54("A54", "ADT", "Change Attending Doctor", "改变主治医生"),
-	A55("A55", "ADT", "Cancel Change Attending Doctor", "取肖改变主治医生"),
+	A55("A55", "ADT", "Cancel Change Attending Doctor", "取消改变主治医生"),
 	;
 	
 	private final String triggerEvent;
