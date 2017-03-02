@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.ewcms.hl7v2.exception.HL7V2Exception;
+import ca.uhn.hl7v2.HL7Exception;
 
 /**
  *
@@ -101,7 +101,7 @@ public enum MessageTriggerEvent {
 		return Arrays.toString(MessageTriggerEvent.values());
 	}
 	
-	public static MessageTriggerEvent valueByZhCnExplain(String zhCnExplain) throws HL7V2Exception{
+	public static MessageTriggerEvent valueByZhCnExplain(String zhCnExplain) throws HL7Exception{
 		zhCnExplain = formatZhCnExplain(zhCnExplain);
 		for (MessageTriggerEvent event : values()){
 			if (event.getZnCnExplain().equals(zhCnExplain)){
@@ -109,7 +109,7 @@ public enum MessageTriggerEvent {
 			}
 		}
 		
-		throw new HL7V2Exception("MessageTriggerEvent not method event zhCnExplain : " + zhCnExplain);
+		throw new HL7Exception("MessageTriggerEvent not method event zhCnExplain : " + zhCnExplain);
 	}
 	
 	private static String formatZhCnExplain(String zhCnExplain){
@@ -119,7 +119,7 @@ public enum MessageTriggerEvent {
 		return zhCnExplain.trim().toLowerCase().replace("   ", "  ");
 	}
 
-	public static MessageTriggerEvent valueByEnExplain(String enExplain) throws HL7V2Exception {
+	public static MessageTriggerEvent valueByEnExplain(String enExplain) throws HL7Exception {
 		enExplain = formatEnExplain(enExplain);
 		for (MessageTriggerEvent event : values()){
 			if (event.getEnExplain().equals(enExplain)){
@@ -127,7 +127,7 @@ public enum MessageTriggerEvent {
 			}
 		}
 		
-		throw new HL7V2Exception("MessageTriggerEvent not method event enExplain : " + enExplain);
+		throw new HL7Exception("MessageTriggerEvent not method event enExplain : " + enExplain);
 	}
 	
 	private static String formatEnExplain(String enExplain){
