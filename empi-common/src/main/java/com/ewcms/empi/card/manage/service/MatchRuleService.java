@@ -24,16 +24,15 @@ public class MatchRuleService extends BaseService<MatchRule, Long> {
 	}
 	
 	public List<MatchRule> findMatchRuleByMatched(){
-		List<MatchRule> matchRuleList;
-		matchRuleList = getMatchRuleRepository().findMatchRuleByMatched();
+		List<MatchRule> matchRuleList = getMatchRuleRepository().findMatchRuleByMatched();
 		if(EmptyUtil.isCollectionEmpty(matchRuleList)){//默认证件号码、证件类型为匹配项
+			matchRuleList = Lists.newArrayList();
 			MatchRule matchRule = new MatchRule();
 			matchRule.setFieldName("certificateNo");
 			matchRule.setCnName("证件号码");
 			MatchRule matchRule1 = new MatchRule();
-			matchRule.setFieldName("certificateType");
-			matchRule.setCnName("证件类型");
-			matchRuleList = Lists.newArrayList();
+			matchRule1.setFieldName("certificateType");
+			matchRule1.setCnName("证件类型");
 			matchRuleList.add(matchRule);
 			matchRuleList.add(matchRule1);
 		}
