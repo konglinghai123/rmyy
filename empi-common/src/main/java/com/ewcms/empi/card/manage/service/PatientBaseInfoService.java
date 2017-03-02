@@ -15,7 +15,6 @@ import com.ewcms.common.utils.EmptyUtil;
 import com.ewcms.common.utils.Reflections;
 import com.ewcms.empi.card.manage.entity.MatchRule;
 import com.ewcms.empi.card.manage.entity.PatientBaseInfo;
-import com.ewcms.empi.card.manage.entity.PracticeCard;
 import com.ewcms.empi.card.manage.repository.PatientBaseInfoRepository;
 
 /**
@@ -30,14 +29,20 @@ public class PatientBaseInfoService extends BaseService<PatientBaseInfo, Long> {
 		return (PatientBaseInfoRepository) baseRepository;
 	}
 	
-	
 	@Override
 	public PatientBaseInfo save(PatientBaseInfo m) {
 		PatientBaseInfo dbPatientBaseInfo = findByCertificateNo(m.getCertificateNo());
 		if (EmptyUtil.isNotNull(dbPatientBaseInfo))throw new BaseException("证件号码已存在");		
 		return super.save(m);
 	}
-
+	
+	@Override
+	public PatientBaseInfo saveAndFlush(PatientBaseInfo m) {
+		PatientBaseInfo dbPatientBaseInfo = findByCertificateNo(m.getCertificateNo());
+		if (EmptyUtil.isNotNull(dbPatientBaseInfo))throw new BaseException("证件号码已存在");		
+		return super.saveAndFlush(m);
+	}
+	
 	@Override
 	public PatientBaseInfo update(PatientBaseInfo m) {
 		PatientBaseInfo dbPatientBaseInfo = null;

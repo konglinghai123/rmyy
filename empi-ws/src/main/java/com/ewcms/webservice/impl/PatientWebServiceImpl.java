@@ -112,7 +112,7 @@ public class PatientWebServiceImpl implements IPatientWebService {
 					PatientBaseInfo mathPatientBaseInfo = list.get(0);
 					mathPatientId = mathPatientBaseInfo.getId();
 				} else {
-					patientBaseInfo = patientBaseInfoService.save(patientBaseInfo);
+					patientBaseInfo = patientBaseInfoService.saveAndFlush(patientBaseInfo);
 					mathPatientId = patientBaseInfo.getId();
 				}
 				
@@ -137,12 +137,12 @@ public class PatientWebServiceImpl implements IPatientWebService {
 				code = AcknowledgmentCode.AA.name();
 			}
 			
-			MessageLog messageLog = new MessageLog();
-			messageLog.setHapiOperate(HapiOperate.receive);
-			messageLog.setPracticeNo(practiceNo);
-			messageLog.setReceiveDate(new Date());
+			//MessageLog messageLog = new MessageLog();
+			//messageLog.setHapiOperate(HapiOperate.receive);
+			//messageLog.setPracticeNo(practiceNo);
+			//messageLog.setReceiveDate(new Date());
 			
-			messageLogService.save(messageLog);
+			//messageLogService.save(messageLog);
 			
 			textMessage = patientIdStr;
 		} catch (HL7Exception e) {

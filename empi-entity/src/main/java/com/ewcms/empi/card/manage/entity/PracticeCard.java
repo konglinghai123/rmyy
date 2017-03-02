@@ -45,7 +45,7 @@ public class PracticeCard extends BaseEntity<Long> implements LogicDeleteable{
     @Column(name = "create_date")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createDate = Calendar.getInstance().getTime();	
-	@ManyToOne(optional = true, fetch = FetchType.EAGER,cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REFRESH} )
+	@ManyToOne(optional = true, fetch = FetchType.EAGER, cascade = {CascadeType.REFRESH} )
     @Fetch(FetchMode.SELECT)
 	private PatientBaseInfo patientBaseInfo = new PatientBaseInfo();	
 	@Column(name = "is_deleted")
