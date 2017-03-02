@@ -9,7 +9,8 @@ import com.ewcms.common.plugin.entity.Treeable;
 import com.ewcms.common.repository.RepositoryHelper;
 import com.ewcms.common.service.BaseService;
 import com.ewcms.common.utils.EmptyUtil;
-import com.ewcms.common.utils.ReflectUtils;
+//import com.ewcms.common.utils.ReflectUtils;
+import com.ewcms.common.utils.Reflections;
 import com.ewcms.common.web.controller.entity.TreeNode;
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
@@ -60,7 +61,8 @@ public abstract class BaseTreeableService<M extends BaseEntity<ID> & Treeable<ID
     
     protected BaseTreeableService(Integer stepLength){
     	this.stepLength = stepLength;
-        Class<M> entityClass = ReflectUtils.findParameterizedType(getClass(), 0);
+//        Class<M> entityClass = ReflectUtils.findParameterizedType(getClass(), 0);
+        Class<M> entityClass = Reflections.getClassGenricType(getClass());
         repositoryHelper = new RepositoryHelper(entityClass);
         String entityName = repositoryHelper.getEntityName(entityClass);
 

@@ -1,7 +1,8 @@
 package com.ewcms.common.web.controller;
 
 import com.ewcms.common.entity.AbstractEntity;
-import com.ewcms.common.utils.ReflectUtils;
+//import com.ewcms.common.utils.ReflectUtils;
+import com.ewcms.common.utils.Reflections;
 
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.ui.Model;
@@ -28,7 +29,8 @@ public abstract class BaseController<M extends AbstractEntity<?>, ID extends Ser
 
 
     protected BaseController() {
-        this.entityClass = ReflectUtils.findParameterizedType(getClass(), 0);
+//        this.entityClass = ReflectUtils.findParameterizedType(getClass(), 0);
+    	this.entityClass = Reflections.getClassGenricType(getClass());
         setViewPrefix(defaultViewPrefix());
     }
 

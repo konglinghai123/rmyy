@@ -9,6 +9,7 @@ import javax.jws.WebService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import ca.uhn.hl7v2.AcknowledgmentCode;
 import ca.uhn.hl7v2.HL7Exception;
 
 import com.ewcms.WebServiceConstants;
@@ -23,7 +24,11 @@ import com.ewcms.empi.card.manage.service.PatientBaseInfoService;
 import com.ewcms.empi.card.manage.service.PracticeCardIndexService;
 import com.ewcms.empi.card.manage.service.PracticeCardService;
 import com.ewcms.empi.system.service.ParameterSetService;
-import com.ewcms.hl7v2.message.PatientMessage;
+import com.ewcms.hl7v2.MessageTriggerEvent;
+import com.ewcms.hl7v2.message.ACKUtil;
+import com.ewcms.hl7v2.message.ADRUtil;
+import com.ewcms.hl7v2.message.ADTUtil;
+import com.ewcms.hl7v2.message.QRYUtil;
 import com.ewcms.webservice.IPatientWebService;
 
 /**
@@ -46,19 +51,55 @@ public class PatientWebServiceImpl implements IPatientWebService {
 	private MessageLogService messageLogService;
 	
 	@Override
-	public String findPatientId(String practiceNo) {
+	public String queryPatient(String practiceNo) {
 		PracticeCardIndex practiceCardIndex = practiceCardIndexService.findByIdAndDeleted(practiceNo, Boolean.FALSE);
 		return practiceCardIndex.getPatientId();
 	}
 	
 	@Override
-	public String doPatientIdToHl7(String hl7Message, String version) {
-		String patientIdStr = null;
+	public String combinationQRY(String practiceNo, String version, String processingId, String style) {
+		String hl7Result = "";
 		try {
-			PatientBaseInfo patientBaseInfo = PatientMessage.parserHl7v2(hl7Message, version);
+			hl7Result = QRYUtil.encode(practiceNo, version, processingId, style);
+		} catch (HL7Exception | IOException e) {
+			e.printStackTrace();
+		}
+		return hl7Result;
+	}
+	
+	@Override
+	public String queryPatientToHl7(String qryMessage, String version, String processingId, String style) {
+		ADRUtil adrUtil = new ADRUtil();
+
+		String practiceNo = "";
+		try {
+			practiceNo = QRYUtil.parser(qryMessage, version, style);
+		} catch (HL7Exception e) {
+			return adrUtil.encode(MessageTriggerEvent.A19.getCode(), processingId, version, style, AcknowledgmentCode.AE.name(), "解析HL7错误");
+		}
+		if (EmptyUtil.isStringEmpty(practiceNo)) return adrUtil.encode(MessageTriggerEvent.A19.getCode(), processingId, version, style, AcknowledgmentCode.AE.name(), "患者卡号为空");
+		PracticeCardIndex practiceCardIndex = practiceCardIndexService.findByIdAndDeleted(practiceNo, Boolean.FALSE);
+		if (EmptyUtil.isNull(practiceCardIndex)) return adrUtil.encode(MessageTriggerEvent.A19.getCode(), processingId, version, style, AcknowledgmentCode.AE.name(), "患者唯一索引号不存在，必须先进行注册");
+		PatientBaseInfo patientBaseInfo = patientBaseInfoService.findOne(practiceCardIndex.getPatientBaseInfoId());
+		if (EmptyUtil.isNull(patientBaseInfo)) return adrUtil.encode(MessageTriggerEvent.A19.getCode(), processingId, version, style, AcknowledgmentCode.AE.name(), "患者基本信息不存在，必须先进行注册");
+		
+		Integer patientIdLen = parameterSetService.findPatientIdVariableValue();
+		
+		return adrUtil.encode(patientBaseInfo, practiceNo, patientIdLen, processingId, version, style);
+	}
+	
+	@Override
+	public String registerPatient(String adtMessage, String version, String style) {
+		ACKUtil ackUtil = new ACKUtil();
+		
+		String patientIdStr = null;
+		String code = AcknowledgmentCode.AA.name();
+		String textMessage = "注册成功";
+		try {
+			PatientBaseInfo patientBaseInfo = ADTUtil.parser(adtMessage, version, style);
 			
 			String practiceNo = patientBaseInfo.getPracticeNo();
-			if (EmptyUtil.isStringEmpty(practiceNo)) return null;
+			if (EmptyUtil.isStringEmpty(practiceNo)) ackUtil.encode(MessageTriggerEvent.A04.getTriggerEvent(), "P", version, style, AcknowledgmentCode.AE.name(), "患者卡号不能为空");
 			
 			PracticeCardIndex practiceCardIndex = practiceCardIndexService.findByIdAndDeleted(practiceNo, Boolean.FALSE);
 			
@@ -92,6 +133,8 @@ public class PatientWebServiceImpl implements IPatientWebService {
 				practiceCardService.save(practiceCard);
 			} else {//已存在
 				patientIdStr = practiceCardIndex.getPatientId();
+				
+				code = AcknowledgmentCode.AA.name();
 			}
 			
 			MessageLog messageLog = new MessageLog();
@@ -100,28 +143,15 @@ public class PatientWebServiceImpl implements IPatientWebService {
 			messageLog.setReceiveDate(new Date());
 			
 			messageLogService.save(messageLog);
+			
+			textMessage = patientIdStr;
 		} catch (HL7Exception e) {
-			System.out.println(e.toString());
+			code = AcknowledgmentCode.AE.name();
+			textMessage = "HL7格式错误";
 		} catch (Exception e) {
-			System.out.println(e.toString());
+			code = AcknowledgmentCode.AE.name();
+			textMessage = "系统错误";
 		}
-		return patientIdStr;
-	}
-	
-	@Override
-	public String findPatientIdHl7v2(String practiceNo, String version, String messageTriggerEvent, String processingId, String style) {
-		PracticeCard practiceCard = practiceCardService.findByPracticeNoAndDeleted(practiceNo, Boolean.FALSE);
-		try {
-			if ("er7".equals(style.toLowerCase())){
-				return PatientMessage.createHl7v2ER7(practiceCard.getPatientBaseInfo(), practiceNo, version, parameterSetService.findPatientIdVariableValue(), messageTriggerEvent, processingId);
-				
-			} else {
-				return PatientMessage.createHl7v2XML(practiceCard.getPatientBaseInfo(), practiceNo, version, parameterSetService.findPatientIdVariableValue(), messageTriggerEvent, processingId);
-			}
-		} catch (HL7Exception e) {
-			return null;
-		} catch (IOException e) {
-			return null;
-		}
+		return ackUtil.encode(MessageTriggerEvent.A04.getTriggerEvent(), "P", version, style, code, textMessage);
 	}
 }

@@ -35,7 +35,7 @@ public enum SearchOperator {
     private final String info;
     private final String symbol;
 
-    SearchOperator(final String info, String symbol) {
+    SearchOperator(final String info, final String symbol) {
         this.info = info;
         this.symbol = symbol;
     }

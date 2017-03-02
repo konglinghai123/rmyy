@@ -96,17 +96,34 @@
 			</tr>
 			<tr>
 				<td>消息：</td>
-				<td><textarea id="hl7message" rows="10" cols="150"></textarea><br/>
-					<!-- 
-					colourised HL7 here:<br/>
-					<div id="out" style="border: 1px solid #808080; font-family: monospace; color: #000000; white-space: nowrap; overflow: auto;"></div><br/>
-					.. and HTML here:<br/>
-					<div id="outHtml" style="border: 1px solid #808080; font-family: monospace; color: #000000; white-space: nowrap; overflow: auto;"></div> --></td>
+				<td>
+					XML查询格式：<br/>
+					<textarea id="qryMessageXml" cols="100" rows="3"></textarea><br/>
+					ER7查询格式：<br/>
+					<div id="qryMessageEr7" style="border: 1px solid #808080; font-family: monospace; color: #000000; white-space: nowrap; overflow: auto;"></div><br/>
+					<input type="button" id="combinationQRY" value="把卡号组合成HL7格式的QRY"/>
+					<br/><br/><br/>
+					XML查询返回格式：<br/>
+					<textarea id="adrMessageXml" cols="100" rows="3"></textarea><br/>
+					ER7查询返回格式：
+					<div id="adrMessageEr7" style="border: 1px solid #808080; font-family: monospace; color: #000000; white-space: nowrap; overflow: auto;"></div><br/>
+					<input type="button" id="queryPatientToHl7" value="执行查询患者信息"/>
+					<br/><br/><br/>
+					患者注册格式：&nbsp;&nbsp;&nbsp;&nbsp;样式：<select id="styleSel" name="styleSel">
+						<option value ="xml" selected="selected">XML</option>
+						<option value ="er7">ER7</option>
+					</select><br/>
+					注册格式：
+					<textarea id="regMessage" cols="100" rows="3"></textarea><br/>
+					返回注册格式：
+					<div id="regResult" style="border: 1px solid #808080; font-family: monospace; color: #000000; white-space: nowrap; overflow: auto;"></div><br/>
+					<input type="button" id="registerPatient" value="执行注册患者信息"/>
+				</td>
 			</tr>
 			<tr>
 				<td colspan="2">
-					<input type="button" id="executeLong" value="执行患者ID号"/><input type="button" id="executeHl7v2" value="执行HL7V2患者信息"/>
-					<input type="button" id="executeParse" value="执行HL7V2解析信息"/>
+					<input type="button" id="queryPatient" value="执行患者ID号"/>
+					<input type="button" id="registerPatient" value="执行注册患者信息"/>
 				</td>
 			</tr>
 			<tr>
@@ -121,8 +138,12 @@
 			</tr>
 		</table>
 		<script type="text/javascript">
+			var qryXml, qryEr7;
 			$(function(){
-				$("#executeLong").bind('click', function(){
+				//$('#qrymessage').hide();
+				//$('#hl7message').hide();
+				
+				$("#queryPatient").bind('click', function(){
 					var val = $("#practiceNo").val();
 					if($.trim(val)==""){
 						alert("请输入卡号");
@@ -132,9 +153,9 @@
 					var str = '<?xml version="1.0" encoding="UTF-8"?>'+
 							'<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">'+
 							'<soap:Body>'+
-							'<ns2:findPatientId xmlns:ns2="http://ewcms.com/patient">'+
+							'<ns2:queryPatient xmlns:ns2="http://ewcms.com/patient">'+
 							'<practiceNo>' + val + '</practiceNo>'+
-							'</ns2:findPatientId>' + 
+							'</ns2:queryPatient>' + 
 							 '</soap:Body>'+
 							'</soap:Envelope>';
 								  
@@ -147,28 +168,22 @@
 						success:function(data){
 							var ss = "患者ID号：" + $(data).find("patientId").first().text();
 							$("#ajaxBack").html(ss).css("border","1px solid blue").css({width:'50%'}).appendTo($("body"));
-							$("#practiceNo").val("");
 						}
 					});
 				});
 				
-				$("#executeHl7v2").bind('click', function(){
+				$('#combinationQRY').bind('click', function(){
 					var val = $("#practiceNo").val();
-					if($.trim(val)==""){
-						alert("请输入卡号");
-						return;
-					}
 					<!--可以通过拦截器获取请求信息-->
 					var str = '<?xml version="1.0" encoding="UTF-8"?>'+
 							'<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">'+
 							'<soap:Body>'+
-							'<ns2:findPatientIdHl7v2 xmlns:ns2="http://ewcms.com/patient">'+
+							'<ns2:combinationQRY xmlns:ns2="http://ewcms.com/patient">'+
 							'<practiceNo>' + val + '</practiceNo>'+
 							'<version>' +  $('#version').val() + '</version>' +
-							'<messageTriggerEvent>' + $('#messageTriggerEvent').val() + '</messageTriggerEvent>' +
 							'<processingId>' + $('#processingId').val() + '</processingId>' +
 							'<style>er7</style>' +
-							'</ns2:findPatientIdHl7v2>' + 
+							'</ns2:combinationQRY>' + 
 							 '</soap:Body>'+
 							'</soap:Envelope>';
 								  
@@ -179,31 +194,54 @@
 						url:'http://localhost:8080/empi-ws/webservice/patient',		//直接发向这个地址
 						data:str,
 						success:function(data){
-							var ss = "HL7患者信息：<br/>" + $(data).find("patientIdHl7v2").first().text();
-							$("#ajaxBack").html(ss).css("border","1px solid blue").css({width:'50%'}).appendTo($("body"));
-							$("#name").val("");
-							
-							$('#hl7message').val($(data).find("patientIdHl7v2").first().text());
-							//update();
+							qryEr7 = $(data).find("hl7Result").first().text();
+							document.getElementById('qryMessageEr7').innerHTML = update(qryEr7);
 						}
-					}, 'xml');
-				});
+					});
+					
+					str = '<?xml version="1.0" encoding="UTF-8"?>'+
+							'<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">'+
+							'<soap:Body>'+
+							'<ns2:combinationQRY xmlns:ns2="http://ewcms.com/patient">'+
+							'<practiceNo>' + val + '</practiceNo>'+
+							'<version>' +  $('#version').val() + '</version>' +
+							'<processingId>' + $('#processingId').val() + '</processingId>' +
+							'<style>xml</style>' +
+							'</ns2:combinationQRY>' + 
+							 '</soap:Body>'+
+							'</soap:Envelope>';
+						  
+					$.ajax({
+						contentType:'application/xml;charset="UTF-8"',
+						dataType:'xml',//发送数据格式
+						type:'post',
+						url:'http://localhost:8080/empi-ws/webservice/patient',		//直接发向这个地址
+						data:str,
+						success:function(data){
+							qryXml = $(data).find("hl7Result").first().text();
+							document.getElementById('qryMessageXml').innerHTML = qryXml;
+						}
+					});
+					
+				})
 				
-				$("#executeParse").bind('click', function(){
-					var val = $("#hl7message").val();
-					if($.trim(val)==""){
-						alert("请输入HL7消息");
+				$("#queryPatientToHl7").bind('click', function(){
+					if($.trim(qryEr7)=='' || $.trim(qryXml)==''){
+						alert('请选执行[把卡号组合成HL7格式的QRY]按钮');
 						return;
 					}
+					
 					<!--可以通过拦截器获取请求信息-->
 					var str = '<?xml version="1.0" encoding="UTF-8"?>'+
 							'<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">'+
 							'<soap:Body>'+
-							'<ns2:doPatientIdToHl7 xmlns:ns2="http://ewcms.com/patient">'+
-							'<hl7Message><![CDATA[' + val + ']]></hl7Message>'+
+							'<ns2:queryPatientToHl7 xmlns:ns2="http://ewcms.com/patient">'+
+							'<qryMessage><![CDATA[' + qryEr7 + ']]></qryMessage>'+
 							'<version>' +  $('#version').val() + '</version>' +
-							'</ns2:doPatientIdToHl7>' + 
-							 '</soap:Body>'+
+							'<processingId>' + $('#processingId').val() + '</processingId>' +
+							'<style>er7</style>' +
+							'</ns2:queryPatientToHl7>' + 
+							'</soap:Body>'+
 							'</soap:Envelope>';
 								  
 					$.ajax({
@@ -213,18 +251,68 @@
 						url:'http://localhost:8080/empi-ws/webservice/patient',		//直接发向这个地址
 						data:str,
 						success:function(data){
-							var ss = "HL7患者信息：<br/>" + $(data).find("patientId").first().text();
-							$("#ajaxBack").html(ss).css("border","1px solid blue").css({width:'50%'}).appendTo($("body"));
-							$("#name").val("");
-							
+							document.getElementById('adrMessageEr7').innerHTML = update($(data).find("hl7Result").first().text());
+						}
+					});
+					
+					str = '<?xml version="1.0" encoding="UTF-8"?>'+
+							'<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">'+
+							'<soap:Body>'+
+							'<ns2:queryPatientToHl7 xmlns:ns2="http://ewcms.com/patient">'+
+							'<qryMessage><![CDATA[' + qryXml + ']]></qryMessage>'+
+							'<version>' +  $('#version').val() + '</version>' +
+							'<processingId>' + $('#processingId').val() + '</processingId>' +
+							'<style>xml</style>' +
+							'</ns2:queryPatientToHl7>' + 
+							'</soap:Body>'+
+							'</soap:Envelope>';
+								  
+					$.ajax({
+						contentType:'application/xml;charset="UTF-8"',
+						dataType:'xml',//发送数据格式
+						type:'post',
+						url:'http://localhost:8080/empi-ws/webservice/patient',		//直接发向这个地址
+						data:str,
+						success:function(data){
+							document.getElementById('adrMessageXml').innerHTML = $(data).find("hl7Result").first().text();
+						}
+					});
+				});
+				
+				$("#registerPatient").bind('click', function(){
+					var val = $("#regMessage").val();
+					if($.trim(val)==""){
+						alert("请输入患者注册的HL7消息");
+						return;
+					}
+					<!--可以通过拦截器获取请求信息-->
+					var str = '<?xml version="1.0" encoding="UTF-8"?>' +
+							'<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">' +
+							'<soap:Body>' +
+							'<ns2:registerPatient xmlns:ns2="http://ewcms.com/patient">' +
+							'<adtMessage><![CDATA[' + val + ']]></adtMessage>' +
+							'<version>' +  $('#version').val() + '</version>' +
+							'<style>' + $('#styleSel').val() + '</style>' +
+							'</ns2:registerPatient>' + 
+							'</soap:Body>' +
+							'</soap:Envelope>';
+								  
+					$.ajax({
+						contentType:'application/xml;charset="UTF-8"',
+						dataType:'xml',//发送数据格式
+						type:'post',
+						url:'http://localhost:8080/empi-ws/webservice/patient',		//直接发向这个地址
+						data:str,
+						success:function(data){
+							//var ss = "HL7患者信息：<br/>" + $(data).find("hl7Result").first().text();
+							//$("#ajaxBack").html(ss).css("border","1px solid blue").css({width:'50%'}).appendTo($("body"));
+							document.getElementById('regResult').innerHTML = update($(data).find("hl7Result").first().text());
 						}
 					});
 				});
 			});
-			function update() {
-				var value = document.getElementById('hl7message').value;
-		
-				var lines = value.split("\n");
+			function update(value) {
+				var lines = value.split("\r");
 				var output = "";
 				for (var index in lines) {
 					var nextLine = lines[index];
@@ -281,14 +369,7 @@
 					
 					output = output + "<br>";
 				}
-				
-				document.getElementById('out').innerHTML = output;
-				
-				output = output.replace(/<br>/g, "<br>\n");
-				output = output.replace(/&/g, "&amp;");
-				output = output.replace(/>/g, "&gt;");
-				output = output.replace(/</g, "&lt;");
-				document.getElementById('outHtml').innerHTML = "<pre>" + output + "</pre>";
+				return output;
 			}
 		</script>
 	</body>
