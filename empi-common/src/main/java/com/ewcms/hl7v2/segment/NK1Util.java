@@ -9,9 +9,13 @@ import ca.uhn.hl7v2.model.AbstractSegment;
  */
 public class NK1Util {
 	
+	//访问者姓名
 	private String contactName;
+	//与访问者关系
 	private String contactRelation;
+	//访问者地址
 	private String contactAddress;
+	//访问者电话
 	private String contactTelephone;
 	
 	public NK1Util(String contactName, String contactRelation, String contactAddress, String contactTelephone) {
@@ -41,6 +45,7 @@ public class NK1Util {
 		}
 	}
 	
+	/****************************************************************v2.1版本*********************************************************/
 	private void setNk1_V21(ca.uhn.hl7v2.model.v21.segment.NK1 nk1) throws HL7Exception{
 		nk1.getNk12_NEXTOFKINNAME().getPn1_FamilyName().setValue(getContactName());
 		nk1.getNk13_NEXTOFKINRELATIONSHIP().setValue(getContactRelation());
@@ -48,6 +53,7 @@ public class NK1Util {
 		nk1.getNk15_NEXTOFKINPHONENUMBER(0).setValue(getContactTelephone());
 	}
 	
+	/****************************************************************v2.2版本*********************************************************/
 	private void setNk1_V22(ca.uhn.hl7v2.model.v22.segment.NK1 nk1) throws HL7Exception{
 		nk1.getNk12_NKName().getPn1_FamilyName().setValue(getContactName());
 		nk1.getNk13_Relationship().getCe2_Text().setValue(getContactRelation());
@@ -55,6 +61,7 @@ public class NK1Util {
 		nk1.getNk15_PhoneNumber(0).setValue(getContactTelephone());
 	}
 	
+	/****************************************************************v2.3版本*********************************************************/
 	private void setNk1_V23(ca.uhn.hl7v2.model.v23.segment.NK1 nk1) throws HL7Exception{
 		nk1.getNk12_NKName(0).getXpn1_FamilyName().setValue(getContactName());
 		nk1.getNk13_Relationship().getCe2_Text().setValue(getContactRelation());
@@ -62,6 +69,7 @@ public class NK1Util {
 		nk1.getNk15_PhoneNumber(0).getXtn7_PhoneNumber().setValue(getContactTelephone());
 	}
 	
+	/****************************************************************v2.3.1版本*********************************************************/
 	private void setNk1_V231(ca.uhn.hl7v2.model.v231.segment.NK1 nk1) throws HL7Exception{
 		nk1.getNk12_NKName(0).getXpn1_FamilyLastName().getFn1_FamilyName().setValue(getContactName());
 		nk1.getNk13_Relationship().getCe2_Text().setValue(getContactRelation());
@@ -69,6 +77,7 @@ public class NK1Util {
 		nk1.getNk15_PhoneNumber(0).getXtn7_PhoneNumber().setValue(getContactTelephone());
 	}
 	
+	/****************************************************************v2.4版本*********************************************************/
 	private void setNk1_V24(ca.uhn.hl7v2.model.v24.segment.NK1 nk1) throws HL7Exception{
 		nk1.getNk12_NKName(0).getXpn1_FamilyName().getFn1_Surname().setValue(getContactName());
 		nk1.getNk13_Relationship().getCe2_Text().setValue(getContactRelation());
@@ -76,6 +85,7 @@ public class NK1Util {
 		nk1.getNk15_PhoneNumber(0).getXtn7_PhoneNumber().setValue(getContactTelephone());
 	}
 	
+	/****************************************************************v2.5版本*********************************************************/
 	private void setNk1_V25(ca.uhn.hl7v2.model.v25.segment.NK1 nk1) throws HL7Exception{
 		nk1.getNk12_NKName(0).getXpn1_FamilyName().getFn1_Surname().setValue(getContactName());
 		nk1.getNk13_Relationship().getCe2_Text().setValue(getContactRelation());
@@ -83,6 +93,7 @@ public class NK1Util {
 		nk1.getNk15_PhoneNumber(0).getXtn1_TelephoneNumber().setValue(getContactTelephone());
 	}
 	
+	/****************************************************************v2.5.1版本*********************************************************/
 	private void setNk1_V251(ca.uhn.hl7v2.model.v251.segment.NK1 nk1) throws HL7Exception{
 		nk1.getNk12_Name(0).getXpn1_FamilyName().getFn1_Surname().setValue(getContactName());
 		nk1.getNk13_Relationship().getCe2_Text().setValue(getContactRelation());
@@ -90,6 +101,7 @@ public class NK1Util {
 		nk1.getNk15_PhoneNumber(0).getXtn1_TelephoneNumber().setValue(getContactTelephone());
 	}
 	
+	/****************************************************************v2.6版本*********************************************************/
 	private void setNk1_V26(ca.uhn.hl7v2.model.v26.segment.NK1 nk1) throws HL7Exception{
 		nk1.getNk12_Name(0).getXpn1_FamilyName().getFn1_Surname().setValue(getContactName());
 		nk1.getNk13_Relationship().getCwe2_Text().setValue(getContactRelation());

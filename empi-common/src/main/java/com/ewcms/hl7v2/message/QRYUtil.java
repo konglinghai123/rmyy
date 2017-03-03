@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Calendar;
 
 import com.ewcms.hl7v2.MessageTriggerEvent;
+import com.ewcms.hl7v2.model.QRYEntity;
 import com.ewcms.hl7v2.util.HL7StringUtil;
 
 import ca.uhn.hl7v2.DefaultHapiContext;
@@ -30,34 +31,36 @@ public class QRYUtil {
 	 * @param processingId 消息处理ID插入MSH-11. 例如: "T" (for TEST) or "P" for (PRODUCTION)
 	 * @param style HL7使用样式(xml或er7)
 	 * @return QRY消息
-	 * @throws HL7Exception
-	 * @throws IOException
 	 */
-	public static String encode(String practiceNo, String version, String processingId, String style) throws HL7Exception, IOException{
+	public static String encode(String practiceNo, String version, String processingId, String style) {
 		Parser parser = hapiContext.getPipeParser();
 		if ("xml".equals(style.toLowerCase())){
 			parser = hapiContext.getXMLParser();
 		}
 		
-		if ("2.1".equals(version) || "v2.1".equals(version)){
-			return v21Encode(practiceNo, processingId, parser);
-		} else if ("2.2".equals(version) || "v2.2".equals(version)){
-			return v22Encode(practiceNo, processingId, parser);
-		} else if ("2.3".equals(version) || "v2.3".equals(version)){
-			return v23Encode(practiceNo, processingId, parser);
-		} else if ("2.3.1".equals(version) || "v2.3.1".equals(version)){
-			return v231Encode(practiceNo, processingId, parser);
-		} else if ("2.4".equals(version) || "v2.4".equals(version)){
-			return v24Encode(practiceNo, processingId, parser);
-		} else if ("2.5".equals(version) || "v2.5".equals(version)){
-			return v25Encode(practiceNo, processingId, parser);
-		} else if ("2.5.1".equals(version) || "v2.5.1".equals(version)){
-			return v251Encode(practiceNo, processingId, parser);
-		} else if ("2.6".equals(version) || "v2.6".equals(version)){
-			return v26Encode(practiceNo, processingId, parser);
-		} else {
-			throw new HL7Exception("The version used is out of range");
+		String result = "";
+		try{
+			if ("2.1".equals(version) || "v2.1".equals(version)){
+				result = v21Encode(practiceNo, processingId, parser);
+			} else if ("2.2".equals(version) || "v2.2".equals(version)){
+				result = v22Encode(practiceNo, processingId, parser);
+			} else if ("2.3".equals(version) || "v2.3".equals(version)){
+				result = v23Encode(practiceNo, processingId, parser);
+			} else if ("2.3.1".equals(version) || "v2.3.1".equals(version)){
+				result = v231Encode(practiceNo, processingId, parser);
+			} else if ("2.4".equals(version) || "v2.4".equals(version)){
+				result = v24Encode(practiceNo, processingId, parser);
+			} else if ("2.5".equals(version) || "v2.5".equals(version)){
+				result = v25Encode(practiceNo, processingId, parser);
+			} else if ("2.5.1".equals(version) || "v2.5.1".equals(version)){
+				result = v251Encode(practiceNo, processingId, parser);
+			} else if ("2.6".equals(version) || "v2.6".equals(version)){
+				result = v26Encode(practiceNo, processingId, parser);
+			}
+		} catch (HL7Exception e){
+		} catch (IOException e) {
 		}
+		return result;
 	}
 	
 	/**
@@ -69,7 +72,7 @@ public class QRYUtil {
 	 * @return 就诊卡号
 	 * @throws HL7Exception
 	 */
-	public static String parser(String message, String version, String style) throws HL7Exception{
+	public static QRYEntity parser(String message, String version, String style) throws HL7Exception{
 		Parser parser = hapiContext.getXMLParser();
 		if (!"xml".equals(style.toLowerCase())){
 			parser = hapiContext.getPipeParser();
@@ -98,7 +101,6 @@ public class QRYUtil {
 	}
 	
 	/*******************************************encode***************************************************/
-	
 	private static String v21Encode(String practiceNo, String processingId, Parser parser) throws HL7Exception, IOException{
 		ca.uhn.hl7v2.model.v21.message.QRY_A19 qry = new ca.uhn.hl7v2.model.v21.message.QRY_A19();
 		qry.initQuickstart(MessageTriggerEvent.A19.getCode(), MessageTriggerEvent.A19.getTriggerEvent(), processingId);
@@ -176,87 +178,140 @@ public class QRYUtil {
 	}
 
 	/*******************************************parser***************************************************/
-	
-	private static String v21Parser(String message, Parser parser) throws HL7Exception{
+	private static QRYEntity v21Parser(String message, Parser parser) throws HL7Exception{
+		QRYEntity qryEntity = new QRYEntity();
+		
 		hapiContext.setModelClassFactory(new CanonicalModelClassFactory(ca.uhn.hl7v2.model.v21.message.QRY_A19.class));
-		
 		Message msg = parser.parse(message);
+		
 		ca.uhn.hl7v2.model.v21.message.QRY_A19 qry = (ca.uhn.hl7v2.model.v21.message.QRY_A19) msg;
+		
+		ca.uhn.hl7v2.model.v21.segment.MSH msh = qry.getMSH();
+		qryEntity.setReceivingApplication(msh.getMsh3_SENDINGAPPLICATION().getValue());
+		
 		ca.uhn.hl7v2.model.v21.segment.QRD qrd = qry.getQRD();
+		qryEntity.setPracticeNo(qrd.getQrd4_QUERYID().getValue());
 		
-		return qrd.getQrd4_QUERYID().getValue();
+		return qryEntity;
 	}
 	
-	private static String v22Parser(String message, Parser parser) throws HL7Exception{
+	private static QRYEntity v22Parser(String message, Parser parser) throws HL7Exception{
+		QRYEntity qryEntity = new QRYEntity();
+		
 		hapiContext.setModelClassFactory(new CanonicalModelClassFactory(ca.uhn.hl7v2.model.v22.message.QRY_A19.class));
-		
 		Message msg = parser.parse(message);
+		
 		ca.uhn.hl7v2.model.v22.message.QRY_A19 qry = (ca.uhn.hl7v2.model.v22.message.QRY_A19) msg;
+		
+		ca.uhn.hl7v2.model.v22.segment.MSH msh = qry.getMSH();
+		qryEntity.setReceivingApplication(msh.getMsh3_SendingApplication().getValue());
+		
 		ca.uhn.hl7v2.model.v22.segment.QRD qrd = qry.getQRD();
+		qryEntity.setPracticeNo(qrd.getQrd4_QueryID().getValue());
 		
-		return qrd.getQrd4_QueryID().getValue();
+		return qryEntity;
 	}
 	
-	private static String v23Parser(String message, Parser parser) throws HL7Exception{
+	private static QRYEntity v23Parser(String message, Parser parser) throws HL7Exception{
+		QRYEntity qryEntity = new QRYEntity();
+		
 		hapiContext.setModelClassFactory(new CanonicalModelClassFactory(ca.uhn.hl7v2.model.v23.message.QRY_A19.class));
-		
 		Message msg = parser.parse(message);
+		
 		ca.uhn.hl7v2.model.v23.message.QRY_A19 qry = (ca.uhn.hl7v2.model.v23.message.QRY_A19) msg;
+		
+		ca.uhn.hl7v2.model.v23.segment.MSH msh = qry.getMSH();
+		qryEntity.setReceivingApplication(msh.getMsh3_SendingApplication().getHd1_NamespaceID().getValue());
+		
 		ca.uhn.hl7v2.model.v23.segment.QRD qrd = qry.getQRD();
+		qryEntity.setPracticeNo(qrd.getQrd4_QueryID().getValue());
 		
-		return qrd.getQrd4_QueryID().getValue();
+		return qryEntity;
 	}
 	
-	private static String v231Parser(String message, Parser parser) throws HL7Exception{
+	private static QRYEntity v231Parser(String message, Parser parser) throws HL7Exception{
+		QRYEntity qryEntity = new QRYEntity();
+		
 		hapiContext.setModelClassFactory(new CanonicalModelClassFactory(ca.uhn.hl7v2.model.v231.message.QRY_A19.class));
-		
 		Message msg = parser.parse(message);
+		
 		ca.uhn.hl7v2.model.v231.message.QRY_A19 qry = (ca.uhn.hl7v2.model.v231.message.QRY_A19) msg;
+		
+		ca.uhn.hl7v2.model.v231.segment.MSH msh = qry.getMSH();
+		qryEntity.setReceivingApplication(msh.getMsh3_SendingApplication().getHd1_NamespaceID().getValue());
+		
 		ca.uhn.hl7v2.model.v231.segment.QRD qrd = qry.getQRD();
+		qryEntity.setPracticeNo(qrd.getQrd4_QueryID().getValue());
 		
-		return qrd.getQrd4_QueryID().getValue();
+		return qryEntity;
 
 	}
 	
-	private static String v24Parser(String message, Parser parser) throws HL7Exception{
+	private static QRYEntity v24Parser(String message, Parser parser) throws HL7Exception{
+		QRYEntity qryEntity = new QRYEntity();
+		
 		hapiContext.setModelClassFactory(new CanonicalModelClassFactory(ca.uhn.hl7v2.model.v24.message.QRY_A19.class));
-		
 		Message msg = parser.parse(message);
-		ca.uhn.hl7v2.model.v24.message.QRY_A19 qry = (ca.uhn.hl7v2.model.v24.message.QRY_A19) msg;
-		ca.uhn.hl7v2.model.v24.segment.QRD qrd = qry.getQRD();
 		
-		return qrd.getQrd4_QueryID().getValue();
+		ca.uhn.hl7v2.model.v24.message.QRY_A19 qry = (ca.uhn.hl7v2.model.v24.message.QRY_A19) msg;
+
+		ca.uhn.hl7v2.model.v24.segment.MSH msh = qry.getMSH();
+		qryEntity.setReceivingApplication(msh.getMsh3_SendingApplication().getHd1_NamespaceID().getValue());
+		
+		ca.uhn.hl7v2.model.v24.segment.QRD qrd = qry.getQRD();
+		qryEntity.setPracticeNo(qrd.getQrd4_QueryID().getValue());
+		
+		return qryEntity;
 
 	}
 	
-	private static String v25Parser(String message, Parser parser) throws HL7Exception{
+	private static QRYEntity v25Parser(String message, Parser parser) throws HL7Exception{
+		QRYEntity qryEntity = new QRYEntity();
+		
 		hapiContext.setModelClassFactory(new CanonicalModelClassFactory(ca.uhn.hl7v2.model.v25.message.QRY_A19.class));
-		
 		Message msg = parser.parse(message);
+		
 		ca.uhn.hl7v2.model.v25.message.QRY_A19 qry = (ca.uhn.hl7v2.model.v25.message.QRY_A19) msg;
+		
+		ca.uhn.hl7v2.model.v25.segment.MSH msh = qry.getMSH();
+		qryEntity.setReceivingApplication(msh.getMsh3_SendingApplication().getHd1_NamespaceID().getValue());
+		
 		ca.uhn.hl7v2.model.v25.segment.QRD qrd = qry.getQRD();
+		qryEntity.setPracticeNo(qrd.getQrd4_QueryID().getValue());
 		
-		return qrd.getQrd4_QueryID().getValue();
+		return qryEntity;
 	}
 	
-	private static String v251Parser(String message, Parser parser) throws HL7Exception{
+	private static QRYEntity v251Parser(String message, Parser parser) throws HL7Exception{
+		QRYEntity qryEntity = new QRYEntity();
 		hapiContext.setModelClassFactory(new CanonicalModelClassFactory(ca.uhn.hl7v2.model.v251.message.QRY_A19.class));
-		
 		Message msg = parser.parse(message);
+
 		ca.uhn.hl7v2.model.v251.message.QRY_A19 qry = (ca.uhn.hl7v2.model.v251.message.QRY_A19) msg;
-		ca.uhn.hl7v2.model.v251.segment.QRD qrd = qry.getQRD();
 		
-		return qrd.getQrd4_QueryID().getValue();
+		ca.uhn.hl7v2.model.v251.segment.MSH msh = qry.getMSH();
+		qryEntity.setReceivingApplication(msh.getMsh3_SendingApplication().getHd1_NamespaceID().getValue());
+		
+		ca.uhn.hl7v2.model.v251.segment.QRD qrd = qry.getQRD();
+		qryEntity.setPracticeNo(qrd.getQrd4_QueryID().getValue());
+		
+		return qryEntity;
 	}
 	
-	private static String v26Parser(String message, Parser parser) throws HL7Exception{
+	private static QRYEntity v26Parser(String message, Parser parser) throws HL7Exception{
+		QRYEntity qryEntity = new QRYEntity();
 		hapiContext.setModelClassFactory(new CanonicalModelClassFactory(ca.uhn.hl7v2.model.v26.message.QRY_A19.class));
-		
 		Message msg = parser.parse(message);
+
 		ca.uhn.hl7v2.model.v26.message.QRY_A19 qry = (ca.uhn.hl7v2.model.v26.message.QRY_A19) msg;
-		ca.uhn.hl7v2.model.v26.segment.QRD qrd = qry.getQRD();
 		
-		return qrd.getQrd4_QueryID().getValue();
+		ca.uhn.hl7v2.model.v26.segment.MSH msh = qry.getMSH();
+		qryEntity.setReceivingApplication(msh.getMsh3_SendingApplication().getHd1_NamespaceID().getValue());
+		
+		ca.uhn.hl7v2.model.v26.segment.QRD qrd = qry.getQRD();
+		qryEntity.setPracticeNo(qrd.getQrd4_QueryID().getValue());
+		
+		return qryEntity;
 
 	}
 }

@@ -1,22 +1,16 @@
 package com.ewcms.hl7v2.message;
 
-import java.io.IOException;
 import java.util.Date;
 
 import org.junit.Test;
 
-import ca.uhn.hl7v2.AcknowledgmentCode;
 import ca.uhn.hl7v2.DefaultHapiContext;
-import ca.uhn.hl7v2.HL7Exception;
 import ca.uhn.hl7v2.HapiContext;
-import ca.uhn.hl7v2.model.GenericMessage;
-import ca.uhn.hl7v2.model.Message;
-import ca.uhn.hl7v2.model.v24.message.ADT_A01;
-import ca.uhn.hl7v2.parser.DefaultModelClassFactory;
 
 import com.ewcms.empi.card.manage.entity.PatientBaseInfo;
 import com.ewcms.hl7v2.MessageTriggerEvent;
 import com.ewcms.hl7v2.message.ADTUtil;
+import com.ewcms.hl7v2.model.ADTEntity;
 
 /**
  *
@@ -25,23 +19,23 @@ import com.ewcms.hl7v2.message.ADTUtil;
 public class ADTUtilTest {
 	static HapiContext hapiContext = new DefaultHapiContext();
 
-	@Test
-	public void testHL7(){
-		//DefaultModelClassFactory dmc = new DefaultModelClassFactory();
-		
-		try {
-			Class<? extends Message> clazz = hapiContext.getModelClassFactory().getMessageClass("ADT_A01", "2.4", false);
-			
-			Message message = clazz.newInstance();
-			
-			ADT_A01 adt = (ADT_A01)message;
-			
-			System.out.println(clazz.getSimpleName());
-			System.out.println(AcknowledgmentCode.AA.name());
-		} catch (HL7Exception | InstantiationException | IllegalAccessException e) {
-			e.printStackTrace();
-		}
-	}
+//	@Test
+//	public void testHL7(){
+//		//DefaultModelClassFactory dmc = new DefaultModelClassFactory();
+//		
+//		try {
+//			Class<? extends Message> clazz = hapiContext.getModelClassFactory().getMessageClass("ADT_A01", "2.4", false);
+//			
+//			Message message = clazz.newInstance();
+//			
+//			ADT_A01 adt = (ADT_A01)message;
+//			
+//			System.out.println(clazz.getSimpleName());
+//			System.out.println(AcknowledgmentCode.AA.name());
+//		} catch (HL7Exception | InstantiationException | IllegalAccessException e) {
+//			e.printStackTrace();
+//		}
+//	}
 	
 	@Test
 	public void testADTXML(){
@@ -49,19 +43,14 @@ public class ADTUtilTest {
 		String practiceNo = "000000001";
 		String version = "v2.4";
 		Integer patientIdLen = 10;
-		String messageTriggerEvent = MessageTriggerEvent.A14.getTriggerEvent();
+		String messageTriggerEvent = MessageTriggerEvent.A04.getTriggerEvent();
 		String processingId = "P";
 		String style = "xml";
 
 		patientBaseInfo.setPracticeNo(practiceNo);
 		
-		try {
-			ADTUtil adtUtil = new ADTUtil();
-			String message =  adtUtil.encode(patientBaseInfo, practiceNo, patientIdLen, messageTriggerEvent, processingId, version, style);
-			System.out.println("XML : " + message);
-		} catch (HL7Exception | IOException e) {
-			System.out.println(e.toString());
-		}
+		String message =  ADTUtil.encode(patientBaseInfo, practiceNo, patientIdLen, messageTriggerEvent, processingId, version, style);
+		System.out.println("XML : " + message);
 	}
 	
 	@Test
@@ -70,21 +59,18 @@ public class ADTUtilTest {
 		String practiceNo = "000000001";
 		String version = "v2.4";
 		Integer patientIdLen = 10;
-		String messageTriggerEvent = MessageTriggerEvent.A14.getTriggerEvent();
+		String messageTriggerEvent = MessageTriggerEvent.A04.getTriggerEvent();
 		String processingId = "P";
 		String style = "ER7";
 		
 		patientBaseInfo.setPracticeNo(practiceNo);
 		
 		try {
-			ADTUtil adtUtil = new ADTUtil();
-			String message =  adtUtil.encode(patientBaseInfo, practiceNo, patientIdLen, messageTriggerEvent, processingId, version, style);
+			String message =  ADTUtil.encode(patientBaseInfo, practiceNo, patientIdLen, messageTriggerEvent, processingId, version, style);
 			System.out.println("ER7 : " + message);
-			PatientBaseInfo vo = ADTUtil.parser(message, version, style);
-			System.out.println(vo.getPatientId());
-			System.out.println(vo.getName());
-		} catch (HL7Exception | IOException e) {
-			System.out.println(e.toString());
+			ADTEntity adtEntity = ADTUtil.parser(message, version, style);
+			System.out.println(adtEntity.getPatientBaseInfo().getPatientId());
+			System.out.println(adtEntity.getPatientBaseInfo().getName());
 		} catch (Exception e) {
 			System.out.println(e.toString());
 		}

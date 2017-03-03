@@ -101,28 +101,22 @@
 					<textarea id="qryMessageXml" cols="100" rows="3"></textarea><br/>
 					ER7查询格式：<br/>
 					<div id="qryMessageEr7" style="border: 1px solid #808080; font-family: monospace; color: #000000; white-space: nowrap; overflow: auto;"></div><br/>
-					<input type="button" id="combinationQRY" value="把卡号组合成HL7格式的QRY"/>
+					<input type="button" id="compositePracticeNo" value="把卡号组合成HL7格式的QRY消息"/>
 					<br/><br/><br/>
 					XML查询返回格式：<br/>
 					<textarea id="adrMessageXml" cols="100" rows="3"></textarea><br/>
 					ER7查询返回格式：
 					<div id="adrMessageEr7" style="border: 1px solid #808080; font-family: monospace; color: #000000; white-space: nowrap; overflow: auto;"></div><br/>
-					<input type="button" id="queryPatientToHl7" value="执行查询患者信息"/>
+					<input type="button" id="queryPatient" value="执行查询患者信息"/>
 					<br/><br/><br/>
 					患者注册格式：&nbsp;&nbsp;&nbsp;&nbsp;样式：<select id="styleSel" name="styleSel">
-						<option value ="xml" selected="selected">XML</option>
-						<option value ="er7">ER7</option>
+						<option value ="xml">XML</option>
+						<option value ="er7" selected="selected">ER7</option>
 					</select><br/>
 					注册格式：
 					<textarea id="regMessage" cols="100" rows="3"></textarea><br/>
 					返回注册格式：
 					<div id="regResult" style="border: 1px solid #808080; font-family: monospace; color: #000000; white-space: nowrap; overflow: auto;"></div><br/>
-					<input type="button" id="registerPatient" value="执行注册患者信息"/>
-				</td>
-			</tr>
-			<tr>
-				<td colspan="2">
-					<input type="button" id="queryPatient" value="执行患者ID号"/>
 					<input type="button" id="registerPatient" value="执行注册患者信息"/>
 				</td>
 			</tr>
@@ -143,47 +137,18 @@
 				//$('#qrymessage').hide();
 				//$('#hl7message').hide();
 				
-				$("#queryPatient").bind('click', function(){
-					var val = $("#practiceNo").val();
-					if($.trim(val)==""){
-						alert("请输入卡号");
-						return;
-					}
-					<!--可以通过拦截器获取请求信息-->
-					var str = '<?xml version="1.0" encoding="UTF-8"?>'+
-							'<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">'+
-							'<soap:Body>'+
-							'<ns2:queryPatient xmlns:ns2="http://ewcms.com/patient">'+
-							'<practiceNo>' + val + '</practiceNo>'+
-							'</ns2:queryPatient>' + 
-							 '</soap:Body>'+
-							'</soap:Envelope>';
-								  
-					$.ajax({
-						contentType:'application/xml;charset="UTF-8"',
-						dataType:'xml',//发送数据格式
-						type:'post',
-						url:'http://localhost:8080/empi-ws/webservice/patient',		//直接发向这个地址
-						data:str,
-						success:function(data){
-							var ss = "患者ID号：" + $(data).find("patientId").first().text();
-							$("#ajaxBack").html(ss).css("border","1px solid blue").css({width:'50%'}).appendTo($("body"));
-						}
-					});
-				});
-				
-				$('#combinationQRY').bind('click', function(){
+				$('#compositePracticeNo').bind('click', function(){
 					var val = $("#practiceNo").val();
 					<!--可以通过拦截器获取请求信息-->
 					var str = '<?xml version="1.0" encoding="UTF-8"?>'+
 							'<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">'+
 							'<soap:Body>'+
-							'<ns2:combinationQRY xmlns:ns2="http://ewcms.com/patient">'+
+							'<ns2:compositePracticeNo xmlns:ns2="http://ewcms.com/patient">'+
 							'<practiceNo>' + val + '</practiceNo>'+
 							'<version>' +  $('#version').val() + '</version>' +
 							'<processingId>' + $('#processingId').val() + '</processingId>' +
 							'<style>er7</style>' +
-							'</ns2:combinationQRY>' + 
+							'</ns2:compositePracticeNo>' + 
 							 '</soap:Body>'+
 							'</soap:Envelope>';
 								  
@@ -202,12 +167,12 @@
 					str = '<?xml version="1.0" encoding="UTF-8"?>'+
 							'<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">'+
 							'<soap:Body>'+
-							'<ns2:combinationQRY xmlns:ns2="http://ewcms.com/patient">'+
+							'<ns2:compositePracticeNo xmlns:ns2="http://ewcms.com/patient">'+
 							'<practiceNo>' + val + '</practiceNo>'+
 							'<version>' +  $('#version').val() + '</version>' +
 							'<processingId>' + $('#processingId').val() + '</processingId>' +
 							'<style>xml</style>' +
-							'</ns2:combinationQRY>' + 
+							'</ns2:compositePracticeNo>' + 
 							 '</soap:Body>'+
 							'</soap:Envelope>';
 						  
@@ -225,7 +190,7 @@
 					
 				})
 				
-				$("#queryPatientToHl7").bind('click', function(){
+				$("#queryPatient").bind('click', function(){
 					if($.trim(qryEr7)=='' || $.trim(qryXml)==''){
 						alert('请选执行[把卡号组合成HL7格式的QRY]按钮');
 						return;
@@ -235,12 +200,12 @@
 					var str = '<?xml version="1.0" encoding="UTF-8"?>'+
 							'<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">'+
 							'<soap:Body>'+
-							'<ns2:queryPatientToHl7 xmlns:ns2="http://ewcms.com/patient">'+
+							'<ns2:queryPatient xmlns:ns2="http://ewcms.com/patient">'+
 							'<qryMessage><![CDATA[' + qryEr7 + ']]></qryMessage>'+
 							'<version>' +  $('#version').val() + '</version>' +
 							'<processingId>' + $('#processingId').val() + '</processingId>' +
 							'<style>er7</style>' +
-							'</ns2:queryPatientToHl7>' + 
+							'</ns2:queryPatient>' + 
 							'</soap:Body>'+
 							'</soap:Envelope>';
 								  
@@ -258,12 +223,12 @@
 					str = '<?xml version="1.0" encoding="UTF-8"?>'+
 							'<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">'+
 							'<soap:Body>'+
-							'<ns2:queryPatientToHl7 xmlns:ns2="http://ewcms.com/patient">'+
+							'<ns2:queryPatient xmlns:ns2="http://ewcms.com/patient">'+
 							'<qryMessage><![CDATA[' + qryXml + ']]></qryMessage>'+
 							'<version>' +  $('#version').val() + '</version>' +
 							'<processingId>' + $('#processingId').val() + '</processingId>' +
 							'<style>xml</style>' +
-							'</ns2:queryPatientToHl7>' + 
+							'</ns2:queryPatient>' + 
 							'</soap:Body>'+
 							'</soap:Envelope>';
 								  
@@ -292,6 +257,7 @@
 							'<ns2:registerPatient xmlns:ns2="http://ewcms.com/patient">' +
 							'<adtMessage><![CDATA[' + val + ']]></adtMessage>' +
 							'<version>' +  $('#version').val() + '</version>' +
+							'<processingId>' + $('#processingId').val() + '</processingId>' +
 							'<style>' + $('#styleSel').val() + '</style>' +
 							'</ns2:registerPatient>' + 
 							'</soap:Body>' +
@@ -362,9 +328,7 @@
 								}
 							}
 						}
-						
 						output = output + "<span style=\"color: #808080;\"><b>|</b></span>";
-						
 					}
 					
 					output = output + "<br>";
