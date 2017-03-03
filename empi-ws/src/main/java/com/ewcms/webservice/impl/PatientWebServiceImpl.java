@@ -1,9 +1,5 @@
 package com.ewcms.webservice.impl;
 
-import java.io.IOException;
-import java.util.Date;
-import java.util.List;
-
 import javax.jws.WebService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +10,6 @@ import ca.uhn.hl7v2.HL7Exception;
 
 import com.ewcms.WebServiceConstants;
 import com.ewcms.common.utils.EmptyUtil;
-import com.ewcms.empi.card.manage.entity.HapiOperate;
-import com.ewcms.empi.card.manage.entity.MessageLog;
 import com.ewcms.empi.card.manage.entity.PatientBaseInfo;
 import com.ewcms.empi.card.manage.entity.PracticeCard;
 import com.ewcms.empi.card.manage.entity.PracticeCardIndex;
@@ -29,6 +23,10 @@ import com.ewcms.hl7v2.message.ACKUtil;
 import com.ewcms.hl7v2.message.ADRUtil;
 import com.ewcms.hl7v2.message.ADTUtil;
 import com.ewcms.hl7v2.message.QRYUtil;
+import com.ewcms.hl7v2.model.ACKEntity;
+import com.ewcms.hl7v2.model.ADREntity;
+import com.ewcms.hl7v2.model.ADTEntity;
+import com.ewcms.hl7v2.model.QRYEntity;
 import com.ewcms.webservice.IPatientWebService;
 
 /**
@@ -51,107 +49,125 @@ public class PatientWebServiceImpl implements IPatientWebService {
 	private MessageLogService messageLogService;
 	
 	@Override
-	public String queryPatient(String practiceNo) {
-		PracticeCardIndex practiceCardIndex = practiceCardIndexService.findByIdAndDeleted(practiceNo, Boolean.FALSE);
-		return practiceCardIndex.getPatientId();
+	public String compositePracticeNo(String practiceNo, String version, String processingId, String style) {
+		return QRYUtil.encode(practiceNo, version, processingId, style);
 	}
 	
 	@Override
-	public String combinationQRY(String practiceNo, String version, String processingId, String style) {
-		String hl7Result = "";
-		try {
-			hl7Result = QRYUtil.encode(practiceNo, version, processingId, style);
-		} catch (HL7Exception | IOException e) {
-			e.printStackTrace();
-		}
-		return hl7Result;
-	}
-	
-	@Override
-	public String queryPatientToHl7(String qryMessage, String version, String processingId, String style) {
-		ADRUtil adrUtil = new ADRUtil();
-
+	public String queryPatient(String qryMessage, String version, String processingId, String style) {
 		String practiceNo = "";
+		String receivingApplication = "";
+		String messageControlId = "";
+
+		ACKEntity ackEntity = new ACKEntity();
+
+		ackEntity.setMessageTriggerEvent(MessageTriggerEvent.A19.getCode());
+		ackEntity.setProcessingId(processingId);
+		ackEntity.setVersion(version);
+		ackEntity.setStyle(style);
+		
 		try {
-			practiceNo = QRYUtil.parser(qryMessage, version, style);
+			QRYEntity qryEntity = QRYUtil.parser(qryMessage, version, style);
+			practiceNo = qryEntity.getPracticeNo();
+			receivingApplication = qryEntity.getReceivingApplication();
+			messageControlId = qryEntity.getMessageControlId();
+
+			ackEntity.setReceivingApplication(receivingApplication);
+			ackEntity.setMessageControlId(messageControlId);
 		} catch (HL7Exception e) {
-			return adrUtil.encode(MessageTriggerEvent.A19.getCode(), processingId, version, style, AcknowledgmentCode.AE.name(), "解析HL7错误");
+			ackEntity.setAcknowledgmentCode(AcknowledgmentCode.AE.name());
+			ackEntity.setTextMessage("解析HL7错误");
+			
+			return ADRUtil.encode(ackEntity);
 		}
-		if (EmptyUtil.isStringEmpty(practiceNo)) return adrUtil.encode(MessageTriggerEvent.A19.getCode(), processingId, version, style, AcknowledgmentCode.AE.name(), "患者卡号为空");
+		
+		if (EmptyUtil.isStringEmpty(practiceNo)) {
+			ackEntity.setAcknowledgmentCode(AcknowledgmentCode.AE.name());
+			ackEntity.setTextMessage("患者卡号为空");
+			
+			return ADRUtil.encode(ackEntity);
+		}
+		
 		PracticeCardIndex practiceCardIndex = practiceCardIndexService.findByIdAndDeleted(practiceNo, Boolean.FALSE);
-		if (EmptyUtil.isNull(practiceCardIndex)) return adrUtil.encode(MessageTriggerEvent.A19.getCode(), processingId, version, style, AcknowledgmentCode.AE.name(), "患者唯一索引号不存在，必须先进行注册");
+		if (EmptyUtil.isNull(practiceCardIndex)) {
+			ackEntity.setAcknowledgmentCode(AcknowledgmentCode.AE.name());
+			ackEntity.setTextMessage("患者唯一索引号不存在，必须先进行注册");
+			
+			return ADRUtil.encode(ackEntity);
+		}
+		
 		PatientBaseInfo patientBaseInfo = patientBaseInfoService.findOne(practiceCardIndex.getPatientBaseInfoId());
-		if (EmptyUtil.isNull(patientBaseInfo)) return adrUtil.encode(MessageTriggerEvent.A19.getCode(), processingId, version, style, AcknowledgmentCode.AE.name(), "患者基本信息不存在，必须先进行注册");
+		if (EmptyUtil.isNull(patientBaseInfo)) {
+			ackEntity.setAcknowledgmentCode(AcknowledgmentCode.AE.name());
+			ackEntity.setTextMessage("患者基本信息不存在，必须先进行注册");
+			
+			return ADRUtil.encode(ackEntity);
+		}
 		
 		Integer patientIdLen = parameterSetService.findPatientIdVariableValue();
 		
-		return adrUtil.encode(patientBaseInfo, practiceNo, patientIdLen, processingId, version, style);
+		ADREntity adrEntity = new ADREntity();
+		
+		adrEntity.setPatientBaseInfo(patientBaseInfo);
+		adrEntity.setPracticeNo(practiceNo);
+		adrEntity.setPatientIdLen(patientIdLen);
+		adrEntity.setProcessingId(processingId);
+		adrEntity.setVersion(version);
+		adrEntity.setStyle(style);
+		adrEntity.setReceivingApplication(receivingApplication);
+		adrEntity.setMessageControlId(messageControlId);
+		
+		return ADRUtil.encode(adrEntity);
 	}
 	
 	@Override
-	public String registerPatient(String adtMessage, String version, String style) {
-		ACKUtil ackUtil = new ACKUtil();
-		
-		String patientIdStr = null;
-		String code = AcknowledgmentCode.AA.name();
+	public String registerPatient(String adtMessage, String version, String processingId, String style) {
+		String acknowledgmentCode = AcknowledgmentCode.AA.name();
 		String textMessage = "注册成功";
+		
+		PatientBaseInfo patientBaseInfo = null;
+		String receivingApplication = "";
+		String messageControlId = "";
+		
 		try {
-			PatientBaseInfo patientBaseInfo = ADTUtil.parser(adtMessage, version, style);
+			ADTEntity adtEntity = ADTUtil.parser(adtMessage, version, style);
+			patientBaseInfo = adtEntity.getPatientBaseInfo();
+			receivingApplication = adtEntity.getReceivingApplication();
+			messageControlId = adtEntity.getMessageControlId();
 			
 			String practiceNo = patientBaseInfo.getPracticeNo();
-			if (EmptyUtil.isStringEmpty(practiceNo)) ackUtil.encode(MessageTriggerEvent.A04.getTriggerEvent(), "P", version, style, AcknowledgmentCode.AE.name(), "患者卡号不能为空");
-			
-			PracticeCardIndex practiceCardIndex = practiceCardIndexService.findByIdAndDeleted(practiceNo, Boolean.FALSE);
-			
-			if (EmptyUtil.isNull(practiceCardIndex)){//未注册
-				Integer patientIdLength = parameterSetService.findPatientIdVariableValue();
-				List<PatientBaseInfo> list = patientBaseInfoService.match(patientBaseInfo);
+			if (EmptyUtil.isStringEmpty(practiceNo)) {
+				acknowledgmentCode = AcknowledgmentCode.AE.name();
+				textMessage = "患者卡号不能为空";
+			} else {
+				PracticeCardIndex practiceCardIndex = practiceCardIndexService.findByIdAndDeleted(practiceNo, Boolean.FALSE);
 				
-				Long mathPatientId = null;
-				if (EmptyUtil.isCollectionNotEmpty(list)){
-					PatientBaseInfo mathPatientBaseInfo = list.get(0);
-					mathPatientId = mathPatientBaseInfo.getId();
-				} else {
-					patientBaseInfo = patientBaseInfoService.saveAndFlush(patientBaseInfo);
-					mathPatientId = patientBaseInfo.getId();
+				if (EmptyUtil.isNull(practiceCardIndex)){//未注册
+					PracticeCard practiceCard = practiceCardService.register(practiceNo, patientBaseInfo);
+					textMessage = practiceCard.getPatientBaseInfo().getPatientId();
+				} else {//已存在
+					textMessage = practiceCardIndex.getPatientId();
 				}
-				
-				patientIdStr = String.format("%0" + patientIdLength + "d", mathPatientId);
-				
-				practiceCardIndex = new PracticeCardIndex();
-				
-				practiceCardIndex.setId(practiceNo);
-				practiceCardIndex.setPatientBaseInfoId(mathPatientId);
-				practiceCardIndex.setPatientId(patientIdStr);
-				
-				practiceCardIndexService.save(practiceCardIndex);
-				
-				PracticeCard practiceCard = new PracticeCard();
-				practiceCard.setPatientBaseInfo(patientBaseInfo);
-				practiceCard.setPracticeNo(practiceNo);
-				
-				practiceCardService.save(practiceCard);
-			} else {//已存在
-				patientIdStr = practiceCardIndex.getPatientId();
-				
-				code = AcknowledgmentCode.AA.name();
 			}
-			
-			//MessageLog messageLog = new MessageLog();
-			//messageLog.setHapiOperate(HapiOperate.receive);
-			//messageLog.setPracticeNo(practiceNo);
-			//messageLog.setReceiveDate(new Date());
-			
-			//messageLogService.save(messageLog);
-			
-			textMessage = patientIdStr;
 		} catch (HL7Exception e) {
-			code = AcknowledgmentCode.AE.name();
+			acknowledgmentCode = AcknowledgmentCode.AE.name();
 			textMessage = "HL7格式错误";
 		} catch (Exception e) {
-			code = AcknowledgmentCode.AE.name();
+			acknowledgmentCode = AcknowledgmentCode.AE.name();
 			textMessage = "系统错误";
 		}
-		return ackUtil.encode(MessageTriggerEvent.A04.getTriggerEvent(), "P", version, style, code, textMessage);
+		
+		ACKEntity ackEntity = new ACKEntity();
+		
+		ackEntity.setMessageTriggerEvent(MessageTriggerEvent.A04.getTriggerEvent());
+		ackEntity.setProcessingId(processingId);
+		ackEntity.setVersion(version);
+		ackEntity.setStyle(style);
+		ackEntity.setAcknowledgmentCode(acknowledgmentCode);
+		ackEntity.setTextMessage(textMessage);
+		ackEntity.setReceivingApplication(receivingApplication);
+		ackEntity.setMessageControlId(messageControlId);
+		
+		return ACKUtil.encode(ackEntity);
 	}
 }

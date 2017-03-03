@@ -9,10 +9,11 @@ import ca.uhn.hl7v2.model.AbstractSegment;
  */
 public class AL1Util{
 
+	// 过敏史
 	private String allergyHistory;
 	
 	public AL1Util(String allergyHistory) {
-		this.allergyHistory = allergyHistory;// 过敏史
+		this.allergyHistory = allergyHistory;
 	}
 	
 	public void setAl1(AbstractSegment al1) throws HL7Exception{

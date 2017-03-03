@@ -80,6 +80,7 @@ public class PIDUtil {
 		}
 	}
 
+	/****************************************************************v2.1版本*********************************************************/
 	private void setPid_V21(ca.uhn.hl7v2.model.v21.segment.PID pid) throws HL7Exception {
 		pid.getPid2_PATIENTIDEXTERNALEXTERNALID().getCk1_IDNumber().setValue(getPracticeNo());
 		pid.getPid3_PATIENTIDINTERNALINTERNALID().getCk1_IDNumber().setValue(getId());
@@ -100,6 +101,7 @@ public class PIDUtil {
 		//TODO birthPlace未找到定义的PID
 	}
 
+	/****************************************************************v2.2版本*********************************************************/
 	private void setPid_V22(ca.uhn.hl7v2.model.v22.segment.PID pid) throws HL7Exception {
 		pid.getPid2_PatientIDExternalID().getCk1_IDNumber().setValue(getPracticeNo());
 		pid.getPid3_PatientIDInternalID(0).getCm_pat_id1_IDNumber().setValue(getId());
@@ -120,6 +122,7 @@ public class PIDUtil {
 		pid.getPid23_BirthPlace().setValue(getBirthPlace());
 	}
 	
+	/****************************************************************v2.3版本*********************************************************/
 	private void setPid_V23(ca.uhn.hl7v2.model.v23.segment.PID pid) throws HL7Exception {
 		pid.getPid2_PatientIDExternalID().getCx1_ID().setValue(getPracticeNo());
 		pid.getPid3_PatientIDInternalID(0).getCx1_ID().setValue(getId());
@@ -140,6 +143,7 @@ public class PIDUtil {
 		pid.getPid23_BirthPlace().setValue(getBirthPlace());
 	}
 	
+	/****************************************************************v2.3.1版本*********************************************************/
 	private void setPid_V231(ca.uhn.hl7v2.model.v231.segment.PID pid) throws HL7Exception {
 		pid.getPid2_PatientID().getCx1_ID().setValue(getPracticeNo());
 		pid.getPid3_PatientIdentifierList(0).getCx1_ID().setValue(getId());
@@ -160,6 +164,7 @@ public class PIDUtil {
 		pid.getPid23_BirthPlace().setValue(getBirthPlace());
 	}
 	
+	/****************************************************************v2.4版本*********************************************************/
 	private void setPid_V24(ca.uhn.hl7v2.model.v24.segment.PID pid) throws HL7Exception {
 		pid.getPid2_PatientID().getCx1_ID().setValue(getPracticeNo());
 		pid.getPid3_PatientIdentifierList(0).getCx1_ID().setValue(getId());
@@ -180,6 +185,7 @@ public class PIDUtil {
 		pid.getPid23_BirthPlace().setValue(getBirthPlace());
 	}
 	
+	/****************************************************************v2.5版本*********************************************************/
 	private void setPid_V25(ca.uhn.hl7v2.model.v25.segment.PID pid) throws HL7Exception {
 		pid.getPid2_PatientID().getCx1_IDNumber().setValue(getPracticeNo());
 		pid.getPid3_PatientIdentifierList(0).getCx1_IDNumber().setValue(getId());
@@ -200,6 +206,7 @@ public class PIDUtil {
 		pid.getPid23_BirthPlace().setValue(getBirthPlace());
 	}
 	
+	/****************************************************************v2.5.1版本*********************************************************/
 	private void setPid_V251(ca.uhn.hl7v2.model.v251.segment.PID pid) throws HL7Exception {
 		pid.getPid2_PatientID().getCx1_IDNumber().setValue(getPracticeNo());
 		pid.getPid3_PatientIdentifierList(0).getCx1_IDNumber().setValue(getId());
@@ -220,6 +227,7 @@ public class PIDUtil {
 		pid.getPid23_BirthPlace().setValue(getBirthPlace());
 	}
 	
+	/****************************************************************v2.6版本*********************************************************/
 	private void setPid_V26(ca.uhn.hl7v2.model.v26.segment.PID pid) throws HL7Exception{
 		pid.getPid2_PatientID().getCx1_IDNumber().setValue(getPracticeNo());
 		pid.getPid3_PatientIdentifierList(0).getCx1_IDNumber().setValue(getId());
