@@ -200,6 +200,7 @@ public class ADTUtil {
 		
 		ca.uhn.hl7v2.model.v21.segment.MSH msh = axx.getMSH();
 		adtEntity.setReceivingApplication(msh.getMsh3_SENDINGAPPLICATION().getValue());
+		adtEntity.setMessageControlId(msh.getMsh10_MESSAGECONTROLID().getValue());
 		
 		ca.uhn.hl7v2.model.v21.segment.PID pid = axx.getPID();
 
@@ -250,6 +251,7 @@ public class ADTUtil {
 
 		ca.uhn.hl7v2.model.v22.segment.MSH msh = axx.getMSH();
 		adtEntity.setReceivingApplication(msh.getMsh3_SendingApplication().getValue());
+		adtEntity.setMessageControlId(msh.getMsh10_MessageControlID().getValue());
 
 		ca.uhn.hl7v2.model.v22.segment.PID pid = axx.getPID();
 
@@ -304,6 +306,7 @@ public class ADTUtil {
 		
 		ca.uhn.hl7v2.model.v23.segment.MSH msh = axx.getMSH();
 		adtEntity.setReceivingApplication(msh.getMsh3_SendingApplication().getHd1_NamespaceID().getValue());
+		adtEntity.setMessageControlId(msh.getMsh10_MessageControlID().getValue());
 
 		ca.uhn.hl7v2.model.v23.segment.PID pid = axx.getPID();
 		
@@ -360,6 +363,7 @@ public class ADTUtil {
 		
 		ca.uhn.hl7v2.model.v231.segment.MSH msh = axx.getMSH();
 		adtEntity.setReceivingApplication(msh.getMsh3_SendingApplication().getHd1_NamespaceID().getValue());
+		adtEntity.setMessageControlId(msh.getMsh10_MessageControlID().getValue());
 
 		ca.uhn.hl7v2.model.v231.segment.PID pid = axx.getPID();
 
@@ -415,6 +419,7 @@ public class ADTUtil {
 		
 		ca.uhn.hl7v2.model.v24.segment.MSH msh = axx.getMSH();
 		adtEntity.setReceivingApplication(msh.getMsh3_SendingApplication().getHd1_NamespaceID().getValue());
+		adtEntity.setMessageControlId(msh.getMsh10_MessageControlID().getValue());
 
 		ca.uhn.hl7v2.model.v24.segment.PID pid = axx.getPID();
 
@@ -469,6 +474,7 @@ public class ADTUtil {
 
 		ca.uhn.hl7v2.model.v25.segment.MSH msh = axx.getMSH();
 		adtEntity.setReceivingApplication(msh.getMsh3_SendingApplication().getHd1_NamespaceID().getValue());
+		adtEntity.setMessageControlId(msh.getMsh10_MessageControlID().getValue());
 
 		ca.uhn.hl7v2.model.v25.segment.PID pid = axx.getPID();
 
@@ -523,6 +529,7 @@ public class ADTUtil {
 
 		ca.uhn.hl7v2.model.v251.segment.MSH msh = axx.getMSH();
 		adtEntity.setReceivingApplication(msh.getMsh3_SendingApplication().getHd1_NamespaceID().getValue());
+		adtEntity.setMessageControlId(msh.getMsh10_MessageControlID().getValue());
 
 		ca.uhn.hl7v2.model.v251.segment.PID pid = axx.getPID();
 
@@ -577,6 +584,7 @@ public class ADTUtil {
 		
 		ca.uhn.hl7v2.model.v26.segment.MSH msh = axx.getMSH();
 		adtEntity.setReceivingApplication(msh.getMsh3_SendingApplication().getHd1_NamespaceID().getValue());
+		adtEntity.setMessageControlId(msh.getMsh10_MessageControlID().getValue());
 
 		ca.uhn.hl7v2.model.v26.segment.PID pid = axx.getPID();
 

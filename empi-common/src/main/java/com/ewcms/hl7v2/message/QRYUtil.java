@@ -188,6 +188,7 @@ public class QRYUtil {
 		
 		ca.uhn.hl7v2.model.v21.segment.MSH msh = qry.getMSH();
 		qryEntity.setReceivingApplication(msh.getMsh3_SENDINGAPPLICATION().getValue());
+		qryEntity.setMessageControlId(msh.getMsh10_MESSAGECONTROLID().getValue());
 		
 		ca.uhn.hl7v2.model.v21.segment.QRD qrd = qry.getQRD();
 		qryEntity.setPracticeNo(qrd.getQrd4_QUERYID().getValue());
@@ -205,6 +206,7 @@ public class QRYUtil {
 		
 		ca.uhn.hl7v2.model.v22.segment.MSH msh = qry.getMSH();
 		qryEntity.setReceivingApplication(msh.getMsh3_SendingApplication().getValue());
+		qryEntity.setMessageControlId(msh.getMsh10_MessageControlID().getValue());
 		
 		ca.uhn.hl7v2.model.v22.segment.QRD qrd = qry.getQRD();
 		qryEntity.setPracticeNo(qrd.getQrd4_QueryID().getValue());
@@ -222,6 +224,7 @@ public class QRYUtil {
 		
 		ca.uhn.hl7v2.model.v23.segment.MSH msh = qry.getMSH();
 		qryEntity.setReceivingApplication(msh.getMsh3_SendingApplication().getHd1_NamespaceID().getValue());
+		qryEntity.setMessageControlId(msh.getMsh10_MessageControlID().getValue());
 		
 		ca.uhn.hl7v2.model.v23.segment.QRD qrd = qry.getQRD();
 		qryEntity.setPracticeNo(qrd.getQrd4_QueryID().getValue());
@@ -239,6 +242,7 @@ public class QRYUtil {
 		
 		ca.uhn.hl7v2.model.v231.segment.MSH msh = qry.getMSH();
 		qryEntity.setReceivingApplication(msh.getMsh3_SendingApplication().getHd1_NamespaceID().getValue());
+		qryEntity.setMessageControlId(msh.getMsh10_MessageControlID().getValue());
 		
 		ca.uhn.hl7v2.model.v231.segment.QRD qrd = qry.getQRD();
 		qryEntity.setPracticeNo(qrd.getQrd4_QueryID().getValue());
@@ -257,6 +261,7 @@ public class QRYUtil {
 
 		ca.uhn.hl7v2.model.v24.segment.MSH msh = qry.getMSH();
 		qryEntity.setReceivingApplication(msh.getMsh3_SendingApplication().getHd1_NamespaceID().getValue());
+		qryEntity.setMessageControlId(msh.getMsh10_MessageControlID().getValue());
 		
 		ca.uhn.hl7v2.model.v24.segment.QRD qrd = qry.getQRD();
 		qryEntity.setPracticeNo(qrd.getQrd4_QueryID().getValue());
@@ -275,6 +280,7 @@ public class QRYUtil {
 		
 		ca.uhn.hl7v2.model.v25.segment.MSH msh = qry.getMSH();
 		qryEntity.setReceivingApplication(msh.getMsh3_SendingApplication().getHd1_NamespaceID().getValue());
+		qryEntity.setMessageControlId(msh.getMsh10_MessageControlID().getValue());
 		
 		ca.uhn.hl7v2.model.v25.segment.QRD qrd = qry.getQRD();
 		qryEntity.setPracticeNo(qrd.getQrd4_QueryID().getValue());
@@ -291,6 +297,7 @@ public class QRYUtil {
 		
 		ca.uhn.hl7v2.model.v251.segment.MSH msh = qry.getMSH();
 		qryEntity.setReceivingApplication(msh.getMsh3_SendingApplication().getHd1_NamespaceID().getValue());
+		qryEntity.setMessageControlId(msh.getMsh10_MessageControlID().getValue());
 		
 		ca.uhn.hl7v2.model.v251.segment.QRD qrd = qry.getQRD();
 		qryEntity.setPracticeNo(qrd.getQrd4_QueryID().getValue());
@@ -307,6 +314,7 @@ public class QRYUtil {
 		
 		ca.uhn.hl7v2.model.v26.segment.MSH msh = qry.getMSH();
 		qryEntity.setReceivingApplication(msh.getMsh3_SendingApplication().getHd1_NamespaceID().getValue());
+		qryEntity.setMessageControlId(msh.getMsh10_MessageControlID().getValue());
 		
 		ca.uhn.hl7v2.model.v26.segment.QRD qrd = qry.getQRD();
 		qryEntity.setPracticeNo(qrd.getQrd4_QueryID().getValue());

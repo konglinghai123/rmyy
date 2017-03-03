@@ -6,6 +6,8 @@ import com.ewcms.common.utils.EmptyUtil;
 import com.ewcms.empi.card.manage.entity.PatientBaseInfo;
 import com.ewcms.hl7v2.HL7Constants;
 import com.ewcms.hl7v2.MessageTriggerEvent;
+import com.ewcms.hl7v2.model.ACKEntity;
+import com.ewcms.hl7v2.model.ADREntity;
 import com.ewcms.hl7v2.segment.AL1Util;
 import com.ewcms.hl7v2.segment.MSAUtil;
 import com.ewcms.hl7v2.segment.MSHUtil;
@@ -35,18 +37,12 @@ public class ADRUtil {
 	/**
 	 * 对象转化成ADR消息
 	 * 
-	 * @param patientBaseInfo 患者基本信息对象
-	 * @param practiceNo 患者卡号
-	 * @param patientIdLen 患者唯一索引号长度
-	 * @param processingId 消息处理ID插入MSH-11. 例如: "T" (for TEST) or "P" for (PRODUCTION)
-	 * @param version 版本号(2.1或v2.1, 2.2或v2.2, 2.3或v2.3, ,2.3.1或v2.3.1, 2.4或v2.4, 2.5或v2.5, 2.5.1或v2.5.1, 2.6或v2.6)
-	 * @param style HL7使用样式(xml或er7)
-	 * @param receivingApplication 接收应用名称
+	 * @param adrEntity ADREntity对象 
 	 * @return ADR消息
 	 */
-	public static String encode(PatientBaseInfo patientBaseInfo, String practiceNo, Integer patientIdLen, String processingId, String version, String style, String receivingApplication) {
+	public static String encode(ADREntity adrEntity) {
 		Parser parser = hapiContext.getPipeParser();
-		if ("xml".equals(style.toLowerCase())) {
+		if ("xml".equals(adrEntity.getStyle().toLowerCase())) {
 			parser = hapiContext.getXMLParser();
 		}
 
@@ -61,6 +57,9 @@ public class ADRUtil {
 
 		String result = "";
 		try{
+			String version = adrEntity.getVersion();
+			String processingId = adrEntity.getProcessingId();
+			
 			if (("2.1").equals(version) || ("v2.1").equals(version)) {
 				adr = new ca.uhn.hl7v2.model.v21.message.ADR_A19();
 				adr.initQuickstart(messageCode, messageTriggerEvent, processingId);
@@ -141,13 +140,15 @@ public class ADRUtil {
 				al1 = ((ca.uhn.hl7v2.model.v26.message.ADR_A19) adr).getQUERY_RESPONSE().getAL1();
 			}
 			
-				
+			if (EmptyUtil.isNotNull(msh)) {
+				MSHUtil mshUtil = new MSHUtil(HL7Constants.SENDING_APPLICATION, adrEntity.getReceivingApplication(), adrEntity.getMessageControlId());
+				mshUtil.setMsh(msh);
+			}
+			
+			PatientBaseInfo patientBaseInfo = adrEntity.getPatientBaseInfo();
+			String practiceNo = adrEntity.getPracticeNo();
+			Integer patientIdLen = adrEntity.getPatientIdLen();
 			if (EmptyUtil.isNotNull(patientBaseInfo)){
-				if (EmptyUtil.isNotNull(msh)) {
-					MSHUtil mshUtil = new MSHUtil(HL7Constants.SENDING_APPLICATION, "");
-					mshUtil.setMsh(msh);
-				}
-				
 				if (EmptyUtil.isNotNull(msa)) {
 					MSAUtil masUtil = new MSAUtil(AcknowledgmentCode.AA.name(), "查询成功");
 					masUtil.setMsa(msa);
@@ -187,19 +188,13 @@ public class ADRUtil {
 	/**
 	 * QRY消息处理完成后使用此应答回复ADR消息
 	 * 
-	 * @param messageTriggerEvent 消息触发事件插入MSG-9-2. 例如: "A01"
-	 * @param processingId 消息处理ID插入MSH-11. 例如: "T" (for TEST) or "P" for (PRODUCTION)
-	 * @param version 版本号(2.1或v2.1, 2.2或v2.2, 2.3或v2.3, ,2.3.1或v2.3.1, 2.4或v2.4, 2.5或v2.5, 2.5.1或v2.5.1, 2.6或v2.6)
-	 * @param style HL7使用样式(xml或er7)
-	 * @param acknowledgementCode AcknowledgmentCode枚举对象值
-	 * @param textMessage 返回消息内容
-	 * @param receivingApplication 接收应用名称
+	 * @param ackEntity ADREntity对象 
 	 * @return ADR消息
 	 * @return
 	 */
-	public static String encode(String messageTriggerEvent, String processingId, String version, String style, String acknowledgementCode, String textMessage, String receivingApplication) {
+	public static String encode(ACKEntity ackEntity) {
 		Parser parser = hapiContext.getPipeParser();
-		if ("xml".equals(style.toLowerCase())) {
+		if ("xml".equals(ackEntity.getStyle().toLowerCase())) {
 			parser = hapiContext.getXMLParser();
 		}
 
@@ -210,6 +205,8 @@ public class ADRUtil {
 
 		String result = "";
 		try{
+			String version = ackEntity.getVersion();
+			String processingId = ackEntity.getProcessingId();
 			if (("2.1").equals(version) || ("v2.1").equals(version)) {
 				adr = new ca.uhn.hl7v2.model.v21.message.ADR_A19();
 				adr.initQuickstart(messageCode, messageTriggerEvent, processingId);
@@ -261,11 +258,11 @@ public class ADRUtil {
 			}
 			
 			if (EmptyUtil.isNotNull(msh)) {
-				MSHUtil mshUtil = new MSHUtil(HL7Constants.SENDING_APPLICATION, receivingApplication);
+				MSHUtil mshUtil = new MSHUtil(HL7Constants.SENDING_APPLICATION, ackEntity.getReceivingApplication(), ackEntity.getMessageControlId());
 				mshUtil.setMsh(msh);
 			}
 			if (EmptyUtil.isNotNull(msa)) {
-				MSAUtil msaUtil = new MSAUtil(acknowledgementCode, textMessage);
+				MSAUtil msaUtil = new MSAUtil(ackEntity.getAcknowledgmentCode(), ackEntity.getTextMessage());
 				msaUtil.setMsa(msa);
 			}
 			

@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import com.ewcms.common.utils.EmptyUtil;
 import com.ewcms.hl7v2.HL7Constants;
+import com.ewcms.hl7v2.model.ACKEntity;
 import com.ewcms.hl7v2.segment.MSAUtil;
 import com.ewcms.hl7v2.segment.MSHUtil;
 
@@ -28,18 +29,12 @@ public class ACKUtil {
 	/**
 	 * ADT消息处理完成后使用此应答回复ACK消息
 	 * 
-	 * @param messageTriggerEvent 消息触发事件插入MSG-9-2. 例如: "A01"
-	 * @param processingId 消息处理ID插入MSH-11. 例如: "T" (for TEST) or "P" for (PRODUCTION)
-	 * @param version 版本号(2.1或v2.1, 2.2或v2.2, 2.3或v2.3, ,2.3.1或v2.3.1, 2.4或v2.4, 2.5或v2.5, 2.5.1或v2.5.1, 2.6或v2.6)
-	 * @param style HL7使用样式(xml或er7)
-	 * @param acknowledgementCode AcknowledgmentCode枚举对象值
-	 * @param textMessage 返回消息内容
-	 * @param receivingApplication 接收应用名称
+	 * @param ackEntity ACKEntity对象
 	 * @return ACK消息
 	 */
-	public static String encode(String messageTriggerEvent, String processingId, String version, String style, String acknowledgementCode, String textMessage, String receivingApplication) {
+	public static String encode(ACKEntity ackEntity) {
 		Parser parser = hapiContext.getPipeParser();
-		if ("xml".equals(style.toLowerCase())) {
+		if ("xml".equals(ackEntity.getStyle().toLowerCase())) {
 			parser = hapiContext.getXMLParser();
 		}
 		
@@ -50,6 +45,9 @@ public class ACKUtil {
 
 		String result = "";
 		try{
+			String version = ackEntity.getVersion();
+			String messageTriggerEvent = ackEntity.getMessageTriggerEvent();
+			String processingId = ackEntity.getProcessingId();
 			if (("2.1").equals(version) || ("v2.1").equals(version)) {
 				ack = new ca.uhn.hl7v2.model.v21.message.ACK();
 				ack.initQuickstart(messageCode, messageTriggerEvent, processingId);
@@ -101,11 +99,11 @@ public class ACKUtil {
 			}
 			
 			if (EmptyUtil.isNotNull(msh)) {
-				MSHUtil mshUtil = new MSHUtil(HL7Constants.SENDING_APPLICATION, receivingApplication);
+				MSHUtil mshUtil = new MSHUtil(HL7Constants.SENDING_APPLICATION, ackEntity.getAcknowledgmentCode(), ackEntity.getMessageControlId());
 				mshUtil.setMsh(msh);
 			}
 			if (EmptyUtil.isNotNull(msa)) {
-				MSAUtil msaUtil = new MSAUtil(acknowledgementCode, textMessage);
+				MSAUtil msaUtil = new MSAUtil(ackEntity.getAcknowledgmentCode(), ackEntity.getTextMessage());
 				msaUtil.setMsa(msa);
 			}
 			
