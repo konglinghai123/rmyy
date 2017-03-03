@@ -73,36 +73,13 @@ public class PracticeCardService extends BaseService<PracticeCard, Long> {
 	}
 	
 	/**
-	 * 发诊疗卡
+	 * 根据诊疗卡号和患者信息注册一个患者
 	 * 
-	 * @param m 诊疗卡对象
-	 * @param userId 操作员ID
-	 * @return 诊疗卡
-	 */
-	public PracticeCard distribute(PracticeCard m) {
-		PracticeCard dbPracticeCard = findByPracticeNoAndDeleted(m.getPracticeNo(),Boolean.FALSE);
-		if(EmptyUtil.isNotNull(dbPracticeCard))throw new BaseException("诊疗卡号已存在");
-		String certificateNo = m.getPatientBaseInfo().getCertificateNo();
-		if (EmptyUtil.isNull(certificateNo)) throw new BaseException("患者基本信息不存在");
-		PracticeCard practiceCard = null;
-//		TODO 除了使用certificateNo（证件号码）外，还可以使用姓名+电话号码等形式判断信息存在与否和查询患者基本信息
-		PatientBaseInfo dbPatientBaseInfo = patientBaseInfoService.findByCertificateNo(certificateNo);
-		
-		if (EmptyUtil.isNull(dbPatientBaseInfo)){//数据库找不到患者信息
-
-			return super.save(m);//新建诊疗卡和患者信息
-		}else{
-			PatientBaseInfo currentPatientBaseInfo =m.getPatientBaseInfo(); 
-			m.setPatientBaseInfo(dbPatientBaseInfo);
-			practiceCard = super.save(m);//新建诊疗卡信息
-			
-			currentPatientBaseInfo.setId(dbPatientBaseInfo.getId());
-			practiceCard.setPatientBaseInfo(currentPatientBaseInfo);
-			//TODO 如果页面未读取患者信息，那么页面新的患者信息会覆盖掉原有的患者信息
-			return super.update(practiceCard);//更新患者信息
-		}
-	}
-	
+	 * @param practiceNo 诊疗卡号
+	 * @param patientBaseInfo 患者信息
+	 * @return PracticeCard 诊疗卡对象
+	 */	
+	@MessageLogFilter(ip="localhost")
 	public PracticeCard register(String practiceNo,PatientBaseInfo patientBaseInfo) {
 		PracticeCard dbPracticeCard = findByPracticeNoAndDeleted(practiceNo,Boolean.FALSE);
 		if(EmptyUtil.isNotNull(dbPracticeCard))throw new BaseException("诊疗卡号已存在");

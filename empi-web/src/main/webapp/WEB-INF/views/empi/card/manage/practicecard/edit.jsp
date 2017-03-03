@@ -16,7 +16,9 @@
 				  		<td width="100%" colspan="6" style="padding:0px;">
 				  			<table style="width:100%">
 					        	<tr>
-							  		<td><form:label path="practiceNo">诊疗卡号：</form:label>&nbsp;<form:input path="practiceNo" cssClass="validate[required,ajax[ajaxNameCall]]" size="35"/></td>
+							  		<td><form:label path="practiceNo">诊疗卡号：</form:label>&nbsp;<form:input path="practiceNo" cssClass="validate[required,ajax[ajaxNameCall]]" size="35"/>
+							  		<span style="color:red" ><ewcms:showMessage/></span>
+							  		</td>
 						    	</tr>				  			
 				  			</table>
 				  		</td>
@@ -154,9 +156,8 @@
 	function readPatientByCertificate(){
 	 	 $.ajax({url:"${ctx}/empi/card/manage/patientbaseinfo/readpatient",
 			 async:false,
-			 type:'get',
+			 type:'post',
 			 dataType:"json",
-			 contentType: "application/x-www-form-urlencoded; charset=utf-8", 
 			 data:{certificateNo:$('#certificateNo').val(),certificateType:$('#certificateType').val()},
 			 success: function(data){
 				 $("#name").val(data.name);
