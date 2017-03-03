@@ -156,6 +156,7 @@
 			 async:false,
 			 type:'get',
 			 dataType:"json",
+			 contentType: "application/x-www-form-urlencoded; charset=utf-8", 
 			 data:{certificateNo:$('#certificateNo').val(),certificateType:$('#certificateType').val()},
 			 success: function(data){
 				 $("#name").val(data.name);

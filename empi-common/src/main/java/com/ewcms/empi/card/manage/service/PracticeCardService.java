@@ -102,4 +102,35 @@ public class PracticeCardService extends BaseService<PracticeCard, Long> {
 			return super.update(practiceCard);//更新患者信息
 		}
 	}
+	
+	public PracticeCard register(String practiceNo,PatientBaseInfo patientBaseInfo) {
+		PracticeCard dbPracticeCard = findByPracticeNoAndDeleted(practiceNo,Boolean.FALSE);
+		if(EmptyUtil.isNotNull(dbPracticeCard))throw new BaseException("诊疗卡号已存在");
+		List<PatientBaseInfo> repeatPatientBaseInfoList = patientBaseInfoService.match(patientBaseInfo);
+		Integer patientIdLength = parameterSetService.findPatientIdVariableValue();
+
+		if(EmptyUtil.isCollectionNotEmpty(repeatPatientBaseInfoList)){//数据库存在匹配的患者信息
+			PatientBaseInfo dbPatientBaseInfo = repeatPatientBaseInfoList.get(0);
+			patientBaseInfo.setId(dbPatientBaseInfo.getId());
+			patientBaseInfo = patientBaseInfoService.update(patientBaseInfo);//更新患者信息
+		}else{
+			patientBaseInfo = patientBaseInfoService.saveAndFlush(patientBaseInfo);//新增患者信息
+		}
+		PracticeCard practiceCard = new PracticeCard();
+		practiceCard.setPracticeNo(practiceNo);
+		practiceCard.setPatientBaseInfo(patientBaseInfo);
+		practiceCard = super.save(practiceCard); //新建诊疗卡
+		
+		String patientIdStr = String.format("%0" + patientIdLength + "d", patientBaseInfo.getId());
+		practiceCard.getPatientBaseInfo().setPatientId(patientIdStr);
+		
+		PracticeCardIndex practiceCardIndex = new PracticeCardIndex();
+		
+		practiceCardIndex.setId(practiceNo);
+		practiceCardIndex.setPatientBaseInfoId(patientBaseInfo.getId());
+		practiceCardIndex.setPatientId(patientIdStr);
+		
+		practiceCardIndexService.save(practiceCardIndex);//新建患者唯一索引
+		return practiceCard;
+	}
 }

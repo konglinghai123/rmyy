@@ -118,7 +118,7 @@ public class PracticeCardController extends BaseCRUDController<PracticeCard, Lon
 	    if (permissionList != null) {
 	    	this.permissionList.assertHasCreatePermission();
 	    }
-		PracticeCard lastM = getPracticeCardService().distribute(m); 
+		PracticeCard lastM = getPracticeCardService().register(m.getPracticeNo(), m.getPatientBaseInfo()); 
 		if(EmptyUtil.isNull(selections))selections = Lists.newArrayList();
 		
 		model.addAttribute("selections", selections.add(lastM.getId()));
