@@ -18,13 +18,13 @@ import com.ewcms.WebServiceConstants;
 public interface IPatientWebService {
 
 	/**
-	 * 根据患者卡号组合成HL7格式的QRY消息
+	 * 构造患者查询信息(患者卡号)
 	 * 
 	 * @param practiceNo 患者卡号
 	 * @param version 版本号(2.1或v2.1, 2.2或v2.2, 2.3或v2.3, ,2.3.1或v2.3.1, 2.4或v2.4, 2.5或v2.5, 2.5.1或v2.5.1, 2.6或v2.6)
 	 * @param processingId 消息处理ID插入MSH-11. 例如: "T" (for TEST) or "P" for (PRODUCTION)
 	 * @param style 样式(ER7或XML)
-	 * @return QRY消息
+	 * @return QRY消息(QRY_A19)
 	 */
 	@WebMethod(operationName = "compositePracticeNo")
 	@WebResult(name = "hl7Result")
@@ -34,13 +34,13 @@ public interface IPatientWebService {
 			@WebParam(name = "style", targetNamespace = WebServiceConstants.PATIENT_TARGETNAMESPACE) String style);
 	
 	/**
-	 * 根据QRY消息查询患者索引号
+	 * 查询患者信息(QRY_A19)
 	 * 
-	 * @param qryMessage QRY消息
+	 * @param qryMessage QRY消息(QRY_A19)
 	 * @param version 版本号(2.1或v2.1, 2.2或v2.2, 2.3或v2.3, ,2.3.1或v2.3.1, 2.4或v2.4, 2.5或v2.5, 2.5.1或v2.5.1, 2.6或v2.6)
 	 * @param processingId 消息处理ID插入MSH-11. 例如: "T" (for TEST) or "P" for (PRODUCTION)
 	 * @param style 样式(ER7或XML)
-	 * @return ADR消息
+	 * @return ADR消息(ADR_A19)
 	 */
 	@WebMethod(operationName = "queryPatient")
 	@WebResult(name = "hl7Result")
@@ -50,13 +50,13 @@ public interface IPatientWebService {
 			@WebParam(name = "style", targetNamespace = WebServiceConstants.PATIENT_TARGETNAMESPACE) String style);
 	
 	/**
-	 * 注册患者信息
+	 * 注册患者信息(ADT_A04)
 	 * 
-	 * @param qryMessage ADT消息
+	 * @param qryMessage ADT消息(ADT_04)
 	 * @param version 版本号(2.1或v2.1, 2.2或v2.2, 2.3或v2.3, ,2.3.1或v2.3.1, 2.4或v2.4, 2.5或v2.5, 2.5.1或v2.5.1, 2.6或v2.6)
 	 * @param processingId 消息处理ID插入MSH-11. 例如: "T" (for TEST) or "P" for (PRODUCTION)
 	 * @param style 样式(ER7或XML)
-	 * @return ACK消息
+	 * @return ACK消息(ACK_A04)
 	 */
 	@WebMethod(operationName = "registerPatient")
 	@WebResult(name = "hl7Result")

@@ -1,30 +1,17 @@
 package com.ewcms.hl7v2.model;
 
 /**
+ * QRY消息实体
+ *
+ * <ul>
+ * <li>practiceNo:患者卡号</li>
+ * </ul>
  *
  * @author wu_zhijun
  */
-public class QRYEntity {
+public class QRYEntity extends AbstractEntity{
 
-	private String receivingApplication;
-	private String messageControlId;
 	private String practiceNo;
-
-	public String getReceivingApplication() {
-		return receivingApplication;
-	}
-
-	public void setReceivingApplication(String receivingApplication) {
-		this.receivingApplication = receivingApplication;
-	}
-
-	public String getMessageControlId() {
-		return messageControlId;
-	}
-
-	public void setMessageControlId(String messageControlId) {
-		this.messageControlId = messageControlId;
-	}
 
 	public String getPracticeNo() {
 		return practiceNo;
@@ -33,5 +20,4 @@ public class QRYEntity {
 	public void setPracticeNo(String practiceNo) {
 		this.practiceNo = practiceNo;
 	}
-
 }

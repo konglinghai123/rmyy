@@ -3,31 +3,21 @@ package com.ewcms.hl7v2.model;
 import com.ewcms.empi.card.manage.entity.PatientBaseInfo;
 
 /**
+ * ADT实体
  *
+ * <ul>
+ * <li>patientBaseInfo:患者基本信息对象
+ * </ul>
+ * 
  * @author wu_zhijun
  */
-public class ADTEntity {
+public class ADTEntity extends AbstractEntity {
 
-	private String receivingApplication;
-	private String messageControlId;
 	private PatientBaseInfo patientBaseInfo;
-
-	public String getReceivingApplication() {
-		return receivingApplication;
-	}
-
-	public void setReceivingApplication(String receivingApplication) {
-		this.receivingApplication = receivingApplication;
-	}
-
-	public String getMessageControlId() {
-		return messageControlId;
-	}
-
-	public void setMessageControlId(String messageControlId) {
-		this.messageControlId = messageControlId;
-	}
-
+	private String practiceNo;
+	private Integer patientIdLen;
+	
+	
 	public PatientBaseInfo getPatientBaseInfo() {
 		return patientBaseInfo;
 	}
@@ -36,4 +26,19 @@ public class ADTEntity {
 		this.patientBaseInfo = patientBaseInfo;
 	}
 
+	public String getPracticeNo() {
+		return practiceNo;
+	}
+
+	public void setPracticeNo(String practiceNo) {
+		this.practiceNo = practiceNo;
+	}
+
+	public Integer getPatientIdLen() {
+		return patientIdLen;
+	}
+
+	public void setPatientIdLen(Integer patientIdLen) {
+		this.patientIdLen = patientIdLen;
+	}
 }

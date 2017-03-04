@@ -28,6 +28,7 @@ import com.ewcms.hl7v2.model.ADREntity;
 import com.ewcms.hl7v2.model.ADTEntity;
 import com.ewcms.hl7v2.model.QRYEntity;
 import com.ewcms.webservice.IPatientWebService;
+import com.ewcms.webservice.util.WsLogUtils;
 
 /**
  *
@@ -50,7 +51,16 @@ public class PatientWebServiceImpl implements IPatientWebService {
 	
 	@Override
 	public String compositePracticeNo(String practiceNo, String version, String processingId, String style) {
-		return QRYUtil.encode(practiceNo, version, processingId, style);
+		QRYEntity qryEntity = new QRYEntity();
+		
+		qryEntity.setPracticeNo(practiceNo);
+		qryEntity.setVersion(version);
+		qryEntity.setProcessingId(processingId);
+		qryEntity.setStyle(style);
+		
+		WsLogUtils.log("compositePracticeNo", "success");
+		
+		return QRYUtil.encode(qryEntity);
 	}
 	
 	@Override
@@ -74,16 +84,20 @@ public class PatientWebServiceImpl implements IPatientWebService {
 
 			ackEntity.setReceivingApplication(receivingApplication);
 			ackEntity.setMessageControlId(messageControlId);
-		} catch (HL7Exception e) {
+		} catch (HL7Exception e) {			
 			ackEntity.setAcknowledgmentCode(AcknowledgmentCode.AE.name());
 			ackEntity.setTextMessage("解析HL7错误");
+			
+			WsLogUtils.log("queryPatient", "HL7 encode error : {}", e.toString());
 			
 			return ADRUtil.encode(ackEntity);
 		}
 		
-		if (EmptyUtil.isStringEmpty(practiceNo)) {
+		if (EmptyUtil.isStringEmpty(practiceNo)) {			
 			ackEntity.setAcknowledgmentCode(AcknowledgmentCode.AE.name());
 			ackEntity.setTextMessage("患者卡号为空");
+			
+			WsLogUtils.log("queryPatient", "practiceNo is empty");
 			
 			return ADRUtil.encode(ackEntity);
 		}
@@ -93,6 +107,8 @@ public class PatientWebServiceImpl implements IPatientWebService {
 			ackEntity.setAcknowledgmentCode(AcknowledgmentCode.AE.name());
 			ackEntity.setTextMessage("患者唯一索引号不存在，必须先进行注册");
 			
+			WsLogUtils.log("queryPatient", "PracticeCardIndex object is empty");
+			
 			return ADRUtil.encode(ackEntity);
 		}
 		
@@ -100,6 +116,8 @@ public class PatientWebServiceImpl implements IPatientWebService {
 		if (EmptyUtil.isNull(patientBaseInfo)) {
 			ackEntity.setAcknowledgmentCode(AcknowledgmentCode.AE.name());
 			ackEntity.setTextMessage("患者基本信息不存在，必须先进行注册");
+			
+			WsLogUtils.log("queryPatient", "PatientBaseInfo object is empty");
 			
 			return ADRUtil.encode(ackEntity);
 		}
@@ -117,6 +135,8 @@ public class PatientWebServiceImpl implements IPatientWebService {
 		adrEntity.setReceivingApplication(receivingApplication);
 		adrEntity.setMessageControlId(messageControlId);
 		
+		WsLogUtils.log("compositePracticeNo", "success");
+
 		return ADRUtil.encode(adrEntity);
 	}
 	
@@ -139,22 +159,28 @@ public class PatientWebServiceImpl implements IPatientWebService {
 			if (EmptyUtil.isStringEmpty(practiceNo)) {
 				acknowledgmentCode = AcknowledgmentCode.AE.name();
 				textMessage = "患者卡号不能为空";
+				
+				WsLogUtils.log("registerPatient", "practiceNo is empty");
 			} else {
 				PracticeCardIndex practiceCardIndex = practiceCardIndexService.findByIdAndDeleted(practiceNo, Boolean.FALSE);
 				
 				if (EmptyUtil.isNull(practiceCardIndex)){//未注册
 					PracticeCard practiceCard = practiceCardService.register(practiceNo, patientBaseInfo);
 					textMessage = practiceCard.getPatientBaseInfo().getPatientId();
+					WsLogUtils.log("registerPatient", "information register success");
 				} else {//已存在
 					textMessage = practiceCardIndex.getPatientId();
+					WsLogUtils.log("registerPatient", "information already exists");
 				}
 			}
 		} catch (HL7Exception e) {
 			acknowledgmentCode = AcknowledgmentCode.AE.name();
 			textMessage = "HL7格式错误";
+			WsLogUtils.log("registerPatient", "HL7 encode error : {}", e.toString());
 		} catch (Exception e) {
 			acknowledgmentCode = AcknowledgmentCode.AE.name();
 			textMessage = "系统错误";
+			WsLogUtils.log("registerPatient", "exception : {}", e.toString());
 		}
 		
 		ACKEntity ackEntity = new ACKEntity();
@@ -167,6 +193,8 @@ public class PatientWebServiceImpl implements IPatientWebService {
 		ackEntity.setTextMessage(textMessage);
 		ackEntity.setReceivingApplication(receivingApplication);
 		ackEntity.setMessageControlId(messageControlId);
+		
+		WsLogUtils.log("registerPatient", "return ACK message");
 		
 		return ACKUtil.encode(ackEntity);
 	}

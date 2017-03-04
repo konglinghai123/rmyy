@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
+import ca.uhn.hl7v2.AcknowledgmentCode;
 import ca.uhn.hl7v2.DefaultHapiContext;
 import ca.uhn.hl7v2.HL7Exception;
 import ca.uhn.hl7v2.HapiContext;
@@ -15,8 +16,11 @@ import ca.uhn.hl7v2.parser.Parser;
 
 import com.ewcms.common.utils.EmptyUtil;
 import com.ewcms.empi.card.manage.entity.PatientBaseInfo;
+import com.ewcms.hl7v2.HL7Constants;
+import com.ewcms.hl7v2.model.ACKEntity;
 import com.ewcms.hl7v2.model.ADTEntity;
 import com.ewcms.hl7v2.segment.AL1Util;
+import com.ewcms.hl7v2.segment.MSHUtil;
 import com.ewcms.hl7v2.segment.NK1Util;
 import com.ewcms.hl7v2.segment.PIDUtil;
 import com.ewcms.hl7v2.segment.PV1Util;
@@ -33,6 +37,166 @@ public class ADTUtil {
 	private static String messageCode = "ADT";
 	
 	private static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+	/**
+	 * 组合成ADT消息
+	 * 
+	 * @param adtEntity ADT消息实体
+	 * @return HL7消息格式
+	 */
+	public static String encode(ADTEntity adtEntity) {
+		ACKEntity ackEntity = new ACKEntity();
+		ackEntity.setAcknowledgmentCode(AcknowledgmentCode.AE.name());
+
+		String result = "";
+		try{
+			PatientBaseInfo patientBaseInfo = adtEntity.getPatientBaseInfo();
+			String messageTriggerEvent = adtEntity.getMessageTriggerEvent();
+			String version = adtEntity.getVersion();
+			String processingId = adtEntity.getProcessingId();
+			String practiceNo = adtEntity.getPracticeNo();
+			Integer patientIdLen = adtEntity.getPatientIdLen();
+			String receivingApplication = adtEntity.getReceivingApplication();
+			String messageControlId = adtEntity.getMessageControlId();
+			
+			ackEntity.setMessageControlId(messageControlId);
+			ackEntity.setProcessingId(processingId);
+			ackEntity.setMessageTriggerEvent(messageTriggerEvent);
+			ackEntity.setVersion(version);
+			ackEntity.setReceivingApplication(receivingApplication);
+			
+			if (EmptyUtil.isNull(patientBaseInfo)){
+				ackEntity.setTextMessage("传递的患者基本信息为空，请重新传递");
+				return ACKUtil.encode(ackEntity);
+			}
+			
+			if (EmptyUtil.isNull(practiceNo)){
+				ackEntity.setTextMessage("传递的患者卡号为空，请重新传递");
+				return ACKUtil.encode(ackEntity);
+			}
+
+			Parser parser = hapiContext.getPipeParser();
+			if ("xml".equals(adtEntity.getStyle().toLowerCase())) {
+				parser = hapiContext.getXMLParser();
+			}
+
+			AbstractSuperMessage adt = null;
+
+			AbstractSegment msh = null;
+			AbstractSegment pid = null;
+			AbstractSegment nk1 = null;
+			AbstractSegment pv1 = null;
+			AbstractSegment al1 = null;
+
+			if (("2.1").equals(version) || ("v2.1").equals(version)) {
+				adt = new ca.uhn.hl7v2.model.v21.message.ADT_AXX();
+				adt.initQuickstart(messageCode, messageTriggerEvent, processingId);
+	
+				msh = ((ca.uhn.hl7v2.model.v21.message.ADT_AXX) adt).getMSH();
+				pid = ((ca.uhn.hl7v2.model.v21.message.ADT_AXX) adt).getPID();
+				nk1 = ((ca.uhn.hl7v2.model.v21.message.ADT_AXX) adt).getNK1();
+				pv1 = ((ca.uhn.hl7v2.model.v21.message.ADT_AXX) adt).getPV1();
+			} else if (("2.2").equals(version) || ("v2.2").equals(version)) {
+				adt = new ca.uhn.hl7v2.model.v22.message.ADT_AXX();
+				adt.initQuickstart(messageCode, messageTriggerEvent, processingId);
+	
+				msh = ((ca.uhn.hl7v2.model.v22.message.ADT_AXX) adt).getMSH();
+				pid = ((ca.uhn.hl7v2.model.v22.message.ADT_AXX) adt).getPID();
+				nk1 = ((ca.uhn.hl7v2.model.v22.message.ADT_AXX) adt).getNK1();
+				pv1 = ((ca.uhn.hl7v2.model.v22.message.ADT_AXX) adt).getPV1();
+				al1 = ((ca.uhn.hl7v2.model.v22.message.ADT_AXX) adt).getAL1();
+			} else if (("2.3").equals(version) || ("v2.3").equals(version)) {
+				adt = new ca.uhn.hl7v2.model.v23.message.ADT_AXX();
+				adt.initQuickstart(messageCode, messageTriggerEvent, processingId);
+	
+				msh = ((ca.uhn.hl7v2.model.v23.message.ADT_AXX) adt).getMSH();
+				pid = ((ca.uhn.hl7v2.model.v23.message.ADT_AXX) adt).getPID();
+				nk1 = ((ca.uhn.hl7v2.model.v23.message.ADT_AXX) adt).getNK1();
+				pv1 = ((ca.uhn.hl7v2.model.v23.message.ADT_AXX) adt).getPV1();
+				al1 = ((ca.uhn.hl7v2.model.v23.message.ADT_AXX) adt).getAL1();
+			} else if (("2.3.1").equals(version) || ("v2.3.1").equals(version)) {
+				adt = new ca.uhn.hl7v2.model.v231.message.ADT_AXX();
+				adt.initQuickstart(messageCode, messageTriggerEvent, processingId);
+	
+				msh = ((ca.uhn.hl7v2.model.v231.message.ADT_AXX) adt).getMSH();
+				pid = ((ca.uhn.hl7v2.model.v231.message.ADT_AXX) adt).getPID();
+				nk1 = ((ca.uhn.hl7v2.model.v231.message.ADT_AXX) adt).getNK1();
+				pv1 = ((ca.uhn.hl7v2.model.v231.message.ADT_AXX) adt).getPV1();
+				al1 = ((ca.uhn.hl7v2.model.v231.message.ADT_AXX) adt).getAL1();
+			} else if (("2.4").equals(version) || ("v2.4").equals(version)) {
+				adt = new ca.uhn.hl7v2.model.v24.message.ADT_AXX();
+				adt.initQuickstart(messageCode, messageTriggerEvent, processingId);
+	
+				msh = ((ca.uhn.hl7v2.model.v24.message.ADT_AXX) adt).getMSH();
+				pid = ((ca.uhn.hl7v2.model.v24.message.ADT_AXX) adt).getPID();
+				nk1 = ((ca.uhn.hl7v2.model.v24.message.ADT_AXX) adt).getNK1();
+				pv1 = ((ca.uhn.hl7v2.model.v24.message.ADT_AXX) adt).getPV1();
+				al1 = ((ca.uhn.hl7v2.model.v24.message.ADT_AXX) adt).getAL1();
+			} else if (("2.5").equals(version) || ("v2.5").equals(version)) {
+				adt = new ca.uhn.hl7v2.model.v25.message.ADT_AXX();
+				adt.initQuickstart(messageCode, messageTriggerEvent, processingId);
+	
+				msh = ((ca.uhn.hl7v2.model.v25.message.ADT_AXX) adt).getMSH();
+				pid = ((ca.uhn.hl7v2.model.v25.message.ADT_AXX) adt).getPID();
+				nk1 = ((ca.uhn.hl7v2.model.v25.message.ADT_AXX) adt).getNK1();
+				pv1 = ((ca.uhn.hl7v2.model.v25.message.ADT_AXX) adt).getPV1();
+				al1 = ((ca.uhn.hl7v2.model.v25.message.ADT_AXX) adt).getAL1();
+			} else if (("2.5.1").equals(version) || ("v2.5.1").equals(version)) {
+				adt = new ca.uhn.hl7v2.model.v251.message.ADT_AXX();
+				adt.initQuickstart(messageCode, messageTriggerEvent, processingId);
+	
+				msh = ((ca.uhn.hl7v2.model.v251.message.ADT_AXX) adt).getMSH();
+				pid = ((ca.uhn.hl7v2.model.v251.message.ADT_AXX) adt).getPID();
+				nk1 = ((ca.uhn.hl7v2.model.v251.message.ADT_AXX) adt).getNK1();
+				pv1 = ((ca.uhn.hl7v2.model.v251.message.ADT_AXX) adt).getPV1();
+				al1 = ((ca.uhn.hl7v2.model.v251.message.ADT_AXX) adt).getAL1();
+			} else if (("2.6").equals(version) || ("v2.6").equals(version)) {
+				adt = new ca.uhn.hl7v2.model.v26.message.ADT_AXX();
+				adt.initQuickstart(messageCode, messageTriggerEvent, processingId);
+	
+				msh = ((ca.uhn.hl7v2.model.v26.message.ADT_AXX) adt).getMSH();
+				pid = ((ca.uhn.hl7v2.model.v26.message.ADT_AXX) adt).getPID();
+				nk1 = ((ca.uhn.hl7v2.model.v26.message.ADT_AXX) adt).getNK1();
+				pv1 = ((ca.uhn.hl7v2.model.v26.message.ADT_AXX) adt).getPV1();
+				al1 = ((ca.uhn.hl7v2.model.v26.message.ADT_AXX) adt).getAL1();
+			}
+	
+			if (EmptyUtil.isNotNull(msh)) {
+				MSHUtil mshUtil = new MSHUtil(HL7Constants.SENDING_APPLICATION, receivingApplication, messageControlId);
+				mshUtil.setMsh(msh);
+			}
+			
+			if (EmptyUtil.isNotNull(pid)) {
+				PIDUtil pidUtil = new PIDUtil(patientBaseInfo, practiceNo, patientIdLen);
+				pidUtil.setPid(pid);
+			}
+			
+			if (EmptyUtil.isNotNull(nk1)) {
+				NK1Util nk1Util = new NK1Util(patientBaseInfo.getContactName(), patientBaseInfo.getContactRelation(), patientBaseInfo.getContactAddress(), patientBaseInfo.getContactTelephone());
+				nk1Util.setNk1(nk1);
+			}
+			
+			if (EmptyUtil.isNotNull(pv1)){
+				PV1Util pv1Util = new PV1Util(patientBaseInfo.getPatientType());
+				pv1Util.setPv1(pv1);
+			}
+			if (EmptyUtil.isNotNull(al1)) {
+				AL1Util al1Util = new AL1Util(patientBaseInfo.getAllergyHistory());
+				al1Util.setAl1(al1);
+			}
+			if (EmptyUtil.isNotNull(adt)) result = parser.encode(adt);
+		} catch (HL7Exception e){
+			ackEntity.setTextMessage("HL7消息错误");
+			result = ACKUtil.encode(ackEntity);
+		} catch (IOException e){
+			ackEntity.setTextMessage("HL7消息错误");
+			result = ACKUtil.encode(ackEntity);
+		} catch (Exception e){
+			ackEntity.setTextMessage("HL7消息错误");
+			result = ACKUtil.encode(ackEntity);
+		}
+		return result;
+	}
 
 	/**
 	 * 解析ADT消息，返回PatientBaseInfo对象
@@ -72,124 +236,7 @@ public class ADTUtil {
 		
 	}
 
-	/**
-	 * 组合成ADT消息
-	 * 
-	 * @param messageCode 消息代码(消息类型)插入MSH-9-1. 例如："ADT"
-	 * @param messageTriggerEvent 消息触发事件插入MSG-9-2. 例如: "A01"
-	 * @param processingId 消息处理ID插入MSH-11. 例如: "T" (for TEST) or "P" for (PRODUCTION)
-	 * @param version 版本号(2.1或v2.1, 2.2或v2.2, 2.3或v2.3, ,2.3.1或v2.3.1, 2.4或v2.4, 2.5或v2.5, 2.5.1或v2.5.1, 2.6或v2.6)
-	 * @param style HL7使用样式(xml或er7)
-	 * @return HL7消息格式
-	 */
-	public static String encode(PatientBaseInfo patientBaseInfo, String practiceNo, Integer patientIdLen, String messageTriggerEvent, String processingId, String version, String style) {
-		Parser parser = hapiContext.getPipeParser();
-		if ("xml".equals(style.toLowerCase())) {
-			parser = hapiContext.getXMLParser();
-		}
-
-		AbstractSuperMessage adt = null;
-
-		AbstractSegment pid = null;
-		AbstractSegment nk1 = null;
-		AbstractSegment pv1 = null;
-		AbstractSegment al1 = null;
-		
-		String result = "";
-		try{
-			if (("2.1").equals(version) || ("v2.1").equals(version)) {
-				adt = new ca.uhn.hl7v2.model.v21.message.ADT_AXX();
-				adt.initQuickstart(messageCode, messageTriggerEvent, processingId);
-	
-				pid = ((ca.uhn.hl7v2.model.v21.message.ADT_AXX) adt).getPID();
-				nk1 = ((ca.uhn.hl7v2.model.v21.message.ADT_AXX) adt).getNK1();
-				pv1 = ((ca.uhn.hl7v2.model.v21.message.ADT_AXX) adt).getPV1();
-			} else if (("2.2").equals(version) || ("v2.2").equals(version)) {
-				adt = new ca.uhn.hl7v2.model.v22.message.ADT_AXX();
-				adt.initQuickstart(messageCode, messageTriggerEvent, processingId);
-	
-				pid = ((ca.uhn.hl7v2.model.v22.message.ADT_AXX) adt).getPID();
-				nk1 = ((ca.uhn.hl7v2.model.v22.message.ADT_AXX) adt).getNK1();
-				pv1 = ((ca.uhn.hl7v2.model.v22.message.ADT_AXX) adt).getPV1();
-				al1 = ((ca.uhn.hl7v2.model.v22.message.ADT_AXX) adt).getAL1();
-			} else if (("2.3").equals(version) || ("v2.3").equals(version)) {
-				adt = new ca.uhn.hl7v2.model.v23.message.ADT_AXX();
-				adt.initQuickstart(messageCode, messageTriggerEvent, processingId);
-	
-				pid = ((ca.uhn.hl7v2.model.v23.message.ADT_AXX) adt).getPID();
-				nk1 = ((ca.uhn.hl7v2.model.v23.message.ADT_AXX) adt).getNK1();
-				pv1 = ((ca.uhn.hl7v2.model.v23.message.ADT_AXX) adt).getPV1();
-				al1 = ((ca.uhn.hl7v2.model.v23.message.ADT_AXX) adt).getAL1();
-			} else if (("2.3.1").equals(version) || ("v2.3.1").equals(version)) {
-				adt = new ca.uhn.hl7v2.model.v231.message.ADT_AXX();
-				adt.initQuickstart(messageCode, messageTriggerEvent, processingId);
-	
-				pid = ((ca.uhn.hl7v2.model.v231.message.ADT_AXX) adt).getPID();
-				nk1 = ((ca.uhn.hl7v2.model.v231.message.ADT_AXX) adt).getNK1();
-				pv1 = ((ca.uhn.hl7v2.model.v231.message.ADT_AXX) adt).getPV1();
-				al1 = ((ca.uhn.hl7v2.model.v231.message.ADT_AXX) adt).getAL1();
-			} else if (("2.4").equals(version) || ("v2.4").equals(version)) {
-				adt = new ca.uhn.hl7v2.model.v24.message.ADT_AXX();
-				adt.initQuickstart(messageCode, messageTriggerEvent, processingId);
-	
-				pid = ((ca.uhn.hl7v2.model.v24.message.ADT_AXX) adt).getPID();
-				nk1 = ((ca.uhn.hl7v2.model.v24.message.ADT_AXX) adt).getNK1();
-				pv1 = ((ca.uhn.hl7v2.model.v24.message.ADT_AXX) adt).getPV1();
-				al1 = ((ca.uhn.hl7v2.model.v24.message.ADT_AXX) adt).getAL1();
-			} else if (("2.5").equals(version) || ("v2.5").equals(version)) {
-				adt = new ca.uhn.hl7v2.model.v25.message.ADT_AXX();
-				adt.initQuickstart(messageCode, messageTriggerEvent, processingId);
-	
-				pid = ((ca.uhn.hl7v2.model.v25.message.ADT_AXX) adt).getPID();
-				nk1 = ((ca.uhn.hl7v2.model.v25.message.ADT_AXX) adt).getNK1();
-				pv1 = ((ca.uhn.hl7v2.model.v25.message.ADT_AXX) adt).getPV1();
-				al1 = ((ca.uhn.hl7v2.model.v25.message.ADT_AXX) adt).getAL1();
-			} else if (("2.5.1").equals(version) || ("v2.5.1").equals(version)) {
-				adt = new ca.uhn.hl7v2.model.v251.message.ADT_AXX();
-				adt.initQuickstart(messageCode, messageTriggerEvent, processingId);
-	
-				pid = ((ca.uhn.hl7v2.model.v251.message.ADT_AXX) adt).getPID();
-				nk1 = ((ca.uhn.hl7v2.model.v251.message.ADT_AXX) adt).getNK1();
-				pv1 = ((ca.uhn.hl7v2.model.v251.message.ADT_AXX) adt).getPV1();
-				al1 = ((ca.uhn.hl7v2.model.v251.message.ADT_AXX) adt).getAL1();
-			} else if (("2.6").equals(version) || ("v2.6").equals(version)) {
-				adt = new ca.uhn.hl7v2.model.v26.message.ADT_AXX();
-				adt.initQuickstart(messageCode, messageTriggerEvent, processingId);
-	
-				pid = ((ca.uhn.hl7v2.model.v26.message.ADT_AXX) adt).getPID();
-				nk1 = ((ca.uhn.hl7v2.model.v26.message.ADT_AXX) adt).getNK1();
-				pv1 = ((ca.uhn.hl7v2.model.v26.message.ADT_AXX) adt).getPV1();
-				al1 = ((ca.uhn.hl7v2.model.v26.message.ADT_AXX) adt).getAL1();
-			} else {
-				throw new HL7Exception("The version used is out of range");
-			}
-	
-			if (EmptyUtil.isNotNull(pid)) {
-				PIDUtil pidUtil = new PIDUtil(patientBaseInfo, practiceNo, patientIdLen);
-				pidUtil.setPid(pid);
-			}
-			if (EmptyUtil.isNotNull(nk1)) {
-				NK1Util nk1Util = new NK1Util(patientBaseInfo.getContactName(), patientBaseInfo.getContactRelation(), patientBaseInfo.getContactAddress(), patientBaseInfo.getContactTelephone());
-				nk1Util.setNk1(nk1);
-			}
-			if (EmptyUtil.isNotNull(pv1)){
-				PV1Util pv1Util = new PV1Util(patientBaseInfo.getPatientType());
-				pv1Util.setPv1(pv1);
-			}
-			if (EmptyUtil.isNotNull(al1)) {
-				AL1Util al1Util = new AL1Util(patientBaseInfo.getAllergyHistory());
-				al1Util.setAl1(al1);
-			}
-
-			if (EmptyUtil.isNotNull(adt)) result = parser.encode(adt);
-		} catch (HL7Exception e){
-		} catch (IOException e){
-		}
-		return result;
-	}
-
 	/********************************* parser *******************************************************/
-
 	private static ADTEntity v21Parser(String message, Parser parser) throws HL7Exception {
 		ADTEntity adtEntity = new ADTEntity();
 		
@@ -236,6 +283,7 @@ public class ADTUtil {
 		ca.uhn.hl7v2.model.v21.segment.PV1 pv1 = axx.getPV1();
 		patientBaseInfo.setPatientType(pv1.getPv12_PATIENTCLASS().getValue());
 
+		adtEntity.setPracticeNo(patientBaseInfo.getPracticeNo());
 		adtEntity.setPatientBaseInfo(patientBaseInfo);
 		
 		return adtEntity;
@@ -291,6 +339,7 @@ public class ADTUtil {
 		ca.uhn.hl7v2.model.v22.segment.PV1 pv1 = axx.getPV1();
 		patientBaseInfo.setPatientType(pv1.getPv12_PatientClass().getValue());
 
+		adtEntity.setPracticeNo(patientBaseInfo.getPracticeNo());
 		adtEntity.setPatientBaseInfo(patientBaseInfo);
 		
 		return adtEntity;
@@ -347,6 +396,7 @@ public class ADTUtil {
 		ca.uhn.hl7v2.model.v23.segment.PV1 pv1 = axx.getPV1();
 		patientBaseInfo.setPatientType(pv1.getPv12_PatientClass().getValue());
 
+		adtEntity.setPracticeNo(patientBaseInfo.getPracticeNo());
 		adtEntity.setPatientBaseInfo(patientBaseInfo);
 		
 		return adtEntity;
@@ -404,6 +454,7 @@ public class ADTUtil {
 		ca.uhn.hl7v2.model.v231.segment.PV1 pv1 = axx.getPV1();
 		patientBaseInfo.setPatientType(pv1.getPv12_PatientClass().getValue());
 
+		adtEntity.setPracticeNo(patientBaseInfo.getPracticeNo());
 		adtEntity.setPatientBaseInfo(patientBaseInfo);
 		
 		return adtEntity;
@@ -459,6 +510,7 @@ public class ADTUtil {
 		ca.uhn.hl7v2.model.v24.segment.PV1 pv1 = axx.getPV1();
 		patientBaseInfo.setPatientType(pv1.getPv12_PatientClass().getValue());
 
+		adtEntity.setPracticeNo(patientBaseInfo.getPracticeNo());
 		adtEntity.setPatientBaseInfo(patientBaseInfo);
 		
 		return adtEntity;
@@ -514,6 +566,7 @@ public class ADTUtil {
 		ca.uhn.hl7v2.model.v25.segment.PV1 pv1 = axx.getPV1();
 		patientBaseInfo.setPatientType(pv1.getPv12_PatientClass().getValue());
 
+		adtEntity.setPracticeNo(patientBaseInfo.getPracticeNo());
 		adtEntity.setPatientBaseInfo(patientBaseInfo);
 		
 		return adtEntity;
@@ -569,6 +622,7 @@ public class ADTUtil {
 		ca.uhn.hl7v2.model.v251.segment.PV1 pv1 = axx.getPV1();
 		patientBaseInfo.setPatientType(pv1.getPv12_PatientClass().getValue());
 
+		adtEntity.setPracticeNo(patientBaseInfo.getPracticeNo());
 		adtEntity.setPatientBaseInfo(patientBaseInfo);
 		
 		return adtEntity;
@@ -621,6 +675,7 @@ public class ADTUtil {
 		ca.uhn.hl7v2.model.v26.segment.PV1 pv1 = axx.getPV1();
 		patientBaseInfo.setPatientType(pv1.getPv12_PatientClass().getValue());
 		
+		adtEntity.setPracticeNo(patientBaseInfo.getPracticeNo());
 		adtEntity.setPatientBaseInfo(patientBaseInfo);
 		
 		return adtEntity;

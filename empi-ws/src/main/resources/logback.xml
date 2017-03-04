@@ -12,26 +12,11 @@
         </encoder>
     </appender>
     
-    <!-- 出错日志 appender  -->
-    <appender name="ERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <!-- 按天回滚 daily -->
-            <!-- log.dir 在maven profile里配置 -->
-            <fileNamePattern>${log.dir}/empi-ws-error-%d{yyyy-MM-dd}.log</fileNamePattern>
-            <!-- 日志最大的历史 60天 -->
-            <maxHistory>60</maxHistory>
-        </rollingPolicy>
-        <encoder>
-            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36}.%M - %msg%n</pattern>
-            <charset>UTF-8</charset>
-        </encoder>
-    </appender>
-    
     <!-- 访问日志 appender  -->
-    <appender name="ACCESS" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <appender name="WS" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!-- 按天回滚 daily -->
-            <fileNamePattern>${log.dir}/empi-ws-access-%d{yyyy-MM-dd}.log</fileNamePattern>
+            <fileNamePattern>${log.dir}/empi-ws-%d{yyyy-MM-dd}.log</fileNamePattern>
             <!-- 日志最大的历史 60天 -->
             <maxHistory>60</maxHistory>
         </rollingPolicy>
@@ -48,16 +33,9 @@
         <appender-ref ref="STDOUT"/>
     </logger>
 
-    <!--错误日志-->
-    <logger name="empi-error" level="info">
-        <appender-ref ref="ERROR"/>
-        <!-- 正式使用时注释下面 -->
-        <appender-ref ref="STDOUT"/>
-    </logger>
-    
-    <!--访问日志-->
-    <logger name="empi-access" level="info">
-        <appender-ref ref="ACCESS"/>
+    <!--Web Service操作日志-->
+    <logger name="empi-ws" level="info">
+        <appender-ref ref="WS"/>
         <!-- 正式使用时注释下面 -->
         <appender-ref ref="STDOUT"/>
     </logger>

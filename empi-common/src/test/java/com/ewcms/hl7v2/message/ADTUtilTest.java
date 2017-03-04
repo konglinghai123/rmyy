@@ -49,7 +49,16 @@ public class ADTUtilTest {
 
 		patientBaseInfo.setPracticeNo(practiceNo);
 		
-		String message =  ADTUtil.encode(patientBaseInfo, practiceNo, patientIdLen, messageTriggerEvent, processingId, version, style);
+		ADTEntity adtEntity = new ADTEntity();
+		adtEntity.setPatientBaseInfo(patientBaseInfo);
+		adtEntity.setPracticeNo(practiceNo);
+		adtEntity.setMessageTriggerEvent(messageTriggerEvent);
+		adtEntity.setProcessingId(processingId);
+		adtEntity.setVersion(version);
+		adtEntity.setStyle(style);
+		adtEntity.setPatientIdLen(patientIdLen);
+		
+		String message =  ADTUtil.encode(adtEntity);
 		System.out.println("XML : " + message);
 	}
 	
@@ -65,12 +74,21 @@ public class ADTUtilTest {
 		
 		patientBaseInfo.setPracticeNo(practiceNo);
 		
+		ADTEntity adtEntity = new ADTEntity();
+		adtEntity.setPatientBaseInfo(patientBaseInfo);
+		adtEntity.setPracticeNo(practiceNo);
+		adtEntity.setMessageTriggerEvent(messageTriggerEvent);
+		adtEntity.setProcessingId(processingId);
+		adtEntity.setVersion(version);
+		adtEntity.setStyle(style);
+		adtEntity.setPatientIdLen(patientIdLen);
+
 		try {
-			String message =  ADTUtil.encode(patientBaseInfo, practiceNo, patientIdLen, messageTriggerEvent, processingId, version, style);
+			String message =  ADTUtil.encode(adtEntity);
 			System.out.println("ER7 : " + message);
-			ADTEntity adtEntity = ADTUtil.parser(message, version, style);
-			System.out.println(adtEntity.getPatientBaseInfo().getPatientId());
-			System.out.println(adtEntity.getPatientBaseInfo().getName());
+			ADTEntity adtEntityParser = ADTUtil.parser(message, version, style);
+			System.out.println(adtEntityParser.getPatientBaseInfo().getPatientId());
+			System.out.println(adtEntityParser.getPatientBaseInfo().getName());
 		} catch (Exception e) {
 			System.out.println(e.toString());
 		}
