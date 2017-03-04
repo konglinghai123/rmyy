@@ -18,7 +18,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
+import com.ewcms.common.Constants;
 import com.ewcms.common.entity.search.SearchParameter;
+import com.ewcms.common.exception.BaseException;
 import com.ewcms.common.utils.Collections3;
 import com.ewcms.common.utils.EmptyUtil;
 import com.ewcms.common.web.controller.BaseCRUDController;
@@ -118,13 +120,18 @@ public class PracticeCardController extends BaseCRUDController<PracticeCard, Lon
 	    if (permissionList != null) {
 	    	this.permissionList.assertHasCreatePermission();
 	    }
-		PracticeCard lastM = getPracticeCardService().register(m.getPracticeNo(), m.getPatientBaseInfo()); 
-		if(EmptyUtil.isNull(selections))selections = Lists.newArrayList();
-		
-		model.addAttribute("selections", selections.add(lastM.getId()));
-		model.addAttribute("m", newModel());
-		model.addAttribute("lastM", JSON.toJSONString(lastM));	
-		model.addAttribute("operate", "add");	
+	    try{
+			PracticeCard lastM = getPracticeCardService().register(m.getPracticeNo(), m.getPatientBaseInfo()); 
+			if(EmptyUtil.isNull(selections))selections = Lists.newArrayList();
+			
+			model.addAttribute("selections", selections.add(lastM.getId()));
+			model.addAttribute("m", newModel());
+			model.addAttribute("lastM", JSON.toJSONString(lastM));	
+			model.addAttribute("operate", "add");
+	    }catch(BaseException e){
+	    	model.addAttribute(Constants.ERROR, e.getMessage());
+	    	return viewName("edit");
+	    }
 		return showSaveFormDistribute(model, selections);
 	}	
 	

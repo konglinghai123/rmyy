@@ -40,7 +40,7 @@ public class PatientBaseInfoController extends BaseCRUDController<PatientBaseInf
 		return super.query(searchParameter, model);
 	}
 	
-	@RequestMapping(value = "readpatient", method = RequestMethod.GET)
+	@RequestMapping(value = "readpatient", method = RequestMethod.POST)
 	@ResponseBody
 	public PatientBaseInfo readPatient(@RequestParam("certificateNo")String certificateNo,@RequestParam("certificateType")String certificateType) {
 		return getPatientBaseInfoService().findByCertificateNoAndCertificateType(certificateNo, certificateType);

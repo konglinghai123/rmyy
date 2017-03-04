@@ -55,6 +55,7 @@ import com.ewcms.common.plugin.entity.LogicDeleteable;
  * <li>allergyHistory：过敏史</li>
  * <li>familyHistory：家族史</li>
  * <li>practiceCards：关联的诊疗卡集合</li>
+ * <li>updateDate：更新时间</li>
  * <li>deleted:是否删除(逻辑删除)</li>
  * </ul>
  * @author zhoudongchu
