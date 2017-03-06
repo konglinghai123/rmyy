@@ -20,7 +20,7 @@ public class LogUtils {
     public static final Logger ACCESS_LOG = LoggerFactory.getLogger("empi-access");
 
     /**
-     * 记录访问日志
+     * 记录Web访问日志
      * [username][jsessionid][ip][accept][UserAgent][url][params][Referer]
      *
      * @param request
@@ -49,7 +49,7 @@ public class LogUtils {
     }
 
     /**
-     * 记录异常错误
+     * 记录Web异常错误
      * 格式 [exception]
      *
      * @param message
@@ -63,7 +63,7 @@ public class LogUtils {
         s.append(getBlock(message));
         ERROR_LOG.error(s.toString(), e);
     }
-
+    
     /**
      * 记录页面错误
      * 错误日志记录 [page/eception][username][statusCode][errorMessage][servletName][uri][exceptionName][ip][exception]
@@ -103,7 +103,6 @@ public class LogUtils {
 
     }
 
-
     public static String getBlock(Object msg) {
         if (msg == null) {
             msg = "";
@@ -111,13 +110,10 @@ public class LogUtils {
         return "[" + msg.toString() + "]";
     }
 
-
-
     protected static String getParams(HttpServletRequest request) {
         Map<String, String[]> params = request.getParameterMap();
         return JSON.toJSONString(params);
     }
-
 
     private static String getHeaders(HttpServletRequest request) {
         Map<String, List<String>> headers = Maps.newHashMap();
@@ -134,7 +130,6 @@ public class LogUtils {
         return JSON.toJSONString(headers);
     }
 
-
     protected static String getUsername() {
         return (String) SecurityUtils.getSubject().getPrincipal();
     }
@@ -146,5 +141,4 @@ public class LogUtils {
     public static Logger getErrorLog() {
         return ERROR_LOG;
     }
-
 }

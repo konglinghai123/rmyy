@@ -48,6 +48,7 @@ public class ACKUtil {
 			String version = ackEntity.getVersion();
 			String messageTriggerEvent = ackEntity.getMessageTriggerEvent();
 			String processingId = ackEntity.getProcessingId();
+			
 			if (("2.1").equals(version) || ("v2.1").equals(version)) {
 				ack = new ca.uhn.hl7v2.model.v21.message.ACK();
 				ack.initQuickstart(messageCode, messageTriggerEvent, processingId);

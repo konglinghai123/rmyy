@@ -2,6 +2,10 @@ package com.ewcms.common.utils;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.web.context.request.RequestAttributes;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+
 public class IpUtils {
     private IpUtils() {
     }
@@ -29,4 +33,22 @@ public class IpUtils {
         }
         return ip;
     }
+    
+	@SuppressWarnings("unused")
+	public static Object getIp(){
+		RequestAttributes requestAttributes = null;
+		
+		try{
+			RequestContextHolder.currentRequestAttributes();
+		} catch (Exception e){
+			//ignore
+		}
+		
+		if (requestAttributes != null && requestAttributes instanceof ServletRequestAttributes){
+			return IpUtils.getIpAddr(((ServletRequestAttributes) requestAttributes).getRequest());
+		}
+		
+		return "unknown";
+	}
+
 }

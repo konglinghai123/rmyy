@@ -1,7 +1,9 @@
-﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+﻿<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
-		<title>JavaScript SOAP Client</title>
+		<title>JavaScript SOAP Client Test</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<script src="js/jquery-3.1.1.min.js" type="text/javascript"></script>
 	</head>
@@ -24,64 +26,6 @@
 						<option value="v2.5">v2.5</option>
 						<option value="v2.5.1">v2.5.1</option>
 						<option value="v2.6">v2.6</option>
-					</select>
-				</td>
-			</tr>
-			<tr>
-				<td>消息触发事件：</td>
-				<td>
-					<select id="messageTriggerEvent" name="messageTriggerEvent">
-						<option value ="A01" selected="selected">Admit a Patient(接收患者)(ADT)</option>
-						<option value ="A02">Transfer a Patient(转移患者)(ADT)</option>
-						<option value ="A03">Discharge a Patient(患者出院)(ADT)</option>
-						<option value="A04">Register a Patient(患者登记)(ADT)</option>
-						<option value="A05">Pre-Admit a Patient(接纳患者前)(ADT)</option>
-						<option value="A06">Transfer an Outpatient-to Inpatient(门诊患者转为住院患者)(ADT)</option>
-						<option value="A07">Transfer an Inpatient-to Outpatient(住院患者转为门诊患者)(ADT)</option>
-						<option value="A08">Update Patient Information(更新患者信息)(ADT)</option>
-						<option value="A09">Patient Departing(患者出院)(ADT)</option>
-						<option value="A10">Patient Arriving(患者到达)(ADT)</option>
-						<option value="A11">Cancel Admit(取消许可)(ADT)</option>
-						<option value="A12">Cancel Transfer(取消转移)(ADT)</option>
-						<option value="A13">Cancel Discharge(取消出院)(ADT)</option>
-						<option value="A14">Pending Admit(未决的接收)(ADT)</option>
-						<option value="A15">Pending Transfer(未决的转移)(ADT)</option>
-						<option value="A16">Pending Discharge(未决的出院)(ADT)</option>
-						<option value="A17">Swap Patients(交换患者)(ADT)</option>
-						<option value="A18">Merge Patient Information(合并患者信息)(ADT)</option>
-						<option value="A19">Patient Query(患者查询)(QRY/ADR)</option>
-						<option value="A20">Bed Status Update(病床情况更新)(ADT)</option>
-						<option value="A21">Patient Goes on "Leave Of Absence"(患者休假)(ADT)</option>
-						<option value="A22">Patient Returns from LOAD(患者休假归来)(ADT)</option>
-						<option value="A23">Delete a Patient Record(删除患者记录)(ADT)</option>
-						<option value="A24">Create a Patient Link(建立患者连接)(ADT)</option>
-						<option value="A25">Cancel Pending Discharge(取消未决的出院)(ADT)</option>
-						<option value="A26">Cancel Pending Transfer(取消未决的转院)(ADT)</option>
-						<option value="A27">Cancel Pending Admit(取消未决的入院)(ADT)</option>
-						<option value="A28">Add Person Information(加入人员信息)(ADT)</option>
-						<option value="A29">Delete Person Information(删除人员信息)(ADT)</option>
-						<option value="A30">Merge Person Information(合并人员信息)(ADT)</option>
-						<option value="A31">Update Person Information(更新人员信息)(ADT)</option>
-						<option value="A32">Cancel Patient Arriving(取消患者到来)(ADT)</option>
-						<option value="A33">Cancel Patient Departing(取消患者出院)(ADT)</option>
-						<option value="A34">Merge Patient Information - ID Only(合并患者信息-病历号)(ADT)</option>
-						<option value="A35">Merge Patient Info - Acct.# Only(合并患者信息-账号)(ADT)</option>
-						<option value="A36">Merge Pat. Info - Pat. ID & Acct.#(合并患者信息-病历号、账号)(ADT)</option>
-						<option value="A37">Un-Link Patient Information(取消患者信息连接)(ADT)</option>
-						<option value="A38">Cancel Pre-Admit(取消准入)(ADT)</option>
-						<option value="A39">Merge Person - External ID(合并人员-外部ID)(ADT)</option>
-						<option value="A40">Merge Person - Internal ID(合并人员-内部ID)(ADT)</option>
-						<option value="A41">Merge Account - Patient Account Number(合并账号-患者账号数)(ADT)</option>
-						<option value="A42">Merge Visit - Visit Number(合并来访者-来访人数)(ADT)</option>
-						<option value="A43">Move Patient Information - Internal ID(移动患者信息-内部ID)(ADT)</option>
-						<option value="A44">Move Account Information - Patient Account Number(移动账号信息-患者账号数)(ADT)</option>
-						<option value="A45">Move Visit Information - Visit Number(移动来访者信息-来访者者从数)(ADT)</option>
-						<option value="A46">Change External ID(更改外部ID)(ADT)</option>
-						<option value="A47">Change Internal ID(更改内部ID)(ADT)</option>
-						<option value="A48">Change Alternate Patient ID(更改预备患者ID)(ADT)</option>
-						<option value="A49">Change Patient Account Number(更改患者账号数)(ADT)</option>
-						<option value="A50">Change Visit Number(更改来访人数)(ADT)</option>
-						<option value="A51">Change Alternate Visit ID(更改预备来访者ID)(ADT)</option>
 					</select>
 				</td>
 			</tr>
@@ -122,7 +66,7 @@
 			</tr>
 			<tr>
 				<td colspan="2">
-					<input type="button" value="查看WSDL" onclick="javascript:window.open('http://localhost:8080/empi-ws/webservice');" />
+					<input type="button" value="查看WSDL" onclick="javascript:window.open(ctx + '/webservice');" />
 				</td>
 			</tr>
 			<tr>
@@ -132,6 +76,8 @@
 			</tr>
 		</table>
 		<script type="text/javascript">
+			var ctx = '<%=request.getScheme()%>' + '://' + '<%=request.getServerName()%>' + ':' + '<%=request.getServerPort()%>' + '<%=request.getContextPath()%>';
+			var webServiceUrl = ctx + '/webservice/patient';
 			var qryXml, qryEr7;
 			$(function(){
 				//$('#qrymessage').hide();
@@ -156,7 +102,7 @@
 						contentType:'application/xml;charset="UTF-8"',
 						dataType:'xml',//发送数据格式
 						type:'post',
-						url:'http://localhost:8080/empi-ws/webservice/patient',		//直接发向这个地址
+						url:webServiceUrl,		//直接发向这个地址
 						data:str,
 						success:function(data){
 							qryEr7 = $(data).find("hl7Result").first().text();
@@ -180,7 +126,7 @@
 						contentType:'application/xml;charset="UTF-8"',
 						dataType:'xml',//发送数据格式
 						type:'post',
-						url:'http://localhost:8080/empi-ws/webservice/patient',		//直接发向这个地址
+						url:webServiceUrl,		//直接发向这个地址
 						data:str,
 						success:function(data){
 							qryXml = $(data).find("hl7Result").first().text();
@@ -213,7 +159,7 @@
 						contentType:'application/xml;charset="UTF-8"',
 						dataType:'xml',//发送数据格式
 						type:'post',
-						url:'http://localhost:8080/empi-ws/webservice/patient',		//直接发向这个地址
+						url:webServiceUrl,		//直接发向这个地址
 						data:str,
 						success:function(data){
 							document.getElementById('adrMessageEr7').innerHTML = update($(data).find("hl7Result").first().text());
@@ -236,7 +182,7 @@
 						contentType:'application/xml;charset="UTF-8"',
 						dataType:'xml',//发送数据格式
 						type:'post',
-						url:'http://localhost:8080/empi-ws/webservice/patient',		//直接发向这个地址
+						url:webServiceUrl,		//直接发向这个地址
 						data:str,
 						success:function(data){
 							document.getElementById('adrMessageXml').innerHTML = $(data).find("hl7Result").first().text();
@@ -267,7 +213,7 @@
 						contentType:'application/xml;charset="UTF-8"',
 						dataType:'xml',//发送数据格式
 						type:'post',
-						url:'http://localhost:8080/empi-ws/webservice/patient',		//直接发向这个地址
+						url:webServiceUrl,		//直接发向这个地址
 						data:str,
 						success:function(data){
 							//var ss = "HL7患者信息：<br/>" + $(data).find("hl7Result").first().text();

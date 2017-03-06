@@ -41,24 +41,49 @@ public class ADRUtil {
 	 * @return ADR消息
 	 */
 	public static String encode(ADREntity adrEntity) {
-		Parser parser = hapiContext.getPipeParser();
-		if ("xml".equals(adrEntity.getStyle().toLowerCase())) {
-			parser = hapiContext.getXMLParser();
-		}
-
-		AbstractMessage adr = null;
-
-		AbstractSegment msh = null;
-		AbstractSegment msa = null;
-		AbstractSegment pid = null;
-		AbstractSegment nk1 = null;
-		AbstractSegment pv1 = null;
-		AbstractSegment al1 = null;
+		ACKEntity ackEntity = new ACKEntity();
+		ackEntity.setAcknowledgmentCode(AcknowledgmentCode.AE.name());
 
 		String result = "";
 		try{
+			PatientBaseInfo patientBaseInfo = adrEntity.getPatientBaseInfo();
+			String messageTriggerEvent = adrEntity.getMessageTriggerEvent();
 			String version = adrEntity.getVersion();
 			String processingId = adrEntity.getProcessingId();
+			String practiceNo = adrEntity.getPracticeNo();
+			Integer patientIdLen = adrEntity.getPatientIdLen();
+			String receivingApplication = adrEntity.getReceivingApplication();
+			String messageControlId = adrEntity.getMessageControlId();
+			
+			ackEntity.setMessageControlId(messageControlId);
+			ackEntity.setProcessingId(processingId);
+			ackEntity.setMessageTriggerEvent(messageTriggerEvent);
+			ackEntity.setVersion(version);
+			ackEntity.setReceivingApplication(receivingApplication);
+			
+			if (EmptyUtil.isNull(patientBaseInfo)){
+				ackEntity.setTextMessage("传递的患者基本信息为空，请重新传递");
+				return ADRUtil.encode(ackEntity);
+			}
+			
+			if (EmptyUtil.isNull(practiceNo)){
+				ackEntity.setTextMessage("传递的患者卡号为空，请重新传递");
+				return ADRUtil.encode(ackEntity);
+			}
+			
+			Parser parser = hapiContext.getPipeParser();
+			if ("xml".equals(adrEntity.getStyle().toLowerCase())) {
+				parser = hapiContext.getXMLParser();
+			}
+
+			AbstractMessage adr = null;
+
+			AbstractSegment msh = null;
+			AbstractSegment msa = null;
+			AbstractSegment pid = null;
+			AbstractSegment nk1 = null;
+			AbstractSegment pv1 = null;
+			AbstractSegment al1 = null;
 			
 			if (("2.1").equals(version) || ("v2.1").equals(version)) {
 				adr = new ca.uhn.hl7v2.model.v21.message.ADR_A19();
@@ -145,42 +170,41 @@ public class ADRUtil {
 				mshUtil.setMsh(msh);
 			}
 			
-			PatientBaseInfo patientBaseInfo = adrEntity.getPatientBaseInfo();
-			String practiceNo = adrEntity.getPracticeNo();
-			Integer patientIdLen = adrEntity.getPatientIdLen();
-			if (EmptyUtil.isNotNull(patientBaseInfo)){
-				if (EmptyUtil.isNotNull(msa)) {
-					MSAUtil masUtil = new MSAUtil(AcknowledgmentCode.AA.name(), "查询成功");
-					masUtil.setMsa(msa);
-				}
-				
-				if (EmptyUtil.isNotNull(pid)) {
-					PIDUtil pidUtil = new PIDUtil(patientBaseInfo, practiceNo, patientIdLen);
-					pidUtil.setPid(pid);
-				}
-				if (EmptyUtil.isNotNull(nk1)) {
-					NK1Util nk1Util = new NK1Util(patientBaseInfo.getContactName(),
-							patientBaseInfo.getContactRelation(),
-							patientBaseInfo.getContactAddress(),
-							patientBaseInfo.getContactTelephone());
-					nk1Util.setNk1(nk1);
-				}
-				if (EmptyUtil.isNotNull(pv1)){
-					PV1Util pv1Util = new PV1Util(patientBaseInfo.getPatientType());
-					pv1Util.setPv1(pv1);
-				}
-				if (EmptyUtil.isNotNull(al1)) {
-					AL1Util al1Util = new AL1Util(patientBaseInfo.getAllergyHistory());
-					al1Util.setAl1(al1);
-				}
-			} else {
-				MSAUtil masUtil = new MSAUtil(AcknowledgmentCode.AE.name(), "未找到患者基本信息");
+			if (EmptyUtil.isNotNull(msa)) {
+				MSAUtil masUtil = new MSAUtil(AcknowledgmentCode.AA.name(), "查询成功");
 				masUtil.setMsa(msa);
 			}
-	
-			if (EmptyUtil.isNotNull(adr)) result = parser.encode(adr);
+				
+			if (EmptyUtil.isNotNull(pid)) {
+				PIDUtil pidUtil = new PIDUtil(patientBaseInfo, practiceNo, patientIdLen);
+				pidUtil.setPid(pid);
+			}
+			
+			if (EmptyUtil.isNotNull(nk1)) {
+				NK1Util nk1Util = new NK1Util(patientBaseInfo.getContactName(), patientBaseInfo.getContactRelation(), patientBaseInfo.getContactAddress(), patientBaseInfo.getContactTelephone());
+				nk1Util.setNk1(nk1);
+			}
+			
+			if (EmptyUtil.isNotNull(pv1)){
+				PV1Util pv1Util = new PV1Util(patientBaseInfo.getPatientType());
+				pv1Util.setPv1(pv1);
+			}
+			
+			if (EmptyUtil.isNotNull(al1)) {
+				AL1Util al1Util = new AL1Util(patientBaseInfo.getAllergyHistory());
+				al1Util.setAl1(al1);
+			}
+			
+			result = parser.encode(adr);
 		} catch (HL7Exception e){
+			ackEntity.setTextMessage("HL7消息错误");
+			result = ADRUtil.encode(ackEntity);
 		} catch (IOException e){
+			ackEntity.setTextMessage("HL7消息错误");
+			result = ADRUtil.encode(ackEntity);
+		} catch (Exception e){
+			ackEntity.setTextMessage("HL7消息错误");
+			result = ADRUtil.encode(ackEntity);
 		}
 		return result;
 	}
@@ -266,9 +290,16 @@ public class ADRUtil {
 				msaUtil.setMsa(msa);
 			}
 			
-			if (EmptyUtil.isNotNull(adr)) result = parser.encode(adr);
+			result = parser.encode(adr);
 		} catch (HL7Exception e){
+			ackEntity.setTextMessage("HL7消息错误");
+			result = ADRUtil.encode(ackEntity);
 		} catch (IOException e){
+			ackEntity.setTextMessage("HL7消息错误");
+			result = ADRUtil.encode(ackEntity);
+		} catch (Exception e){
+			ackEntity.setTextMessage("HL7消息错误");
+			result = ADRUtil.encode(ackEntity);
 		}
 		return result;
 	}
