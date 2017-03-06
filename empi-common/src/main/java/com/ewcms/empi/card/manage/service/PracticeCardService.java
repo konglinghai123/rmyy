@@ -9,6 +9,7 @@ import com.ewcms.common.exception.BaseException;
 import com.ewcms.common.service.BaseService;
 import com.ewcms.common.utils.EmptyUtil;
 import com.ewcms.empi.card.manage.entity.MatchRule;
+import com.ewcms.empi.card.manage.entity.MessageLog;
 import com.ewcms.empi.card.manage.entity.PatientBaseInfo;
 import com.ewcms.empi.card.manage.entity.PracticeCard;
 import com.ewcms.empi.card.manage.entity.PracticeCardIndex;
@@ -79,8 +80,8 @@ public class PracticeCardService extends BaseService<PracticeCard, Long> {
 	 * @param patientBaseInfo 患者信息
 	 * @return PracticeCard 诊疗卡对象
 	 */	
-	@MessageLogFilter(ip="localhost")
-	public PracticeCard register(String practiceNo,PatientBaseInfo patientBaseInfo) {
+	@MessageLogFilter(modelObjectIndex = 2)
+	public PracticeCard register(String practiceNo,PatientBaseInfo patientBaseInfo,MessageLog messageLog) {
 		PracticeCard dbPracticeCard = findByPracticeNoAndDeleted(practiceNo,Boolean.FALSE);
 		if(EmptyUtil.isNotNull(dbPracticeCard))throw new BaseException("诊疗卡号已存在");
 		List<PatientBaseInfo> repeatPatientBaseInfoList = patientBaseInfoService.match(patientBaseInfo);

@@ -1,5 +1,6 @@
 package com.ewcms.empi.card.manage.web.controller;
 
+import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
@@ -26,7 +27,9 @@ import com.ewcms.common.utils.EmptyUtil;
 import com.ewcms.common.web.controller.BaseCRUDController;
 import com.ewcms.common.web.validate.AjaxResponse;
 import com.ewcms.common.web.validate.ValidateResponse;
+import com.ewcms.empi.card.manage.entity.HapiOperate;
 import com.ewcms.empi.card.manage.entity.MatchRule;
+import com.ewcms.empi.card.manage.entity.MessageLog;
 import com.ewcms.empi.card.manage.entity.PracticeCard;
 import com.ewcms.empi.card.manage.service.MatchRuleService;
 import com.ewcms.empi.card.manage.service.PracticeCardService;
@@ -121,7 +124,11 @@ public class PracticeCardController extends BaseCRUDController<PracticeCard, Lon
 	    	this.permissionList.assertHasCreatePermission();
 	    }
 	    try{
-			PracticeCard lastM = getPracticeCardService().register(m.getPracticeNo(), m.getPatientBaseInfo()); 
+	    	MessageLog messageLog = new MessageLog();
+	    	messageLog.setPracticeNo(m.getPracticeNo());
+	    	messageLog.setHapiOperate(HapiOperate.receive);
+	    	messageLog.setReceiveDate(Calendar.getInstance().getTime());
+			PracticeCard lastM = getPracticeCardService().register(m.getPracticeNo(), m.getPatientBaseInfo(),messageLog); 
 			if(EmptyUtil.isNull(selections))selections = Lists.newArrayList();
 			
 			model.addAttribute("selections", selections.add(lastM.getId()));

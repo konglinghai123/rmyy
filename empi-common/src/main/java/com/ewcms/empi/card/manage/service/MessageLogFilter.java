@@ -10,5 +10,5 @@ import java.lang.annotation.RetentionPolicy;
 @Target( { ElementType.METHOD })
 @Retention(RetentionPolicy.RUNTIME)
 public @interface MessageLogFilter {
-	String ip() default "";
+	int modelObjectIndex() default -1;
 }

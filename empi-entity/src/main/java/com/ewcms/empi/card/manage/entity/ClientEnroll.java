@@ -23,6 +23,8 @@ import com.ewcms.common.entity.BaseEntity;
  * <li>mac：网卡物理地址</li>
  * <li>department：所属科室</li>
  * <li>createDate:注册时间</li>
+ * <li>userName：用户名</li>
+ * <li>password:密码</li>
  * <li>hapiVersion:客户端hapi版本</li>
  * </ul>
  *@author zhoudongchu
@@ -37,6 +39,10 @@ public class ClientEnroll extends BaseEntity<Long> {
 	private String mac;
 	@Column(name = "department")
 	private String department;
+	@Column(name = "user_name")
+	private String userName;
+	@Column(name = "password")
+	private String password;
 	@JSONField(format = "yyyy-MM-dd HH:mm:ss")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Column(name = "create_date")
