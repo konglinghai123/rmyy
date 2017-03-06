@@ -14,11 +14,19 @@
 			  	<table class="formtable">
 		        	<tr>
 				  		<td width="30%"><form:label path="ip">ip地址：</form:label></td>
-				  		<td width="70%"><form:input path="ip" cssClass="validate[required]"/></td>
+				  		<td width="70%"><form:input path="ip" cssClass="validate[required,ajax[ajaxNameCall]]"/></td>
 			    	</tr>
 		        	<tr>
 				  		<td width="30%"><form:label path="mac">网卡物理地址：</form:label></td>
 				  		<td width="70%"><form:input path="mac" cssClass="validate[required]"/></td>
+			    	</tr>
+			    	<tr>
+				  		<td width="30%"><form:label path="userName">用户名：</form:label></td>
+				  		<td width="70%"><form:input path="userName" cssClass="validate[required,ajax[ajaxNameCall]]"/></td>
+			    	</tr>
+			    	<tr>
+				  		<td width="30%"><form:label path="password">密码：</form:label></td>
+				  		<td width="70%"><form:password path="password" cssClass="validate[required]"/></td>
 			    	</tr>
 			    	<tr>
 				  		<td width="30%"><form:label path="department">所属科室：</form:label></td>
@@ -46,7 +54,7 @@
 	    	</c:when>
 	    	<c:otherwise>
 				$.validationEngineLanguage.allRules.ajaxNameCall= {
-	                "url": "${ctx}/empi/card/manage/matchrule/validate",
+	                "url": "${ctx}/empi/card/manage/clientenroll/validate",
 	                extraDataDynamic : ['#id'],
 	                "alertTextLoad": "* 正在验证，请稍等。。。"
 	            };

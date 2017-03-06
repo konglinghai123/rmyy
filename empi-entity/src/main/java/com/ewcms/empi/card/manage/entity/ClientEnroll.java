@@ -33,15 +33,15 @@ import com.ewcms.common.entity.BaseEntity;
 @Table(name = "card_client_enroll")
 public class ClientEnroll extends BaseEntity<Long> {
 	private static final long serialVersionUID = 934101109141213565L;
-	@Column(name = "ip",nullable = false)
+	@Column(name = "ip",nullable = false,unique = true)
 	private String ip;
 	@Column(name = "mac",nullable = false)
 	private String mac;
 	@Column(name = "department")
 	private String department;
-	@Column(name = "user_name")
+	@Column(name = "user_name",nullable = false,unique = true)
 	private String userName;
-	@Column(name = "password")
+	@Column(name = "password",nullable = false)
 	private String password;
 	@JSONField(format = "yyyy-MM-dd HH:mm:ss")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
@@ -83,5 +83,17 @@ public class ClientEnroll extends BaseEntity<Long> {
 	}
 	public String getHapiVersionInfo(){
 		return hapiVersion == null ? HapiVersion.v6.getInfo() : hapiVersion.getInfo();
+	}
+	public String getUserName() {
+		return userName;
+	}
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
 	}
 }
