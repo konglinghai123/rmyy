@@ -2,7 +2,7 @@ package com.ewcms;
 
 import org.junit.Test;
 
-import com.ewcms.webservice.IPatientWebService;
+import com.ewcms.webservice.service.IPatientWebService;
 
 /**
  *

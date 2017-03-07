@@ -1,4 +1,6 @@
-package com.ewcms.webservice.impl;
+package com.ewcms.webservice.service.impl;
+
+import java.util.Date;
 
 import javax.jws.WebService;
 
@@ -8,8 +10,9 @@ import org.springframework.stereotype.Service;
 import ca.uhn.hl7v2.AcknowledgmentCode;
 import ca.uhn.hl7v2.HL7Exception;
 
-import com.ewcms.WebServiceConstants;
 import com.ewcms.common.utils.EmptyUtil;
+import com.ewcms.empi.card.manage.entity.HapiOperate;
+import com.ewcms.empi.card.manage.entity.MessageLog;
 import com.ewcms.empi.card.manage.entity.PatientBaseInfo;
 import com.ewcms.empi.card.manage.entity.PracticeCard;
 import com.ewcms.empi.card.manage.entity.PracticeCardIndex;
@@ -27,8 +30,9 @@ import com.ewcms.hl7v2.model.ACKEntity;
 import com.ewcms.hl7v2.model.ADREntity;
 import com.ewcms.hl7v2.model.ADTEntity;
 import com.ewcms.hl7v2.model.QRYEntity;
-import com.ewcms.webservice.IPatientWebService;
-import com.ewcms.webservice.util.WsLogUtils;
+import com.ewcms.webservice.WebServiceConstants;
+import com.ewcms.webservice.service.IPatientWebService;
+import com.ewcms.webservice.util.WebServiceUtil;
 
 /**
  *
@@ -58,7 +62,7 @@ public class PatientWebServiceImpl implements IPatientWebService {
 		qryEntity.setProcessingId(processingId);
 		qryEntity.setStyle(style);
 		
-		WsLogUtils.log("compositePracticeNo", "success");
+		WebServiceUtil.log("compositePracticeNo", "success");
 		
 		return QRYUtil.encode(qryEntity);
 	}
@@ -88,7 +92,7 @@ public class PatientWebServiceImpl implements IPatientWebService {
 			ackEntity.setAcknowledgmentCode(AcknowledgmentCode.AE.name());
 			ackEntity.setTextMessage("解析HL7错误");
 			
-			WsLogUtils.log("queryPatient", "HL7 encode error : {}", e.toString());
+			WebServiceUtil.log("queryPatient", "HL7 encode error : {}", e.toString());
 			
 			return ADRUtil.encode(ackEntity);
 		}
@@ -97,7 +101,7 @@ public class PatientWebServiceImpl implements IPatientWebService {
 			ackEntity.setAcknowledgmentCode(AcknowledgmentCode.AE.name());
 			ackEntity.setTextMessage("患者卡号为空");
 			
-			WsLogUtils.log("queryPatient", "practiceNo is empty");
+			WebServiceUtil.log("queryPatient", "practiceNo is empty");
 			
 			return ADRUtil.encode(ackEntity);
 		}
@@ -107,7 +111,7 @@ public class PatientWebServiceImpl implements IPatientWebService {
 			ackEntity.setAcknowledgmentCode(AcknowledgmentCode.AE.name());
 			ackEntity.setTextMessage("患者唯一索引号不存在，必须先进行注册");
 			
-			WsLogUtils.log("queryPatient", "PracticeCardIndex object is empty");
+			WebServiceUtil.log("queryPatient", "PracticeCardIndex object is empty");
 			
 			return ADRUtil.encode(ackEntity);
 		}
@@ -117,7 +121,7 @@ public class PatientWebServiceImpl implements IPatientWebService {
 			ackEntity.setAcknowledgmentCode(AcknowledgmentCode.AE.name());
 			ackEntity.setTextMessage("患者基本信息不存在，必须先进行注册");
 			
-			WsLogUtils.log("queryPatient", "PatientBaseInfo object is empty");
+			WebServiceUtil.log("queryPatient", "PatientBaseInfo object is empty");
 			
 			return ADRUtil.encode(ackEntity);
 		}
@@ -135,7 +139,7 @@ public class PatientWebServiceImpl implements IPatientWebService {
 		adrEntity.setReceivingApplication(receivingApplication);
 		adrEntity.setMessageControlId(messageControlId);
 		
-		WsLogUtils.log("compositePracticeNo", "success");
+		WebServiceUtil.log("queryPatient", "success");
 
 		return ADRUtil.encode(adrEntity);
 	}
@@ -160,27 +164,33 @@ public class PatientWebServiceImpl implements IPatientWebService {
 				acknowledgmentCode = AcknowledgmentCode.AE.name();
 				textMessage = "患者卡号不能为空";
 				
-				WsLogUtils.log("registerPatient", "practiceNo is empty");
+				WebServiceUtil.log("registerPatient", "practiceNo is empty");
 			} else {
 				PracticeCardIndex practiceCardIndex = practiceCardIndexService.findByIdAndDeleted(practiceNo, Boolean.FALSE);
 				
 				if (EmptyUtil.isNull(practiceCardIndex)){//未注册
-					PracticeCard practiceCard = practiceCardService.register(practiceNo, patientBaseInfo);
+					MessageLog messageLog = new MessageLog();
+					messageLog.setIp(WebServiceUtil.getClientIpCxf());
+					messageLog.setPracticeNo(practiceNo);
+					messageLog.setHapiOperate(HapiOperate.receive);
+					messageLog.setReceiveDate(new Date());
+					
+					PracticeCard practiceCard = practiceCardService.register(practiceNo, patientBaseInfo, messageLog);
 					textMessage = practiceCard.getPatientBaseInfo().getPatientId();
-					WsLogUtils.log("registerPatient", "information register success");
+					WebServiceUtil.log("registerPatient", "information register success");
 				} else {//已存在
 					textMessage = practiceCardIndex.getPatientId();
-					WsLogUtils.log("registerPatient", "information already exists");
+					WebServiceUtil.log("registerPatient", "information already exists");
 				}
 			}
 		} catch (HL7Exception e) {
 			acknowledgmentCode = AcknowledgmentCode.AE.name();
 			textMessage = "HL7格式错误";
-			WsLogUtils.log("registerPatient", "HL7 encode error : {}", e.toString());
+			WebServiceUtil.log("registerPatient", "HL7 encode error : {}", e.toString());
 		} catch (Exception e) {
 			acknowledgmentCode = AcknowledgmentCode.AE.name();
 			textMessage = "系统错误";
-			WsLogUtils.log("registerPatient", "exception : {}", e.toString());
+			WebServiceUtil.log("registerPatient", "exception : {}", e.toString());
 		}
 		
 		ACKEntity ackEntity = new ACKEntity();
@@ -194,7 +204,7 @@ public class PatientWebServiceImpl implements IPatientWebService {
 		ackEntity.setReceivingApplication(receivingApplication);
 		ackEntity.setMessageControlId(messageControlId);
 		
-		WsLogUtils.log("registerPatient", "return ACK message");
+		WebServiceUtil.log("registerPatient", "return ACK message");
 		
 		return ACKUtil.encode(ackEntity);
 	}

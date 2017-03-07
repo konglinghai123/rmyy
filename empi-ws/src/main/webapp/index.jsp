@@ -6,6 +6,8 @@
 		<title>JavaScript SOAP Client Test</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<script src="js/jquery-3.1.1.min.js" type="text/javascript"></script>
+		<script src="js/base64.js" type="text/javascript"></script>
+		<script src="js/sha1.js" type="text/javascript"></script>
 	</head>
 
 	<body>
@@ -80,24 +82,52 @@
 			var webServiceUrl = ctx + '/webservice/patient';
 			var qryXml, qryEr7;
 			$(function(){
+				var base64 = new Base64();
+				var created = getW3CDate(new Date());
+				var nonce = base64.encode(generateNonce(16));
+				var password = '123456';
+				var passwordDigest = base64.encode(str_sha1(nonce + created + password));
+			
+				var result = 'nonce : ' + nonce + '<br/>' + 'create : ' + created + '<br/>' + 'password : ' +  password + '<br/>' + 'passwordDigest : ' + passwordDigest;
+				
+				$("#ajaxBack").html(result).css("border","1px solid blue").css({width:'50%'}).appendTo($("body"));
 				//$('#qrymessage').hide();
 				//$('#hl7message').hide();
 				
+				var security =  '  <soap:Header>' +
+				  			    '    <wsse:Security xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" soap:mustUnderstand="1">' +
+				  				'      <wsse:UsernameToken wsu:Id="UsernameToken-b1d83b2e-4a7e-4706-95ea-bfe5d6ed68c5">' +
+				  				'        <wsse:Username>admin</wsse:Username>' +
+				  				'	       <wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordDigest">ewdo9W5S1cuypyb/IksdVqhS47w=</wsse:Password>' +
+				  				'        <wsse:Nonce EncodingType="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary">PzlbwtWRpmFWjG0JRIRn7A==</wsse:Nonce>' +
+				  				'        <wsu:Created>2012-06-09T18:41:03.640Z</wsu:Created>' +
+				  				'	     </wsse:UsernameToken>' +
+				  				'    </wsse:Security>' +
+				  				'  </soap:Header>';
+
+				var sign = '  <soap:Header>' +
+				           '      <userName>wuzhijun</userName>' +
+				           '      <created>' + getW3CDate(new Date()) + '</created>' +
+				           '      <nonce>' + base64.encode(generateNonce(16)) + '</nonce>' +
+				           '      <password>123456</password>' +
+				           '  </soap:Header>';
+				  				
 				$('#compositePracticeNo').bind('click', function(){
 					var val = $("#practiceNo").val();
 					<!--可以通过拦截器获取请求信息-->
 					var str = '<?xml version="1.0" encoding="UTF-8"?>'+
-							'<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">'+
-							'<soap:Body>'+
-							'<ns2:compositePracticeNo xmlns:ns2="http://ewcms.com/patient">'+
-							'<practiceNo>' + val + '</practiceNo>'+
-							'<version>' +  $('#version').val() + '</version>' +
-							'<processingId>' + $('#processingId').val() + '</processingId>' +
-							'<style>er7</style>' +
-							'</ns2:compositePracticeNo>' + 
-							 '</soap:Body>'+
-							'</soap:Envelope>';
-								  
+							  '<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">'+
+							  sign +
+							  '  <soap:Body>'+
+							  '    <ns2:compositePracticeNo xmlns:ns2="http://webservice.ewcms.com/patient">'+
+							  '      <practiceNo>' + val + '</practiceNo>'+
+							  '      <version>' +  $('#version').val() + '</version>' +
+							  '      <processingId>' + $('#processingId').val() + '</processingId>' +
+							  '      <style>er7</style>' +
+							  '    </ns2:compositePracticeNo>' + 
+							  '  </soap:Body>' +
+							  '</soap:Envelope>';
+					alert(str);			  
 					$.ajax({
 						contentType:'application/xml;charset="UTF-8"',
 						dataType:'xml',//发送数据格式
@@ -105,22 +135,23 @@
 						url:webServiceUrl,		//直接发向这个地址
 						data:str,
 						success:function(data){
-							qryEr7 = $(data).find("hl7Result").first().text();
+							qryEr7 = $(data).find('hl7Result').first().text();	
 							document.getElementById('qryMessageEr7').innerHTML = update(qryEr7);
 						}
 					});
 					
 					str = '<?xml version="1.0" encoding="UTF-8"?>'+
-							'<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">'+
-							'<soap:Body>'+
-							'<ns2:compositePracticeNo xmlns:ns2="http://ewcms.com/patient">'+
-							'<practiceNo>' + val + '</practiceNo>'+
-							'<version>' +  $('#version').val() + '</version>' +
-							'<processingId>' + $('#processingId').val() + '</processingId>' +
-							'<style>xml</style>' +
-							'</ns2:compositePracticeNo>' + 
-							 '</soap:Body>'+
-							'</soap:Envelope>';
+					      '<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">'+
+						  sign +
+						  '  <soap:Body>'+
+						  '    <ns2:compositePracticeNo xmlns:ns2="http://webservice.ewcms.com/patient">'+
+						  '      <practiceNo>' + val + '</practiceNo>'+
+						  '      <version>' +  $('#version').val() + '</version>' +
+						  '      <processingId>' + $('#processingId').val() + '</processingId>' +
+						  '      <style>xml</style>' +
+						  '    </ns2:compositePracticeNo>' + 
+						  '  </soap:Body>' +
+						  '</soap:Envelope>';
 						  
 					$.ajax({
 						contentType:'application/xml;charset="UTF-8"',
@@ -129,8 +160,13 @@
 						url:webServiceUrl,		//直接发向这个地址
 						data:str,
 						success:function(data){
-							qryXml = $(data).find("hl7Result").first().text();
+							qryXml = $(data).find('hl7Result').first().text();	
 							document.getElementById('qryMessageXml').innerHTML = qryXml;
+						},
+						error:function(XMLHttpRequest, textStatus, errorThrown){
+							//alert(XMLHttpRequest.status);
+							//alert(XMLHttpRequest.readyState);
+							//alert(textStatus);
 						}
 					});
 					
@@ -146,7 +182,7 @@
 					var str = '<?xml version="1.0" encoding="UTF-8"?>'+
 							'<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">'+
 							'<soap:Body>'+
-							'<ns2:queryPatient xmlns:ns2="http://ewcms.com/patient">'+
+							'<ns2:queryPatient xmlns:ns2="http://webservice.ewcms.com/patient">'+
 							'<qryMessage><![CDATA[' + qryEr7 + ']]></qryMessage>'+
 							'<version>' +  $('#version').val() + '</version>' +
 							'<processingId>' + $('#processingId').val() + '</processingId>' +
@@ -169,7 +205,7 @@
 					str = '<?xml version="1.0" encoding="UTF-8"?>'+
 							'<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">'+
 							'<soap:Body>'+
-							'<ns2:queryPatient xmlns:ns2="http://ewcms.com/patient">'+
+							'<ns2:queryPatient xmlns:ns2="http://webservice.ewcms.com/patient">'+
 							'<qryMessage><![CDATA[' + qryXml + ']]></qryMessage>'+
 							'<version>' +  $('#version').val() + '</version>' +
 							'<processingId>' + $('#processingId').val() + '</processingId>' +
@@ -200,7 +236,7 @@
 					var str = '<?xml version="1.0" encoding="UTF-8"?>' +
 							'<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">' +
 							'<soap:Body>' +
-							'<ns2:registerPatient xmlns:ns2="http://ewcms.com/patient">' +
+							'<ns2:registerPatient xmlns:ns2="http://webservice.ewcms.com/patient">' +
 							'<adtMessage><![CDATA[' + val + ']]></adtMessage>' +
 							'<version>' +  $('#version').val() + '</version>' +
 							'<processingId>' + $('#processingId').val() + '</processingId>' +
@@ -280,6 +316,34 @@
 					output = output + "<br>";
 				}
 				return output;
+			}
+			
+			function generateNonce(length) {
+			    var nonceChars = "0123456789abcdef";
+			    var result = "";
+			    for (var i = 0; i < length; i++) {
+			        result += nonceChars.charAt(Math.floor(Math.random() * nonceChars.length));
+			    }
+			    return result;
+			}
+			
+			function getW3CDate(date) {
+			    var yyyy = date.getUTCFullYear();
+			    var mm = (date.getUTCMonth() + 1);
+			    if (mm < 10) mm = "0" + mm;
+			    var dd = (date.getUTCDate());
+			    if (dd < 10) dd = "0" + dd;
+			    var hh = (date.getUTCHours() + 8);
+			    if (hh < 10) hh = "0" + hh;
+			    var mn = (date.getUTCMinutes());
+			    if (mn < 10) mn = "0" + mn;
+			    var ss = (date.getUTCSeconds());
+			    if (ss < 10) ss = "0" + ss;
+			    var sss = (date.getUTCMilliseconds())
+			    if (sss < 10) sss = "00" + sss;
+			    if (sss >=10 && sss<100) sss = "0" + sss;
+			    //return yyyy+"-"+mm+"-"+dd+"T"+hh+":"+mn+":"+ss+"." +sss+"Z";
+			    return yyyy+"-"+mm+"-"+dd+" "+hh+":"+mn+":"+ss+"." +sss+"";
 			}
 		</script>
 	</body>

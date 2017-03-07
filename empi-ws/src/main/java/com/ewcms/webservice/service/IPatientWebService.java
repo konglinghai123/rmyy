@@ -1,4 +1,4 @@
-package com.ewcms.webservice;
+package com.ewcms.webservice.service;
 
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
@@ -7,7 +7,7 @@ import javax.jws.WebService;
 import javax.xml.ws.BindingType;
 import javax.xml.ws.soap.SOAPBinding;
 
-import com.ewcms.WebServiceConstants;
+import com.ewcms.webservice.WebServiceConstants;
 
 /**
  *

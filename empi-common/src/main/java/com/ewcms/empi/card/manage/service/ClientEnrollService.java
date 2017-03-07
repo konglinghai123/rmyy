@@ -22,4 +22,8 @@ public class ClientEnrollService extends BaseService<ClientEnroll, Long> {
 	public ClientEnroll findByUserName(String userName){
 		return getClientEnrollRepository().findByUserName(userName);
 	}
+	
+	public ClientEnroll findByIpAndUserName(String ip, String userName){
+		return getClientEnrollRepository().findByIpAndUserName(ip, userName);
+	}
 }
