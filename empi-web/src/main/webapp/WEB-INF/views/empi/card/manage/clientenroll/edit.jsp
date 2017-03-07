@@ -35,6 +35,10 @@
 		        	<tr>
 				  		<td width="30%"><form:label path="hapiVersion">客户端hapi版本：</form:label></td>
 				  		<td><form:select path="hapiVersion" items="${hapiVersionList}" itemLabel="info" cssClass="easyui-combobox" data-options="panelWidth:80,panelHeight:80,editable:false"/></td>
+			    	</tr>
+			    	<tr>
+				  		<td width="30%"><form:label path="auth">是否需要认证：</form:label></td>
+				  		<td width="70%"><form:checkbox path="auth"/></td>
 			    	</tr>			    			    				    				    				    			    	
 			  	</table>
 		  	</form:form>

@@ -26,11 +26,13 @@ import com.ewcms.common.entity.BaseEntity;
  * <li>userName：用户名</li>
  * <li>password:密码</li>
  * <li>hapiVersion:客户端hapi版本</li>
+ * <li>auth:客户端是否需要认证</li>
  * </ul>
  *@author zhoudongchu
  */
 @Entity
 @Table(name = "card_client_enroll")
+
 public class ClientEnroll extends BaseEntity<Long> {
 	private static final long serialVersionUID = 934101109141213565L;
 	@Column(name = "ip",nullable = false,unique = true)
@@ -51,6 +53,9 @@ public class ClientEnroll extends BaseEntity<Long> {
 	@Enumerated(EnumType.STRING)
 	@Column(name = "hapi_version")
 	private HapiVersion hapiVersion = HapiVersion.v6;
+	@Column(name = "is_auth")
+	private Boolean auth = Boolean.TRUE;
+	
 	public String getIp() {
 		return ip;
 	}
@@ -95,5 +100,11 @@ public class ClientEnroll extends BaseEntity<Long> {
 	}
 	public void setPassword(String password) {
 		this.password = password;
+	}
+	public Boolean getAuth() {
+		return auth;
+	}
+	public void setAuth(Boolean auth) {
+		this.auth = auth;
 	}
 }

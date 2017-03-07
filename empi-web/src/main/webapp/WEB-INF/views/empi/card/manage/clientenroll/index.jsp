@@ -13,6 +13,10 @@
 			    <th data-options="field:'department',width:150">所属科室</th>
 			    <th data-options="field:'createDate',width:150">注册时间</th>
 				<th data-options="field:'hapiVersionInfo',width:150">客户端hapi版本</th>
+				<th data-options="field:'auth',width:80,sortable:true,
+						formatter:function(val,row){
+							return val ? '是' : '否';
+						}">是否认证</th>
 			</tr>
 		</thead>
 	</table>

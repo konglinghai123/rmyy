@@ -25,7 +25,7 @@
 				  		<td><form:label path="certificateType">证件类型：</form:label></td>
 				  		<td><form:input path="certificateType" cssClass="validate[required]"/></td>
 				  		<td><form:label path="certificateNo">证件号码：</form:label></td>
-				  		<td><form:input path="certificateNo" cssClass="validate[required,ajax[ajaxNameCall]]"/></td>	
+				  		<td><form:input path="certificateNo" cssClass="validate[required]"/></td>	
 						<td><form:label path="sourcePlace">来源地：</form:label></td>
 				  		<td><form:input path="sourcePlace" cssClass="inputempty"/></td>				  		
 			    	</tr>
