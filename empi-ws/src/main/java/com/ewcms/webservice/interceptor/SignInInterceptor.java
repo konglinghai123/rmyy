@@ -92,7 +92,7 @@ public class SignInInterceptor extends AbstractPhaseInterceptor<SoapMessage> {
 		            } 
 		            if (element.getNodeName().equals("userName")){
 						userName = node.getTextContent();
-						if (userName.equals(clientEnroll.getUserName())){
+						if (!userName.equals(clientEnroll.getUserName())){
 							if (LOG.isDebugEnabled()){
 								LOG.debug("User name mismatch");
 							}
