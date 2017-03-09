@@ -32,7 +32,7 @@ public class Hl7v2ServletTest {
 		 */
 		String host = "localhost";
 		int port = 8080;
-		String uri = "/empi-web/hl7v2";
+		String uri = "/empi-web/servlet/queryPatient";
 
 		// 建立解析器
 		Parser parser = PipeParser.getInstanceWithNoValidation();
@@ -42,7 +42,7 @@ public class Hl7v2ServletTest {
 
 		// Optionally, if credentials should be sent, they
 		// can be provided using a credential callback
-		IAuthorizationClientCallback authCalback = new SingleCredentialClientCallback("ausername", "somepassword");
+		IAuthorizationClientCallback authCalback = new SingleCredentialClientCallback("wuzhijun", "123456");
 		client.setAuthorizationCallback(authCalback);
 
 		// The ISendable defines the object that provides the actual

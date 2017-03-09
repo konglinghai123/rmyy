@@ -55,7 +55,7 @@ public class QRYUtil {
 			ackEntity.setReceivingApplication(receivingApplication);
 			ackEntity.setVersion(version);
 			ackEntity.setStyle(style);
-			if (EmptyUtil.isNull(practiceNo)){
+			if (EmptyUtil.isStringEmpty(practiceNo)){
 				ackEntity.setTextMessage("传递的患者卡号为空，请重新传递");
 				return ADRUtil.encode(ackEntity);
 			}

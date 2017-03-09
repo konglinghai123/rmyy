@@ -37,20 +37,6 @@
 	<bean id="ipAddressIn" class="com.ewcms.webservice.interceptor.IpAddressInInterceptor"/>
 	<bean id="signIn" class="com.ewcms.webservice.interceptor.SignInInterceptor"/>
 	
-	<bean id="wss4jIn" class="org.apache.cxf.ws.security.wss4j.WSS4JInInterceptor">
-		<constructor-arg>
-			<map>
-				<entry key="action" value="UsernameToken" />
-				<!-- 密码类型，PasswordText表示明文,PasswordDigest表示密文(MD5加密明文密码) -->
-				<entry key="passwordType" value="PasswordDigest" />
-				<entry key="passwordCallbackRef">
-					<!-- 回调函数引用  -->
-					<ref bean="serverPasswordCallback" />
-				</entry>
-			</map>
-		</constructor-arg>
-	</bean>
-	
 	<!-- 全局Bus(输入拦截器) -->  
 	<cxf:bus>  
 	    <cxf:inInterceptors>  

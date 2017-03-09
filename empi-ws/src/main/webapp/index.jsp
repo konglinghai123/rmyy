@@ -7,7 +7,8 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<script src="js/jquery-3.1.1.min.js" type="text/javascript"></script>
 		<script src="js/base64.js" type="text/javascript"></script>
-		<script src="js/sha1.js" type="text/javascript"></script>
+		<script src="js/sha_dev.js" type="text/javascript"></script> 
+		<script src="js/sha1.js" type="text/javascript"></script> 
 	</head>
 
 	<body>
@@ -39,6 +40,26 @@
 						<option value ="P">正式环境</option>
 					</select>
 				</td>
+			</tr>
+			<tr>
+				<td>userName:</td>
+				<td><input type="text" id="userName" name="userName" size="50" value="wuzhijun"/></td>
+			</tr>
+			<tr>
+				<td>password:</td>
+				<td><input type="text" id="password" name="password" size="50" value="123456"/></td>
+			</tr>
+			<tr>
+				<td>nonce:</td>
+				<td><input type="text" id="nonce" name="nonce" size="50" /></td>
+			</tr>
+			<tr>
+				<td>created:</td>
+				<td><input type="text" id="created" name="created" size="50" /></td>
+			</tr>
+			<tr>
+				<td>passwordDigest:</td>
+				<td><input type="text" id="passwordDigest" name="passwordDigest" size="50" /><input type="button" id="tbGenerate" value="生成各项"/></td>
 			</tr>
 			<tr>
 				<td>消息：</td>
@@ -82,42 +103,18 @@
 			var webServiceUrl = ctx + '/webservice/patient';
 			var qryXml, qryEr7;
 			$(function(){
-				var base64 = new Base64();
-				var created = getW3CDate(new Date());
-				var nonce = base64.encode(generateNonce(16));
-				var password = '123456';
-				var passwordDigest = base64.encode(str_sha1(nonce + created + password));
-			
-				var result = 'nonce : ' + nonce + '<br/>' + 'create : ' + created + '<br/>' + 'password : ' +  password + '<br/>' + 'passwordDigest : ' + passwordDigest;
-				
-				$("#ajaxBack").html(result).css("border","1px solid blue").css({width:'50%'}).appendTo($("body"));
-				//$('#qrymessage').hide();
-				//$('#hl7message').hide();
-				
-				var security =  '  <soap:Header>' +
-				  			    '    <wsse:Security xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" soap:mustUnderstand="1">' +
-				  				'      <wsse:UsernameToken wsu:Id="UsernameToken-b1d83b2e-4a7e-4706-95ea-bfe5d6ed68c5">' +
-				  				'        <wsse:Username>admin</wsse:Username>' +
-				  				'	       <wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordDigest">ewdo9W5S1cuypyb/IksdVqhS47w=</wsse:Password>' +
-				  				'        <wsse:Nonce EncodingType="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary">PzlbwtWRpmFWjG0JRIRn7A==</wsse:Nonce>' +
-				  				'        <wsu:Created>2012-06-09T18:41:03.640Z</wsu:Created>' +
-				  				'	     </wsse:UsernameToken>' +
-				  				'    </wsse:Security>' +
-				  				'  </soap:Header>';
-
-				var sign = '  <soap:Header>' +
-				           '      <userName>wuzhijun</userName>' +
-				           '      <created>' + getW3CDate(new Date()) + '</created>' +
-				           '      <nonce>' + base64.encode(generateNonce(16)) + '</nonce>' +
-				           '      <password>123456</password>' +
-				           '  </soap:Header>';
-				  				
 				$('#compositePracticeNo').bind('click', function(){
+				   var sign = '  <soap:Header>' +
+			           '      <userName>' + $('#userName').val() + '</userName>' +
+			           '      <created>' + $('#created').val() + '</created>' +
+			           '      <nonce>' + $('#nonce').val() + '</nonce>' +
+			           '      <password>' + $('#passwordDigest').val() + '</password>' +
+			           '  </soap:Header>';
 					var val = $("#practiceNo").val();
 					<!--可以通过拦截器获取请求信息-->
 					var str = '<?xml version="1.0" encoding="UTF-8"?>'+
 							  '<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">'+
-							  sign +
+							  	sign +
 							  '  <soap:Body>'+
 							  '    <ns2:compositePracticeNo xmlns:ns2="http://webservice.ewcms.com/patient">'+
 							  '      <practiceNo>' + val + '</practiceNo>'+
@@ -138,11 +135,11 @@
 							qryEr7 = $(data).find('hl7Result').first().text();	
 							document.getElementById('qryMessageEr7').innerHTML = update(qryEr7);
 						}
-					});
+					},'xml');
 					
 					str = '<?xml version="1.0" encoding="UTF-8"?>'+
-					      '<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">'+
-						  sign +
+				          '<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">'+
+				      		sign +
 						  '  <soap:Body>'+
 						  '    <ns2:compositePracticeNo xmlns:ns2="http://webservice.ewcms.com/patient">'+
 						  '      <practiceNo>' + val + '</practiceNo>'+
@@ -168,8 +165,7 @@
 							//alert(XMLHttpRequest.readyState);
 							//alert(textStatus);
 						}
-					});
-					
+					},'xml');
 				})
 				
 				$("#queryPatient").bind('click', function(){
@@ -178,9 +174,17 @@
 						return;
 					}
 					
+					var sign = '  <soap:Header>' +
+			           '      <userName>' + $('#userName').val() + '</userName>' +
+			           '      <created>' + $('#created').val() + '</created>' +
+			           '      <nonce>' + $('#nonce').val() + '</nonce>' +
+			           '      <password>' + $('#passwordDigest').val() + '</password>' +
+			           '  </soap:Header>';
+					
 					<!--可以通过拦截器获取请求信息-->
 					var str = '<?xml version="1.0" encoding="UTF-8"?>'+
 							'<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">'+
+							sign +
 							'<soap:Body>'+
 							'<ns2:queryPatient xmlns:ns2="http://webservice.ewcms.com/patient">'+
 							'<qryMessage><![CDATA[' + qryEr7 + ']]></qryMessage>'+
@@ -200,10 +204,11 @@
 						success:function(data){
 							document.getElementById('adrMessageEr7').innerHTML = update($(data).find("hl7Result").first().text());
 						}
-					});
+					},'xml');
 					
 					str = '<?xml version="1.0" encoding="UTF-8"?>'+
 							'<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">'+
+							sign +
 							'<soap:Body>'+
 							'<ns2:queryPatient xmlns:ns2="http://webservice.ewcms.com/patient">'+
 							'<qryMessage><![CDATA[' + qryXml + ']]></qryMessage>'+
@@ -223,7 +228,7 @@
 						success:function(data){
 							document.getElementById('adrMessageXml').innerHTML = $(data).find("hl7Result").first().text();
 						}
-					});
+					},'xml');
 				});
 				
 				$("#registerPatient").bind('click', function(){
@@ -232,9 +237,16 @@
 						alert("请输入患者注册的HL7消息");
 						return;
 					}
+					var sign = '  <soap:Header>' +
+			           '      <userName>' + $('#userName').val() + '</userName>' +
+			           '      <created>' + $('#created').val() + '</created>' +
+			           '      <nonce>' + $('#nonce').val() + '</nonce>' +
+			           '      <password>' + $('#passwordDigest').val() + '</password>' +
+			           '  </soap:Header>';
 					<!--可以通过拦截器获取请求信息-->
 					var str = '<?xml version="1.0" encoding="UTF-8"?>' +
 							'<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">' +
+							sign +
 							'<soap:Body>' +
 							'<ns2:registerPatient xmlns:ns2="http://webservice.ewcms.com/patient">' +
 							'<adtMessage><![CDATA[' + val + ']]></adtMessage>' +
@@ -256,8 +268,32 @@
 							//$("#ajaxBack").html(ss).css("border","1px solid blue").css({width:'50%'}).appendTo($("body"));
 							document.getElementById('regResult').innerHTML = update($(data).find("hl7Result").first().text());
 						}
-					});
+					},'xml');
 				});
+				
+				$('#tbGenerate').bind('click', function(){
+					if ($.trim($('#userName').val()) == ''){
+						alert('请输入userName的值');
+						return;
+					}
+					if ($.trim($('#password').val())==''){
+						alert('请输入password的值');
+						return;
+					}
+					
+					var base64 = new Base64();
+					
+					var nonceSource = generateNonce(16);
+					var nonce = base64.encode(nonceSource);
+					$('#nonce').val(nonce);
+					var created = getW3CDate();
+					$('#created').val(created);
+					
+					var hashObj = new jsSHA('SHA-1', 'TEXT');
+					hashObj.update(nonceSource + created + $('#password').val());
+					var hash1 = hashObj.getHash("B64");
+					$('#passwordDigest').val(hash1);
+				})
 			});
 			function update(value) {
 				var lines = value.split("\r");
@@ -327,7 +363,9 @@
 			    return result;
 			}
 			
-			function getW3CDate(date) {
+			function getW3CDate() {
+				var date = new Date();
+				
 			    var yyyy = date.getUTCFullYear();
 			    var mm = (date.getUTCMonth() + 1);
 			    if (mm < 10) mm = "0" + mm;
@@ -342,8 +380,8 @@
 			    var sss = (date.getUTCMilliseconds())
 			    if (sss < 10) sss = "00" + sss;
 			    if (sss >=10 && sss<100) sss = "0" + sss;
+			    return yyyy+"-"+mm+"-"+dd+" "+hh+":"+mn+":"+ss;
 			    //return yyyy+"-"+mm+"-"+dd+"T"+hh+":"+mn+":"+ss+"." +sss+"Z";
-			    return yyyy+"-"+mm+"-"+dd+" "+hh+":"+mn+":"+ss+"." +sss+"";
 			}
 		</script>
 	</body>
