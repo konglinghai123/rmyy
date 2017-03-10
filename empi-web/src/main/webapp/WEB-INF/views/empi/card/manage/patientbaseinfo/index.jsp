@@ -17,6 +17,7 @@
 			    <th data-options="field:'address',width:80">地址</th>
 			    <th data-options="field:'nation',width:80">民族</th>
 			    <th data-options="field:'profession',width:80">职业</th>
+			    <th data-options="field:'updateDate',width:150">修改日期</th>
 			</tr>
 		</thead>
 	</table>
@@ -24,6 +25,7 @@
 		<div class="toolbar" style="margin-bottom:2px">
 			<a class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true" onclick="$.ewcms.add({title:'新增',width:700,height:350});" href="javascript:void(0);">新增</a>
 			<a class="easyui-linkbutton" data-options="iconCls:'icon-edit',plain:true" onclick="$.ewcms.edit({title:'修改',width:700,height:350});" href="javascript:void(0);">修改</a>
+			<!--  <a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-remove',plain:true" onclick="$.ewcms.remove({title:'删除'});">删除</a>-->
 		</div>
 		<div style="padding-left:5px;">
         	<form id="queryform" style="padding:0;margin:0;">

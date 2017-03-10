@@ -34,6 +34,6 @@ public class PatientBaseInfoServiceIT extends BaseIT {
 		MatchRule matchRule2 = new MatchRule();
 		matchRule2.setFieldName("telephone");
 		matchRuleList.add(matchRule2);	
-		List<PatientBaseInfo> patientBaseInfoList = patientBaseInfoService.findByMatchRule(matchRuleList);
+		List<PatientBaseInfo> patientBaseInfoList = patientBaseInfoService.findRepeatByMatchRule(matchRuleList);
 	}
 }

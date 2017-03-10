@@ -4,6 +4,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -114,7 +115,7 @@ public class PracticeCardController extends BaseCRUDController<PracticeCard, Lon
 	}
 	
 	@RequestMapping(value = "distribute", method = RequestMethod.POST)
-	public String distribute(Model model, @Valid @ModelAttribute("m") PracticeCard m, BindingResult result, @RequestParam(required = false) List<Long> selections) {
+	public String distribute(Model model, @Valid @ModelAttribute("m") PracticeCard m, BindingResult result, @RequestParam(required = false) List<Long> selections,HttpServletRequest request) {
 		if (hasError(m, result)) {
             return showSaveFormDistribute(model, selections);
         }
@@ -125,8 +126,9 @@ public class PracticeCardController extends BaseCRUDController<PracticeCard, Lon
 	    }
 	    try{
 	    	MessageLog messageLog = new MessageLog();
+	    	messageLog.setIp(request.getLocalAddr());
 	    	messageLog.setPracticeNo(m.getPracticeNo());
-	    	messageLog.setHapiOperate(HapiOperate.receive);
+	    	messageLog.setHapiOperate(HapiOperate.distribute);
 	    	messageLog.setReceiveDate(Calendar.getInstance().getTime());
 			PracticeCard lastM = getPracticeCardService().register(m.getPracticeNo(), m.getPatientBaseInfo(),messageLog); 
 			if(EmptyUtil.isNull(selections))selections = Lists.newArrayList();

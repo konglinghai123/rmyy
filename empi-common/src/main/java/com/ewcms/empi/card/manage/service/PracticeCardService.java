@@ -43,13 +43,40 @@ public class PracticeCardService extends BaseService<PracticeCard, Long> {
 	 * @return
 	 */
 	public void autoCombine(){
+		
 		List<MatchRule> matchRuleList = matchRuleService.findMatchRuleByMatched();//获取需要匹配的字段
-		List<PatientBaseInfo> repeatPatientBaseInfoList = patientBaseInfoService.findByMatchRule(matchRuleList);//根据匹配字段获取重复患者信息集
+		List<PatientBaseInfo> noRepeatPatientBaseInfoList = patientBaseInfoService.findNoRepeatByMatchRule(matchRuleList);//根据匹配规则查找不重复的患者信息集合
+		List<PatientBaseInfo> repeatPatientBaseInfoList = patientBaseInfoService.findRepeatByMatchRule(matchRuleList);//根据匹配字段获取重复患者信息集
 		List<PatientBaseInfo> matchPatientBaseInfoList;
 		List<PracticeCard> practiceCardList;
 		PracticeCardIndex practiceCardIndex;
 		Integer patientIdLength = parameterSetService.findPatientIdVariableValue();
 		String patientId;
+		
+		if(EmptyUtil.isCollectionNotEmpty(noRepeatPatientBaseInfoList)){
+			for(PatientBaseInfo patientBaseInfo:noRepeatPatientBaseInfoList){
+				matchPatientBaseInfoList = patientBaseInfoService.match(patientBaseInfo);//匹配查询患者
+				if(EmptyUtil.isCollectionNotEmpty(matchPatientBaseInfoList)){
+					patientId = String.format("%0" + patientIdLength + "d", matchPatientBaseInfoList.get(0).getId());
+					for(PatientBaseInfo dbPatientBaseInfo:matchPatientBaseInfoList){//循环更新患者卡的唯一索引号
+						practiceCardList = dbPatientBaseInfo.getPracticeCards();
+						if(EmptyUtil.isCollectionNotEmpty(practiceCardList)){
+							for(PracticeCard practiceCard:practiceCardList){
+								practiceCardIndex = practiceCardIndexService.findOne(practiceCard.getPracticeNo());
+								if(EmptyUtil.isNotNull(practiceCardIndex) && !practiceCardIndex.getPatientId().equals(patientId)){//如果卡的唯一索引号与当前不同就进行更新
+									practiceCardIndex.setPatientId(patientId);
+									practiceCardIndex.setPushed(Boolean.TRUE);//患者索引已更新，设置需要进行信息推送
+									practiceCardIndexService.update(practiceCardIndex);
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		
+		
+
 		if(EmptyUtil.isCollectionNotEmpty(repeatPatientBaseInfoList)){
 			for(PatientBaseInfo patientBaseInfo:repeatPatientBaseInfoList){
 				matchPatientBaseInfoList = patientBaseInfoService.match(patientBaseInfo);//匹配查询重复的患者
