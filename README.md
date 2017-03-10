@@ -9,6 +9,7 @@
 * WEB框架: SpringMVC
 * Secutiry框架: shiro
 * Validator框架: Hibernate Validator
+* WebService框架：CXF
 * 定时框架: Quartz
 * 报表框架: JasperReport
 * 缓存: ehcache
@@ -47,7 +48,13 @@
 
 ####乱码的问题
 #####参数不乱码
-在%TOMCAT_HOM%/conf/server.xml其中:把<Connector connectionTimeout="20000" port="8080" protocol="HTTP/1.1" redirectPort="8443"/>替换成<Connector connectionTimeout="20000" port="8080" protocol="HTTP/1.1" redirectPort="8443" URIEncoding="UTF-8"/>       
+在%TOMCAT_HOM%/conf/server.xml其中:
+把
+```xml
+<Connector connectionTimeout="20000" port="8080" protocol="HTTP/1.1" redirectPort="8443"/>
+替换成
+```xml
+<Connector connectionTimeout="20000" port="8080" protocol="HTTP/1.1" redirectPort="8443" URIEncoding="UTF-8"/>       
         
 #####报表不乱码
 iReport开发的报表乱码，增加如下设置: CATALINA_OPTS='-Djava.awt.headless=true' 
