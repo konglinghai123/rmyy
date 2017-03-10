@@ -35,15 +35,14 @@
 	<bean id="logOut" class="org.apache.cxf.interceptor.LoggingOutInterceptor" />
 	
 	<bean id="ipAddressIn" class="com.ewcms.webservice.interceptor.IpAddressInInterceptor"/>
-	<bean id="signIn" class="com.ewcms.webservice.interceptor.SignInInterceptor"/>
+	<bean id="authIn" class="com.ewcms.webservice.interceptor.AuthInInterceptor"/>
 	
 	<!-- 全局Bus(输入拦截器) -->  
 	<cxf:bus>  
 	    <cxf:inInterceptors>  
 	        <ref bean="logIn"/>
 			<ref bean="ipAddressIn"/>
-			<!-- <ref bean="wss4jIn"/> -->
-			<ref bean="signIn"/>
+			<ref bean="authIn"/>
 	    </cxf:inInterceptors>  
 	    <cxf:outFaultInterceptors>
 	    	<ref bean="logOut"/>

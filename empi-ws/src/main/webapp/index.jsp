@@ -105,11 +105,13 @@
 			$(function(){
 				$('#compositePracticeNo').bind('click', function(){
 				   var sign = '  <soap:Header>' +
-			           '      <userName>' + $('#userName').val() + '</userName>' +
-			           '      <created>' + $('#created').val() + '</created>' +
-			           '      <nonce>' + $('#nonce').val() + '</nonce>' +
-			           '      <password>' + $('#passwordDigest').val() + '</password>' +
-			           '  </soap:Header>';
+				   			  '    <auth:authentication xmlns:auth="http://webservice.ewcms.com/authentication">' +
+			           		  '      <auth:userName>' + $('#userName').val() + '</auth:userName>' +
+			           		  '      <auth:created>' + $('#created').val() + '</auth:created>' +
+			           		  '      <auth:nonce>' + $('#nonce').val() + '</auth:nonce>' +
+			           		  '      <auth:password>' + $('#passwordDigest').val() + '</auth:password>' +
+			           		  '    </auth:authentication>' +
+			           		  '  </soap:Header>';
 					var val = $("#practiceNo").val();
 					<!--可以通过拦截器获取请求信息-->
 					var str = '<?xml version="1.0" encoding="UTF-8"?>'+
@@ -174,12 +176,14 @@
 						return;
 					}
 					
-					var sign = '  <soap:Header>' +
-			           '      <userName>' + $('#userName').val() + '</userName>' +
-			           '      <created>' + $('#created').val() + '</created>' +
-			           '      <nonce>' + $('#nonce').val() + '</nonce>' +
-			           '      <password>' + $('#passwordDigest').val() + '</password>' +
-			           '  </soap:Header>';
+					   var sign = '  <soap:Header>' +
+			   			  '    <auth:authentication xmlns:auth="http://webservice.ewcms.com/authentication">' +
+		           		  '      <auth:userName>' + $('#userName').val() + '</auth:userName>' +
+		           		  '      <auth:created>' + $('#created').val() + '</auth:created>' +
+		           		  '      <auth:nonce>' + $('#nonce').val() + '</auth:nonce>' +
+		           		  '      <auth:password>' + $('#passwordDigest').val() + '</auth:password>' +
+		           		  '    </auth:authentication>' +
+		           		  '  </soap:Header>';
 					
 					<!--可以通过拦截器获取请求信息-->
 					var str = '<?xml version="1.0" encoding="UTF-8"?>'+
@@ -237,12 +241,14 @@
 						alert("请输入患者注册的HL7消息");
 						return;
 					}
-					var sign = '  <soap:Header>' +
-			           '      <userName>' + $('#userName').val() + '</userName>' +
-			           '      <created>' + $('#created').val() + '</created>' +
-			           '      <nonce>' + $('#nonce').val() + '</nonce>' +
-			           '      <password>' + $('#passwordDigest').val() + '</password>' +
-			           '  </soap:Header>';
+					   var sign = '  <soap:Header>' +
+			   			  '    <auth:authentication xmlns:auth="http://webservice.ewcms.com/authentication">' +
+		           		  '      <auth:userName>' + $('#userName').val() + '</auth:userName>' +
+		           		  '      <auth:created>' + $('#created').val() + '</auth:created>' +
+		           		  '      <auth:nonce>' + $('#nonce').val() + '</auth:nonce>' +
+		           		  '      <auth:password>' + $('#passwordDigest').val() + '</auth:password>' +
+		           		  '    </auth:authentication>' +
+		           		  '  </soap:Header>';
 					<!--可以通过拦截器获取请求信息-->
 					var str = '<?xml version="1.0" encoding="UTF-8"?>' +
 							'<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">' +

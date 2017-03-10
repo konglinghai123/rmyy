@@ -18,8 +18,8 @@ public class PasswordDigestTest {
 	
 	@Test
 	public void testBuildPassword(){
-		String nonce = "MjZjYjM2ZDdhOWQ5NDM3Yg==";
-		String created = "2017-03-09T11:41:07.135Z";
+		String nonce = "ZGQwMWJhMTFhNzI5N2ZjMg==";
+		String created = "2017-03-10 15:12:02";
 		String password = "123456";
 		
 		try {
