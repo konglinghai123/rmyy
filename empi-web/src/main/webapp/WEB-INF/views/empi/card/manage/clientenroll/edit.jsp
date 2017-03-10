@@ -26,7 +26,7 @@
 			    	</tr>
 			    	<tr>
 				  		<td width="30%"><form:label path="password">密码：</form:label></td>
-				  		<td width="70%"><form:password path="password" cssClass="validate[required]"/></td>
+				  		<td width="70%"><form:input path="password" cssClass="validate[required]"/></td>
 			    	</tr>
 			    	<tr>
 				  		<td width="30%"><form:label path="department">所属科室：</form:label></td>

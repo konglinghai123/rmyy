@@ -59,7 +59,7 @@ public class PatientBaseInfoService extends BaseService<PatientBaseInfo, Long> {
 	 * @param certificateNo 证件号码
 	 * @return PatientBaseInfo 患者信息
 	 */
-	public PatientBaseInfo findByCertificateNo(String certificateNo){
+	public List<PatientBaseInfo> findByCertificateNo(String certificateNo){
 		return getPatientBaseInfoRepository().findByCertificateNo(certificateNo);
 	}
 	
@@ -70,8 +70,8 @@ public class PatientBaseInfoService extends BaseService<PatientBaseInfo, Long> {
 	 * @param certificateType 证件类型
 	 * @return PatientBaseInfo 患者信息
 	 */
-	public PatientBaseInfo findByCertificateNoAndCertificateType(String certificateNo,String certificateType){
-		return getPatientBaseInfoRepository().findByCertificateNoAndCertificateType(certificateNo, certificateType);
+	public List<PatientBaseInfo> findByCertificateNoAndCertificateType(String certificateNo,String certificateType){
+		return getPatientBaseInfoRepository().findByCertificateNoAndCertificateTypeOrderByUpdateDateDesc(certificateNo, certificateType);
 	}
 	
 	/**
@@ -80,10 +80,20 @@ public class PatientBaseInfoService extends BaseService<PatientBaseInfo, Long> {
 	 * @param matchRuleList 匹配规则
 	 * @return List<PatientBaseInfo> 重复患者信息记录集
 	 */
-	public List<PatientBaseInfo> findByMatchRule(List<MatchRule> matchRuleList){
-		return getPatientBaseInfoRepository().findByMatchRule(matchRuleList);
+	public List<PatientBaseInfo> findRepeatByMatchRule(List<MatchRule> matchRuleList){
+		return getPatientBaseInfoRepository().findRepeatByMatchRule(matchRuleList);
 	}	
+	/**
+	 * 根据匹配规则查询不重复患者记录集
+	 * 
+	 * @param matchRuleList 匹配规则
+	 * @return List<PatientBaseInfo> 不重复患者信息记录集
+	 */
+	List<PatientBaseInfo> findNoRepeatByMatchRule(List<MatchRule> matchRuleList){
+		return getPatientBaseInfoRepository().findNoRepeatByMatchRule(matchRuleList);
+	}
 	
+
 	/**
 	 * 根据一个患者信息和匹配规则去查询数据库相同患者的集合
 	 * 

@@ -15,6 +15,7 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.Formula;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.alibaba.fastjson.annotation.JSONField;
@@ -50,6 +51,8 @@ public class PracticeCard extends BaseEntity<Long> implements LogicDeleteable{
 	private PatientBaseInfo patientBaseInfo = new PatientBaseInfo();	
 	@Column(name = "is_deleted")
     private Boolean deleted = Boolean.FALSE;
+	@Formula(value = "(select u.patient_id from card_practice_card_index u where u.id=practice_no)")
+	private String patientId;
 	
 	public String getPracticeNo() {
 		return practiceNo;
@@ -73,6 +76,14 @@ public class PracticeCard extends BaseEntity<Long> implements LogicDeleteable{
 
 	public void setPatientBaseInfo(PatientBaseInfo patientBaseInfo) {
 		this.patientBaseInfo = patientBaseInfo;
+	}
+
+	public String getPatientId() {
+		return patientId;
+	}
+
+	public void setPatientId(String patientId) {
+		this.patientId = patientId;
 	}
 
 	@Override

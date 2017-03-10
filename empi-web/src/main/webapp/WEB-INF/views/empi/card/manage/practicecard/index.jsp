@@ -9,15 +9,16 @@
 			    <th data-options="field:'id',hidden:true">编号</th>
 			    <th data-options="field:'practiceNo',width:100">诊疗卡号</th>
 			    <th data-options="field:'createDate',width:150">上传时间</th>
+			    <th data-options="field:'patientId',width:150">唯一索引号</th>
 			    <th data-options="field:'patientBaseInfo.name',width:80,
 						formatter:function(val,row){
 							return row.patientBaseInfo.name;
 						}">患者姓名</th>
 						
-				<th data-options="field:'patientBaseInfo.certificateType',width:130,
+				<th data-options="field:'patientBaseInfo.telephone',width:130,
 						formatter:function(val,row){
-							return row.patientBaseInfo.certificateType;
-						}">证件类型</th>
+							return row.patientBaseInfo.telephone;
+						}">电话号码</th>
 			    <th data-options="field:'patientBaseInfo.certificateNo',width:130,
 						formatter:function(val,row){
 							return row.patientBaseInfo.certificateNo;
@@ -29,7 +30,6 @@
 		<div class="toolbar" style="margin-bottom:2px">
 			<a class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true" id="tb-distribute" onclick="$.ewcms.add({title:'发诊疗卡',width:700,height:380,src:'${ctx}/empi/card/manage/practicecard/distribute'});" href="javascript:void(0);">发诊疗卡</a>
 			<a class="easyui-linkbutton" data-options="iconCls:'icon-edit',plain:true" id="tb-distribute" onclick="$.ewcms.add({title:'自动合并',width:400,height:300,src:'${ctx}/empi/card/manage/practicecard/autocombine'});" href="javascript:void(0);">自动合并</a>
-			<a class="easyui-linkbutton" data-options="iconCls:'icon-remove',plain:true" id="tb-distribute" onclick="$.ewcms.add({title:'人工合并',width:400,height:300,src:'${ctx}/empi/card/manage/practicecard/combine'});" href="javascript:void(0);">人工合并</a>
 		</div>
 		<div style="padding-left:5px;">
         	<form id="queryform" style="padding:0;margin:0;">
