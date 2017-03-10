@@ -49,7 +49,7 @@
 ####乱码的问题
 #####参数不乱码
 在%TOMCAT_HOM%/conf/server.xml其中:
-把```xml
+```xml
 <Connector connectionTimeout="20000" port="8080" protocol="HTTP/1.1" redirectPort="8443"/>
 ```
 替换成
