@@ -8,8 +8,8 @@ import ca.uhn.hl7v2.DefaultHapiContext;
 import ca.uhn.hl7v2.HapiContext;
 
 import com.ewcms.empi.card.manage.entity.PatientBaseInfo;
-import com.ewcms.hl7v2.MessageTriggerEvent;
-import com.ewcms.hl7v2.message.ADTUtil;
+import com.ewcms.hl7v2.defined.MessageTriggerEvent;
+import com.ewcms.hl7v2.message.ADTMessage;
 import com.ewcms.hl7v2.model.ADTEntity;
 
 /**
@@ -58,7 +58,7 @@ public class ADTUtilTest {
 		adtEntity.setStyle(style);
 		adtEntity.setPatientIdLen(patientIdLen);
 		
-		String message =  ADTUtil.encode(adtEntity);
+		String message =  ADTMessage.encode(adtEntity);
 		System.out.println("XML : " + message);
 	}
 	
@@ -84,9 +84,9 @@ public class ADTUtilTest {
 		adtEntity.setPatientIdLen(patientIdLen);
 
 		try {
-			String message =  ADTUtil.encode(adtEntity);
+			String message =  ADTMessage.encode(adtEntity);
 			System.out.println("ER7 : " + message);
-			ADTEntity adtEntityParser = ADTUtil.parser(message, version, style);
+			ADTEntity adtEntityParser = ADTMessage.parser(message, version, style);
 			System.out.println(adtEntityParser.getPatientBaseInfo().getPatientId());
 			System.out.println(adtEntityParser.getPatientBaseInfo().getName());
 		} catch (Exception e) {

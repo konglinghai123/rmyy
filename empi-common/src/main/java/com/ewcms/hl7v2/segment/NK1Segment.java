@@ -7,7 +7,7 @@ import ca.uhn.hl7v2.model.AbstractSegment;
  *
  * @author wu_zhijun
  */
-public class NK1Util {
+public class NK1Segment {
 	
 	//访问者姓名
 	private String contactName;
@@ -18,14 +18,14 @@ public class NK1Util {
 	//访问者电话
 	private String contactTelephone;
 	
-	public NK1Util(String contactName, String contactRelation, String contactAddress, String contactTelephone) {
+	public NK1Segment(String contactName, String contactRelation, String contactAddress, String contactTelephone) {
 		this.contactName = contactName; // 联系人姓名
 		this.contactRelation = contactRelation;// 与联系人关系
 		this.contactAddress = contactAddress;// 联系人地址
 		this.contactTelephone = contactTelephone;// 联系人电话
 	}
 
-	public void setNk1(AbstractSegment nk1) throws HL7Exception{
+	public void setNk1Segment(AbstractSegment nk1) throws HL7Exception{
 		if (nk1 instanceof ca.uhn.hl7v2.model.v21.segment.NK1){
 			setNk1_V21((ca.uhn.hl7v2.model.v21.segment.NK1)nk1);
 		}else if (nk1 instanceof ca.uhn.hl7v2.model.v22.segment.NK1){

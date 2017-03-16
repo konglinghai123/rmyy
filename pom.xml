@@ -35,8 +35,11 @@
 	</properties>
 
 	<repositories>
-		<!-- <repository> <id>oschina release</id> <name>oschina release</name> 
-			<url>http://maven.oschina.net/content/groups/public/</url> </repository> -->
+		<repository>
+			<id>alimaven</id>
+			<name>aliyun maven</name>
+			<url>http://maven.aliyun.com/nexus/content/groups/public/</url>
+		</repository>
 		<repository>
 			<id>apache-repo</id>
 			<name>Apache Repository</name>
@@ -106,8 +109,11 @@
 	</repositories>
 
 	<pluginRepositories>
-		<!-- <pluginRepository> <id>oschina releases</id> <name>oschina Releases</name> 
-			<url>http://maven.oschina.net/content/groups/public/</url> </pluginRepository> -->
+		<pluginRepository>
+			<id>alimaven</id>
+			<name>aliyun maven</name>
+			<url>http://maven.aliyun.com/nexus/content/groups/public/</url>
+		</pluginRepository>
 		<pluginRepository>
 			<id>maven2-repo</id>
 			<name>Maven2 Repository</name>

@@ -21,11 +21,11 @@ import com.ewcms.empi.card.manage.service.PatientBaseInfoService;
 import com.ewcms.empi.card.manage.service.PracticeCardIndexService;
 import com.ewcms.empi.card.manage.service.PracticeCardService;
 import com.ewcms.empi.system.service.ParameterSetService;
-import com.ewcms.hl7v2.MessageTriggerEvent;
-import com.ewcms.hl7v2.message.ACKUtil;
-import com.ewcms.hl7v2.message.ADRUtil;
-import com.ewcms.hl7v2.message.ADTUtil;
-import com.ewcms.hl7v2.message.QRYUtil;
+import com.ewcms.hl7v2.defined.MessageTriggerEvent;
+import com.ewcms.hl7v2.message.ACKMessage;
+import com.ewcms.hl7v2.message.ADRMessage;
+import com.ewcms.hl7v2.message.ADTMessage;
+import com.ewcms.hl7v2.message.QRYMessage;
 import com.ewcms.hl7v2.model.ACKEntity;
 import com.ewcms.hl7v2.model.ADREntity;
 import com.ewcms.hl7v2.model.ADTEntity;
@@ -64,7 +64,7 @@ public class PatientWebServiceImpl implements IPatientWebService {
 		
 		WebServiceUtil.log("compositePracticeNo", "success");
 		
-		return QRYUtil.encode(qryEntity);
+		return QRYMessage.encode(qryEntity);
 	}
 	
 	@Override
@@ -81,7 +81,7 @@ public class PatientWebServiceImpl implements IPatientWebService {
 		ackEntity.setStyle(style);
 		
 		try {
-			QRYEntity qryEntity = QRYUtil.parser(qryMessage, version, style);
+			QRYEntity qryEntity = QRYMessage.parser(qryMessage, version, style);
 			practiceNo = qryEntity.getPracticeNo();
 			receivingApplication = qryEntity.getReceivingApplication();
 			messageControlId = qryEntity.getMessageControlId();
@@ -94,7 +94,7 @@ public class PatientWebServiceImpl implements IPatientWebService {
 			
 			WebServiceUtil.log("queryPatient", "HL7 encode error : {}", e.toString());
 			
-			return ADRUtil.encode(ackEntity);
+			return ADRMessage.encode(ackEntity);
 		}
 		
 		if (EmptyUtil.isStringEmpty(practiceNo)) {			
@@ -103,7 +103,7 @@ public class PatientWebServiceImpl implements IPatientWebService {
 			
 			WebServiceUtil.log("queryPatient", "practiceNo is empty");
 			
-			return ADRUtil.encode(ackEntity);
+			return ADRMessage.encode(ackEntity);
 		}
 		
 		PracticeCardIndex practiceCardIndex = practiceCardIndexService.findByIdAndDeleted(practiceNo, Boolean.FALSE);
@@ -113,7 +113,7 @@ public class PatientWebServiceImpl implements IPatientWebService {
 			
 			WebServiceUtil.log("queryPatient", "PracticeCardIndex object is empty");
 			
-			return ADRUtil.encode(ackEntity);
+			return ADRMessage.encode(ackEntity);
 		}
 		
 		PatientBaseInfo patientBaseInfo = patientBaseInfoService.findOne(practiceCardIndex.getPatientBaseInfoId());
@@ -123,7 +123,7 @@ public class PatientWebServiceImpl implements IPatientWebService {
 			
 			WebServiceUtil.log("queryPatient", "PatientBaseInfo object is empty");
 			
-			return ADRUtil.encode(ackEntity);
+			return ADRMessage.encode(ackEntity);
 		}
 		
 		Integer patientIdLen = parameterSetService.findPatientIdVariableValue();
@@ -141,7 +141,7 @@ public class PatientWebServiceImpl implements IPatientWebService {
 		
 		WebServiceUtil.log("queryPatient", "success");
 
-		return ADRUtil.encode(adrEntity);
+		return ADRMessage.encode(adrEntity);
 	}
 	
 	@Override
@@ -154,7 +154,7 @@ public class PatientWebServiceImpl implements IPatientWebService {
 		String messageControlId = "";
 		
 		try {
-			ADTEntity adtEntity = ADTUtil.parser(adtMessage, version, style);
+			ADTEntity adtEntity = ADTMessage.parser(adtMessage, version, style);
 			patientBaseInfo = adtEntity.getPatientBaseInfo();
 			receivingApplication = adtEntity.getReceivingApplication();
 			messageControlId = adtEntity.getMessageControlId();
@@ -206,6 +206,6 @@ public class PatientWebServiceImpl implements IPatientWebService {
 		
 		WebServiceUtil.log("registerPatient", "return ACK message");
 		
-		return ACKUtil.encode(ackEntity);
+		return ACKMessage.encode(ackEntity);
 	}
 }

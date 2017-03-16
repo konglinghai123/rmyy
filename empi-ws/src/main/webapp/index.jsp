@@ -126,7 +126,6 @@
 							  '    </ns2:compositePracticeNo>' + 
 							  '  </soap:Body>' +
 							  '</soap:Envelope>';
-					alert(str);			  
 					$.ajax({
 						contentType:'application/xml;charset="UTF-8"',
 						dataType:'xml',//发送数据格式

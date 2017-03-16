@@ -158,7 +158,6 @@
 
 		<yuicompressor.version>2.4.2</yuicompressor.version>
 
-
 		<lucene.version>3.0.2</lucene.version>
 		<nekohtml.version>1.9.15</nekohtml.version>
 		<solr.versino>1.4.1</solr.versino>

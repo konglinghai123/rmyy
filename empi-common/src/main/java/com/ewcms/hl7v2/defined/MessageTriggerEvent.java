@@ -1,4 +1,4 @@
-package com.ewcms.hl7v2;
+package com.ewcms.hl7v2.defined;
 
 import java.util.Arrays;
 
@@ -7,6 +7,7 @@ import org.apache.commons.lang3.StringUtils;
 import ca.uhn.hl7v2.HL7Exception;
 
 /**
+ * ADT定义消息
  *
  * @author wu_zhijun
  */

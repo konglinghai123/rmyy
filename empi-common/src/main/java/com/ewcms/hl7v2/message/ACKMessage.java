@@ -5,8 +5,8 @@ import java.io.IOException;
 import com.ewcms.common.utils.EmptyUtil;
 import com.ewcms.hl7v2.HL7Constants;
 import com.ewcms.hl7v2.model.ACKEntity;
-import com.ewcms.hl7v2.segment.MSAUtil;
-import com.ewcms.hl7v2.segment.MSHUtil;
+import com.ewcms.hl7v2.segment.MSASegment;
+import com.ewcms.hl7v2.segment.MSHSegment;
 
 import ca.uhn.hl7v2.DefaultHapiContext;
 import ca.uhn.hl7v2.HL7Exception;
@@ -20,7 +20,7 @@ import ca.uhn.hl7v2.parser.Parser;
  *
  * @author wu_zhijun
  */
-public class ACKUtil {
+public class ACKMessage {
 
 	private static HapiContext hapiContext = new DefaultHapiContext();
 
@@ -100,12 +100,12 @@ public class ACKUtil {
 			}
 			
 			if (EmptyUtil.isNotNull(msh)) {
-				MSHUtil mshUtil = new MSHUtil(HL7Constants.SENDING_APPLICATION, ackEntity.getAcknowledgmentCode(), ackEntity.getMessageControlId());
-				mshUtil.setMsh(msh);
+				MSHSegment mshSegment = new MSHSegment(HL7Constants.SENDING_APPLICATION, ackEntity.getReceivingApplication());
+				mshSegment.setMshSegment(msh);
 			}
 			if (EmptyUtil.isNotNull(msa)) {
-				MSAUtil msaUtil = new MSAUtil(ackEntity.getAcknowledgmentCode(), ackEntity.getTextMessage());
-				msaUtil.setMsa(msa);
+				MSASegment msaSegment = new MSASegment(ackEntity.getAcknowledgmentCode(), ackEntity.getMessageControlId(), ackEntity.getTextMessage());
+				msaSegment.setMsaSegment(msa);
 			}
 			
 			if (EmptyUtil.isNotNull(ack)) result = parser.encode(ack);

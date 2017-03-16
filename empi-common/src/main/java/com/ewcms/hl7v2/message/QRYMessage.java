@@ -3,13 +3,13 @@ package com.ewcms.hl7v2.message;
 import java.io.IOException;
 
 import com.ewcms.common.utils.EmptyUtil;
+import com.ewcms.common.utils.HL7StringUtil;
 import com.ewcms.hl7v2.HL7Constants;
-import com.ewcms.hl7v2.MessageTriggerEvent;
+import com.ewcms.hl7v2.defined.MessageTriggerEvent;
 import com.ewcms.hl7v2.model.ACKEntity;
 import com.ewcms.hl7v2.model.QRYEntity;
-import com.ewcms.hl7v2.segment.MSHUtil;
-import com.ewcms.hl7v2.segment.QRDUtil;
-import com.ewcms.hl7v2.util.HL7StringUtil;
+import com.ewcms.hl7v2.segment.MSHSegment;
+import com.ewcms.hl7v2.segment.QRDSegment;
 
 import ca.uhn.hl7v2.AcknowledgmentCode;
 import ca.uhn.hl7v2.DefaultHapiContext;
@@ -26,7 +26,7 @@ import ca.uhn.hl7v2.parser.Parser;
  * 
  * @author wu_zhijun
  */
-public class QRYUtil {
+public class QRYMessage {
 	
 	private static HapiContext hapiContext = new DefaultHapiContext();
 	
@@ -57,7 +57,7 @@ public class QRYUtil {
 			ackEntity.setStyle(style);
 			if (EmptyUtil.isStringEmpty(practiceNo)){
 				ackEntity.setTextMessage("传递的患者卡号为空，请重新传递");
-				return ADRUtil.encode(ackEntity);
+				return ADRMessage.encode(ackEntity);
 			}
 			
 			Parser parser = hapiContext.getPipeParser();
@@ -124,25 +124,25 @@ public class QRYUtil {
 			}
 			
 			if (EmptyUtil.isNotNull(msh)) {
-				MSHUtil mshUtil = new MSHUtil(HL7Constants.SENDING_APPLICATION, receivingApplication, messageControlId);
-				mshUtil.setMsh(msh);
+				MSHSegment mshSegment = new MSHSegment(HL7Constants.SENDING_APPLICATION, receivingApplication);
+				mshSegment.setMshSegment(msh);
 			}
 	
 			if (EmptyUtil.isNotNull(qrd)) {
-				QRDUtil qrdUtil = new QRDUtil(practiceNo);
-				qrdUtil.setQrd(qrd);
+				QRDSegment qrdSegment = new QRDSegment(practiceNo);
+				qrdSegment.setQrdSegment(qrd);
 			}
 
 			result = parser.encode(qry);
 		} catch (HL7Exception e){
 			ackEntity.setTextMessage("HL7消息错误");
-			result = ADRUtil.encode(ackEntity);
+			result = ADRMessage.encode(ackEntity);
 		} catch (IOException e){
 			ackEntity.setTextMessage("HL7消息错误");
-			result = ADRUtil.encode(ackEntity);
+			result = ADRMessage.encode(ackEntity);
 		} catch (Exception e){
 			ackEntity.setTextMessage("HL7消息错误");
-			result = ADRUtil.encode(ackEntity);
+			result = ADRMessage.encode(ackEntity);
 		}
 		return result;
 	}
@@ -198,7 +198,7 @@ public class QRYUtil {
 		qryEntity.setMessageControlId(msh.getMsh10_MESSAGECONTROLID().getValue());
 		
 		ca.uhn.hl7v2.model.v21.segment.QRD qrd = qry.getQRD();
-		qryEntity.setPracticeNo(qrd.getQrd4_QUERYID().getValue());
+		qryEntity.setPracticeNo(qrd.getQrd8_WHOSUBJECTFILTER(0).getValue());
 		
 		return qryEntity;
 	}
@@ -216,7 +216,7 @@ public class QRYUtil {
 		qryEntity.setMessageControlId(msh.getMsh10_MessageControlID().getValue());
 		
 		ca.uhn.hl7v2.model.v22.segment.QRD qrd = qry.getQRD();
-		qryEntity.setPracticeNo(qrd.getQrd4_QueryID().getValue());
+		qryEntity.setPracticeNo(qrd.getQrd8_WhoSubjectFilter(0).getValue());
 		
 		return qryEntity;
 	}
@@ -234,7 +234,7 @@ public class QRYUtil {
 		qryEntity.setMessageControlId(msh.getMsh10_MessageControlID().getValue());
 		
 		ca.uhn.hl7v2.model.v23.segment.QRD qrd = qry.getQRD();
-		qryEntity.setPracticeNo(qrd.getQrd4_QueryID().getValue());
+		qryEntity.setPracticeNo(qrd.getQrd8_WhoSubjectFilter(0).getXcn1_IDNumber().getValue());
 		
 		return qryEntity;
 	}
@@ -252,7 +252,7 @@ public class QRYUtil {
 		qryEntity.setMessageControlId(msh.getMsh10_MessageControlID().getValue());
 		
 		ca.uhn.hl7v2.model.v231.segment.QRD qrd = qry.getQRD();
-		qryEntity.setPracticeNo(qrd.getQrd4_QueryID().getValue());
+		qryEntity.setPracticeNo(qrd.getQrd8_WhoSubjectFilter(0).getXcn1_IDNumber().getValue());
 		
 		return qryEntity;
 
@@ -271,7 +271,7 @@ public class QRYUtil {
 		qryEntity.setMessageControlId(msh.getMsh10_MessageControlID().getValue());
 		
 		ca.uhn.hl7v2.model.v24.segment.QRD qrd = qry.getQRD();
-		qryEntity.setPracticeNo(qrd.getQrd4_QueryID().getValue());
+		qryEntity.setPracticeNo(qrd.getQrd8_WhoSubjectFilter(0).getXcn1_IDNumber().getValue());
 		
 		return qryEntity;
 
@@ -290,7 +290,7 @@ public class QRYUtil {
 		qryEntity.setMessageControlId(msh.getMsh10_MessageControlID().getValue());
 		
 		ca.uhn.hl7v2.model.v25.segment.QRD qrd = qry.getQRD();
-		qryEntity.setPracticeNo(qrd.getQrd4_QueryID().getValue());
+		qryEntity.setPracticeNo(qrd.getQrd8_WhoSubjectFilter(0).getXcn1_IDNumber().getValue());
 		
 		return qryEntity;
 	}
@@ -307,7 +307,7 @@ public class QRYUtil {
 		qryEntity.setMessageControlId(msh.getMsh10_MessageControlID().getValue());
 		
 		ca.uhn.hl7v2.model.v251.segment.QRD qrd = qry.getQRD();
-		qryEntity.setPracticeNo(qrd.getQrd4_QueryID().getValue());
+		qryEntity.setPracticeNo(qrd.getQrd8_WhoSubjectFilter(0).getXcn1_IDNumber().getValue());
 		
 		return qryEntity;
 	}
@@ -324,7 +324,7 @@ public class QRYUtil {
 		qryEntity.setMessageControlId(msh.getMsh10_MessageControlID().getValue());
 		
 		ca.uhn.hl7v2.model.v26.segment.QRD qrd = qry.getQRD();
-		qryEntity.setPracticeNo(qrd.getQrd4_QueryID().getValue());
+		qryEntity.setPracticeNo(qrd.getQrd8_WhoSubjectFilter(0).getXcn1_IDNumber().getValue());
 		
 		return qryEntity;
 

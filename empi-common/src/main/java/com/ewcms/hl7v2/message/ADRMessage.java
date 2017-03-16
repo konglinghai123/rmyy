@@ -5,15 +5,15 @@ import java.io.IOException;
 import com.ewcms.common.utils.EmptyUtil;
 import com.ewcms.empi.card.manage.entity.PatientBaseInfo;
 import com.ewcms.hl7v2.HL7Constants;
-import com.ewcms.hl7v2.MessageTriggerEvent;
+import com.ewcms.hl7v2.defined.MessageTriggerEvent;
 import com.ewcms.hl7v2.model.ACKEntity;
 import com.ewcms.hl7v2.model.ADREntity;
-import com.ewcms.hl7v2.segment.AL1Util;
-import com.ewcms.hl7v2.segment.MSAUtil;
-import com.ewcms.hl7v2.segment.MSHUtil;
-import com.ewcms.hl7v2.segment.NK1Util;
-import com.ewcms.hl7v2.segment.PIDUtil;
-import com.ewcms.hl7v2.segment.PV1Util;
+import com.ewcms.hl7v2.segment.AL1Segment;
+import com.ewcms.hl7v2.segment.MSASegment;
+import com.ewcms.hl7v2.segment.MSHSegment;
+import com.ewcms.hl7v2.segment.NK1Segment;
+import com.ewcms.hl7v2.segment.PIDSegment;
+import com.ewcms.hl7v2.segment.PV1Segment;
 
 import ca.uhn.hl7v2.AcknowledgmentCode;
 import ca.uhn.hl7v2.DefaultHapiContext;
@@ -28,7 +28,7 @@ import ca.uhn.hl7v2.parser.Parser;
  * 
  * @author wu_zhijun
  */
-public class ADRUtil {
+public class ADRMessage {
 
 	private static HapiContext hapiContext = new DefaultHapiContext();
 	private static String messageCode = MessageTriggerEvent.A19.getCode();
@@ -47,7 +47,7 @@ public class ADRUtil {
 		String result = "";
 		try{
 			PatientBaseInfo patientBaseInfo = adrEntity.getPatientBaseInfo();
-			String messageTriggerEvent = adrEntity.getMessageTriggerEvent();
+			//String messageTriggerEvent = adrEntity.getMessageTriggerEvent();
 			String version = adrEntity.getVersion();
 			String processingId = adrEntity.getProcessingId();
 			String practiceNo = adrEntity.getPracticeNo();
@@ -63,12 +63,12 @@ public class ADRUtil {
 			
 			if (EmptyUtil.isNull(patientBaseInfo)){
 				ackEntity.setTextMessage("传递的患者基本信息为空，请重新传递");
-				return ADRUtil.encode(ackEntity);
+				return ADRMessage.encode(ackEntity);
 			}
 			
 			if (EmptyUtil.isNull(practiceNo)){
 				ackEntity.setTextMessage("传递的患者卡号为空，请重新传递");
-				return ADRUtil.encode(ackEntity);
+				return ADRMessage.encode(ackEntity);
 			}
 			
 			Parser parser = hapiContext.getPipeParser();
@@ -166,45 +166,45 @@ public class ADRUtil {
 			}
 			
 			if (EmptyUtil.isNotNull(msh)) {
-				MSHUtil mshUtil = new MSHUtil(HL7Constants.SENDING_APPLICATION, adrEntity.getReceivingApplication(), adrEntity.getMessageControlId());
-				mshUtil.setMsh(msh);
+				MSHSegment mshSegment = new MSHSegment(HL7Constants.SENDING_APPLICATION, adrEntity.getReceivingApplication());
+				mshSegment.setMshSegment(msh);
 			}
 			
 			if (EmptyUtil.isNotNull(msa)) {
-				MSAUtil masUtil = new MSAUtil(AcknowledgmentCode.AA.name(), "查询成功");
-				masUtil.setMsa(msa);
+				MSASegment masSegment = new MSASegment(AcknowledgmentCode.AA.name(), adrEntity.getMessageControlId(), "查询成功");
+				masSegment.setMsaSegment(msa);
 			}
 				
 			if (EmptyUtil.isNotNull(pid)) {
-				PIDUtil pidUtil = new PIDUtil(patientBaseInfo, practiceNo, patientIdLen);
-				pidUtil.setPid(pid);
+				PIDSegment pidSegment = new PIDSegment(patientBaseInfo, practiceNo, patientIdLen);
+				pidSegment.setPidSegment(pid);
 			}
 			
 			if (EmptyUtil.isNotNull(nk1)) {
-				NK1Util nk1Util = new NK1Util(patientBaseInfo.getContactName(), patientBaseInfo.getContactRelation(), patientBaseInfo.getContactAddress(), patientBaseInfo.getContactTelephone());
-				nk1Util.setNk1(nk1);
+				NK1Segment nk1Segment = new NK1Segment(patientBaseInfo.getContactName(), patientBaseInfo.getContactRelation(), patientBaseInfo.getContactAddress(), patientBaseInfo.getContactTelephone());
+				nk1Segment.setNk1Segment(nk1);
 			}
 			
 			if (EmptyUtil.isNotNull(pv1)){
-				PV1Util pv1Util = new PV1Util(patientBaseInfo.getPatientType());
-				pv1Util.setPv1(pv1);
+				PV1Segment pv1Segment = new PV1Segment(patientBaseInfo.getPatientType());
+				pv1Segment.setPv1Segment(pv1);
 			}
 			
 			if (EmptyUtil.isNotNull(al1)) {
-				AL1Util al1Util = new AL1Util(patientBaseInfo.getAllergyHistory());
-				al1Util.setAl1(al1);
+				AL1Segment al1Segment = new AL1Segment(patientBaseInfo.getAllergyHistory());
+				al1Segment.setAl1Segment(al1);
 			}
 			
 			result = parser.encode(adr);
 		} catch (HL7Exception e){
 			ackEntity.setTextMessage("HL7消息错误");
-			result = ADRUtil.encode(ackEntity);
+			result = ADRMessage.encode(ackEntity);
 		} catch (IOException e){
 			ackEntity.setTextMessage("HL7消息错误");
-			result = ADRUtil.encode(ackEntity);
+			result = ADRMessage.encode(ackEntity);
 		} catch (Exception e){
 			ackEntity.setTextMessage("HL7消息错误");
-			result = ADRUtil.encode(ackEntity);
+			result = ADRMessage.encode(ackEntity);
 		}
 		return result;
 	}
@@ -282,24 +282,24 @@ public class ADRUtil {
 			}
 			
 			if (EmptyUtil.isNotNull(msh)) {
-				MSHUtil mshUtil = new MSHUtil(HL7Constants.SENDING_APPLICATION, ackEntity.getReceivingApplication(), ackEntity.getMessageControlId());
-				mshUtil.setMsh(msh);
+				MSHSegment mshSegment = new MSHSegment(HL7Constants.SENDING_APPLICATION, ackEntity.getReceivingApplication());
+				mshSegment.setMshSegment(msh);
 			}
 			if (EmptyUtil.isNotNull(msa)) {
-				MSAUtil msaUtil = new MSAUtil(ackEntity.getAcknowledgmentCode(), ackEntity.getTextMessage());
-				msaUtil.setMsa(msa);
+				MSASegment msaSegment = new MSASegment(ackEntity.getAcknowledgmentCode(), ackEntity.getMessageControlId(), ackEntity.getTextMessage());
+				msaSegment.setMsaSegment(msa);
 			}
 			
 			result = parser.encode(adr);
 		} catch (HL7Exception e){
 			ackEntity.setTextMessage("HL7消息错误");
-			result = ADRUtil.encode(ackEntity);
+			result = ADRMessage.encode(ackEntity);
 		} catch (IOException e){
 			ackEntity.setTextMessage("HL7消息错误");
-			result = ADRUtil.encode(ackEntity);
+			result = ADRMessage.encode(ackEntity);
 		} catch (Exception e){
 			ackEntity.setTextMessage("HL7消息错误");
-			result = ADRUtil.encode(ackEntity);
+			result = ADRMessage.encode(ackEntity);
 		}
 		return result;
 	}

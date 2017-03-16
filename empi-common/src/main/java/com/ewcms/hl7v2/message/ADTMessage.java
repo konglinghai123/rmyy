@@ -15,22 +15,22 @@ import ca.uhn.hl7v2.parser.CanonicalModelClassFactory;
 import ca.uhn.hl7v2.parser.Parser;
 
 import com.ewcms.common.utils.EmptyUtil;
+import com.ewcms.common.utils.HL7StringUtil;
 import com.ewcms.empi.card.manage.entity.PatientBaseInfo;
 import com.ewcms.hl7v2.HL7Constants;
 import com.ewcms.hl7v2.model.ACKEntity;
 import com.ewcms.hl7v2.model.ADTEntity;
-import com.ewcms.hl7v2.segment.AL1Util;
-import com.ewcms.hl7v2.segment.MSHUtil;
-import com.ewcms.hl7v2.segment.NK1Util;
-import com.ewcms.hl7v2.segment.PIDUtil;
-import com.ewcms.hl7v2.segment.PV1Util;
-import com.ewcms.hl7v2.util.HL7StringUtil;
+import com.ewcms.hl7v2.segment.AL1Segment;
+import com.ewcms.hl7v2.segment.MSHSegment;
+import com.ewcms.hl7v2.segment.NK1Segment;
+import com.ewcms.hl7v2.segment.PIDSegment;
+import com.ewcms.hl7v2.segment.PV1Segment;
 
 /**
  *
  * @author wu_zhijun
  */
-public class ADTUtil {
+public class ADTMessage {
 
 	private static HapiContext hapiContext = new DefaultHapiContext();
 	
@@ -67,12 +67,12 @@ public class ADTUtil {
 			
 			if (EmptyUtil.isNull(patientBaseInfo)){
 				ackEntity.setTextMessage("传递的患者基本信息为空，请重新传递");
-				return ACKUtil.encode(ackEntity);
+				return ACKMessage.encode(ackEntity);
 			}
 			
 			if (EmptyUtil.isNull(practiceNo)){
 				ackEntity.setTextMessage("传递的患者卡号为空，请重新传递");
-				return ACKUtil.encode(ackEntity);
+				return ACKMessage.encode(ackEntity);
 			}
 
 			Parser parser = hapiContext.getPipeParser();
@@ -162,38 +162,38 @@ public class ADTUtil {
 			}
 	
 			if (EmptyUtil.isNotNull(msh)) {
-				MSHUtil mshUtil = new MSHUtil(HL7Constants.SENDING_APPLICATION, receivingApplication, messageControlId);
-				mshUtil.setMsh(msh);
+				MSHSegment mshSegment = new MSHSegment(HL7Constants.SENDING_APPLICATION, receivingApplication);
+				mshSegment.setMshSegment(msh);
 			}
 			
 			if (EmptyUtil.isNotNull(pid)) {
-				PIDUtil pidUtil = new PIDUtil(patientBaseInfo, practiceNo, patientIdLen);
-				pidUtil.setPid(pid);
+				PIDSegment pidSegment = new PIDSegment(patientBaseInfo, practiceNo, patientIdLen);
+				pidSegment.setPidSegment(pid);
 			}
 			
 			if (EmptyUtil.isNotNull(nk1)) {
-				NK1Util nk1Util = new NK1Util(patientBaseInfo.getContactName(), patientBaseInfo.getContactRelation(), patientBaseInfo.getContactAddress(), patientBaseInfo.getContactTelephone());
-				nk1Util.setNk1(nk1);
+				NK1Segment nk1Segment = new NK1Segment(patientBaseInfo.getContactName(), patientBaseInfo.getContactRelation(), patientBaseInfo.getContactAddress(), patientBaseInfo.getContactTelephone());
+				nk1Segment.setNk1Segment(nk1);
 			}
 			
 			if (EmptyUtil.isNotNull(pv1)){
-				PV1Util pv1Util = new PV1Util(patientBaseInfo.getPatientType());
-				pv1Util.setPv1(pv1);
+				PV1Segment pv1Segment = new PV1Segment(patientBaseInfo.getPatientType());
+				pv1Segment.setPv1Segment(pv1);
 			}
 			if (EmptyUtil.isNotNull(al1)) {
-				AL1Util al1Util = new AL1Util(patientBaseInfo.getAllergyHistory());
-				al1Util.setAl1(al1);
+				AL1Segment al1Segment = new AL1Segment(patientBaseInfo.getAllergyHistory());
+				al1Segment.setAl1Segment(al1);
 			}
 			if (EmptyUtil.isNotNull(adt)) result = parser.encode(adt);
 		} catch (HL7Exception e){
 			ackEntity.setTextMessage("HL7消息错误");
-			result = ACKUtil.encode(ackEntity);
+			result = ACKMessage.encode(ackEntity);
 		} catch (IOException e){
 			ackEntity.setTextMessage("HL7消息错误");
-			result = ACKUtil.encode(ackEntity);
+			result = ACKMessage.encode(ackEntity);
 		} catch (Exception e){
 			ackEntity.setTextMessage("HL7消息错误");
-			result = ACKUtil.encode(ackEntity);
+			result = ACKMessage.encode(ackEntity);
 		}
 		return result;
 	}
@@ -308,10 +308,7 @@ public class ADTUtil {
 		patientBaseInfo.setPatientId(pid.getPid3_PatientIDInternalID(0).getCm_pat_id1_IDNumber().getValue());
 		patientBaseInfo.setPracticeNo(pid.getPid2_PatientIDExternalID().getCk1_IDNumber().getValue());
 		patientBaseInfo.setName(pid.getPid5_PatientName().getPn1_FamilyName().getValue());
-		try {
-			patientBaseInfo.setBirthday(sdf.parse(pid.getPid7_DateOfBirth().getTs2_DegreeOfPrecision().getValue()));
-		} catch (ParseException e) {
-		}
+		patientBaseInfo.setBirthday(pid.getPid7_DateOfBirth().getTs1_TimeOfAnEvent().getValueAsDate());
 		patientBaseInfo.setSex(pid.getPid8_Sex().getValue());
 		patientBaseInfo.setNation(pid.getPid10_Race().getValue());
 		patientBaseInfo.setAddress(pid.getPid11_PatientAddress(0).getAd1_StreetAddress().getValue());
@@ -364,10 +361,7 @@ public class ADTUtil {
 		patientBaseInfo.setPatientId(pid.getPid3_PatientIDInternalID(0).getCx1_ID().getValue());
 		patientBaseInfo.setPracticeNo(pid.getPid2_PatientIDExternalID().getCx1_ID().getValue());
 		patientBaseInfo.setName(pid.getPid5_PatientName(0).getXpn1_FamilyName().getValue());
-		try {
-			patientBaseInfo.setBirthday(sdf.parse(pid.getPid7_DateOfBirth().getTs2_DegreeOfPrecision().getValue()));
-		} catch (ParseException e) {
-		}
+		patientBaseInfo.setBirthday(pid.getPid7_DateOfBirth().getTs1_TimeOfAnEvent().getValueAsDate());
 		patientBaseInfo.setSex(pid.getPid8_Sex().getValue());
 		patientBaseInfo.setNation(pid.getPid10_Race().getValue());
 		patientBaseInfo.setAddress(pid.getPid11_PatientAddress(0).getXad1_StreetAddress().getValue());
@@ -422,10 +416,7 @@ public class ADTUtil {
 		patientBaseInfo.setPatientId(pid.getPid3_PatientIdentifierList(0).getCx1_ID().getValue());
 		patientBaseInfo.setPracticeNo(pid.getPid2_PatientID().getCx1_ID().getValue());
 		patientBaseInfo.setName(pid.getPid5_PatientName(0).getXpn1_FamilyLastName().getFn1_FamilyName().getValue());
-		try {
-			patientBaseInfo.setBirthday(sdf.parse(pid.getPid7_DateTimeOfBirth().getTs2_DegreeOfPrecision().getValue()));
-		} catch (ParseException e) {
-		}
+		patientBaseInfo.setBirthday(pid.getPid7_DateTimeOfBirth().getTs1_TimeOfAnEvent().getValueAsDate());
 		patientBaseInfo.setSex(pid.getPid8_Sex().getValue());
 		patientBaseInfo.setNation(pid.getPid10_Race(0).getCe2_Text().getValue());
 		patientBaseInfo.setAddress(pid.getPid11_PatientAddress(0).getXad1_StreetAddress().getValue());
@@ -434,7 +425,7 @@ public class ADTUtil {
 		patientBaseInfo.setNationlity(pid.getPid11_PatientAddress(0).getXad6_Country().getValue());
 		patientBaseInfo.setTelephone(pid.getPid13_PhoneNumberHome(0).getXtn7_PhoneNumber().getValue());
 		patientBaseInfo.setWorkUnit(pid.getPid14_PhoneNumberBusiness(0).getXtn9_AnyText().getValue());
-		patientBaseInfo.setMaritalStatus(pid.getPid16_MaritalStatus().getCe2_Text().getValue());
+		patientBaseInfo.setMaritalStatus(pid.getPid16_MaritalStatus().getCe1_Identifier().getValue());
 		patientBaseInfo.setCertificateNo(pid.getPid18_PatientAccountNumber().getCx1_ID().getValue());
 		patientBaseInfo.setCertificateType(pid.getPid18_PatientAccountNumber().getCx2_CheckDigit().getValue());
 		patientBaseInfo.setMedicalAccount(pid.getPid19_SSNNumberPatient().getValue());
@@ -479,10 +470,7 @@ public class ADTUtil {
 		patientBaseInfo.setPatientId(pid.getPid3_PatientIdentifierList(0).getCx1_ID().getValue());
 		patientBaseInfo.setPracticeNo(pid.getPid2_PatientID().getCx1_ID().getValue());
 		patientBaseInfo.setName(pid.getPid5_PatientName(0).getXpn1_FamilyName().getFn1_Surname().getValue());
-		try {
-			patientBaseInfo.setBirthday(sdf.parse(pid.getPid7_DateTimeOfBirth().getTs2_DegreeOfPrecision().getValue()));
-		} catch (ParseException e) {
-		}
+		patientBaseInfo.setBirthday(pid.getPid7_DateTimeOfBirth().getTs1_TimeOfAnEvent().getValueAsDate());
 		patientBaseInfo.setSex(pid.getPid8_AdministrativeSex().getValue());
 		patientBaseInfo.setNation(pid.getPid10_Race(0).getCe2_Text().getValue());
 		patientBaseInfo.setAddress(pid.getPid11_PatientAddress(0).getXad1_StreetAddress().getSad1_StreetOrMailingAddress().getValue());
@@ -491,7 +479,7 @@ public class ADTUtil {
 		patientBaseInfo.setNationlity(pid.getPid11_PatientAddress(0).getXad6_Country().getValue());
 		patientBaseInfo.setTelephone(pid.getPid13_PhoneNumberHome(0).getXtn7_PhoneNumber().getValue());
 		patientBaseInfo.setWorkUnit(pid.getPid14_PhoneNumberBusiness(0).getXtn9_AnyText().getValue());
-		patientBaseInfo.setMaritalStatus(pid.getPid16_MaritalStatus().getCe2_Text().getValue());
+		patientBaseInfo.setMaritalStatus(pid.getPid16_MaritalStatus().getCe1_Identifier().getValue());
 		patientBaseInfo.setCertificateNo(pid.getPid18_PatientAccountNumber().getCx1_ID().getValue());
 		patientBaseInfo.setCertificateType(pid.getPid18_PatientAccountNumber().getCx2_CheckDigit().getValue());
 		patientBaseInfo.setMedicalAccount(pid.getPid19_SSNNumberPatient().getValue());
@@ -535,10 +523,7 @@ public class ADTUtil {
 		patientBaseInfo.setPatientId(pid.getPid3_PatientIdentifierList(0).getCx1_IDNumber().getValue());
 		patientBaseInfo.setPracticeNo(pid.getPid2_PatientID().getCx1_IDNumber().getValue());
 		patientBaseInfo.setName(pid.getPid5_PatientName(0).getXpn1_FamilyName().getFn1_Surname().getValue());
-		try {
-			patientBaseInfo.setBirthday(sdf.parse(pid.getPid7_DateTimeOfBirth().getTs2_DegreeOfPrecision().getValue()));
-		} catch (ParseException e) {
-		}
+		patientBaseInfo.setBirthday(pid.getPid7_DateTimeOfBirth().getTs1_Time().getValueAsDate());
 		patientBaseInfo.setSex(pid.getPid8_AdministrativeSex().getValue());
 		patientBaseInfo.setNation(pid.getPid10_Race(0).getCe2_Text().getValue());
 		patientBaseInfo.setAddress(pid.getPid11_PatientAddress(0).getXad1_StreetAddress().getSad1_StreetOrMailingAddress().getValue());
@@ -547,7 +532,7 @@ public class ADTUtil {
 		patientBaseInfo.setNationlity(pid.getPid11_PatientAddress(0).getXad6_Country().getValue());
 		patientBaseInfo.setTelephone(pid.getPid13_PhoneNumberHome(0).getXtn1_TelephoneNumber().getValue());
 		patientBaseInfo.setWorkUnit(pid.getPid14_PhoneNumberBusiness(0).getXtn9_AnyText().getValue());
-		patientBaseInfo.setMaritalStatus(pid.getPid16_MaritalStatus().getCe2_Text().getValue());
+		patientBaseInfo.setMaritalStatus(pid.getPid16_MaritalStatus().getCe1_Identifier().getValue());
 		patientBaseInfo.setCertificateNo(pid.getPid18_PatientAccountNumber().getCx1_IDNumber().getValue());
 		patientBaseInfo.setCertificateType(pid.getPid18_PatientAccountNumber().getCx2_CheckDigit().getValue());
 		patientBaseInfo.setMedicalAccount(pid.getPid19_SSNNumberPatient().getValue());
@@ -591,10 +576,7 @@ public class ADTUtil {
 		patientBaseInfo.setPatientId(pid.getPid3_PatientIdentifierList(0).getCx1_IDNumber().getValue());
 		patientBaseInfo.setPracticeNo(pid.getPid2_PatientID().getCx1_IDNumber().getValue());
 		patientBaseInfo.setName(pid.getPid5_PatientName(0).getXpn1_FamilyName().getFn1_Surname().getValue());
-		try {
-			patientBaseInfo.setBirthday(sdf.parse(pid.getPid7_DateTimeOfBirth().getTs2_DegreeOfPrecision().getValue()));
-		} catch (ParseException e) {
-		}
+		patientBaseInfo.setBirthday(pid.getPid7_DateTimeOfBirth().getTs1_Time().getValueAsDate());
 		patientBaseInfo.setSex(pid.getPid8_AdministrativeSex().getValue());
 		patientBaseInfo.setNation(pid.getPid10_Race(0).getCe2_Text().getValue());
 		patientBaseInfo.setAddress(pid.getPid11_PatientAddress(0).getXad1_StreetAddress().getSad1_StreetOrMailingAddress().getValue());
@@ -603,7 +585,7 @@ public class ADTUtil {
 		patientBaseInfo.setNationlity(pid.getPid11_PatientAddress(0).getXad6_Country().getValue());
 		patientBaseInfo.setTelephone(pid.getPid13_PhoneNumberHome(0).getXtn1_TelephoneNumber().getValue());
 		patientBaseInfo.setWorkUnit(pid.getPid14_PhoneNumberBusiness(0).getXtn9_AnyText().getValue());
-		patientBaseInfo.setMaritalStatus(pid.getPid16_MaritalStatus().getCe2_Text().getValue());
+		patientBaseInfo.setMaritalStatus(pid.getPid16_MaritalStatus().getCe1_Identifier().getValue());
 		patientBaseInfo.setCertificateNo(pid.getPid18_PatientAccountNumber().getCx1_IDNumber().getValue());
 		patientBaseInfo.setCertificateType(pid.getPid18_PatientAccountNumber().getCx2_CheckDigit().getValue());
 		patientBaseInfo.setMedicalAccount(pid.getPid19_SSNNumberPatient().getValue());
@@ -656,7 +638,7 @@ public class ADTUtil {
 		patientBaseInfo.setNationlity(pid.getPid11_PatientAddress(0).getXad6_Country().getValue());
 		patientBaseInfo.setTelephone(pid.getPid13_PhoneNumberHome(0).getXtn1_TelephoneNumber().getValue());
 		patientBaseInfo.setWorkUnit(pid.getPid14_PhoneNumberBusiness(0).getXtn9_AnyText().getValue());
-		patientBaseInfo.setMaritalStatus(pid.getPid16_MaritalStatus().getCwe2_Text().getValue());
+		patientBaseInfo.setMaritalStatus(pid.getPid16_MaritalStatus().getCwe1_Identifier().getValue());
 		patientBaseInfo.setCertificateNo(pid.getPid18_PatientAccountNumber().getCx1_IDNumber().getValue());
 		patientBaseInfo.setCertificateType(pid.getPid18_PatientAccountNumber().getCx2_IdentifierCheckDigit().getValue());
 		patientBaseInfo.setMedicalAccount(pid.getPid19_SSNNumberPatient().getValue());

@@ -7,16 +7,16 @@ import ca.uhn.hl7v2.model.AbstractSegment;
  *
  * @author wu_zhijun
  */
-public class AL1Util{
+public class AL1Segment{
 
 	// 过敏史
 	private String allergyHistory;
 	
-	public AL1Util(String allergyHistory) {
+	public AL1Segment(String allergyHistory) {
 		this.allergyHistory = allergyHistory;
 	}
 	
-	public void setAl1(AbstractSegment al1) throws HL7Exception{
+	public void setAl1Segment(AbstractSegment al1) throws HL7Exception{
 		if (al1 instanceof ca.uhn.hl7v2.model.v22.segment.AL1){
 			setAl1_V22((ca.uhn.hl7v2.model.v22.segment.AL1)al1);
 		}else if (al1 instanceof ca.uhn.hl7v2.model.v23.segment.AL1){

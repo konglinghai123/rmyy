@@ -7,16 +7,16 @@ import ca.uhn.hl7v2.model.AbstractSegment;
  *
  * @author wu_zhijun
  */
-public class PV1Util {
+public class PV1Segment {
 	
 	//患者类型
 	private String patientType;
 	
-	public PV1Util(String patientType){
+	public PV1Segment(String patientType){
 		this.patientType = patientType;
 	}
 	
-	public void setPv1(AbstractSegment pv1) throws HL7Exception{
+	public void setPv1Segment(AbstractSegment pv1) throws HL7Exception{
 		if (pv1 instanceof ca.uhn.hl7v2.model.v21.segment.PV1){
 			setPv1_V21((ca.uhn.hl7v2.model.v21.segment.PV1)pv1);
 		}else if (pv1 instanceof ca.uhn.hl7v2.model.v22.segment.PV1){
