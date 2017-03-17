@@ -8,13 +8,14 @@
 			    <th data-options="field:'ck',checkbox:true"></th>
 			    <th data-options="field:'id',hidden:true">编号</th>
 			    <th data-options="field:'name',width:80,sortable:true">姓名</th>
-			    <th data-options="field:'sex',width:80">性别</th>
+			    <th data-options="field:'sexName',width:80">性别</th>
 			    <th data-options="field:'birthday',width:80,sortable:true">出生日期</th>
-			    <th data-options="field:'sourcePlace',width:80">来源地</th>
+			    <th data-options="field:'maritalName',width:100">婚姻状况</th>
 			    <th data-options="field:'certificateType',width:80">证件类别</th>
 			    <th data-options="field:'certificateNo',width:130,sortable:true">证件号码</th>
 			    <th data-options="field:'telephone',width:80">联系电话</th>
-			    <th data-options="field:'address',width:80">地址</th>
+			    <th data-options="field:'sourcePlace',width:80">来源地</th>
+			    <th data-options="field:'countryCodeName',width:80">国籍</th>
 			    <th data-options="field:'nation',width:80">民族</th>
 			    <th data-options="field:'profession',width:80">职业</th>
 			    <th data-options="field:'updateDate',width:150">修改日期</th>

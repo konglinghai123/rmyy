@@ -13,6 +13,7 @@ import com.ewcms.empi.card.manage.entity.MessageLog;
 import com.ewcms.empi.card.manage.entity.PatientBaseInfo;
 import com.ewcms.empi.card.manage.entity.PracticeCard;
 import com.ewcms.empi.card.manage.entity.PracticeCardIndex;
+import com.ewcms.empi.card.manage.entity.PracticeCardIndexHistory;
 import com.ewcms.empi.card.manage.repository.PracticeCardRepository;
 import com.ewcms.empi.system.service.ParameterSetService;
 
@@ -29,6 +30,8 @@ public class PracticeCardService extends BaseService<PracticeCard, Long> {
 	private ParameterSetService parameterSetService;
 	@Autowired
 	private PracticeCardIndexService practiceCardIndexService;
+	@Autowired
+	private PracticeCardIndexHistoryService practiceCardIndexHistoryService;
 	
 	private PracticeCardRepository getPracticeCardRepository() {
 		return (PracticeCardRepository) baseRepository;
@@ -136,6 +139,12 @@ public class PracticeCardService extends BaseService<PracticeCard, Long> {
 		practiceCardIndex.setPatientId(patientIdStr);
 		
 		practiceCardIndexService.save(practiceCardIndex);//新建患者唯一索引
+		
+		PracticeCardIndexHistory practiceCardIndexHistory = new PracticeCardIndexHistory();
+		practiceCardIndexHistory.setPracticeNo(practiceNo);
+		practiceCardIndexHistory.setAfterPatientId(patientIdStr);
+		practiceCardIndexHistory.setRemark("注册诊疗卡");
+		practiceCardIndexHistoryService.save(practiceCardIndexHistory);
 		return practiceCard;
 	}
 }

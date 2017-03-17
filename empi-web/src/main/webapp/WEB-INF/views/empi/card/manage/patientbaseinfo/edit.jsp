@@ -33,7 +33,7 @@
 						<td><form:label path="telephone">联系电话：</form:label></td>
 				  		<td><form:input path="telephone" cssClass="inputempty"/></td>
 				  		<td><form:label path="countryCode">国籍：</form:label></td>
-						<td><form:select path="countryCode.id" id="countryCodeId" items="${countryCodeList}" itemValue="id" itemLabel="cnName" cssClass="easyui-combobox" cssStyle="margin-left:0px;z-index:1;position:absolute;" data-options="panelWidth:150,panelHeight:130,editable:false"></form:select></td>	
+						<td><form:select path="countryCode.id" id="countryCodeId" items="${countryCodeList}" itemValue="id" itemLabel="cnName" cssClass="easyui-combobox" cssStyle="margin-left:0px;z-index:1;position:absolute;" data-options="panelWidth:150,panelHeight:130,editable:false,"></form:select></td>	
 				  		<td><form:label path="nation">民族：</form:label></td>
 						<td><form:input path="nation" cssClass="inputempty"/></td>
 			    	</tr>			    		

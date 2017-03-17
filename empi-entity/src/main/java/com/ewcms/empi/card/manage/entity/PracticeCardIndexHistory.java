@@ -22,6 +22,7 @@ import com.ewcms.common.entity.BaseEntity;
  * <li>practiceNo：诊疗卡号</li>
  * <li>beforePatientId：变更前唯一索引号</li>
  * <li>afterPatientId：变更后唯一索引号</li>
+ * <li>remark:备注</li>
  * <li>changeDate:变更日期</li>
  * </ul>
  *@author zhoudongchu
@@ -37,6 +38,8 @@ public class PracticeCardIndexHistory extends BaseEntity<Long> {
 	private String beforePatientId;
 	@Column(name = "after_patient_id")
 	private String afterPatientId;
+	@Column(name = "remark")
+	private String remark;
 	@JSONField(format = "yyyy-MM-dd HH:mm:ss")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Column(name = "change_date")	
@@ -66,6 +69,12 @@ public class PracticeCardIndexHistory extends BaseEntity<Long> {
 	}
 	public void setChangeDate(Date changeDate) {
 		this.changeDate = changeDate;
+	}
+	public String getRemark() {
+		return remark;
+	}
+	public void setRemark(String remark) {
+		this.remark = remark;
 	}	
 	
 }

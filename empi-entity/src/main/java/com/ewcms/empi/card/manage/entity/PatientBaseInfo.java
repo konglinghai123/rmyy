@@ -221,7 +221,7 @@ public class PatientBaseInfo extends BaseEntity<Long> implements LogicDeleteable
 		this.profession = profession;
 	}
 
-
+	@JSONField(serialize = false)
 	public Sex getSex() {
 		return sex;
 	}
@@ -230,6 +230,11 @@ public class PatientBaseInfo extends BaseEntity<Long> implements LogicDeleteable
 		this.sex = sex;
 	}
 
+	public String getSexName(){
+		return sex == null ? "" : sex.getCnName();
+	}
+	
+	@JSONField(serialize = false)
 	public CountryCode getCountryCode() {
 		return countryCode;
 	}
@@ -237,7 +242,12 @@ public class PatientBaseInfo extends BaseEntity<Long> implements LogicDeleteable
 	public void setCountryCode(CountryCode countryCode) {
 		this.countryCode = countryCode;
 	}
-
+	
+	public String getCountryCodeName(){
+		return countryCode == null ? "" : countryCode.getCnName();
+	}
+	
+	@JSONField(serialize = false)
 	public Marital getMarital() {
 		return marital;
 	}
@@ -246,6 +256,10 @@ public class PatientBaseInfo extends BaseEntity<Long> implements LogicDeleteable
 		this.marital = marital;
 	}
 
+	public String getMaritalName(){
+		return marital == null ? "" : marital.getCnName();
+	}
+	
 	public String getMedicalType() {
 		return medicalType;
 	}
