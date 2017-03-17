@@ -15,8 +15,8 @@
 		        	<tr>
 				  		<td width="80"><form:label path="name">姓名：</form:label></td>
 				  		<td><form:input path="name" cssClass="validate[required]"/></td>
-						<td><form:label path="sex">性别：</form:label></td>
-				  		<td><form:input path="sex" cssClass="inputempty"/></td>	
+				  		<td><form:label path="sex">性别：</form:label></td>
+						<td><form:select path="sex.id" id="sexId" items="${sexList}" itemValue="id" itemLabel="cnName" cssClass="easyui-combobox" cssStyle="margin-left:0px;z-index:1;position:absolute;" data-options="panelWidth:150,panelHeight:130,editable:false"></form:select></td>	
 			    		<td><form:label path="birthday">出生日期：</form:label></td>
 				  		<td><input type="text" id="birthday_show" value="${m.birthday}" class="validate[required, custom[date]]" style="width:0px;height:0px;z-index:0;position:absolute;margin-top:5px;margin-left:5px;" size="0" readonly="readonly"/>
 						    <form:input id="birthday" cssClass="inputempty" path="birthday"  cssStyle="margin-left:0px;z-index:1;position:absolute;" /></td>
@@ -32,8 +32,8 @@
 			    	<tr>				  		
 						<td><form:label path="telephone">联系电话：</form:label></td>
 				  		<td><form:input path="telephone" cssClass="inputempty"/></td>
-				  		<td><form:label path="nationlity">国籍：</form:label></td>
-				  		<td><form:input path="nationlity" cssClass="inputempty"/></td>
+				  		<td><form:label path="countryCode">国籍：</form:label></td>
+						<td><form:select path="countryCode.id" id="countryCodeId" items="${countryCodeList}" itemValue="id" itemLabel="cnName" cssClass="easyui-combobox" cssStyle="margin-left:0px;z-index:1;position:absolute;" data-options="panelWidth:150,panelHeight:130,editable:false"></form:select></td>	
 				  		<td><form:label path="nation">民族：</form:label></td>
 						<td><form:input path="nation" cssClass="inputempty"/></td>
 			    	</tr>			    		
@@ -55,8 +55,8 @@
 			    	<tr>
 						<td><form:label path="profession">职业：</form:label></td>
 				  		<td><form:input path="profession" cssClass="inputempty"/></td>
-				  		<td><form:label path="maritalStatus">婚姻状况：</form:label></td>
-				  		<td><form:input path="maritalStatus" cssClass="inputempty"/></td>
+				  		<td><form:label path="marital">婚姻状况：</form:label></td>
+						<td><form:select path="marital.id" id="maritalId" items="${maritalList}" itemValue="id" itemLabel="cnName" cssClass="easyui-combobox" cssStyle="margin-left:0px;z-index:1;position:absolute;" data-options="panelWidth:150,panelHeight:130,editable:false"></form:select></td>	
 				  		<td><form:label path="medicalType">医保类别：</form:label></td>
 				  		<td><form:input path="medicalType" cssClass="inputempty"/></td>
 			    	</tr>

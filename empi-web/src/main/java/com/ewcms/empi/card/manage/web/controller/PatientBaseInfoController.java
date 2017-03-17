@@ -3,6 +3,8 @@ package com.ewcms.empi.card.manage.web.controller;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,6 +19,9 @@ import com.ewcms.common.web.controller.BaseCRUDController;
 import com.ewcms.common.web.validate.ValidateResponse;
 import com.ewcms.empi.card.manage.entity.PatientBaseInfo;
 import com.ewcms.empi.card.manage.service.PatientBaseInfoService;
+import com.ewcms.empi.dictionary.service.CountryCodeService;
+import com.ewcms.empi.dictionary.service.MaritalService;
+import com.ewcms.empi.dictionary.service.SexService;
 /**
  *@author zhoudongchu
  */
@@ -26,7 +31,13 @@ public class PatientBaseInfoController extends BaseCRUDController<PatientBaseInf
 	private PatientBaseInfoService getPatientBaseInfoService(){
 		return (PatientBaseInfoService) baseService;
 	} 
-
+	@Autowired
+	private SexService sexService;
+	@Autowired
+	private MaritalService maritalService;
+	@Autowired
+	private CountryCodeService countryCodeService;
+	
     public PatientBaseInfoController() {
         setListAlsoSetCommonData(true);
 //        setResourceIdentity("system:icon");
@@ -35,6 +46,9 @@ public class PatientBaseInfoController extends BaseCRUDController<PatientBaseInf
     @Override
     protected void setCommonData(Model model) {
         super.setCommonData(model);
+        model.addAttribute("sexList", sexService.findAll(new Sort("id")));
+        model.addAttribute("maritalList", maritalService.findAll(new Sort("id")));
+        model.addAttribute("countryCodeList", countryCodeService.findAll(new Sort("id")));
     }
     
 	
