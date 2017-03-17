@@ -4,9 +4,6 @@ import java.util.Date;
 
 import org.apache.commons.lang3.time.DateFormatUtils;
 
-import com.ewcms.common.utils.HL7StringUtil;
-import com.ewcms.empi.card.manage.defined.Marital;
-import com.ewcms.empi.card.manage.defined.Sex;
 import com.ewcms.empi.card.manage.entity.PatientBaseInfo;
 
 import ca.uhn.hl7v2.HL7Exception;
@@ -283,16 +280,7 @@ public class PIDSegment {
 	}
 
 	public String getSex() {
-		String result = Sex.U.name();
-		try {
-			if (HL7StringUtil.isChinese(sex)){
-				result = Sex.valueByCnName(sex).name();
-			} else {
-				result = Sex.valueByEnName(sex).name();
-			}
-		} catch (Exception e) {
-		}
-		return result;
+		return sex;
 	}
 
 	public void setSex(String sex) {
@@ -364,16 +352,7 @@ public class PIDSegment {
 	}
 
 	public String getMaritalStatus() {
-		String result = Marital.U.name();
-		try {
-			if (HL7StringUtil.isChinese(maritalStatus)){
-				result = Marital.valueByCnName(maritalStatus).name();
-			} else {
-				result = Marital.valueByEnName(maritalStatus).name();
-			}
-		} catch (Exception e) {
-		}
-		return result;
+		return maritalStatus;
 	}
 
 	public void setMaritalStatus(String maritalStatus) {
