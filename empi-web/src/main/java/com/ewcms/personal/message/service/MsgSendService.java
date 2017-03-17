@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.lang3.time.DateFormatUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort.Direction;
@@ -49,8 +50,6 @@ public class MsgSendService extends BaseService<MsgSend, Long>{
 	private PushService pushService;
 	@Autowired
 	private MsgReceiveService msgReceiveService;
-	
-	private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 	
 	public Long addMsgSend(Long userId, MsgSend msgSend, String content, Set<Long> receiveUserIds) {
 		msgSend.setUserId(userId);
@@ -168,7 +167,7 @@ public class MsgSendService extends BaseService<MsgSend, Long>{
 			Map<String, Object> map = new HashMap<String, Object>();
             map.put("id", msgSend.getId());
             map.put("title", msgSend.getTitle());
-            map.put("date", simpleDateFormat.format(msgSend.getSendTime()));
+            map.put("date", DateFormatUtils.format(msgSend.getSendTime(), "yyyy-MM-dd"));
             map.put("sendUserName", Collections3.convertToString(getMsgSendRepository().findUserNames(Sets.newHashSet(msgSend.getUserId())), ","));
             lists.add(map);
 		}

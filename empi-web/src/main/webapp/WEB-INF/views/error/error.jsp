@@ -42,7 +42,7 @@
 						<li>确保操作条件或内容的拼写和格式正确无误。</li>
 						<li>如果操作出现未知错误，请与网站管理员联系。</li>
 						<li>建议你尝试： 
-						<a href="javascript:void(0);" onclick="window.history.go(-1);"> 
+						<a href="${BackURL}"> 
 						<font color="green">返回</font></a>
 						&nbsp;或&nbsp;
 						<a href="javascript:void(0);" onclick="window.top.location.href = '${ctx}/logout';">

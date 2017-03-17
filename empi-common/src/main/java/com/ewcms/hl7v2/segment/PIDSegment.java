@@ -1,7 +1,8 @@
 package com.ewcms.hl7v2.segment;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import org.apache.commons.lang3.time.DateFormatUtils;
 
 import com.ewcms.common.utils.HL7StringUtil;
 import com.ewcms.empi.card.manage.defined.Marital;
@@ -16,8 +17,6 @@ import ca.uhn.hl7v2.model.AbstractSegment;
  * @author wu_zhijun
  */
 public class PIDSegment {
-	
-	private static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 	
 	private String practiceNo;
 	private String id;
@@ -88,7 +87,7 @@ public class PIDSegment {
 		pid.getPid2_PATIENTIDEXTERNALEXTERNALID().getCk1_IDNumber().setValue(getPracticeNo());
 		pid.getPid3_PATIENTIDINTERNALINTERNALID().getCk1_IDNumber().setValue(getId());
 		pid.getPid5_PATIENTNAME().getPn1_FamilyName().setValue(getName());
-		pid.getPid7_DATEOFBIRTH().setValue(sdf.format(getBirthday()));
+		pid.getPid7_DATEOFBIRTH().setValue(DateFormatUtils.format(getBirthday(), "yyyy-MM-dd"));
 		pid.getPid8_SEX().setValue(getSex());
 		pid.getPid10_ETHNICGROUP().setValue(getNation());
 		pid.getPid11_PATIENTADDRESS().getAd1_StreetAddress().setValue(getAddress());
