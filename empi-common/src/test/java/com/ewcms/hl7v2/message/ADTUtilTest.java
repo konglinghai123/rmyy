@@ -8,6 +8,9 @@ import ca.uhn.hl7v2.DefaultHapiContext;
 import ca.uhn.hl7v2.HapiContext;
 
 import com.ewcms.empi.card.manage.entity.PatientBaseInfo;
+import com.ewcms.empi.dictionary.entity.CountryCode;
+import com.ewcms.empi.dictionary.entity.Marital;
+import com.ewcms.empi.dictionary.entity.Sex;
 import com.ewcms.hl7v2.defined.MessageTriggerEvent;
 import com.ewcms.hl7v2.message.ADTMessage;
 import com.ewcms.hl7v2.model.ADTEntity;
@@ -99,7 +102,9 @@ public class ADTUtilTest {
 		
 		patientBaseInfo.setId(3L);
 		patientBaseInfo.setName("测试数据");
-		patientBaseInfo.setSex("男");
+		Sex sex = new Sex();
+		sex.setId("M");
+		patientBaseInfo.setSex(sex);
 		patientBaseInfo.setBirthday(new Date());
 		patientBaseInfo.setSourcePlace("南昌");
 		patientBaseInfo.setCertificateType("身份证");
@@ -112,9 +117,14 @@ public class ADTUtilTest {
 		patientBaseInfo.setCity("南昌");
 		patientBaseInfo.setBirthPlace("南昌");
 		patientBaseInfo.setNation("汉族");
-		patientBaseInfo.setNationlity("中国");
+		
+		CountryCode countryCode = new CountryCode();
+		countryCode.setId("CHN");
+		patientBaseInfo.setCountryCode(countryCode);
 		patientBaseInfo.setProfession("IT工程师");
-		patientBaseInfo.setMaritalStatus("已婚");
+		Marital marital = new Marital();
+		marital.setId("M");
+		patientBaseInfo.setMarital(marital);
 		patientBaseInfo.setMedicalAccount("000000000002");
 		patientBaseInfo.setPatientType("省医保");
 		patientBaseInfo.setContactTelephone("13007910001");
