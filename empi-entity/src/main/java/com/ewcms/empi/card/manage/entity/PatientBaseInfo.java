@@ -9,7 +9,9 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -24,6 +26,9 @@ import org.springframework.format.annotation.DateTimeFormat;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.ewcms.common.entity.BaseEntity;
 import com.ewcms.common.plugin.entity.LogicDeleteable;
+import com.ewcms.empi.dictionary.entity.CountryCode;
+import com.ewcms.empi.dictionary.entity.Marital;
+import com.ewcms.empi.dictionary.entity.Sex;
 
 /**
  * 患者基本信息
@@ -70,8 +75,9 @@ public class PatientBaseInfo extends BaseEntity<Long> implements LogicDeleteable
 	@NotNull(message = "{not.null}")
     @Column(name = "name", nullable = false)
 	private String name;
-	@Column(name = "sex")
-	private String sex;
+	@OneToOne(cascade = {CascadeType.REFRESH}, targetEntity = Sex.class)
+	@JoinColumn(name = "sex_id")
+	private Sex sex;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	@Temporal(TemporalType.DATE)
 	@Column(name = "birthday")
@@ -100,12 +106,14 @@ public class PatientBaseInfo extends BaseEntity<Long> implements LogicDeleteable
 	private String birthPlace;
 	@Column(name = "nation")
 	private String nation;
-	@Column(name = "nationlity")
-	private String nationlity;
+	@OneToOne(cascade = {CascadeType.REFRESH}, targetEntity = CountryCode.class)
+	@JoinColumn(name = "country_code_id")
+	private CountryCode countryCode;	
 	@Column(name = "profession")
 	private String profession;
-	@Column(name = "marital_status")
-	private String maritalStatus;
+	@OneToOne(cascade = {CascadeType.REFRESH}, targetEntity = Marital.class)
+	@JoinColumn(name = "marital_id")
+	private Marital marital;
 	@Column(name = "medical_type")
 	private String medicalType;
 	@Column(name = "medical_organize")
@@ -147,14 +155,6 @@ public class PatientBaseInfo extends BaseEntity<Long> implements LogicDeleteable
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public String getSex() {
-		return sex;
-	}
-
-	public void setSex(String sex) {
-		this.sex = sex;
 	}
 
 	public Date getBirthday() {
@@ -213,14 +213,6 @@ public class PatientBaseInfo extends BaseEntity<Long> implements LogicDeleteable
 		this.nation = nation;
 	}
 
-	public String getNationlity() {
-		return nationlity;
-	}
-
-	public void setNationlity(String nationlity) {
-		this.nationlity = nationlity;
-	}
-
 	public String getProfession() {
 		return profession;
 	}
@@ -229,12 +221,29 @@ public class PatientBaseInfo extends BaseEntity<Long> implements LogicDeleteable
 		this.profession = profession;
 	}
 
-	public String getMaritalStatus() {
-		return maritalStatus;
+
+	public Sex getSex() {
+		return sex;
 	}
 
-	public void setMaritalStatus(String maritalStatus) {
-		this.maritalStatus = maritalStatus;
+	public void setSex(Sex sex) {
+		this.sex = sex;
+	}
+
+	public CountryCode getCountryCode() {
+		return countryCode;
+	}
+
+	public void setCountryCode(CountryCode countryCode) {
+		this.countryCode = countryCode;
+	}
+
+	public Marital getMarital() {
+		return marital;
+	}
+
+	public void setMarital(Marital marital) {
+		this.marital = marital;
 	}
 
 	public String getMedicalType() {

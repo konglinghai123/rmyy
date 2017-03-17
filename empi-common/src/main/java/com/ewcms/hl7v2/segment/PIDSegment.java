@@ -41,7 +41,7 @@ public class PIDSegment {
 		this.id = String.format("%0" + patientIdLen + "d", patientBaseInfo.getId()); // 患者ID号
 		this.practiceNo = practiceNo;
 		this.name = patientBaseInfo.getName(); // 姓名
-		this.sex = patientBaseInfo.getSex(); // 性别
+		this.sex = patientBaseInfo.getSex().getId(); // 性别
 		this.birthday = patientBaseInfo.getBirthday(); // 出生日期
 		// this.sourcePlace = patientBaseInfo.getSourcePlace(); // 来源地
 		this.certificateType = patientBaseInfo.getCertificateType(); // 证件类别
@@ -53,9 +53,9 @@ public class PIDSegment {
 		this.city = patientBaseInfo.getCity(); // 市
 		this.birthPlace = patientBaseInfo.getBirthPlace(); // 出生地
 		this.nation = patientBaseInfo.getNation(); // 民族
-		this.nationlity = patientBaseInfo.getNationlity(); // 国籍
+		this.nationlity = patientBaseInfo.getCountryCode().getId(); // 国籍
 		// this.profession = patientBaseInfo.getProfession(); // 职业
-		this.maritalStatus = patientBaseInfo.getMaritalStatus(); // 婚姻状况
+		this.maritalStatus = patientBaseInfo.getMarital().getId(); // 婚姻状况
 		// this.medicalType = patientBaseInfo.getMedicalType(); // 医保类别
 		// this.medicalOrganize = patientBaseInfo.getMedicalOrganize(); //医保机构
 		this.medicalAccount = patientBaseInfo.getMedicalAccount(); // 医保账号
