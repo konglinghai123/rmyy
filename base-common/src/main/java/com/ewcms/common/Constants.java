@@ -15,37 +15,41 @@ public interface Constants {
      */
     String ERROR = "error";
 
-//    /**
-//     * 上个页面地址
-//     */
-//    String BACK_URL = "BackURL";
+    /**
+     * 上个页面地址
+     */
+    String BACK_URL = "BackURL";
 
-//    String IGNORE_BACK_URL = "ignoreBackURL";
+    /**
+     * 
+     */
+    String IGNORE_BACK_URL = "ignoreBackURL";
 
-//    /**
-//     * 当前请求的地址 带参数
-//     */
-//    String CURRENT_URL = "currentURL";
-//
-//    /**
-//     * 当前请求的地址 不带参数
-//     */
-//    String NO_QUERYSTRING_CURRENT_URL = "noQueryStringCurrentURL";
+    /**
+     * 当前请求的地址 带参数
+     */
+    String CURRENT_URL = "currentURL";
 
+    /**
+     * 当前请求的地址 不带参数
+     */
+    String NO_QUERYSTRING_CURRENT_URL = "noQueryStringCurrentURL";
+
+    /**
+     * 当前请求的容器地址
+     */
     String CONTEXT_PATH = "ctx";
 
     /**
      * 当前登录的用户
      */
     String CURRENT_USER = "user";
-    String CURRENT_USERNAME = "username";
     
     /**
-     * 当前操作的站点
+     * 当前登录的用户名
      */
-    String CURRENT_SITE = "site";
-    String CURRENT_SITE_ID = "siteId";
-
+    String CURRENT_USERNAME = "username";
+    
     String ENCODING = "UTF-8";
 
 }
