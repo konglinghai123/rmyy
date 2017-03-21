@@ -53,6 +53,7 @@ public class PracticeCardService extends BaseService<PracticeCard, Long> {
 		List<PatientBaseInfo> matchPatientBaseInfoList;
 		List<PracticeCard> practiceCardList;
 		PracticeCardIndex practiceCardIndex;
+		PracticeCardIndexHistory practiceCardIndexHistory;
 		Integer patientIdLength = parameterSetService.findPatientIdVariableValue();
 		String patientId;
 		
@@ -67,9 +68,16 @@ public class PracticeCardService extends BaseService<PracticeCard, Long> {
 							for(PracticeCard practiceCard:practiceCardList){
 								practiceCardIndex = practiceCardIndexService.findOne(practiceCard.getPracticeNo());
 								if(EmptyUtil.isNotNull(practiceCardIndex) && !practiceCardIndex.getPatientId().equals(patientId)){//如果卡的唯一索引号与当前不同就进行更新
+									practiceCardIndexHistory = new PracticeCardIndexHistory();
+									practiceCardIndexHistory.setPracticeNo(practiceCard.getPracticeNo());
+									practiceCardIndexHistory.setBeforePatientId(practiceCardIndex.getPatientId());
+									practiceCardIndexHistory.setAfterPatientId(patientId);
+									practiceCardIndexHistory.setRemark("自动合并诊疗卡");
+									
 									practiceCardIndex.setPatientId(patientId);
 									practiceCardIndex.setPushed(Boolean.TRUE);//患者索引已更新，设置需要进行信息推送
 									practiceCardIndexService.update(practiceCardIndex);
+									practiceCardIndexHistoryService.save(practiceCardIndexHistory);
 								}
 							}
 						}
@@ -91,9 +99,17 @@ public class PracticeCardService extends BaseService<PracticeCard, Long> {
 							for(PracticeCard practiceCard:practiceCardList){
 								practiceCardIndex = practiceCardIndexService.findOne(practiceCard.getPracticeNo());
 								if(EmptyUtil.isNotNull(practiceCardIndex) && !practiceCardIndex.getPatientId().equals(patientId)){//如果卡的唯一索引号与当前不同就进行更新
+									
+									practiceCardIndexHistory = new PracticeCardIndexHistory();
+									practiceCardIndexHistory.setPracticeNo(practiceCard.getPracticeNo());
+									practiceCardIndexHistory.setBeforePatientId(practiceCardIndex.getPatientId());
+									practiceCardIndexHistory.setAfterPatientId(patientId);
+									practiceCardIndexHistory.setRemark("自动合并诊疗卡");
+									
 									practiceCardIndex.setPatientId(patientId);
 									practiceCardIndex.setPushed(Boolean.TRUE);//患者索引已更新，设置需要进行信息推送
 									practiceCardIndexService.update(practiceCardIndex);
+									practiceCardIndexHistoryService.save(practiceCardIndexHistory);
 								}
 							}
 						}

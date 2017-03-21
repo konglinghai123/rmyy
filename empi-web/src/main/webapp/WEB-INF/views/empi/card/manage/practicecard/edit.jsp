@@ -28,8 +28,9 @@
 				  		<td><form:input path="patientBaseInfo.certificateType" id="certificateType" cssClass="validate[required]"/></td>
 				  		<td><form:label path="patientBaseInfo.certificateNo">证件号码：</form:label></td>
 				  		<td><form:input path="patientBaseInfo.certificateNo" id="certificateNo" cssClass="validate[required]"/></td>			        	
-				  		<td><form:label path="patientBaseInfo.sex"></form:label>性别：</td>
-			    		<td><form:input path="patientBaseInfo.sex" id="sex" cssClass="inputempty"/></td>	
+				  		<td><form:label path="patientBaseInfo.sex">性别：</form:label></td>
+						<td><form:select path="patientBaseInfo.sex.id" id="sexId" items="${sexList}" itemValue="id" itemLabel="cnName" cssClass="easyui-combobox" cssStyle="margin-left:0px;z-index:1;position:absolute;" data-options="panelWidth:150,panelHeight:130,editable:false"></form:select></td>	
+	
 			    	</tr>
 			    	<tr>
 				  		<td width="80"><form:label path="patientBaseInfo.name">姓名：</form:label></td>
@@ -43,8 +44,8 @@
 			    	<tr>	
 			    		<td><form:label path="patientBaseInfo.telephone">联系电话：</form:label></td>
 				  		<td><form:input path="patientBaseInfo.telephone" id="telephone" cssClass="inputempty"/></td>
-				  		<td><form:label path="patientBaseInfo.nationlity">国籍：</form:label></td>
-				  		<td><form:input path="patientBaseInfo.nationlity" id="nationlity" cssClass="inputempty"/></td>
+				  		<td><form:label path="patientBaseInfo.countryCode">国籍：</form:label></td>
+						<td><form:select path="patientBaseInfo.countryCode.id" id="countryCodeId" items="${countryCodeList}" itemValue="id" itemLabel="cnName" cssClass="easyui-combobox" cssStyle="margin-left:0px;z-index:1;position:absolute;" data-options="panelWidth:150,panelHeight:130,editable:false,"></form:select></td>	
 				  		<td><form:label path="patientBaseInfo.nation">民族：</form:label></td>
 				  		<td><form:input path="patientBaseInfo.nation" id="nation" cssClass="inputempty"/></td>
 			    	</tr>			    		
@@ -66,8 +67,8 @@
 			    	<tr>
 						<td><form:label path="patientBaseInfo.profession">职业：</form:label></td>
 				  		<td><form:input path="patientBaseInfo.profession" id="profession" cssClass="inputempty"/></td>
-				  		<td><form:label path="patientBaseInfo.maritalStatus">婚姻状况：</form:label></td>
-				  		<td><form:input path="patientBaseInfo.maritalStatus" id="maritalStatus" cssClass="inputempty"/></td>
+				  		<td><form:label path="patientBaseInfo.marital">婚姻状况：</form:label></td>
+						<td><form:select path="patientBaseInfo.marital.id" id="maritalId" items="${maritalList}" itemValue="id" itemLabel="cnName" cssClass="easyui-combobox" cssStyle="margin-left:0px;z-index:1;position:absolute;" data-options="panelWidth:150,panelHeight:130,editable:false"></form:select></td>	
 				  		<td><form:label path="patientBaseInfo.medicalType">医保类别：</form:label></td>
 				  		<td><form:input path="patientBaseInfo.medicalType" id="medicalType" cssClass="inputempty"/></td>
 			    	</tr>
@@ -131,7 +132,10 @@
 				$('#birthday_show').val(date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate());
 			}
 		});
-		
+		 $("#sexId").combobox('setValue','M');
+		 $("#maritalId").combobox('setValue','M');
+		 $("#countryCodeId").combobox('setValue','CHN');
+		 
 		$(document).keydown(function(e){
 			if(e.ctrlKey && e.which == 121) {
 				$('#editForm').submit();
@@ -167,7 +171,6 @@
 				 $("#workUnit").val(data.workUnit);
 				 $("#address").val(data.address);
 				 $("#profession").val(data.profession);
-				 $("#maritalStatus").val(data.maritalStatus);
 				 $("#medicalType").val(data.medicalType);
 				 $("#medicalOrganize").val(data.medicalOrganize);
 				 $("#medicalAccount").val(data.medicalAccount);
@@ -177,13 +180,14 @@
 				 $("#contactAddress").val(data.contactAddress);
 				 $("#allergyHistory").val(data.allergyHistory);
 				 $("#familyHistory").val(data.familyHistory);
-				 $("#sex").val(data.sex);
 				 $("#nation").val(data.nation);
-				 $("#nationlity").val(data.nationlity);
 				 $("#province").val(data.province);
 				 $("#city").val(data.city);
 				 $("#birthPlace").val(data.birthPlace);
 				 $("#birthday").datebox('setValue',data.birthday);
+				 $("#sexId").combobox('setValue',data.sex.id);
+				 $("#maritalId").combobox('setValue',data.marital.id);
+				 $("#countryCodeId").combobox('setValue',data.countryCode.id);
 			 },
 			 error: function(data){
 				 $.messager.alert('提示','未找到匹配的数据','info');

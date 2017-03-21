@@ -61,6 +61,7 @@
 	</div>
     <ewcms:editWindow/>
 <ewcms:footer/>
+<script type="text/javascript" src="${ctx}/static/easyui/ext/datagrid-detailview.js"></script>
 <script type="text/javascript">
 $(function(){
 	$('#tt').datagrid({
@@ -71,8 +72,24 @@ $(function(){
 		pagination:true,
 		rownumbers:true,
 		striped:true,
-		pageSize:20
-	}); 	
+		pageSize:20,
+		view : detailview,
+		detailFormatter : function(rowIndex, rowData) {
+			return '<div id="ddv-' + rowIndex + '" style="padding:2px"></div>';
+		},
+		onExpandRow: function(rowIndex, rowData){
+			$('#ddv-' + rowIndex).panel({
+				border:false,
+				cache:false,
+				content: '<iframe src="${ctx}/empi/card/manage/practicecardindexhistory/' + rowData.practiceNo + '/detail" frameborder="0" width="100%" height="200px" scrolling="auto"></iframe>',
+				onLoad:function(){
+					$('#tt').datagrid('fixDetailRowHeight',rowIndex);
+				}
+			});
+			$('#tt').datagrid('fixDetailRowHeight',rowIndex);
+		}
+	});
+	
 	$("form table tr").next("tr").hide();
 	$('#tb-more').bind('click', function(){
 	   	var showHideLabel_value = $('#showHideLabel').text();

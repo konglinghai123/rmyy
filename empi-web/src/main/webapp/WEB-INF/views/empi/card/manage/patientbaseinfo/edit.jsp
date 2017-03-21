@@ -119,6 +119,9 @@
 				$('#birthday_show').val(date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate());
 			}
 		});
+		 $("#sexId").combobox('setValue','M');
+		 $("#maritalId").combobox('setValue','M');
+		 $("#countryCodeId").combobox('setValue','CHN');
 	});
 	$.ewcms.refresh({operate : '${operate}', data : '${lastM}'});
 </script>
