@@ -60,7 +60,7 @@ public class SearchHelper {
 		return searchable;
 	}
 	
-	private static <ID> List<Order> order(SearchParameter<ID> searchParameter){
+	public static <ID> List<Order> order(SearchParameter<ID> searchParameter){
 		List<Order> orders = Lists.newArrayList();
 		
 //		Map<String, Direction> sorts = searchParameter.getSorts();
@@ -121,7 +121,7 @@ public class SearchHelper {
 		return orders;
 	}
 	
-	private static Sort sort(List<Order> orders){
+	public static Sort sort(List<Order> orders){
 		Sort sort = null;
 		if (!orders.isEmpty()){
 			sort = new Sort(orders);
@@ -129,7 +129,7 @@ public class SearchHelper {
 		return sort;
 	}
 	
-	private static <ID> Pageable getPageable(SearchParameter<ID> searchParameter){
+	public static <ID> Pageable getPageable(SearchParameter<ID> searchParameter){
 		List<Order> orders = order(searchParameter);
 		Sort sort = sort(orders);
 		Pageable pageable = new PageRequest(searchParameter.getPage() - 1, searchParameter.getRows(), sort);

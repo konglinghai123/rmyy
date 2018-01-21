@@ -122,7 +122,7 @@ public class CompressUtils {
 				}
 			}
 		} catch (IOException e){
-			throw new RuntimeException("解压缩众失败", e);
+			throw new RuntimeException("解压缩失败", e);
 		} finally {
 			if (zipFile != null){
 				try{

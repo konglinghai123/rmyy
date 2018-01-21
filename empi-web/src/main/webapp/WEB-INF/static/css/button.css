@@ -74,3 +74,21 @@
 .icon-uploadfile{
 	background: url('icons/buttons/uploadfile.png') no-repeat;
 }
+.icon-compress{
+	background: url('icons/buttons/compress.png') no-repeat;
+}
+.icon-uncompress{
+	background: url('icons/buttons/uncompress.png') no-repeat;
+}
+.icon-folder{
+	background: url('icons/buttons/folder.gif') no-repeat;
+}
+.icon-file{
+	background: url('icons/buttons/file.gif') no-repeat;
+}
+.icon-rename{
+	background: url('icons/buttons/rename.png') no-repeat;
+}
+.icon-move{
+	background: url('icons/buttons/move.png') no-repeat;
+}

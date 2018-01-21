@@ -105,7 +105,7 @@ public class YuiCompressorUtils {
 	}
 	
 	public static String getNoneCompressFileName(String fileName){
-		if (hasCompress(fileName)) return fileName;
+		if (!hasCompress(fileName)) return fileName;
 		
 		String noneCompressFileName = null;
 		final String extension = FilenameUtils.getExtension(fileName);

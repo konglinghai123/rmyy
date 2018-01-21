@@ -1,6 +1,7 @@
 package com.ewcms.security.user.web.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.validation.Valid;
 
@@ -25,6 +26,7 @@ import com.ewcms.security.user.entity.User;
 import com.ewcms.security.user.entity.UserStatus;
 import com.ewcms.security.user.service.UserService;
 import com.ewcms.security.user.web.bind.annotation.CurrentUser;
+import com.google.common.collect.Maps;
 
 /**
  *
@@ -167,5 +169,17 @@ public class UserController extends BaseCRUDController<User, Long> {
         return response.result();
     }
     
-    
+    @RequestMapping("ajax/autocomplete")
+    public @ResponseBody Map<String, Object> autoComplete(@RequestParam("query") String query){
+    	Searchable searchable = Searchable.newSearchable();
+    	searchable.setPage(0, 30);
+    	
+    	Map<String, Object> result = Maps.newHashMap();
+    	
+    	result.put("query", query);
+    	result.put("suggestions", getUserService().findIdAndNames(searchable, query));
+    	
+    	
+    	return result;
+    }
 }

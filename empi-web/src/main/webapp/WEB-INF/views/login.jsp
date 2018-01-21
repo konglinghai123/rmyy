@@ -6,9 +6,9 @@
     <head>
     	<title>用户登录 - 患者主索引管理系统</title>
     	<script src="${ctx}/static/js/loading.js" charset="utf-8" type="text/javascript"></script>
-    	<link href="${ctx}/static/jQuery-Validation-Engine/css/validationEngine.jquery.css" rel="stylesheet" type="text/css"/>
+    	<link href="${ctx}/static/jQuery-Validation-Engine/css/validationEngine.jquery-ciaoca.css" rel="stylesheet" type="text/css"/>
     	<link href="${ctx}/static/css/login.css"  type="text/css" rel="stylesheet"/>
-    	<script src="${ctx}/static/jquery/jquery-1.11.1.min.js" charset="utf-8" type="text/javascript"></script>
+    	<script src="${ctx}/static/jquery/jquery-3.1.1.min.js" charset="utf-8" type="text/javascript"></script>
     	<script src="${ctx}/static/jQuery-Validation-Engine/js/jquery.validationEngine.min-ciaoca.js" charset="utf-8" type="text/javascript"></script>
 		<script src="${ctx}/static/jQuery-Validation-Engine/js/languages/jquery.validationEngine-zh_CN-ciaoca.js" charset="utf-8" type="text/javascript"></script>
     	<script src="${ctx}/static/js/login.js" charset="utf-8" type="text/javascript"></script>

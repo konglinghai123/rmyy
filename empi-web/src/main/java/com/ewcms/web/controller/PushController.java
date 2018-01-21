@@ -1,7 +1,5 @@
 package com.ewcms.web.controller;
 
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
@@ -11,28 +9,19 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.ewcms.extra.push.BasePushService;
-import com.ewcms.personal.memoranda.service.MemorandaService;
-import com.ewcms.personal.message.entity.MsgType;
-import com.ewcms.personal.message.service.MsgReceiveService;
-import com.ewcms.personal.message.service.MsgSendService;
+import com.ewcms.extra.push.PushService;
+import com.ewcms.personal.message.service.MessageApi;
 import com.ewcms.security.user.entity.User;
-import com.ewcms.security.user.service.UserOnlineService;
 import com.ewcms.security.user.web.bind.annotation.CurrentUser;
+import com.google.common.collect.Maps;
 
 @Controller
 public class PushController {
-
+	
 	@Autowired
-	private MsgReceiveService msgReceiveService;
-	@Autowired
-	private MsgSendService msgSendService;
-	@Autowired
-	private MemorandaService memorandaService;
-	@Autowired
-	private UserOnlineService userOnlineService;
+	private MessageApi messageApi;
     @Autowired
-    private BasePushService basePushService;
+    private PushService pushService;
 
     /**
      * 获取页面的提示信息
@@ -51,26 +40,16 @@ public class PushController {
         }
         
         //如果用户第一次来 立即返回
-        if(!basePushService.isOnline(userId)) {
-            Long unreadMessageCount = msgReceiveService.findUnReadMessageCountByUserId(userId);
-            List<Map<String, Object>> notices = msgSendService.findTopRowNoticesOrSubscription(MsgType.NOTICE, 10);
-            Integer onlineCount = userOnlineService.countOnline();
-            //List<Map<String, Object>> subscriptions = msgSendService.findTopRowNoticesOrSubscription(MsgType.SUBSCRIPTION, 10);
-            //List<Map<String, Object>> todos = articleMainService.findBeApprovalArticleMain(userId);
-            //List<Map<String, Object>> pops = memorandaService.getMemorandaFireTime(userId, new Date(Calendar.getInstance().getTime().getTime()));
+        if(!pushService.isOnline(userId)) {
+            Long unreadMessageCount = messageApi.countUnread(userId);
             
-            Map<String, Object> data = new HashMap<String, Object>();
+            Map<String, Object> data = Maps.newHashMap();
             data.put("unreadMessageCount", unreadMessageCount);
-            data.put("notices", notices);
-            data.put("onlineCount", onlineCount);
-            //data.put("subscriptions", subscriptions);
-            //data.put("todos", todos);
-            //data.put("pops", pops);
-            basePushService.online(userId);
+            pushService.online(userId);
             return data;
         } else {
             //长轮询
-            return basePushService.newDeferredResult(userId);
+            return pushService.newDeferredResult(userId);
         }
     }
 }

@@ -224,8 +224,8 @@ public class UserService extends BaseService<User, Long> {
                             @Override
                             public Map<String, Object> apply(User input) {
                                 Map<String, Object> data = Maps.newHashMap();
-                                data.put("label", input.getUsername());
-                                data.put("value", input.getId());
+                                data.put("value", input.getUsername());
+                                data.put("data", input.getId());
                                 return data;
                             }
                         }

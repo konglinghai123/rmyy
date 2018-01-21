@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.ewcms.extra.push.PushService;
+import com.ewcms.personal.calendar.service.CalendarService;
 import com.ewcms.security.resource.entity.Menu;
 import com.ewcms.security.resource.service.ResourceService;
 import com.ewcms.security.user.entity.User;
@@ -22,6 +23,8 @@ public class HomeController {
 	private ResourceService resourceService;
     @Autowired
     private PushService pushApiService;
+    @Autowired
+    private CalendarService calendarService;
 
 	@RequestMapping(value = "home")
 	public String home(@CurrentUser User user, Model model){
@@ -36,6 +39,13 @@ public class HomeController {
 			String previousUsername = (String) subject.getPreviousPrincipals().getPrimaryPrincipal();
 			model.addAttribute("previousUsername", previousUsername);
 		}
+
+        //未读消息
+        //Long messageUnreadCount = messageService.countUnread(loginUser.getId());
+        //model.addAttribute("messageUnreadCount", messageUnreadCount);
+		
+        //最近3天的日历
+        model.addAttribute("calendarCount", calendarService.countRecentlyCalendar(user.getId(), 2));
 
 		return "home";
 	}

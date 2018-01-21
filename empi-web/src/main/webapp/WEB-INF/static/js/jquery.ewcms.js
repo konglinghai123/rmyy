@@ -461,8 +461,36 @@
 					    	}
 						});
 					}
-					
+					var opts = $.extend({}, defaults, options);
 				}
+		    },
+		    autoComplete : function(options){
+		    	var defaults = {
+		    		minLength : 1,
+		    		enterSearch : false,
+		    		focus : function(event, ui){
+		    			$(config.input).val(ui.item.label);
+		    			return false;
+		    		},
+		    		renderItem : function(ul, item){
+		    			return $('<li>').data('ui-autocomplete-item', item).append('<a>' + item.label + '</a>').appendTo(ul);
+		    		}
+		    	};
+		    	
+		    	opts = $.extend({}, defaults, options);
+		    	
+		    	$(opts.input)
+		    		.bind('keydown', function(event){
+		    			if (opts.enterSearch && event.keyCode == $.ui.keyCode.ENTER){
+		    				opts.select(event, {item:{value:$(this).val()}});
+		    			}
+		    		})
+		    		.autocomplete({
+		    			source : opts.source,
+		    			minLength : opts.minLength,
+		    			foucus : opts.focus,
+		    			select : opts.select
+		    		}).data('ui-autocomplete')._renderItem = opts.renderItem;
 		    }
 		}
 	});

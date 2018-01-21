@@ -207,3 +207,31 @@ table.cellspacing {
 	padding: 2px 3px 0 8px;
 	border-bottom: 1px solid #667788;
 }
+
+.icon-file-css{
+	background: url('icons/files/css.png') no-repeat;
+}
+.icon-file-js{
+	background: url('icons/files/js.png') no-repeat;
+}
+.icon-file-xml{
+	background: url('icons/files/xml.png') no-repeat;
+}
+.icon-file-jar{
+	background: url('icons/files/jar.png') no-repeat;
+}
+.icon-file-png{
+	background: url('icons/files/png.png') no-repeat;
+}
+.icon-file-jpg{
+	background: url('icons/files/jpg.png') no-repeat;
+}
+.icon-file-html{
+	background: url('icons/files/html.png') no-repeat;
+}
+.icon-file-jsp{
+	background: url('icons/files/jsp.png') no-repeat;
+}
+.icon-file-properties{
+	background: url('icons/files/properties.png') no-repeat;
+}

@@ -8,11 +8,11 @@
 			<tr>
 			    <th data-options="field:'ck',checkbox:true"></th>
 			    <th data-options="field:'id',hidden:true">编号</th>
-			    <th data-options="field:'identity',width:300">标识符</th>
-			    <th data-options="field:'iconTypeInfo',width:80">类型</th>
+			    <th data-options="field:'identity',width:300,sortable:true">标识符</th>
+			    <th data-options="field:'iconTypeInfo',width:80,sortable:true">类型</th>
 			    <th data-options="field:'cssClass',width:100,formatter:formatCssClass">css类</th>
 			    <th data-options="field:'icon',width:50,halign:'center',align:'center',formatter:formatIcon">图标</th>
-			    <th data-options="field:'spriteSrc',width:400,formatter:formatSpriteSrc">图标文件</th>
+			    <th data-options="field:'spriteSrc',width:400,formatter:formatSpriteSrc,sortable:true">图标文件</th>
 			    <th data-options="field:'positon',width:100,formatter:formatPosition">位置(left×top)</th>
 			    <th data-options="field:'size',width:125,formatter:formatSize">大小(width×height)</th>
 			    <th data-options="field:'style',width:200,formatter:formatStyle">其他css属性</th>

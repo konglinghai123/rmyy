@@ -1,115 +1,113 @@
 package com.ewcms.extra.push;
 
-import java.util.List;
 import java.util.Map;
+import java.util.Queue;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-
-import com.google.common.collect.Maps;
+import org.springframework.web.context.request.async.DeferredResult;
 
 /**
- * 推送信息服务
- * 
- * @author wu_zhijun
  *
+ * @author wu_zhijun
  */
 @Service
 public class PushService {
-	
-	@Autowired
-    private BasePushService basePushService;
 
+	private volatile Map<Long, Queue<DeferredResult<Object>>> userIdToDeferredResultMap = new ConcurrentHashMap<Long, Queue<DeferredResult<Object>>>();
+	
+	public boolean isOnline(final Long userId){
+		return userIdToDeferredResultMap.containsKey(userId);
+	}
+	
 	/**
-	 * 未读取消息
+	 * 上线后，创建一个空队列，防止多次判断
 	 * 
-	 * @param userId 登录用户名
-	 * @param unreadMessageCount 未读取数
+	 * @param userId
 	 */
-    public void pushUnreadMessage(Long userId, Long unreadMessageCount) {
-        Map<String, Object> data = Maps.newHashMap();
-        data.put("unreadMessageCount", unreadMessageCount);
-        basePushService.push(userId, data);
-    }
-    
-    public void pushTotalArchive(Long totalArchive){
-        Map<String, Object> data = Maps.newHashMap();
-        data.put("totalArchive", totalArchive);
-        basePushService.push(data);
-    }
-    
-    public void pushOnline(Long onlineCount){
-    	Map<String, Object> data = Maps.newHashMap();
-        data.put("onlineCount", onlineCount);
-        basePushService.push(data);
-    }
-    
-    /**
-     * 公告栏信息
-     * 
-     * @param notices 公告栏信息列表
-     */
-    public void pushNewNotice(List<Map<String, Object>> notices){
-    	Map<String, Object> data = Maps.newHashMap();
-    	data.put("notices", notices);
-    	basePushService.push(data);
-    }
-    
-    /**
-     * 订阅栏信息
-     * 
-     * @param subscriptions 订阅栏信息列表
-     */
-    public void pushNewSubscription(List<Map<String, Object>> subscriptions){
-    	Map<String, Object> data = Maps.newHashMap();
-    	data.put("subscriptions", subscriptions);
-    	basePushService.push(data);
-    }
-    
-    /**
-     * 侍办事件信息
-     * 
-     * @param userId 登录用户名
-     * @param todos 待办事件信息列表
-     */
-    public void pushTodo(Long userId, List<Map<String, Object>> todos){
-    	Map<String, Object> data = Maps.newHashMap();
-    	data.put("todos", todos);
-    	basePushService.push(userId, data);
-    }
-    
-    /**
-     * 提醒消息信息
-     * 
-     * @param userId 用户名
-     * @param pops 提醒消息信息列表
-     */
-    public void pushPop(Long userId, List<Map<String, Object>> pops){
-    	Map<String, Object> data = Maps.newHashMap();
-    	data.put("pops", pops);
-    	basePushService.push(userId, data);
-    }
-    
-    /**
-     * 培训公告信息
-     * 
-     * @param userId
-     * @param plans
-     */
-    public void pushPlan(Long userId, List<Map<String, Object>> plans){
-    	Map<String, Object> data = Maps.newHashMap();
-    	data.put("plans", plans);
-    	basePushService.push(userId, data);
-    }
-    
-    /**
-     * 离线用户，即清空用户的DefferedResult 这样就是新用户，可以即时得到通知
-     *
-     * 比如刷新主页时，需要offline
-     *
-     * @param userId 用户名
-     */
-    public void offline(final Long userId) {
-        basePushService.offline(userId);
-    }
+	public void online(final Long userId){
+		Queue<DeferredResult<Object>> queue = userIdToDeferredResultMap.get(userId);
+		if (queue == null){
+			//queue = new LinkedBlockingDeque<DeferredResult<Object>>();
+			queue = new ConcurrentLinkedQueue<DeferredResult<Object>>();//JDK1.7 使用
+			userIdToDeferredResultMap.put(userId, queue);
+		}
+	}
+	
+	public void offline(final Long userId){
+		Queue<DeferredResult<Object>> queue = userIdToDeferredResultMap.remove(userId);
+		if (queue != null){
+			for (DeferredResult<Object> result : queue){
+				try{
+					result.setResult("");
+				} catch (Exception e){
+					//ignore
+				}
+			}
+		}
+	}
+	
+	public DeferredResult<Object> newDeferredResult(final Long userId){
+		final DeferredResult<Object> deferredResult = new DeferredResult<Object>();
+		deferredResult.onCompletion(new Runnable(){
+			@Override
+			public void run(){
+				Queue<DeferredResult<Object>> queue = userIdToDeferredResultMap.get(userId);
+				if (queue != null){
+					queue.remove(deferredResult);
+					deferredResult.setResult("");
+				}
+			}
+		});
+		deferredResult.onTimeout(new Runnable(){
+			@Override
+			public void run(){
+				deferredResult.setErrorResult("");
+			}
+		});
+		Queue<DeferredResult<Object>> queue = userIdToDeferredResultMap.get(userId);
+		if (queue == null){
+			queue = new ConcurrentLinkedQueue<DeferredResult<Object>>();
+			userIdToDeferredResultMap.put(userId, queue);
+		}
+		queue.add(deferredResult);
+		return deferredResult;
+	}
+	
+	public void push(final Long userId, final Object data){
+		Queue<DeferredResult<Object>> queue = userIdToDeferredResultMap.get(userId);
+		if (queue == null) return;
+		
+		for (DeferredResult<Object> deferredResult : queue){
+			if (!deferredResult.isSetOrExpired()){
+				try{
+					deferredResult.setResult(data);
+				} catch (Exception e){
+					queue.remove(deferredResult);
+				}
+			}
+		}
+	}
+	
+	/**
+	 * 定期清空队列，防止中间推送消息时中断造成消息丢失 
+	 */
+	@Scheduled(fixedRate = 5L * 60 * 1000)
+	public void sync(){
+		Map<Long, Queue<DeferredResult<Object>>> oldMap = userIdToDeferredResultMap;
+		userIdToDeferredResultMap = new ConcurrentHashMap<Long, Queue<DeferredResult<Object>>>();
+		for (Queue<DeferredResult<Object>> queue : oldMap.values()){
+			if (queue == null) continue;
+			
+			for (DeferredResult<Object> deferredResult : queue){
+				try{
+					deferredResult.setResult("");
+				} catch (Exception e){
+					queue.remove(deferredResult);
+				}
+			}
+		}
+	}
 }

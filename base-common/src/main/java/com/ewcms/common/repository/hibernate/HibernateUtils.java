@@ -126,7 +126,7 @@ public class HibernateUtils {
 
 	/**
 	 * 从DataSoure中取出connection, 根据connection的metadata中的jdbcUrl判断Dialect类型.
-	 * 仅支持Oracle, H2, MySql，如需更多数据库类型，请仿照此类自行编写。
+	 * 仅支持SqlServer, PostgreSQL，如需更多数据库类型，请仿照此类自行编写。
 	 */
 	public static String getDialect(DataSource dataSource) {
 		String jdbcUrl = getJdbcUrlFromDataSource(dataSource);
@@ -140,7 +140,7 @@ public class HibernateUtils {
 			throw new IllegalArgumentException("Unknown Database of " + jdbcUrl);
 		}
 	}
-
+	
 	private static String getJdbcUrlFromDataSource(DataSource dataSource) {
 		Connection connection = null;
 		try {

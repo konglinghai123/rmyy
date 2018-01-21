@@ -4,6 +4,11 @@ package com.ewcms.common;
  * @author wu_zhijun
  */
 public interface Constants {
+	
+	/**
+	 * 操作名称
+	 */
+	String OP_NAME = "op";
 
     /**
      * 消息key

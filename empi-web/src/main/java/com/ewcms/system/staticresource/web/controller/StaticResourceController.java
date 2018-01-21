@@ -3,18 +3,15 @@ package com.ewcms.system.staticresource.web.controller;
 import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.servlet.ServletContext;
 
-import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -26,8 +23,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.ewcms.common.utils.FileExtension;
 import com.ewcms.common.web.controller.BaseController;
 import com.ewcms.common.web.controller.entity.TreeNode;
+import com.ewcms.common.web.validate.AjaxResponse;
 import com.ewcms.system.staticresource.utils.YuiCompressorUtils;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -73,41 +72,47 @@ public class StaticResourceController extends BaseController{
 	
 	@RequestMapping(value = "batchIncVersion", method = RequestMethod.POST)
 	@ResponseBody
-	public String batchIncVersion(@RequestParam("fileNames[]")String[] fileNames, @RequestParam("contents[]")String[] contents, @RequestParam("newVersions[]")String[] newVersions) throws IOException{
+	public AjaxResponse batchIncVersion(@RequestParam("fileNames[]")String[] fileNames, @RequestParam("contents[]")String[] contents, @RequestParam("newVersions[]")String[] newVersions) throws IOException{
 		String realPath = sc.getRealPath(versionResourcePath);
 		for (int i = 0, k = fileNames.length; i < k; i++){
 			versionedStaticResourceContent(realPath + fileNames[i], contents[i], newVersions[i]);
 		}
-		return "操作成功";
+		return new AjaxResponse();
 	}
 	
 	@RequestMapping(value = "clearVersion", method = RequestMethod.POST)
 	@ResponseBody
-	public String clearVersion(@RequestParam("fileNames[]")String[] fileNames, @RequestParam("contents[]")String[] contents) throws IOException{
+	public AjaxResponse clearVersion(@RequestParam("fileNames[]")String[] fileNames, @RequestParam("contents[]")String[] contents) throws IOException{
 		String realPath = sc.getRealPath(versionResourcePath);
 		for (int i = 0, k = fileNames.length; i <k; i++){
 			versionedStaticResourceContent(realPath + fileNames[i], contents[i], null);
 		}
-		return "操作成功";
+		return new AjaxResponse();
 	}
 	
 	@RequestMapping("compress")
 	@ResponseBody
-	public String compress(@RequestParam("fileName")String fileName, @RequestParam("content")String content){
+	public AjaxResponse compress(@RequestParam("fileName")String fileName, @RequestParam("content")String content){
+		AjaxResponse ajaxResponse = new AjaxResponse();
+		
 		String rootRealPath = sc.getRealPath("/WEB-INF");
 		String versionedResourceRealPath = sc.getRealPath(versionResourcePath);
 		
 		try{
 			String minFilePath = compressStaticResource(rootRealPath, versionedResourceRealPath + fileName, content);
-			return "压缩成功，压缩好的文件为: " + minFilePath;
+			ajaxResponse.setMessage("压缩成功，压缩好的文件为: " + minFilePath);
 		} catch (Exception e){
-			return "压缩失败: " + e.getMessage();
+			ajaxResponse.setSuccess(Boolean.FALSE);
+			ajaxResponse.setMessage("压缩失败: " + e.getMessage());
 		}
+		return ajaxResponse;
 	}
 	
 	@RequestMapping("batchCompress")
 	@ResponseBody
-	public String bathCompress(@RequestParam("fileNames[]")String[] fileNames, @RequestParam("contents[]")String[] contents) throws IOException{
+	public AjaxResponse bathCompress(@RequestParam("fileNames[]")String[] fileNames, @RequestParam("contents[]")String[] contents) throws IOException{
+		AjaxResponse ajaxResponse = new AjaxResponse();
+
 		String rootRealPath = sc.getRealPath("/WEB-INF");
 		String versionedResourceRealPath = sc.getRealPath(versionResourcePath);
 		
@@ -125,7 +130,8 @@ public class StaticResourceController extends BaseController{
 			}
 		}
 		
-		return success.insert(0, "成功的压缩: <br/>").append("<br/>失败的压缩: <br/>").append(error).toString();
+		ajaxResponse.setMessage(success.insert(0, "成功的压缩: <br/>").append("<br/>失败的压缩: <br/>").append(error).toString());
+		return ajaxResponse;
 	}
 	
 	@RequestMapping("switch")
@@ -150,7 +156,11 @@ public class StaticResourceController extends BaseController{
 		}
 	}
 	
-	public String batchSwitchStaticResource(@RequestParam("fileNames[]")String[] fileNames, @RequestParam("contents[]")String[] contents, @RequestParam(value = "min", required = false, defaultValue = "false")boolean isMin) throws IOException{
+	@RequestMapping("batchSwitch")
+	@ResponseBody
+	public AjaxResponse batchSwitchStaticResource(@RequestParam("fileNames[]")String[] fileNames, @RequestParam("contents[]")String[] contents, @RequestParam(value = "min", required = false, defaultValue = "false")boolean isMin) throws IOException{
+		AjaxResponse ajaxResponse = new AjaxResponse();
+
 		String rootRealPath = sc.getRealPath("/WEB-INF");
 		String versionedResourceRealPath = sc.getRealPath(versionResourcePath);
 		
@@ -168,7 +178,8 @@ public class StaticResourceController extends BaseController{
 			}
 		}
 		
-		return success.insert(0, "成功的切换: <br/>").append("<br/>失败的切换: <br/>").append(error).toString();
+		ajaxResponse.setMessage(success.insert(0, "成功的切换: <br/>").append("<br/>失败的切换: <br/>").append(error).toString());
+		return ajaxResponse;
 	}
 	
 	private StaticResource switchStaticResourceContent(String rootRealPath, String versionedResourceRealPath, String fileName, String content, boolean isMin) throws IOException{
@@ -259,11 +270,12 @@ public class StaticResourceController extends BaseController{
 			
 			TreeNode<String> rootNode = new TreeNode<String>();
 			rootNode.setId(fileName);
-			rootNode.setText(fileName);
+			rootNode.setText(fileName.substring(1));
 			rootNode.setState("open");
 			
 			List<String> contents = FileUtils.readLines(file);
 			List<TreeNode<String>> childrenNodes = Lists.newArrayList();
+			
 			for (String content : contents){
 				if (!StringUtils.isEmpty(content)){
 					StaticResource resource = extractResource(fileName, content);
@@ -279,8 +291,9 @@ public class StaticResourceController extends BaseController{
 						TreeNode<String> childrenNode = new TreeNode<String>();
 						
 						childrenNode.setAttributes(attributes);
-						childrenNode.setId(fileName);
+						childrenNode.setId(url.substring(url.lastIndexOf("/") + 1));
 						childrenNode.setText(url.substring(url.lastIndexOf("/") + 1));
+						childrenNode.setIconCls(FileExtension.getIconClsByFileName(childrenNode.getText()));
 						childrenNode.setState("open");
 						
 						childrenNodes.add(childrenNode);
@@ -294,29 +307,6 @@ public class StaticResourceController extends BaseController{
 		
 		return treeNodes;
 	}
-	
-//	private Map<String, List<StaticResource>> findStaticResources(String realPath) throws IOException{
-//		final Map<String, List<StaticResource>> resources = Maps.newTreeMap();
-//		final int realPathLength = realPath.length();
-//		Collection<File> files = FileUtils.listFiles(new File(realPath), new String[]{"jspf"}, true);
-//		for (File file : files){
-//			String fileName = file.getAbsolutePath().substring(realPathLength);
-//			List<String> contents = FileUtils.readLines(file);
-//			
-//			List<StaticResource> resourceList = resources.get(fileName);
-//			if (resourceList == null) resourceList = Lists.newArrayList();
-//			
-//			for (String content : contents){
-//				if (!StringUtils.isEmpty(content)){
-//					StaticResource resource = extractResource(fileName, content);
-//					if (resource != null) resourceList.add(resource);
-//				}
-//			}
-//			
-//			if (CollectionUtils.isNotEmpty(resourceList)) resources.put(fileName, resourceList);
-//		}
-//		return resources;
-//	}
 	
 	private StaticResource extractResource(String fileName, String content){
 		Matcher matcher = scriptPattern.matcher(content);

@@ -49,6 +49,7 @@ import com.google.common.collect.Lists;
  *
  * @author wu_zhijun
  */
+@SuppressWarnings("rawtypes")
 @Controller
 @RequestMapping("/system/editor")
 @RequiresPermissions("system:onlineEditor:*")
@@ -78,8 +79,7 @@ public class OnlineEditorController extends BaseController {
 	}
 	
 	@RequestMapping(value = "table")
-    @ResponseBody
-    public List<TreeNode<String>> table(@RequestParam(value = "path", required = false, defaultValue = "")String path) throws IOException{
+    public @ResponseBody List<TreeNode<String>> table(@RequestParam(value = "path", required = false, defaultValue = "")String path) throws IOException{
 		List<TreeNode<String>> treeNodeTables = Lists.newArrayList();
 		
 		String rootPath = sc.getRealPath(ROOT_DIR);
@@ -170,8 +170,7 @@ public class OnlineEditorController extends BaseController {
 	}
 	
 	@RequestMapping("rename")
-	@ResponseBody
-	public AjaxResponse rename(@RequestParam(value = "path") String path, @RequestParam(value = "newName") String newName) throws IOException{
+	public @ResponseBody AjaxResponse rename(@RequestParam(value = "path") String path, @RequestParam(value = "newName") String newName) throws IOException{
 		AjaxResponse ajaxResponse = new AjaxResponse();
 		
 		String rootPath = sc.getRealPath(ROOT_DIR);
@@ -194,8 +193,7 @@ public class OnlineEditorController extends BaseController {
 	}
 	
 	@RequestMapping("delete")
-	@ResponseBody
-	public AjaxResponse delete(@RequestParam(value = "paths[]")List<String> paths) throws IOException{
+	public @ResponseBody AjaxResponse delete(@RequestParam(value = "paths[]")List<String> paths) throws IOException{
 		AjaxResponse ajaxResponse = new AjaxResponse(Boolean.TRUE, "删除成功!");
 		
 		String rootPath = sc.getRealPath(ROOT_DIR);
@@ -209,8 +207,7 @@ public class OnlineEditorController extends BaseController {
 	}
 	
 	@RequestMapping("/create/directory")
-	@ResponseBody
-	public AjaxResponse createDirectory(@RequestParam(value = "parentPath")String parentPath, @RequestParam(value = "name")String name) throws IOException{
+	public @ResponseBody AjaxResponse createDirectory(@RequestParam(value = "parentPath")String parentPath, @RequestParam(value = "name")String name) throws IOException{
 		AjaxResponse ajaxResponse = new AjaxResponse();
 		
 		//删除文件路径最后的/
@@ -238,8 +235,7 @@ public class OnlineEditorController extends BaseController {
 	}
 	
 	@RequestMapping("/create/file")
-	@ResponseBody
-	public AjaxResponse createFile(@RequestParam(value = "parentPath")String parentPath, @RequestParam(value = "name")String name) throws IOException{
+	public @ResponseBody AjaxResponse createFile(@RequestParam(value = "parentPath")String parentPath, @RequestParam(value = "name")String name) throws IOException{
 		AjaxResponse ajaxResponse = new AjaxResponse();
 		
 		if (isValidFileName(name)){
@@ -284,8 +280,7 @@ public class OnlineEditorController extends BaseController {
 	}
 	
 	@RequestMapping(value = "upload", method = RequestMethod.POST)
-	@ResponseBody
-	public AjaxUploadResponse upload(HttpServletRequest request, HttpServletResponse response, @RequestParam("parentPath")String parentPath, @RequestParam("conflict")String conflict, @RequestParam(value = "files[]", required = false)MultipartFile[] files) throws UnsupportedEncodingException{
+	public @ResponseBody AjaxUploadResponse upload(HttpServletRequest request, HttpServletResponse response, @RequestParam("parentPath")String parentPath, @RequestParam("conflict")String conflict, @RequestParam(value = "files[]", required = false)MultipartFile[] files) throws UnsupportedEncodingException{
 		String rootPath = sc.getRealPath(ROOT_DIR);
 		parentPath = URLDecoder.decode(parentPath, Constants.ENCODING);
 		File parent = new File(rootPath + File.separator + parentPath);
@@ -342,7 +337,7 @@ public class OnlineEditorController extends BaseController {
 	}
 	
 	@RequestMapping("compress")
-	public String compress(@RequestParam(value = "parentPath")String parentPath, @RequestParam(value = "paths")String[] paths, RedirectAttributes redirectAttributes) throws IOException{
+	public @ResponseBody AjaxResponse compress(@RequestParam(value = "parentPath")String parentPath, @RequestParam(value = "paths")String[] paths) throws IOException{
 		AjaxResponse ajaxResponse = new AjaxResponse();
 		
 		String rootPath = sc.getRealPath(ROOT_DIR);
@@ -362,16 +357,22 @@ public class OnlineEditorController extends BaseController {
 		try{
 			CompressUtils.zip(rootPath+ File.separator + compressPath, paths);
 			String msg = "压缩成功，<a href='%s/%s?path=%s' target='_blank'>点击下载</a>，下载完成后，请手工删除生成的压缩包";
-			redirectAttributes.addFlashAttribute(Constants.MESSAGE, String.format(msg, sc.getContextPath(), viewName("download"), URLEncoder.encode(compressPath, Constants.ENCODING)));
+//			redirectAttributes.addFlashAttribute(Constants.MESSAGE, String.format(msg, sc.getContextPath(), viewName("download"), URLEncoder.encode(compressPath, Constants.ENCODING)));
+			ajaxResponse.setMessage(String.format(msg, sc.getContextPath(), viewName("download"), URLEncoder.encode(compressPath, Constants.ENCODING)));
 		} catch (Exception e){
-			redirectAttributes.addFlashAttribute(Constants.ERROR, e.getMessage());
+//			redirectAttributes.addFlashAttribute(Constants.ERROR, e.getMessage());
+			ajaxResponse.setSuccess(Boolean.FALSE);
+			ajaxResponse.setMessage(e.getMessage());
 		}
-		redirectAttributes.addAttribute("path", URLEncoder.encode(parentPath, Constants.ENCODING));
-		return redirectToUrl(viewName("index"));
+//		redirectAttributes.addAttribute("path", URLEncoder.encode(parentPath, Constants.ENCODING));
+//		return redirectToUrl(viewName("index"));
+		return ajaxResponse;
 	}
 	
 	@RequestMapping("uncompress")
-	public String uncompress(@RequestParam(value = "descPath")String descPath, @RequestParam(value = "paths")String[] paths, @RequestParam(value = "conflict")String conflict, RedirectAttributes redirectAttributes) throws IOException{
+	public @ResponseBody AjaxResponse uncompress(@RequestParam(value = "descPath")String descPath, @RequestParam(value = "paths")String[] paths, @RequestParam(value = "conflict")String conflict) throws IOException{
+		AjaxResponse ajaxResponse = new AjaxResponse();
+
 		String rootPath = sc.getRealPath(ROOT_DIR);
 		descPath = URLDecoder.decode(descPath, Constants.ENCODING);
 		for (int i = 0, k = paths.length; i < k; i++){
@@ -385,17 +386,23 @@ public class OnlineEditorController extends BaseController {
 			for (String path : paths){
 				CompressUtils.unzip(path, descAbsolutePath, "override".equals(conflict));
 			}
-			redirectAttributes.addFlashAttribute(Constants.MESSAGE, "解压成功!");
+//			redirectAttributes.addFlashAttribute(Constants.MESSAGE, "解压成功!");
+			ajaxResponse.setMessage("解压成功!");
 		} catch (Exception e){
-			redirectAttributes.addFlashAttribute(Constants.ERROR, e.getMessage());
+//			redirectAttributes.addFlashAttribute(Constants.ERROR, e.getMessage());
+			ajaxResponse.setSuccess(Boolean.FALSE);
+			ajaxResponse.setMessage(e.getMessage());
 		}
 		
-		redirectAttributes.addAttribute("path", URLEncoder.encode(descPath, Constants.ENCODING));
-		return redirectToUrl(viewName("index"));
+//		redirectAttributes.addAttribute("path", URLEncoder.encode(descPath, Constants.ENCODING));
+//		return redirectToUrl(viewName("index"));
+		return ajaxResponse;
 	}
 	
 	@RequestMapping("move")
-	public String move(@RequestParam(value = "descPath")String descPath, @RequestParam(value = "paths[]")String[] paths, @RequestParam(value = "conflict")String conflict, RedirectAttributes redirectAttributes) throws IOException{
+	public @ResponseBody AjaxResponse move(@RequestParam(value = "descPath")String descPath, @RequestParam(value = "paths[]")String[] paths, @RequestParam(value = "conflict")String conflict, RedirectAttributes redirectAttributes) throws IOException{
+		AjaxResponse ajaxResponse = new AjaxResponse();
+
 		String rootPath = sc.getRealPath(ROOT_DIR);
 		descPath = URLDecoder.decode(descPath, Constants.ENCODING);
 		
@@ -420,18 +427,23 @@ public class OnlineEditorController extends BaseController {
 					FileUtils.moveFileToDirectory(sourceFile, descPathFile, true);
 				}
 			}
-			redirectAttributes.addFlashAttribute(Constants.MESSAGE, "移动成功!");
+//			redirectAttributes.addFlashAttribute(Constants.MESSAGE, "移动成功!");
+			ajaxResponse.setMessage("移动成功!");
 		} catch(Exception e){
-			redirectAttributes.addFlashAttribute(Constants.ERROR, e.getMessage());
+//			redirectAttributes.addFlashAttribute(Constants.ERROR, e.getMessage());
+			ajaxResponse.setSuccess(Boolean.FALSE);
+			ajaxResponse.setMessage(e.getMessage());
 		}
 		
-		redirectAttributes.addAttribute("path", URLEncoder.encode(descPath, Constants.ENCODING));
-		
-		return redirectToUrl(viewName("index"));
+//		redirectAttributes.addAttribute("path", URLEncoder.encode(descPath, Constants.ENCODING));
+//		return redirectToUrl(viewName("index"));
+		return ajaxResponse;
 	}
 	
 	@RequestMapping("copy")
-	public String copy(@RequestParam(value = "descPath")String descPath, @RequestParam(value = "paths")String[] paths, @RequestParam(value = "conflict")String conflict, RedirectAttributes redirectAttributes) throws IOException{
+	public @ResponseBody AjaxResponse copy(@RequestParam(value = "descPath")String descPath, @RequestParam(value = "paths")String[] paths, @RequestParam(value = "conflict")String conflict, RedirectAttributes redirectAttributes) throws IOException{
+		AjaxResponse ajaxResponse = new AjaxResponse();
+
 		String rootPath = sc.getRealPath(ROOT_DIR);
 		descPath = URLDecoder.decode(descPath, Constants.ENCODING);
 		
@@ -456,12 +468,16 @@ public class OnlineEditorController extends BaseController {
 					FileUtils.copyFileToDirectory(sourceFile, descPathFile);
 				}
 			}
-			redirectAttributes.addFlashAttribute(Constants.MESSAGE, "复制成功!");
+//			redirectAttributes.addFlashAttribute(Constants.MESSAGE, "复制成功!");
+			ajaxResponse.setMessage("复制成功!");
 		} catch (Exception e){
-			redirectAttributes.addFlashAttribute(Constants.ERROR, e.getMessage());
+//			redirectAttributes.addFlashAttribute(Constants.ERROR, e.getMessage());
+			ajaxResponse.setSuccess(Boolean.FALSE);
+			ajaxResponse.setMessage(e.getMessage());
 		}
 		
-		redirectAttributes.addAttribute("path", URLEncoder.encode(descPath, Constants.ENCODING));
-		return redirectToUrl(viewName("index"));
+//		redirectAttributes.addAttribute("path", URLEncoder.encode(descPath, Constants.ENCODING));
+//		return redirectToUrl(viewName("index"));
+		return ajaxResponse;
 	}
 }

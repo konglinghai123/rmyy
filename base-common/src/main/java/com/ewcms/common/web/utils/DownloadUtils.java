@@ -33,6 +33,12 @@ public class DownloadUtils {
             response.getWriter().write("您下载的文件不存在！");
             return;
         }
+        
+        if (file.isDirectory()){
+        	response.setContentType("text/html;charset=utf-8");
+            response.getWriter().write("目录是不能下载的，如需下载先把此目录进行压缩生成文件后再下载！");
+            return;
+        }
 
         String userAgent = request.getHeader("User-Agent");
         boolean isIE = (userAgent != null) && (userAgent.toLowerCase().indexOf("msie") != -1);

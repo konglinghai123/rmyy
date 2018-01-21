@@ -3,6 +3,7 @@ package com.ewcms.system.editor.utils;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.Collections;
 import java.util.Comparator;
@@ -14,6 +15,7 @@ import org.apache.commons.lang3.time.DateFormatUtils;
 import org.springframework.data.domain.Sort;
 
 import com.ewcms.common.Constants;
+import com.ewcms.common.utils.FileExtension;
 import com.ewcms.common.web.controller.entity.TreeNode;
 import com.google.common.collect.Maps;
 
@@ -24,8 +26,8 @@ import com.google.common.collect.Maps;
 public class OnlineEditorUtils {
 
 	private static final String DATA_PATTERN = "yyyy-MM-dd HH:mm:ss";
-	private static final String CSS_DIRECTORY = "tree-folder";
-	private static final String CSS_FILE = "tree-file";
+	private static final String DIRECTORY = "tree-folder";
+	//private static final String CSS_FILE = "tree-file";
 
 	private static final FileFilter DIRECTORY_FILTER = new FileFilter() {
 		@Override
@@ -61,11 +63,17 @@ public class OnlineEditorUtils {
 		
 		treeNode.setAttributes(attributes);
 		//treeNode.setId(URLDecoder.decode(attributes.get("path").toString(), Constants.ENCODING));
-		treeNode.setId(currentFile.getName());
+		String decodePath = URLDecoder.decode(attributes.get("path").toString(), Constants.ENCODING);
+		treeNode.setId(decodePath.replace(File.separator, ""));
 		treeNode.setText(currentFile.getName());
-		treeNode.setIconCls(currentFile.isDirectory() ? CSS_DIRECTORY : CSS_FILE);
-		if (currentFile.isDirectory()) treeNode.setState("closed");
-		else treeNode.setState("open");
+		String iconCls = DIRECTORY;;
+		if (!currentFile.isDirectory()){
+			iconCls = FileExtension.getIconClsByFileName(currentFile.getName());
+			treeNode.setState("open");
+		} else{
+			treeNode.setState("closed");
+		}
+		treeNode.setIconCls(iconCls);
 		
 		return treeNode;
 	}
