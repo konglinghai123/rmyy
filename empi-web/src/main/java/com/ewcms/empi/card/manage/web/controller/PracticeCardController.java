@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,6 +35,9 @@ import com.ewcms.empi.card.manage.entity.MessageLog;
 import com.ewcms.empi.card.manage.entity.PracticeCard;
 import com.ewcms.empi.card.manage.service.MatchRuleService;
 import com.ewcms.empi.card.manage.service.PracticeCardService;
+import com.ewcms.empi.dictionary.service.CountryCodeService;
+import com.ewcms.empi.dictionary.service.MaritalService;
+import com.ewcms.empi.dictionary.service.SexService;
 import com.google.common.collect.Lists;
 /**
  *@author zhoudongchu
@@ -43,6 +47,12 @@ import com.google.common.collect.Lists;
 public class PracticeCardController extends BaseCRUDController<PracticeCard, Long> {
 	@Autowired
 	private MatchRuleService matchRuleService;
+	@Autowired
+	private SexService sexService;
+	@Autowired
+	private MaritalService maritalService;
+	@Autowired
+	private CountryCodeService countryCodeService;
 	
 	private PracticeCardService getPracticeCardService(){
 		return (PracticeCardService) baseService;
@@ -57,6 +67,9 @@ public class PracticeCardController extends BaseCRUDController<PracticeCard, Lon
     @Override
     protected void setCommonData(Model model) {
         super.setCommonData(model);
+        model.addAttribute("sexList", sexService.findAll(new Sort("id")));
+        model.addAttribute("maritalList", maritalService.findAll(new Sort("id")));
+        model.addAttribute("countryCodeList", countryCodeService.findAll(new Sort("id")));
     }
     
 	@Override
