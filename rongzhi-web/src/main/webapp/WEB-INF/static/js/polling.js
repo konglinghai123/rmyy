@@ -37,10 +37,9 @@ function Poll(){
 	longPolling(pollingUrl, function(data) {
 	    if(data) {
 	        if (data.isFlush){
-	         	$.post(ctx + "/fcf/test", {}, function(result) {
-	        	    var myChart = new FusionCharts(ctx + "/static/fcf/swf/Column3D.swf?ChartNoDataText=无数据显示", "myChartId", "200", "300");
+	         	$.post(ctx + "/fcf/column3d", {}, function(result) {
 	        	    myChart.setJSONData(result);      
-	        		myChart.render("Column2D1");
+	        		myChart.render("Column3D1");
 	        	}); 
 	        }
 	    }

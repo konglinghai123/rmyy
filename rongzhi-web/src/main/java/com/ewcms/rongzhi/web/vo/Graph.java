@@ -8,6 +8,10 @@ public class Graph implements Serializable{
 	private String caption;
 	private String xAxisName;
 	private String yAxisName;
+	private String lowerLimit;
+	private String upperLimit;
+	private String showValue;
+	
 	public String getCaption() {
 		return caption;
 	}
@@ -26,6 +30,22 @@ public class Graph implements Serializable{
 	public void setyAxisName(String yAxisName) {
 		this.yAxisName = yAxisName;
 	}
-	
-	
+	public String getLowerLimit() {
+		return lowerLimit;
+	}
+	public void setLowerLimit(String lowerLimit) {
+		this.lowerLimit = lowerLimit;
+	}
+	public String getUpperLimit() {
+		return upperLimit;
+	}
+	public void setUpperLimit(String upperLimit) {
+		this.upperLimit = upperLimit;
+	}
+	public String getShowValue() {
+		return showValue;
+	}
+	public void setShowValue(String showValue) {
+		this.showValue = showValue;
+	}
 }
