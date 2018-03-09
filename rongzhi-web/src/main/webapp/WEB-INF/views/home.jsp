@@ -4,7 +4,7 @@
 <html>
     <head>
         <title>融智数据采集</title>
-    	<script type="text/javascript" src="${ctx}/static/jquery/jquery-3.1.1.min.js"></script>
+    	<script type="text/javascript" src="${ctx}/static/easyui/jquery.min.js"></script>
 		<script type="text/javascript" src="${ctx}/static/easyui/jquery.easyui.min.js"></script>
 		<link rel="stylesheet" type="text/css" href="${ctx}/static/easyui/themes/default/easyui.css" title="default">
 		<link rel="stylesheet" type="text/css" href="${ctx}/static/easyui/themes/icon.css">
@@ -16,8 +16,8 @@
                   <h1> 欢迎使用融智数据采集系统!</h1>
                   <table>
                    	<tr align="center">
-	                  	<td>每月销售额柱形图</td>   
-	                  	<td>四季度销售额柱形图</td>
+	                  	<td>月销售额柱形图</td>   
+	                  	<td>季度销售额柱形图</td>
 	                  	<td>机房温度监控</td>
                   	</tr>
                   	<tr>
@@ -41,7 +41,7 @@
     chart1.setJSONData(jsondata);
     chart1.render("Column2D1");   */
     
-    var myChart = new FusionCharts(ctx + "/static/fcf/swf/Column3D.swf?ChartNoDataText=无数据显示", "Column3DChart1", "200", "400");
+    var myChart = new FusionCharts(ctx + "/static/fcf/swf/Column3D.swf", "Column3DChart1", "300", "400");
  	$.post(ctx + "/fcf/column3d", {}, function(result) {
 	    myChart.setJSONData(result);      
 		myChart.render("Column3D1");

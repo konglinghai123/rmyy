@@ -28,26 +28,33 @@ public class FcfController {
 		Random r = new Random();
 		Column3D testChart = new Column3D();
 		Graph graphVo = new Graph();
-		graphVo.setxAxisName("月份");
+		graphVo.setxAxisName("季度");
 		graphVo.setyAxisName("Units");
 		testChart.setGraph(graphVo);
 		Set setVo1 = new Set();
-		setVo1.setName("一月");
+		setVo1.setName("一季度");
 		setVo1.setValue(String.valueOf(r.nextInt(999)));
 		setVo1.setColor("AFD8F8");
 		
 		Set setVo2 = new Set();
-		setVo2.setName("二月");
+		setVo2.setName("二季度");
 		setVo2.setValue(String.valueOf(r.nextInt(999)));
 		setVo2.setColor("F6BD0F");
 		
 		Set setVo3 = new Set();
-		setVo3.setName("三月");
+		setVo3.setName("三季度");
 		setVo3.setValue(String.valueOf(r.nextInt(999)));
 		setVo3.setColor("8BBA00");
+		
+		Set setVo4 = new Set();
+		setVo4.setName("四季度");
+		setVo4.setValue(String.valueOf(r.nextInt(999)));
+		setVo4.setColor("EEBBA00");
+		
 		testChart.getSet().add(setVo1);
 		testChart.getSet().add(setVo2);
 		testChart.getSet().add(setVo3);
+		testChart.getSet().add(setVo4);
 		return testChart;
 	}
 	
