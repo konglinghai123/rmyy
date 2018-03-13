@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.ewcms.rongzhi.properties.PropertiesOperate;
 import com.ewcms.rongzhi.web.vo.AngularGauge;
 import com.ewcms.rongzhi.web.vo.Color;
 import com.ewcms.rongzhi.web.vo.ColorRange;
@@ -95,7 +96,8 @@ public class FcfController {
 		
 		Dials dialsVo = new Dials();
 		Dial dialVo = new Dial();
-		dialVo.setValue(String.valueOf(r.nextInt(99)));
+		PropertiesOperate.updateProperties("temperature", String.valueOf(r.nextInt(99)));
+		dialVo.setValue(PropertiesOperate.getKeyValue("temperature"));
 		dialsVo.getDial().add(dialVo);
 		testChart.setDials(dialsVo);
 		
