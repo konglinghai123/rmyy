@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE xml>
+<configuration scan="true" scanPeriod="10 seconds" debug="false">
+	
+	<!-- 打印logback初始化日志系统信息，debug="true"是同等效果 -->
+	<!-- <statusListener class="ch.qos.logback.core.status.OnConsoleStatusListener"/> -->
+	
+    <!-- 控制台 -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36}.%M - %msg%n</pattern>
+        </encoder>
+    </appender>
+    
+    <!-- 出错日志 appender  -->
+    <appender name="ERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- 按天回滚 daily -->
+            <!-- log.dir 在maven profile里配置 -->
+            <fileNamePattern>${log.dir}/empi-web-error-%d{yyyy-MM-dd}.log</fileNamePattern>
+            <!-- 日志最大的历史 60天 -->
+            <maxHistory>60</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36}.%M - %msg%n</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+    
+    <!-- 访问日志 appender  -->
+    <appender name="ACCESS" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- 按天回滚 daily -->
+            <fileNamePattern>${log.dir}/empi-web-access-%d{yyyy-MM-dd}.log</fileNamePattern>
+            <!-- 日志最大的历史 60天 -->
+            <maxHistory>60</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36}.%M - %msg%n</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <!-- 访问日志 appender  -->
+    <appender name="USER" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- 按天回滚 daily -->
+            <fileNamePattern>${log.dir}/empi-web-sys-user-%d{yyyy-MM-dd}.log</fileNamePattern>
+            <!-- 日志最大的历史 60天 -->
+            <maxHistory>60</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36}.%M - %msg%n</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <root level="info"/>
+
+	<!-- 打印org.apache文件夹下的日志 -->
+    <logger name="org.apache" level="info">
+        <appender-ref ref="STDOUT"/>
+    </logger>
+
+    <!--错误日志-->
+    <logger name="empi-error" level="info">
+        <appender-ref ref="ERROR"/>
+        <!-- 正式使用时注释下面 -->
+        <appender-ref ref="STDOUT"/>
+    </logger>
+    
+    <!--访问日志-->
+    <logger name="empi-access" level="info">
+        <appender-ref ref="ACCESS"/>
+        <!-- 正式使用时注释下面 -->
+        <appender-ref ref="STDOUT"/>
+    </logger>
+    
+    <!--系统用户操作日志-->
+    <logger name="empi-sys-user" level="info">
+        <appender-ref ref="USER"/>
+        <!-- 正式使用时注释下面 -->
+        <appender-ref ref="STDOUT"/>
+    </logger>
+
+    <!-- cache 
+    <logger name="com.ewcms.extra.aop" level="debug">
+    	<appender-ref ref="STDOUT"/>
+    </logger>
+	-->
+	
+	<!-- jdbc.sqlonly不显示sql执行的时间 -->
+	<logger name="jdbc.sqlonly" level="debug">
+		<appender-ref ref="STDOUT"/>
+	</logger>
+	
+	<!-- jdbc.sqltiming显示sql执行的时间(executeed 2 msec) -->
+	<logger name="jdbc.sqltiming" level="debug">
+		<appender-ref ref="STDOUT"/>
+	</logger>
+	
+</configuration>
