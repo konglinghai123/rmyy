@@ -14,7 +14,6 @@
 	<name>yjk-web</name>
 	<packaging>war</packaging>
 	<url>https://github.com/ewcmsfree/rmyy/yjk-web</url>
-
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<empi.version>1.0.0</empi.version>
