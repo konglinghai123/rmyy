@@ -14,6 +14,7 @@
 	<modules>
 		<module>../base-common</module>
 		<module>../base-entity</module>
+		<module>../base-post-entity</module>
 		<module>../base-externalds</module>
 		<module>../base-report</module>
 		<module>../base-scheduling</module>
