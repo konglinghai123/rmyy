@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.ewcms.common.plugin.web.controller.BaseTreeableController;
+import com.ewcms.common.plugin.web.controller.BaseTreeableController1;
 import com.ewcms.security.organization.entity.Job;
 
 /**
@@ -21,7 +21,7 @@ import com.ewcms.security.organization.entity.Job;
  */
 @Controller
 @RequestMapping(value = "/security/organization/job")
-public class JobController extends BaseTreeableController<Job, Long> {
+public class JobController extends BaseTreeableController1<Job, Long> {
 	
 	public JobController() {
         setResourceIdentity("security:job");

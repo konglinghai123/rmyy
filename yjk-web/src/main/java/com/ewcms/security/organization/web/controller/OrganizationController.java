@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.ewcms.common.plugin.web.controller.BaseTreeableController;
+import com.ewcms.common.plugin.web.controller.BaseTreeableController1;
 import com.ewcms.security.organization.entity.Organization;
 import com.ewcms.security.organization.entity.OrganizationType;
 
@@ -22,7 +22,7 @@ import com.ewcms.security.organization.entity.OrganizationType;
  */
 @Controller
 @RequestMapping(value = "/security/organization/organization")
-public class OrganizationController extends BaseTreeableController<Organization, Long>{
+public class OrganizationController extends BaseTreeableController1<Organization, Long>{
 
 	public OrganizationController() {
         setResourceIdentity("security:organization");

@@ -18,12 +18,12 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<empi.version>1.0.0</empi.version>
 		<yuicompressor.version>2.4.2</yuicompressor.version>
-		<sqlserver.version>6.1.0.jre7</sqlserver.version>
+		<postgresql.version>9.4-1206-jdbc41</postgresql.version>
 	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>com.ewcms</groupId>
-			<artifactId>base-entity</artifactId>
+			<artifactId>base-post-entity</artifactId>
 			<version>${empi.version}</version>
 		</dependency>
 		<dependency>
@@ -71,15 +71,9 @@
 			<version>1.2</version>
 		</dependency>
 		<dependency>
-			<groupId>com.microsoft.sqlserver</groupId>
-			<artifactId>mssql-jdbc</artifactId>
-			<version>${sqlserver.version}</version>
-			<exclusions>
-				<exclusion>
-					<artifactId>stax-api</artifactId>
-					<groupId>stax</groupId>
-				</exclusion>
-			</exclusions>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<version>${postgresql.version}</version>
 		</dependency>
 	</dependencies>
 </project>
