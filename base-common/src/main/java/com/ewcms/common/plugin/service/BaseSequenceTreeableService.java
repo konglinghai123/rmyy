@@ -67,9 +67,9 @@ public abstract class BaseSequenceTreeableService<M extends BaseSequenceEntity<I
         String entityName = repositoryHelper.getEntityName(entityClass);
 
         //**********************************************PostgreSQL***********************************************************************
-        DELETE_ROOT_CHILDREN_QL = String.format("delete from %s where parentId=?1 or parentIds like ?2 + %s", entityName, "'%'");
-        DELETE_CHILDREN_QL = String.format("delete from %s where id=?1 or parentIds like ?2 + %s", entityName, "'%'");
-        UPDATE_CHILDREN_PARENT_IDS_QL = String.format("update %s set parentIds=(?1 + substring(parentIds, length(?2)+1,length(parentIds)-length(?2)) where parentIds like ?2 + %s", entityName, "'%'");
+        DELETE_ROOT_CHILDREN_QL = String.format("delete from %s where parentId=?1 or parentIds like concat(?2, %s)", entityName, "'%'");
+        DELETE_CHILDREN_QL = String.format("delete from %s where id=?1 or parentIds like concat(?2, %s)", entityName, "'%'");
+        UPDATE_CHILDREN_PARENT_IDS_QL = String.format("update %s set parentIds=(?1 || substring(parentIds, length(?2)+1,length(parentIds)-length(?2))) where parentIds like concat(?2, %s)", entityName, "'%'");
         FIND_SELF_AND_NEXT_SIBLINGS_QL = String.format("from %s where parentIds =?1 and weight>=?2 order by weight asc", entityName);
         FIND_NEXT_WEIGHT_QL = String.format("select case when max(weight) is null then 1 else (max(weight) + 1) end from %s where parentId=?1", entityName);
         //*******************************************************************************************************************************
