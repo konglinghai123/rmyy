@@ -8,7 +8,7 @@ import org.springframework.util.StringUtils;
 
 import com.ewcms.common.entity.search.SearchOperator;
 import com.ewcms.common.entity.search.Searchable;
-import com.ewcms.common.plugin.service.BaseTreeableService1;
+import com.ewcms.common.plugin.service.BaseSequenceTreeableService;
 import com.ewcms.security.auth.service.UserAuthService;
 import com.ewcms.security.resource.entity.Menu;
 import com.ewcms.security.resource.entity.Resource;
@@ -26,7 +26,7 @@ import java.util.Set;
  * @author wu_zhijun
  */
 @Service
-public class ResourceService extends BaseTreeableService1<Resource, Long> {
+public class ResourceService extends BaseSequenceTreeableService<Resource, Long> {
 
     @Autowired
     private UserAuthService userAuthService;

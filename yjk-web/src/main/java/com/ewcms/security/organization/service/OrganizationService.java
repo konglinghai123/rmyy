@@ -2,7 +2,7 @@ package com.ewcms.security.organization.service;
 
 import org.springframework.stereotype.Service;
 
-import com.ewcms.common.plugin.service.BaseTreeableService1;
+import com.ewcms.common.plugin.service.BaseSequenceTreeableService;
 import com.ewcms.security.organization.entity.Organization;
 
 import java.util.Iterator;
@@ -13,7 +13,7 @@ import java.util.Set;
  * @author wu_zhijun
  */
 @Service
-public class OrganizationService extends BaseTreeableService1<Organization, Long> {
+public class OrganizationService extends BaseSequenceTreeableService<Organization, Long> {
 
     /**
      * 过滤仅获取可显示的数据

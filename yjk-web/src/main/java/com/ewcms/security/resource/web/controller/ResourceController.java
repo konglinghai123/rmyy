@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.ewcms.common.plugin.web.controller.BaseTreeableController1;
+import com.ewcms.common.plugin.web.controller.BaseSequenceTreeableController;
 import com.ewcms.common.web.validate.AjaxResponse;
 import com.ewcms.security.resource.entity.Resource;
 import com.ewcms.security.resource.entity.ResourceStyle;
@@ -24,7 +24,7 @@ import com.ewcms.security.resource.entity.ResourceStyle;
  */
 @Controller
 @RequestMapping(value = "/security/resource")
-public class ResourceController extends BaseTreeableController1<Resource, Long>{
+public class ResourceController extends BaseSequenceTreeableController<Resource, Long>{
 	
 	public ResourceController() {
         setResourceIdentity("security:resource");

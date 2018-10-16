@@ -33,7 +33,7 @@ import java.util.Set;
 /**
  * @author wu_zhijun
  */
-public abstract class BaseTreeableService1<M extends BaseSequenceEntity<ID> & Treeable<ID>, ID extends Serializable> extends BaseService<M, ID> {
+public abstract class BaseSequenceTreeableService<M extends BaseSequenceEntity<ID> & Treeable<ID>, ID extends Serializable> extends BaseService<M, ID> {
 
 	private final String DELETE_ROOT_CHILDREN_QL;
     private final String DELETE_CHILDREN_QL;
@@ -55,31 +55,23 @@ public abstract class BaseTreeableService1<M extends BaseSequenceEntity<ID> & Tr
         return stepLength;
     }
     
-    protected BaseTreeableService1() {
+    protected BaseSequenceTreeableService() {
     	this(1000);
     }
     
-    protected BaseTreeableService1(Integer stepLength){
+    protected BaseSequenceTreeableService(Integer stepLength){
     	this.stepLength = stepLength;
 //        Class<M> entityClass = ReflectUtils.findParameterizedType(getClass(), 0);
         Class<M> entityClass = Reflections.getClassGenricType(getClass());
         repositoryHelper = new RepositoryHelper(entityClass);
         String entityName = repositoryHelper.getEntityName(entityClass);
 
-        //***********************************************SQL Server 2008 R2**************************************************************
-        DELETE_ROOT_CHILDREN_QL = String.format("delete from %s where parentId=?1 or parentIds like concat(?2, %s)", entityName, "'%'");
-        DELETE_CHILDREN_QL = String.format("delete from %s where id=?1 or parentIds like concat(?2, %s)", entityName, "'%'");
-        UPDATE_CHILDREN_PARENT_IDS_QL = String.format("update %s set parentIds=(?1 || substring(parentIds, length(?2)+1,length(parentIds)-length(?2))) where parentIds like concat(?2, %s)", entityName, "'%'");
+        //**********************************************PostgreSQL***********************************************************************
+        DELETE_ROOT_CHILDREN_QL = String.format("delete from %s where parentId=?1 or parentIds like ?2 + %s", entityName, "'%'");
+        DELETE_CHILDREN_QL = String.format("delete from %s where id=?1 or parentIds like ?2 + %s", entityName, "'%'");
+        UPDATE_CHILDREN_PARENT_IDS_QL = String.format("update %s set parentIds=(?1 + substring(parentIds, length(?2)+1,length(parentIds)-length(?2)) where parentIds like ?2 + %s", entityName, "'%'");
         FIND_SELF_AND_NEXT_SIBLINGS_QL = String.format("from %s where parentIds =?1 and weight>=?2 order by weight asc", entityName);
         FIND_NEXT_WEIGHT_QL = String.format("select case when max(weight) is null then 1 else (max(weight) + 1) end from %s where parentId=?1", entityName);
-        //******************************************************************************************************************************
-        
-        //**********************************************PostgreSQL***********************************************************************
-//        DELETE_ROOT_CHILDREN_QL = String.format("delete from %s where parentId=?1 or parentIds like ?2 + %s", entityName, "'%'");
-//        DELETE_CHILDREN_QL = String.format("delete from %s where id=?1 or parentIds like ?2 + %s", entityName, "'%'");
-//        UPDATE_CHILDREN_PARENT_IDS_QL = String.format("update %s set parentIds=(?1 + substring(parentIds, length(?2)+1,length(parentIds)-length(?2)) where parentIds like ?2 + %s", entityName, "'%'");
-//        FIND_SELF_AND_NEXT_SIBLINGS_QL = String.format("from %s where parentIds =?1 and weight>=?2 order by weight asc", entityName);
-//        FIND_NEXT_WEIGHT_QL = String.format("select case when max(weight) is null then 1 else (max(weight) + 1) end from %s where parentId=?1", entityName);
         //*******************************************************************************************************************************
     }
 
@@ -393,7 +385,7 @@ public abstract class BaseTreeableService1<M extends BaseSequenceEntity<ID> & Tr
         Page<M> page = findAll(pageable);
         do {
             //doReweight需要requiresNew事务
-            ((BaseTreeableService1<M, ID>) AopContext.currentProxy()).doReweight(page);
+            ((BaseSequenceTreeableService<M, ID>) AopContext.currentProxy()).doReweight(page);
 
             RepositoryHelper.clear();
 

@@ -22,7 +22,7 @@ import com.ewcms.common.Constants;
 import com.ewcms.common.entity.BaseSequenceEntity;
 import com.ewcms.common.entity.enums.BooleanEnum;
 import com.ewcms.common.plugin.entity.Treeable;
-import com.ewcms.common.plugin.service.BaseTreeableService1;
+import com.ewcms.common.plugin.service.BaseSequenceTreeableService;
 import com.ewcms.common.utils.MessageUtils;
 import com.ewcms.common.web.controller.BaseController;
 import com.ewcms.common.web.controller.entity.TreeNode;
@@ -32,14 +32,14 @@ import com.ewcms.common.web.validate.AjaxResponse;
 /**
  *@author zhoudongchu
  */
-public class BaseTreeableController1 <M extends BaseSequenceEntity<ID> & Treeable<ID>, ID extends Serializable> extends BaseController<M, ID> {
+public class BaseSequenceTreeableController <M extends BaseSequenceEntity<ID> & Treeable<ID>, ID extends Serializable> extends BaseController<M, ID> {
 
-    protected BaseTreeableService1<M, ID> baseService;
+    protected BaseSequenceTreeableService<M, ID> baseService;
 
     protected PermissionList permissionList = null;
 
     @Autowired
-    public void setBaseService(BaseTreeableService1<M, ID> baseService) {
+    public void setBaseService(BaseSequenceTreeableService<M, ID> baseService) {
         this.baseService = baseService;
     }
 
