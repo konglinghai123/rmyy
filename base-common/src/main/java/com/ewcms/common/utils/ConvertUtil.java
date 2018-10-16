@@ -46,6 +46,32 @@ public class ConvertUtil {
 	}
 	
 	/**
+	 * 中文转换成拼音首字母简写
+	 * 
+	 * @param chinese 中文名
+	 * @return String 拼音首字母简写
+	 */
+	public static String pinYinSimplify(String chinese){
+		String pinYin = "";
+		
+		HanyuPinyinOutputFormat defaultFormat = new HanyuPinyinOutputFormat();
+		defaultFormat.setVCharType(HanyuPinyinVCharType.WITH_V);
+		defaultFormat.setToneType(HanyuPinyinToneType.WITHOUT_TONE);
+		
+		char[] charArray = chinese.toCharArray();
+		try {
+			for (int i = 0; i < charArray.length; i++) {
+				if (charArray[i] > 128) {
+					pinYin += PinyinHelper.toHanyuPinyinStringArray(charArray[i], defaultFormat)[0].charAt(0);
+				} else {
+					pinYin += charArray[i];
+				}
+			}
+		} catch (BadHanyuPinyinOutputFormatCombination e) {
+		}
+		return pinYin;
+	}	
+	/**
 	 * 
 	 * @param descriptions
 	 * @param prefix
