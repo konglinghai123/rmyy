@@ -38,6 +38,6 @@ public class CalendarService extends BaseService<Calendar, Long>{
         nowDate.setMinutes(0);
         nowDate.setSeconds(0);
 
-        return getCalendarRepository().countRecentlyCalendarUseSqlServer(userId, nowDate, nowTime, interval);
+        return getCalendarRepository().countRecentlyCalendar(userId, nowDate, nowTime, interval);
 	}
 }

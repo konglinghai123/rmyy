@@ -2,38 +2,30 @@
  * 用户初始化，默认密码123456
  */
 delete from sec_user;
-
-SET IDENTITY_INSERT sec_user ON;
-insert into sec_user(id, user_name, email, mobile_phone_number, password, salt, create_date, status, is_admin, is_deleted, real_name) values
-(1, 'admin', 'admin@jict.org', '18970986887', 'ec21fa1738f39d5312c6df46002d403d', 'yDd1956wn1', getdate(), 'normal', 'true', 'false', '管理员')
+insert into sec_user(id, username, email, mobile_phone_number, password, salt, create_date, status, is_admin, is_deleted, realname) values
+(1, 'admin', 'admin@jict.org', '18970986887', 'ec21fa1738f39d5312c6df46002d403d', 'yDd1956wn1', now(), 'normal', 'true', 'false', '管理员')
 ;
-SET IDENTITY_INSERT sec_user OFF;
+select setval('seq_sec_user_id', 1);
 
 /**
  * 组织机构初始化
  */
 delete from sec_organization;
-
-SET IDENTITY_INSERT sec_organization ON;
 insert into sec_organization(id, parent_id, parent_ids, weight, name, is_show) values(1, 0, '0/', 1, '组织机构', 'true');
-SET IDENTITY_INSERT sec_organization OFF;
+select setval('seq_sec_organization_id', 1);
 
 /**
  * 职务初始化
  */
 delete from sec_job;
-
-SET IDENTITY_INSERT sec_job ON;
 insert into sec_job(id, parent_id, parent_ids, weight, name, is_show) values(1, 0, '0/', 1, '职务', 'true');
-SET IDENTITY_INSERT sec_job OFF;
+select setval('seq_sec_job_id', 1);
 
 /**
  * 菜单资源初始化
  */
 delete from sec_resource;
-
-SET IDENTITY_INSERT sec_resource ON;
-insert into sec_resource(id, icon, id_entity, name, parent_id, parent_ids, is_show, style, url, weight) values
+insert into sec_resource(id, icon, identity, name, parent_id, parent_ids, is_show, style, url, weight) values
 (1,'','','资源',0,'0/','true',null,'',1)
 ,(5,'ztree_file','security','权限管理',1,'0/1/','true','tree','',8)
 ,(6,'ztree_file','system','系统管理',1,'0/1/','true','tree','',9)
@@ -72,14 +64,12 @@ insert into sec_resource(id, icon, id_entity, name, parent_id, parent_ids, is_sh
 ,(100,'empi-monitor-jpaql-tree','ql','JPAQL执行',95,'0/1/95/','true',null,'/monitor/db/jpaqlIndex',5)
 ,(101,'empi-monitor-hibernate-tree','hibernate','Hibernate监控',95,'0/1/95/','true',null,'/monitor/hibernate/index',6)
 ;
-SET IDENTITY_INSERT sec_resource OFF;
+select setval('seq_sec_resource_id', 101);
 
 /**
  * 权限初始化
  */
 delete from sec_permission;
-
-SET IDENTITY_INSERT sec_permission ON;
 insert into sec_permission(id, name, permission, description, is_show) values
 (1, '所有', '*', '所有数据操作的权限', 'true')
 ,(2, '新增', 'create', '新增数据操作的权限', 'true')
@@ -88,37 +78,31 @@ insert into sec_permission(id, name, permission, description, is_show) values
 ,(5, '查看', 'view', '查看数据操作的权限', 'true')
 ,(6, '审核', 'audit', '审核数据操作的权限', 'true')
 ;
-SET IDENTITY_INSERT sec_permission OFF;
+select setval('seq_sec_permission_id', 6);
 
 /**
  * 角色初始化
  */
 delete from sec_role;
-
-SET IDENTITY_INSERT sec_role ON;
 insert into sec_role(id, name, role, description, is_show) values
 (1, '超级管理员', 'role_admin', '拥有所有权限', 'true')
 ;
-SET IDENTITY_INSERT sec_role OFF;
+select setval('seq_sec_role_id', 1);
 
 /**
  * 角色/资源/权限初始化
  */
 delete from sec_role_resource_permission;
-
-SET IDENTITY_INSERT sec_role_resource_permission ON;
 insert into sec_role_resource_permission(id, role_id, resource_id, permission_ids) values
 (1, 1, 2, '1')
 ;
-SET IDENTITY_INSERT sec_role_resource_permission OFF;
+select setval('seq_sec_role_resource_permission_id', 1);
 
 /**
  * 授权初始化
  */
 delete from sec_auth;
-
-SET IDENTITY_INSERT sec_auth ON;
 insert into sec_auth(id, organization_id, job_id, user_id, group_id, role_ids, type) values
 (1, 0, 0, 1, 0, '1', 'user')
 ;
-SET IDENTITY_INSERT sec_auth OFF;
+select setval('seq_sec_auth_id', 1);

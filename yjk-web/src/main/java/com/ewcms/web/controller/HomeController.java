@@ -45,7 +45,7 @@ public class HomeController {
         //model.addAttribute("messageUnreadCount", messageUnreadCount);
 		
         //最近3天的日历
-        model.addAttribute("calendarCount", calendarService.countRecentlyCalendar(user.getId(), 2));
+//        model.addAttribute("calendarCount", calendarService.countRecentlyCalendar(user.getId(), 2));
 
 		return "home";
 	}

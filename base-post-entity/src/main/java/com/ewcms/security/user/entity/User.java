@@ -12,7 +12,6 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
-import org.hibernate.annotations.Formula;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -79,15 +78,15 @@ public class User extends BaseSequenceEntity<Long> implements LogicDeleteable {
     @Column(name = "salt")
     private String salt;
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @Column(name = "create_date", columnDefinition = "Timestamp default CURRENT_TIMESTAMP", insertable = false, updatable = false)
+    @Column(name = "create_date", columnDefinition = "Timestamp default CURRENT_DATE", insertable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date createDate;
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
     private UserStatus status = UserStatus.normal;
-    @Column(name = "admin")
+    @Column(name = "is_admin")
     private Boolean admin = false;
-    @Column(name = "deleted")
+    @Column(name = "is_deleted")
     private Boolean deleted = Boolean.FALSE;
     @OneToMany(cascade = {CascadeType.MERGE,CascadeType.REFRESH}, fetch = FetchType.EAGER, targetEntity = UserOrganizationJob.class, mappedBy = "user", orphanRemoval = true)
     @Fetch(FetchMode.SELECT)
@@ -96,9 +95,7 @@ public class User extends BaseSequenceEntity<Long> implements LogicDeleteable {
     @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)//集合缓存
     @OrderBy()
     private List<UserOrganizationJob> organizationJobs;
-	@Column(name = "is_register")
-	private Boolean isRegister = true; 
-    @Formula(value = "(select s_o.name from pel_archive s_o where s_o.user_id = id)")
+    @Column(name = "realname")
     private String realname;
     
     public User() {
@@ -160,6 +157,10 @@ public class User extends BaseSequenceEntity<Long> implements LogicDeleteable {
         return createDate;
     }
 
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
+
     public UserStatus getStatus() {
         return status;
     }
@@ -215,20 +216,11 @@ public class User extends BaseSequenceEntity<Long> implements LogicDeleteable {
 		return realname;
 	}
 
-	public String getUsernameAndRealname(){
-		return this.username + (EmptyUtil.isStringNotEmpty(getRealname()) ? "(" + getRealname() + ")" : ""); 
-	}
-
-	public Boolean getIsRegister() {
-		return isRegister;
-	}
-
-	public void setIsRegister(Boolean isRegister) {
-		this.isRegister = isRegister;
-	}
-
-	public void setCreateDate(Date createDate) {
-		this.createDate = createDate;
+	public void setRealname(String realname) {
+		this.realname = realname;
 	}
 	
+	public String getUsernameAndRealname(){
+		return this.username + (EmptyUtil.isStringNotEmpty(this.realname) ? "(" + this.realname + ")" : ""); 
+	}
 }

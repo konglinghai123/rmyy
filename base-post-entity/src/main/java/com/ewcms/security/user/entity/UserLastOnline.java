@@ -52,7 +52,7 @@ public class UserLastOnline extends BaseSequenceEntity<Long> {
 
     @Column(name = "user_id")
     private Long userId;
-	@Formula(value = "(select s_o.username || case when s_p.name is not null then ('(' || s_p.name || ')') else '' end from sec_user s_o left join pel_archive s_p on s_o.id = s_p.user_id where s_o.id=user_id)")
+	@Formula(value = "(select s_o.username || case when s_o.realname is not null then ('(' || s_o.realname || ')') else '' end from sec_user s_o where s_o.id = user_id)")
 	private String userName;
     @Column(name = "uid")
     private String uid;
