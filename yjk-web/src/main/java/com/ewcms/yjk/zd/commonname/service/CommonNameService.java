@@ -35,8 +35,8 @@ public class CommonNameService extends BaseService<CommonName, Long> {
 	}
     
     private CommonName initSpell(CommonName m){
-    	m.setSpell(ConvertUtil.pinYin(m.getCommonName()));
-		m.setSpellSimplify(ConvertUtil.pinYinSimplify(m.getCommonName()));
+    	m.setSpell(ConvertUtil.pinYin(m.getCommonName()).toLowerCase());
+		m.setSpellSimplify(ConvertUtil.pinYinSimplify(m.getCommonName()).toLowerCase());
 		return m;
     }
 }

@@ -14,7 +14,7 @@
 			  	<table class="formtable">
 		        	<tr>
 						<td width="20%"><form:label path="common">通用名：</form:label></td>
-						<td width="30%"><form:input path="common" cssClass="validate[required]" class="easyui-combox" data-options="valueField:'id',textField:'commonName',panelHeight:140,editable:true,height:50"/></td>
+						<td width="30%"><form:input path="common"  cssClass="validate[required]" class="easyui-combox" data-options="valueField:'id',textField:'commonName',panelHeight:140"/></td>
 						<td width="20%"><form:label path="extractCommonName">提取通用名：</form:label></td>
 						<td width="30%"><form:input path="extractCommonName"/></td>
 					</tr>
@@ -96,10 +96,12 @@
 <ewcms:footer/>
 <script type="text/javascript">
 	$('#common').combobox({
-	    mode: 'GET',
-	    url: '${ctx}/yjk/zd/commonname/findbyspell?spell=',
+		method: 'GET',
         onChange: function (newValue, oldValue) {
-        	$('#common').combobox('reload','${ctx}/yjk/zd/commonname/findbyspell?spell='+newValue);
+        	if(newValue==$("#common").combobox("getText")){
+        		$('#common').combobox('reload','${ctx}/yjk/zd/commonname/findbyspell?spell='+newValue);
+    		}
+        	
          }
 	});
 	

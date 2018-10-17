@@ -12,8 +12,6 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.Transient;
-
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
@@ -25,8 +23,6 @@ import com.ewcms.common.plugin.entity.LogicDeleteable;
  * 通用名总目录
  * 
  * <ul>
- * <li>createDate:创建时间</li>
- * <li>updateDate:更新时间</li>
  * <li>projectName:项目名称</li>
  * <li>batch:批次</li>
  * <li>source:来源</li>
@@ -48,6 +44,8 @@ import com.ewcms.common.plugin.entity.LogicDeleteable;
  * <li>minimalUnit:最小制剂单位</li>
  * <li>importEnterprise:进口企业</li>
  * <li>commonName:通用名</li>
+ * <li>createDate:创建时间</li>
+ * <li>updateDate:更新时间</li>
  * <li>declared:是否允许申报</li>
  * <li>deleted:是否删除</li>
  * </ul>
@@ -60,16 +58,6 @@ import com.ewcms.common.plugin.entity.LogicDeleteable;
 @SequenceGenerator(name="seq", sequenceName="seq_zd_common_name_contents_id", allocationSize = 1)
 public class CommonNameContents extends BaseSequenceEntity<Long> implements LogicDeleteable {
 	private static final long serialVersionUID = 8558593211261565814L;
-	
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    @Column(name = "create_date", columnDefinition = "Timestamp default CURRENT_DATE", insertable = false, updatable = false)
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date createDate;
-    
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    @Column(name = "update_date", columnDefinition = "Timestamp default CURRENT_DATE")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date updateDate;
     
 	@Column(name = "project_name")
 	private String projectName;	
@@ -135,7 +123,17 @@ public class CommonNameContents extends BaseSequenceEntity<Long> implements Logi
     @Fetch(FetchMode.SELECT)
     @JoinColumn(name = "common_name_id")
     private CommonName common;
-
+	
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @Column(name = "create_date", columnDefinition = "Timestamp default CURRENT_DATE", insertable = false, updatable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createDate;
+    
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @Column(name = "update_date", columnDefinition = "Timestamp default CURRENT_DATE")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date updateDate;
+    
 	@Column(name = "is_declared")
 	private Boolean declared = Boolean.TRUE;
 	

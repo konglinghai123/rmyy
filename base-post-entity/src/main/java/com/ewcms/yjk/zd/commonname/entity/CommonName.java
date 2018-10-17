@@ -2,6 +2,7 @@ package com.ewcms.yjk.zd.commonname.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Index;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -24,7 +25,12 @@ import com.ewcms.common.plugin.entity.LogicDeleteable;
  * @author zhoudongchu
  */
 @Entity
-@Table(name = "zd_common_name")
+@Table(name = "zd_common_name",
+	indexes = {
+		@Index(name = "idx_zd_common_name_spell", columnList = "spell"),
+		@Index(name = "idx_zd_common_name_spell_simplify", columnList = "spell_simplify")
+	}
+)
 @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @SequenceGenerator(name="seq", sequenceName="seq_zd_common_name_id", allocationSize = 1)
 public class CommonName extends BaseSequenceEntity<Long> implements LogicDeleteable {

@@ -10,17 +10,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.ewcms.common.entity.search.SearchParameter;
 import com.ewcms.common.web.controller.BaseCRUDController;
-import com.ewcms.yjk.zd.commonname.entity.CommonNameContents;
-
+import com.ewcms.yjk.zd.commonname.entity.HospitalContents;
 
 /**
- * @author zhoudongchu
+ *@author zhoudongchu
  */
+
 @Controller
-@RequestMapping(value = "/yjk/zd/commonnamecontents")
-public class CommonNameContentsController extends BaseCRUDController<CommonNameContents, Long> {
-    public CommonNameContentsController() {
-        setResourceIdentity("yjk:commonnamecontents");
+@RequestMapping(value = "/yjk/zd/hospitalcontents")
+public class HospitalContentsController extends BaseCRUDController<HospitalContents, Long> {
+    public HospitalContentsController() {
+        setResourceIdentity("yjk:hospitalcontents");
     }
     
 	@Override
