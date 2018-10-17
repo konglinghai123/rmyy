@@ -1,6 +1,8 @@
 package com.ewcms.yjk.zd.commonname.entity;
 
 import java.util.Date;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -10,6 +12,8 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
+
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
@@ -127,18 +131,17 @@ public class CommonNameContents extends BaseSequenceEntity<Long> implements Logi
 	@Column(name = "import_enterprise")
 	private String importEnterprise;
 	
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.REFRESH},fetch = FetchType.EAGER)
     @Fetch(FetchMode.SELECT)
     @JoinColumn(name = "common_name_id")
-    private CommonName commonName;
-	
+    private CommonName common;
+
 	@Column(name = "is_declared")
 	private Boolean declared = Boolean.TRUE;
 	
 	@Column(name = "is_deleted")
     private Boolean deleted = Boolean.FALSE;
-    
-    
+
 	public Date getCreateDate() {
 		return createDate;
 	}
@@ -315,12 +318,14 @@ public class CommonNameContents extends BaseSequenceEntity<Long> implements Logi
 		this.importEnterprise = importEnterprise;
 	}
 
-	public CommonName getCommonName() {
-		return commonName;
+
+
+	public CommonName getCommon() {
+		return common;
 	}
 
-	public void setCommonName(CommonName commonName) {
-		this.commonName = commonName;
+	public void setCommon(CommonName common) {
+		this.common = common;
 	}
 
 	public Boolean getDeclared() {
