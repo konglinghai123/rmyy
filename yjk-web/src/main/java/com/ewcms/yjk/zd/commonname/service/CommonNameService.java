@@ -22,6 +22,9 @@ public class CommonNameService extends BaseService<CommonName, Long> {
     	return getCommonNameRepository().findCommonNameBySpell(spell);
     }
     
+    public List<CommonName> findCommonNameByName(String commonName){
+    	return getCommonNameRepository().findCommonNameByName(commonName);
+    }
 	@Override
 	public CommonName save(CommonName m) {
 		initSpell(m);

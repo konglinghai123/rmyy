@@ -13,8 +13,17 @@
 				</c:forEach>
 			  	<table class="formtable">
 		        	<tr>
-						<td width="20%"><form:label path="common">通用名：</form:label></td>
-						<td width="30%"><form:input path="common"  cssClass="validate[required]" class="easyui-combox" data-options="valueField:'id',textField:'commonName',panelHeight:140"/></td>
+			        	<c:choose>
+				    		<c:when test="${empty(m.common.id)}">
+								<td width="20%"><form:label path="common">通用名：</form:label></td>
+								<td width="30%"><form:input path="common"  cssClass="validate[required]" class="easyui-combox" data-options="valueField:'id',textField:'commonName',panelHeight:140"/></td>
+				    		</c:when>
+				    		<c:otherwise>
+				    			<form:hidden path="common.id"/>
+				    			<td width="20%"><form:label path="common.commonName">通用名：</form:label></td>
+								<td width="30%"><form:input path="common.commonName" readonly="true" cssStyle="background:grey"/></td>
+				    		</c:otherwise>
+				    	</c:choose>
 						<td width="20%"><form:label path="extractCommonName">提取通用名：</form:label></td>
 						<td width="30%"><form:input path="extractCommonName"/></td>
 					</tr>

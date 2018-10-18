@@ -14,7 +14,7 @@
 			  	<table class="formtable">
 		        	<tr>
 						<td width="20%"><form:label path="commonName">通用名：</form:label></td>
-						<td width="80%"><form:input path="commonName" cssClass="validate[required]"/></td>
+						<td width="80%"><form:input path="commonName" cssClass="validate[required,ajax[ajaxNameCall]]"/></td>
 					</tr>
 				</table>
 			</form:form>
@@ -28,18 +28,24 @@
 <ewcms:footer/>
 <script type="text/javascript">
 	$(function(){
-		<c:choose>
+		  <c:choose>
 	    	<c:when test="${close}">
 	    		parent.$('#edit-window').window('close');
 	    	</c:when>
 	    	<c:otherwise>
+				$.validationEngineLanguage.allRules.ajaxNameCall= {
+	                "url": "${ctx}/yjk/zd/commonname/validate",
+	                extraDataDynamic : ['#id'],
+	                "alertTextLoad": "* 正在验证，请稍等。。。"
+	            };
+				
 	    		var validationEngine = $("#editForm").validationEngine({
 	    			promptPosition:'bottomRight',
 	    			showOneMessage: true
 	    		});
 	        	<ewcms:showFieldError commandName="m"/>
 	    	</c:otherwise>
-		</c:choose>
+	    </c:choose>
 	});
 	$.ewcms.refresh({operate : '${operate}', data : '${lastM}'});
 </script>

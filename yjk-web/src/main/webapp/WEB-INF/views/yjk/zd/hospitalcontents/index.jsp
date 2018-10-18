@@ -12,7 +12,10 @@
 				<th data-options="field:'acidGroup',width:100">酸根</th>
 				<th data-options="field:'chemicalName',width:50">化学名</th>
 				<th data-options="field:'productName',width:50">商品名</th>				
-				<th data-options="field:'pill',width:50">剂型</th>
+				<th data-options="field:'pill',width:100,
+						formatter:function(val,row){
+							return row.pill==null?'':row.pill.pillName;
+						}">通用名</th>					
 				<th data-options="field:'specNumber',width:70">规格*数量</th>
 				<th data-options="field:'manufacturer',width:120">生产企业</th>				
 				<th data-options="field:'bidPrice',width:50">中标价</th>

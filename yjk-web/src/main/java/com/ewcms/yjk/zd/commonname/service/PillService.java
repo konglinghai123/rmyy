@@ -17,7 +17,10 @@ public class PillService extends BaseService<Pill, Long> {
         return (PillRepository) baseRepository;
     }
     
-    public List<Pill> findPillBydeleted(){
-    	return getPillRepository().findPillBydeleted();
+    public List<Pill> findPillByDeleted(Boolean isDeleted){
+    	return getPillRepository().findPillByDeleted(isDeleted);
+    }
+    public List<Pill> findPillByName(String pillName){
+    	return getPillRepository().findPillByName(pillName);
     }
 }

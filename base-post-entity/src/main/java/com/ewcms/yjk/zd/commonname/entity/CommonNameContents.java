@@ -108,7 +108,7 @@ public class CommonNameContents extends BaseSequenceEntity<Long> implements Logi
 	private String manufacturer;
 	
 	@Column(name = "purchase_price")
-	private String purchasePrice;
+	private Double purchasePrice;
 	
 	@Column(name = "package_materials")
 	private String packageMaterials;
@@ -284,11 +284,11 @@ public class CommonNameContents extends BaseSequenceEntity<Long> implements Logi
 		this.manufacturer = manufacturer;
 	}
 
-	public String getPurchasePrice() {
+	public Double getPurchasePrice() {
 		return purchasePrice;
 	}
 
-	public void setPurchasePrice(String purchasePrice) {
+	public void setPurchasePrice(Double purchasePrice) {
 		this.purchasePrice = purchasePrice;
 	}
 

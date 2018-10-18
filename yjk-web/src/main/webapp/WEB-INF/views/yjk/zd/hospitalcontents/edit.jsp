@@ -25,10 +25,10 @@
 						<td width="30%"><form:input path="chemicalName"/></td>
 					</tr>
 		        	<tr>
-						<td width="20%"><form:label path="pill">剂型：</form:label></td>
-						<td width="30%"><form:input path="pill"/></td>
-						<td width="20%"><form:label path="pill1">剂型：</form:label></td>
-						<td width="30%"><form:input path="pill1"/></td>
+						<td width="20%"><form:label path="pill.id">剂型：</form:label></td>
+						<td width="30%"><form:select path="pill.id" items="${pillList}" itemValue="id" itemLabel="pillName"/></td>
+						<td width="20%"><form:label path="discom">配送公司：</form:label></td>
+						<td width="30%"><form:input path="discom"/></td>
 					</tr>
 		        	<tr>
 						<td width="20%"><form:label path="productName">商品名：</form:label></td>
@@ -61,17 +61,10 @@
 						<td width="30%"><form:input path="drugCategory"/></td>
 					</tr>
 		        	<tr>
-						<td width="20%"><form:label path="discom">配送公司：</form:label></td>
-						<td width="30%"><form:input path="discom"/></td>
 						<td width="20%"><form:label path="remark">备注：</form:label></td>
 						<td width="30%"><form:input path="remark"/></td>
-					</tr>
-
-		        	<tr>
 						<td width="20%"><form:label path="oldRemark">原备注：</form:label></td>
 						<td width="30%"><form:input path="oldRemark"/></td>
-						<td width="20%"></td>
-						<td width="30%"></td>
 					</tr>																																																
 				</table>
 			</form:form>

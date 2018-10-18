@@ -2,14 +2,20 @@ package com.ewcms.yjk.zd.commonname.entity;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.ewcms.common.entity.BaseSequenceEntity;
@@ -65,11 +71,10 @@ public class HospitalContents extends BaseSequenceEntity<Long> implements LogicD
 	@Column(name = "chemical_name")
 	private String chemicalName;
 	
-	@Column(name = "pill")
-	private String pill;
-	
-	@Column(name = "pill1")
-	private String pill1;
+	@ManyToOne(cascade = {CascadeType.REFRESH},fetch = FetchType.EAGER)
+    @Fetch(FetchMode.SELECT)
+    @JoinColumn(name = "pill_id")
+	private Pill pill;
 	
 	@Column(name = "product_name")
 	private String productName; 
@@ -84,7 +89,7 @@ public class HospitalContents extends BaseSequenceEntity<Long> implements LogicD
 	private String importEnterprise;
 	
 	@Column(name = "bid_price")
-	private Float bidPrice;
+	private Double bidPrice;
 	
 	@Column(name = "medical")
 	private String medical;
@@ -155,21 +160,13 @@ public class HospitalContents extends BaseSequenceEntity<Long> implements LogicD
 	public void setChemicalName(String chemicalName) {
 		this.chemicalName = chemicalName;
 	}
-
-	public String getPill() {
+	
+	public Pill getPill() {
 		return pill;
 	}
 
-	public void setPill(String pill) {
+	public void setPill(Pill pill) {
 		this.pill = pill;
-	}
-
-	public String getPill1() {
-		return pill1;
-	}
-
-	public void setPill1(String pill1) {
-		this.pill1 = pill1;
 	}
 
 	public String getProductName() {
@@ -204,11 +201,11 @@ public class HospitalContents extends BaseSequenceEntity<Long> implements LogicD
 		this.importEnterprise = importEnterprise;
 	}
 
-	public Float getBidPrice() {
+	public Double getBidPrice() {
 		return bidPrice;
 	}
 
-	public void setBidPrice(Float bidPrice) {
+	public void setBidPrice(Double bidPrice) {
 		this.bidPrice = bidPrice;
 	}
 
