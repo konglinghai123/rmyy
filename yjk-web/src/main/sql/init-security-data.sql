@@ -44,7 +44,7 @@ insert into sec_resource(id, icon, identity, name, parent_id, parent_ids, is_sho
 ,(60,'empi-security-permission-role-tree','role','授权权限给角色',58,'0/1/5/58/','true',null,'/security/permission/role/index',2)
 ,(61,'empi-security-permission-auth-tree','auth','授权角色给实体',58,'0/1/5/58/','true',null,'/security/auth/index',3)
 ,(62,'ztree_file','','个人中心',1,'0/1/','true','accordion','',5)
-,(63,'empi-personal-memoranda-tree','','备忘录',62,'0/1/62/','true',null,'/personal/memoranda/index',3)
+,(63,'empi-personal-memoranda-tree','','备忘录',62,'0/1/62/','true',null,'/personal/calendar/index',3)
 ,(64,'empi-personal-message-tree','','个人消息',62,'0/1/62/','true',null,'/personal/message/index',4)
 ,(65,'empi-security-switch-tree','','切换身份',5,'0/1/5/','true',null,'/security/user/runAs/index',3)
 ,(66,'empi-system-icon-tree','icon','图标管理',6,'0/1/6/','true',null,'/system/icon/index',1)
