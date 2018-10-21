@@ -83,7 +83,7 @@ public class Auth extends BaseSequenceEntity<Long> {
 	private String jobName;
 	@Column(name = "user_id")
 	private Long userId = 0L;
-	@Formula(value = "(select s_o.username || case when s_p.name is not null then ('(' || s_p.name || ')') else '' end from sec_user s_o left join pel_archive s_p on s_o.id = s_p.user_id where s_o.id=user_id)")
+	@Formula(value = "(select s_o.username  from sec_user s_o where s_o.id=user_id)")
 	private String userName;
 	@Column(name = "group_id")
 	private Long groupId = 0L;
