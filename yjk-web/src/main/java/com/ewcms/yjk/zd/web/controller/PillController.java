@@ -1,4 +1,4 @@
-package com.ewcms.yjk.zd.commonname.web.controller;
+package com.ewcms.yjk.zd.web.controller;
 
 import java.util.List;
 import java.util.Map;
@@ -16,8 +16,8 @@ import com.ewcms.common.entity.search.SearchParameter;
 import com.ewcms.common.utils.EmptyUtil;
 import com.ewcms.common.web.controller.BaseCRUDController;
 import com.ewcms.common.web.validate.ValidateResponse;
-import com.ewcms.yjk.zd.commonname.entity.Pill;
-import com.ewcms.yjk.zd.commonname.service.PillService;
+import com.ewcms.yjk.zd.entity.Pill;
+import com.ewcms.yjk.zd.service.PillService;
 
 /**
  *@author zhoudongchu

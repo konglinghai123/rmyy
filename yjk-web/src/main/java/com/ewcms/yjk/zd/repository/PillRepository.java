@@ -1,11 +1,11 @@
-package com.ewcms.yjk.zd.commonname.repository;
+package com.ewcms.yjk.zd.repository;
 
 import java.util.List;
 
 import org.springframework.data.jpa.repository.Query;
 
 import com.ewcms.common.repository.BaseRepository;
-import com.ewcms.yjk.zd.commonname.entity.Pill;
+import com.ewcms.yjk.zd.entity.Pill;
 
 /**
  *@author zhoudongchu

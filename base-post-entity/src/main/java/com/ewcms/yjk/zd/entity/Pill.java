@@ -1,4 +1,4 @@
-package com.ewcms.yjk.zd.commonname.entity;
+package com.ewcms.yjk.zd.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

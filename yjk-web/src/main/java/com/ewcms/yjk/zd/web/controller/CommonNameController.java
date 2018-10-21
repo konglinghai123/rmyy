@@ -1,11 +1,11 @@
-package com.ewcms.yjk.zd.commonname.web.controller;
+package com.ewcms.yjk.zd.web.controller;
 
 import com.ewcms.common.entity.search.SearchParameter;
 import com.ewcms.common.utils.EmptyUtil;
 import com.ewcms.common.web.controller.BaseCRUDController;
 import com.ewcms.common.web.validate.ValidateResponse;
-import com.ewcms.yjk.zd.commonname.entity.CommonName;
-import com.ewcms.yjk.zd.commonname.service.CommonNameService;
+import com.ewcms.yjk.zd.entity.CommonName;
+import com.ewcms.yjk.zd.service.CommonNameService;
 
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Controller;

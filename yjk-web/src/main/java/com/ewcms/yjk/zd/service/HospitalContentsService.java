@@ -1,9 +1,9 @@
-package com.ewcms.yjk.zd.commonname.service;
+package com.ewcms.yjk.zd.service;
 
 import org.springframework.stereotype.Service;
 
 import com.ewcms.common.service.BaseService;
-import com.ewcms.yjk.zd.commonname.entity.HospitalContents;
+import com.ewcms.yjk.zd.entity.HospitalContents;
 
 /**
  *@author zhoudongchu

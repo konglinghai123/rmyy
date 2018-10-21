@@ -63,8 +63,14 @@ insert into sec_resource(id, icon, identity, name, parent_id, parent_ids, is_sho
 ,(99,'empi-monitor-sql-tree','ql','SQL执行',95,'0/1/95/','true',null,'/monitor/db/sqlIndex',4)
 ,(100,'empi-monitor-jpaql-tree','ql','JPAQL执行',95,'0/1/95/','true',null,'/monitor/db/jpaqlIndex',5)
 ,(101,'empi-monitor-hibernate-tree','hibernate','Hibernate监控',95,'0/1/95/','true',null,'/monitor/hibernate/index',6)
+,(102,'ztree_file','yjk','药剂科',1,'0/1/','true','tree','',11)
+,(103,'ztree_file','','字典库',102,'0/1/102/','true',null,'',1)
+,(104,'empi-system-externalds-tree','commonname','通用名',103,'0/1/102/103/','true',null,'/yjk/zd/commonname/index',1)
+,(105,'empi-system-report-chart-tree','commonnamecontents','大通用名总目录',103,'0/1/102/103/','true',null,'/yjk/zd/commonnamecontents/index',2)
+,(106,'empi-system-scheduling-jobinfo-tree','pill','剂型',103,'0/1/102/103/','true',null,'/yjk/zd/pill/index',3)
+,(107,'empi-security-user-user-tree','hospitalcontents','院在用药品总目录',103,'0/1/102/103/','true',null,'/yjk/zd/hospitalcontents/index',4)
 ;
-select setval('seq_sec_resource_id', 101);
+select setval('seq_sec_resource_id', 107);
 
 /**
  * 权限初始化
