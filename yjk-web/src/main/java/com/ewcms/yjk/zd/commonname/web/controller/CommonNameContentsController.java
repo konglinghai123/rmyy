@@ -1,4 +1,4 @@
-package com.ewcms.yjk.zd.web.controller;
+package com.ewcms.yjk.zd.commonname.web.controller;
 
 import java.util.Map;
 
@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.ewcms.common.entity.search.SearchParameter;
 import com.ewcms.common.web.controller.BaseCRUDController;
-import com.ewcms.yjk.zd.entity.CommonNameContents;
+import com.ewcms.yjk.zd.commonname.entity.CommonNameContents;
 
 
 /**

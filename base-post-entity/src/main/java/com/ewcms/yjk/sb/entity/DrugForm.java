@@ -1,6 +1,7 @@
 package com.ewcms.yjk.sb.entity;
 
 import java.util.Date;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,11 +14,13 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.springframework.format.annotation.DateTimeFormat;
+
 import com.ewcms.common.entity.BaseSequenceEntity;
-import com.ewcms.yjk.zd.entity.CommonNameContents;
+import com.ewcms.yjk.zd.commonname.entity.CommonNameContents;
 
 /**
  * 药品申报表填写

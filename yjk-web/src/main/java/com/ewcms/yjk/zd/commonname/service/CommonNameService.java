@@ -1,4 +1,4 @@
-package com.ewcms.yjk.zd.service;
+package com.ewcms.yjk.zd.commonname.service;
 
 import java.util.List;
 
@@ -6,8 +6,8 @@ import org.springframework.stereotype.Service;
 
 import com.ewcms.common.service.BaseService;
 import com.ewcms.common.utils.ConvertUtil;
-import com.ewcms.yjk.zd.entity.CommonName;
-import com.ewcms.yjk.zd.repository.CommonNameRepository;
+import com.ewcms.yjk.zd.commonname.entity.CommonName;
+import com.ewcms.yjk.zd.commonname.repository.CommonNameRepository;
 
 /**
  *@author zhoudongchu
