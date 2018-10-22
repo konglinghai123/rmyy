@@ -35,7 +35,9 @@ public class DrugFormController extends BaseCRUDController<DrugForm, Long> {
     @RequestMapping(value = "query1")
 	public Map<String, Object> query1(@CurrentUser User user,@ModelAttribute SearchParameter<Long> searchParameter, Model model){
 		searchParameter.getSorts().put("id", Direction.DESC);
-		searchParameter.getParameters().put("EQ_userId", user.getId());
+		if (!user.getAdmin()) {
+			searchParameter.getParameters().put("EQ_userId", user.getId());
+		}
 		return super.query(searchParameter, model);
 	}
 
@@ -43,7 +45,6 @@ public class DrugFormController extends BaseCRUDController<DrugForm, Long> {
 	public String save1(@CurrentUser User user,Model model, DrugForm m, BindingResult result,
 			List<Long> selections) {
 		m.setUserId(user.getId());
-		m.setUserName(user.getUsername());
 		return super.save(model, m, result, selections);
 	}
     
