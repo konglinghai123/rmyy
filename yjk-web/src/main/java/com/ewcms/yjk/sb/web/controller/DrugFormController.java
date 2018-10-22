@@ -3,6 +3,7 @@ package com.ewcms.yjk.sb.web.controller;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,6 +18,8 @@ import com.ewcms.security.user.entity.User;
 import com.ewcms.security.user.web.bind.annotation.CurrentUser;
 import com.ewcms.yjk.sb.entity.DrugForm;
 import com.ewcms.yjk.sb.service.DrugFormService;
+import com.ewcms.yjk.zd.commonname.service.CommonNameRuleService;
+import com.ewcms.yjk.zd.commonname.service.PillService;
 
 /**
  *@author zhoudongchu
@@ -24,10 +27,19 @@ import com.ewcms.yjk.sb.service.DrugFormService;
 @Controller
 @RequestMapping(value = "/yjk/sb/drugform")
 public class DrugFormController extends BaseCRUDController<DrugForm, Long> {
+	@Autowired
+	private CommonNameRuleService commonNameRuleService;
+	
 	private DrugFormService getDrugFormService() {
 		return (DrugFormService) baseService;
 	}
 	
+    @Override
+    protected void setCommonData(Model model) {
+        super.setCommonData(model);
+        model.addAttribute("commonNameRuleList", commonNameRuleService.findRuleNameByDeleted());
+    }
+    
     public DrugFormController() {
         setResourceIdentity("yjk:drugform");
     }

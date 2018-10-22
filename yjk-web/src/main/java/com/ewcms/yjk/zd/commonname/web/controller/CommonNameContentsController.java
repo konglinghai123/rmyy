@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ewcms.common.entity.search.SearchParameter;
 import com.ewcms.common.web.controller.BaseCRUDController;
@@ -37,16 +38,10 @@ public class CommonNameContentsController extends BaseCRUDController<CommonNameC
 		return super.query(searchParameter, model);
 	}
 	
+	@RequestMapping(value = "query1")
+	@ResponseBody
 	public List<CommonNameContents> findByCommonParse(@ModelAttribute SearchParameter<Long> searchParameter, Model model) {
-		List<String> ruleNames = commonNameRuleService.findRuleNameOrderByWeight();
-		
-		for (String ruleName : ruleNames) {
-			searchParameter.getParameters().put("LIKE_" + ruleName, searchParameter.getParameters().get(ruleName));
-		}
-		
 		Map<String, Object> map = super.query(searchParameter, model);
-		
 		return (List<CommonNameContents>)map.get("rows");
-		
 	}
 }

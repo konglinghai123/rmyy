@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/jspf/taglibs.jspf" %>
 
-<ewcms:head title="申报-新药申报单填写"/>
+<ewcms:head title="申报-新药申报"/>
 	<div id="edit-from" class="easyui-layout" data-options="fit:true" style="border:0;">
 		<ewcms:showMessage/>
 		<div data-options="region:'center',border:false">	
@@ -12,21 +12,38 @@
 	  				<input type="hidden" name="selections" value="${selection}" />
 				</c:forEach>
 			  	<table class="formtable">
-		        	<tr>
-			        	<c:choose>
-				    		<c:when test="${empty(m.common.id)}">
-								<td width="20%"><form:label path="common">通用名：</form:label></td>
-								<td width="30%"><form:input path="common"  cssClass="validate[required]" class="easyui-combox" data-options="valueField:'id',textField:'commonName',panelHeight:140"/></td>
-				    		</c:when>
-				    		<c:otherwise>
-				    			<form:hidden path="common.id"/>
-				    			<td width="20%"><form:label path="common.commonName">通用名：</form:label></td>
-								<td width="30%"><form:input path="common.commonName" readonly="true" cssStyle="background:grey"/></td>
-				    		</c:otherwise>
-				    	</c:choose>
-						<td width="20%"><form:label path="extractCommonName">提取通用名：</form:label></td>
-						<td width="30%"><form:input path="extractCommonName"/></td>
-					</tr>																																																
+					<c:forEach items="${commonNameRuleList}" var="commonNameRule">	
+						<c:choose>
+							<c:when test="${commonNameRule.ruleName == 'commonName'}">
+				        	<tr>
+								<td width="30%">${commonNameRule.ruleCnName}：</td>
+								<td width="70%"><input type="text" id="commonName" name="EQ_common.commonName"  class="easyui-combobox" data-options="
+								valueField:'id',
+								textField:'commonName',
+								panelHeight:200,
+								onSelect:function(rec){
+									var url='${ctx}/yjk/zd/commonnamecontents/query1?'
+    	   							$('#pill').combobox('reload',url);
+       							}"/></td>
+							</tr>
+							</c:when>
+							<c:otherwise>
+					        	<tr>
+									<td width="20%">${commonNameRule.ruleCnName}：</td>
+									<td width="70%">
+										<input id="${commonNameRule.ruleName}" name="EQ_${commonNameRule.ruleName}"  class="easyui-combobox" data-options="
+										valueField:'id',
+										textField:'${commonNameRule.ruleName}',
+										panelHeight:200,
+										onSelect:function(rec){
+											var url='${ctx}/yjk/zd/commonnamecontents/query1?'
+		    	   							$('#pill').combobox('reload',url);
+		       							}">
+									</td>
+								</tr>
+							</c:otherwise>
+						</c:choose>		
+					</c:forEach>																																						
 				</table>
 			</form:form>
 		</div>
@@ -38,16 +55,15 @@
 	</div>
 <ewcms:footer/>
 <script type="text/javascript">
-	$('#common').combobox({
+	$('#commonName').combobox({
 		method: 'GET',
         onChange: function (newValue, oldValue) {
-        	if(newValue==$("#common").combobox("getText")){
-        		$('#common').combobox('reload','${ctx}/yjk/zd/commonname/findbyspell?spell='+newValue);
+        	if(newValue==$("#commonName").combobox("getText")){
+        		$('#commonName').combobox('reload','${ctx}/yjk/zd/commonname/findbyspell?spell='+newValue);
     		}
         	
          }
 	});
-	
 	$(function(){
 		<c:choose>
 	    	<c:when test="${close}">

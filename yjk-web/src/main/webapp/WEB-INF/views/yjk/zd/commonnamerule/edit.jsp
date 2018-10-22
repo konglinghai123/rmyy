@@ -13,12 +13,12 @@
 				</c:forEach>
 			  	<table class="formtable">
 		        	<tr>
-						<td width="20%"><form:label path="ruleName">规则名：</form:label></td>
-						<td width="80%"><form:input path="ruleName" cssClass="validate[required]"/></td>
+						<td width="30%"><form:label path="ruleName">规则名：</form:label></td>
+						<td width="70%"><form:input path="ruleName" cssClass="validate[required]"/></td>
 					</tr>
 		        	<tr>
-						<td width="20%"><form:label path="ruleCnName">规则中文名：</form:label></td>
-						<td width="80%"><form:input path="ruleCnName" cssClass="validate[required]"/></td>
+						<td width="30%"><form:label path="ruleCnName">规则中文名：</form:label></td>
+						<td width="70%"><form:input path="ruleCnName" cssClass="validate[required]"/></td>
 					</tr>				
 				</table>
 			</form:form>
