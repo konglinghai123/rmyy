@@ -35,7 +35,7 @@ public class CommonNameRule extends BaseSequenceEntity<Long> implements Movable,
 	private String ruleName;
 	@Column(name = "rule_cn_name", nullable = false)
 	private String ruleCnName;
-	@Column(name = "weith")
+	@Column(name = "weight")
 	private Integer weight;
 	@Column(name = "is_deleted")
     private Boolean deleted = Boolean.FALSE;
