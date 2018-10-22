@@ -1,6 +1,11 @@
 package com.ewcms.yjk.zd.commonname.entity;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import com.ewcms.common.entity.BaseSequenceEntity;
 import com.ewcms.common.plugin.entity.LogicDeleteable;
@@ -18,6 +23,10 @@ import com.ewcms.common.plugin.entity.Movable;
  * @author wuzhijun
  *
  */
+@Entity
+@Table(name = "zd_common_name_rule")
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+@SequenceGenerator(name="seq", sequenceName="seq_zd_common_name_rule_id", allocationSize = 1)
 public class CommonNameRule extends BaseSequenceEntity<Long> implements Movable, LogicDeleteable {
 
 	private static final long serialVersionUID = -1670134352959536427L;
