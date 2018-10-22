@@ -37,13 +37,16 @@ public class CommonNameContentsController extends BaseCRUDController<CommonNameC
 		return super.query(searchParameter, model);
 	}
 	
-	public Map<String, Object> findByCommonParse(@ModelAttribute SearchParameter<Long> searchParameter, Model model) {
+	public List<CommonNameContents> findByCommonParse(@ModelAttribute SearchParameter<Long> searchParameter, Model model) {
 		List<String> ruleNames = commonNameRuleService.findRuleNameOrderByWeight();
 		
 		for (String ruleName : ruleNames) {
 			searchParameter.getParameters().put("LIKE_" + ruleName, searchParameter.getParameters().get(ruleName));
 		}
 		
-		return super.query(searchParameter, model);
+		Map<String, Object> map = super.query(searchParameter, model);
+		
+		return (List<CommonNameContents>)map.get("rows");
+		
 	}
 }
