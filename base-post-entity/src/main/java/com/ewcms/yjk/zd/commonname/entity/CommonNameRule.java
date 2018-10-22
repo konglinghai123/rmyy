@@ -40,6 +40,22 @@ public class CommonNameRule extends BaseSequenceEntity<Long> implements Movable,
 	@Column(name = "is_deleted")
     private Boolean deleted = Boolean.FALSE;
 	
+	public String getRuleName() {
+		return ruleName;
+	}
+
+	public void setRuleName(String ruleName) {
+		this.ruleName = ruleName;
+	}
+
+	public String getRuleCnName() {
+		return ruleCnName;
+	}
+
+	public void setRuleCnName(String ruleCnName) {
+		this.ruleCnName = ruleCnName;
+	}
+
 	@Override
     public Boolean getDeleted() {
         return deleted;
@@ -57,7 +73,7 @@ public class CommonNameRule extends BaseSequenceEntity<Long> implements Movable,
 
 	@Override
 	public Integer getWeight() {
-		return null;
+		return weight;
 	}
 
 	@Override

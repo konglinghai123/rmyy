@@ -19,11 +19,7 @@
 		        	<tr>
 						<td width="20%"><form:label path="ruleCnName">规则中文名：</form:label></td>
 						<td width="80%"><form:input path="ruleCnName" cssClass="validate[required]"/></td>
-					</tr>	
-		        	<tr>
-						<td width="20%"><form:label path="weight">排序号：</form:label></td>
-						<td width="80%"><form:input path="weight" cssClass="validate[required]"/></td>
-					</tr>					
+					</tr>				
 				</table>
 			</form:form>
 		</div>
