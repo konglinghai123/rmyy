@@ -4,27 +4,27 @@
 <ewcms:head title="申报-新药申报"/>
 	<div id="edit-from" class="easyui-layout" data-options="fit:true" style="border:0;">
 		<ewcms:showMessage/>
-		<div data-options="region:'center',border:false">	
-		 	<form:form id="editForm" method="post" action="${ctx}/yjk/sb/drugform/save1" commandName="m"  class="form-horizontal">
-		    	<ewcms:showGlobalError commandName="m"/>
-		    	<form:hidden path="id"/>
-		    	<c:forEach var="selection" items="${selections}">
-	  				<input type="hidden" name="selections" value="${selection}" />
-				</c:forEach>
-			  	<table class="formtable">
-					<c:forEach items="${commonNameRuleList}" var="commonNameRule">	
+		<div data-options="region:'center',border:false">
+			<form id="queryform" style="padding:0;margin:0;">
+        		<table class="formtable">
+              		<c:forEach items="${commonNameRuleList}" var="commonNameRule">	
 						<c:choose>
 							<c:when test="${commonNameRule.ruleName == 'commonName'}">
 				        	<tr>
 								<td width="30%">${commonNameRule.ruleCnName}：</td>
-								<td width="70%"><input type="text" id="commonName" name="EQ_common.commonName"  class="easyui-combobox" data-options="
+								<td width="70%"><input type="text" id="abc1" name="EQ_${commonNameRule.ruleName}"  class="easyui-combobox" data-options="
 								valueField:'id',
-								textField:'commonName',
+								textField:'${commonNameRule.ruleName}',
 								panelHeight:200,
+								url:'${ctx}/yjk/zd/commonnamecontents/query1',
 								onSelect:function(rec){
-									var url='${ctx}/yjk/zd/commonnamecontents/query1?'
-    	   							$('#pill').combobox('reload',url);
-       							}"/></td>
+									$('#def1').val(rec.);
+    	   							$('#pill').combobox('reload');
+       							},
+       							onBeforeLoad: function(param){
+        	 						param['parameters']=$('#queryform').serializeObject();
+     							}
+       							"/></td>
 							</tr>
 							</c:when>
 							<c:otherwise>
@@ -36,15 +36,29 @@
 										textField:'${commonNameRule.ruleName}',
 										panelHeight:200,
 										onSelect:function(rec){
-											var url='${ctx}/yjk/zd/commonnamecontents/query1?'
+											var url='${ctx}/yjk/zd/commonnamecontents/query1'
 		    	   							$('#pill').combobox('reload',url);
 		       							}">
 									</td>
 								</tr>
 							</c:otherwise>
 						</c:choose>		
-					</c:forEach>																																						
-				</table>
+					</c:forEach>
+           		</table>
+          </form>
+		 	<form:form id="editForm" method="post" action="${ctx}/yjk/sb/drugform/save1" commandName="m"  class="form-horizontal">
+		    	<ewcms:showGlobalError commandName="m"/>
+		    	<form:hidden path="id"/>
+		    	<c:forEach var="selection" items="${selections}">
+	  				<input type="hidden" name="selections" value="${selection}" />
+				</c:forEach>
+				<c:forEach items="${commonNameRuleList}" var="commonNameRule">	
+						<c:choose>
+							<c:when test="${commonNameRule.ruleName == 'commonName'}">
+								<input type="hidden" id="def${index}" name="${commonNameRule.ruleName}"/>
+							</c:when>
+						</c:choose>
+				</c:forEach>
 			</form:form>
 		</div>
 		<div data-options="region:'south'" style="text-align:center;height:30px;border:0">
@@ -56,12 +70,12 @@
 <ewcms:footer/>
 <script type="text/javascript">
 	$('#commonName').combobox({
-		method: 'GET',
+		method: 'POST',
+		url:'${ctx}/yjk/zd',
         onChange: function (newValue, oldValue) {
         	if(newValue==$("#commonName").combobox("getText")){
         		$('#commonName').combobox('reload','${ctx}/yjk/zd/commonname/findbyspell?spell='+newValue);
     		}
-        	
          }
 	});
 	$(function(){
