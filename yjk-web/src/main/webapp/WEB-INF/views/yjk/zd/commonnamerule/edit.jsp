@@ -8,6 +8,7 @@
 		 	<form:form id="editForm" method="post" action="${ctx}/yjk/zd/commonnamerule/save" commandName="m"  class="form-horizontal">
 		    	<ewcms:showGlobalError commandName="m"/>
 		    	<form:hidden path="id"/>
+		    	<form:hidden path="weight"/>
 		    	<c:forEach var="selection" items="${selections}">
 	  				<input type="hidden" name="selections" value="${selection}" />
 				</c:forEach>

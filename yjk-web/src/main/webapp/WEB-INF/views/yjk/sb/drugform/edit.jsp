@@ -7,45 +7,47 @@
 		<div data-options="region:'center',border:false">
 			<form id="queryform" style="padding:0;margin:0;">
         		<table class="formtable">
-              		<c:forEach items="${commonNameRuleList}" var="commonNameRule">	
+              		<c:forEach items="${commonNameRuleList}" var="commonNameRule" varStatus="status">
 						<c:choose>
-							<c:when test="${commonNameRule.ruleName == 'commonName'}">
+							<c:when test="${commonNameRule.ruleName == 'common.commonName'}">
 				        	<tr>
 								<td width="30%">${commonNameRule.ruleCnName}：</td>
-								<td width="70%"><input type="text" id="abc1" name="EQ_${commonNameRule.ruleName}"  class="easyui-combobox" data-options="
-								valueField:'id',
-								textField:'${commonNameRule.ruleName}',
-								panelHeight:200,
-								url:'${ctx}/yjk/zd/commonnamecontents/query1',
-								onSelect:function(rec){
-									$('#def1').val(rec.);
-    	   							$('#pill').combobox('reload');
-       							},
-       							onBeforeLoad: function(param){
-        	 						param['parameters']=$('#queryform').serializeObject();
-     							}
-       							"/></td>
+								<td width="70%">
+									<input type="text" id="CNRule${status.index}" name="EQ_${commonNameRule.ruleName}"  class="easyui-combobox" data-options="
+									valueField:'id',
+									textField:'commonName',
+									panelHeight:200,
+									onSelect:function(rec){
+	    	   							$('#CNRule${status.index+1}').combobox('reload','${ctx}/yjk/zd/commonnamecontents/query1');
+	       							},
+	       							onBeforeLoad: function(param){
+	        	 						param['parameters']=$('#queryform').serializeObject();
+	        	 						
+	     							}"/>
+     							</td>
 							</tr>
 							</c:when>
 							<c:otherwise>
 					        	<tr>
 									<td width="20%">${commonNameRule.ruleCnName}：</td>
 									<td width="70%">
-										<input id="${commonNameRule.ruleName}" name="EQ_${commonNameRule.ruleName}"  class="easyui-combobox" data-options="
+										<input type="text" id="CNRule${status.index}" name="EQ_${commonNameRule.ruleName}"  class="easyui-combobox" data-options="
 										valueField:'id',
 										textField:'${commonNameRule.ruleName}',
 										panelHeight:200,
 										onSelect:function(rec){
-											var url='${ctx}/yjk/zd/commonnamecontents/query1'
-		    	   							$('#pill').combobox('reload',url);
-		       							}">
+		    	   							$('#CNRule${status.index+1}').combobox('reload','${ctx}/yjk/zd/commonnamecontents/query1');
+		       							},
+		       							onBeforeLoad: function(param){
+		        	 						param['parameters']=$('#queryform').serializeObject();
+		     							}"/>
 									</td>
 								</tr>
 							</c:otherwise>
 						</c:choose>		
 					</c:forEach>
            		</table>
-          </form>
+          	</form>
 		 	<form:form id="editForm" method="post" action="${ctx}/yjk/sb/drugform/save1" commandName="m"  class="form-horizontal">
 		    	<ewcms:showGlobalError commandName="m"/>
 		    	<form:hidden path="id"/>
@@ -69,15 +71,16 @@
 	</div>
 <ewcms:footer/>
 <script type="text/javascript">
-	$('#commonName').combobox({
-		method: 'POST',
-		url:'${ctx}/yjk/zd',
+	$('#CNRule0').combobox({
+		method: 'get',
         onChange: function (newValue, oldValue) {
-        	if(newValue==$("#commonName").combobox("getText")){
-        		$('#commonName').combobox('reload','${ctx}/yjk/zd/commonname/findbyspell?spell='+newValue);
+        	if(newValue==$("#CNRule0").combobox("getText")){
+        		alert(newValue);
+        		$('#CNRule0').combobox('reload','${ctx}/yjk/zd/commonname/findbyspell?spell='+newValue);
     		}
          }
 	});
+	
 	$(function(){
 		<c:choose>
 	    	<c:when test="${close}">
