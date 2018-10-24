@@ -95,4 +95,8 @@ public class DrugForm extends BaseSequenceEntity<Long> {
 	public void setState(SbState state) {
 		this.state = state;
 	}
+	
+    public String getStateInfo(){
+    	return state == null ? "" : state.getInfo();
+    }
 }

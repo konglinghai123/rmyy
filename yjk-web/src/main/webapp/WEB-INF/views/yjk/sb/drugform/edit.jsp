@@ -5,7 +5,13 @@
 	<div id="edit-from" class="easyui-layout" data-options="fit:true" style="border:0;">
 		<ewcms:showMessage/>
 		<div data-options="region:'center',border:false">
-			<form id="queryform" style="padding:0;margin:0;">
+			<form:form id="editForm" method="post" action="${ctx}/yjk/sb/drugform/save1" commandName="m"  class="form-horizontal">
+        		<ewcms:showGlobalError commandName="m"/>
+		    	<form:hidden path="id"/>
+		    	<form:hidden id="commonNameContentsId" path="commonNameContents.id"/>
+		    	<c:forEach var="selection" items="${selections}">
+	  				<input type="hidden" name="selections" value="${selection}" />
+				</c:forEach>
         		<table class="formtable">
               		<c:forEach items="${commonNameRuleList}" var="commonNameRule" varStatus="status">
 						<c:choose>
@@ -13,11 +19,13 @@
 				        	<tr>
 								<td width="30%">${commonNameRule.ruleCnName}：</td>
 								<td width="70%">
-									<input type="text" id="CNRule${status.index}" name="EQ_${commonNameRule.ruleName}"  class="easyui-combobox" data-options="
+									<input type="text" id="CNRule${status.index}" name="commonNameContents.${commonNameRule.ruleName}" class="easyui-combobox" data-options="
 									valueField:'id',
 									textField:'commonName',
 									panelHeight:200,
 									onSelect:function(rec){
+										$('#commonNameContentsId').val(rec.id);
+										$('#queryCNRule${status.index}').val(rec.commonName);
 	    	   							$('#CNRule${status.index+1}').combobox('reload','${ctx}/yjk/zd/commonnamecontents/query1');
 	       							},
 	       							onBeforeLoad: function(param){
@@ -31,11 +39,13 @@
 					        	<tr>
 									<td width="20%">${commonNameRule.ruleCnName}：</td>
 									<td width="70%">
-										<input type="text" id="CNRule${status.index}" name="EQ_${commonNameRule.ruleName}"  class="easyui-combobox" data-options="
+										<input type="text" id="CNRule${status.index}" name="commonNameContents.${commonNameRule.ruleName}" class="easyui-combobox" data-options="
 										valueField:'id',
 										textField:'${commonNameRule.ruleName}',
 										panelHeight:200,
 										onSelect:function(rec){
+											$('#commonNameContentsId').val(rec.id);
+											$('#queryCNRule${status.index}').val(rec.${commonNameRule.ruleName});
 		    	   							$('#CNRule${status.index+1}').combobox('reload','${ctx}/yjk/zd/commonnamecontents/query1');
 		       							},
 		       							onBeforeLoad: function(param){
@@ -47,21 +57,12 @@
 						</c:choose>		
 					</c:forEach>
            		</table>
-          	</form>
-		 	<form:form id="editForm" method="post" action="${ctx}/yjk/sb/drugform/save1" commandName="m"  class="form-horizontal">
-		    	<ewcms:showGlobalError commandName="m"/>
-		    	<form:hidden path="id"/>
-		    	<c:forEach var="selection" items="${selections}">
-	  				<input type="hidden" name="selections" value="${selection}" />
+          	</form:form>
+		 	<form id="queryform">
+				<c:forEach items="${commonNameRuleList}" var="commonNameRule" varStatus="status">	
+					<input type="hidden" id="queryCNRule${status.index}" name="EQ_${commonNameRule.ruleName}"/>
 				</c:forEach>
-				<c:forEach items="${commonNameRuleList}" var="commonNameRule">	
-						<c:choose>
-							<c:when test="${commonNameRule.ruleName == 'commonName'}">
-								<input type="hidden" id="def${index}" name="${commonNameRule.ruleName}"/>
-							</c:when>
-						</c:choose>
-				</c:forEach>
-			</form:form>
+			</form>
 		</div>
 		<div data-options="region:'south'" style="text-align:center;height:30px;border:0">
 	  		<a class="easyui-linkbutton" data-options="iconCls:'icon-save'" href="javascript:void(0);" onclick="javascript:$('#editForm').submit();">提交</a>
@@ -75,7 +76,6 @@
 		method: 'get',
         onChange: function (newValue, oldValue) {
         	if(newValue==$("#CNRule0").combobox("getText")){
-        		alert(newValue);
         		$('#CNRule0').combobox('reload','${ctx}/yjk/zd/commonname/findbyspell?spell='+newValue);
     		}
          }
