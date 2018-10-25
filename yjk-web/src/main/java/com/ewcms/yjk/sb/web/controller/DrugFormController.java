@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ewcms.common.entity.search.SearchParameter;
 import com.ewcms.common.web.controller.BaseCRUDController;
@@ -47,6 +48,7 @@ public class DrugFormController extends BaseCRUDController<DrugForm, Long> {
     }
 	
     @RequestMapping(value = "query1")
+    @ResponseBody
 	public Map<String, Object> query(@CurrentUser User user,@ModelAttribute SearchParameter<Long> searchParameter, Model model){
 		searchParameter.getSorts().put("id", Direction.DESC);
 		if (!user.getAdmin()) {

@@ -29,7 +29,7 @@
 			<a id="tb-add" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-add',toggle:true" onclick="$.ewcms.add({title:'新增',width:400,height:450});">新药申报</a>
 		</div>
         <div  style="padding-left:5px;">
-        	<form id="queryform" style="padding:0;margin:0;">
+        	<form id="queryform" style="padding:0;margin:0;" >
         		<table class="formtable">
               		<tr>
               			<td width="5%">通用名</td>
