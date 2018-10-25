@@ -7,7 +7,7 @@
 			<tr>
 			    <th data-options="field:'ck',checkbox:true"/>
 			    <th data-options="field:'id',hidden:true">编号</th>
-				<th data-options="field:'pillName',width:150">剂型名称</th>
+				<th data-options="field:'pillName',width:500">剂型名称</th>
 			</tr>
 		</thead>
 	</table>

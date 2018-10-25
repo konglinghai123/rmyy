@@ -27,8 +27,11 @@ select setval('seq_sec_job_id', 1);
 delete from sec_resource;
 insert into sec_resource(id, icon, identity, name, parent_id, parent_ids, is_show, style, url, weight) values
 (1,'','','资源',0,'0/','true',null,'',1)
-,(5,'ztree_file','security','权限管理',1,'0/1/','true','tree','',8)
-,(6,'ztree_file','system','系统管理',1,'0/1/','true','tree','',9)
+,(62,'ztree_file','','个人中心',1,'0/1/','true','accordion','',1)
+,(102,'ztree_file','yjk','药剂管理',1,'0/1/','true','tree','',2)
+,(5,'ztree_file','security','权限管理',1,'0/1/','true','tree','',3)
+,(6,'ztree_file','system','系统管理',1,'0/1/','true','tree','',4)
+,(95,'ztree_file','monitor','监控管理',1,'0/1/','true',null,'',5)
 ,(9,'empi-security-resource-tree','resource','控制列表',5,'0/1/5/','true',null,'/security/resource/index',1)
 ,(49,'empi-security-group-tree','group','分组列表',5,'0/1/5/','true',null,'/security/group/group/index',2)
 ,(50,'ztree_file','','用户管理',5,'0/1/5/','true',null,'',4)
@@ -43,7 +46,6 @@ insert into sec_resource(id, icon, identity, name, parent_id, parent_ids, is_sho
 ,(59,'empi-security-permission-permission-tree','permission','权限列表',58,'0/1/5/58/','true',null,'/security/permission/permission/index',1)
 ,(60,'empi-security-permission-role-tree','role','授权权限给角色',58,'0/1/5/58/','true',null,'/security/permission/role/index',2)
 ,(61,'empi-security-permission-auth-tree','auth','授权角色给实体',58,'0/1/5/58/','true',null,'/security/auth/index',3)
-,(62,'ztree_file','','个人中心',1,'0/1/','true','accordion','',5)
 ,(63,'empi-personal-memoranda-tree','','备忘录',62,'0/1/62/','true',null,'/personal/calendar/index',3)
 ,(64,'empi-personal-message-tree','','个人消息',62,'0/1/62/','true',null,'/personal/message/index',4)
 ,(65,'empi-security-switch-tree','','切换身份',5,'0/1/5/','true',null,'/security/user/runAs/index',3)
@@ -56,19 +58,17 @@ insert into sec_resource(id, icon, identity, name, parent_id, parent_ids, is_sho
 ,(84,'empi-system-report-category-tree','categoryreport','报表分类',81,'0/1/6/81/','true',null,'/system/report/category/index',3)
 ,(85,'empi-system-report-repository-tree','categoryreport','报表存储',81,'0/1/6/81/','true',null,'/system/report/repository/index',4)
 ,(86,'empi-system-report-show-tree','','报表集',81,'0/1/6/81/','true',null,'/system/report/show/index',5)
-,(95,'ztree_file','monitor','监控管理',1,'0/1/','true',null,'',10)
 ,(96,'empi-monitor-db-tree','db','数据库监控',95,'0/1/95/','true',null,'/monitor/druid/index.html',1)
 ,(97,'empi-monitor-ehcache-tree','ehcache','Ehcache监控',95,'0/1/95/','true',null,'/monitor/ehcache/index',2)
 ,(98,'empi-monitor-jvm-tree','jvm','JVM监控',95,'0/1/95/','true',null,'/monitor/jvm/index',3)
 ,(99,'empi-monitor-sql-tree','ql','SQL执行',95,'0/1/95/','true',null,'/monitor/db/sqlIndex',4)
 ,(100,'empi-monitor-jpaql-tree','ql','JPAQL执行',95,'0/1/95/','true',null,'/monitor/db/jpaqlIndex',5)
 ,(101,'empi-monitor-hibernate-tree','hibernate','Hibernate监控',95,'0/1/95/','true',null,'/monitor/hibernate/index',6)
-,(102,'ztree_file','yjk','药剂科',1,'0/1/','true','tree','',11)
 ,(103,'ztree_file','','字典库',102,'0/1/102/','true',null,'',1)
 ,(104,'empi-system-externalds-tree','commonname','通用名',103,'0/1/102/103/','true',null,'/yjk/zd/commonname/index',1)
-,(105,'empi-system-report-chart-tree','commonnamecontents','大通用名总目录',103,'0/1/102/103/','true',null,'/yjk/zd/commonnamecontents/index',2)
+,(105,'empi-system-report-chart-tree','commonnamecontents','大总目录',103,'0/1/102/103/','true',null,'/yjk/zd/commonnamecontents/index',2)
 ,(106,'empi-system-scheduling-jobinfo-tree','pill','剂型',103,'0/1/102/103/','true',null,'/yjk/zd/pill/index',3)
-,(107,'empi-security-user-user-tree','hospitalcontents','院在用药品总目录',103,'0/1/102/103/','true',null,'/yjk/zd/hospitalcontents/index',4)
+,(107,'empi-security-user-user-tree','hospitalcontents','院用目录',103,'0/1/102/103/','true',null,'/yjk/zd/hospitalcontents/index',4)
 ;
 select setval('seq_sec_resource_id', 107);
 
