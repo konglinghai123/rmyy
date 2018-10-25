@@ -52,7 +52,7 @@
 <script type="text/javascript">
 	$(function(){
 		$('#tt').datagrid({
-			url:'${ctx}/yjk/sb/drugform/query',
+			url:'${ctx}/yjk/sb/drugform/query1',
 			toolbar:'#tb',
 			fit:true,
 			nowrap:true,

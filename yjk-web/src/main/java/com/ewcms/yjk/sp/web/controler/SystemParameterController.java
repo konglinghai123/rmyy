@@ -12,7 +12,7 @@ import com.ewcms.yjk.sp.entity.SystemParameter;
  *
  */
 @Controller
-@RequestMapping(value = "/sp")
+@RequestMapping(value = "/yjk/sp/systemparamter")
 public class SystemParameterController extends BaseCRUDController<SystemParameter, Long> {
 
 }

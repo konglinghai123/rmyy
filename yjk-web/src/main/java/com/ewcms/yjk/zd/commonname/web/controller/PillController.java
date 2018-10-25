@@ -34,13 +34,6 @@ public class PillController extends BaseCRUDController<Pill, Long> {
         setResourceIdentity("yjk:pill");
     }
     
-	@Override
-	public Map<String, Object> query(@ModelAttribute SearchParameter<Long> searchParameter, Model model){
-		searchParameter.getSorts().put("id", Direction.DESC);
-		searchParameter.getParameters().put("EQ_deleted", Boolean.FALSE);
-		return super.query(searchParameter, model);
-	}
-	
     @RequestMapping(value = "validate", method = RequestMethod.GET)
     @ResponseBody
     public Object validate(

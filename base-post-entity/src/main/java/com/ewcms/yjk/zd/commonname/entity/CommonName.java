@@ -19,6 +19,7 @@ import com.ewcms.common.plugin.entity.LogicDeleteable;
  * <li>commonName:药品通用名称</li>
  * <li>spell:通用名称拼音</li>
  * <li>spellSimplify:用名称拼音简写</li>
+ * <li>enabled:是否启用</li>
  * <li>deleted:是否删除</li>
  * </ul>
  * 
@@ -37,7 +38,7 @@ public class CommonName extends BaseSequenceEntity<Long> implements LogicDeletea
 	private static final long serialVersionUID = -2489387145827618904L;
 
 	@NotEmpty(message = "{not.null}")
-	@Column(name = "common_name", nullable = false, unique = true)
+	@Column(name = "common_name", nullable = false)
 	private String commonName;
 	
 	@Column(name = "spell", nullable = false)
@@ -45,6 +46,9 @@ public class CommonName extends BaseSequenceEntity<Long> implements LogicDeletea
 	
 	@Column(name = "spell_simplify", nullable = false)
 	private String spellSimplify;	
+	
+	@Column(name = "is_enabled")
+	private Boolean enabled = Boolean.TRUE;
 	
     @Column(name = "is_deleted")
     private Boolean deleted = Boolean.FALSE;
@@ -72,6 +76,14 @@ public class CommonName extends BaseSequenceEntity<Long> implements LogicDeletea
 
 	public void setSpellSimplify(String spellSimplify) {
 		this.spellSimplify = spellSimplify;
+	}
+
+	public Boolean getEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(Boolean enabled) {
+		this.enabled = enabled;
 	}
 
 	@Override

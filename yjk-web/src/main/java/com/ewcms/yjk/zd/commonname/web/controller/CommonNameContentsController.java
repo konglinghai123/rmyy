@@ -30,14 +30,7 @@ public class CommonNameContentsController extends BaseCRUDController<CommonNameC
 	public CommonNameContentsController() {
         setResourceIdentity("yjk:commonnamecontents");
     }
-    
-	@Override
-	public Map<String, Object> query(@ModelAttribute SearchParameter<Long> searchParameter, Model model){
-		searchParameter.getSorts().put("id", Direction.DESC);
-		searchParameter.getParameters().put("EQ_deleted", Boolean.FALSE);
-		return super.query(searchParameter, model);
-	}
-	
+
 	@RequestMapping(value = "query1")
 	@ResponseBody
 	public List<CommonNameContents> findByCommonParse(@ModelAttribute SearchParameter<Long> searchParameter, Model model) {

@@ -26,6 +26,10 @@
 				<th data-options="field:'purchasePrice',width:50">采购价</th>
 				<th data-options="field:'packageMaterials',width:50">包材</th>
 				<th data-options="field:'minimalUnit',width:50">最小制剂单位</th>
+				<th data-options="field:'deleted',width:100,
+						formatter:function(val,row){
+							return val ? '<font color=red>已删除</font>' : '';
+						}">是否删除</th>				
 			</tr>
 		</thead>
 	</table>

@@ -23,6 +23,10 @@
 				<th data-options="field:'drugMajor',width:120">药品分类大类</th>
 				<th data-options="field:'drugCategory',width:80">药品分类</th>
 				<th data-options="field:'discom',width:80">配送公司</th>
+				<th data-options="field:'deleted',width:100,
+						formatter:function(val,row){
+							return val ? '<font color=red>已删除</font>' : '';
+						}">是否删除</th>
 			</tr>
 		</thead>
 	</table>
@@ -33,7 +37,7 @@
  			<a id="tb-remove" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-remove',toggle:true" onclick="$.ewcms.remove({title:'删除'});">删除</a>
 		</div>
         <div  style="padding-left:5px;">
-        	<form id="queryform" style="padding:0;margin:0;">
+        	<form id="queryform">
         		<table class="formtable">
               		<tr>
               			<td width="5%">药品代码</td>
@@ -42,19 +46,22 @@
               			<td width="15%"><input type="text" name="LIKE_genericDrugName" style="width:140px;"/></td>
             			<td width="5%">剂型</td>
               			<td width="15%"><input type="text" name="LIKE_pill" style="width:140px;"/></td>
-              		</tr>
-              		<tr>
+						<td width="16%" colspan="2">
+            				<a id="tb-query" href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="$.ewcms.query();">查询</a>
+           					<a id="tb-clear" href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-clear'" onclick="javascript:$('#queryform').form('reset');">清除</a>
+           					<a id="tb-more" href="javascript:void(0);" class="easyui-linkbutton"><span id="showHideLabel">更多</span></a>
+           				</td>
+           			</tr>
+           			<tr>
             			<td width="7%">规格*数量</td>
               			<td width="15%"><input type="text" name="LIKE_specNumber" style="width:140px;"/></td>
               			<td width="5%">生产企业</td>
               			<td width="15%"><input type="text" name="LIKE_manufacturer" style="width:140px;"/></td>
-              			<td width="20%" colspan="2">
-            				<a id="tb-query" href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="$.ewcms.query();">查询</a>
-           					<a id="tb-clear" href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-clear'" onclick="javascript:$('#queryform').form('reset');">清除</a>
-           				</td>
-           			</tr>
+              			<td width="5%" colspan="2"></td>
+              			<td width="15%" colspan="2"></td>
+              		</tr>
            		</table>
-          </form>
+          </form>          
         </div>
 	</div>
 	<ewcms:editWindow/>
@@ -72,5 +79,19 @@
 			pageSize:20,
 			border:false
 		});
+		
+		
+		$("form table tr").next("tr").hide();
+		$('#tb-more').bind('click', function(){
+	       	var showHideLabel_value = $('#showHideLabel').text();
+	    	$('form table tr').next('tr').toggle();
+	     	if (showHideLabel_value == '收缩'){
+	     		$('#showHideLabel').text('更多');
+	    	}else{
+	    		$('#showHideLabel').text('收缩');
+	    	}
+	    	$('#tt').datagrid('resize');
+	    });
 	});
+
 </script>

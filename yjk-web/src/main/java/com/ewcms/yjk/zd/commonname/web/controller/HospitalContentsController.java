@@ -33,11 +33,4 @@ public class HospitalContentsController extends BaseCRUDController<HospitalConte
         super.setCommonData(model);
         model.addAttribute("pillList", pillService.findPillByDeleted(Boolean.FALSE));
     }
-    
-	@Override
-	public Map<String, Object> query(@ModelAttribute SearchParameter<Long> searchParameter, Model model){
-		searchParameter.getSorts().put("id", Direction.DESC);
-		searchParameter.getParameters().put("EQ_deleted", Boolean.FALSE);
-		return super.query(searchParameter, model);
-	}
 }

@@ -10,6 +10,10 @@
 				<th data-options="field:'ruleName',width:100">规则名</th>
 				<th data-options="field:'ruleCnName',width:100">规则中文名</th>
 				<th data-options="field:'weight',width:100">排序号</th>
+				<th data-options="field:'deleted',width:100,
+						formatter:function(val,row){
+							return val ? '<font color=red>已删除</font>' : '';
+						}">是否删除</th>
 			</tr>
 		</thead>
 	</table>

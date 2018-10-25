@@ -1,11 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/jspf/taglibs.jspf" %>
 
-<ewcms:head title="编辑 - 通用名"/>
+<ewcms:head title="编辑 - 剂型"/>
 	<div id="edit-from" class="easyui-layout" data-options="fit:true" style="border:0;">
 		<ewcms:showMessage/>
 		<div data-options="region:'center',border:false">	
-		 	<form:form id="editForm" method="post" action="${ctx}/yjk/zd/commonname/save" commandName="m"  class="form-horizontal">
+		 	<form:form id="editForm" method="post" action="${ctx}/yjk/sp/systemparamter/save" commandName="m"  class="form-horizontal">
 		    	<ewcms:showGlobalError commandName="m"/>
 		    	<form:hidden path="id"/>
 		    	<c:forEach var="selection" items="${selections}">
@@ -13,13 +13,13 @@
 				</c:forEach>
 			  	<table class="formtable">
 		        	<tr>
-						<td width="20%"><form:label path="commonName">通用名：</form:label></td>
-						<td width="80%"><form:input path="commonName" cssClass="validate[required,ajax[ajaxNameCall]]"/></td>
+						<td width="30%"><form:label path="applyStartDate">申请开始时间：</form:label></td>
+						<td width="70%"><input type="text" name="applyStartDate" cssClass="validate[required]]" class="easyui-datetimebox" style="width:145px" data-options="editable:false"/></td>
 					</tr>
 		        	<tr>
-						<td width="20%"><form:label path="enabled">是否启用：</form:label></td>
-						<td width="30%"><form:checkbox path="enabled"/></td>
-					</tr>						
+						<td width="30%"><form:label path="applyEndDate">申请结束时间：</form:label></td>
+						<td width="70%"><input type="text" name="applyEndDate" cssClass="validate[required]]" class="easyui-datetimebox" style="width:145px" data-options="editable:false"/></td>
+					</tr>					
 				</table>
 			</form:form>
 		</div>
@@ -37,12 +37,6 @@
 	    		parent.$('#edit-window').window('close');
 	    	</c:when>
 	    	<c:otherwise>
-				$.validationEngineLanguage.allRules.ajaxNameCall= {
-	                "url": "${ctx}/yjk/zd/commonname/validate",
-	                extraDataDynamic : ['#id'],
-	                "alertTextLoad": "* 正在验证，请稍等。。。"
-	            };
-				
 	    		var validationEngine = $("#editForm").validationEngine({
 	    			promptPosition:'bottomRight',
 	    			showOneMessage: true

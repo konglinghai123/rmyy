@@ -12,6 +12,7 @@ import javax.persistence.TemporalType;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.ewcms.common.entity.BaseSequenceEntity;
 import com.ewcms.common.plugin.entity.LogicDeleteable;
 
@@ -48,6 +49,24 @@ public class SystemParameter extends BaseSequenceEntity<Long> implements LogicDe
     @Column(name = "is_deleted")
     private Boolean deleted = Boolean.FALSE;
     
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
+	public Date getApplyStartDate() {
+		return applyStartDate;
+	}
+
+	public void setApplyStartDate(Date applyStartDate) {
+		this.applyStartDate = applyStartDate;
+	}
+	
+	@JSONField(format = "yyyy-MM-dd HH:mm:ss")
+	public Date getApplyEndDate() {
+		return applyEndDate;
+	}
+
+	public void setApplyEndDate(Date applyEndDate) {
+		this.applyEndDate = applyEndDate;
+	}
+
 	@Override
     public Boolean getDeleted() {
         return deleted;

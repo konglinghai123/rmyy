@@ -7,9 +7,17 @@
 			<tr>
 			    <th data-options="field:'ck',checkbox:true"/>
 			    <th data-options="field:'id',hidden:true">编号</th>
-				<th data-options="field:'commonName',sortable:true,width:500">通用名</th>
+				<th data-options="field:'commonName',sortable:true,width:200">通用名</th>
 				<th data-options="field:'spell',sortable:true,width:300">全拼</th>
 				<th data-options="field:'spellSimplify',sortable:true,width:150">简拼</th>
+				<th data-options="field:'enabled',width:100,
+						formatter:function(val,row){
+							return val ? '是' : '否';
+						}">是否启用</th>		
+				<th data-options="field:'deleted',width:100,
+						formatter:function(val,row){
+							return val ? '<font color=red>已删除</font>' : '';
+						}">是否删除</th>				
 			</tr>
 		</thead>
 	</table>

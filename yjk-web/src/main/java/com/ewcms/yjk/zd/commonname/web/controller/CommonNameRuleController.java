@@ -18,11 +18,4 @@ public class CommonNameRuleController extends BaseSequenceMovableController<Comm
     public CommonNameRuleController() {
         setResourceIdentity("yjk:commonnamerule");
     }
-    
-	@Override
-	public Map<String, Object> query(@ModelAttribute SearchParameter<Long> searchParameter, Model model){
-		searchParameter.getSorts().put("weight", Direction.DESC);
-		searchParameter.getParameters().put("EQ_deleted", Boolean.FALSE);
-		return super.query(searchParameter, model);
-	}
 }
