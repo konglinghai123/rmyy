@@ -33,8 +33,6 @@ public class UserOrganizationJobService extends BaseService<UserOrganizationJob,
     }
     
     @Autowired
-    private UserService userService;
-    @Autowired
     private OrganizationService organizationService;
     @Autowired
     private JobService jobService;

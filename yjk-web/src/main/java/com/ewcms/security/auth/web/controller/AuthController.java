@@ -27,7 +27,6 @@ import com.ewcms.common.web.controller.BaseCRUDController;
 import com.ewcms.security.auth.entity.Auth;
 import com.ewcms.security.auth.entity.AuthType;
 import com.ewcms.security.auth.service.AuthService;
-import com.ewcms.security.auth.service.UserAuthService;
 import com.ewcms.security.permission.service.RoleService;
 
 /**
@@ -40,8 +39,6 @@ public class AuthController extends BaseCRUDController<Auth, Long> {
 
 	@Autowired
 	private RoleService roleService;
-	@Autowired
-	private UserAuthService userAuthService;
 	
 	private AuthService getAuthService(){
 		return (AuthService) baseService;

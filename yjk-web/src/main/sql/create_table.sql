@@ -239,10 +239,10 @@ begin
    if OLD.user_id is not null then
       if not exists(select user_id from sec_user_last_online where user_id = OLD.user_id) then
         insert into sec_user_last_online
-                  (user_id, uid, host, user_agent, system_host,
+                  (id,user_id, uid, host, user_agent, system_host,
                    last_login_timestamp, last_stop_timestamp, login_count, total_online_time)
                 values
-                   (OLD.user_id, OLD.id, OLD.host, OLD.user_agent, OLD.system_host,
+                   (nextval('seq_sec_user_last_online_id'),OLD.user_id, OLD.id, OLD.host, OLD.user_agent, OLD.system_host,
                     OLD.start_timestamp, OLD.last_access_time,
                     1, extract('epoch' from (OLD.last_access_time - OLD.start_timestamp)));
       else
