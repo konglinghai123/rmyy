@@ -42,10 +42,7 @@ public class DrugFormController extends BaseCRUDController<DrugForm, Long> {
         super.setCommonData(model);
         model.addAttribute("commonNameRuleList", commonNameRuleService.findRuleNameByDeleted());
     }
-    
-    public DrugFormController() {
-        setResourceIdentity("yjk:drugform");
-    }
+
 	
     @RequestMapping(value = "query1")
     @ResponseBody
