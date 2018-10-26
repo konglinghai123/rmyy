@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/views/jspf/taglibs.jspf" %>
 
-<ewcms:head title="审批-申报系统参数"/>
+<ewcms:head title="审批-系统参数设置"/>
 	<table id="tt">
 		<thead>
 			<tr>

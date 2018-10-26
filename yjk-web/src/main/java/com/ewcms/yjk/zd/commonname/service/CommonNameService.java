@@ -65,6 +65,12 @@ public class CommonNameService extends BaseService<CommonName, Long> {
 		return super.update(m);
 	}
 	
+	public CommonName restore(Long commonNameId){
+		CommonName m = baseRepository.findOne(commonNameId);
+		m.setDeleted(Boolean.FALSE);
+		return super.update(m);
+	}
+	
 	public List<Integer> importExcel(InputStream in){
 		List<Integer> noSave = Lists.newArrayList();
 		

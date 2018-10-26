@@ -1,20 +1,29 @@
 package com.ewcms.yjk.zd.commonname.web.controller;
 
 import com.alibaba.fastjson.util.IOUtils;
+import com.ewcms.common.entity.enums.BooleanEnum;
+import com.ewcms.common.entity.search.SearchParameter;
+import com.ewcms.common.entity.search.Searchable;
 import com.ewcms.common.utils.EmptyUtil;
 import com.ewcms.common.web.controller.BaseCRUDController;
+import com.ewcms.common.web.validate.AjaxResponse;
 import com.ewcms.common.web.validate.ValidateResponse;
 import com.ewcms.yjk.zd.commonname.entity.CommonName;
+import com.ewcms.yjk.zd.commonname.service.AdministrationService;
 import com.ewcms.yjk.zd.commonname.service.CommonNameService;
 import com.google.common.collect.Lists;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.OutputStream;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -25,21 +34,53 @@ import javax.servlet.http.HttpServletResponse;
 @Controller
 @RequestMapping(value = "/yjk/zd/commonname")
 public class CommonNameController extends BaseCRUDController<CommonName, Long> {
+	@Autowired
+	private AdministrationService administrationService;
 	
 	private CommonNameService getCommonNameService() {
 		return (CommonNameService) baseService;
 	}
 	
     public CommonNameController() {
+    	setListAlsoSetCommonData(true);
         setResourceIdentity("yjk:commonname");
     }
     
+	@Override
+	protected void setCommonData(Model model) {
+		super.setCommonData(model);
+		Searchable searchable = Searchable.newSearchable();
+		searchable.addSort(Direction.ASC, "id");
+		model.addAttribute("administrationList", administrationService.findAllWithSort(searchable));
+		model.addAttribute("booleanList", BooleanEnum.values());
+	}
+	
+	@Override
+	public Map<String, Object> query(SearchParameter<Long> searchParameter,
+			Model model) {
+		searchParameter.getSorts().put("id", Direction.DESC);
+		return super.query(searchParameter, model);
+	}
+
 	@RequestMapping(value = "findbyspell", method = RequestMethod.GET)
 	@ResponseBody
 	public List<CommonName> findBySpell(@RequestParam(value="spell") String spell) {
 		if(spell==null||spell.length()==0) return null;
 		spell = spell.toLowerCase();
 		return getCommonNameService().findCommonNameBySpell(spell);
+	}
+	
+	@RequestMapping(value = "{commonNameId}/restore")
+	@ResponseBody
+	public AjaxResponse restoreCommonName(@PathVariable(value = "commonNameId") Long commonNameId) {
+		AjaxResponse ajaxResponse = new AjaxResponse("还原成功");
+		try{
+			getCommonNameService().restore(commonNameId);
+		} catch(IllegalStateException e){
+			ajaxResponse.setSuccess(Boolean.FALSE);
+			ajaxResponse.setMessage("还原失败");
+		}
+		return ajaxResponse;
 	}
 	
     @RequestMapping(value = "validate", method = RequestMethod.GET)

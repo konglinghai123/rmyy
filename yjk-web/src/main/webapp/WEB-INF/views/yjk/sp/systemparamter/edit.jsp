@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/jspf/taglibs.jspf" %>
 
-<ewcms:head title="编辑 - 系统参数"/>
+<ewcms:head title="编辑 -系统参数设置"/>
 	<div id="edit-from" class="easyui-layout" data-options="fit:true" style="border:0;">
 		<ewcms:showMessage/>
 		<div data-options="region:'center',border:false">	
@@ -17,10 +17,8 @@
 						<td width="70%"><input type="text" id="applyStartDate" name="applyStartDate"  class="easyui-datetimebox" style="width:145px" data-options="
 							editable:false,
 							onSelect:function(d){
-					        	issd = this.id == 'sd';
-					        	sd = issd ? d : new Date($('#applyStartDate').datebox('getValue'));
-					        	ed = issd ? new Date($('#applyEndDate').datebox('getValue')) : d;
-					            if (ed < sd) {
+					        	ed = new Date($('#applyEndDate').datebox('getValue'));
+					            if (ed < d) {
 					                alert('结束日期不能小于开始日期');
 					                $('#applyStartDate').datebox('setValue', '').datebox('showPanel');
 					            }
@@ -32,10 +30,8 @@
 						<td width="70%"><input type="text" id="applyEndDate" name="applyEndDate"  class="easyui-datetimebox" style="width:145px" data-options="
 							editable:false,
 							onSelect:function(d){
-					        	issd = this.id == 'sd';
-					        	sd = issd ? d : new Date($('#applyStartDate').datebox('getValue'));
-					        	ed = issd ? new Date($('#applyEndDate').datebox('getValue')) : d;
-					            if (ed < sd) {
+					        	sd = new Date($('#applyStartDate').datebox('getValue'));
+					            if (d < sd) {
 					                alert('结束日期不能小于开始日期');
 					                $('#applyEndDate').datebox('setValue', '').datebox('showPanel');
 					            }

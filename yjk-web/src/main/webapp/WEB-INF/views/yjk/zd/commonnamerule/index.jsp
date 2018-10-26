@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/views/jspf/taglibs.jspf" %>
 
-<ewcms:head title="字典-通用名规则"/>
+<ewcms:head title="字典-匹配规则设置"/>
 	<table id="tt">
 		<thead>
 			<tr>
