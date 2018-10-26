@@ -1,6 +1,5 @@
 package com.ewcms.yjk.zd.commonname.service;
 
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Collection;
 import java.util.List;
@@ -8,15 +7,13 @@ import java.util.Map;
 import java.util.Set;
 
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.ewcms.common.service.BaseService;
 import com.ewcms.common.utils.Reflections;
-import com.ewcms.util.ExcelUtil;
 import com.ewcms.util.PinYin;
+import com.ewcms.yjk.zd.commonname.entity.Administration;
 import com.ewcms.yjk.zd.commonname.entity.CommonName;
 import com.ewcms.yjk.zd.commonname.repository.CommonNameRepository;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 import jxl.Workbook;
@@ -29,6 +26,7 @@ import jxl.write.WritableWorkbook;
  */
 @Service
 public class CommonNameService extends BaseService<CommonName, Long> {
+	
     private CommonNameRepository getCommonNameRepository() {
         return (CommonNameRepository) baseRepository;
     }
@@ -37,8 +35,8 @@ public class CommonNameService extends BaseService<CommonName, Long> {
     	return getCommonNameRepository().findCommonNameBySpell(spell);
     }
     
-    public List<CommonName> findCommonNameByName(String commonName){
-    	return getCommonNameRepository().findCommonNameByName(commonName);
+    public List<CommonName> findByCommonName(String commonName){
+    	return getCommonNameRepository().findByCommonName(commonName);
     }
 	@Override
 	public CommonName save(CommonName m) {
@@ -91,6 +89,10 @@ public class CommonNameService extends BaseService<CommonName, Long> {
 								value = (String)"是";
 							}
 						}
+					} else if (object instanceof Administration) {
+						if (object != null) {
+							value = ((Administration)object).getName();
+						}
 					} else {
 						value = (String) object;
 					}
@@ -109,8 +111,11 @@ public class CommonNameService extends BaseService<CommonName, Long> {
 		Map<String, String> map = Maps.newLinkedHashMap();
 		
 		map.put("commonName", "通用名");
+		map.put("administration", "用药途径");
+		map.put("matchingNumber", "匹配编号");
 		map.put("spell", "全拼");
 		map.put("spellSimplify", "简拼");
+		map.put("enabled", "是否启用");
 		map.put("deleted", "删除标志");
 		
 		return map;

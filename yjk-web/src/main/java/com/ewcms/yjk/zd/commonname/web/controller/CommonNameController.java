@@ -1,25 +1,23 @@
 package com.ewcms.yjk.zd.commonname.web.controller;
 
 import com.alibaba.fastjson.util.IOUtils;
-import com.ewcms.common.entity.search.SearchParameter;
 import com.ewcms.common.utils.EmptyUtil;
 import com.ewcms.common.web.controller.BaseCRUDController;
 import com.ewcms.common.web.validate.ValidateResponse;
 import com.ewcms.util.ExcelUtil;
 import com.ewcms.yjk.zd.commonname.entity.CommonName;
+import com.ewcms.yjk.zd.commonname.service.AdministrationService;
 import com.ewcms.yjk.zd.commonname.service.CommonNameService;
 import com.google.common.collect.Lists;
 
-import org.springframework.data.domain.Sort.Direction;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.OutputStream;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -30,9 +28,13 @@ import javax.servlet.http.HttpServletResponse;
 @Controller
 @RequestMapping(value = "/yjk/zd/commonname")
 public class CommonNameController extends BaseCRUDController<CommonName, Long> {
+	
 	private CommonNameService getCommonNameService() {
 		return (CommonNameService) baseService;
 	}
+	
+	@Autowired
+	private AdministrationService administrationService;
 
     public CommonNameController() {
         setResourceIdentity("yjk:commonname");
@@ -55,7 +57,7 @@ public class CommonNameController extends BaseCRUDController<CommonName, Long> {
         ValidateResponse response = ValidateResponse.newInstance();
 
        if ("commonName".equals(fieldId)) {
-    	   List<CommonName> commonNameList =  getCommonNameService().findCommonNameByName(fieldValue);
+    	   List<CommonName> commonNameList =  getCommonNameService().findByCommonName(fieldValue);
     	   Boolean exist = Boolean.TRUE;
 	   		if(EmptyUtil.isCollectionNotEmpty(commonNameList)){
 	   			for(CommonName commonName:commonNameList){
@@ -92,10 +94,10 @@ public class CommonNameController extends BaseCRUDController<CommonName, Long> {
 			if (excelFile != null && !excelFile.isEmpty()) {
 				List<String> notSave = Lists.newArrayList();
 				
-				List<CommonName> commonNames = ExcelUtil.importCommonName(excelFile.getInputStream());
+				List<CommonName> commonNames = ExcelUtil.importCommonName(excelFile.getInputStream(), administrationService);
 				for (CommonName commonName : commonNames) {
 					try {
-						if (getCommonNameService().findCommonNameByName(commonName.getCommonName()) == null) {
+						if (getCommonNameService().findByCommonName(commonName.getCommonName()).size() == 0) {
 							getCommonNameService().saveAndFlush(commonName);
 						}
 					} catch (Exception e) {

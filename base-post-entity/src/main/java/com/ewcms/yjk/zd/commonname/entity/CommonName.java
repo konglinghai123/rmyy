@@ -2,11 +2,15 @@ package com.ewcms.yjk.zd.commonname.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Index;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import com.ewcms.common.entity.BaseSequenceEntity;
@@ -17,6 +21,9 @@ import com.ewcms.common.plugin.entity.LogicDeleteable;
  * 
  * <ul>
  * <li>commonName:药品通用名称</li>
+// * <li>number:编号</li>
+ * <li>administration:给药途径</li>
+ * <li>matchingNumber:匹配编号</li>
  * <li>spell:通用名称拼音</li>
  * <li>spellSimplify:用名称拼音简写</li>
  * <li>enabled:是否启用</li>
@@ -41,6 +48,18 @@ public class CommonName extends BaseSequenceEntity<Long> implements LogicDeletea
 	@Column(name = "common_name", nullable = false)
 	private String commonName;
 	
+//	@NotEmpty(message = "{not.null}")
+//	@Column(name = "number", nullable = false)
+//	private String number;
+	
+	@ManyToOne(optional = true, fetch = FetchType.EAGER)
+    @Fetch(FetchMode.SELECT)
+	private Administration administration;
+	
+	@NotEmpty(message = "{not.null}")
+	@Column(name = "matching_number", nullable = false)
+	private String matchingNumber;
+	
 	@Column(name = "spell", nullable = false)
 	private String spell;
 	
@@ -60,6 +79,30 @@ public class CommonName extends BaseSequenceEntity<Long> implements LogicDeletea
 
 	public void setCommonName(String commonName) {
 		this.commonName = commonName;
+	}
+
+//	public String getNumber() {
+//		return number;
+//	}
+//
+//	public void setNumber(String number) {
+//		this.number = number;
+//	}
+
+	public Administration getAdministration() {
+		return administration;
+	}
+
+	public void setAdministration(Administration administration) {
+		this.administration = administration;
+	}
+	
+	public String getMatchingNumber() {
+		return matchingNumber;
+	}
+
+	public void setMatchingNumber(String matchingNumber) {
+		this.matchingNumber = matchingNumber;
 	}
 
 	public String getSpell() {

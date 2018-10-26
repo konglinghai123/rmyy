@@ -14,6 +14,5 @@ public interface CommonNameRepository extends BaseRepository<CommonName, Long> {
 	@Query("from CommonName where (spell like %?1% or spellSimplify like %?1%) and deleted is false")
 	List<CommonName> findCommonNameBySpell(String spell);
 	
-	@Query("from CommonName where commonName = ?1")
-	List<CommonName> findCommonNameByName(String commonName);
+	List<CommonName> findByCommonName(String commonName);
 }

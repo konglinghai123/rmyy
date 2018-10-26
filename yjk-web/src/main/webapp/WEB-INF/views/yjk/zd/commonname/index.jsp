@@ -8,7 +8,12 @@
 			    <th data-options="field:'ck',checkbox:true"/>
 			    <th data-options="field:'id',hidden:true">编号</th>
 				<th data-options="field:'commonName',sortable:true,width:200">通用名</th>
-				<th data-options="field:'spell',sortable:true,width:300">全拼</th>
+				<th data-options="field:'administration',sortable:true,width:100,
+						formatter:function(val,row){
+							return (row.administration==null) ? '' : row.administration.name;
+						}">用药途径</th>
+				<th data-options="field:'matchingNumber',sortable:true,width:100">匹配编号</th>
+				<th data-options="field:'spell',sortable:true,width:200">全拼</th>
 				<th data-options="field:'spellSimplify',sortable:true,width:150">简拼</th>
 				<th data-options="field:'enabled',width:100,
 						formatter:function(val,row){

@@ -1,11 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/jspf/taglibs.jspf" %>
 
-<ewcms:head title="编辑 - 通用名"/>
+<ewcms:head title="编辑 - 用药途径"/>
 	<div id="edit-from" class="easyui-layout" data-options="fit:true" style="border:0;">
 		<ewcms:showMessage/>
 		<div data-options="region:'center',border:false">	
-		 	<form:form id="editForm" method="post" action="${ctx}/yjk/zd/commonname/save" commandName="m"  class="form-horizontal">
+		 	<form:form id="editForm" method="post" action="${ctx}/yjk/zd/administration/save" commandName="m"  class="form-horizontal">
 		    	<ewcms:showGlobalError commandName="m"/>
 		    	<form:hidden path="id"/>
 		    	<c:forEach var="selection" items="${selections}">
@@ -13,21 +13,9 @@
 				</c:forEach>
 			  	<table class="formtable">
 		        	<tr>
-						<td width="20%"><form:label path="commonName">通用名：</form:label></td>
-						<td width="80%"><form:input path="commonName" cssClass="validate[required,ajax[ajaxNameCall]]"/></td>
+						<td width="20%"><form:label path="name">名称：</form:label></td>
+						<td width="80%"><form:input path="name" cssClass="validate[required,ajax[ajaxNameCall]]" size="10"/></td>
 					</tr>
-					<tr>
-						<td><form:label path="administration">用药途径：</form:label></td>
-						<td><form:input path="administration" /></td>
-					</tr>
-					<tr>
-						<td><form:label path="matchingNumber">匹配编号：</form:label></td>
-						<td><form:input path="matchingNumber"/></td>
-					</tr>
-		        	<tr>
-						<td width="20%"><form:label path="enabled">是否启用：</form:label></td>
-						<td width="30%"><form:checkbox path="enabled"/></td>
-					</tr>						
 				</table>
 			</form:form>
 		</div>
@@ -40,13 +28,13 @@
 <ewcms:footer/>
 <script type="text/javascript">
 	$(function(){
-		<c:choose>
+		  <c:choose>
 	    	<c:when test="${close}">
 	    		parent.$('#edit-window').window('close');
 	    	</c:when>
 	    	<c:otherwise>
 				$.validationEngineLanguage.allRules.ajaxNameCall= {
-	                "url": "${ctx}/yjk/zd/commonname/validate",
+	                "url": "${ctx}/yjk/zd/administration/validate",
 	                extraDataDynamic : ['#id'],
 	                "alertTextLoad": "* 正在验证，请稍等。。。"
 	            };
@@ -57,17 +45,7 @@
 	    		});
 	        	<ewcms:showFieldError commandName="m"/>
 	    	</c:otherwise>
-		</c:choose>
-		$('#administration').combobox({
-			width:150,
-			panelWidth:150,
-			panelHeight:130,
-			url:'${ctx}/yjk/zd/administration/canUse',
-			method:'get',
-			valueField:'id',
-			textField:'name',
-			editable:false
-		});
+	    </c:choose>
 	});
 	$.ewcms.refresh({operate : '${operate}', data : '${lastM}'});
 </script>
