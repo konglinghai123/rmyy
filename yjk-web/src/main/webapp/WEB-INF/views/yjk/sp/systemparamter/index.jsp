@@ -9,6 +9,7 @@
 			    <th data-options="field:'id',hidden:true">编号</th>
 				<th data-options="field:'applyStartDate',width:150">申请开始时间</th>
 				<th data-options="field:'applyEndDate',width:150">申请结束时间</th>
+				<th data-options="field:'declarationLimt',width:150">申报限数</th>
 				<th data-options="field:'deleted',width:100,
 						formatter:function(val,row){
 							return val ? '<font color=red>已删除</font>' : '';

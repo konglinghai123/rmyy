@@ -22,6 +22,8 @@ import com.ewcms.common.plugin.entity.LogicDeleteable;
  * <ul>
  * <li>applyStartDate:申请开始时间</li>
  * <li>applyEndDate:申请结束时间</li>
+ * <li>declarationLimt:申报限数</li>
+ * <li>deleted:是否删除</li>
  * </ul>
  * 
  * @author wuzhijun
@@ -46,6 +48,9 @@ public class SystemParameter extends BaseSequenceEntity<Long> implements LogicDe
     @Temporal(TemporalType.TIMESTAMP)
 	private Date applyEndDate;
 
+    @Column(name = "declaration_limt", nullable = false)
+    private Long declarationLimt = Long.valueOf(2);
+    
     @Column(name = "is_deleted")
     private Boolean deleted = Boolean.FALSE;
     
@@ -65,6 +70,14 @@ public class SystemParameter extends BaseSequenceEntity<Long> implements LogicDe
 
 	public void setApplyEndDate(Date applyEndDate) {
 		this.applyEndDate = applyEndDate;
+	}
+
+	public Long getDeclarationLimt() {
+		return declarationLimt;
+	}
+
+	public void setDeclarationLimt(Long declarationLimt) {
+		this.declarationLimt = declarationLimt;
 	}
 
 	@Override

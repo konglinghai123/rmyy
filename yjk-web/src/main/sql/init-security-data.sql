@@ -149,10 +149,13 @@ insert into sec_resource(id, icon, identity, name, parent_id, parent_ids, is_sho
 ,(103,'ztree_file','','字典库',102,'0/1/102/','true',null,'',1)
 ,(104,'empi-system-externalds-tree','commonname','通用名',103,'0/1/102/103/','true',null,'/yjk/zd/commonname/index',1)
 ,(105,'empi-system-report-chart-tree','commonnamecontents','大总目录',103,'0/1/102/103/','true',null,'/yjk/zd/commonnamecontents/index',2)
-,(106,'empi-system-scheduling-jobinfo-tree','pill','剂型',103,'0/1/102/103/','true',null,'/yjk/zd/pill/index',3)
+,(106,'empi-system-scheduling-jobinfo-tree','','用药途径',103,'0/1/102/103/','true',null,'/yjk/zd/administration/index',3)
 ,(107,'empi-security-user-user-tree','hospitalcontents','院用目录',103,'0/1/102/103/','true',null,'/yjk/zd/hospitalcontents/index',4)
+,(108,'empi-system-scheduling-jobinfo-tree','','系统参数',103,'0/1/102/103/','true',null,'/yjk/sp/systemparamter/index',5)
+,(109,'empi-system-externalds-tree','','新药申报',62,'0/1/62/','true',null,'/yjk/sb/drugform/index',5)
+,(110,'empi-system-report-chart-tree','commonnamerule','匹配规则',103,'0/1/102/103/','true',null,'/yjk/zd/commonnamerule',6)
 ;
-select setval('seq_sec_resource_id', 107);
+select setval('seq_sec_resource_id', 110);
 
 /**
  * 权限初始化

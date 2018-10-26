@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/jspf/taglibs.jspf" %>
 
-<ewcms:head title="编辑 - 剂型"/>
+<ewcms:head title="编辑 - 系统参数"/>
 	<div id="edit-from" class="easyui-layout" data-options="fit:true" style="border:0;">
 		<ewcms:showMessage/>
 		<div data-options="region:'center',border:false">	
@@ -14,12 +14,38 @@
 			  	<table class="formtable">
 		        	<tr>
 						<td width="30%"><form:label path="applyStartDate">申请开始时间：</form:label></td>
-						<td width="70%"><input type="text" name="applyStartDate" cssClass="validate[required]]" class="easyui-datetimebox" style="width:145px" data-options="editable:false"/></td>
+						<td width="70%"><input type="text" id="applyStartDate" name="applyStartDate"  class="easyui-datetimebox" style="width:145px" data-options="
+							editable:false,
+							onSelect:function(d){
+					        	issd = this.id == 'sd';
+					        	sd = issd ? d : new Date($('#applyStartDate').datebox('getValue'));
+					        	ed = issd ? new Date($('#applyEndDate').datebox('getValue')) : d;
+					            if (ed < sd) {
+					                alert('结束日期不能小于开始日期');
+					                $('#applyStartDate').datebox('setValue', '').datebox('showPanel');
+					            }
+					        }"/>
+						</td>
 					</tr>
 		        	<tr>
 						<td width="30%"><form:label path="applyEndDate">申请结束时间：</form:label></td>
-						<td width="70%"><input type="text" name="applyEndDate" cssClass="validate[required]]" class="easyui-datetimebox" style="width:145px" data-options="editable:false"/></td>
-					</tr>					
+						<td width="70%"><input type="text" id="applyEndDate" name="applyEndDate"  class="easyui-datetimebox" style="width:145px" data-options="
+							editable:false,
+							onSelect:function(d){
+					        	issd = this.id == 'sd';
+					        	sd = issd ? d : new Date($('#applyStartDate').datebox('getValue'));
+					        	ed = issd ? new Date($('#applyEndDate').datebox('getValue')) : d;
+					            if (ed < sd) {
+					                alert('结束日期不能小于开始日期');
+					                $('#applyEndDate').datebox('setValue', '').datebox('showPanel');
+					            }
+					        }"/>
+						</td>
+					</tr>
+		        	<tr>
+						<td width="30%"><form:label path="declarationLimt">申报限数：</form:label></td>
+						<td width="70%"><form:input path="declarationLimt" cssClass="validate[required,digits]"  /></td>
+					</tr>											
 				</table>
 			</form:form>
 		</div>
