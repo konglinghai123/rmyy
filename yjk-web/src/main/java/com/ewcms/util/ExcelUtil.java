@@ -43,31 +43,35 @@ public class ExcelUtil {
 			for (int i = 1; i <= records; i++) {
 				CommonName commonName = new CommonName();
 				rows = sheet.getRow(i);
-				for (int j = 0; j <= cols; j++) {
-					if (columnNames[j].equals("提取通用名")) {
-						commonName.setCommonName(rows.getCell(j).getStringCellValue().trim());
-						PinYin.initSpell(commonName);
-//					} else if (columnNames[j].equals("编号-四位数")) {
-//						commonName.setNumber(rows.getCell(j).getStringCellValue().trim());
-					} else if (columnNames[j].equals("给药途径")) {
-						try {
-							Double administrationId = rows.getCell(j).getNumericCellValue();
-							if (administrationId == 0L) {
-								commonName.setAdministration(null);
-							} else {
-								Administration administration = administrationService.findOne(administrationId.longValue());
-								commonName.setAdministration(administration);
+				try {
+					for (int j = 0; j <= cols; j++) {
+							if (columnNames[j].equals("提取通用名")) {
+								commonName.setCommonName(rows.getCell(j).getStringCellValue().trim());
+								PinYin.initSpell(commonName);
+		//					} else if (columnNames[j].equals("编号-四位数")) {
+		//						commonName.setNumber(rows.getCell(j).getStringCellValue().trim());
+							} else if (columnNames[j].equals("给药途径")) {
+								try {
+									Double administrationId = rows.getCell(j).getNumericCellValue();
+									if (administrationId == 0L) {
+										commonName.setAdministration(null);
+									} else {
+										Administration administration = administrationService.findOne(administrationId.longValue());
+										commonName.setAdministration(administration);
+									}
+								}catch (Exception e) {
+									commonName.setAdministration(null);
+								}
+							} else if (columnNames[j].equals("匹配编号")) {
+								commonName.setMatchingNumber(rows.getCell(j).getStringCellValue().trim());
+							} else if (columnNames[j].equals("全拼")) {
+								commonName.setSpell(rows.getCell(j).getStringCellValue().trim());
+							} else if (columnNames[j].equals("简拼")) {
+								commonName.setSpellSimplify(rows.getCell(j).getStringCellValue().trim());
 							}
-						}catch (Exception e) {
-							commonName.setAdministration(null);
-						}
-					} else if (columnNames[j].equals("匹配编号")) {
-						commonName.setMatchingNumber(rows.getCell(j).getStringCellValue().trim());
-					} else if (columnNames[j].equals("全拼")) {
-						commonName.setSpell(rows.getCell(j).getStringCellValue().trim());
-					} else if (columnNames[j].equals("简拼")) {
-						commonName.setSpellSimplify(rows.getCell(j).getStringCellValue().trim());
 					}
+				}catch(Exception e) {
+					
 				}
 				commonNames.add(commonName);
 			}

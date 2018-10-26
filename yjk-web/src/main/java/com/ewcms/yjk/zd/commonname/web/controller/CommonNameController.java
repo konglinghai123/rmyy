@@ -4,13 +4,10 @@ import com.alibaba.fastjson.util.IOUtils;
 import com.ewcms.common.utils.EmptyUtil;
 import com.ewcms.common.web.controller.BaseCRUDController;
 import com.ewcms.common.web.validate.ValidateResponse;
-import com.ewcms.util.ExcelUtil;
 import com.ewcms.yjk.zd.commonname.entity.CommonName;
-import com.ewcms.yjk.zd.commonname.service.AdministrationService;
 import com.ewcms.yjk.zd.commonname.service.CommonNameService;
 import com.google.common.collect.Lists;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -33,9 +30,6 @@ public class CommonNameController extends BaseCRUDController<CommonName, Long> {
 		return (CommonNameService) baseService;
 	}
 	
-	@Autowired
-	private AdministrationService administrationService;
-
     public CommonNameController() {
         setResourceIdentity("yjk:commonname");
     }
@@ -87,23 +81,12 @@ public class CommonNameController extends BaseCRUDController<CommonName, Long> {
     @RequestMapping(value = "/saveimport", method = RequestMethod.POST)
     @ResponseBody
 	public String saveImportStudent(@RequestParam(value = "excelFile", required = false) MultipartFile excelFile, HttpServletRequest request) {
-		List<String> noSave = Lists.newArrayList();
+		List<Integer> noSave = Lists.newArrayList();
 		String message = "导入通用名字典库信息";
 		try {
 			request.setCharacterEncoding("UTF-8");
 			if (excelFile != null && !excelFile.isEmpty()) {
-				List<String> notSave = Lists.newArrayList();
-				
-				List<CommonName> commonNames = ExcelUtil.importCommonName(excelFile.getInputStream(), administrationService);
-				for (CommonName commonName : commonNames) {
-					try {
-						if (getCommonNameService().findByCommonName(commonName.getCommonName()).size() == 0) {
-							getCommonNameService().saveAndFlush(commonName);
-						}
-					} catch (Exception e) {
-						notSave.add(commonName.getCommonName());
-					}
-				} 
+				noSave = getCommonNameService().importExcel(excelFile.getInputStream());
 			}
 		} catch (Exception e) {
 			message += "失败";

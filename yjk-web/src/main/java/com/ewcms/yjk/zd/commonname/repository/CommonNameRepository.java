@@ -15,4 +15,6 @@ public interface CommonNameRepository extends BaseRepository<CommonName, Long> {
 	List<CommonName> findCommonNameBySpell(String spell);
 	
 	List<CommonName> findByCommonName(String commonName);
+	
+	List<CommonName> findByCommonNameAndAdministrationIdAndEnabledTrueAndDeletedFalse(String commonName, Long administrationId);
 }

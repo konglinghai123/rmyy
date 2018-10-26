@@ -1,11 +1,17 @@
 package com.ewcms.yjk.zd.commonname.service;
 
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.poifs.filesystem.POIFSFileSystem;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ewcms.common.service.BaseService;
@@ -14,6 +20,7 @@ import com.ewcms.util.PinYin;
 import com.ewcms.yjk.zd.commonname.entity.Administration;
 import com.ewcms.yjk.zd.commonname.entity.CommonName;
 import com.ewcms.yjk.zd.commonname.repository.CommonNameRepository;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 import jxl.Workbook;
@@ -31,6 +38,9 @@ public class CommonNameService extends BaseService<CommonName, Long> {
         return (CommonNameRepository) baseRepository;
     }
 
+    @Autowired
+    private AdministrationService administrationService;
+    
     public List<CommonName> findCommonNameBySpell(String spell){
     	return getCommonNameRepository().findCommonNameBySpell(spell);
     }
@@ -38,6 +48,11 @@ public class CommonNameService extends BaseService<CommonName, Long> {
     public List<CommonName> findByCommonName(String commonName){
     	return getCommonNameRepository().findByCommonName(commonName);
     }
+    
+    public List<CommonName> findByCommonNameAndAdministrationIdAndEnabledTrueAndDeletedFalse(String commonName, Long administrationId){
+    	return getCommonNameRepository().findByCommonNameAndAdministrationIdAndEnabledTrueAndDeletedFalse(commonName, administrationId);
+    }
+    
 	@Override
 	public CommonName save(CommonName m) {
 		PinYin.initSpell(m);
@@ -48,6 +63,70 @@ public class CommonNameService extends BaseService<CommonName, Long> {
 	public CommonName update(CommonName m) {
 		PinYin.initSpell(m);
 		return super.update(m);
+	}
+	
+	public List<Integer> importExcel(InputStream in){
+		List<Integer> noSave = Lists.newArrayList();
+		
+		try {
+			POIFSFileSystem fs = new POIFSFileSystem(in);
+			HSSFWorkbook wb = new HSSFWorkbook(fs);
+			HSSFSheet sheet = wb.getSheetAt(0);
+			int records = sheet.getLastRowNum();
+			
+			//获得列名，为第0行位置
+			HSSFRow rows = sheet.getRow(0);
+			int cols = rows.getLastCellNum() - 1;
+			String columnNames[] = new String[cols + 1];
+			
+			for (int i = 0; i <= cols; i++) {
+				columnNames[i] = rows.getCell(i).getStringCellValue().trim();
+			}
+			
+			//获得数据，数据从第1行开始
+			for (int i = 1; i <= records; i++) {
+				CommonName commonName = new CommonName();
+				rows = sheet.getRow(i);
+				try {
+					for (int j = 0; j <= cols; j++) {
+							if (columnNames[j].equals("提取通用名")) {
+								commonName.setCommonName(rows.getCell(j).getStringCellValue().trim());
+								PinYin.initSpell(commonName);
+		//					} else if (columnNames[j].equals("编号-四位数")) {
+		//						commonName.setNumber(rows.getCell(j).getStringCellValue().trim());
+							} else if (columnNames[j].equals("给药途径")) {
+								try {
+									Double administrationId = rows.getCell(j).getNumericCellValue();
+									if (administrationId == 0L) {
+										commonName.setAdministration(null);
+									} else {
+										Administration administration = administrationService.findOne(administrationId.longValue());
+										commonName.setAdministration(administration);
+									}
+								}catch (Exception e) {
+									commonName.setAdministration(null);
+								}
+							} else if (columnNames[j].equals("匹配编号")) {
+								commonName.setMatchingNumber(rows.getCell(j).getStringCellValue().trim());
+							} else if (columnNames[j].equals("全拼")) {
+								commonName.setSpell(rows.getCell(j).getStringCellValue().trim());
+							} else if (columnNames[j].equals("简拼")) {
+								commonName.setSpellSimplify(rows.getCell(j).getStringCellValue().trim());
+							}
+					}
+					if (findByCommonNameAndAdministrationIdAndEnabledTrueAndDeletedFalse(commonName.getCommonName(), commonName.getAdministration().getId()).size() == 0) {
+						super.saveAndFlush(commonName);
+					}
+				}catch(Exception e) {
+					noSave.add(i + 1);
+				}
+			}
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		} finally {
+			
+		}
+		return noSave;
 	}
     	
 	public void writeExcel(OutputStream out) {
