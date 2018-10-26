@@ -46,7 +46,7 @@ public class Organization extends BaseSequenceEntity<Long> implements Treeable<L
     private String name;
     @Enumerated(EnumType.STRING)
     @Column(name = "type")
-    private OrganizationType type = OrganizationType.branch_office;
+    private OrganizationType type = OrganizationType.department;
     @Column(name = "parent_id")
     private Long parentId;
     @Column(name = "parent_ids")

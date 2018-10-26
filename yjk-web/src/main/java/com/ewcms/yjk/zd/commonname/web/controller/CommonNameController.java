@@ -94,7 +94,7 @@ public class CommonNameController extends BaseCRUDController<CommonName, Long> {
 		if (noSave.isEmpty())
 			message += "成功";
 		else
-			message += "部分成功，不成功的通用名为：" + noSave;
+			message += "部分成功，不成功的通用名所在Excel行数为：\r\n" + noSave;
 		return message;
 	}
     

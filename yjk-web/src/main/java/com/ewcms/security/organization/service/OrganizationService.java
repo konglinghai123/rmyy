@@ -4,8 +4,10 @@ import org.springframework.stereotype.Service;
 
 import com.ewcms.common.plugin.service.BaseSequenceTreeableService;
 import com.ewcms.security.organization.entity.Organization;
+import com.ewcms.security.organization.repository.OrganizationRepository;
 
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -15,6 +17,10 @@ import java.util.Set;
 @Service
 public class OrganizationService extends BaseSequenceTreeableService<Organization, Long> {
 
+	private OrganizationRepository getOrganizationRepository() {
+		return (OrganizationRepository) baseRepository;
+	}
+	
     /**
      * 过滤仅获取可显示的数据
      *
@@ -58,5 +64,9 @@ public class OrganizationService extends BaseSequenceTreeableService<Organizatio
 	@Override
 	public Map<String, Object> treeAttributes(Organization m) {
 		return null;
+	}
+	
+	public List<Organization> findByName(String name){
+		return getOrganizationRepository().findByName(name);
 	}
 }

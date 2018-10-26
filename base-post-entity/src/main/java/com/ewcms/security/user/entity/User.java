@@ -61,7 +61,7 @@ public class User extends BaseSequenceEntity<Long> implements LogicDeleteable {
 	private static final long serialVersionUID = -6104610983204668263L;
 	
     @NotNull(message = "{not.null}")
-    @Pattern(regexp = PatternUtils.USERNAME_PATTERN, message = "{user.username.not.valid}")
+//    @Pattern(regexp = PatternUtils.USERNAME_PATTERN, message = "{user.username.not.valid}")
     @Column(name = "username")
     private String username;
     @NotEmpty(message = "{not.null}")

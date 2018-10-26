@@ -4,8 +4,10 @@ import org.springframework.stereotype.Service;
 
 import com.ewcms.common.plugin.service.BaseSequenceTreeableService;
 import com.ewcms.security.organization.entity.Job;
+import com.ewcms.security.organization.repository.JobRepository;
 
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -14,6 +16,10 @@ import java.util.Set;
  */
 @Service
 public class JobService extends BaseSequenceTreeableService<Job, Long> {
+	
+	private JobRepository getJobRepository() {
+		return (JobRepository) baseRepository;
+	}
 
     /**
      * 过滤仅获取可显示的数据
@@ -48,7 +54,7 @@ public class JobService extends BaseSequenceTreeableService<Job, Long> {
 	@Override
 	public Job initRoot() {
 		Job job = new Job();
-		job.setName("工作职务");
+		job.setName("工作职务/职称");
 		job.setParentId(0L);
 		job.setParentIds("0/");
 		job.setShow(Boolean.TRUE);
@@ -59,5 +65,9 @@ public class JobService extends BaseSequenceTreeableService<Job, Long> {
 	@Override
 	public Map<String, Object> treeAttributes(Job m) {
 		return null;
+	}
+	
+	public List<Job> findByName(String name){
+		return getJobRepository().findByName(name);
 	}
 }

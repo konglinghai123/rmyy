@@ -5,7 +5,12 @@ import com.ewcms.common.entity.search.Searchable;
 import com.ewcms.common.service.BaseService;
 import com.ewcms.common.utils.EmptyUtil;
 import com.ewcms.common.utils.PatternUtils;
+import com.ewcms.security.organization.entity.Job;
+import com.ewcms.security.organization.entity.Organization;
+import com.ewcms.security.organization.service.JobService;
+import com.ewcms.security.organization.service.OrganizationService;
 import com.ewcms.security.user.entity.User;
+import com.ewcms.security.user.entity.UserOrganizationJob;
 import com.ewcms.security.user.entity.UserStatus;
 import com.ewcms.security.user.exception.UserBlockedException;
 import com.ewcms.security.user.exception.UserNotExistsException;
@@ -17,11 +22,16 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 import org.springframework.aop.framework.AopContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.io.InputStream;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
@@ -41,6 +51,12 @@ public class UserService extends BaseService<User, Long> {
     private UserStatusHistoryService userStatusHistoryService;
     @Autowired
     private PasswordService passwordService;
+    @Autowired
+    private OrganizationService organizationService;
+    @Autowired
+    private JobService jobService;
+    @Autowired
+    private UserOrganizationJobService userOrganizationJobService;
 
     public void setPasswordService(PasswordService passwordService) {
         this.passwordService = passwordService;
@@ -163,9 +179,9 @@ public class UserService extends BaseService<User, Long> {
 
 
     private boolean maybeUsername(String username) {
-        if (!username.matches(PatternUtils.USERNAME_PATTERN)) {
-            return false;
-        }
+//        if (!username.matches(PatternUtils.USERNAME_PATTERN)) {
+//            return false;
+//        }
         //如果用户名不在指定范围内也是错误的
         if (username.length() < PatternUtils.USERNAME_MIN_LENGTH || username.length() > PatternUtils.USERNAME_MAX_LENGTH) {
             return false;
@@ -240,4 +256,93 @@ public class UserService extends BaseService<User, Long> {
     		return getUserRepository().findUserDisplay(userIds);
     	}
     }
+    
+	public List<Integer> importExcel(InputStream in){
+		List<Integer> noSave = Lists.newArrayList();
+		
+		try {
+			POIFSFileSystem fs = new POIFSFileSystem(in);
+			HSSFWorkbook wb = new HSSFWorkbook(fs);
+			HSSFSheet sheet = wb.getSheetAt(0);
+			int records = sheet.getLastRowNum();
+			
+			//获得列名，为第0行位置
+			HSSFRow rows = sheet.getRow(0);
+			int cols = rows.getLastCellNum() - 1;
+			String columnNames[] = new String[cols + 1];
+			
+			for (int i = 0; i <= cols; i++) {
+				columnNames[i] = rows.getCell(i).getStringCellValue().trim();
+			}
+			
+			//获得数据，数据从第1行开始
+			for (int i = 1; i <= records; i++) {
+				User user = new User();
+				rows = sheet.getRow(i);
+				try {
+					Long organizationId = null;
+					Long jobId = null;
+					for (int j = 0; j <= cols; j++) {
+							if (columnNames[j].equals("工号")) {
+								try {
+									user.setUsername(rows.getCell(j).getStringCellValue().trim());
+								} catch (Exception e) {
+									Double userName = rows.getCell(j).getNumericCellValue();
+									user.setUsername(String.valueOf(userName.longValue()));
+								}
+							} else if (columnNames[j].equals("姓名")) {
+								user.setRealname(rows.getCell(j).getStringCellValue().trim());
+							} else if (columnNames[j].equals("科室")) {
+								try {
+									String organizationName = rows.getCell(j).getStringCellValue().trim();
+									if (EmptyUtil.isStringNotEmpty(organizationName)) {
+										List<Organization> organizations = organizationService.findByName(organizationName);
+										if (organizations != null && organizations.size() > 0) {
+											organizationId = organizations.get(0).getId();
+										}
+									}
+								}catch (Exception e) {
+									
+								}
+							} else if (columnNames[j].equals("职称")) {
+								try {
+									String jobName = rows.getCell(j).getStringCellValue().trim();
+									if (EmptyUtil.isStringNotEmpty(jobName)) {
+										List<Job> jobs = jobService.findByName(jobName);
+										if (jobs != null && jobs.size() > 0) {
+											jobId = jobs.get(0).getId();
+										}
+									}
+								}catch(Exception e) {
+									
+								}
+							}
+					}
+					if (findByUsername(user.getUsername()) == null) {
+						user.setPassword("123456");
+						user.randomSalt();
+				        user.setPassword(passwordService.encryptPassword(user.getUsername(), user.getPassword(), user.getSalt()));
+
+				        super.save(user);
+						
+						UserOrganizationJob userOrganizationJob = new UserOrganizationJob();
+						
+						userOrganizationJob.setUser(user);
+						userOrganizationJob.setOrganizationId(organizationId);
+						userOrganizationJob.setJobId(jobId);
+						
+						userOrganizationJobService.saveAndFlush(userOrganizationJob);
+					}
+				}catch(Exception e) {
+					noSave.add(i + 1);
+				}
+			}
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		} finally {
+			
+		}
+		return noSave;
+	}
+
 }

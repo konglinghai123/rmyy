@@ -11,15 +11,97 @@ select setval('seq_sec_user_id', 1);
  * 组织机构初始化
  */
 delete from sec_organization;
-insert into sec_organization(id, parent_id, parent_ids, weight, name, is_show) values(1, 0, '0/', 1, '组织机构', 'true');
-select setval('seq_sec_organization_id', 1);
+insert into sec_organization(id, parent_id, parent_ids, weight, name, is_show, type) values
+(1, 0, '0/', 1, '组织机构', 'true', 'department')
+,(2, 1, '0/1/', 1, '耳鼻喉头颈外科', 'true', 'department')
+,(3, 1, '0/1/', 2, '二部风湿免疫内分泌科', 'true', 'department')
+,(4, 1, '0/1/', 3, '二部呼吸消化科', 'true', 'department')
+,(5, 1, '0/1/', 4, '二部普外科', 'true', 'department')
+,(6, 1, '0/1/', 5, '二部神经内科', 'true', 'department')
+,(7, 1, '0/1/', 6, '二部外科', 'true', 'department')
+,(8, 1, '0/1/', 7, '二部心血管内科', 'true', 'department')
+,(9, 1, '0/1/', 8, '二部中西医结合科', 'true', 'department')
+,(10, 1, '0/1/', 9, '放疗室', 'true', 'department')
+,(11, 1, '0/1/', 10, '放射科', 'true', 'department')
+,(12, 1, '0/1/', 11, '妇科', 'true', 'department')
+,(13, 1, '0/1/', 12, '肝胆外科', 'true', 'department')
+,(14, 1, '0/1/', 13, '干部保健门诊', 'true', 'department')
+,(15, 1, '0/1/', 14, '骨科', 'true', 'department')
+,(16, 1, '0/1/', 15, '核医学科', 'true', 'department')
+,(17, 1, '0/1/', 16, '红谷分院筹小组', 'true', 'department')
+,(18, 1, '0/1/', 17, '呼吸内科', 'true', 'department')
+,(19, 1, '0/1/', 18, '急诊科', 'true', 'department')
+,(20, 1, '0/1/', 19, '检验科', 'true', 'department')
+,(21, 1, '0/1/', 20, '康复医学科', 'true', 'department')
+,(22, 1, '0/1/', 21, '口腔二科', 'true', 'department')
+,(23, 1, '0/1/', 22, '口腔一科', 'true', 'department')
+,(24, 1, '0/1/', 23, '老专家门诊', 'true', 'department')
+,(25, 1, '0/1/', 24, '临床医学研究所', 'true', 'department')
+,(26, 1, '0/1/', 25, '临床营养科', 'true', 'department')
+,(27, 1, '0/1/', 26, '麻醉科', 'true', 'department')
+,(28, 1, '0/1/', 27, '门诊部', 'true', 'department')
+,(29, 1, '0/1/', 28, '泌尿外科', 'true', 'department')
+,(30, 1, '0/1/', 29, '内分泌内科', 'true', 'department')
+,(31, 1, '0/1/', 30, '皮肤科', 'true', 'department')
+,(32, 1, '0/1/', 31, '普外一科', 'true', 'department')
+,(33, 1, '0/1/', 32, '其他', 'true', 'department')
+,(34, 1, '0/1/', 33, '器官移植科', 'true', 'department')
+,(35, 1, '0/1/', 34, '神经内科', 'true', 'department')
+,(36, 1, '0/1/', 35, '神经外科', 'true', 'department')
+,(37, 1, '0/1/', 36, '肾脏内科', 'true', 'department')
+,(38, 1, '0/1/', 37, '省行政中心医务室', 'true', 'department')
+,(39, 1, '0/1/', 38, '疼痛科', 'true', 'department')
+,(40, 1, '0/1/', 39, '体检科', 'true', 'department')
+,(41, 1, '0/1/', 40, '胃肠外科', 'true', 'department')
+,(42, 1, '0/1/', 41, '消化内科', 'true', 'department')
+,(43, 1, '0/1/', 42, '心理门诊', 'true', 'department')
+,(44, 1, '0/1/', 43, '心胸外科', 'true', 'department')
+,(45, 1, '0/1/', 44, '心血管病研究所', 'true', 'department')
+,(46, 1, '0/1/', 45, '心血管内科', 'true', 'department')
+,(47, 1, '0/1/', 46, '血管乳腺外科', 'true', 'department')
+,(48, 1, '0/1/', 47, '血液内科', 'true', 'department')
+,(49, 1, '0/1/', 48, '眼科', 'true', 'department')
+,(50, 1, '0/1/', 49, '一部二区', 'true', 'department')
+,(51, 1, '0/1/', 50, '一部一区', 'true', 'department')
+,(52, 1, '0/1/', 51, '医疗质量控制科', 'true', 'department')
+,(53, 1, '0/1/', 52, '医务处', 'true', 'department')
+,(54, 1, '0/1/', 53, '医院感染科', 'true', 'department')
+,(55, 1, '0/1/', 54, '应急管理办公室', 'true', 'department')
+,(56, 1, '0/1/', 55, '预防保健处', 'true', 'department')
+,(57, 1, '0/1/', 56, '整形颌面外科', 'true', 'department')
+,(58, 1, '0/1/', 57, '职工保健室', 'true', 'department')
+,(59, 1, '0/1/', 58, '肿瘤放疗科', 'true', 'department')
+,(60, 1, '0/1/', 59, '肿瘤科', 'true', 'department')
+,(61, 1, '0/1/', 60, '重症医学科', 'true', 'department')
+,(62, 1, '0/1/', 61, '药学部', 'true', 'department')
+,(63, 1, '0/1/', 62, 'CT室', 'true', 'department')
+,(64, 1, '0/1/', 63, 'PET/CT室', 'true', 'department')
+,(65, 1, '0/1/', 64, '病案科', 'true', 'department')
+,(66, 1, '0/1/', 65, '病理科', 'true', 'department')
+,(67, 1, '0/1/', 66, '产科', 'true', 'department')
+,(68, 1, '0/1/', 67, '超声诊断科', 'true', 'department')
+,(69, 1, '0/1/', 68, '创伤急救科', 'true', 'department')
+,(70, 1, '0/1/', 69, '磁共振室', 'true', 'department')
+,(71, 1, '0/1/', 70, '儿科', 'true', 'department')
+;
+select setval('seq_sec_organization_id', 71);
 
 /**
  * 职务初始化
  */
 delete from sec_job;
-insert into sec_job(id, parent_id, parent_ids, weight, name, is_show) values(1, 0, '0/', 1, '职务', 'true');
-select setval('seq_sec_job_id', 1);
+insert into sec_job(id, parent_id, parent_ids, weight, name, is_show) values
+(1, 0, '0/', 1, '工作职务/职称', 'true')
+,(2, 1, '0/1/', 1, '主任医师', 'true')
+,(3, 1, '0/1/', 2, '主管护师', 'true')
+,(4, 1, '0/1/', 3, '副主任医师', 'true')
+,(5, 1, '0/1/', 4, '主治医师', 'true')
+,(6, 1, '0/1/', 5, '医师', 'true')
+,(7, 1, '0/1/', 6, '无职称', 'true')
+,(8, 1, '0/1/', 7, '其它', 'true')
+
+;
+select setval('seq_sec_job_id', 8);
 
 /**
  * 菜单资源初始化
@@ -112,3 +194,4 @@ insert into sec_auth(id, organization_id, job_id, user_id, group_id, role_ids, t
 (1, 0, 0, 1, 0, '1', 'user')
 ;
 select setval('seq_sec_auth_id', 1);
+
