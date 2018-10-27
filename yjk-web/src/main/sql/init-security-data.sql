@@ -110,7 +110,7 @@ delete from sec_resource;
 insert into sec_resource(id, icon, identity, name, parent_id, parent_ids, is_show, style, url, weight) values
 (1,'','','资源',0,'0/','true',null,'',1)
 ,(62,'ztree_file','','个人中心',1,'0/1/','true','accordion','',1)
-,(102,'ztree_file','yjk','药剂管理',1,'0/1/','true','tree','',2)
+,(102,'ztree_file','yjk','药剂管理',1,'0/1/','true','accordion','',2)
 ,(5,'ztree_file','security','权限管理',1,'0/1/','true','tree','',3)
 ,(6,'ztree_file','system','系统管理',1,'0/1/','true','tree','',4)
 ,(95,'ztree_file','monitor','监控管理',1,'0/1/','true',null,'',5)
@@ -128,11 +128,10 @@ insert into sec_resource(id, icon, identity, name, parent_id, parent_ids, is_sho
 ,(59,'empi-security-permission-permission-tree','permission','权限列表',58,'0/1/5/58/','true',null,'/security/permission/permission/index',1)
 ,(60,'empi-security-permission-role-tree','role','授权权限给角色',58,'0/1/5/58/','true',null,'/security/permission/role/index',2)
 ,(61,'empi-security-permission-auth-tree','auth','授权角色给实体',58,'0/1/5/58/','true',null,'/security/auth/index',3)
-,(63,'empi-personal-memoranda-tree','','备忘录',62,'0/1/62/','true',null,'/personal/calendar/index',3)
-,(64,'empi-personal-message-tree','','个人消息',62,'0/1/62/','true',null,'/personal/message/index',4)
+,(63,'empi-personal-memoranda-tree','','备忘录',62,'0/1/62/','true',null,'/personal/calendar/index',4)
+,(64,'empi-personal-message-tree','','个人消息',62,'0/1/62/','true',null,'/personal/message/index',5)
 ,(65,'empi-security-switch-tree','','切换身份',5,'0/1/5/','true',null,'/security/user/runAs/index',3)
 ,(66,'empi-system-icon-tree','icon','图标管理',6,'0/1/6/','true',null,'/system/icon/index',1)
-,(67,'empi-system-history-tree','','历史记录',6,'0/1/6/','true',null,'/system/history/index',2)
 ,(68,'empi-system-externalds-tree','externalds','数据源',6,'0/1/6/','true',null,'/system/externalds/index',3)
 ,(81,'ztree_file','','报表管理',6,'0/1/6/','true',null,'',6)
 ,(82,'empi-system-report-text-tree','textreport','文字报表',81,'0/1/6/81/','true',null,'/system/report/text/index',1)
@@ -146,16 +145,17 @@ insert into sec_resource(id, icon, identity, name, parent_id, parent_ids, is_sho
 ,(99,'empi-monitor-sql-tree','ql','SQL执行',95,'0/1/95/','true',null,'/monitor/db/sqlIndex',4)
 ,(100,'empi-monitor-jpaql-tree','ql','JPAQL执行',95,'0/1/95/','true',null,'/monitor/db/jpaqlIndex',5)
 ,(101,'empi-monitor-hibernate-tree','hibernate','Hibernate监控',95,'0/1/95/','true',null,'/monitor/hibernate/index',6)
-,(103,'ztree_file','','字典库',102,'0/1/102/','true',null,'',1)
-,(104,'empi-system-externalds-tree','commonname','通用名',103,'0/1/102/103/','true',null,'/yjk/zd/commonname/index',1)
-,(105,'empi-system-report-chart-tree','commonnamecontents','大总目录',103,'0/1/102/103/','true',null,'/yjk/zd/commonnamecontents/index',2)
-,(106,'empi-system-scheduling-jobinfo-tree','','用药途径',103,'0/1/102/103/','true',null,'/yjk/zd/administration/index',3)
-,(107,'empi-security-user-user-tree','hospitalcontents','院用目录',103,'0/1/102/103/','true',null,'/yjk/zd/hospitalcontents/index',4)
-,(108,'empi-system-scheduling-jobinfo-tree','','系统参数',103,'0/1/102/103/','true',null,'/yjk/sp/systemparamter/index',5)
-,(109,'empi-system-externalds-tree','','新药申报',62,'0/1/62/','true',null,'/yjk/sb/drugform/index',5)
-,(110,'empi-system-report-chart-tree','commonnamerule','匹配规则',103,'0/1/102/103/','true',null,'/yjk/zd/commonnamerule',6)
+,(104,'empi-yjk-zd-commonname-tree','commonname','通用名',102,'0/1/102/','true',null,'/yjk/zd/commonname/index',1)
+,(105,'empi-yjk-zd-commonnamecontents-tree','commonnamecontents','大总目录',102,'0/1/102/','true',null,'/yjk/zd/commonnamecontents/index',2)
+,(106,'empi-yjk-zd-administration-tree','','用药途径',102,'0/1/102/','true',null,'/yjk/zd/administration/index',3)
+,(107,'empi-yjk-zd-hospitalcontents-tree','hospitalcontents','院用目录',102,'0/1/102/','true',null,'/yjk/zd/hospitalcontents/index',4)
+,(108,'empi-yjk-zd-systemparameter-tree','','系统参数',102,'0/1/102/','true',null,'/yjk/sp/systemparamter/index',5)
+,(109,'empi-personal-medicine-tree','','新药申报',62,'0/1/62/','true',null,'/yjk/sb/drugform/index',3)
+,(110,'empi-yjk-zd-commonnamerule-tree','commonnamerule','匹配规则',102,'0/1/102/','true',null,'/yjk/zd/commonnamerule',6)
+,(111,'empi-system-onlineeditor-tree','onlineEditor','在线编辑',6,'0/1/6/','true',null,'/system/editor/index',7)
+,(112,'empi-system-staticresource-tree','staticResource','静态资源版本控制',6,'0/1/6/','true',null,'/system/staticresource/index',8)
 ;
-select setval('seq_sec_resource_id', 110);
+select setval('seq_sec_resource_id', 112);
 
 /**
  * 权限初始化
@@ -197,4 +197,3 @@ insert into sec_auth(id, organization_id, job_id, user_id, group_id, role_ids, t
 (1, 0, 0, 1, 0, '1', 'user')
 ;
 select setval('seq_sec_auth_id', 1);
-
