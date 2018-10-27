@@ -25,37 +25,13 @@
 				    		</c:otherwise>
 				    	</c:choose>
 						<td width="20%"><form:label path="extractCommonName">提取通用名：</form:label></td>
-						<td width="30%"><form:input path="extractCommonName"/></td>
+						<td width="30%"><form:input path="extractCommonName" cssClass="validate[required]"/></td>
 					</tr>
 		        	<tr>
 						<td width="20%"><form:label path="projectName">项目名称：</form:label></td>
 						<td width="30%"><form:input path="projectName"/></td>
 						<td width="20%"><form:label path="batch">批次：</form:label></td>
 						<td width="30%"><form:input path="batch"/></td>
-					</tr>
-		        	<tr>
-						<td width="20%"><form:label path="source">来源：</form:label></td>
-						<td width="30%">
-						           <form:select path="source">
-						              <form:option value="双信封目录">双信封目录</form:option>
-						              <form:option value="医联体目录">医联体目录</form:option>
-						              <form:option value="已审核待议价目录">已审核待议价目录</form:option>
-						           </form:select>
-						</td>
-						<td width="20%"><form:label path="medicalDirNo">医保目录编号：</form:label></td>
-						<td width="30%"><form:input path="medicalDirNo"/></td>
-					</tr>
-		        	<tr>
-						<td width="20%"><form:label path="medicalDirName">医保目录药品名称：</form:label></td>
-						<td width="30%"><form:input path="medicalDirName"/></td>
-						<td width="20%"><form:label path="medicalDirPill">医保目录药品剂型：</form:label></td>
-						<td width="30%"><form:input path="medicalDirPill"/></td>
-					</tr>
-		        	<tr>
-						<td width="20%"><form:label path="medicalCategory">医保类别：</form:label></td>
-						<td width="30%"><form:input path="medicalCategory"/></td>
-						<td width="20%"><form:label path="medicalRemark">医保备注：</form:label></td>
-						<td width="30%"><form:input path="medicalRemark"/></td>
 					</tr>
 		        	<tr>
 						<td width="20%"><form:label path="drugType">药品类型：</form:label></td>
@@ -76,10 +52,16 @@
 						<td width="30%"><form:input path="packageUnit"/></td>
 					</tr>
 		        	<tr>
-						<td width="20%"><form:label path="manufacturer">生产企业：</form:label></td>
-						<td width="30%"><form:input path="manufacturer"/></td>
+						<td width="20%"><form:label path="source">来源：</form:label></td>
+						<td width="30%">
+						           <form:select path="source">
+						              <form:option value="双信封目录">双信封目录</form:option>
+						              <form:option value="医联体目录">医联体目录</form:option>
+						              <form:option value="已审核待议价目录">已审核待议价目录</form:option>
+						           </form:select>
+						</td>		        	
 						<td width="20%"><form:label path="purchasePrice">采购价：</form:label></td>
-						<td width="30%"><form:input path="purchasePrice"/></td>
+						<td width="30%"><form:input path="purchasePrice" cssClass="validate[custom[number]]"/></td>
 					</tr>
 		        	<tr>
 						<td width="20%"><form:label path="packageMaterials">包材：</form:label></td>
@@ -89,10 +71,52 @@
 					</tr>
 		        	<tr>
 						<td width="20%"><form:label path="importEnterprise">进口企业：</form:label></td>
-						<td width="30%"><form:input path="importEnterprise"/></td>
+						<td width="30%"><form:textarea path="importEnterprise" style="height:50px"/></td>
+						<td width="20%"><form:label path="manufacturer">生产企业：</form:label></td>
+						<td width="30%"><form:textarea path="manufacturer" style="height:50px"/></td>
+					</tr>	
+					<tr>
+						<td width="20%"><form:label path="drugId">药品ID：</form:label></td>
+						<td width="30%"><form:input path="drugId"/></td>
+						<td width="20%"><form:label path="antibacterialsed">抗菌药物：</form:label></td>
+						<td width="30%"><form:checkbox path="antibacterialsed"/></td>
+					</tr>
+					<tr>
+						<td width="20%"><form:label path="serialNo">编号：</form:label></td>
+						<td width="30%"><form:input path="serialNo"/></td>
+						<td width="20%"><form:label path="orderNo">序号：</form:label></td>
+						<td width="30%"><form:input path="orderNo"/></td>
+					</tr>																																																					
+		        	<tr>
 						<td width="20%"><form:label path="declared">是否允许申报：</form:label></td>
-						<td width="30%"><form:checkbox path="declared"/></td>
-					</tr>																																																	
+						<td width="30%"><form:checkbox path="declared"/></td>	
+						<td width="20%"><form:label path="medicalDirNo">医保目录编号：</form:label></td>
+						<td width="30%"><form:input path="medicalDirNo"/></td>
+					</tr>
+		        	<tr>
+						<td width="20%"><form:label path="medicalDirName">医保目录药品名称：</form:label></td>
+						<td width="30%"><form:input path="medicalDirName"/></td>
+						<td width="20%"><form:label path="medicalDirPill">医保目录药品剂型：</form:label></td>
+						<td width="30%"><form:input path="medicalDirPill"/></td>
+					</tr>
+		        	<tr>
+						<td width="20%"><form:label path="medicalCategory">医保类别：</form:label></td>
+						<td width="30%"><form:input path="medicalCategory"/></td>
+						<td width="20%"><form:label path="medicalRemark">医保备注：</form:label></td>
+						<td width="30%"><form:input path="medicalRemark"/></td>
+					</tr>
+		        	<tr>
+						<td width="20%"><form:label path="remark1">备注1</form:label></td>
+						<td width="30%"><form:input path="remark1"/></td>
+						<td width="20%"><form:label path="remark2">备注2：</form:label></td>
+						<td width="30%"><form:input path="remark2"/></td>
+					</tr>
+					<tr>
+						<td width="20%"><form:label path="remark3">备注3：</form:label></td>
+						<td width="30%"><form:input path="remark3"/></td>
+						<td width="20%"></td>
+						<td width="30%"></td>
+					</tr>
 				</table>
 			</form:form>
 		</div>

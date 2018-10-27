@@ -2,20 +2,14 @@ package com.ewcms.yjk.zd.commonname.entity;
 
 import java.util.Date;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.ewcms.common.entity.BaseSequenceEntity;
@@ -25,19 +19,14 @@ import com.ewcms.common.plugin.entity.LogicDeleteable;
  * 医院在用药品总目录
  * 
  * <ul>
+ * <li>extractCommonName:提取通用名</li>
+ * <li>drugRoute:给药途径</li>
+ * <li>serialNo:编号</li>
  * <li>drugCode:药品代码</li>
  * <li>genericDrugName:药品通用名</li>
- * <li>acidGroup:酸根</li>
- * <li>chemicalName:化学名</li>
  * <li>pill:剂型</li>
- * <li>pill1:剂型1</li>
- * <li>productName:商品名</li>
  * <li>specNumber:规格*数量</li>
  * <li>manufacturer:生产企业</li>
- * <li>importEnterprise:进口企业</li>
- * <li>bidPrice:中标价</li>
- * <li>medical:医保</li>
- * <li>limitRange:限制范围</li>
  * <li>contentCategory:目录分类</li>
  * <li>drugMajor:药品分类大类</li>
  * <li>drugCategory:药品分类</li>
@@ -47,6 +36,9 @@ import com.ewcms.common.plugin.entity.LogicDeleteable;
  * <li>createDate:创建时间</li>
  * <li>updateDate:更新时间</li>
  * <li>deleted:是否删除</li>
+ * <li>remark1:备注1</li>
+ * <li>remark2:备注2</li>
+ * <li>remark3:备注3</li>
  * </ul>
  * 
  * @author zhoudongchu
@@ -59,44 +51,30 @@ import com.ewcms.common.plugin.entity.LogicDeleteable;
 public class HospitalContents extends BaseSequenceEntity<Long> implements LogicDeleteable {
 	private static final long serialVersionUID = -1099925594474353241L;
 	
+	@Column(name = "extract_common_name", nullable = false)
+	private String extractCommonName;	
+	
+	@Column(name = "drug_route")
+	private String drugRoute;
+	
+	@Column(name = "serial_no")
+	private String serialNo;
+	
 	@Column(name = "drug_code")
 	private String drugCode;	
     
 	@Column(name = "generic_drug_name")
 	private String genericDrugName;	
 	
-	@Column(name = "acid_group")
-	private String acidGroup;
-	
-	@Column(name = "chemical_name")
-	private String chemicalName;
-	
-	@ManyToOne(cascade = {CascadeType.REFRESH},fetch = FetchType.EAGER)
-    @Fetch(FetchMode.SELECT)
-    @JoinColumn(name = "pill_id")
-	private Pill pill;
-	
-	@Column(name = "product_name")
-	private String productName; 
+	@Column(name = "pill")
+	private String pill;
 	
 	@Column(name = "spec_number")
 	private String specNumber;
 	
 	@Column(name = "manufacturer")
 	private String manufacturer;
-	
-	@Column(name = "import_enterprise")
-	private String importEnterprise;
-	
-	@Column(name = "bid_price")
-	private Double bidPrice;
-	
-	@Column(name = "medical")
-	private String medical;
-	
-	@Column(name = "limit_range")
-	private String limitRange;
-	
+		
 	@Column(name = "content_category")
 	private String contentCategory;
 	
@@ -128,6 +106,14 @@ public class HospitalContents extends BaseSequenceEntity<Long> implements LogicD
 	@Column(name = "is_deleted")
     private Boolean deleted = Boolean.FALSE;
 	
+	@Column(name = "remark1")
+	private String remark1;	
+	
+	@Column(name = "remark2")
+	private String remark2;	
+	
+	@Column(name = "remark3")
+	private String remark3;		
 	
 	public String getDrugCode() {
 		return drugCode;
@@ -145,37 +131,16 @@ public class HospitalContents extends BaseSequenceEntity<Long> implements LogicD
 		this.genericDrugName = genericDrugName;
 	}
 
-	public String getAcidGroup() {
-		return acidGroup;
-	}
 
-	public void setAcidGroup(String acidGroup) {
-		this.acidGroup = acidGroup;
-	}
-
-	public String getChemicalName() {
-		return chemicalName;
-	}
-
-	public void setChemicalName(String chemicalName) {
-		this.chemicalName = chemicalName;
-	}
-	
-	public Pill getPill() {
+	public String getPill() {
 		return pill;
 	}
 
-	public void setPill(Pill pill) {
+	public void setPill(String pill) {
 		this.pill = pill;
 	}
 
-	public String getProductName() {
-		return productName;
-	}
 
-	public void setProductName(String productName) {
-		this.productName = productName;
-	}
 
 	public String getSpecNumber() {
 		return specNumber;
@@ -191,38 +156,6 @@ public class HospitalContents extends BaseSequenceEntity<Long> implements LogicD
 
 	public void setManufacturer(String manufacturer) {
 		this.manufacturer = manufacturer;
-	}
-
-	public String getImportEnterprise() {
-		return importEnterprise;
-	}
-
-	public void setImportEnterprise(String importEnterprise) {
-		this.importEnterprise = importEnterprise;
-	}
-
-	public Double getBidPrice() {
-		return bidPrice;
-	}
-
-	public void setBidPrice(Double bidPrice) {
-		this.bidPrice = bidPrice;
-	}
-
-	public String getMedical() {
-		return medical;
-	}
-
-	public void setMedical(String medical) {
-		this.medical = medical;
-	}
-
-	public String getLimitRange() {
-		return limitRange;
-	}
-
-	public void setLimitRange(String limitRange) {
-		this.limitRange = limitRange;
 	}
 
 	public String getContentCategory() {
@@ -287,6 +220,54 @@ public class HospitalContents extends BaseSequenceEntity<Long> implements LogicD
 
 	public void setUpdateDate(Date updateDate) {
 		this.updateDate = updateDate;
+	}
+
+	public String getExtractCommonName() {
+		return extractCommonName;
+	}
+
+	public void setExtractCommonName(String extractCommonName) {
+		this.extractCommonName = extractCommonName;
+	}
+
+	public String getDrugRoute() {
+		return drugRoute;
+	}
+
+	public void setDrugRoute(String drugRoute) {
+		this.drugRoute = drugRoute;
+	}
+
+	public String getSerialNo() {
+		return serialNo;
+	}
+
+	public void setSerialNo(String serialNo) {
+		this.serialNo = serialNo;
+	}
+
+	public String getRemark1() {
+		return remark1;
+	}
+
+	public void setRemark1(String remark1) {
+		this.remark1 = remark1;
+	}
+
+	public String getRemark2() {
+		return remark2;
+	}
+
+	public void setRemark2(String remark2) {
+		this.remark2 = remark2;
+	}
+
+	public String getRemark3() {
+		return remark3;
+	}
+
+	public void setRemark3(String remark3) {
+		this.remark3 = remark3;
 	}
 
 	@Override

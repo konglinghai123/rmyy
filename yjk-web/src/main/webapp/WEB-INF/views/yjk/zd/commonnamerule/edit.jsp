@@ -15,11 +15,11 @@
 			  	<table class="formtable">
 		        	<tr>
 						<td width="30%"><form:label path="ruleName">规则名：</form:label></td>
-						<td width="70%"><form:input path="ruleName" cssClass="validate[required]"/></td>
+						<td width="70%"><form:input path="ruleName" cssClass="validate[required,ajax[ajaxNameCall]]"/></td>
 					</tr>
 		        	<tr>
 						<td width="30%"><form:label path="ruleCnName">规则中文名：</form:label></td>
-						<td width="70%"><form:input path="ruleCnName" cssClass="validate[required]"/></td>
+						<td width="70%"><form:input path="ruleCnName" cssClass="validate[required,ajax[ajaxNameCall]]"/></td>
 					</tr>				
 				</table>
 			</form:form>
@@ -38,6 +38,12 @@
 	    		parent.$('#edit-window').window('close');
 	    	</c:when>
 	    	<c:otherwise>
+				$.validationEngineLanguage.allRules.ajaxNameCall= {
+	                "url": "${ctx}/yjk/zd/commonnamerule/validate",
+	                extraDataDynamic : ['#id'],
+	                "alertTextLoad": "* 正在验证，请稍等。。。"
+	            };
+				
 	    		var validationEngine = $("#editForm").validationEngine({
 	    			promptPosition:'bottomRight',
 	    			showOneMessage: true

@@ -22,4 +22,18 @@ public class CommonNameRuleService extends BaseSequenceMovableService<CommonName
 	public List<CommonNameRule> findRuleNameByDeleted(){
 		return getCommonNameRuleRepository().findRuleNameByDeleted();
 	}
+	
+	public List<CommonNameRule> findByRuleName(String ruleName){
+		return getCommonNameRuleRepository().findByRuleName(ruleName);
+	}
+	
+	public List<CommonNameRule> findByRuleCnName(String ruleCnName){
+		return getCommonNameRuleRepository().findByRuleCnName(ruleCnName);
+	}
+	
+	public CommonNameRule restore(Long commonNameRuleId){
+		CommonNameRule m = baseRepository.findOne(commonNameRuleId);
+		m.setDeleted(Boolean.FALSE);
+		return super.update(m);
+	}
 }

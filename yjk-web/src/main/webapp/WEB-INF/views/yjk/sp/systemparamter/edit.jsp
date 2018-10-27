@@ -16,10 +16,17 @@
 						<td width="30%"><form:label path="applyStartDate">申请开始时间：</form:label></td>
 						<td width="70%"><input type="text" id="applyStartDate" name="applyStartDate"  class="easyui-datetimebox" style="width:145px" data-options="
 							editable:false,
+							required: true,
 							onSelect:function(d){
+								var now = new Date();
 					        	ed = new Date($('#applyEndDate').datebox('getValue'));
+					            if (d < now) {
+					            	alert('开始日期不能小于当前日期');
+					            	$('#applyStartDate').datebox('setValue', '').datebox('showPanel');
+					            	return;
+					            }
 					            if (ed < d) {
-					                alert('结束日期不能小于开始日期');
+					            	alert('结束日期不能小于开始日期');
 					                $('#applyStartDate').datebox('setValue', '').datebox('showPanel');
 					            }
 					        }"/>
@@ -27,12 +34,19 @@
 					</tr>
 		        	<tr>
 						<td width="30%"><form:label path="applyEndDate">申请结束时间：</form:label></td>
-						<td width="70%"><input type="text" id="applyEndDate" name="applyEndDate"  class="easyui-datetimebox" style="width:145px" data-options="
+						<td width="70%"><input type="text" id="applyEndDate" name="applyEndDate"  class="easyui-datetimebox"  style="width:145px" data-options="
 							editable:false,
+							required: true,
 							onSelect:function(d){
+								var now = new Date();
 					        	sd = new Date($('#applyStartDate').datebox('getValue'));
+					            if (d < now) {
+					            	alert('结束日期不能小于当前日期');
+					            	$('#applyEndDate').datebox('setValue', '').datebox('showPanel');
+					            	return;
+					            }					        	
 					            if (d < sd) {
-					                alert('结束日期不能小于开始日期');
+					               	alert('结束日期不能小于开始日期');
 					                $('#applyEndDate').datebox('setValue', '').datebox('showPanel');
 					            }
 					        }"/>
@@ -40,7 +54,7 @@
 					</tr>
 		        	<tr>
 						<td width="30%"><form:label path="declarationLimt">申报限数：</form:label></td>
-						<td width="70%"><form:input path="declarationLimt" cssClass="validate[required,digits]"  /></td>
+						<td width="70%"><form:input path="declarationLimt" cssClass="validate[required,custom[integer]]"/></td>
 					</tr>											
 				</table>
 			</form:form>

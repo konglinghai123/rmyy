@@ -10,17 +10,13 @@
 				<th data-options="field:'applyStartDate',width:150">申请开始时间</th>
 				<th data-options="field:'applyEndDate',width:150">申请结束时间</th>
 				<th data-options="field:'declarationLimt',width:150">申报限数</th>
-				<th data-options="field:'deleted',width:100,
-						formatter:function(val,row){
-							return val ? '<font color=red>已删除</font>' : '';
-						}">是否删除</th>
+				<th data-options="field:'deleted',width:100,formatter:formatOperation">是否删除</th>
 			</tr>
 		</thead>
 	</table>
 	<div id="tb" style="padding:5px;height:auto;">
         <div class="toolbar" style="margin-bottom:2px">
 			<a id="tb-add" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-add',toggle:true" onclick="$.ewcms.add({title:'新增',width:400,height:400});">新增</a>
- 			<a id="tb-remove" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-remove',toggle:true" onclick="$.ewcms.remove({title:'删除'});">删除</a>
 		</div>
         <div  style="padding-left:5px;">
         	<form id="queryform" style="padding:0;margin:0;">
@@ -53,4 +49,23 @@
 			border:false
 		});
 	});
+	
+	function formatOperation(val, row){
+		currentTimestamp=new Date().getTime();
+		applyEndDateTimestamp=new Date(Date.parse(row.applyEndDate.replace(/-/g,"/"))).getTime();
+		if(currentTimestamp<applyEndDateTimestamp){
+			return val ? '<font color=red>已删除</font>' : '<a class="resumedCls" onclick="deleteSystemParameter(' + row.id + ')" href="javascript:void(0);">删除</a>';
+		}else{
+			return val ? '<font color=red>已删除</font>' : '';
+		}
+	}
+	
+	function deleteSystemParameter(id){
+		$.post('${ctx}/yjk/sp/systemparamter/' + id + '/delete', {}, function(result) {
+			if (result.success){
+				$('#tt').datagrid('reload');
+			}
+			$.messager.alert('提示', result.message, 'info');
+		});
+	}
 </script>

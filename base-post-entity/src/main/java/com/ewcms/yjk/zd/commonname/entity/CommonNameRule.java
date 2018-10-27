@@ -28,15 +28,17 @@ import com.ewcms.common.plugin.entity.Movable;
 @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @SequenceGenerator(name="seq", sequenceName="seq_zd_common_name_rule_id", allocationSize = 1)
 public class CommonNameRule extends BaseSequenceEntity<Long> implements Movable, LogicDeleteable {
-
 	private static final long serialVersionUID = -1670134352959536427L;
 
-	@Column(name = "rule_name", nullable = false)
+	@Column(name = "rule_name", nullable = false, unique=true)
 	private String ruleName;
-	@Column(name = "rule_cn_name", nullable = false)
+	
+	@Column(name = "rule_cn_name", nullable = false, unique=true)
 	private String ruleCnName;
+	
 	@Column(name = "weight")
 	private Integer weight;
+	
 	@Column(name = "is_deleted")
     private Boolean deleted = Boolean.FALSE;
 	

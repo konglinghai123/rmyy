@@ -56,8 +56,7 @@ public class CommonNameController extends BaseCRUDController<CommonName, Long> {
 	}
 	
 	@Override
-	public Map<String, Object> query(SearchParameter<Long> searchParameter,
-			Model model) {
+	public Map<String, Object> query(SearchParameter<Long> searchParameter,	Model model) {
 		searchParameter.getSorts().put("id", Direction.DESC);
 		return super.query(searchParameter, model);
 	}

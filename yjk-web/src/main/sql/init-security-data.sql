@@ -151,7 +151,7 @@ insert into sec_resource(id, icon, identity, name, parent_id, parent_ids, is_sho
 ,(107,'empi-yjk-zd-hospitalcontents-tree','hospitalcontents','院用目录',102,'0/1/102/','true',null,'/yjk/zd/hospitalcontents/index',4)
 ,(108,'empi-yjk-zd-systemparameter-tree','','系统参数',102,'0/1/102/','true',null,'/yjk/sp/systemparamter/index',5)
 ,(109,'empi-personal-medicine-tree','','新药申报',62,'0/1/62/','true',null,'/yjk/sb/drugform/index',3)
-,(110,'empi-yjk-zd-commonnamerule-tree','commonnamerule','匹配规则',102,'0/1/102/','true',null,'/yjk/zd/commonnamerule',6)
+,(110,'empi-yjk-zd-commonnamerule-tree','commonnamerule','匹配规则',102,'0/1/102/','true',null,'/yjk/zd/commonnamerule/index',6)
 ,(111,'empi-system-onlineeditor-tree','onlineEditor','在线编辑',6,'0/1/6/','true',null,'/system/editor/index',7)
 ,(112,'empi-system-staticresource-tree','staticResource','静态资源版本控制',6,'0/1/6/','true',null,'/system/staticresource/index',8)
 ;

@@ -23,6 +23,10 @@ import com.ewcms.common.plugin.entity.LogicDeleteable;
  * 通用名总目录
  * 
  * <ul>
+ * <li>drugId:药品ID</li>
+ * <li>serialNo:编号</li>
+ * <li>antibacterialsed:抗菌药物</li>
+ * <li>orderNo:序号</li>
  * <li>projectName:项目名称</li>
  * <li>batch:批次</li>
  * <li>source:来源</li>
@@ -43,11 +47,14 @@ import com.ewcms.common.plugin.entity.LogicDeleteable;
  * <li>packageMaterials:包材</li>
  * <li>minimalUnit:最小制剂单位</li>
  * <li>importEnterprise:进口企业</li>
- * <li>commonName:通用名</li>
+ * <li>common:通用名</li>
  * <li>createDate:创建时间</li>
  * <li>updateDate:更新时间</li>
  * <li>declared:是否允许申报</li>
  * <li>deleted:是否删除</li>
+ * <li>remark1:备注1</li>
+ * <li>remark2:备注2</li>
+ * <li>remark3:备注3</li>
  * </ul>
  * 
  * @author zhoudongchu
@@ -68,7 +75,7 @@ public class CommonNameContents extends BaseSequenceEntity<Long> implements Logi
 	@Column(name = "source")
 	private String source;
 	
-	@Column(name = "extract_common_name")
+	@Column(name = "extract_common_name", nullable = false)
 	private String extractCommonName;
 	
 	@Column(name = "medical_dir_no")
@@ -119,7 +126,7 @@ public class CommonNameContents extends BaseSequenceEntity<Long> implements Logi
 	@Column(name = "import_enterprise")
 	private String importEnterprise;
 	
-	@ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.REFRESH},fetch = FetchType.EAGER)
+	@ManyToOne(cascade = {CascadeType.REFRESH},fetch = FetchType.EAGER)
     @Fetch(FetchMode.SELECT)
     @JoinColumn(name = "common_name_id")
     private CommonName common;
@@ -139,7 +146,28 @@ public class CommonNameContents extends BaseSequenceEntity<Long> implements Logi
 	
 	@Column(name = "is_deleted")
     private Boolean deleted = Boolean.FALSE;
-
+	
+	@Column(name = "drug_id")
+	private String drugId;	
+	
+	@Column(name = "serial_no")
+	private String serialNo;	
+	
+	@Column(name = "is_antibacterialsed")
+	private Boolean antibacterialsed = Boolean.FALSE;;	
+	
+	@Column(name = "order_no")
+	private String orderNo;	
+	
+	@Column(name = "remark1")
+	private String remark1;	
+	
+	@Column(name = "remark2")
+	private String remark2;	
+	
+	@Column(name = "remark3")
+	private String remark3;	
+	
 	public Date getCreateDate() {
 		return createDate;
 	}
@@ -332,6 +360,62 @@ public class CommonNameContents extends BaseSequenceEntity<Long> implements Logi
 
 	public void setDeclared(Boolean declared) {
 		this.declared = declared;
+	}
+
+	public String getDrugId() {
+		return drugId;
+	}
+
+	public void setDrugId(String drugId) {
+		this.drugId = drugId;
+	}
+
+	public String getSerialNo() {
+		return serialNo;
+	}
+
+	public void setSerialNo(String serialNo) {
+		this.serialNo = serialNo;
+	}
+
+	public Boolean getAntibacterialsed() {
+		return antibacterialsed;
+	}
+
+	public void setAntibacterialsed(Boolean antibacterialsed) {
+		this.antibacterialsed = antibacterialsed;
+	}
+
+	public String getOrderNo() {
+		return orderNo;
+	}
+
+	public void setOrderNo(String orderNo) {
+		this.orderNo = orderNo;
+	}
+
+	public String getRemark1() {
+		return remark1;
+	}
+
+	public void setRemark1(String remark1) {
+		this.remark1 = remark1;
+	}
+
+	public String getRemark2() {
+		return remark2;
+	}
+
+	public void setRemark2(String remark2) {
+		this.remark2 = remark2;
+	}
+
+	public String getRemark3() {
+		return remark3;
+	}
+
+	public void setRemark3(String remark3) {
+		this.remark3 = remark3;
 	}
 
 	@Override

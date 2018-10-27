@@ -13,4 +13,8 @@ public interface CommonNameRuleRepository extends BaseRepository<CommonNameRule,
 	
 	@Query("from CommonNameRule where deleted is false order by weight ")
 	List<CommonNameRule> findRuleNameByDeleted();
+	
+	List<CommonNameRule> findByRuleName(String ruleName);
+	
+	List<CommonNameRule> findByRuleCnName(String ruleCnName);
 }

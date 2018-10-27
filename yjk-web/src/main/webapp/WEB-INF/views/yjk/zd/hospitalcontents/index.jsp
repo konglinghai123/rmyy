@@ -8,18 +8,13 @@
 			    <th data-options="field:'ck',checkbox:true"/>
 			    <th data-options="field:'id',hidden:true">编号</th>	
 			    <th data-options="field:'drugCode',width:120">药品代码</th>
-				<th data-options="field:'genericDrugName',width:120">药品通用名</th>
-				<th data-options="field:'acidGroup',width:100">酸根</th>
-				<th data-options="field:'chemicalName',width:50">化学名</th>
-				<th data-options="field:'productName',width:50">商品名</th>				
-				<th data-options="field:'pill',width:100,
-						formatter:function(val,row){
-							return row.pill==null?'':row.pill.pillName;
-						}">通用名</th>					
+			    <th data-options="field:'genericDrugName',width:120">药品通用名</th>
+				<th data-options="field:'extractCommonName',width:120">提取通用名</th>
+			    <th data-options="field:'drugRoute',width:120">给药途径</th>
+				<th data-options="field:'serialNo',width:120">编号</th>			
+				<th data-options="field:'pill',width:100">剂型</th>					
 				<th data-options="field:'specNumber',width:70">规格*数量</th>
-				<th data-options="field:'manufacturer',width:120">生产企业</th>				
-				<th data-options="field:'bidPrice',width:50">中标价</th>
-				<th data-options="field:'medical',width:80">医保</th>
+				<th data-options="field:'manufacturer',width:120">生产企业</th>
 				<th data-options="field:'drugMajor',width:120">药品分类大类</th>
 				<th data-options="field:'drugCategory',width:80">药品分类</th>
 				<th data-options="field:'discom',width:80">配送公司</th>
@@ -57,7 +52,13 @@
               			<td width="15%"><input type="text" name="LIKE_specNumber" style="width:140px;"/></td>
               			<td width="5%">生产企业</td>
               			<td width="15%"><input type="text" name="LIKE_manufacturer" style="width:140px;"/></td>
-              			<td width="5%" colspan="2"></td>
+           				<td>是否删除</td>
+           				<td>
+           					<form:select id="deleted" name="EQ_deleted" path="booleanList" cssClass="easyui-combobox"  cssStyle="width:140px;" data-options="panelHeight:'auto',editable:false">
+					  			<form:option value="" label="------请选择------"/>
+					  			<form:options items="${booleanList}" itemLabel="info"/>
+							</form:select>
+           				</td>  
               			<td width="15%" colspan="2"></td>
               		</tr>
            		</table>
