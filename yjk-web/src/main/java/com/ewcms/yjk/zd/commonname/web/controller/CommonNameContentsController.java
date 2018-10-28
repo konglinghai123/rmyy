@@ -43,9 +43,11 @@ public class CommonNameContentsController extends BaseCRUDController<CommonNameC
 		return super.query(searchParameter, model);
 	}
 	
-	@RequestMapping(value = "query1")
+	@RequestMapping(value = "querydeclare")
 	@ResponseBody
-	public List<CommonNameContents> findByCommonParse(@ModelAttribute SearchParameter<Long> searchParameter, Model model) {
+	public List<CommonNameContents> queryDeclare(@ModelAttribute SearchParameter<Long> searchParameter, Model model) {
+		searchParameter.getSorts().put("updateDate", Direction.DESC);
+		searchParameter.getParameters().put("EQ_deleted", Boolean.FALSE);
 		Map<String, Object> map = super.query(searchParameter, model);
 		return (List<CommonNameContents>)map.get("rows");
 	}

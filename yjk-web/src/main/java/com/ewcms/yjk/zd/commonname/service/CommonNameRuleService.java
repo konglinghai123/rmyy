@@ -15,12 +15,12 @@ public class CommonNameRuleService extends BaseSequenceMovableService<CommonName
         return (CommonNameRuleRepository) baseRepository;
     }
 	
-	public List<String> findRuleNameOrderByWeight(){
-		return getCommonNameRuleRepository().findRuleNameOrderByWeight();
-	}
-	
-	public List<CommonNameRule> findRuleNameByDeleted(){
-		return getCommonNameRuleRepository().findRuleNameByDeleted();
+//	public List<String> findRuleNameOrderByWeight(){
+//		return getCommonNameRuleRepository().findRuleNameOrderByWeight();
+//	}
+//	
+	public List<CommonNameRule> findByDeletedFalseOrderByWeightAsc(){
+		return getCommonNameRuleRepository().findByDeletedFalseOrderByWeightAsc();
 	}
 	
 	public List<CommonNameRule> findByRuleName(String ruleName){

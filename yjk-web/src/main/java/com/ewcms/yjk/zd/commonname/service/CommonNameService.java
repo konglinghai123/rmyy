@@ -53,6 +53,9 @@ public class CommonNameService extends BaseService<CommonName, Long> {
     	return getCommonNameRepository().findByCommonNameAndAdministrationIdAndEnabledTrueAndDeletedFalse(commonName, administrationId);
     }
     
+    public List<String> findByMatchingNumber(String matchingNumber){
+    	return getCommonNameRepository().findByMatchingNumber(matchingNumber);
+    }
 	@Override
 	public CommonName save(CommonName m) {
 		PinYin.initSpell(m);

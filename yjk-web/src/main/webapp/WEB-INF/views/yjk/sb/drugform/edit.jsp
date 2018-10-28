@@ -5,7 +5,7 @@
 	<div id="edit-from" class="easyui-layout" data-options="fit:true" style="border:0;">
 		<ewcms:showMessage/>
 		<div data-options="region:'center',border:false">
-			<form:form id="editForm" method="post" action="${ctx}/yjk/sb/drugform/save1" commandName="m"  class="form-horizontal">
+			<form:form id="editForm" method="post" action="${ctx}/yjk/sb/drugform/drugdeclare" commandName="m"  class="form-horizontal">
         		<ewcms:showGlobalError commandName="m"/>
 		    	<form:hidden path="id"/>
 		    	<form:hidden id="commonNameContentsId" path="commonNameContents.id"/>
@@ -17,21 +17,29 @@
 						<c:choose>
 							<c:when test="${commonNameRule.ruleName == 'common.commonName'}">
 				        	<tr>
-								<td width="30%">${commonNameRule.ruleCnName}：</td>
-								<td width="70%">
-									<input type="text" id="CNRule${status.index}" name="commonNameContents.${commonNameRule.ruleName}" class="easyui-combobox" data-options="
+								<td width="30%">${commonNameRule.ruleCnName}(拼音)：</td>
+								<td width="70%">							
+								<input type="text" id="CNRule${status.index}" name="commonNameContents.${commonNameRule.ruleName}" class="easyui-combobox" data-options="
 									valueField:'id',
 									textField:'commonName',
+									method: 'get',
+									width:200,
+									required:true,
 									panelHeight:200,
 									onSelect:function(rec){
 										$('#commonNameContentsId').val(rec.id);
 										$('#queryCNRule${status.index}').val(rec.commonName);
-	    	   							$('#CNRule${status.index+1}').combobox('reload','${ctx}/yjk/zd/commonnamecontents/query1');
+	    	   							$('#CNRule${status.index+1}').combobox('reload','${ctx}/yjk/zd/commonnamecontents/querydeclare');
 	       							},
 	       							onBeforeLoad: function(param){
 	        	 						param['parameters']=$('#queryform').serializeObject();
 	        	 						
-	     							}"/>
+	     							},
+	     							onChange: function (newValue, oldValue) {
+								        	if(newValue==$('#CNRule${status.index}').combobox('getText')){
+								        		$('#CNRule${status.index}').combobox('reload','${ctx}/yjk/zd/commonname/findbyspell?spell='+newValue);
+								    		}
+								         }"/>
      							</td>
 							</tr>
 							</c:when>
@@ -42,11 +50,13 @@
 										<input type="text" id="CNRule${status.index}" name="commonNameContents.${commonNameRule.ruleName}" class="easyui-combobox" data-options="
 										valueField:'id',
 										textField:'${commonNameRule.ruleName}',
+										width:200,
+										required:true,
 										panelHeight:200,
 										onSelect:function(rec){
 											$('#commonNameContentsId').val(rec.id);
 											$('#queryCNRule${status.index}').val(rec.${commonNameRule.ruleName});
-		    	   							$('#CNRule${status.index+1}').combobox('reload','${ctx}/yjk/zd/commonnamecontents/query1');
+		    	   							$('#CNRule${status.index+1}').combobox('reload','${ctx}/yjk/zd/commonnamecontents/querydeclare');
 		       							},
 		       							onBeforeLoad: function(param){
 		        	 						param['parameters']=$('#queryform').serializeObject();
@@ -59,7 +69,7 @@
            		</table>
           	</form:form>
 		 	<form id="queryform">
-				<c:forEach items="${commonNameRuleList}" var="commonNameRule" varStatus="status">	
+				<c:forEach items="${commonNameRuleList}" var="commonNameRule" varStatus="status">
 					<input type="hidden" id="queryCNRule${status.index}" name="EQ_${commonNameRule.ruleName}"/>
 				</c:forEach>
 			</form>
@@ -72,15 +82,6 @@
 	</div>
 <ewcms:footer/>
 <script type="text/javascript">
-	$('#CNRule0').combobox({
-		method: 'get',
-        onChange: function (newValue, oldValue) {
-        	if(newValue==$("#CNRule0").combobox("getText")){
-        		$('#CNRule0').combobox('reload','${ctx}/yjk/zd/commonname/findbyspell?spell='+newValue);
-    		}
-         }
-	});
-	
 	$(function(){
 		<c:choose>
 	    	<c:when test="${close}">

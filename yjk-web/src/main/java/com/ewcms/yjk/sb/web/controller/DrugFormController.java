@@ -16,11 +16,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSON;
 import com.ewcms.common.entity.search.SearchParameter;
 import com.ewcms.common.web.controller.BaseCRUDController;
 import com.ewcms.security.user.entity.User;
+import com.ewcms.security.user.service.UserService;
 import com.ewcms.security.user.web.bind.annotation.CurrentUser;
 import com.ewcms.yjk.sb.entity.DrugForm;
+import com.ewcms.yjk.sb.entity.SbState;
 import com.ewcms.yjk.sb.service.DrugFormService;
 import com.ewcms.yjk.zd.commonname.service.CommonNameRuleService;
 
@@ -32,21 +35,29 @@ import com.ewcms.yjk.zd.commonname.service.CommonNameRuleService;
 public class DrugFormController extends BaseCRUDController<DrugForm, Long> {
 	@Autowired
 	private CommonNameRuleService commonNameRuleService;
+	@Autowired
+	private UserService userService;
 	
 	private DrugFormService getDrugFormService() {
 		return (DrugFormService) baseService;
 	}
 	
+	public DrugFormController() {
+		setListAlsoSetCommonData(true);
+	}
+	
     @Override
     protected void setCommonData(Model model) {
         super.setCommonData(model);
-        model.addAttribute("commonNameRuleList", commonNameRuleService.findRuleNameByDeleted());
+        model.addAttribute("stateList", SbState.values());
+        model.addAttribute("userList", userService.findAll());
+        model.addAttribute("commonNameRuleList", commonNameRuleService.findByDeletedFalseOrderByWeightAsc());
     }
 
 	
-    @RequestMapping(value = "query1")
+    @RequestMapping(value = "querybyuser")
     @ResponseBody
-	public Map<String, Object> query(@CurrentUser User user,@ModelAttribute SearchParameter<Long> searchParameter, Model model){
+	public Map<String, Object> queryByUser(@CurrentUser User user,@ModelAttribute SearchParameter<Long> searchParameter, Model model){
 		searchParameter.getSorts().put("id", Direction.DESC);
 		if (!user.getAdmin()) {
 			searchParameter.getParameters().put("EQ_userId", user.getId());
@@ -55,12 +66,27 @@ public class DrugFormController extends BaseCRUDController<DrugForm, Long> {
 		return queryObj;
 	}
 
-	@RequestMapping(value = "save1", method = RequestMethod.POST)
-	public String save1(@CurrentUser User user,Model model, @Valid @ModelAttribute("m")DrugForm m, BindingResult result,
+	@RequestMapping(value = "drugdeclare", method = RequestMethod.POST)
+	public String drugDeclare(@CurrentUser User user,Model model, @Valid @ModelAttribute("m")DrugForm m, BindingResult result,
 			 @RequestParam(required = false) List<Long> selections) {
-		m.setUserId(user.getId());
-		return super.save(model, m, result, selections);
+		if (hasError(m, result)) {
+            return showSaveForm(model, selections);
+        }
+
+		setCommonData(model);
+		
+        if (permissionList != null) {
+            this.permissionList.assertHasCreatePermission();
+        }
+        
+		DrugForm lastM = getDrugFormService().drugDeclare(user, m.getCommonNameContents());
+		if(lastM == null){
+			result.rejectValue("commonNameContents.common.commonName","","新药已超过限数，不能申报");
+		}
+		model.addAttribute("m", newModel());
+		
+		model.addAttribute("lastM", JSON.toJSONString(lastM));
+		
+		return showSaveForm(model, selections);
 	}
-    
-    
 }

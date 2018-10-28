@@ -8,11 +8,10 @@ import com.ewcms.common.repository.BaseRepository;
 import com.ewcms.yjk.zd.commonname.entity.CommonNameRule;
 
 public interface CommonNameRuleRepository extends BaseRepository<CommonNameRule, Long> {
-	@Query("select ruleName from CommonNameRule order by weight ")
-	List<String> findRuleNameOrderByWeight();
+//	@Query("select ruleName from CommonNameRule order by weight ")
+//	List<String> findRuleNameOrderByWeight();
 	
-	@Query("from CommonNameRule where deleted is false order by weight ")
-	List<CommonNameRule> findRuleNameByDeleted();
+	List<CommonNameRule> findByDeletedFalseOrderByWeightAsc();
 	
 	List<CommonNameRule> findByRuleName(String ruleName);
 	
