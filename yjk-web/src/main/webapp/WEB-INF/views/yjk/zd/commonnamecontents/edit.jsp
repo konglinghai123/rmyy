@@ -16,7 +16,19 @@
 			        	<c:choose>
 				    		<c:when test="${empty(m.common.id)}">
 								<td width="20%"><form:label path="common">通用名：</form:label></td>
-								<td width="30%"><form:input path="common"  cssClass="validate[required]" class="easyui-combobox" data-options="valueField:'id',textField:'commonName',panelHeight:140"/></td>
+								<td width="30%"><form:input path="common"  class="easyui-combobox" data-options="
+								valueField:'id',
+								textField:'commonName',
+								panelHeight:140,
+								width:150,
+								required:true,
+								method:'get',
+						        onChange: function (newValue, oldValue) {						        	
+						        	if(newValue==$('#common').combobox('getText')){
+						        		$('#common').combobox('reload','${ctx}/yjk/zd/commonname/findbyspell?spell='+newValue);
+						    		}
+						    	}"/>
+	         					</td>
 				    		</c:when>
 				    		<c:otherwise>
 				    			<form:hidden path="common.id"/>
@@ -121,23 +133,13 @@
 			</form:form>
 		</div>
 		<div data-options="region:'south'" style="text-align:center;height:30px;border:0">
-	  		<a class="easyui-linkbutton" data-options="iconCls:'icon-save'" href="javascript:void(0);" onclick="javascript:$('#editForm').submit();">提交</a>
+	  		<a class="easyui-linkbutton" data-options="iconCls:'icon-save'" href="javascript:void(0);" onclick="javascript:pageSubmit();">提交</a>
 	  		<a class="easyui-linkbutton" data-options="iconCls:'icon-undo'" href="javascript:void(0);" onclick="javascript:$('#editForm').form('reset');">重置</a>
 	  		<a class="easyui-linkbutton" data-options="iconCls:'icon-cancel'" href="javascript:void(0);" onclick="javascript:parent.$('#edit-window').window('close');">关闭</a>
 		</div>
 	</div>
 <ewcms:footer/>
 <script type="text/javascript">
-	$('#common').combobox({
-		method: 'GET',
-        onChange: function (newValue, oldValue) {
-        	if(newValue==$("#common").combobox("getText")){
-        		$('#common').combobox('reload','${ctx}/yjk/zd/commonname/findbyspell?spell='+newValue);
-    		}
-        	
-         }
-	});
-	
 	$(function(){
 		<c:choose>
 	    	<c:when test="${close}">
@@ -152,6 +154,15 @@
 	    	</c:otherwise>
 		</c:choose>
 	});
+	
 	$.ewcms.refresh({operate : '${operate}', data : '${lastM}'});
+	
+	function pageSubmit(){
+		if($('#common').val() == ''){
+			alert('通用名不能为空')
+			return;
+		}
+		$('#editForm').submit();
+	}
 </script>
 	

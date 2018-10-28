@@ -16,7 +16,7 @@
 	</table>
 	<div id="tb" style="padding:5px;height:auto;">
         <div class="toolbar" style="margin-bottom:2px">
-			<a id="tb-add" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-add',toggle:true" onclick="$.ewcms.add({title:'新增',width:400,height:400});">新增</a>
+			<a id="tb-add" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-add',toggle:true" onclick="$.ewcms.add({title:'新增',width:400,height:350});">新增</a>
 		</div>
         <div  style="padding-left:5px;">
         	<form id="queryform" style="padding:0;margin:0;">

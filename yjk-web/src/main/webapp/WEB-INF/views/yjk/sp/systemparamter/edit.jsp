@@ -34,7 +34,7 @@
 					</tr>
 		        	<tr>
 						<td width="30%"><form:label path="applyEndDate">申请结束时间：</form:label></td>
-						<td width="70%"><input type="text" id="applyEndDate" name="applyEndDate"  class="easyui-datetimebox"  style="width:145px" data-options="
+						<td width="70%"><input type="text"   id="applyEndDate" name="applyEndDate"  class="easyui-datetimebox"  style="width:145px" data-options="
 							editable:false,
 							required: true,
 							onSelect:function(d){
@@ -60,7 +60,7 @@
 			</form:form>
 		</div>
 		<div data-options="region:'south'" style="text-align:center;height:30px;border:0">
-	  		<a class="easyui-linkbutton" data-options="iconCls:'icon-save'" href="javascript:void(0);" onclick="javascript:$('#editForm').submit();">提交</a>
+	  		<a class="easyui-linkbutton" data-options="iconCls:'icon-save'" href="javascript:void(0);" onclick="javascript:pageSubmit();">提交</a>
 	  		<a class="easyui-linkbutton" data-options="iconCls:'icon-undo'" href="javascript:void(0);" onclick="javascript:$('#editForm').form('reset');">重置</a>
 	  		<a class="easyui-linkbutton" data-options="iconCls:'icon-cancel'" href="javascript:void(0);" onclick="javascript:parent.$('#edit-window').window('close');">关闭</a>
 		</div>
@@ -80,7 +80,21 @@
 	        	<ewcms:showFieldError commandName="m"/>
 	    	</c:otherwise>
 	    </c:choose>
+	    
+	    
 	});
 	$.ewcms.refresh({operate : '${operate}', data : '${lastM}'});
+	
+	function pageSubmit(){
+		if($('#applyStartDate').val() == ''){
+			alert('申请开始时间不能为空')
+			return;
+		}
+		if($('#applyEndDate').val() == ''){
+			alert('申请结束时间不能为空')
+			return;
+		}
+		$('#editForm').submit();
+	}
 </script>
 	
