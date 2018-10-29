@@ -92,3 +92,9 @@
 .icon-move{
 	background: url('icons/buttons/move.png') no-repeat;
 }
+.icon-import{
+	background: url('icons/buttons/import.png') no-repeat;
+}
+.icon-export{
+	background: url('icons/buttons/export.png') no-repeat;
+}
