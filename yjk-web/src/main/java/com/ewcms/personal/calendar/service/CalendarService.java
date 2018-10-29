@@ -1,6 +1,7 @@
 package com.ewcms.personal.calendar.service;
 
 import java.sql.Time;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.springframework.beans.BeanUtils;
@@ -30,14 +31,28 @@ public class CalendarService extends BaseService<Calendar, Long>{
 		save(copyCalendar);
 	}
 	
-	@SuppressWarnings("deprecation")
 	public Long countRecentlyCalendar(Long userId, Integer interval){
-		Date nowDate = new Date();
-        Date nowTime = new Time(nowDate.getHours(), nowDate.getMinutes(), nowDate.getSeconds());
-        nowDate.setHours(0);
-        nowDate.setMinutes(0);
-        nowDate.setSeconds(0);
-
-        return getCalendarRepository().countRecentlyCalendar(userId, nowDate, nowTime, interval);
+		Date now = new Date();
+		
+        Date nowTime = new Time(now.getHours(), now.getMinutes(), now.getSeconds());
+//        nowDate.setHours(0);
+//        nowDate.setMinutes(0);
+//        nowDate.setSeconds(0);
+		
+		SimpleDateFormat formatterDate = new SimpleDateFormat("yyyy-MM-dd");
+		String nowDate = formatterDate.format(now);
+		
+		java.util.Calendar futureCalendar = java.util.Calendar.getInstance();
+		futureCalendar.setTime(now);
+		futureCalendar.add(java.util.Calendar.DAY_OF_YEAR, interval);
+		String futureDate = formatterDate.format(futureCalendar.getTime());
+        
+		java.util.Calendar pastCalendar = java.util.Calendar.getInstance();
+		pastCalendar.setTime(now);
+		pastCalendar.add(java.util.Calendar.DAY_OF_YEAR, -interval);
+		String pastDate = formatterDate.format(futureCalendar.getTime());
+        
+		
+        return getCalendarRepository().countRecentlyCalendar(userId, nowDate, nowTime, futureDate, pastDate);
 	}
 }

@@ -25,6 +25,7 @@ import com.ewcms.common.Constants;
 import com.ewcms.common.entity.search.SearchHelper;
 import com.ewcms.common.entity.search.SearchParameter;
 import com.ewcms.common.web.controller.BaseController;
+import com.ewcms.common.web.validate.AjaxResponse;
 import com.ewcms.personal.message.entity.Message;
 import com.ewcms.personal.message.entity.MessageContent;
 import com.ewcms.personal.message.entity.MessageState;
@@ -104,7 +105,7 @@ public class MessageController extends BaseController<Message, Long>{
 	}
 	
 	@RequestMapping(value = "send", method = RequestMethod.POST)
-	public String send(@CurrentUser User user, @Valid @ModelAttribute("m") Message message, BindingResult result, @RequestParam(value = "receiver", required = false) String receiverUsername, Model model, RedirectAttributes redirectAttributes){
+	public String send(@CurrentUser User user, @Valid @ModelAttribute("m") Message message, BindingResult result, @RequestParam(value = "receiver", required = false) String receiverUsername, Model model){
 		User receiver = userService.findByUsername(receiverUsername);
 		if (receiver == null){
 			result.rejectValue("receiverId", "receiver.not.exists");
@@ -119,7 +120,7 @@ public class MessageController extends BaseController<Message, Long>{
 		message.setSenderId(user.getId());
 		messageApi.send(message);
 		
-		return redirectToUrl(viewName(MessageState.out_box + "/index"));
+		return showSendForm(model);
 	}
 	
 	@RequestMapping(value = "{parent}/reply", method = RequestMethod.GET)
@@ -145,7 +146,7 @@ public class MessageController extends BaseController<Message, Long>{
 		messageApi.send(m);
 		
 		redirectAttributes.addFlashAttribute(Constants.MESSAGE, "回复成功");
-		return redirectToUrl(viewName(MessageState.out_box + "/index"));
+		return redirectToUrl(viewName(m.getId() + "/reply"));
 	}
 	
 	@RequestMapping(value = "{parent}/forward", method = RequestMethod.GET)
@@ -181,11 +182,11 @@ public class MessageController extends BaseController<Message, Long>{
 		messageApi.send(m);
 		
 		redirectAttributes.addFlashAttribute(Constants.MESSAGE, "转发成功");
-		return redirectToUrl(viewName(MessageState.out_box + "/index"));
+		return redirectToUrl(viewName(m.getId() + "/forward"));
 	}
 	
 	@RequestMapping(value = "draft/save", method = RequestMethod.POST)
-	public String saveDraft(@CurrentUser User user, @RequestParam(value = "username", required = false) String username, @ModelAttribute("m") Message m, RedirectAttributes redirectAttributes){
+	public String saveDraft(@CurrentUser User user, @RequestParam(value = "username", required = false) String username, @ModelAttribute("m") Message m, RedirectAttributes redirectAttributes, Model model){
 		User receiver = userService.findByUsername(username);
 		if (receiver != null){
 			m.setReceiverId(receiver.getId());
@@ -195,7 +196,7 @@ public class MessageController extends BaseController<Message, Long>{
 		messageApi.saveDraft(m);
 		
 		redirectAttributes.addFlashAttribute(Constants.MESSAGE, "保存草稿成功");
-		return redirectToUrl(viewName(MessageState.draft_box + "/index"));
+		return redirectToUrl(viewName("send"));
 	}
 	
 	@RequestMapping(value = "draft/{m}/send", method = RequestMethod.GET)
@@ -213,42 +214,74 @@ public class MessageController extends BaseController<Message, Long>{
 	}
 	
 	@RequestMapping(value = "draft/{m}/send", method = RequestMethod.POST)
-	public String resendDraft(@CurrentUser User user, @Valid @ModelAttribute("m") Message m, BindingResult result, @RequestParam(value = "username", required = false) String username, Model model, RedirectAttributes redirectAttributes){
-		String viewName = send(user, m, result, username, model, redirectAttributes);
+	public String resendDraft(@CurrentUser User user, @Valid @ModelAttribute("m") Message m, BindingResult result, @RequestParam(value = "username", required = false) String username, Model model){
+		String viewName = send(user, m, result, username, model);
 		model.addAttribute(Constants.OP_NAME, "发送草稿");
 		return viewName;
 	}
 	
 	@RequestMapping("batch/store")
-	public String batchStore(@CurrentUser User user, @RequestParam(value = "ids", required = false) Long[] ids, RedirectAttributes redirectAttributes){
-		messageApi.store(user.getId(), ids);
-		redirectAttributes.addFlashAttribute(Constants.MESSAGE, "收藏成功");
-		return redirectToUrl(viewName(MessageState.store_box + "/index"));
+	@ResponseBody
+	public AjaxResponse batchStore(@CurrentUser User user, @RequestParam(value = "ids", required = false) Long[] ids){
+		AjaxResponse ajaxResponse = new AjaxResponse("收藏成功");
+		
+		try {
+			messageApi.store(user.getId(), ids);
+		}catch (Exception e) {
+			ajaxResponse.setSuccess(Boolean.FALSE);
+            ajaxResponse.setMessage("收藏失败");
+		}
+		return ajaxResponse;
 	}
 	
 	@RequestMapping("batch/delete")
-	public String batchRecycle(@CurrentUser User user, @RequestParam(value = "ids", required = false) Long[] ids, RedirectAttributes redirectAttributes){
-		messageApi.delete(user.getId(), ids);
-		redirectAttributes.addFlashAttribute(Constants.MESSAGE, "删除成功");
-		return redirectToUrl(viewName(MessageState.trash_box + "/index"));
+	@ResponseBody
+	public AjaxResponse batchRecycle(@CurrentUser User user, @RequestParam(value = "ids", required = false) Long[] ids, RedirectAttributes redirectAttributes){
+		AjaxResponse ajaxResponse = new AjaxResponse("删除成功");
+		
+		try {
+			messageApi.delete(user.getId(), ids);
+		} catch (Exception e) {
+			ajaxResponse.setSuccess(Boolean.FALSE);
+            ajaxResponse.setMessage("删除失败");
+		}
+		
+		return ajaxResponse;
 	}
 	
 	@RequestMapping("clear/{state}")
-	public String clear(@CurrentUser User user, @PathVariable("state") MessageState state, RedirectAttributes redirectAttributes){
-		messageApi.clearBox(user.getId(), state);
-		redirectAttributes.addFlashAttribute(Constants.MESSAGE, String.format("清空%s成功", state.getInfo()));
-		return redirectToUrl(viewName(MessageState.trash_box + "/index"));
+	@ResponseBody
+	public AjaxResponse clear(@CurrentUser User user, @PathVariable("state") MessageState state, RedirectAttributes redirectAttributes){
+		AjaxResponse ajaxResponse = new AjaxResponse(String.format("清空%s成功", state.getInfo()));
+		
+		try {
+			messageApi.clearBox(user.getId(), state);
+		} catch (Exception e) {
+			ajaxResponse.setSuccess(Boolean.FALSE);
+            ajaxResponse.setMessage(String.format("清空%s失败", state.getInfo()));
+		}
+		
+		return ajaxResponse;
 	}
 	
 	@RequestMapping("markRead")
-	public String markRead(@CurrentUser User user, @RequestParam(value = "ids", required = false) Long[] ids, @RequestParam("BackURL") String backURL, RedirectAttributes redirectAttributes){
-		messageApi.markRead(user.getId(), ids);
-		redirectAttributes.addFlashAttribute(Constants.MESSAGE, "成功标记为已读");
-		return redirectToUrl(backURL);
+	@ResponseBody
+	public AjaxResponse markRead(@CurrentUser User user, @RequestParam(value = "ids", required = false) Long[] ids){
+		AjaxResponse ajaxResponse = new AjaxResponse("成功标记为已读");
+		
+		try {
+			messageApi.markRead(user.getId(), ids);
+		}catch (Exception e) {
+			ajaxResponse.setSuccess(Boolean.FALSE);
+            ajaxResponse.setMessage("标记为已读失败");
+		}
+		
+		return ajaxResponse;
 	}
 	
 	@RequestMapping(value = "unreadCount")
-	public @ResponseBody String unreadCount(@CurrentUser User user){
+	@ResponseBody
+	public String unreadCount(@CurrentUser User user){
 		return String.valueOf(messageApi.countUnread(user.getId()));
 	}
 }

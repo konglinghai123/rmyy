@@ -11,6 +11,10 @@ import com.ewcms.yjk.zd.commonname.repository.CommonNameRuleRepository;
 @Service
 public class CommonNameRuleService extends BaseSequenceMovableService<CommonNameRule, Long> {
 
+	public CommonNameRuleService() {
+		super(1);
+	}
+	
     private CommonNameRuleRepository getCommonNameRuleRepository() {
         return (CommonNameRuleRepository) baseRepository;
     }

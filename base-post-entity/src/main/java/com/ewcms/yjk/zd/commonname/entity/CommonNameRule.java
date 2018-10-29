@@ -80,5 +80,6 @@ public class CommonNameRule extends BaseSequenceEntity<Long> implements Movable,
 
 	@Override
 	public void setWeight(Integer weight) {
+		this.weight = weight;
 	}
 }

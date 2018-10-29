@@ -21,7 +21,7 @@ public interface MessageRepository extends BaseRepository<Message, Long>{
 	int changeSenderState(Long senderId, MessageState oldState, MessageState newState, Date changeDate);
 	
 	@Modifying
-	@Query("update Message set receiverState=?3, receiverStateChangeDate=?4 where receiverid=?1 and receiverState=?2")
+	@Query("update Message set receiverState=?3, receiverStateChangeDate=?4 where receiverId=?1 and receiverState=?2")
 	int changeReceiverState(Long receiverId, MessageState oldState, MessageState newState, Date changeDate);
 	
 	@Modifying

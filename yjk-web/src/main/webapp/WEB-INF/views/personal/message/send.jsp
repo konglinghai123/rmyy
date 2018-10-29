@@ -14,7 +14,7 @@
 		
 	</c:if>
 	<div id="edit-form" class="easyui-layout" data-options="fit:true,border:false">
-		<ewcms:showMessage/>
+		<ewcms:showAlertMessage/>
 		<div data-options="region:'center',border:false">	
 			<form:form id="editForm" method="post" modelAttribute="m" class="form-horizontal">
 		    	<ewcms:showGlobalError commandName="m"/>

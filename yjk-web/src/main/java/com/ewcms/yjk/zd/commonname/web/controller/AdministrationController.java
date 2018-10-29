@@ -23,6 +23,10 @@ public class AdministrationController extends BaseCRUDController<Administration,
 	private AdministrationService getAdministrationService() {
 		return (AdministrationService) baseService;
 	}
+	
+	public AdministrationController() {
+		setResourceIdentity("yjk:administration");
+	}
 
 	@RequestMapping(value = "canUse", method = RequestMethod.GET)
 	@ResponseBody

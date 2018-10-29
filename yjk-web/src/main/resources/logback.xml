@@ -17,7 +17,7 @@
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!-- 按天回滚 daily -->
             <!-- log.dir 在maven profile里配置 -->
-            <fileNamePattern>${log.dir}/empi-web-error-%d{yyyy-MM-dd}.log</fileNamePattern>
+            <fileNamePattern>empi-web-error-%d{yyyy-MM-dd}.log</fileNamePattern>
             <!-- 日志最大的历史 60天 -->
             <maxHistory>60</maxHistory>
         </rollingPolicy>
@@ -31,7 +31,7 @@
     <appender name="ACCESS" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!-- 按天回滚 daily -->
-            <fileNamePattern>${log.dir}/empi-web-access-%d{yyyy-MM-dd}.log</fileNamePattern>
+            <fileNamePattern>empi-web-access-%d{yyyy-MM-dd}.log</fileNamePattern>
             <!-- 日志最大的历史 60天 -->
             <maxHistory>60</maxHistory>
         </rollingPolicy>
@@ -45,7 +45,7 @@
     <appender name="USER" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!-- 按天回滚 daily -->
-            <fileNamePattern>${log.dir}/empi-web-sys-user-%d{yyyy-MM-dd}.log</fileNamePattern>
+            <fileNamePattern>empi-web-sys-user-%d{yyyy-MM-dd}.log</fileNamePattern>
             <!-- 日志最大的历史 60天 -->
             <maxHistory>60</maxHistory>
         </rollingPolicy>

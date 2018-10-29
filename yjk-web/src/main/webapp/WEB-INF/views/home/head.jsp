@@ -28,7 +28,7 @@
 					<c:if test="${isRunas}">[上一个身份：${previousUsername}&nbsp;|&nbsp;<a href="${ctx}/switchBack">切换回该身份</a>]</c:if>
 				</span>
 				&nbsp;欢迎你&nbsp;|&nbsp;
-				<span class="badge badge-important" data-toggle="tooltip" data-placement="bottom" title="最近三天，您有${calendarCount}个提醒事项">有${calendarCount}个提醒事项</span>
+				<span class="badge badge-important" data-toggle="tooltip" data-placement="bottom" title="最近三天，您有${calendarCount}个提醒事项">有<font color="red">${calendarCount}</font>个提醒事项</span>
 				&nbsp;|&nbsp;
 				<span id="clock"></span>
 				<img id="button-main" src="${ctx}/static/image/exit.png" width="17" height="17" style="border:0;cursor:pointer;cursor:hand;" align="top"/>

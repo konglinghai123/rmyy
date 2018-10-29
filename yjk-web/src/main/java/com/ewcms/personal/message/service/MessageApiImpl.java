@@ -49,21 +49,26 @@ public class MessageApiImpl implements MessageApi{
 		searchable.setPage(pageable);
 		
 		switch(state){
+			//发送的信息
 			case draft_box:
 			case out_box:
 				searchable.addSearchFilter("senderId", SearchOperator.EQ, userId);
 				searchable.addSearchFilter("senderState", SearchOperator.EQ, state);
 				break;
+			//接收的信息
 			case in_box:
 				searchable.addSearchFilter("receiverId", SearchOperator.EQ, userId);
 				searchable.addSearchFilter("receiverState", SearchOperator.EQ, state);
 				break;
+			//发送或接收的信息
 			case store_box:
 			case trash_box:
+				//发送
 				SearchFilter senderFilter = SearchFilterHelper.newCondition("senderId", SearchOperator.EQ, userId);
 				SearchFilter senderStateFilter = SearchFilterHelper.newCondition("senderState", SearchOperator.EQ, state);
 				SearchFilter andSender = SearchFilterHelper.and(senderFilter, senderStateFilter);
 				
+				//接收
 				SearchFilter receiverFilter = SearchFilterHelper.newCondition("receiverId", SearchOperator.EQ, userId);
 				SearchFilter receiverStateFilter = SearchFilterHelper.newCondition("receiverState", SearchOperator.EQ, state);
 				SearchFilter andReceiver = SearchFilterHelper.and(receiverFilter, receiverStateFilter);

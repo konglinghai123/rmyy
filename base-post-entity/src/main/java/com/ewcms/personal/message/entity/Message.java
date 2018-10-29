@@ -25,8 +25,11 @@ import com.ewcms.common.entity.BaseSequenceEntity;
 import com.google.common.collect.Sets;
 
 /**
- * 系统消息 1.收件箱和发件箱内的消息默认265天后被放入垃圾箱 2.垃圾箱内的消息30天后自动物理删除
- * 3.垃圾箱内的消息只有当收件人和发件人把消息都从垃圾箱中删除后才能物理删除 4.收藏箱的不能删除 <br/>
+ * 系统消息 
+ * 1.收件箱和发件箱内的消息默认265天后被放入垃圾箱 
+ * 2.垃圾箱内的消息30天后自动物理删除
+ * 3.垃圾箱内的消息只有当收件人和发件人把消息都从垃圾箱中删除后才能物理删除 
+ * 4.收藏箱的不能删除 <br/>
  * 如果type==system_message_all表示是发给所有人的消息，策略如下：
  * 1.首先在展示时（第一页），会自动查所有的system_message_all
  * 2.如果用户阅读了，直接复制一份，放入它的收件箱，状态改为system_message <br/>
@@ -60,11 +63,11 @@ public class Message extends BaseSequenceEntity<Long> {
 	
 	@Column(name = "sender_id")
 	private Long senderId;
-	@Formula(value = "(select u.user_name + case when u.real_name is not null then ('(' + u.real_name + ')') else '' end from sec_user u where u.id=sender_id)")
+	@Formula(value = "(select u.username || case when u.realname is not null then ('(' || u.realname || ')') else '' end from sec_user u where u.id=sender_id)")
 	private String senderUsername;
 	@Column(name = "receiver_id")
 	private Long receiverId;
-	@Formula(value = "(select u.user_name + case when u.real_name is not null then ('(' + u.real_name + ')') else '' end from sec_user u where u.id=receiver_id)")
+	@Formula(value = "(select u.username || case when u.realname is not null then ('(' || u.realname || ')') else '' end from sec_user u where u.id=receiver_id)")
 	private String receiverUsername;
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	@Column(name = "send_date")
