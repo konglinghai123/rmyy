@@ -35,7 +35,11 @@ public class ConvertUtil {
 		try {
 			for (int i = 0; i < charArray.length; i++) {
 				if (charArray[i] > 128) {
-					pinYin += PinyinHelper.toHanyuPinyinStringArray(charArray[i], defaultFormat)[0];
+					try {
+						pinYin += PinyinHelper.toHanyuPinyinStringArray(charArray[i], defaultFormat)[0];
+					} catch (NullPointerException e) {
+						pinYin += charArray[i];
+					}
 				} else {
 					pinYin += charArray[i];
 				}
@@ -62,7 +66,11 @@ public class ConvertUtil {
 		try {
 			for (int i = 0; i < charArray.length; i++) {
 				if (charArray[i] > 128) {
-					pinYin += PinyinHelper.toHanyuPinyinStringArray(charArray[i], defaultFormat)[0].charAt(0);
+					try {
+						pinYin += PinyinHelper.toHanyuPinyinStringArray(charArray[i], defaultFormat)[0].charAt(0);
+					} catch (NullPointerException e) {
+						pinYin += charArray[i];
+					} 
 				} else {
 					pinYin += charArray[i];
 				}
@@ -106,5 +114,11 @@ public class ConvertUtil {
 			Entry<Long, String> entry = it.next();
 			System.out.println("key : " + entry.getKey() + " value : "  + entry.getValue());
 		}
+		
+		System.out.println(pinYin("人凝血因子Ⅷ"));
+		System.out.println(pinYin("ω-3鱼油脂肪乳"));
+		System.out.println(pinYin("25%葡萄糖"));
+		System.out.println(pinYin("草分枝杆菌F.U.36"));
+		System.out.println(pinYin("多维元素（21）"));
 	}
 }
