@@ -72,7 +72,7 @@ import java.util.Set;
 public class UserAuthCacheAspect extends BaseCacheAspect {
 
     public UserAuthCacheAspect() {
-        setCacheName("empi-authCache");
+        setCacheName("ewcms-authCache");
     }
 
     private String rolesKeyPrefix = "roles-";

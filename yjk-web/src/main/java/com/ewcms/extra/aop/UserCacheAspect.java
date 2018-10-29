@@ -20,7 +20,7 @@ import com.ewcms.security.user.entity.User;
 public class UserCacheAspect extends BaseCacheAspect {
 
     public UserCacheAspect() {
-        setCacheName("empi-userCache");
+        setCacheName("ewcms-userCache");
     }
 
     private String idKeyPrefix = "id-";

@@ -20,7 +20,7 @@ import com.ewcms.security.user.entity.User;
 public class ResourceMenuCacheAspect extends BaseCacheAspect {
 
     public ResourceMenuCacheAspect() {
-        setCacheName("empi-menuCache");
+        setCacheName("ewcms-menuCache");
     }
 
     private String menusKeyPrefix = "menus-";
