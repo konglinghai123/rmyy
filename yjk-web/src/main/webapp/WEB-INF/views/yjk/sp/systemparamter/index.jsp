@@ -10,7 +10,7 @@
 				<th data-options="field:'applyStartDate',width:150">申请开始时间</th>
 				<th data-options="field:'applyEndDate',width:150">申请结束时间</th>
 				<th data-options="field:'declarationLimt',width:150">申报限数</th>
-				<th data-options="field:'deleted',width:100,formatter:formatOperation">是否删除</th>
+				<th data-options="field:'enabled',width:100,formatter:formatOperation">操作</th>
 			</tr>
 		</thead>
 	</table>
@@ -53,19 +53,51 @@
 	function formatOperation(val, row){
 		currentTimestamp=new Date().getTime();
 		applyEndDateTimestamp=new Date(Date.parse(row.applyEndDate.replace(/-/g,"/"))).getTime();
-		if(currentTimestamp<applyEndDateTimestamp){
-			return val ? '<font color=red>已删除</font>' : '<a class="resumedCls" onclick="deleteSystemParameter(' + row.id + ')" href="javascript:void(0);">删除</a>';
+		applyStartDatetamp=new Date(Date.parse(row.applyStartDate.replace(/-/g,"/"))).getTime();
+		if(val){
+			return '<a class="resumedCls" onclick="closeDeclare(' + row.id + ')" href="javascript:void(0);">关闭申报</a> ';
 		}else{
-			return val ? '<font color=red>已删除</font>' : '';
+			if(applyStartDatetamp<=currentTimestamp&& currentTimestamp<=applyEndDateTimestamp){
+				return '<a class="resumedCls" onclick="openDeclare(' + row.id + ')" href="javascript:void(0);">启动申报</a> ';
+			}else{
+				return '';
+			}	
 		}
 	}
 	
+	/*
 	function deleteSystemParameter(id){
 		$.post('${ctx}/yjk/sp/systemparamter/' + id + '/delete', {}, function(result) {
 			if (result.success){
 				$('#tt').datagrid('reload');
 			}
 			$.messager.alert('提示', result.message, 'info');
+		});
+	}*/
+	
+	function closeDeclare(id){
+		$.messager.confirm('提示', '确定要关闭申报吗?', function(r){
+			if (r){
+				$.post('${ctx}/yjk/sp/systemparamter/' + id + '/closedeclare', {}, function(result) {
+					if (result.success){
+						$('#tt').datagrid('reload');
+					}
+					$.messager.alert('提示', result.message, 'info');
+				});
+			}
+		});
+	}
+	
+	function openDeclare(id){
+		$.messager.confirm('提示', '确定要启动申报吗?', function(r){
+			if (r){
+				$.post('${ctx}/yjk/sp/systemparamter/' + id + '/opendeclare', {}, function(result) {
+					if (result.success){
+						$('#tt').datagrid('reload');
+					}
+					$.messager.alert('提示', result.message, 'info');
+				});
+			}
 		});
 	}
 </script>

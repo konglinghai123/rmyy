@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import com.ewcms.common.service.BaseService;
 import com.ewcms.security.user.entity.User;
 import com.ewcms.yjk.sb.entity.DrugForm;
+import com.ewcms.yjk.sp.entity.SystemParameter;
+import com.ewcms.yjk.sp.service.SystemParameterService;
 import com.ewcms.yjk.zd.commonname.entity.CommonNameContents;
 import com.ewcms.yjk.zd.commonname.entity.HospitalContents;
 import com.ewcms.yjk.zd.commonname.service.CommonNameContentsService;
@@ -27,6 +29,9 @@ public class DrugFormService extends BaseService<DrugForm, Long> {
 	
 	@Autowired
 	private HospitalContentsService hospitalContentsService;
+	
+	@Autowired
+	private SystemParameterService systemParameterService;
 	
 //    private DrugFormRepository getDrugFormRepository() {
 //        return (DrugFormRepository) baseRepository;
@@ -50,12 +55,14 @@ public class DrugFormService extends BaseService<DrugForm, Long> {
 				hospitalContentsList = hospitalContentsService.findByExtractCommonNameAndDeletedFalse(commonName);
 				if(hospitalContentsList != null&&hospitalContentsList.size()>0)existNumber += hospitalContentsList.size();
 			}
-			
-			if(existNumber <= 2){//申报新药的在院药品目录限数为2，超过限数2不能申报
-				drugForm = new DrugForm();
-				drugForm.setUserId(user.getId());
-				drugForm.setCommonNameContents(vo);
-				drugForm = baseRepository.save(drugForm);
+			SystemParameter systemParameter = systemParameterService.findByEnabledTrue();
+			if(systemParameter != null){
+				if(existNumber <= systemParameter.getDeclarationLimt()){//申报新药的在院药品目录限数为2，超过限数2不能申报
+					drugForm = new DrugForm();
+					drugForm.setUserId(user.getId());
+					drugForm.setCommonNameContents(vo);
+					drugForm = baseRepository.save(drugForm);
+				}
 			}
 		}
 		return drugForm;

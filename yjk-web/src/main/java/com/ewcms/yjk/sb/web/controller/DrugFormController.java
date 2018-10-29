@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -25,6 +26,7 @@ import com.ewcms.security.user.web.bind.annotation.CurrentUser;
 import com.ewcms.yjk.sb.entity.DrugForm;
 import com.ewcms.yjk.sb.entity.SbState;
 import com.ewcms.yjk.sb.service.DrugFormService;
+import com.ewcms.yjk.sp.service.SystemParameterService;
 import com.ewcms.yjk.zd.commonname.service.CommonNameRuleService;
 
 /**
@@ -37,18 +39,22 @@ public class DrugFormController extends BaseCRUDController<DrugForm, Long> {
 	private CommonNameRuleService commonNameRuleService;
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private SystemParameterService systemParameterService;
 	
 	private DrugFormService getDrugFormService() {
 		return (DrugFormService) baseService;
 	}
 	
 	public DrugFormController() {
+		setResourceIdentity("sb:drugform");
 		setListAlsoSetCommonData(true);
 	}
 	
     @Override
     protected void setCommonData(Model model) {
         super.setCommonData(model);
+        model.addAttribute("isOpenDeclare", systemParameterService.isOpenDrugDeclare());
         model.addAttribute("stateList", SbState.values());
         model.addAttribute("userList", userService.findAll());
         model.addAttribute("commonNameRuleList", commonNameRuleService.findByDeletedFalseOrderByWeightAsc());
@@ -80,6 +86,7 @@ public class DrugFormController extends BaseCRUDController<DrugForm, Long> {
         }
         
 		DrugForm lastM = getDrugFormService().drugDeclare(user, m.getCommonNameContents());
+		
 		if(lastM == null){
 			result.rejectValue("commonNameContents.common.commonName","","新药已超过限数，不能申报");
 		}
@@ -89,4 +96,11 @@ public class DrugFormController extends BaseCRUDController<DrugForm, Long> {
 		
 		return showSaveForm(model, selections);
 	}
+	
+	@RequestMapping(value = "{commonNameContentsId}/detail")
+	public String index(@PathVariable(value = "commonNameContentsId")Long commonNameContentsId, Model model){
+		return viewName("detail");
+	}
+	
+	
 }

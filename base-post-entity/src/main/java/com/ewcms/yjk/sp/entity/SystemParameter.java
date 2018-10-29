@@ -23,6 +23,7 @@ import com.ewcms.common.plugin.entity.LogicDeleteable;
  * <li>applyStartDate:申请开始时间</li>
  * <li>applyEndDate:申请结束时间</li>
  * <li>declarationLimt:申报限数</li>
+ * <li>enabled:是否启用（系统中只能有1或0条设置启用）</li>
  * <li>deleted:是否删除</li>
  * </ul>
  * 
@@ -51,6 +52,9 @@ public class SystemParameter extends BaseSequenceEntity<Long> implements LogicDe
     @Column(name = "declaration_limt", nullable = false)
     private Long declarationLimt = Long.valueOf(2);
     
+	@Column(name = "is_enabled")
+	private Boolean enabled = Boolean.FALSE;
+	
     @Column(name = "is_deleted")
     private Boolean deleted = Boolean.FALSE;
     
@@ -78,6 +82,14 @@ public class SystemParameter extends BaseSequenceEntity<Long> implements LogicDe
 
 	public void setDeclarationLimt(Long declarationLimt) {
 		this.declarationLimt = declarationLimt;
+	}
+
+	public Boolean getEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(Boolean enabled) {
+		this.enabled = enabled;
 	}
 
 	@Override
