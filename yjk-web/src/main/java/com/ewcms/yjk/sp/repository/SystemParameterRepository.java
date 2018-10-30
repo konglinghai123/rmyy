@@ -1,7 +1,5 @@
 package com.ewcms.yjk.sp.repository;
 
-import java.util.Date;
-
 import com.ewcms.common.repository.BaseRepository;
 import com.ewcms.yjk.sp.entity.SystemParameter;
 
@@ -12,5 +10,5 @@ import com.ewcms.yjk.sp.entity.SystemParameter;
  */
 public interface SystemParameterRepository extends BaseRepository<SystemParameter, Long> {
 
-	SystemParameter findByApplyStartDateAfterAndApplyEndDateBefore(Date applyStartDate, Date applyEndDate);
+	SystemParameter findByEnabledTrue();
 }

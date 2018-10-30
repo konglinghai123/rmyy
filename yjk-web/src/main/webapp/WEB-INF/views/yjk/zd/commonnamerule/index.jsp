@@ -18,7 +18,6 @@
         <div class="toolbar" style="margin-bottom:2px">
 			<a id="tb-add" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-add',toggle:true" onclick="$.ewcms.add({title:'新增',width:400,height:265});">新增</a>
 			<a id="tb-edit" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-edit',toggle:true" onclick="$.ewcms.edit({title:'修改',width:400,height:265});">修改</a>
-			<a id="tb-down" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-status-show',toggle:true">下移</a>
 			<a id="tb-exchange" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-status-hide',toggle:true">互换</a>
  			<a id="tb-remove" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-remove',toggle:true" onclick="$.ewcms.remove({title:'删除'});">删除</a>
 		</div>
@@ -55,31 +54,6 @@
 			border:false
 		});
 		
-		$('#tb-down').bind('click', function(){
-			var rows = $('#tt').datagrid('getSelections');
-	    	
-	    	if(rows.length == 0){
-		        $.messager.alert('提示','请选择下移的记录','info');
-		        return;
-		    }
-	    	if(rows.length > 1){
-		        $.messager.alert('提示','请选择一条下移的记录','info');
-		        return;
-		    }
-		    
-			$.messager.confirm('提示', '确定要下移所选记录吗?', function(r){
-				if (r){
-					$.post('${ctx}/yjk/zd/commonnamerule/' + rows[0].weight + '/' + Number(rows[0].weight)+1 + '/down', {}, function(result) {
-						if (result.success){
-							$('#tt').datagrid('clearSelections');
-							$('#tt').datagrid('reload');
-						}
-						$.messager.alert('提示', result.message, 'info');
-					});
-				}
-			});
-		});
-		
 		$('#tb-exchange').bind('click', function(){
 			var rows = $('#tt').datagrid('getSelections');
 	    
@@ -87,16 +61,31 @@
 		        $.messager.alert('提示','请选择2条互换的记录','info');
 		        return;
 		    }
-		    
+		    if(rows[0].id==1||rows[1].id==1){
+		        $.messager.alert('提示','通用名规则不能交换顺序','info');
+		        return;
+		    }
 			$.messager.confirm('提示', '确定要互换所选记录吗?', function(r){
 				if (r){
-					$.post('${ctx}/yjk/zd/commonnamerule/' + rows[0].id + '/' + rows[1].id + '/down', {}, function(result) {
-						if (result.success){
-							$('#tt').datagrid('clearSelections');
-							$('#tt').datagrid('reload');
-						}
-						$.messager.alert('提示', result.message, 'info');
-					});
+					if(rows[0].weight<rows[1].weight){
+						$.post('${ctx}/yjk/zd/commonnamerule/' + rows[1].id + '/' + rows[0].id + '/down', {}, function(result) {
+							if (result.success){
+								$('#tt').datagrid('clearSelections');
+								$('#tt').datagrid('reload');
+							}
+							$.messager.alert('提示', result.message, 'info');
+						});
+					}else{
+						$.post('${ctx}/yjk/zd/commonnamerule/' + rows[0].id + '/' + rows[1].id + '/down', {}, function(result) {
+							if (result.success){
+								$('#tt').datagrid('clearSelections');
+								$('#tt').datagrid('reload');
+							}
+							$.messager.alert('提示', result.message, 'info');
+						});
+					}
+						
+
 				}
 			});
 		});

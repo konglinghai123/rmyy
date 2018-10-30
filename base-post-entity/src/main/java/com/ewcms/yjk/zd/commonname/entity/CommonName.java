@@ -21,7 +21,7 @@ import com.ewcms.common.plugin.entity.LogicDeleteable;
  * 
  * <ul>
  * <li>commonName:药品通用名称</li>
-// * <li>number:编号</li>
+ * <li>number:编号</li>
  * <li>administration:给药途径</li>
  * <li>matchingNumber:匹配编号</li>
  * <li>spell:通用名称拼音</li>
