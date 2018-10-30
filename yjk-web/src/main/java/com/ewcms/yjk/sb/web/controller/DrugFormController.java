@@ -44,6 +44,7 @@ public class DrugFormController extends BaseCRUDController<DrugForm, Long> {
 	
 	public DrugFormController() {
 		setListAlsoSetCommonData(true);
+		setResourceIdentity("sb:drugform");
 	}
 	
     @Override

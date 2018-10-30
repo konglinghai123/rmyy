@@ -198,13 +198,13 @@
 			$('#organizationId, #jobId').combotree({
 				width:150,
 		    	panelWidth:200,
-		    	panelHeight:130,
-				onBeforeSelect : function(node){
-					if (node.attributes.root){
-						$.messager.alert('提示', '根节点不能被选中，请重新选择', 'info');
-						return false;
-					}
-				}
+		    	panelHeight:130//,
+				//onBeforeSelect : function(node){
+				//	if (node.attributes.root){
+				//		$.messager.alert('提示', '根节点不能被选中，请重新选择', 'info');
+				//		return false;
+				//	}
+				//}
 			});
 		}
 	}
