@@ -4,12 +4,16 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.ewcms.common.entity.BaseSequenceEntity;
@@ -20,7 +24,7 @@ import com.ewcms.common.plugin.entity.LogicDeleteable;
  * 
  * <ul>
  * <li>extractCommonName:提取通用名</li>
- * <li>drugRoute:给药途径</li>
+ * <li>administration:给药途径</li>
  * <li>serialNo:编号</li>
  * <li>drugCode:药品代码</li>
  * <li>genericDrugName:药品通用名</li>
@@ -54,8 +58,9 @@ public class HospitalContents extends BaseSequenceEntity<Long> implements LogicD
 	@Column(name = "extract_common_name", nullable = false)
 	private String extractCommonName;	
 	
-	@Column(name = "drug_route")
-	private String drugRoute;
+	@ManyToOne(optional = true, fetch = FetchType.EAGER)
+    @Fetch(FetchMode.SELECT)
+	private Administration administration;
 	
 	@Column(name = "serial_no")
 	private String serialNo;
@@ -230,12 +235,12 @@ public class HospitalContents extends BaseSequenceEntity<Long> implements LogicD
 		this.extractCommonName = extractCommonName;
 	}
 
-	public String getDrugRoute() {
-		return drugRoute;
+	public Administration getAdministration() {
+		return administration;
 	}
 
-	public void setDrugRoute(String drugRoute) {
-		this.drugRoute = drugRoute;
+	public void setAdministration(Administration administration) {
+		this.administration = administration;
 	}
 
 	public String getSerialNo() {
