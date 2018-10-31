@@ -6,6 +6,9 @@ import com.ewcms.common.plugin.entity.LogicDeleteable;
 import com.ewcms.common.repository.support.annotation.EnableQueryCache;
 import com.ewcms.common.utils.EmptyUtil;
 import com.ewcms.common.utils.PatternUtils;
+import com.ewcms.security.user.dictionary.entity.DepartmentAttribute;
+import com.ewcms.security.user.dictionary.entity.Profession;
+import com.ewcms.security.user.dictionary.entity.Technical;
 import com.google.common.collect.Lists;
 
 import org.apache.commons.lang3.RandomStringUtils;
@@ -38,6 +41,14 @@ import java.util.List;
  * <li>deleted:是否删除(逻辑删除)</li>
  * <li>organizationJobs:用户/组织机构/工作职务关联</li>
  * <li>realname:真实姓名</li>
+ * <li>sex:性别</li>
+ * <li>profession:职业</li>
+ * <li>technical:技术职称</li>
+ * <li>appoint:是否聘任</li>
+ * <li>departmentAttribute:科室属性</li>
+ * <li>pharmacy:是否药事会成员</li>
+ * <li>antibiosis:是否抗菌药物遴选小组成员</li>
+ * <li>professionalAttr:专业属性</li>
  * </ul>
  * 
  * @author wu_zhijun
@@ -59,6 +70,20 @@ import java.util.List;
 public class User extends BaseSequenceEntity<Long> implements LogicDeleteable {
 	
 	private static final long serialVersionUID = -6104610983204668263L;
+	
+	public enum Sex {
+		MALE("男"), FEMALE("女");
+
+		private String description;
+
+		private Sex(String description) {
+			this.description = description;
+		}
+
+		public String getDescription() {
+			return description;
+		}
+	}
 	
     @NotNull(message = "{not.null}")
 //    @Pattern(regexp = PatternUtils.USERNAME_PATTERN, message = "{user.username.not.valid}")
@@ -97,7 +122,27 @@ public class User extends BaseSequenceEntity<Long> implements LogicDeleteable {
     private List<UserOrganizationJob> organizationJobs;
     @Column(name = "realname")
     private String realname;
-    
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status")
+	private Sex sex;
+	@ManyToOne(optional = true, fetch = FetchType.EAGER)
+    @Fetch(FetchMode.SELECT)
+	private Profession profession;
+	@ManyToOne(optional = true, fetch = FetchType.EAGER)
+    @Fetch(FetchMode.SELECT)
+	private Technical technical;
+	@Column(name = "realname")
+	private Boolean appoint = Boolean.FALSE;
+	@ManyToOne(optional = true, fetch = FetchType.EAGER)
+    @Fetch(FetchMode.SELECT)
+	private DepartmentAttribute departmentAttribute;
+	@Column(name = "pharmacy")
+	private Boolean pharmacy = Boolean.FALSE;
+	@Column(name = "antibiosis")
+	private Boolean antibiosis = Boolean.FALSE;
+	@Column(name = "professional_attribute")
+	private String professionalAttribute;
+  
     public User() {
     }
 
@@ -222,5 +267,69 @@ public class User extends BaseSequenceEntity<Long> implements LogicDeleteable {
 	
 	public String getUsernameAndRealname(){
 		return this.username + (EmptyUtil.isStringNotEmpty(this.realname) ? "(" + this.realname + ")" : ""); 
+	}
+
+	public Sex getSex() {
+		return sex;
+	}
+
+	public void setSex(Sex sex) {
+		this.sex = sex;
+	}
+
+	public Profession getProfession() {
+		return profession;
+	}
+
+	public void setProfession(Profession profession) {
+		this.profession = profession;
+	}
+
+	public Technical getTechnical() {
+		return technical;
+	}
+
+	public void setTechnical(Technical technical) {
+		this.technical = technical;
+	}
+
+	public Boolean getAppoint() {
+		return appoint;
+	}
+
+	public void setAppoint(Boolean appoint) {
+		this.appoint = appoint;
+	}
+
+	public DepartmentAttribute getDepartmentAttribute() {
+		return departmentAttribute;
+	}
+
+	public void setDepartmentAttribute(DepartmentAttribute departmentAttribute) {
+		this.departmentAttribute = departmentAttribute;
+	}
+
+	public Boolean getPharmacy() {
+		return pharmacy;
+	}
+
+	public void setPharmacy(Boolean pharmacy) {
+		this.pharmacy = pharmacy;
+	}
+
+	public Boolean getAntibiosis() {
+		return antibiosis;
+	}
+
+	public void setAntibiosis(Boolean antibiosis) {
+		this.antibiosis = antibiosis;
+	}
+
+	public String getProfessionalAttribute() {
+		return professionalAttribute;
+	}
+
+	public void setProfessionalAttribute(String professionalAttribute) {
+		this.professionalAttribute = professionalAttribute;
 	}
 }
