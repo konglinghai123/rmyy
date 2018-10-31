@@ -2,9 +2,11 @@ package com.ewcms.yjk.zd.commonname.entity;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -23,13 +25,12 @@ import com.ewcms.common.plugin.entity.LogicDeleteable;
  * 医院在用药品总目录
  * 
  * <ul>
- * <li>extractCommonName:提取通用名</li>
- * <li>administration:给药途径</li>
- * <li>serialNo:编号</li>
+ * <li>commonName:药品通用名</li>
  * <li>drugCode:药品代码</li>
- * <li>genericDrugName:药品通用名</li>
+ * <li>common:通用名对象(CommonName)</li>
  * <li>pill:剂型</li>
- * <li>specNumber:规格*数量</li>
+ * <li>specifications:规格</li>
+ * <li>amount:数量</li>
  * <li>manufacturer:生产企业</li>
  * <li>contentCategory:目录分类</li>
  * <li>drugMajor:药品分类大类</li>
@@ -43,6 +44,8 @@ import com.ewcms.common.plugin.entity.LogicDeleteable;
  * <li>remark1:备注1</li>
  * <li>remark2:备注2</li>
  * <li>remark3:备注3</li>
+ * <li>spell:通用名称拼音</li>
+ * <li>spellSimplify:通用名称拼音简写</li>
  * </ul>
  * 
  * @author zhoudongchu
@@ -55,27 +58,25 @@ import com.ewcms.common.plugin.entity.LogicDeleteable;
 public class HospitalContents extends BaseSequenceEntity<Long> implements LogicDeleteable {
 	private static final long serialVersionUID = -1099925594474353241L;
 	
-	@Column(name = "extract_common_name", nullable = false)
-	private String extractCommonName;	
+	@Column(name = "common_name", nullable = false)
+	private String commonName;	
 	
-	@ManyToOne(optional = true, fetch = FetchType.EAGER)
+	@ManyToOne(cascade = {CascadeType.REFRESH},fetch = FetchType.EAGER)
     @Fetch(FetchMode.SELECT)
-	private Administration administration;
-	
-	@Column(name = "serial_no")
-	private String serialNo;
+    @JoinColumn(name = "common_name_id")
+    private CommonName common;
 	
 	@Column(name = "drug_code")
 	private String drugCode;	
-    
-	@Column(name = "generic_drug_name")
-	private String genericDrugName;	
-	
+
 	@Column(name = "pill")
 	private String pill;
 	
-	@Column(name = "spec_number")
-	private String specNumber;
+	@Column(name = "amount")
+	private String amount;
+	
+	@Column(name = "specifications")
+	private String specifications;
 	
 	@Column(name = "manufacturer")
 	private String manufacturer;
@@ -118,8 +119,13 @@ public class HospitalContents extends BaseSequenceEntity<Long> implements LogicD
 	private String remark2;	
 	
 	@Column(name = "remark3")
-	private String remark3;		
+	private String remark3;	
 	
+	@Column(name = "spell")
+	private String spell;
+	
+	@Column(name = "spell_simplify")
+	private String spellSimplify;		
 	public String getDrugCode() {
 		return drugCode;
 	}
@@ -128,31 +134,12 @@ public class HospitalContents extends BaseSequenceEntity<Long> implements LogicD
 		this.drugCode = drugCode;
 	}
 
-	public String getGenericDrugName() {
-		return genericDrugName;
-	}
-
-	public void setGenericDrugName(String genericDrugName) {
-		this.genericDrugName = genericDrugName;
-	}
-
-
 	public String getPill() {
 		return pill;
 	}
 
 	public void setPill(String pill) {
 		this.pill = pill;
-	}
-
-
-
-	public String getSpecNumber() {
-		return specNumber;
-	}
-
-	public void setSpecNumber(String specNumber) {
-		this.specNumber = specNumber;
 	}
 
 	public String getManufacturer() {
@@ -227,30 +214,6 @@ public class HospitalContents extends BaseSequenceEntity<Long> implements LogicD
 		this.updateDate = updateDate;
 	}
 
-	public String getExtractCommonName() {
-		return extractCommonName;
-	}
-
-	public void setExtractCommonName(String extractCommonName) {
-		this.extractCommonName = extractCommonName;
-	}
-
-	public Administration getAdministration() {
-		return administration;
-	}
-
-	public void setAdministration(Administration administration) {
-		this.administration = administration;
-	}
-
-	public String getSerialNo() {
-		return serialNo;
-	}
-
-	public void setSerialNo(String serialNo) {
-		this.serialNo = serialNo;
-	}
-
 	public String getRemark1() {
 		return remark1;
 	}
@@ -273,6 +236,54 @@ public class HospitalContents extends BaseSequenceEntity<Long> implements LogicD
 
 	public void setRemark3(String remark3) {
 		this.remark3 = remark3;
+	}
+
+	public String getCommonName() {
+		return commonName;
+	}
+
+	public void setCommonName(String commonName) {
+		this.commonName = commonName;
+	}
+
+	public CommonName getCommon() {
+		return common;
+	}
+
+	public void setCommon(CommonName common) {
+		this.common = common;
+	}
+
+	public String getAmount() {
+		return amount;
+	}
+
+	public void setAmount(String amount) {
+		this.amount = amount;
+	}
+
+	public String getSpecifications() {
+		return specifications;
+	}
+
+	public void setSpecifications(String specifications) {
+		this.specifications = specifications;
+	}
+
+	public String getSpell() {
+		return spell;
+	}
+
+	public void setSpell(String spell) {
+		this.spell = spell;
+	}
+
+	public String getSpellSimplify() {
+		return spellSimplify;
+	}
+
+	public void setSpellSimplify(String spellSimplify) {
+		this.spellSimplify = spellSimplify;
 	}
 
 	@Override
