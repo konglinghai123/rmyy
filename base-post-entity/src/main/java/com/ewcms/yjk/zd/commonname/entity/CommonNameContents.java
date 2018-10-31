@@ -37,7 +37,7 @@ import com.ewcms.common.plugin.entity.LogicDeleteable;
  * <li>medicalCategory:医保类别</li>
  * <li>medicalRemark:医保备注</li>
  * <li>drugType:药品类型</li>
- * <li>drugRoute:给药途径</li>
+ * <li>administration:给药途径</li>
  * <li>pill:剂型</li>
  * <li>specNumber:规格*数量</li>
  * <li>productName:商品名</li>
@@ -96,8 +96,9 @@ public class CommonNameContents extends BaseSequenceEntity<Long> implements Logi
 	@Column(name = "drug_type")
 	private String drugType;
 	
-	@Column(name = "drug_route")
-	private String drugRoute;
+	@ManyToOne(optional = true, fetch = FetchType.EAGER)
+    @Fetch(FetchMode.SELECT)
+	private Administration administration;
 	
 	@Column(name = "pill")
 	private String pill;
@@ -264,12 +265,12 @@ public class CommonNameContents extends BaseSequenceEntity<Long> implements Logi
 		this.drugType = drugType;
 	}
 
-	public String getDrugRoute() {
-		return drugRoute;
+	public Administration getAdministration() {
+		return administration;
 	}
 
-	public void setDrugRoute(String drugRoute) {
-		this.drugRoute = drugRoute;
+	public void setAdministration(Administration administration) {
+		this.administration = administration;
 	}
 
 	public String getPill() {

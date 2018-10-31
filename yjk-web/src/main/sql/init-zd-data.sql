@@ -5,7 +5,7 @@ delete from zd_administration;
 insert into zd_administration(id, name) values
 (1, '口服')
 ,(2, '注射')
-,(3, '其他')
+,(3, '外用及其他')
 ;
 select setval('seq_zd_administration_id', 3);
 

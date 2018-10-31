@@ -5,7 +5,7 @@
 	<div id="edit-from" class="easyui-layout" data-options="fit:true" style="border:0;">
 		<ewcms:showMessage/>
 		<div data-options="region:'center',border:false">	
-		 	<form:form id="importForm" method="post" action="${ctx}/yjk/zd/commonname/saveimport" enctype="multipart/form-data" class="form-horizontal">
+		 	<form:form id="importForm" method="post" action="${ctx}/yjk/zd/hospitalcontents/saveimport" enctype="multipart/form-data" class="form-horizontal">
 			  	<table class="formtable">
 		        	<tr>
 						<td width="20%">通用名文件：</td>

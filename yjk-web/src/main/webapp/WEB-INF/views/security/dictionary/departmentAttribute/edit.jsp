@@ -34,7 +34,7 @@
 	    	</c:when>
 	    	<c:otherwise>
 				$.validationEngineLanguage.allRules.ajaxNameCall= {
-	                "url": "${ctx}/yjk/zd/administration/validate",
+	                "url": "${ctx}/security/user/dictionary/departmentAttribute/validate",
 	                extraDataDynamic : ['#id'],
 	                "alertTextLoad": "* 正在验证，请稍等。。。"
 	            };

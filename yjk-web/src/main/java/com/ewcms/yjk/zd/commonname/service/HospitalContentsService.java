@@ -84,7 +84,12 @@ public class HospitalContentsService extends BaseService<HospitalContents, Long>
 				try {
 					for (int j = 0; j <= cols; j++) {
 							if (columnNames[j].equals("药品代码")) {
-								hospitalContents.setDrugCode(rows.getCell(j).getStringCellValue().trim());
+								try {
+									hospitalContents.setDrugCode(rows.getCell(j).getStringCellValue().trim());
+								} catch (Exception e) {
+									Double drugCode = rows.getCell(j).getNumericCellValue();
+									hospitalContents.setDrugCode(String.valueOf(drugCode.longValue()));
+								}
 							} else if (columnNames[j].equals("药品通用名")) {
 								hospitalContents.setGenericDrugName(rows.getCell(j).getStringCellValue().trim());
 							} else if (columnNames[j].equals("给药途径")) {
