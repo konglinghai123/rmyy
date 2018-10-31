@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ewcms.common.service.BaseService;
+import com.ewcms.util.PinYin;
 import com.ewcms.yjk.zd.commonname.entity.Administration;
 import com.ewcms.yjk.zd.commonname.entity.CommonNameContents;
 import com.ewcms.yjk.zd.commonname.entity.HospitalContents;
@@ -36,25 +37,33 @@ public class HospitalContentsService extends BaseService<HospitalContents, Long>
         return (HospitalContentsRepository) baseRepository;
     }
 	
-	public List<HospitalContents> findByExtractCommonNameAndDeletedFalse(String extractCommonName){
-		return getHospitalContentsRepository().findByExtractCommonNameAndDeletedFalse(extractCommonName);
-	}
+
+
+//	public List<HospitalContents> findByExtractCommonNameAndDeletedFalse(String extractCommonName){
+//		return getHospitalContentsRepository().findByExtractCommonNameAndDeletedFalse(extractCommonName);
+//	}
 	
 	public List<HospitalContents> matchByCommonNameContentsId(Long commonNameContentsId){
-		CommonNameContents commonNameContentsvo = commonNameContentsService.findOne(commonNameContentsId);
-		String  matchingNumber = commonNameContentsvo.getCommon().getMatchingNumber();
-		List<String> commonNameList = commonNameService.findByMatchingNumber(matchingNumber);
+//		CommonNameContents commonNameContentsvo = commonNameContentsService.findOne(commonNameContentsId);
+//		String  matchingNumber = commonNameContentsvo.getCommon().getMatchingNumber();
+//		List<String> commonNameList = commonNameService.findByMatchingNumber(matchingNumber);
 		List<HospitalContents> hospitalContentsList = new ArrayList<HospitalContents>();
 		
-		for(String commonName:commonNameList){
-			hospitalContentsList.addAll(findByExtractCommonNameAndDeletedFalse(commonName));
-		}
-		
+//		for(String commonName:commonNameList){
+//			hospitalContentsList.addAll(findByExtractCommonNameAndDeletedFalse(commonName));
+//		}
+//		
 		return hospitalContentsList;
 	}
 	
 	@Override
+	public HospitalContents save(HospitalContents m) {
+		PinYin.initSpell(m);
+		return super.save(m);
+	}
+	@Override
 	public HospitalContents update(HospitalContents m) {
+		PinYin.initSpell(m);
 		m.setUpdateDate(new Date(Calendar.getInstance().getTime().getTime()));
 		return super.update(m);
 	}
@@ -91,32 +100,12 @@ public class HospitalContentsService extends BaseService<HospitalContents, Long>
 									hospitalContents.setDrugCode(String.valueOf(drugCode.longValue()));
 								}
 							} else if (columnNames[j].equals("药品通用名")) {
-								hospitalContents.setGenericDrugName(rows.getCell(j).getStringCellValue().trim());
-							} else if (columnNames[j].equals("给药途径")) {
-								try {
-									Double administrationId = rows.getCell(j).getNumericCellValue();
-									if (administrationId == 0L) {
-										hospitalContents.setAdministration(null);
-									} else {
-										Administration administration = administrationService.findOne(administrationId.longValue());
-										hospitalContents.setAdministration(administration);
-									}
-								}catch (Exception e) {
-									hospitalContents.setAdministration(null);
-								}
-							} else if (columnNames[j].equals("提取通用名")) {
-								hospitalContents.setExtractCommonName(rows.getCell(j).getStringCellValue().trim());
-							} else if (columnNames[j].equals("编号")) {
-								try {
-									hospitalContents.setSerialNo(rows.getCell(j).getStringCellValue().trim());
-								} catch (Exception e) {
-									Double userName = rows.getCell(j).getNumericCellValue();
-									hospitalContents.setSerialNo(String.valueOf(userName.longValue()));
-								}
-							} else if (columnNames[j].equals("剂型")) {
+								hospitalContents.setCommonName(rows.getCell(j).getStringCellValue().trim());
+							}else if (columnNames[j].equals("剂型")) {
 								hospitalContents.setPill(rows.getCell(j).getStringCellValue().trim());
 							} else if (columnNames[j].equals("规格*数量")) {
-								hospitalContents.setSpecNumber(rows.getCell(j).getStringCellValue().trim());
+								hospitalContents.setSpecifications(rows.getCell(j).getStringCellValue().trim().split("*")[0]);
+								hospitalContents.setAmount(rows.getCell(j).getStringCellValue().trim().split("*")[1]);
 							} else if (columnNames[j].equals("生产企业")) {
 								hospitalContents.setManufacturer(rows.getCell(j).getStringCellValue().trim());
 							} else if (columnNames[j].equals("目录分类")) {
@@ -131,6 +120,10 @@ public class HospitalContentsService extends BaseService<HospitalContents, Long>
 								hospitalContents.setOldRemark(rows.getCell(j).getStringCellValue().trim());
 							} else if (columnNames[j].equals("配送公司")) {
 								hospitalContents.setDiscom(rows.getCell(j).getStringCellValue().trim());
+							}else if (columnNames[j].equals("全拼")) {
+								hospitalContents.setSpell(rows.getCell(j).getStringCellValue().trim());
+							} else if (columnNames[j].equals("简拼")) {
+								hospitalContents.setSpellSimplify(rows.getCell(j).getStringCellValue().trim());
 							}
 					}
 					super.saveAndFlush(hospitalContents);

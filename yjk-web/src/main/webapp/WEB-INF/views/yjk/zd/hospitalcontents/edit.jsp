@@ -12,27 +12,42 @@
 	  				<input type="hidden" name="selections" value="${selection}" />
 				</c:forEach>
 			  	<table class="formtable">
-		        	<tr>
-						<td width="20%"><form:label path="genericDrugName">药品通用名：</form:label></td>
-						<td width="30%"><form:input path="genericDrugName"  cssClass="validate[required]"/></td>
-						<td width="20%"><form:label path="drugCode">药品代码：</form:label></td>
-						<td width="30%"><form:input path="drugCode"/></td>
+					<tr>
+			        	<c:choose>
+				    		<c:when test="${empty(m.common.id)}">
+								<td width="20%"><form:label path="common">通用名：</form:label></td>
+								<td width="30%"><form:input path="common"  class="easyui-combobox" data-options="
+								valueField:'id',
+								textField:'commonName',
+								panelHeight:140,
+								width:150,
+								required:true,
+								method:'get',
+						        onChange: function (newValue, oldValue) {						        	
+						        	if(newValue==$('#common').combobox('getText')){
+						        		$('#common').combobox('reload','${ctx}/yjk/zd/commonname/findbyspell?spell='+newValue);
+						    		}
+						    	}"/>
+	         					</td>
+				    		</c:when>
+				    		<c:otherwise>
+				    			<form:hidden path="common.id"/>
+				    			<td width="20%"><form:label path="common.commonName">通用名：</form:label></td>
+								<td width="30%"><form:input path="common.commonName" readonly="true" cssStyle="background:grey"/></td>
+				    		</c:otherwise>
+				    	</c:choose>
+						<td width="20%"><form:label path="commonName">院用目录通用名：</form:label></td>
+						<td width="30%"><form:input path="commonName" cssClass="validate[required]"/></td>			  	
 					</tr>
 		        	<tr>
-						<td width="20%"><form:label path="extractCommonName">提取通用名：</form:label></td>
-						<td width="30%"><form:input path="extractCommonName" cssClass="validate[required]"/></td>
-						<td width="20%"><form:label path="drugRoute">给药途径：</form:label></td>
-						<td width="30%"><form:input path="drugRoute"/></td>
-					</tr>
+						<td width="20%"><form:label path="specifications">规格：</form:label></td>
+						<td width="30%"><form:input path="specifications"/></td>
+						<td width="20%"><form:label path="amount">数量：</form:label></td>
+						<td width="30%"><form:input path="amount"/></td>
+					</tr>					
 		        	<tr>
 						<td width="20%"><form:label path="pill">剂型：</form:label></td>
 						<td width="30%"><form:input path="pill"/></td>
-						<td width="20%"><form:label path="specNumber">规格*数量：</form:label></td>
-						<td width="30%"><form:input path="specNumber"/></td>
-					</tr>
-		        	<tr>
-						<td width="20%"><form:label path="serialNo">编号：</form:label></td>
-						<td width="30%"><form:input path="serialNo"/></td>
 						<td width="20%"><form:label path="contentCategory">目录分类：</form:label></td>
 						<td width="30%"><form:input path="contentCategory"/></td>
 					</tr>

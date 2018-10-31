@@ -11,15 +11,16 @@
 				<th data-options="field:'administration',sortable:true,width:100,
 						formatter:function(val,row){
 							return (row.administration==null) ? '' : row.administration.name;
-						}">用药途径</th>
-				<th data-options="field:'matchingNumber',sortable:true,width:100">匹配编号</th>
+						}">给药途径</th>
+				<th data-options="field:'number',sortable:true,width:100">编号</th>
+				<th data-options="field:'drugCategoryInfo',sortable:true,width:100">药品种类</th>
 				<th data-options="field:'spell',sortable:true,width:200">全拼</th>
 				<th data-options="field:'spellSimplify',sortable:true,width:150">简拼</th>
 				<th data-options="field:'enabled',width:100,
 						formatter:function(val,row){
 							return val ? '是' : '否';
-						}">是否启用</th>		
-				<th data-options="field:'deleted',width:100,formatter:formatOperation">是否删除</th>				
+						}">是否启用</th>
+				<!--  <th data-options="field:'deleted',width:100,formatter:formatOperation">是否删除</th>-->				
 			</tr>
 		</thead>
 	</table>
@@ -62,6 +63,7 @@
 					  			<form:options items="${booleanList}" itemLabel="info"/>
 							</form:select>
            				</td>
+           				<!--  
            				<td>是否删除</td>
            				<td>
            					<form:select id="deleted" name="EQ_deleted" path="booleanList" cssClass="easyui-combobox"  cssStyle="width:140px;" data-options="panelHeight:'auto',editable:false">
@@ -69,8 +71,9 @@
 					  			<form:options items="${booleanList}" itemLabel="info"/>
 							</form:select>
            				</td>   
+           				-->
            				<td width="5%" ></td>
-              			<td width="15%" colspan="3"></td>        				
+              			<td width="15%" colspan="5"></td>        				
            			</tr>           			
            		</table>
           </form>
@@ -105,6 +108,7 @@
 	    });		
 	});
 	
+	/*
 	function formatOperation(val, row){
 		return val ? '<font color=red>已删除</font>  <a class="resumedCls" onclick="restore(' + row.id + ')" href="javascript:void(0);">还原</a>' : '';
 	}
@@ -116,5 +120,5 @@
 			}
 			$.messager.alert('提示', result.message, 'info');
 		});
-	}
+	}*/
 </script>

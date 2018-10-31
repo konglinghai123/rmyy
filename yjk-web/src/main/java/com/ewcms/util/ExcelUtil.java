@@ -63,7 +63,7 @@ public class ExcelUtil {
 									commonName.setAdministration(null);
 								}
 							} else if (columnNames[j].equals("匹配编号")) {
-								commonName.setMatchingNumber(rows.getCell(j).getStringCellValue().trim());
+								//commonName.setMatchingNumber(rows.getCell(j).getStringCellValue().trim());
 							} else if (columnNames[j].equals("全拼")) {
 								commonName.setSpell(rows.getCell(j).getStringCellValue().trim());
 							} else if (columnNames[j].equals("简拼")) {

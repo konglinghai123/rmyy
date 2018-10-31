@@ -19,6 +19,7 @@ import com.ewcms.common.utils.Reflections;
 import com.ewcms.util.PinYin;
 import com.ewcms.yjk.zd.commonname.entity.Administration;
 import com.ewcms.yjk.zd.commonname.entity.CommonName;
+import com.ewcms.yjk.zd.commonname.entity.DrugCategoryEnum;
 import com.ewcms.yjk.zd.commonname.repository.CommonNameRepository;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -68,11 +69,11 @@ public class CommonNameService extends BaseService<CommonName, Long> {
 		return super.update(m);
 	}
 	
-	public CommonName restore(Long commonNameId){
-		CommonName m = baseRepository.findOne(commonNameId);
-		m.setDeleted(Boolean.FALSE);
-		return super.update(m);
-	}
+//	public CommonName restore(Long commonNameId){
+//		CommonName m = baseRepository.findOne(commonNameId);
+//		m.setDeleted(Boolean.FALSE);
+//		return super.update(m);
+//	}
 	
 	public List<Integer> importExcel(InputStream in){
 		List<Integer> noSave = Lists.newArrayList();
@@ -101,8 +102,6 @@ public class CommonNameService extends BaseService<CommonName, Long> {
 							if (columnNames[j].equals("提取通用名")) {
 								commonName.setCommonName(rows.getCell(j).getStringCellValue().trim());
 								PinYin.initSpell(commonName);
-		//					} else if (columnNames[j].equals("编号-四位数")) {
-		//						commonName.setNumber(rows.getCell(j).getStringCellValue().trim());
 							} else if (columnNames[j].equals("给药途径")) {
 								try {
 									Double administrationId = rows.getCell(j).getNumericCellValue();
@@ -115,9 +114,11 @@ public class CommonNameService extends BaseService<CommonName, Long> {
 								}catch (Exception e) {
 									commonName.setAdministration(null);
 								}
+							} else if (columnNames[j].equals("编号")) {
+								commonName.setNumber(rows.getCell(j).getStringCellValue().trim());
 							} else if (columnNames[j].equals("匹配编号")) {
-								commonName.setMatchingNumber(rows.getCell(j).getStringCellValue().trim());
-							} else if (columnNames[j].equals("全拼")) {
+								commonName.setDrugCategory(DrugCategoryEnum.valueOf(rows.getCell(j).getStringCellValue().trim().substring(0, 1)));
+							}else if (columnNames[j].equals("全拼")) {
 								commonName.setSpell(rows.getCell(j).getStringCellValue().trim());
 							} else if (columnNames[j].equals("简拼")) {
 								commonName.setSpellSimplify(rows.getCell(j).getStringCellValue().trim());
@@ -181,6 +182,10 @@ public class CommonNameService extends BaseService<CommonName, Long> {
 						if (object != null) {
 							value = ((Administration)object).getName();
 						}
+					}else if (object instanceof DrugCategoryEnum) {
+						if (object != null) {
+							value = ((DrugCategoryEnum)object).getInfo();
+						}
 					} else {
 						value = (String) object;
 					}
@@ -199,13 +204,13 @@ public class CommonNameService extends BaseService<CommonName, Long> {
 		Map<String, String> map = Maps.newLinkedHashMap();
 		
 		map.put("commonName", "通用名");
-		map.put("administration", "用药途径");
-		map.put("matchingNumber", "匹配编号");
+		map.put("administration", "给药途径");
+		map.put("number", "编号");
 		map.put("spell", "全拼");
 		map.put("spellSimplify", "简拼");
 		map.put("enabled", "是否启用");
 		map.put("deleted", "删除标志");
-		
+		map.put("drugCategory", "药品种类");
 		return map;
 	}
 }

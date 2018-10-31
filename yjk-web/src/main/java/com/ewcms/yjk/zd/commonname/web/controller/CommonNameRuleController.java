@@ -2,6 +2,7 @@ package com.ewcms.yjk.zd.commonname.web.controller;
 
 import java.util.List;
 import java.util.Map;
+
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.ewcms.common.entity.search.SearchParameter;
 import com.ewcms.common.plugin.web.controller.BaseSequenceMovableController;
 import com.ewcms.common.utils.EmptyUtil;
@@ -32,21 +34,22 @@ public class CommonNameRuleController extends BaseSequenceMovableController<Comm
 	@Override
 	public Map<String, Object> query(SearchParameter<Long> searchParameter,	Model model) {
 		searchParameter.getSorts().put("id", Direction.DESC);
+		searchParameter.getParameters().put("EQ_deleted", Boolean.FALSE);
 		return super.query(searchParameter, model);
 	}  
 	
-	@RequestMapping(value = "{commonNameRuleId}/restore")
-	@ResponseBody
-	public AjaxResponse restoreCommonName(@PathVariable(value = "commonNameRuleId") Long commonNameRuleId) {
-		AjaxResponse ajaxResponse = new AjaxResponse("还原成功");
-		try{
-			getCommonNameRuleService().restore(commonNameRuleId);
-		} catch(IllegalStateException e){
-			ajaxResponse.setSuccess(Boolean.FALSE);
-			ajaxResponse.setMessage("还原失败");
-		}
-		return ajaxResponse;
-	}
+//	@RequestMapping(value = "{commonNameRuleId}/restore")
+//	@ResponseBody
+//	public AjaxResponse restoreCommonName(@PathVariable(value = "commonNameRuleId") Long commonNameRuleId) {
+//		AjaxResponse ajaxResponse = new AjaxResponse("还原成功");
+//		try{
+//			getCommonNameRuleService().restore(commonNameRuleId);
+//		} catch(IllegalStateException e){
+//			ajaxResponse.setSuccess(Boolean.FALSE);
+//			ajaxResponse.setMessage("还原失败");
+//		}
+//		return ajaxResponse;
+//	}
 	
     @RequestMapping(value = "validate", method = RequestMethod.GET)
     @ResponseBody

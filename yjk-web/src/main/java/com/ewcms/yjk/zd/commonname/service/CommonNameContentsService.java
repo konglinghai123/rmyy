@@ -4,7 +4,6 @@ import java.io.InputStream;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -12,9 +11,8 @@ import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ewcms.common.service.BaseService;
-import com.ewcms.yjk.zd.commonname.entity.Administration;
+import com.ewcms.util.PinYin;
 import com.ewcms.yjk.zd.commonname.entity.CommonNameContents;
-import com.ewcms.yjk.zd.commonname.entity.HospitalContents;
 import com.google.common.collect.Lists;
 
 /**
@@ -27,7 +25,13 @@ public class CommonNameContentsService extends BaseService<CommonNameContents, L
     private AdministrationService administrationService;
     
 	@Override
+	public CommonNameContents save(CommonNameContents m) {
+		PinYin.initSpell(m);
+		return super.save(m);
+	}
+	@Override
 	public CommonNameContents update(CommonNameContents m) {
+		PinYin.initSpell(m);
 		m.setUpdateDate(new Date(Calendar.getInstance().getTime().getTime()));
 		return super.update(m);
 	}
@@ -67,29 +71,8 @@ public class CommonNameContentsService extends BaseService<CommonNameContents, L
 								commonNameContents.setProjectName(rows.getCell(j).getStringCellValue().trim());
 							} else if (columnNames[j].equals("批次")) {
 								commonNameContents.setBatch(rows.getCell(j).getStringCellValue().trim());
-//							} else if (columnNames[j].equals("通用名")) {
-//								commonNameContents.setCommonName(rows.getCell(j).getStringCellValue().trim());
-							} else if (columnNames[j].equals("给药途径")) {
-								try {
-									Double administrationId = rows.getCell(j).getNumericCellValue();
-									if (administrationId == 0L) {
-										commonNameContents.setAdministration(null);
-									} else {
-										Administration administration = administrationService.findOne(administrationId.longValue());
-										commonNameContents.setAdministration(administration);
-									}
-								}catch (Exception e) {
-									commonNameContents.setAdministration(null);
-								}
-							} else if (columnNames[j].equals("提取通用名")) {
-								commonNameContents.setExtractCommonName(rows.getCell(j).getStringCellValue().trim());
-							} else if (columnNames[j].equals("编号")) {
-								try {
-									commonNameContents.setSerialNo(rows.getCell(j).getStringCellValue().trim());
-								} catch (Exception e) {
-									Double userName = rows.getCell(j).getNumericCellValue();
-									commonNameContents.setSerialNo(String.valueOf(userName.longValue()));
-								}
+							} else if (columnNames[j].equals("通用名")) {
+								commonNameContents.setCommonName(rows.getCell(j).getStringCellValue().trim());
 							} else if (columnNames[j].equals("抗菌药物")) {
 								try {
 									Double antibacterialsed = rows.getCell(j).getNumericCellValue();
@@ -101,7 +84,8 @@ public class CommonNameContentsService extends BaseService<CommonNameContents, L
 							} else if (columnNames[j].equals("序号")) {
 								commonNameContents.setPill(rows.getCell(j).getStringCellValue().trim());
 							} else if (columnNames[j].equals("规格*数量")) {
-								commonNameContents.setSpecNumber(rows.getCell(j).getStringCellValue().trim());
+								commonNameContents.setSpecifications(rows.getCell(j).getStringCellValue().trim().split("*")[0]);
+								commonNameContents.setAmount(rows.getCell(j).getStringCellValue().trim().split("*")[1]);
 							} else if (columnNames[j].equals("生产企业")) {
 								commonNameContents.setManufacturer(rows.getCell(j).getStringCellValue().trim());
 //							} else if (columnNames[j].equals("目录分类")) {

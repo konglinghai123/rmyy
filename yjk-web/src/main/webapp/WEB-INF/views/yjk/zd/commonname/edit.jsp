@@ -14,15 +14,33 @@
 			  	<table class="formtable">
 		        	<tr>
 						<td width="20%"><form:label path="commonName">通用名：</form:label></td>
-						<td width="80%"><form:input path="commonName" cssClass="validate[required,ajax[ajaxNameCall]]"/></td>
+						<td width="80%"><form:input path="commonName" cssClass="validate[required]"/></td>
 					</tr>
 					<tr>
-						<td><form:label path="administration">用药途径：</form:label></td>
-						<td><form:input path="administration" /></td>
+						<td><form:label path="administration">给药途径：</form:label></td>
+						<td><form:input path="administration" class="easyui-combobox" data-options="
+						width:150,
+						panelWidth:150,
+						panelHeight:130,
+						url:'${ctx}/yjk/zd/administration/canUse',
+						method:'get',
+						valueField:'id',
+						textField:'name',
+						editable:false
+						"/>
+						</td>
 					</tr>
 					<tr>
-						<td><form:label path="matchingNumber">匹配编号：</form:label></td>
-						<td><form:input path="matchingNumber"/></td>
+						<td><form:label path="administration">药品种类：</form:label></td>
+						<td>		           					
+							<form:select path="drugCategory" cssClass="easyui-combobox"  cssStyle="width:140px;" data-options="panelHeight:'auto',editable:false">
+							  	<form:options items="${drugCategoryList}" itemLabel="info"/>
+							</form:select>
+						</td>
+					</tr>					
+					<tr>
+						<td><form:label path="number">编号：</form:label></td>
+						<td><form:input path="number"/></td>
 					</tr>
 		        	<tr>
 						<td width="20%"><form:label path="enabled">是否启用：</form:label></td>
@@ -58,16 +76,6 @@
 	        	<ewcms:showFieldError commandName="m"/>
 	    	</c:otherwise>
 		</c:choose>
-		$('#administration').combobox({
-			width:150,
-			panelWidth:150,
-			panelHeight:130,
-			url:'${ctx}/yjk/zd/administration/canUse',
-			method:'get',
-			valueField:'id',
-			textField:'name',
-			editable:false
-		});
 	});
 	$.ewcms.refresh({operate : '${operate}', data : '${lastM}'});
 </script>

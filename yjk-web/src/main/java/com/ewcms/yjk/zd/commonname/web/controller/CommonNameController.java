@@ -1,14 +1,13 @@
 package com.ewcms.yjk.zd.commonname.web.controller;
 
 import com.alibaba.fastjson.util.IOUtils;
-import com.ewcms.common.entity.enums.BooleanEnum;
 import com.ewcms.common.entity.search.SearchParameter;
 import com.ewcms.common.entity.search.Searchable;
 import com.ewcms.common.utils.EmptyUtil;
 import com.ewcms.common.web.controller.BaseCRUDController;
-import com.ewcms.common.web.validate.AjaxResponse;
 import com.ewcms.common.web.validate.ValidateResponse;
 import com.ewcms.yjk.zd.commonname.entity.CommonName;
+import com.ewcms.yjk.zd.commonname.entity.DrugCategoryEnum;
 import com.ewcms.yjk.zd.commonname.service.AdministrationService;
 import com.ewcms.yjk.zd.commonname.service.CommonNameService;
 import com.google.common.collect.Lists;
@@ -52,12 +51,14 @@ public class CommonNameController extends BaseCRUDController<CommonName, Long> {
 		Searchable searchable = Searchable.newSearchable();
 		searchable.addSort(Direction.ASC, "id");
 		model.addAttribute("administrationList", administrationService.findAllWithSort(searchable));
-		model.addAttribute("booleanList", BooleanEnum.values());
+		model.addAttribute("drugCategoryList", DrugCategoryEnum.values());
+		//model.addAttribute("booleanList", BooleanEnum.values());
 	}
 	
 	@Override
 	public Map<String, Object> query(SearchParameter<Long> searchParameter,	Model model) {
 		searchParameter.getSorts().put("id", Direction.DESC);
+		searchParameter.getParameters().put("EQ_deleted", Boolean.FALSE);
 		return super.query(searchParameter, model);
 	}
 
@@ -69,18 +70,18 @@ public class CommonNameController extends BaseCRUDController<CommonName, Long> {
 		return getCommonNameService().findCommonNameBySpell(spell);
 	}
 	
-	@RequestMapping(value = "{commonNameId}/restore")
-	@ResponseBody
-	public AjaxResponse restoreCommonName(@PathVariable(value = "commonNameId") Long commonNameId) {
-		AjaxResponse ajaxResponse = new AjaxResponse("还原成功");
-		try{
-			getCommonNameService().restore(commonNameId);
-		} catch(IllegalStateException e){
-			ajaxResponse.setSuccess(Boolean.FALSE);
-			ajaxResponse.setMessage("还原失败");
-		}
-		return ajaxResponse;
-	}
+//	@RequestMapping(value = "{commonNameId}/restore")
+//	@ResponseBody
+//	public AjaxResponse restoreCommonName(@PathVariable(value = "commonNameId") Long commonNameId) {
+//		AjaxResponse ajaxResponse = new AjaxResponse("还原成功");
+//		try{
+//			getCommonNameService().restore(commonNameId);
+//		} catch(IllegalStateException e){
+//			ajaxResponse.setSuccess(Boolean.FALSE);
+//			ajaxResponse.setMessage("还原失败");
+//		}
+//		return ajaxResponse;
+//	}
 	
     @RequestMapping(value = "validate", method = RequestMethod.GET)
     @ResponseBody

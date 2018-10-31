@@ -10,7 +10,7 @@
 				<th data-options="field:'ruleName',width:100">规则名</th>
 				<th data-options="field:'ruleCnName',width:100">规则中文名</th>
 				<th data-options="field:'weight',width:100">排序号</th>
-				<th data-options="field:'deleted',width:100,formatter:formatOperation">是否删除</th>	
+				<!-- <th data-options="field:'deleted',width:100,formatter:formatOperation">是否删除</th>	 -->
 			</tr>
 		</thead>
 	</table>
@@ -19,7 +19,7 @@
 			<a id="tb-add" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-add',toggle:true" onclick="$.ewcms.add({title:'新增',width:400,height:265});">新增</a>
 			<a id="tb-edit" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-edit',toggle:true" onclick="$.ewcms.edit({title:'修改',width:400,height:265});">修改</a>
 			<a id="tb-exchange" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-status-hide',toggle:true">互换</a>
- 			<a id="tb-remove" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-remove',toggle:true" onclick="$.ewcms.remove({title:'删除'});">删除</a>
+ 			<a id="tb-remove" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-remove',toggle:true" onclick="deleteRule();">删除</a>
 		</div>
         <div  style="padding-left:5px;">
         	<form id="queryform" style="padding:0;margin:0;">
@@ -93,6 +93,21 @@
 		
 	});
 	
+	function deleteRule(){
+		var rows = $('#tt').datagrid('getSelections');
+	    
+    	if(rows.length != 1){
+	        $.messager.alert('提示','请选择1条记录进行删除','info');
+	        return;
+	    }
+    	if(rows[0].id==1){
+	        $.messager.alert('提示','通用名规则不能删除','info');
+	        return;
+    	}
+    	$.ewcms.remove({title:'删除'});
+	}
+	
+	<!--
 	function formatOperation(val, row){
 		return val ? '<font color=red>已删除</font>  <a class="resumedCls" onclick="restore(' + row.id + ')" href="javascript:void(0);">还原</a>' : '';
 	}
@@ -105,4 +120,6 @@
 			$.messager.alert('提示', result.message, 'info');
 		});
 	}
+	
+	 -->
 </script>

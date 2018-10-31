@@ -35,9 +35,9 @@ public class CommonNameRuleService extends BaseSequenceMovableService<CommonName
 		return getCommonNameRuleRepository().findByRuleCnName(ruleCnName);
 	}
 	
-	public CommonNameRule restore(Long commonNameRuleId){
-		CommonNameRule m = baseRepository.findOne(commonNameRuleId);
-		m.setDeleted(Boolean.FALSE);
-		return super.update(m);
-	}
+//	public CommonNameRule restore(Long commonNameRuleId){
+//		CommonNameRule m = baseRepository.findOne(commonNameRuleId);
+//		m.setDeleted(Boolean.FALSE);
+//		return super.update(m);
+//	}
 }

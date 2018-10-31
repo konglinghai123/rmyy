@@ -2,16 +2,20 @@ package com.ewcms.yjk.zd.commonname.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.hibernate.validator.constraints.NotEmpty;
+
 import com.ewcms.common.entity.BaseSequenceEntity;
 import com.ewcms.common.plugin.entity.LogicDeleteable;
 
@@ -56,9 +60,8 @@ public class CommonName extends BaseSequenceEntity<Long> implements LogicDeletea
 	@JoinColumn(name = "administration_id")
 	private Administration administration;
 	
-	@NotEmpty(message = "{not.null}")
-	@Column(name = "drug_category", nullable = false)
-	private String drugCategory;
+	@Enumerated(EnumType.STRING)
+	private DrugCategoryEnum drugCategory = DrugCategoryEnum.x;
 	
 	@Column(name = "spell", nullable = false)
 	private String spell;
@@ -97,12 +100,16 @@ public class CommonName extends BaseSequenceEntity<Long> implements LogicDeletea
 		this.administration = administration;
 	}
 	
+	public String getDrugCategoryInfo() {
+		return drugCategory == null ? "" : drugCategory.getInfo();
+	}
 
-	public String getDrugCategory() {
+
+	public DrugCategoryEnum getDrugCategory() {
 		return drugCategory;
 	}
 
-	public void setDrugCategory(String drugCategory) {
+	public void setDrugCategory(DrugCategoryEnum drugCategory) {
 		this.drugCategory = drugCategory;
 	}
 

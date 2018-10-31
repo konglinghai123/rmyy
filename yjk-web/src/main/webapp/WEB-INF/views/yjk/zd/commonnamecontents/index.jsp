@@ -10,13 +10,14 @@
 				<th data-options="field:'common',width:120,sortable:true,
 						formatter:function(val,row){
 							return row.common==null?'':row.common.commonName;
-						}">通用名</th>		
-				<th data-options="field:'extractCommonName',width:120">提取通用名</th>
+						}">通用名</th>
+				<th data-options="field:'commonName',width:100">大目录通用名</th>	
 				<th data-options="field:'projectName',width:100">项目名称</th>
 				<th data-options="field:'batch',width:50">批次</th>
 				<th data-options="field:'source',width:50">来源</th>
 				<th data-options="field:'pill',width:50">剂型</th>
-				<th data-options="field:'specNumber',width:70">规格*数量</th>
+				<th data-options="field:'specifications',width:70">规格</th>
+				<th data-options="field:'amount',width:70">数量</th>
 				<th data-options="field:'productName',width:50">商品名</th>
 				<th data-options="field:'packageUnit',width:80">包装单位</th>
 				<th data-options="field:'manufacturer',width:120">生产企业</th>
@@ -26,10 +27,10 @@
 				<th data-options="field:'medicalDirNo',width:80">医保编号</th>
 				<th data-options="field:'medicalDirName',width:120">医保目录药品名称</th>
 				<th data-options="field:'medicalDirPill',width:80">医保药品剂型</th>
-				<th data-options="field:'deleted',width:100,
+				<!--  <th data-options="field:'deleted',width:100,
 						formatter:function(val,row){
 							return val ? '<font color=red>已删除</font>' : '';
-						}">是否删除</th>				
+						}">是否删除</th>	-->			
 			</tr>
 		</thead>
 	</table>
@@ -47,9 +48,8 @@
               			<td width="15%"><input type="text" name="LIKE_commonName.commonName" style="width:140px;"/></td>
             			<td width="5%">剂型</td>
               			<td width="15%"><input type="text" name="LIKE_pill" style="width:140px;"/></td>
-            			<td width="7%">规格*数量</td>
-              			<td width="15%"><input type="text" name="LIKE_specNumber" style="width:140px;"/></td>
-
+              			<td width="5%">通用名拼音简写</td>
+              			<td width="23%"><input type="text" name="LIKE_spellSimplify" style="width:140px;"/></td>
               			<td width="20%" colspan="2">
             				<a id="tb-query" href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="$.ewcms.query();">查询</a>
            					<a id="tb-clear" href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-clear'" onclick="javascript:$('#queryform').form('reset');">清除</a>
@@ -61,15 +61,20 @@
               			<td width="15%"><input type="text" name="LIKE_manufacturer" style="width:140px;"/></td>
               			<td width="5%">商品名</td>
               			<td width="15%"><input type="text" name="LIKE_productName" style="width:140px;"/></td>
+            			<td width="7%">规格</td>
+              			<td width="15%"><input type="text" name="LIKE_specifications" style="width:140px;"/></td>
+            			<td width="7%">数量</td>
+              			<td width="15%"><input type="text" name="LIKE_amount" style="width:140px;"/></td>
+              			<!--  
            				<td>是否删除</td>
            				<td>
            					<form:select id="deleted" name="EQ_deleted" path="booleanList" cssClass="easyui-combobox"  cssStyle="width:140px;" data-options="panelHeight:'auto',editable:false">
 					  			<form:option value="" label="------请选择------"/>
 					  			<form:options items="${booleanList}" itemLabel="info"/>
 							</form:select>
-           				</td>   
+           				</td>   -->
            				<td width="5%" ></td>
-              			<td width="15%" colspan="3"></td>        				
+              			<td width="15%" colspan="2"></td>        				
            			</tr>            			
            		</table>
           </form>

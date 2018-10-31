@@ -9,5 +9,5 @@ import com.ewcms.yjk.zd.commonname.entity.HospitalContents;
  *@author zhoudongchu
  */
 public interface HospitalContentsRepository extends BaseRepository<HospitalContents, Long> {
-	List<HospitalContents> findByExtractCommonNameAndDeletedFalse(String extractCommonName);
+	//List<HospitalContents> findByExtractCommonNameAndDeletedFalse(String extractCommonName);
 }

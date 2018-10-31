@@ -39,32 +39,32 @@ public class DrugFormService extends BaseService<DrugForm, Long> {
 //	
 	public DrugForm drugDeclare(User user, CommonNameContents vo){
 		DrugForm drugForm = null;
-		Long commonNameContentsId = vo.getId();
-		if(commonNameContentsId!=null){//申报目录编号存在
-			//获取新药申报的通用名匹配编号
-			vo = commonNameContentsService.findOne(commonNameContentsId);
-//			String  matchingNumber = vo.getCommon().getMatchingNumber();
-			//根据匹配编号反查所有该匹配编号的通用名集
-			List<String> commonNameList = commonNameService.findByMatchingNumber(matchingNumber);
-			//根据通用名集找院目录提取通用名在该通用名集中的记录集
-			int existNumber=0;
-			List<HospitalContents> hospitalContentsList;
-			
-			
-			for(String commonName:commonNameList){
-				hospitalContentsList = hospitalContentsService.findByExtractCommonNameAndDeletedFalse(commonName);
-				if(hospitalContentsList != null&&hospitalContentsList.size()>0)existNumber += hospitalContentsList.size();
-			}
-			SystemParameter systemParameter = systemParameterService.findByEnabledTrue();
-			if(systemParameter != null){
-				if(existNumber <= systemParameter.getDeclarationLimt()){//申报新药的在院药品目录限数为2，超过限数2不能申报
-					drugForm = new DrugForm();
-					drugForm.setUserId(user.getId());
-					drugForm.setCommonNameContents(vo);
-					drugForm = baseRepository.save(drugForm);
-				}
-			}
-		}
+//		Long commonNameContentsId = vo.getId();
+//		if(commonNameContentsId!=null){//申报目录编号存在
+//			//获取新药申报的通用名匹配编号
+//			vo = commonNameContentsService.findOne(commonNameContentsId);
+////			String  matchingNumber = vo.getCommon().getMatchingNumber();
+//			//根据匹配编号反查所有该匹配编号的通用名集
+//			List<String> commonNameList = commonNameService.findByMatchingNumber(matchingNumber);
+//			//根据通用名集找院目录提取通用名在该通用名集中的记录集
+//			int existNumber=0;
+//			List<HospitalContents> hospitalContentsList;
+//			
+//			
+//			for(String commonName:commonNameList){
+//				hospitalContentsList = hospitalContentsService.findByExtractCommonNameAndDeletedFalse(commonName);
+//				if(hospitalContentsList != null&&hospitalContentsList.size()>0)existNumber += hospitalContentsList.size();
+//			}
+//			SystemParameter systemParameter = systemParameterService.findByEnabledTrue();
+//			if(systemParameter != null){
+//				if(existNumber <= systemParameter.getDeclarationLimt()){//申报新药的在院药品目录限数为2，超过限数2不能申报
+//					drugForm = new DrugForm();
+//					drugForm.setUserId(user.getId());
+//					drugForm.setCommonNameContents(vo);
+//					drugForm = baseRepository.save(drugForm);
+//				}
+//			}
+//		}
 		return drugForm;
 	}
 }
