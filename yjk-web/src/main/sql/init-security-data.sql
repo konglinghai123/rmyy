@@ -154,8 +154,12 @@ insert into sec_resource(id, icon, identity, name, parent_id, parent_ids, is_sho
 ,(110,'empi-yjk-zd-commonnamerule-tree','commonnamerule','匹配规则',102,'0/1/102/','true',null,'/yjk/zd/commonnamerule/index',6)
 ,(111,'empi-system-onlineeditor-tree','onlineEditor','在线编辑',6,'0/1/6/','true',null,'/system/editor/index',7)
 ,(112,'empi-system-staticresource-tree','staticResource','静态资源版本控制',6,'0/1/6/','true',null,'/system/staticresource/index',8)
+,(113,'ztree_file','','字典管理',5,'0/1/5/','true',null,'',7)
+,(114,'ztree_file','departmentAttribute','科室属性',113,'0/1/5/113/','true','','/security/dictionary/departmentAttribute/index',1)
+,(115,'ztree_file','profession','职业',113,'0/1/5/113/','true','','/security/dictionary/profession/index',2)
+,(116,'ztree_file','technical','职称',113,'0/1/5/113/','true','','/security/dictionary/technical/index',3)
 ;
-select setval('seq_sec_resource_id', 112);
+select setval('seq_sec_resource_id', 116);
 
 /**
  * 权限初始化
@@ -197,3 +201,16 @@ insert into sec_auth(id, organization_id, job_id, user_id, group_id, role_ids, t
 (1, 0, 0, 1, 0, '1', 'user')
 ;
 select setval('seq_sec_auth_id', 1);
+
+/**
+ * 科室属性
+ */
+delete from sec_department_attribute
+insert into sec_department_attribute(id, name) values 
+(1,'内科')
+,(2,'外科')
+,(3,'医技')
+,(4,'机关后勤')
+;
+select setval('seq_sec_department_attribute_id', 4);
+

@@ -1,4 +1,4 @@
-package com.ewcms.security.user.dictionary.entity;
+package com.ewcms.security.dictionary.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,8 +17,8 @@ import com.ewcms.common.entity.BaseSequenceEntity;
  *
  */
 @Entity
-@Table(name = "user_zd_profession")
-@SequenceGenerator(name="seq", sequenceName="seq_user_zd_profession_id", allocationSize = 1)
+@Table(name = "sec_profession")
+@SequenceGenerator(name="seq", sequenceName="seq_sec_profession_id", allocationSize = 1)
 public class Profession extends BaseSequenceEntity<Long> {
 
 	private static final long serialVersionUID = 6640574440371025721L;

@@ -38,7 +38,7 @@
 <script type="text/javascript">
 	$(function(){
 		$('#tt').datagrid({
-			url:'${ctx}/security/user/dictionary/departmentAttribute/query',
+			url:'${ctx}/security/dictionary/departmentAttribute/query',
 			toolbar:'#tb',
 			fit:true,
 			nowrap:true,

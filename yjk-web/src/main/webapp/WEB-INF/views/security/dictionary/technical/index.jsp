@@ -8,6 +8,7 @@
 			    <th data-options="field:'ck',checkbox:true"/>
 			    <th data-options="field:'id',sortable:true,width:100">编号</th>
 				<th data-options="field:'name',sortable:true,width:300">名称</th>
+				<th data-options="field:'level',sortable:true,width:200">等级</th>
 			</tr>
 		</thead>
 	</table>
@@ -38,7 +39,7 @@
 <script type="text/javascript">
 	$(function(){
 		$('#tt').datagrid({
-			url:'${ctx}/security/user/dictionary/technical/query',
+			url:'${ctx}/security/dictionary/technical/query',
 			toolbar:'#tb',
 			fit:true,
 			nowrap:true,

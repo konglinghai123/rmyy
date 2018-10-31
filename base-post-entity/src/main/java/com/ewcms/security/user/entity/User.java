@@ -6,9 +6,9 @@ import com.ewcms.common.plugin.entity.LogicDeleteable;
 import com.ewcms.common.repository.support.annotation.EnableQueryCache;
 import com.ewcms.common.utils.EmptyUtil;
 import com.ewcms.common.utils.PatternUtils;
-import com.ewcms.security.user.dictionary.entity.DepartmentAttribute;
-import com.ewcms.security.user.dictionary.entity.Profession;
-import com.ewcms.security.user.dictionary.entity.Technical;
+import com.ewcms.security.dictionary.entity.DepartmentAttribute;
+import com.ewcms.security.dictionary.entity.Profession;
+import com.ewcms.security.dictionary.entity.Technical;
 import com.google.common.collect.Lists;
 
 import org.apache.commons.lang3.RandomStringUtils;
@@ -123,22 +123,24 @@ public class User extends BaseSequenceEntity<Long> implements LogicDeleteable {
     @Column(name = "realname")
     private String realname;
     @Enumerated(EnumType.STRING)
-    @Column(name = "status")
+    @Column(name = "sex")
 	private Sex sex;
 	@ManyToOne(optional = true, fetch = FetchType.EAGER)
     @Fetch(FetchMode.SELECT)
 	private Profession profession;
 	@ManyToOne(optional = true, fetch = FetchType.EAGER)
     @Fetch(FetchMode.SELECT)
+	@JoinColumn(name = "technical_id")
 	private Technical technical;
-	@Column(name = "realname")
+	@Column(name = "is_appoint")
 	private Boolean appoint = Boolean.FALSE;
 	@ManyToOne(optional = true, fetch = FetchType.EAGER)
     @Fetch(FetchMode.SELECT)
+	@JoinColumn(name = "department_attribute_id")
 	private DepartmentAttribute departmentAttribute;
-	@Column(name = "pharmacy")
+	@Column(name = "is_pharmacy")
 	private Boolean pharmacy = Boolean.FALSE;
-	@Column(name = "antibiosis")
+	@Column(name = "is_antibiosis")
 	private Boolean antibiosis = Boolean.FALSE;
 	@Column(name = "professional_attribute")
 	private String professionalAttribute;

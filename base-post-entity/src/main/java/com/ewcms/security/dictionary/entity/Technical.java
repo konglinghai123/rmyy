@@ -1,4 +1,4 @@
-package com.ewcms.security.user.dictionary.entity;
+package com.ewcms.security.dictionary.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,8 +18,8 @@ import com.ewcms.common.entity.BaseSequenceEntity;
  *
  */
 @Entity
-@Table(name = "user_zd_technical")
-@SequenceGenerator(name = "seq", sequenceName = "seq_user_zd_technical_id", allocationSize = 1)
+@Table(name = "sec_technical")
+@SequenceGenerator(name = "seq", sequenceName = "seq_sec_technical_id", allocationSize = 1)
 public class Technical extends BaseSequenceEntity<Long> {
 
 	private static final long serialVersionUID = -4968997866651361411L;

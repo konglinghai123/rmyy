@@ -38,7 +38,7 @@
 <script type="text/javascript">
 	$(function(){
 		$('#tt').datagrid({
-			url:'${ctx}/security/user/dictionary/profession/query',
+			url:'${ctx}/security/dictionary/profession/query',
 			toolbar:'#tb',
 			fit:true,
 			nowrap:true,

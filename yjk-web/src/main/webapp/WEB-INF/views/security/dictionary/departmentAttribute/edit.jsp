@@ -5,7 +5,7 @@
 	<div id="edit-from" class="easyui-layout" data-options="fit:true" style="border:0;">
 		<ewcms:showMessage/>
 		<div data-options="region:'center',border:false">	
-		 	<form:form id="editForm" method="post" action="${ctx}/yjk/zd/administration/save" commandName="m"  class="form-horizontal">
+		 	<form:form id="editForm" method="post" action="${ctx}/security/dictionary/departmentAttribute/save" commandName="m"  class="form-horizontal">
 		    	<ewcms:showGlobalError commandName="m"/>
 		    	<form:hidden path="id"/>
 		    	<c:forEach var="selection" items="${selections}">
@@ -34,7 +34,7 @@
 	    	</c:when>
 	    	<c:otherwise>
 				$.validationEngineLanguage.allRules.ajaxNameCall= {
-	                "url": "${ctx}/security/user/dictionary/departmentAttribute/validate",
+	                "url": "${ctx}/security/dictionary/departmentAttribute/validate",
 	                extraDataDynamic : ['#id'],
 	                "alertTextLoad": "* 正在验证，请稍等。。。"
 	            };

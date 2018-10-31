@@ -67,8 +67,8 @@ public class CommonNameContentsService extends BaseService<CommonNameContents, L
 								commonNameContents.setProjectName(rows.getCell(j).getStringCellValue().trim());
 							} else if (columnNames[j].equals("批次")) {
 								commonNameContents.setBatch(rows.getCell(j).getStringCellValue().trim());
-							} else if (columnNames[j].equals("通用名")) {
-								commonNameContents.setCommonName(rows.getCell(j).getStringCellValue().trim());
+//							} else if (columnNames[j].equals("通用名")) {
+//								commonNameContents.setCommonName(rows.getCell(j).getStringCellValue().trim());
 							} else if (columnNames[j].equals("给药途径")) {
 								try {
 									Double administrationId = rows.getCell(j).getNumericCellValue();
@@ -104,18 +104,18 @@ public class CommonNameContentsService extends BaseService<CommonNameContents, L
 								commonNameContents.setSpecNumber(rows.getCell(j).getStringCellValue().trim());
 							} else if (columnNames[j].equals("生产企业")) {
 								commonNameContents.setManufacturer(rows.getCell(j).getStringCellValue().trim());
-							} else if (columnNames[j].equals("目录分类")) {
-								commonNameContents.setContentCategory(rows.getCell(j).getStringCellValue().trim());
-							} else if (columnNames[j].equals("备注")) {
-								commonNameContents.setRemark(rows.getCell(j).getStringCellValue().trim());
-							} else if (columnNames[j].equals("药品分类大类")) {
-								commonNameContents.setDrugMajor(rows.getCell(j).getStringCellValue().trim());
-							} else if (columnNames[j].equals("药品分类")) {
-								commonNameContents.setDrugCategory(rows.getCell(j).getStringCellValue().trim());
-							} else if (columnNames[j].equals("原备注")) {
-								commonNameContents.setOldRemark(rows.getCell(j).getStringCellValue().trim());
-							} else if (columnNames[j].equals("配送公司")) {
-								commonNameContents.setDiscom(rows.getCell(j).getStringCellValue().trim());
+//							} else if (columnNames[j].equals("目录分类")) {
+//								commonNameContents.setContentCategory(rows.getCell(j).getStringCellValue().trim());
+//							} else if (columnNames[j].equals("备注")) {
+//								commonNameContents.setRemark(rows.getCell(j).getStringCellValue().trim());
+//							} else if (columnNames[j].equals("药品分类大类")) {
+//								commonNameContents.setDrugMajor(rows.getCell(j).getStringCellValue().trim());
+//							} else if (columnNames[j].equals("药品分类")) {
+//								commonNameContents.setDrugCategory(rows.getCell(j).getStringCellValue().trim());
+//							} else if (columnNames[j].equals("原备注")) {
+//								commonNameContents.setOldRemark(rows.getCell(j).getStringCellValue().trim());
+//							} else if (columnNames[j].equals("配送公司")) {
+//								commonNameContents.setDiscom(rows.getCell(j).getStringCellValue().trim());
 							}
 					}
 					super.saveAndFlush(commonNameContents);
