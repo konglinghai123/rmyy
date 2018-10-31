@@ -24,7 +24,7 @@ import com.ewcms.security.user.entity.User;
 import com.ewcms.security.user.service.UserService;
 import com.ewcms.security.user.web.bind.annotation.CurrentUser;
 import com.ewcms.yjk.sb.entity.DrugForm;
-import com.ewcms.yjk.sb.entity.SbState;
+import com.ewcms.yjk.sb.entity.AuditStatus;
 import com.ewcms.yjk.sb.service.DrugFormService;
 import com.ewcms.yjk.sp.service.SystemParameterService;
 import com.ewcms.yjk.zd.commonname.service.CommonNameRuleService;
@@ -55,7 +55,7 @@ public class DrugFormController extends BaseCRUDController<DrugForm, Long> {
     protected void setCommonData(Model model) {
         super.setCommonData(model);
         model.addAttribute("isOpenDeclare", systemParameterService.isOpenDrugDeclare());
-        model.addAttribute("stateList", SbState.values());
+        model.addAttribute("stateList", AuditStatus.values());
         model.addAttribute("userList", userService.findAll());
         model.addAttribute("commonNameRuleList", commonNameRuleService.findByDeletedFalseOrderByWeightAsc());
     }

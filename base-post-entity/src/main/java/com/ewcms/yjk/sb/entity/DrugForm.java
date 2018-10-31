@@ -31,7 +31,10 @@ import com.ewcms.yjk.zd.commonname.entity.CommonNameContents;
  * <li>userName:申报医生姓名</li>
  * <li>createDate:申报日期</li>
  * <li>commonNameContents:申请大通用名药品</li>
- * <li>state:申报状态</li>
+ * <li>declared:是否申报</li>
+ * <li>auditStatus:审核状态</li>
+ * <li>remark:说明</li>
+ * 
  * </ul>
  * 
  * @author zhoudongchu
@@ -58,8 +61,14 @@ public class DrugForm extends BaseSequenceEntity<Long> {
 	private CommonNameContents commonNameContents;
 
 	@Enumerated(EnumType.STRING)
-	private SbState state = SbState.init;
-
+	private AuditStatus auditStatus = AuditStatus.init;
+	
+	@Column(name = "is_declared")
+	private Boolean declared = Boolean.FALSE;
+	
+	@Column(name = "remark")
+	private String remark;	
+	
 	public Long getUserId() {
 		return userId;
 	}
@@ -88,15 +97,33 @@ public class DrugForm extends BaseSequenceEntity<Long> {
 		this.commonNameContents = commonNameContents;
 	}
 
-	public SbState getState() {
-		return state;
+
+	
+    public AuditStatus getAuditStatus() {
+		return auditStatus;
 	}
 
-	public void setState(SbState state) {
-		this.state = state;
+	public void setAuditStatus(AuditStatus auditStatus) {
+		this.auditStatus = auditStatus;
 	}
-	
-    public String getStateInfo(){
-    	return state == null ? "" : state.getInfo();
+
+	public Boolean getDeclared() {
+		return declared;
+	}
+
+	public void setDeclared(Boolean declared) {
+		this.declared = declared;
+	}
+
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
+
+	public String getAuditStatusInfo(){
+    	return auditStatus == null ? "" : auditStatus.getInfo();
     }
 }

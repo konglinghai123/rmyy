@@ -12,10 +12,12 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.springframework.format.annotation.DateTimeFormat;
+
 import com.ewcms.common.entity.BaseSequenceEntity;
 import com.ewcms.common.plugin.entity.LogicDeleteable;
 
@@ -24,22 +26,21 @@ import com.ewcms.common.plugin.entity.LogicDeleteable;
  * 
  * <ul>
  * <li>drugId:药品ID</li>
- * <li>serialNo:编号</li>
  * <li>antibacterialsed:抗菌药物</li>
  * <li>orderNo:序号</li>
  * <li>projectName:项目名称</li>
  * <li>batch:批次</li>
  * <li>source:来源</li>
- * <li>extractCommonName:提取通用名</li>
+ * <li>commonName:通用名</li>
  * <li>medicalDirNo:医保目录编号</li>
  * <li>medicalDirName:医保目录药品名称</li>
  * <li>medicalDirPill:医保目录药品剂型</li>
  * <li>medicalCategory:医保类别</li>
  * <li>medicalRemark:医保备注</li>
  * <li>drugType:药品类型</li>
- * <li>administration:给药途径</li>
  * <li>pill:剂型</li>
- * <li>specNumber:规格*数量</li>
+ * <li>specifications:规格</li>
+ * <li>amount:数量</li>
  * <li>productName:商品名</li>
  * <li>packageUnit:包装单位</li>
  * <li>manufacturer:生产企业</li>
@@ -47,7 +48,7 @@ import com.ewcms.common.plugin.entity.LogicDeleteable;
  * <li>packageMaterials:包材</li>
  * <li>minimalUnit:最小制剂单位</li>
  * <li>importEnterprise:进口企业</li>
- * <li>common:通用名</li>
+ * <li>common:通用名对象(CommonName)</li>
  * <li>createDate:创建时间</li>
  * <li>updateDate:更新时间</li>
  * <li>declared:是否允许申报</li>
@@ -55,6 +56,9 @@ import com.ewcms.common.plugin.entity.LogicDeleteable;
  * <li>remark1:备注1</li>
  * <li>remark2:备注2</li>
  * <li>remark3:备注3</li>
+ * <li>spell:通用名称拼音</li>
+ * <li>spellSimplify:通用名称拼音简写</li>
+ * 
  * </ul>
  * 
  * @author zhoudongchu
@@ -75,8 +79,8 @@ public class CommonNameContents extends BaseSequenceEntity<Long> implements Logi
 	@Column(name = "source")
 	private String source;
 	
-	@Column(name = "extract_common_name", nullable = false)
-	private String extractCommonName;
+	@Column(name = "common_name", nullable = false)
+	private String commonName;
 	
 	@Column(name = "medical_dir_no")
 	private String medicalDirNo;
@@ -96,15 +100,14 @@ public class CommonNameContents extends BaseSequenceEntity<Long> implements Logi
 	@Column(name = "drug_type")
 	private String drugType;
 	
-	@ManyToOne(optional = true, fetch = FetchType.EAGER)
-    @Fetch(FetchMode.SELECT)
-	private Administration administration;
-	
 	@Column(name = "pill")
 	private String pill;
 	
-	@Column(name = "spec_number")
-	private String specNumber;
+	@Column(name = "amount")
+	private String amount;
+	
+	@Column(name = "specifications")
+	private String specifications;
 	
 	@Column(name = "product_name")
 	private String productName; 
@@ -151,9 +154,6 @@ public class CommonNameContents extends BaseSequenceEntity<Long> implements Logi
 	@Column(name = "drug_id")
 	private String drugId;	
 	
-	@Column(name = "serial_no")
-	private String serialNo;	
-	
 	@Column(name = "is_antibacterialsed")
 	private Boolean antibacterialsed = Boolean.FALSE;;	
 	
@@ -168,6 +168,12 @@ public class CommonNameContents extends BaseSequenceEntity<Long> implements Logi
 	
 	@Column(name = "remark3")
 	private String remark3;	
+	
+	@Column(name = "spell")
+	private String spell;
+	
+	@Column(name = "spell_simplify")
+	private String spellSimplify;	
 	
 	public Date getCreateDate() {
 		return createDate;
@@ -209,12 +215,13 @@ public class CommonNameContents extends BaseSequenceEntity<Long> implements Logi
 		this.source = source;
 	}
 
-	public String getExtractCommonName() {
-		return extractCommonName;
+
+	public String getCommonName() {
+		return commonName;
 	}
 
-	public void setExtractCommonName(String extractCommonName) {
-		this.extractCommonName = extractCommonName;
+	public void setCommonName(String commonName) {
+		this.commonName = commonName;
 	}
 
 	public String getMedicalDirNo() {
@@ -265,14 +272,6 @@ public class CommonNameContents extends BaseSequenceEntity<Long> implements Logi
 		this.drugType = drugType;
 	}
 
-	public Administration getAdministration() {
-		return administration;
-	}
-
-	public void setAdministration(Administration administration) {
-		this.administration = administration;
-	}
-
 	public String getPill() {
 		return pill;
 	}
@@ -281,12 +280,22 @@ public class CommonNameContents extends BaseSequenceEntity<Long> implements Logi
 		this.pill = pill;
 	}
 
-	public String getSpecNumber() {
-		return specNumber;
+
+
+	public String getAmount() {
+		return amount;
 	}
 
-	public void setSpecNumber(String specNumber) {
-		this.specNumber = specNumber;
+	public void setAmount(String amount) {
+		this.amount = amount;
+	}
+
+	public String getSpecifications() {
+		return specifications;
+	}
+
+	public void setSpecifications(String specifications) {
+		this.specifications = specifications;
 	}
 
 	public String getProductName() {
@@ -371,14 +380,6 @@ public class CommonNameContents extends BaseSequenceEntity<Long> implements Logi
 		this.drugId = drugId;
 	}
 
-	public String getSerialNo() {
-		return serialNo;
-	}
-
-	public void setSerialNo(String serialNo) {
-		this.serialNo = serialNo;
-	}
-
 	public Boolean getAntibacterialsed() {
 		return antibacterialsed;
 	}
@@ -417,6 +418,22 @@ public class CommonNameContents extends BaseSequenceEntity<Long> implements Logi
 
 	public void setRemark3(String remark3) {
 		this.remark3 = remark3;
+	}
+
+	public String getSpell() {
+		return spell;
+	}
+
+	public void setSpell(String spell) {
+		this.spell = spell;
+	}
+
+	public String getSpellSimplify() {
+		return spellSimplify;
+	}
+
+	public void setSpellSimplify(String spellSimplify) {
+		this.spellSimplify = spellSimplify;
 	}
 
 	@Override
