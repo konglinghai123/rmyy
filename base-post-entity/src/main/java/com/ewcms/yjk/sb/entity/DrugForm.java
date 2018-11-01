@@ -61,7 +61,7 @@ public class DrugForm extends BaseSequenceEntity<Long> {
 	private CommonNameContents commonNameContents;
 
 	@Enumerated(EnumType.STRING)
-	private AuditStatusEnum auditStatus = AuditStatusEnum.init;
+	private AuditStatusEnum auditStatus = AuditStatusEnum.nodeclare;
 	
 	@Column(name = "is_declared")
 	private Boolean declared = Boolean.FALSE;

@@ -22,19 +22,13 @@
 								<input type="text" id="CNRule${status.index}" name="commonNameContents.${commonNameRule.ruleName}" class="easyui-combobox" data-options="
 									valueField:'id',
 									textField:'commonName',
-									method: 'get',
 									width:200,
 									required:true,
 									panelHeight:200,
 									onSelect:function(rec){
-										$('#commonNameContentsId').val(rec.id);
 										$('#queryCNRule${status.index}').val(rec.commonName);
-	    	   							$('#CNRule${status.index+1}').combobox('reload','${ctx}/yjk/zd/commonnamecontents/querydeclare');
+	    	   							$('#CNRule${status.index+1}').combobox('reload','${ctx}/yjk/zd/commonnamecontents/queryadministration?commonName='+rec.commonName);
 	       							},
-	       							onBeforeLoad: function(param){
-	        	 						param['parameters']=$('#queryform').serializeObject();
-	        	 						
-	     							},
 	     							onChange: function (newValue, oldValue) {
 								        	if(newValue==$('#CNRule${status.index}').combobox('getText')){
 								        		$('#CNRule${status.index}').combobox('reload','${ctx}/yjk/zd/commonname/findbyspell?spell='+newValue);
@@ -43,6 +37,27 @@
      							</td>
 							</tr>
 							</c:when>
+							<c:when test="${commonNameRule.ruleName == 'common.administration.id'}">
+				        	<tr>
+								<td width="30%">${commonNameRule.ruleCnName}：</td>
+								<td width="70%">							
+								<input type="text" id="CNRule${status.index}" name="commonNameContents.${commonNameRule.ruleName}" class="easyui-combobox" data-options="
+									valueField:'id',
+									textField:'name',
+									width:200,
+									required:true,
+									panelHeight:200,
+									onSelect:function(rec){
+										$('#queryCNRule${status.index}').val(rec.id);
+	    	   							$('#CNRule${status.index+1}').combobox('reload','${ctx}/yjk/zd/commonnamecontents/querydeclare');
+	       							},
+	       							onBeforeLoad: function(param){
+	        	 						param['parameters']=$('#queryform').serializeObject();
+	     							}"/>
+     							</td>
+							</tr>
+							</c:when>
+							
 							<c:otherwise>
 					        	<tr>
 									<td width="20%">${commonNameRule.ruleCnName}：</td>

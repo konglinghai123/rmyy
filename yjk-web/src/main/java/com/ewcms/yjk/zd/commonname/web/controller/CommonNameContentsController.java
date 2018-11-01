@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.ewcms.common.entity.search.SearchParameter;
 import com.ewcms.common.web.controller.BaseCRUDController;
+import com.ewcms.yjk.zd.commonname.entity.Administration;
 import com.ewcms.yjk.zd.commonname.entity.CommonNameContents;
 import com.ewcms.yjk.zd.commonname.service.CommonNameContentsService;
 import com.ewcms.yjk.zd.commonname.service.CommonNameRuleService;
@@ -64,6 +65,12 @@ public class CommonNameContentsController extends BaseCRUDController<CommonNameC
 		return (List<CommonNameContents>)map.get("rows");
 	}
 	
+	@RequestMapping(value = "queryadministration")
+	@ResponseBody
+	public List<Administration> queryAdministration(@RequestParam(value="commonName") String commonName, Model model) {
+		List<Administration>  admList = getCommonNameContentsService().findAdministrationByCommonName(commonName);
+		return admList;
+	}	
 	   @RequestMapping(value = "/import")
 		public String importStudent() {
 			return viewName("import");

@@ -53,12 +53,15 @@ public class CommonNameService extends BaseService<CommonName, Long> {
     public List<CommonName> findByCommonNameAndAdministrationIdAndEnabledTrueAndDeletedFalse(String commonName, Long administrationId){
     	return getCommonNameRepository().findByCommonNameAndAdministrationIdAndEnabledTrueAndDeletedFalse(commonName, administrationId);
     }
+    
+    public List<CommonName> findByNumberAndAdministrationIdAndDrugCategory(String number, Long administrationId, DrugCategoryEnum drugCategory){
+    	return getCommonNameRepository().findByNumberAndAdministrationIdAndDrugCategory(number, administrationId, drugCategory);
+    }
+    
     public List<CommonName> findByCommonNameAndNumberAndAdministrationIdAndDrugCategory(String commonName,String number, Long administrationId, DrugCategoryEnum drugCategory){
     	return getCommonNameRepository().findByCommonNameAndNumberAndAdministrationIdAndDrugCategory(commonName, number, administrationId, drugCategory);
     }
-    public List<String> findByMatchingNumber(String matchingNumber){
-    	return getCommonNameRepository().findByMatchingNumber(matchingNumber);
-    }
+
 	@Override
 	public CommonName save(CommonName m) {
 		PinYin.initSpell(m);
@@ -132,8 +135,10 @@ public class CommonNameService extends BaseService<CommonName, Long> {
 								commonName.setSpellSimplify(rows.getCell(j).getStringCellValue().trim());
 							}
 					}
-					if (findByCommonNameAndAdministrationIdAndEnabledTrueAndDeletedFalse(commonName.getCommonName(), commonName.getAdministration().getId()).size() == 0) {
+					if (findByCommonNameAndNumberAndAdministrationIdAndDrugCategory(commonName.getCommonName(),commonName.getNumber(), commonName.getAdministration().getId(),commonName.getDrugCategory()).size() == 0) {
 						super.saveAndFlush(commonName);
+					}else{
+						noSave.add(i + 1);
 					}
 				}catch(Exception e) {
 					System.out.print(e.toString());

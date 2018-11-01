@@ -12,10 +12,12 @@ import com.ewcms.yjk.zd.commonname.service.AdministrationService;
 import com.ewcms.yjk.zd.commonname.service.CommonNameService;
 import com.google.common.collect.Lists;
 import com.ewcms.common.entity.enums.BooleanEnum;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -26,6 +28,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 /**
  * @author zhoudongchu
@@ -62,7 +65,7 @@ public class CommonNameController extends BaseCRUDController<CommonName, Long> {
 		return super.query(searchParameter, model);
 	}
 
-	@RequestMapping(value = "findbyspell", method = RequestMethod.GET)
+	@RequestMapping(value = "findbyspell")
 	@ResponseBody
 	public List<CommonName> findBySpell(@RequestParam(value="spell") String spell) {
 		if(spell==null||spell.length()==0) return null;
@@ -83,7 +86,15 @@ public class CommonNameController extends BaseCRUDController<CommonName, Long> {
 //		return ajaxResponse;
 //	}
 	
-    @RequestMapping(value = "validate", method = RequestMethod.GET)
+    @Override
+	public String save(Model model, @Valid @ModelAttribute("m")CommonName m, BindingResult result,@RequestParam(required = false) List<Long> selections) {
+		if (getCommonNameService().findByCommonNameAndNumberAndAdministrationIdAndDrugCategory(m.getCommonName(),m.getNumber(), m.getAdministration().getId(),m.getDrugCategory()).size() == 0) {
+			return super.save(model, m, result, selections);
+		}
+		return showSaveForm(model, selections);
+	}
+
+	@RequestMapping(value = "validate", method = RequestMethod.GET)
     @ResponseBody
     public Object validate(
             @RequestParam("fieldId") String fieldId, @RequestParam("fieldValue") String fieldValue,

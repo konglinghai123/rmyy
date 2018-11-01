@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 import com.ewcms.common.service.BaseService;
 import com.ewcms.common.utils.EmptyUtil;
 import com.ewcms.util.PinYin;
-import com.ewcms.yjk.zd.commonname.entity.Administration;
 import com.ewcms.yjk.zd.commonname.entity.CommonName;
 import com.ewcms.yjk.zd.commonname.entity.CommonNameContents;
 import com.ewcms.yjk.zd.commonname.entity.DrugCategoryEnum;
@@ -42,20 +41,22 @@ public class HospitalContentsService extends BaseService<HospitalContents, Long>
 	
 
 
-//	public List<HospitalContents> findByExtractCommonNameAndDeletedFalse(String extractCommonName){
-//		return getHospitalContentsRepository().findByExtractCommonNameAndDeletedFalse(extractCommonName);
-//	}
-	
+    public List<HospitalContents> findByCommonIdAndDeletedFalse(Long commonId){
+    	return getHospitalContentsRepository().findByCommonIdAndDeletedFalse(commonId);
+    }
+	/**
+	 * 根据申报药品查找当前院药品目录在用医院药品集合
+	 * 
+	 * @param commonNameContentsId
+	 * @return
+	 */
 	public List<HospitalContents> matchByCommonNameContentsId(Long commonNameContentsId){
-//		CommonNameContents commonNameContentsvo = commonNameContentsService.findOne(commonNameContentsId);
-//		String  matchingNumber = commonNameContentsvo.getCommon().getMatchingNumber();
-//		List<String> commonNameList = commonNameService.findByMatchingNumber(matchingNumber);
+		CommonNameContents commonNameContentsvo = commonNameContentsService.findOne(commonNameContentsId);
+		List<CommonName> commonNameList = commonNameService.findByNumberAndAdministrationIdAndDrugCategory(commonNameContentsvo.getCommon().getNumber(),commonNameContentsvo.getCommon().getAdministration().getId(),commonNameContentsvo.getCommon().getDrugCategory());
 		List<HospitalContents> hospitalContentsList = new ArrayList<HospitalContents>();
-		
-//		for(String commonName:commonNameList){
-//			hospitalContentsList.addAll(findByExtractCommonNameAndDeletedFalse(commonName));
-//		}
-//		
+		for(CommonName commonName:commonNameList){
+			hospitalContentsList.addAll(findByCommonIdAndDeletedFalse(commonName.getId()));
+		}		
 		return hospitalContentsList;
 	}
 	

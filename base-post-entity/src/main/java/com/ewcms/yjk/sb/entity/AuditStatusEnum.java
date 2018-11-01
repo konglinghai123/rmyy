@@ -4,6 +4,7 @@ package com.ewcms.yjk.sb.entity;
  *@author zhoudongchu
  */
 public enum AuditStatusEnum {
+	nodeclare("未申报"),
 	init("等待审批"),
 	passed("审批通过"),
 	un_passed("审批未通过");

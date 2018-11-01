@@ -19,6 +19,7 @@ import com.ewcms.yjk.zd.commonname.entity.Administration;
 import com.ewcms.yjk.zd.commonname.entity.CommonName;
 import com.ewcms.yjk.zd.commonname.entity.CommonNameContents;
 import com.ewcms.yjk.zd.commonname.entity.DrugCategoryEnum;
+import com.ewcms.yjk.zd.commonname.repository.CommonNameContentsRepository;
 import com.google.common.collect.Lists;
 
 /**
@@ -32,6 +33,10 @@ public class CommonNameContentsService extends BaseService<CommonNameContents, L
     
     @Autowired
     private CommonNameService commonNameService;
+    
+    private CommonNameContentsRepository getCommonNameContentsRepository(){
+    	return (CommonNameContentsRepository)baseRepository;
+    }
 	@Override
 	public CommonNameContents save(CommonNameContents m) {
 		PinYin.initSpell(m);
@@ -44,6 +49,9 @@ public class CommonNameContentsService extends BaseService<CommonNameContents, L
 		return super.update(m);
 	}
 	
+	public List<Administration> findAdministrationByCommonName(String commonName){
+		return getCommonNameContentsRepository().findAdministrationByCommonName(commonName);
+	}
 	public List<Integer> importExcel(InputStream in){
 		List<Integer> noSave = Lists.newArrayList();
 		

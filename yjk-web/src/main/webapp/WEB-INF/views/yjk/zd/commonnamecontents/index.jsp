@@ -27,6 +27,10 @@
 				<th data-options="field:'medicalDirNo',width:80">医保编号</th>
 				<th data-options="field:'medicalDirName',width:120">医保目录药品名称</th>
 				<th data-options="field:'medicalDirPill',width:80">医保药品剂型</th>
+				<th data-options="field:'declared',width:100,
+						formatter:function(val,row){
+							return val ? '是' : '否';
+						}">是否允许申报</th>
 				<!--  <th data-options="field:'deleted',width:100,
 						formatter:function(val,row){
 							return val ? '<font color=red>已删除</font>' : '';
@@ -49,9 +53,9 @@
               			<td width="15%"><input type="text" name="LIKE_commonName.commonName" style="width:140px;"/></td>
             			<td width="5%">剂型</td>
               			<td width="15%"><input type="text" name="LIKE_pill" style="width:140px;"/></td>
-              			<td width="5%">通用名拼音简写</td>
+              			<td width="7%">通用名拼音</td>
               			<td width="23%"><input type="text" name="LIKE_spellSimplify" style="width:140px;"/></td>
-              			<td width="20%" colspan="2">
+              			<td width="25%" colspan="2">
             				<a id="tb-query" href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="$.ewcms.query();">查询</a>
            					<a id="tb-clear" href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-clear'" onclick="javascript:$('#queryform').form('reset');">清除</a>
            					<a id="tb-more" href="javascript:void(0);" class="easyui-linkbutton"><span id="showHideLabel">更多</span></a>
@@ -65,9 +69,7 @@
             			<td width="7%">规格</td>
               			<td width="15%"><input type="text" name="LIKE_specifications" style="width:140px;"/></td>
             			<td width="7%">数量</td>
-              			<td width="15%"><input type="text" name="LIKE_amount" style="width:140px;"/></td>
-           				<td width="5%" ></td>
-              			<td width="15%" colspan="2"></td>        				
+              			<td width="15%"><input type="text" name="LIKE_amount" style="width:140px;"/></td>      				
            			</tr>            			
            		</table>
           </form>

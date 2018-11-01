@@ -34,22 +34,21 @@ public class CommonNameRuleController extends BaseSequenceMovableController<Comm
 	@Override
 	public Map<String, Object> query(SearchParameter<Long> searchParameter,	Model model) {
 		searchParameter.getSorts().put("id", Direction.DESC);
-		searchParameter.getParameters().put("EQ_deleted", Boolean.FALSE);
 		return super.query(searchParameter, model);
 	}  
 	
-//	@RequestMapping(value = "{commonNameRuleId}/restore")
-//	@ResponseBody
-//	public AjaxResponse restoreCommonName(@PathVariable(value = "commonNameRuleId") Long commonNameRuleId) {
-//		AjaxResponse ajaxResponse = new AjaxResponse("还原成功");
-//		try{
-//			getCommonNameRuleService().restore(commonNameRuleId);
-//		} catch(IllegalStateException e){
-//			ajaxResponse.setSuccess(Boolean.FALSE);
-//			ajaxResponse.setMessage("还原失败");
-//		}
-//		return ajaxResponse;
-//	}
+	@RequestMapping(value = "{commonNameRuleId}/restore")
+	@ResponseBody
+	public AjaxResponse restoreCommonName(@PathVariable(value = "commonNameRuleId") Long commonNameRuleId) {
+		AjaxResponse ajaxResponse = new AjaxResponse("还原成功");
+		try{
+			getCommonNameRuleService().restore(commonNameRuleId);
+		} catch(IllegalStateException e){
+			ajaxResponse.setSuccess(Boolean.FALSE);
+			ajaxResponse.setMessage("还原失败");
+		}
+		return ajaxResponse;
+	}
 	
     @RequestMapping(value = "validate", method = RequestMethod.GET)
     @ResponseBody

@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/jspf/taglibs.jspf" %>
 
-<ewcms:head title="字典-医院在用药品总目录"/>
+<ewcms:head title="字典-院在用药品总目录"/>
 	<div id="edit-from" class="easyui-layout" data-options="fit:true" style="border:0;">
 		<ewcms:showMessage/>
 		<div data-options="region:'center',border:false">	
@@ -70,17 +70,23 @@
 						<td width="30%"><form:textarea path="discom" style="height:50px"/></td>
 					</tr>	
 		        	<tr>
-						<td width="20%"><form:label path="remark1">备注1</form:label></td>
-						<td width="30%"><form:input path="remark1"/></td>
-						<td width="20%"><form:label path="remark2">备注2：</form:label></td>
-						<td width="30%"><form:input path="remark2"/></td>
+						<td width="20%"><form:label path="originalCategory">原类别：</form:label></td>
+						<td width="30%"><form:input path="originalCategory"/></td>
+						<td width="20%"><form:label path="medicalInfo">医保等信息：</form:label></td>
+						<td width="30%"><form:input path="medicalInfo"/></td>
 					</tr>
 					<tr>
+						<td width="20%"><form:label path="qualityLevel">原质量层次：</form:label></td>
+						<td width="30%"><form:input path="qualityLevel" /></td>
+						<td width="20%"><form:label path="remark1">备注1：</form:label></td>
+						<td width="30%"><form:input path="remark1" /></td>
+					</tr>	
+					<tr>
+						<td width="20%"><form:label path="remark2">备注2：</form:label></td>
+						<td width="30%"><form:input path="remark2" /></td>
 						<td width="20%"><form:label path="remark3">备注3：</form:label></td>
 						<td width="30%"><form:input path="remark3" /></td>
-						<td width="20%"></td>
-						<td width="30%"></td>
-					</tr>																																																				
+					</tr>																																																									
 				</table>
 			</form:form>
 		</div>

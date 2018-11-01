@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/views/jspf/taglibs.jspf" %>
 
-<ewcms:head title="字典-医院在用药品总目录"/>
+<ewcms:head title="字典-院在用药品总目录"/>
 	<table id="tt">
 		<thead>
 			<tr>
@@ -38,12 +38,12 @@
         	<form id="queryform">
         		<table class="formtable">
               		<tr>
-              			<td width="5%">药品代码</td>
-              			<td width="15%"><input type="text" name="LIKE_drugCode" style="width:140px;"/></td>              		
-              			<td width="5%">药品通用名</td>
-              			<td width="15%"><input type="text" name="LIKE_genericDrugName" style="width:140px;"/></td>
+              			<td width="5%">通用名</td>
+              			<td width="15%"><input type="text" name="LIKE_commonName.commonName" style="width:140px;"/></td>
             			<td width="5%">剂型</td>
               			<td width="15%"><input type="text" name="LIKE_pill" style="width:140px;"/></td>
+              			<td width="5%">通用名拼音简写</td>
+              			<td width="23%"><input type="text" name="LIKE_spellSimplify" style="width:140px;"/></td>
 						<td width="16%" colspan="2">
             				<a id="tb-query" href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="$.ewcms.query();">查询</a>
            					<a id="tb-clear" href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-clear'" onclick="javascript:$('#queryform').form('reset');">清除</a>
@@ -51,8 +51,10 @@
            				</td>
            			</tr>
            			<tr>
-            			<td width="7%">规格*数量</td>
-              			<td width="15%"><input type="text" name="LIKE_specNumber" style="width:140px;"/></td>
+            			<td width="7%">规格</td>
+              			<td width="15%"><input type="text" name="LIKE_specifications" style="width:140px;"/></td>
+            			<td width="7%">数量</td>
+              			<td width="15%"><input type="text" name="LIKE_amount" style="width:140px;"/></td>
               			<td width="5%">生产企业</td>
               			<td width="15%"><input type="text" name="LIKE_manufacturer" style="width:140px;"/></td>
               			<td width="15%" colspan="2"></td>

@@ -48,7 +48,7 @@ import com.ewcms.common.plugin.entity.LogicDeleteable;
  * <li>spellSimplify:通用名称拼音简写</li>
  * <li>originalCategory:原类别</li>
  * <li>medicalInfo:医保等信息</li>
- * <li>qualityLevel :原质量层次</li>
+ * <li>qualityLevel:原质量层次</li>
  * </ul>
  * 
  * @author zhoudongchu

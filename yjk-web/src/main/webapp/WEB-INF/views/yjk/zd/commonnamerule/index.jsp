@@ -10,7 +10,7 @@
 				<th data-options="field:'ruleName',width:100">规则名</th>
 				<th data-options="field:'ruleCnName',width:100">规则中文名</th>
 				<th data-options="field:'weight',width:100">排序号</th>
-				<!-- <th data-options="field:'deleted',width:100,formatter:formatOperation">是否删除</th>	 -->
+				<th data-options="field:'deleted',width:100,formatter:formatOperation">是否删除</th>
 			</tr>
 		</thead>
 	</table>
@@ -61,8 +61,8 @@
 		        $.messager.alert('提示','请选择2条互换的记录','info');
 		        return;
 		    }
-		    if(rows[0].id==1||rows[1].id==1){
-		        $.messager.alert('提示','通用名规则不能交换顺序','info');
+		    if(rows[0].id==1||rows[1].id==1||rows[0].id==2||rows[1].id==2){
+		        $.messager.alert('提示','通用名和给药途径规则不能交换顺序','info');
 		        return;
 		    }
 			$.messager.confirm('提示', '确定要互换所选记录吗?', function(r){
@@ -100,14 +100,13 @@
 	        $.messager.alert('提示','请选择1条记录进行删除','info');
 	        return;
 	    }
-    	if(rows[0].id==1){
-	        $.messager.alert('提示','通用名规则不能删除','info');
+    	if(rows[0].id==1 || rows[0].id==2){
+	        $.messager.alert('提示','通用名和给药途径规则不能删除','info');
 	        return;
     	}
     	$.ewcms.remove({title:'删除'});
 	}
-	
-	<!--
+
 	function formatOperation(val, row){
 		return val ? '<font color=red>已删除</font>  <a class="resumedCls" onclick="restore(' + row.id + ')" href="javascript:void(0);">还原</a>' : '';
 	}
@@ -120,6 +119,5 @@
 			$.messager.alert('提示', result.message, 'info');
 		});
 	}
-	
-	 -->
+
 </script>

@@ -7,9 +7,12 @@ import org.springframework.stereotype.Service;
 
 import com.ewcms.common.service.BaseService;
 import com.ewcms.security.user.entity.User;
+import com.ewcms.yjk.sb.entity.AuditStatusEnum;
 import com.ewcms.yjk.sb.entity.DrugForm;
+import com.ewcms.yjk.sb.repository.DrugFormRepository;
 import com.ewcms.yjk.sp.entity.SystemParameter;
 import com.ewcms.yjk.sp.service.SystemParameterService;
+import com.ewcms.yjk.zd.commonname.entity.CommonName;
 import com.ewcms.yjk.zd.commonname.entity.CommonNameContents;
 import com.ewcms.yjk.zd.commonname.entity.HospitalContents;
 import com.ewcms.yjk.zd.commonname.service.CommonNameContentsService;
@@ -33,38 +36,67 @@ public class DrugFormService extends BaseService<DrugForm, Long> {
 	@Autowired
 	private SystemParameterService systemParameterService;
 	
-//    private DrugFormRepository getDrugFormRepository() {
-//        return (DrugFormRepository) baseRepository;
-//    }
-//	
+    private DrugFormRepository getDrugFormRepository() {
+        return (DrugFormRepository) baseRepository;
+    }
+	
 	public DrugForm drugDeclare(User user, CommonNameContents vo){
 		DrugForm drugForm = null;
-//		Long commonNameContentsId = vo.getId();
-//		if(commonNameContentsId!=null){//申报目录编号存在
-//			//获取新药申报的通用名匹配编号
-//			vo = commonNameContentsService.findOne(commonNameContentsId);
-////			String  matchingNumber = vo.getCommon().getMatchingNumber();
-//			//根据匹配编号反查所有该匹配编号的通用名集
-//			List<String> commonNameList = commonNameService.findByMatchingNumber(matchingNumber);
-//			//根据通用名集找院目录提取通用名在该通用名集中的记录集
-//			int existNumber=0;
-//			List<HospitalContents> hospitalContentsList;
-//			
-//			
-//			for(String commonName:commonNameList){
-//				hospitalContentsList = hospitalContentsService.findByExtractCommonNameAndDeletedFalse(commonName);
-//				if(hospitalContentsList != null&&hospitalContentsList.size()>0)existNumber += hospitalContentsList.size();
-//			}
-//			SystemParameter systemParameter = systemParameterService.findByEnabledTrue();
-//			if(systemParameter != null){
-//				if(existNumber <= systemParameter.getDeclarationLimt()){//申报新药的在院药品目录限数为2，超过限数2不能申报
-//					drugForm = new DrugForm();
-//					drugForm.setUserId(user.getId());
-//					drugForm.setCommonNameContents(vo);
-//					drugForm = baseRepository.save(drugForm);
-//				}
-//			}
-//		}
+		Long commonNameContentsId = vo.getId();
+		if(commonNameContentsId!=null){//申报目录编号存在
+			//获取新药申报的通用名对象
+			vo = commonNameContentsService.findOne(commonNameContentsId);
+			//根据编号、用药途径、药品种类反查所有该匹配的通用名集
+			List<CommonName> commonNameList = commonNameService.findByNumberAndAdministrationIdAndDrugCategory(vo.getCommon().getNumber(),vo.getCommon().getAdministration().getId(),vo.getCommon().getDrugCategory());
+			//根据通用名集找院目录在该通用名集中的记录集
+			
+			int existNumber=0;
+			List<HospitalContents> hospitalContentsList;
+			for(CommonName commonName:commonNameList){
+				hospitalContentsList = hospitalContentsService.findByCommonIdAndDeletedFalse(commonName.getId());
+				if(hospitalContentsList != null&&hospitalContentsList.size()>0)existNumber += hospitalContentsList.size();
+			}
+			SystemParameter systemParameter = systemParameterService.findByEnabledTrue();
+			if(systemParameter != null){
+				if(existNumber <= systemParameter.getDeclarationLimt()){//申报新药的在院药品目录没有超过限数 
+					drugForm = new DrugForm();
+					drugForm.setUserId(user.getId());
+					drugForm.setCommonNameContents(vo);
+					drugForm = baseRepository.save(drugForm);
+				}
+			}
+		}
 		return drugForm;
+	}
+	
+	public void saveDeclareSubmit(List<Long> selections){
+		if (selections != null && !selections.isEmpty()){
+			for(Long id:selections){
+				DrugForm drugForm = findOne(id);
+				drugForm.setDeclared(Boolean.TRUE);
+				drugForm.setAuditStatus(AuditStatusEnum.init);
+				super.save(drugForm);
+			}
+		}
+	}
+	
+	public void saveDeclareCancel(List<Long> selections){
+		if (selections != null && !selections.isEmpty()){
+			for(Long id:selections){
+				DrugForm drugForm = findOne(id);
+				if(drugForm.getAuditStatus()==AuditStatusEnum.init){
+					drugForm.setDeclared(Boolean.FALSE);
+					drugForm.setAuditStatus(AuditStatusEnum.nodeclare);
+				}
+				super.save(drugForm);
+			}
+		}
+	}
+	
+	public List<DrugForm> findByUserIdAndDeclaredFalse(Long userId){
+		return getDrugFormRepository().findByUserIdAndDeclaredFalse(userId);
+	}
+	public List<DrugForm> findByUserIdAndAuditStatus(Long userId,AuditStatusEnum auditStatus){
+		return getDrugFormRepository().findByUserIdAndAuditStatus(userId, auditStatus);
 	}
 }

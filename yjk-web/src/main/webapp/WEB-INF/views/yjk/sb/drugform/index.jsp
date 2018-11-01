@@ -8,37 +8,40 @@
 					<tr>
 					    <th data-options="field:'ck',checkbox:true"/>
 					    <th data-options="field:'id',hidden:true">编号</th>
-						<th data-options="field:'stateInfo',width:120,sortable:true">申报状态</th>		
+						<th data-options="field:'auditStatusInfo',width:120,sortable:true">审核状态</th>		
 						<th data-options="field:'userName',width:120,sortable:true">申报医生</th>
-						<th data-options="field:'commonName',width:120,
+						<c:forEach items="${commonNameRuleList}" var="commonNameRule">
+						<th data-options="field:'${commonNameRule.ruleName}',width:120,
 								formatter:function(val,row){
-									return row.commonNameContents==null || row.commonNameContents.common==null ?'':row.commonNameContents.common.commonName;
-								}">通用名</th>		
-						<th data-options="field:'pill',width:120,
-								formatter:function(val,row){
-									return row.commonNameContents==null?'':row.commonNameContents.pill;
-								}">剂型</th>		
-						<th data-options="field:'specNumber',width:120,
-								formatter:function(val,row){
-									return row.commonNameContents==null?'':row.commonNameContents.specNumber;
-								}">规格*数量</th>		
+									return row.commonNameContents==null ?'':row.commonNameContents.${commonNameRule.ruleName};
+								}">${commonNameRule.ruleCnName}</th>		
+						</c:forEach>
+						<th data-options="field:'declared',width:100,formatter:formatOperation">是否已经申报</th>		
 					</tr>
 				</thead>
 			</table>
 			<div id="tb" style="padding:5px;height:auto;">
 		        <div class="toolbar" style="margin-bottom:2px">
-					<a id="tb-add" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-add',toggle:true" onclick="$.ewcms.add({title:'新增',width:400,height:450});">新药申报</a>
+					<a id="tb-add" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-add',toggle:true" onclick="$.ewcms.add({title:'新增',width:400,height:450});">新增</a>
+					<a id="tb-declare" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-add',toggle:true" onclick="$.ewcms.openWindow({windowId:'#edit-window',width:500,height:350,title:'申报提交',src:'${ctx}/yjk/sb/drugform/declaresubmit'});">申报提交</a>
+					<a id="tb-canceldeclare" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-add',toggle:true" onclick="$.ewcms.openWindow({windowId:'#edit-window',width:500,height:350,title:'申报撤销',src:'${ctx}/yjk/sb/drugform/declarecancel'});">申报撤销</a>
 				</div>
 		        <div  style="padding-left:5px;">
 		        	<form id="queryform" style="padding:0;margin:0;" >
 		        		<table class="formtable">
 		              		<tr>
+		           				<td>审核状态</td>
+		           				<td>
+		           					<form:select id="enabled" name="EQ_auditStatus" path="stateList" cssClass="easyui-combobox"  cssStyle="width:140px;" data-options="panelHeight:'auto',editable:false">
+							  			<form:option value="" label="------请选择------"/>
+							  			<form:options items="${stateList}" itemLabel="info"/>
+									</form:select>
+		           				</td>
+		              		   
+              					<td width="7%">通用名拼音</td>
+              					<td width="23%"><input type="text" name="LIKE_commonNameContents.common.spellSimplify" style="width:140px;"/></td>
 		              			<td width="5%">通用名</td>
 		              			<td width="15%"><input type="text" name="LIKE_commonNameContents.common.commonName" style="width:140px;"/></td>
-		            			<td width="5%">剂型</td>
-		              			<td width="15%"><input type="text" name="LIKE_commonNameContents.pill" style="width:140px;"/></td>
-		            			<td width="7%">规格*数量</td>
-		              			<td width="15%"><input type="text" name="LIKE_commonNameContents.specNumber" style="width:140px;"/></td>
 		              			<td width="20%" colspan="2">
 		            				<a id="tb-query" href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="$.ewcms.query();">查询</a>
 		           					<a id="tb-clear" href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-clear'" onclick="javascript:$('#queryform').form('reset');">清除</a>
@@ -46,22 +49,17 @@
 		           				</td>
 		           			</tr>
 		           			<tr>
-		           				<td>申报状态</td>
-		           				<td>
-		           					<form:select id="enabled" name="EQ_state" path="stateList" cssClass="easyui-combobox"  cssStyle="width:140px;" data-options="panelHeight:'auto',editable:false">
-							  			<form:option value="" label="------请选择------"/>
-							  			<form:options items="${stateList}" itemLabel="info"/>
-									</form:select>
-		           				</td>
-		           				<td>申报医生</td>
+		            			<td width="5%">剂型</td>
+		              			<td width="15%"><input type="text" name="LIKE_commonNameContents.pill" style="width:140px;"/></td>
+		            			<td width="7%">规格</td>
+		              			<td width="15%"><input type="text" name="LIKE_commonNameContents.specifications" style="width:140px;"/></td>
+		              			<td>申报医生</td>
 		           				<td>
 		           					<form:select id="userId" name="EQ_userId" path="userList" cssClass="easyui-combobox"  cssStyle="width:140px;" data-options="panelHeight:'auto',editable:false">
 							  			<form:option value="" label="------请选择------"/>
 							  			<form:options items="${userList}" itemLabel="username" itemValue="id"/>
 									</form:select>
-		           				</td>   
-		           				<td width="5%" ></td>
-		              			<td width="15%" colspan="3"></td>        				
+		           				</td>        				
 		           			</tr>            			
 		           		</table>
 		          </form>
@@ -112,6 +110,27 @@
 			    	$('#tt').datagrid('resize');
 			    });	
 			});
+			
+			function formatOperation(val, row){
+				return val ?  '是': '否  <a class="resumedCls" onclick="deleteDeclare(' + row.id + ')" href="javascript:void(0);">删除</a>';
+			}
+			
+			function deleteDeclare(id){
+				 $.messager.confirm('提示', '确定要删除该记录吗', function(r){
+				 	if (r){
+						$.post('${ctx}/yjk/sb/drugform/' + id + '/deletedeclare', {}, function(result) {
+							if (result.success){
+								$('#tt').datagrid('reload');
+							}
+							$.messager.alert('提示', result.message, 'info');
+						});
+			        }
+				});
+			}
+			
+			function declare(){
+				
+			}
 		</script>
 	</c:when>
 	<c:otherwise>
