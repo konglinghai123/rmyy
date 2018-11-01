@@ -46,6 +46,9 @@ import com.ewcms.common.plugin.entity.LogicDeleteable;
  * <li>remark3:备注3</li>
  * <li>spell:通用名称拼音</li>
  * <li>spellSimplify:通用名称拼音简写</li>
+ * <li>originalCategory:原类别</li>
+ * <li>medicalInfo:医保等信息</li>
+ * <li>qualityLevel :原质量层次</li>
  * </ul>
  * 
  * @author zhoudongchu
@@ -125,7 +128,17 @@ public class HospitalContents extends BaseSequenceEntity<Long> implements LogicD
 	private String spell;
 	
 	@Column(name = "spell_simplify")
-	private String spellSimplify;		
+	private String spellSimplify;
+	
+	@Column(name = "original_category")
+	private String originalCategory;	
+	
+	@Column(name = "medical_info")
+	private String medicalInfo;	
+	
+	@Column(name = "quality_level")
+	private String qualityLevel;
+
 	public String getDrugCode() {
 		return drugCode;
 	}
@@ -284,6 +297,30 @@ public class HospitalContents extends BaseSequenceEntity<Long> implements LogicD
 
 	public void setSpellSimplify(String spellSimplify) {
 		this.spellSimplify = spellSimplify;
+	}
+
+	public String getOriginalCategory() {
+		return originalCategory;
+	}
+
+	public void setOriginalCategory(String originalCategory) {
+		this.originalCategory = originalCategory;
+	}
+
+	public String getMedicalInfo() {
+		return medicalInfo;
+	}
+
+	public void setMedicalInfo(String medicalInfo) {
+		this.medicalInfo = medicalInfo;
+	}
+
+	public String getQualityLevel() {
+		return qualityLevel;
+	}
+
+	public void setQualityLevel(String qualityLevel) {
+		this.qualityLevel = qualityLevel;
 	}
 
 	@Override

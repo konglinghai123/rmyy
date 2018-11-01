@@ -39,6 +39,7 @@
 			<a id="tb-add" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-add',toggle:true" onclick="$.ewcms.add({title:'新增',width:750,height:450});">新增</a>
 			<a id="tb-edit" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-edit',toggle:true" onclick="$.ewcms.edit({title:'修改',width:750,height:450});">修改</a>
  			<a id="tb-remove" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-remove',toggle:true" onclick="$.ewcms.remove({title:'删除'});">删除</a>
+ 			<a id="tb-import" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-import',toggle:true" onclick="$.ewcms.openWindow({windowId:'#edit-window',width:500,height:350,title:'导入大目录信息',src:'${ctx}/yjk/zd/commonnamecontents/import'});">导入</a>
 		</div>
         <div  style="padding-left:5px;">
         	<form id="queryform" style="padding:0;margin:0;">
@@ -65,14 +66,6 @@
               			<td width="15%"><input type="text" name="LIKE_specifications" style="width:140px;"/></td>
             			<td width="7%">数量</td>
               			<td width="15%"><input type="text" name="LIKE_amount" style="width:140px;"/></td>
-              			<!--  
-           				<td>是否删除</td>
-           				<td>
-           					<form:select id="deleted" name="EQ_deleted" path="booleanList" cssClass="easyui-combobox"  cssStyle="width:140px;" data-options="panelHeight:'auto',editable:false">
-					  			<form:option value="" label="------请选择------"/>
-					  			<form:options items="${booleanList}" itemLabel="info"/>
-							</form:select>
-           				</td>   -->
            				<td width="5%" ></td>
               			<td width="15%" colspan="2"></td>        				
            			</tr>            			

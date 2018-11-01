@@ -11,7 +11,7 @@ import com.ewcms.yjk.zd.commonname.entity.DrugCategoryEnum;
 import com.ewcms.yjk.zd.commonname.service.AdministrationService;
 import com.ewcms.yjk.zd.commonname.service.CommonNameService;
 import com.google.common.collect.Lists;
-
+import com.ewcms.common.entity.enums.BooleanEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Controller;
@@ -52,7 +52,7 @@ public class CommonNameController extends BaseCRUDController<CommonName, Long> {
 		searchable.addSort(Direction.ASC, "id");
 		model.addAttribute("administrationList", administrationService.findAllWithSort(searchable));
 		model.addAttribute("drugCategoryList", DrugCategoryEnum.values());
-		//model.addAttribute("booleanList", BooleanEnum.values());
+		model.addAttribute("booleanList", BooleanEnum.values());
 	}
 	
 	@Override

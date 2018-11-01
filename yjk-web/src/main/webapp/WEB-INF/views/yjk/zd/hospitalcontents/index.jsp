@@ -55,13 +55,6 @@
               			<td width="15%"><input type="text" name="LIKE_specNumber" style="width:140px;"/></td>
               			<td width="5%">生产企业</td>
               			<td width="15%"><input type="text" name="LIKE_manufacturer" style="width:140px;"/></td>
-           				<!-- <td>是否删除</td>
-           				<td>
-           					<form:select id="deleted" name="EQ_deleted" path="booleanList" cssClass="easyui-combobox"  cssStyle="width:140px;" data-options="panelHeight:'auto',editable:false">
-					  			<form:option value="" label="------请选择------"/>
-					  			<form:options items="${booleanList}" itemLabel="info"/>
-							</form:select>
-           				</td>  -->
               			<td width="15%" colspan="2"></td>
               		</tr>
            		</table>

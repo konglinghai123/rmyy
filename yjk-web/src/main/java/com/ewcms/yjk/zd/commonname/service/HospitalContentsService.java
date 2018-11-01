@@ -14,9 +14,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ewcms.common.service.BaseService;
+import com.ewcms.common.utils.EmptyUtil;
 import com.ewcms.util.PinYin;
 import com.ewcms.yjk.zd.commonname.entity.Administration;
+import com.ewcms.yjk.zd.commonname.entity.CommonName;
 import com.ewcms.yjk.zd.commonname.entity.CommonNameContents;
+import com.ewcms.yjk.zd.commonname.entity.DrugCategoryEnum;
 import com.ewcms.yjk.zd.commonname.entity.HospitalContents;
 import com.ewcms.yjk.zd.commonname.repository.HospitalContentsRepository;
 import com.google.common.collect.Lists;
@@ -88,6 +91,9 @@ public class HospitalContentsService extends BaseService<HospitalContents, Long>
 			
 			//获得数据，数据从第1行开始
 			for (int i = 1; i <= records; i++) {
+				String extactCommonName="",number="";
+				DrugCategoryEnum drugCategory = DrugCategoryEnum.H;
+				Long administrationId=1L;
 				HospitalContents hospitalContents = new HospitalContents();
 				rows = sheet.getRow(i);
 				try {
@@ -101,11 +107,34 @@ public class HospitalContentsService extends BaseService<HospitalContents, Long>
 								}
 							} else if (columnNames[j].equals("药品通用名")) {
 								hospitalContents.setCommonName(rows.getCell(j).getStringCellValue().trim());
+								PinYin.initSpell(hospitalContents);
+							}else if (columnNames[j].equals("给药途径")) {
+								try {
+									Double administrationIdTemp = rows.getCell(j).getNumericCellValue();
+									administrationId = administrationIdTemp.longValue();
+								} catch (Exception e) {
+									//administrationId = Long.valueOf(rows.getCell(j).getStringCellValue().trim());
+								}
+							}else if (columnNames[j].equals("提取通用名")) {
+								extactCommonName = rows.getCell(j).getStringCellValue().trim();
+							}else if (columnNames[j].equals("编号")) {
+								try {
+									Double numberTemp = rows.getCell(j).getNumericCellValue();
+									number = String.valueOf(numberTemp.longValue());
+								} catch (Exception e) {
+									number = rows.getCell(j).getStringCellValue().trim();
+								}
 							}else if (columnNames[j].equals("剂型")) {
 								hospitalContents.setPill(rows.getCell(j).getStringCellValue().trim());
 							} else if (columnNames[j].equals("规格*数量")) {
-								hospitalContents.setSpecifications(rows.getCell(j).getStringCellValue().trim().split("*")[0]);
-								hospitalContents.setAmount(rows.getCell(j).getStringCellValue().trim().split("*")[1]);
+								String specNumber = rows.getCell(j).getStringCellValue().trim();
+								if (EmptyUtil.isStringNotEmpty(specNumber)){
+									String[] tmp = specNumber.split("\\*");
+									if (tmp.length == 2){
+										hospitalContents.setSpecifications(tmp[0]);
+										hospitalContents.setAmount(tmp[1]);
+									}
+								}
 							} else if (columnNames[j].equals("生产企业")) {
 								hospitalContents.setManufacturer(rows.getCell(j).getStringCellValue().trim());
 							} else if (columnNames[j].equals("目录分类")) {
@@ -120,13 +149,24 @@ public class HospitalContentsService extends BaseService<HospitalContents, Long>
 								hospitalContents.setOldRemark(rows.getCell(j).getStringCellValue().trim());
 							} else if (columnNames[j].equals("配送公司")) {
 								hospitalContents.setDiscom(rows.getCell(j).getStringCellValue().trim());
-							}else if (columnNames[j].equals("全拼")) {
-								hospitalContents.setSpell(rows.getCell(j).getStringCellValue().trim());
-							} else if (columnNames[j].equals("简拼")) {
-								hospitalContents.setSpellSimplify(rows.getCell(j).getStringCellValue().trim());
+							} else if (columnNames[j].equals("原类别")) {
+								hospitalContents.setOriginalCategory(rows.getCell(j).getStringCellValue().trim());
+							} else if (columnNames[j].equals("医保等信息")) {
+								hospitalContents.setMedicalInfo(rows.getCell(j).getStringCellValue().trim());
+							} else if (columnNames[j].equals("原质量层次")) {
+								hospitalContents.setQualityLevel(rows.getCell(j).getStringCellValue().trim());
+							}else if (columnNames[j].equals("类别")) {
+								String drugCategoryValue = rows.getCell(j).getStringCellValue().trim();
+								drugCategory = DrugCategoryEnum.valueOf(drugCategoryValue);
 							}
 					}
-					super.saveAndFlush(hospitalContents);
+					List<CommonName> commonNameList = commonNameService.findByCommonNameAndNumberAndAdministrationIdAndDrugCategory(extactCommonName, number, administrationId, drugCategory);
+					if(commonNameList != null && commonNameList.size()>0){
+						hospitalContents.setCommon(commonNameList.get(0));
+						super.saveAndFlush(hospitalContents);
+					}else{
+						noSave.add(i + 1);
+					}
 				}catch(Exception e) {
 					noSave.add(i + 1);
 				}

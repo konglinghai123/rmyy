@@ -53,7 +53,9 @@ public class CommonNameService extends BaseService<CommonName, Long> {
     public List<CommonName> findByCommonNameAndAdministrationIdAndEnabledTrueAndDeletedFalse(String commonName, Long administrationId){
     	return getCommonNameRepository().findByCommonNameAndAdministrationIdAndEnabledTrueAndDeletedFalse(commonName, administrationId);
     }
-    
+    public List<CommonName> findByCommonNameAndNumberAndAdministrationIdAndDrugCategory(String commonName,String number, Long administrationId, DrugCategoryEnum drugCategory){
+    	return getCommonNameRepository().findByCommonNameAndNumberAndAdministrationIdAndDrugCategory(commonName, number, administrationId, drugCategory);
+    }
     public List<String> findByMatchingNumber(String matchingNumber){
     	return getCommonNameRepository().findByMatchingNumber(matchingNumber);
     }
@@ -115,7 +117,13 @@ public class CommonNameService extends BaseService<CommonName, Long> {
 									commonName.setAdministration(null);
 								}
 							} else if (columnNames[j].equals("编号")) {
-								commonName.setNumber(rows.getCell(j).getStringCellValue().trim());
+								try {
+									commonName.setNumber(rows.getCell(j).getStringCellValue().trim());
+								} catch (Exception e) {
+									Double number = rows.getCell(j).getNumericCellValue();
+									commonName.setNumber(String.valueOf(number.longValue()));
+								}								
+								
 							} else if (columnNames[j].equals("匹配编号")) {
 								commonName.setDrugCategory(DrugCategoryEnum.valueOf(rows.getCell(j).getStringCellValue().trim().substring(0, 1)));
 							}else if (columnNames[j].equals("全拼")) {
@@ -128,6 +136,7 @@ public class CommonNameService extends BaseService<CommonName, Long> {
 						super.saveAndFlush(commonName);
 					}
 				}catch(Exception e) {
+					System.out.print(e.toString());
 					noSave.add(i + 1);
 				}
 			}

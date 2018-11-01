@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import com.ewcms.common.repository.BaseRepository;
 import com.ewcms.yjk.zd.commonname.entity.CommonName;
+import com.ewcms.yjk.zd.commonname.entity.DrugCategoryEnum;
 
 /**
  *@author zhoudongchu
@@ -20,4 +21,6 @@ public interface CommonNameRepository extends BaseRepository<CommonName, Long> {
 	List<CommonName> findByCommonName(String commonName);
 	
 	List<CommonName> findByCommonNameAndAdministrationIdAndEnabledTrueAndDeletedFalse(String commonName, Long administrationId);
+	
+	List<CommonName> findByCommonNameAndNumberAndAdministrationIdAndDrugCategory(String commonName,String number, Long administrationId, DrugCategoryEnum drugCategory);
 }

@@ -61,7 +61,7 @@ public class CommonName extends BaseSequenceEntity<Long> implements LogicDeletea
 	private Administration administration;
 	
 	@Enumerated(EnumType.STRING)
-	private DrugCategoryEnum drugCategory = DrugCategoryEnum.x;
+	private DrugCategoryEnum drugCategory = DrugCategoryEnum.H;
 	
 	@Column(name = "spell", nullable = false)
 	private String spell;
