@@ -10,6 +10,9 @@
 				<th data-options="field:'applyStartDate',width:150">申请开始时间</th>
 				<th data-options="field:'applyEndDate',width:150">申请结束时间</th>
 				<th data-options="field:'declarationLimt',width:150">申报限数</th>
+				<th data-options="field:'departmentAttributeNames',width:200">科室属性</th>
+				<th data-options="field:'professionNames',width:200">职业</th>
+				<th data-options="field:'technicalNames',width:200">职称</th>
 				<th data-options="field:'enabled',width:100,formatter:formatOperation">操作</th>
 			</tr>
 		</thead>

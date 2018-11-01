@@ -15,9 +15,11 @@ import com.ewcms.yjk.sp.repository.SystemParameterRepository;
  */
 @Service
 public class SystemParameterService extends BaseService<SystemParameter, Long> {
+	
     private SystemParameterRepository getSystemParameterRepository() {
         return (SystemParameterRepository) baseRepository;
     }
+    
 	public SystemParameter findByEnabledTrue(){
 		return getSystemParameterRepository().findByEnabledTrue();
 	}

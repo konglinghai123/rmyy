@@ -1,6 +1,9 @@
 package com.ewcms.yjk.sp.web.controler;
 
+import java.util.List;
 import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,6 +13,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.ewcms.common.entity.search.SearchParameter;
 import com.ewcms.common.web.controller.BaseCRUDController;
 import com.ewcms.common.web.validate.AjaxResponse;
+import com.ewcms.security.dictionary.entity.DepartmentAttribute;
+import com.ewcms.security.dictionary.entity.Profession;
+import com.ewcms.security.dictionary.entity.Technical;
+import com.ewcms.security.dictionary.service.DepartmentAttributeService;
+import com.ewcms.security.dictionary.service.ProfessionService;
+import com.ewcms.security.dictionary.service.TechnicalService;
 import com.ewcms.yjk.sp.entity.SystemParameter;
 import com.ewcms.yjk.sp.service.SystemParameterService;
 
@@ -21,9 +30,17 @@ import com.ewcms.yjk.sp.service.SystemParameterService;
 @Controller
 @RequestMapping(value = "/yjk/sp/systemparamter")
 public class SystemParameterController extends BaseCRUDController<SystemParameter, Long> {
+	
 	private SystemParameterService getSystemParameterService() {
 		return (SystemParameterService) baseService;
 	}
+	
+	@Autowired
+	private DepartmentAttributeService departmentAttributeService;
+	@Autowired
+	private TechnicalService technicalService;
+	@Autowired
+	private ProfessionService professionService;
 	
     public SystemParameterController() {
     	setListAlsoSetCommonData(true);
@@ -67,6 +84,24 @@ public class SystemParameterController extends BaseCRUDController<SystemParamete
 		ajaxResponse.setSuccess(Boolean.FALSE);
 		ajaxResponse.setMessage("启动申报失败");
 		return ajaxResponse;
+	}
+	
+	@RequestMapping(value = "departmentAttribute/canUse")
+	@ResponseBody
+	public List<DepartmentAttribute> getDepartmentAttribute(){
+		return departmentAttributeService.findAll();
+	}
+	
+	@RequestMapping(value = "profession/canUse")
+	@ResponseBody
+	public List<Profession> getProfession(){
+		return professionService.findAll();
+	}
+	
+	@RequestMapping(value = "technical/canUse")
+	@ResponseBody
+	public List<Technical> getTechnical(){
+		return technicalService.findAll();
 	}
 	
 	/*

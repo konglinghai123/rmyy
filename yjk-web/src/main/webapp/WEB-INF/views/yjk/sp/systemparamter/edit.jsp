@@ -55,7 +55,19 @@
 		        	<tr>
 						<td width="30%"><form:label path="declarationLimt">申报限数：</form:label></td>
 						<td width="70%"><form:input path="declarationLimt" cssClass="validate[required,custom[integer]]"/></td>
-					</tr>											
+					</tr>	
+					<tr>
+						<td width="30%"><form:label path="departmentAttributes">科室属性：</form:label></td>
+						<td width="70%"><form:input path="departmentAttributes" cssClass="easyui-combobox" data-options="url:'${ctx}/yjk/sp/systemparamter/departmentAttribute/canUse',valueField:'id',textField:'name',editable:false,multiple:true,width:200"/></td>
+					</tr>
+					<tr>
+						<td width="30%"><form:label path="professions">职业：</form:label></td>
+						<td width="70%"><form:input path="professions" cssClass="easyui-combobox" data-options="url:'${ctx}/yjk/sp/systemparamter/profession/canUse',valueField:'id',textField:'name',editable:false,multiple:true,width:200"/></td>
+					</tr>
+					<tr>
+						<td width="30%"><form:label path="technicals">职称 ：</form:label></td>
+						<td width="70%"><form:input path="technicals" cssClass="easyui-combobox" data-options="url:'${ctx}/yjk/sp/systemparamter/technical/canUse',valueField:'id',textField:'name',editable:false,multiple:true,width:200"/></td>
+					</tr>							
 				</table>
 			</form:form>
 		</div>
@@ -80,8 +92,6 @@
 	        	<ewcms:showFieldError commandName="m"/>
 	    	</c:otherwise>
 	    </c:choose>
-	    
-	    
 	});
 	$.ewcms.refresh({operate : '${operate}', data : '${lastM}'});
 	
