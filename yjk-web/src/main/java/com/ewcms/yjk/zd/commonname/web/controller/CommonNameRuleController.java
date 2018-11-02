@@ -37,19 +37,30 @@ public class CommonNameRuleController extends BaseSequenceMovableController<Comm
 		return super.query(searchParameter, model);
 	}  
 	
-	@RequestMapping(value = "{commonNameRuleId}/restore")
+	@RequestMapping(value = "{commonNameRuleId}/close")
 	@ResponseBody
-	public AjaxResponse restoreCommonName(@PathVariable(value = "commonNameRuleId") Long commonNameRuleId) {
-		AjaxResponse ajaxResponse = new AjaxResponse("还原成功");
+	public AjaxResponse close(@PathVariable(value = "commonNameRuleId") Long commonNameRuleId) {
+		AjaxResponse ajaxResponse = new AjaxResponse("关闭成功");
 		try{
-			getCommonNameRuleService().restore(commonNameRuleId);
+			getCommonNameRuleService().close(commonNameRuleId);
 		} catch(IllegalStateException e){
 			ajaxResponse.setSuccess(Boolean.FALSE);
-			ajaxResponse.setMessage("还原失败");
+			ajaxResponse.setMessage("关闭成功");
 		}
 		return ajaxResponse;
 	}
-	
+	@RequestMapping(value = "{commonNameRuleId}/open")
+	@ResponseBody
+	public AjaxResponse open(@PathVariable(value = "commonNameRuleId") Long commonNameRuleId) {
+		AjaxResponse ajaxResponse = new AjaxResponse("启用成功");
+		try{
+			getCommonNameRuleService().open(commonNameRuleId);
+		} catch(IllegalStateException e){
+			ajaxResponse.setSuccess(Boolean.FALSE);
+			ajaxResponse.setMessage("启用成功");
+		}
+		return ajaxResponse;
+	}
     @RequestMapping(value = "validate", method = RequestMethod.GET)
     @ResponseBody
     public Object validate(

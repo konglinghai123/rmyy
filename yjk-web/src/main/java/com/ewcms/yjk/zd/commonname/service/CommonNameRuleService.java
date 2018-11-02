@@ -23,8 +23,8 @@ public class CommonNameRuleService extends BaseSequenceMovableService<CommonName
 //		return getCommonNameRuleRepository().findRuleNameOrderByWeight();
 //	}
 //	
-	public List<CommonNameRule> findByDeletedFalseOrderByWeightAsc(){
-		return getCommonNameRuleRepository().findByDeletedFalseOrderByWeightAsc();
+	public List<CommonNameRule> findByDeletedFalseAndEnabledTrueOrderByWeightAsc(){
+		return getCommonNameRuleRepository().findByDeletedFalseAndEnabledTrueOrderByWeightAsc();
 	}
 	
 	public List<CommonNameRule> findByRuleName(String ruleName){
@@ -35,9 +35,15 @@ public class CommonNameRuleService extends BaseSequenceMovableService<CommonName
 		return getCommonNameRuleRepository().findByRuleCnName(ruleCnName);
 	}
 	
-	public CommonNameRule restore(Long commonNameRuleId){
+	public CommonNameRule open(Long commonNameRuleId){
 		CommonNameRule m = baseRepository.findOne(commonNameRuleId);
-		m.setDeleted(Boolean.FALSE);
+		m.setEnabled(Boolean.TRUE);
+		return super.update(m);
+	}
+	
+	public CommonNameRule close(Long commonNameRuleId){
+		CommonNameRule m = baseRepository.findOne(commonNameRuleId);
+		m.setEnabled(Boolean.FALSE);
 		return super.update(m);
 	}
 }

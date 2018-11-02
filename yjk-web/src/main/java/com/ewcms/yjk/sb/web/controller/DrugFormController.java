@@ -60,7 +60,7 @@ public class DrugFormController extends BaseCRUDController<DrugForm, Long> {
         model.addAttribute("isOpenDeclare", systemParameterService.isOpenDrugDeclare());
         model.addAttribute("stateList", AuditStatusEnum.values());
         model.addAttribute("userList", userService.findAll());
-        model.addAttribute("commonNameRuleList", commonNameRuleService.findByDeletedFalseOrderByWeightAsc());
+        model.addAttribute("commonNameRuleList", commonNameRuleService.findByDeletedFalseAndEnabledTrueOrderByWeightAsc());
     }
 
 	
@@ -119,7 +119,7 @@ public class DrugFormController extends BaseCRUDController<DrugForm, Long> {
 	
     @RequestMapping(value = "/declaresubmit")
 	public String declareSubmit(Model model) {
-    	 model.addAttribute("commonNameRuleList", commonNameRuleService.findByDeletedFalseOrderByWeightAsc());
+    	 model.addAttribute("commonNameRuleList", commonNameRuleService.findByDeletedFalseAndEnabledTrueOrderByWeightAsc());
 		return viewName("declare");
 	}
 	@RequestMapping(value = "savedeclaresubmit")
@@ -152,7 +152,7 @@ public class DrugFormController extends BaseCRUDController<DrugForm, Long> {
 	
     @RequestMapping(value = "/declarecancel")
 	public String declareCancel(Model model) {
-    	 model.addAttribute("commonNameRuleList", commonNameRuleService.findByDeletedFalseOrderByWeightAsc());
+    	 model.addAttribute("commonNameRuleList", commonNameRuleService.findByDeletedFalseAndEnabledTrueOrderByWeightAsc());
 		return viewName("cancel");
 	}
 	@RequestMapping(value = "savedeclarecancel")

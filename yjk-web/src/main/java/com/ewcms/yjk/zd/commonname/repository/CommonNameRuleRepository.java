@@ -8,7 +8,7 @@ public interface CommonNameRuleRepository extends BaseRepository<CommonNameRule,
 //	@Query("select ruleName from CommonNameRule order by weight ")
 //	List<String> findRuleNameOrderByWeight();
 	
-	List<CommonNameRule> findByDeletedFalseOrderByWeightAsc();
+	List<CommonNameRule> findByDeletedFalseAndEnabledTrueOrderByWeightAsc();
 	
 	List<CommonNameRule> findByRuleName(String ruleName);
 	

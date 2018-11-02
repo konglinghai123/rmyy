@@ -17,6 +17,7 @@ import com.ewcms.common.plugin.entity.Movable;
  * <li>ruleName:规则名(字段名)</li>
  * <li>ruleCnName:规则名(中文名)</li>
  * <li>weight:排序</li>
+ * <li>enabled:是否启用</li>
  * <li>deleted:是否删除</li>
  * </ul>
  * 
@@ -38,6 +39,9 @@ public class CommonNameRule extends BaseSequenceEntity<Long> implements Movable,
 	
 	@Column(name = "weight")
 	private Integer weight;
+	
+	@Column(name = "is_enabled")
+	private Boolean enabled = Boolean.FALSE;
 	
 	@Column(name = "is_deleted")
     private Boolean deleted = Boolean.FALSE;
@@ -68,7 +72,15 @@ public class CommonNameRule extends BaseSequenceEntity<Long> implements Movable,
         this.deleted = deleted;
     }
 
-    @Override
+    public Boolean getEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(Boolean enabled) {
+		this.enabled = enabled;
+	}
+
+	@Override
     public void markDeleted() {
         this.deleted = Boolean.TRUE;
     }
