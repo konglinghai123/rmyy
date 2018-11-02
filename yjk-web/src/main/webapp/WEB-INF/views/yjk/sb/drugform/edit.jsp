@@ -3,9 +3,9 @@
 
 <ewcms:head title="申报-新药申报"/>
 	<div id="edit-from" class="easyui-layout" data-options="fit:true" style="border:0;">
-		<ewcms:showMessage/>
+		<ewcms:showAlertMessage/>
 		<div data-options="region:'center',border:false">
-			<form:form id="editForm" method="post" action="${ctx}/yjk/sb/drugform/drugdeclare" commandName="m"  class="form-horizontal">
+			<form:form id="editForm" method="post" action="${ctx}/yjk/sb/drugform/save" commandName="m"  class="form-horizontal">
         		<ewcms:showGlobalError commandName="m"/>
 		    	<form:hidden path="id"/>
 		    	<form:hidden id="commonNameContentsId" path="commonNameContents.id"/>

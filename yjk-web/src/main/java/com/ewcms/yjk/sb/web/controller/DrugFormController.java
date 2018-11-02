@@ -17,8 +17,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.alibaba.fastjson.JSON;
+import com.ewcms.common.Constants;
 import com.ewcms.common.entity.search.SearchParameter;
 import com.ewcms.common.web.controller.BaseCRUDController;
 import com.ewcms.common.web.validate.AjaxResponse;
@@ -75,9 +77,15 @@ public class DrugFormController extends BaseCRUDController<DrugForm, Long> {
 		return queryObj;
 	}
 
-	@RequestMapping(value = "drugdeclare", method = RequestMethod.POST)
-	public String drugDeclare(@CurrentUser User user,Model model, @Valid @ModelAttribute("m")DrugForm m, BindingResult result,
-			 @RequestParam(required = false) List<Long> selections) {
+	@RequestMapping(value = "save/discard")
+	@Override
+    public String save(Model model, DrugForm m, BindingResult result, List<Long> selections) {
+		throw new RuntimeException("discarded method");
+    }
+    
+	@RequestMapping(value = "save", method = RequestMethod.POST)
+	public String save(@CurrentUser User user,Model model, @Valid @ModelAttribute("m")DrugForm m, BindingResult result,
+			 @RequestParam(required = false) List<Long> selections, RedirectAttributes redirectAttributes) {
 		if (hasError(m, result)) {
             return showSaveForm(model, selections);
         }
@@ -91,13 +99,13 @@ public class DrugFormController extends BaseCRUDController<DrugForm, Long> {
 		DrugForm lastM = getDrugFormService().drugDeclare(user, m.getCommonNameContents());
 		
 		if(lastM == null){
-			result.rejectValue("commonNameContents.common.commonName","","新药已超过限数，不能申报");
+			redirectAttributes.addFlashAttribute(Constants.MESSAGE, "修新药已超过限数，不能申报");
+			return redirectToUrl(viewName("save"));
+		} else {
+			model.addAttribute("m", newModel());
+			model.addAttribute("lastM", JSON.toJSONString(lastM));
+			return showSaveForm(model, selections);
 		}
-		model.addAttribute("m", newModel());
-		
-		model.addAttribute("lastM", JSON.toJSONString(lastM));
-		
-		return showSaveForm(model, selections);
 	}
 	
 	@RequestMapping(value = "{drugFormId}/deletedeclare")

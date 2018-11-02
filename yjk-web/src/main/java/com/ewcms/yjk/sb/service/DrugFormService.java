@@ -58,7 +58,7 @@ public class DrugFormService extends BaseService<DrugForm, Long> {
 			}
 			SystemParameter systemParameter = systemParameterService.findByEnabledTrue();
 			if(systemParameter != null){
-				if(existNumber <= systemParameter.getDeclarationLimt()){//申报新药的在院药品目录没有超过限数 
+				if(existNumber < systemParameter.getDeclarationLimt()){//申报新药的在院药品目录没有超过限数 
 					drugForm = new DrugForm();
 					drugForm.setUserId(user.getId());
 					drugForm.setCommonNameContents(vo);
