@@ -52,23 +52,23 @@ public class SystemParameterService extends BaseService<SystemParameter, Long> {
 	
 				vo.setEnabled(Boolean.TRUE);
 	
-				String interval = String.format("在 %tF %tT 到 %tF %tT 之间,", vo.getApplyStartDate(), vo.getApplyStartDate(), vo.getApplyEndDate(), vo.getApplyEndDate());
+				//String interval = String.format("在 %tF %tT 到 %tF %tT 之间,", vo.getApplyStartDate(), vo.getApplyStartDate(), vo.getApplyEndDate(), vo.getApplyEndDate());
 	
 				List<Long> allUserIds = userService.findUserIds();
-				userService.changeStatus(opUser, allUserIds, UserStatus.blocked, interval + "新药申报 启动前 封禁所有非管理员用户");
+				userService.changeStatus(opUser, allUserIds, UserStatus.blocked, "您本次未被系统抽取到申报新药!");
 	
 				Long useNumber = 0L;// 已使用的人数
 	
-				Long departmentNumber = vo.getDepartmentNumber();// 选定科室确保人数
-				if (departmentNumber > 0L) {
+				Long departmentNumber = vo.getDepartmentNumber();// 选定科室/病区确保人数
+				if (departmentNumber > 0L) {//从每个科室/病区里随机选择确保的人数
 					Set<Long> organizationIds = vo.getOrganizationsIds();
 					for (Long organizationId : organizationIds) {
 						List<Long> userIds = userOrganizationJobService.findUsers(Sets.newHashSet(organizationId), vo.getDepartmentAttributeIds(), vo.getProfessionIds(), vo.getTechnicalTitleIds(), vo.getAppointmentIds());
 						if (EmptyUtil.isCollectionNotEmpty(userIds)) {
 							useNumber += ((departmentNumber >= userIds.size()) ? userIds.size() : departmentNumber);
 	
-							if (departmentNumber >= userIds.size()) {
-								userService.changeStatus(opUser, Lists.newArrayList(userIds), UserStatus.normal, interval + "新药申报 启动后 根据规则允许申报人员");
+							if (departmentNumber >= userIds.size()) {//当选定科室人数大于选定科室人数时，选定科室所有人可以访问
+								userService.changeStatus(opUser, Lists.newArrayList(userIds), UserStatus.normal, "新药申报 启动后 根据规则允许申报人员");
 							} else {
 								Set<Long> selectIds = Sets.newHashSet();
 								Random random = new Random();
@@ -80,7 +80,7 @@ public class SystemParameterService extends BaseService<SystemParameter, Long> {
 										break;
 									}
 								}
-								userService.changeStatus(opUser, Lists.newArrayList(selectIds), UserStatus.normal, interval + "新药申报 启动后 根据规则允许申报人员");
+								userService.changeStatus(opUser, Lists.newArrayList(selectIds), UserStatus.normal, "新药申报 启动后 根据规则允许申报人员");
 							}
 						}
 					}
@@ -88,35 +88,34 @@ public class SystemParameterService extends BaseService<SystemParameter, Long> {
 	
 				List<Long> matchUsers = userOrganizationJobService.findUsers(vo.getOrganizationsIds(), vo.getDepartmentAttributeIds(), vo.getProfessionIds(), vo.getTechnicalTitleIds(), vo.getAppointmentIds());
 				if (EmptyUtil.isCollectionNotEmpty(matchUsers)) {
-					int matchSize = matchUsers.size();
+					int matchSize = matchUsers.size();//匹配到的人数
+					
+					Long percentNumber = Long.valueOf((vo.getPercent() * matchSize) / 100);//百分比人数
+					Long randomNumber = vo.getRandomNumber();//随机人数
 	
-					Long totalNumber = vo.getTotalNumber();
-	
-					Long number = 0L;
-					if (vo.getPercent() > 0L && vo.getPercent() < 100L) {// 选取比例在0%到100%之间时
-						number = Long.valueOf((vo.getPercent() * matchSize) / 100);
+					if (randomNumber > 0L && percentNumber <= randomNumber) {// 当随机人数大于比率人数时，使用随机人数
+						percentNumber = randomNumber;
 					}
 	
-					if (totalNumber > 0L) {
-						if (number <= totalNumber) {// 当设定人数大于比率人数时，使用总人数
-							number = totalNumber;
-						}
-					}
-	
-					number -= useNumber;//剩余人数
-	
-					if (number > 0) {
-						Set<Long> selectIds = Sets.newHashSet();
-						Random random = new Random();
-						int i = 0;
-						while (true) {
-							i = random.nextInt(matchSize);
-							selectIds.add(matchUsers.get(i));
-							if (selectIds.size() >= number) {
-								break;
+					Long overplusNumber = percentNumber - useNumber;//剩余人数
+					
+					if (overplusNumber > 0) {
+						if (overplusNumber >= matchSize) {//当匹配到人数小于剩余人数时，让所有匹配人数全部可以访问
+							userService.changeStatus(opUser, matchUsers, UserStatus.normal, "新药申报 启动后 根据规则允许申报人员");
+						} else {
+							Set<Long> selectIds = Sets.newHashSet();
+							Random random = new Random();
+							int i = 0;
+							while (true) {
+								i = random.nextInt(matchSize);
+								selectIds.add(matchUsers.get(i));
+								if (selectIds.size() >= percentNumber) {
+									break;
+								}
 							}
+							userService.changeStatus(opUser, Lists.newArrayList(selectIds), UserStatus.normal, "新药申报 启动后 根据规则允许申报人员");
 						}
-						userService.changeStatus(opUser, Lists.newArrayList(selectIds), UserStatus.normal, interval + "新药申报 启动后 根据规则允许申报人员");
+						
 					}
 				}
 				return update(vo);

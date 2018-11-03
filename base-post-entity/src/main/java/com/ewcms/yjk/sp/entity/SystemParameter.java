@@ -9,11 +9,12 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -57,48 +58,63 @@ import com.google.common.collect.Sets;
 @Entity
 @Table(name = "sp_system_parameter")
 @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-@SequenceGenerator(name="seq", sequenceName="seq_zd_system_parameter_id", allocationSize = 1)
-public class SystemParameter extends BaseSequenceEntity<Long> implements LogicDeleteable{
+@SequenceGenerator(name = "seq", sequenceName = "seq_zd_system_parameter_id", allocationSize = 1)
+public class SystemParameter extends BaseSequenceEntity<Long> implements LogicDeleteable {
 
 	private static final long serialVersionUID = 4409780231040092738L;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @Column(name = "apply_start_date", nullable = false, unique = true)
-    @Temporal(TemporalType.TIMESTAMP)
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	@Column(name = "apply_start_date", nullable = false, unique = true)
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date applyStartDate;
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @Column(name = "apply_end_date", nullable = false, unique = true)
-    @Temporal(TemporalType.TIMESTAMP)
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	@Column(name = "apply_end_date", nullable = false, unique = true)
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date applyEndDate;
-    @Column(name = "declaration_limt", nullable = false)
-    private Long declarationLimt = Long.valueOf(2);
-    @OneToMany(cascade = {CascadeType.ALL})
-    @JoinTable(name="sp_system_parameter_organization", joinColumns= {@JoinColumn(name = "system_id", referencedColumnName = "id")}, inverseJoinColumns = {@JoinColumn(name = "organization_id", referencedColumnName = "id")})
-    private List<Organization> organizations;
-    @OneToMany(cascade = {CascadeType.ALL})
-    @JoinTable(name="sp_system_parameter_department_attribute", joinColumns= {@JoinColumn(name = "system_id", referencedColumnName = "id")}, inverseJoinColumns = {@JoinColumn(name = "department_attribute_id", referencedColumnName = "id")})
-    private List<DepartmentAttribute> departmentAttributes;
-    @OneToMany(cascade = {CascadeType.ALL})
-    @JoinTable(name="sp_system_parameter_profession", joinColumns= {@JoinColumn(name = "system_id", referencedColumnName = "id")}, inverseJoinColumns = {@JoinColumn(name = "profession_id", referencedColumnName = "id")})
-    private List<Profession> professions;
-    @OneToMany(cascade = {CascadeType.ALL})
-    @JoinTable(name="sp_system_parameter_technical_title", joinColumns= {@JoinColumn(name = "system_id", referencedColumnName = "id")}, inverseJoinColumns = {@JoinColumn(name = "technical_title_id", referencedColumnName = "id")})
-    private List<TechnicalTitle> technicalTitles;
-    @OneToMany(cascade = {CascadeType.ALL})
-    @JoinTable(name="sp_system_parameter_appointment", joinColumns= {@JoinColumn(name = "system_id", referencedColumnName = "id")}, inverseJoinColumns = {@JoinColumn(name = "appointment_id", referencedColumnName = "id")})
-    private List<Appointment> appointments;
-    @Column(name = "percent")
-    private Long percent = 100L;
-    @Column(name = "total_number")
-    private Long totalNumber = 0L;
-    @Column(name = "department_number")
-    private Long departmentNumber = 0L;
+	@Column(name = "declaration_limt", nullable = false)
+	private Long declarationLimt = Long.valueOf(2);
+	@ManyToMany(cascade = { CascadeType.ALL })
+	@JoinTable(name = "sp_system_parameter_organization", joinColumns = {
+			@JoinColumn(name = "system_id", referencedColumnName = "id") }, inverseJoinColumns = {
+					@JoinColumn(name = "organization_id", referencedColumnName = "id") }, uniqueConstraints = {@UniqueConstraint(columnNames = {
+							"system_id", "organization_id" })})
+	private List<Organization> organizations;
+	@ManyToMany(cascade = { CascadeType.ALL })
+	@JoinTable(name = "sp_system_parameter_department_attribute", joinColumns = {
+			@JoinColumn(name = "system_id", referencedColumnName = "id") }, inverseJoinColumns = {
+					@JoinColumn(name = "department_attribute_id", referencedColumnName = "id") }, uniqueConstraints = {@UniqueConstraint(columnNames = {
+							"system_id", "department_attribute_id" })})
+	private List<DepartmentAttribute> departmentAttributes;
+	@ManyToMany(cascade = { CascadeType.ALL })
+	@JoinTable(name = "sp_system_parameter_profession", joinColumns = {
+			@JoinColumn(name = "system_id", referencedColumnName = "id") }, inverseJoinColumns = {
+					@JoinColumn(name = "profession_id", referencedColumnName = "id") }, uniqueConstraints = {@UniqueConstraint(columnNames = {
+							"system_id", "profession_id" })})
+	private List<Profession> professions;
+	@ManyToMany(cascade = { CascadeType.ALL })
+	@JoinTable(name = "sp_system_parameter_technical_title", joinColumns = {
+			@JoinColumn(name = "system_id", referencedColumnName = "id") }, inverseJoinColumns = {
+					@JoinColumn(name = "technical_title_id", referencedColumnName = "id") }, uniqueConstraints = {@UniqueConstraint(columnNames = {
+							"system_id", "technical_title_id" })})
+	private List<TechnicalTitle> technicalTitles;
+	@ManyToMany(cascade = { CascadeType.ALL })
+	@JoinTable(name = "sp_system_parameter_appointment", joinColumns = {
+			@JoinColumn(name = "system_id", referencedColumnName = "id") }, inverseJoinColumns = {
+					@JoinColumn(name = "appointment_id", referencedColumnName = "id") }, uniqueConstraints = {@UniqueConstraint(columnNames = {
+							"system_id", "appointment_id" })})
+	private List<Appointment> appointments;
+	@Column(name = "percent")
+	private Long percent = 100L;
+	@Column(name = "random_number")
+	private Long randomNumber = 0L;
+	@Column(name = "department_number")
+	private Long departmentNumber = 0L;
 	@Column(name = "is_enabled")
 	private Boolean enabled = Boolean.FALSE;
-    @Column(name = "is_deleted")
-    private Boolean deleted = Boolean.FALSE;
-    
-    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
+	@Column(name = "is_deleted")
+	private Boolean deleted = Boolean.FALSE;
+
+	@JSONField(format = "yyyy-MM-dd HH:mm:ss")
 	public Date getApplyStartDate() {
 		return applyStartDate;
 	}
@@ -106,7 +122,7 @@ public class SystemParameter extends BaseSequenceEntity<Long> implements LogicDe
 	public void setApplyStartDate(Date applyStartDate) {
 		this.applyStartDate = applyStartDate;
 	}
-	
+
 	@JSONField(format = "yyyy-MM-dd HH:mm:ss")
 	public Date getApplyEndDate() {
 		return applyEndDate;
@@ -141,14 +157,17 @@ public class SystemParameter extends BaseSequenceEntity<Long> implements LogicDe
 	}
 
 	public String getOrganizationNames() {
-		return (EmptyUtil.isCollectionNotEmpty(organizations)) ?  Collections3.convertToString(Collections3.extractToList(organizations, "name"), "/") : "";
+		return (EmptyUtil.isCollectionNotEmpty(organizations))
+				? Collections3.convertToString(Collections3.extractToList(organizations, "name"), "/")
+				: "";
 	}
-	
+
 	@SuppressWarnings("unchecked")
-	public Set<Long> getOrganizationsIds(){
-		return (EmptyUtil.isCollectionNotEmpty(organizations)) ?  Collections3.extractToSet(organizations, "id") : Sets.newHashSet();
+	public Set<Long> getOrganizationsIds() {
+		return (EmptyUtil.isCollectionNotEmpty(organizations)) ? Collections3.extractToSet(organizations, "id")
+				: Sets.newHashSet();
 	}
-	
+
 	public List<DepartmentAttribute> getDepartmentAttributes() {
 		return departmentAttributes;
 	}
@@ -158,14 +177,18 @@ public class SystemParameter extends BaseSequenceEntity<Long> implements LogicDe
 	}
 
 	public String getDepartmentAttributeNames() {
-		return (EmptyUtil.isCollectionNotEmpty(departmentAttributes)) ?  Collections3.convertToString(Collections3.extractToList(departmentAttributes, "name"), "/") : "";
+		return (EmptyUtil.isCollectionNotEmpty(departmentAttributes))
+				? Collections3.convertToString(Collections3.extractToList(departmentAttributes, "name"), "/")
+				: "";
 	}
-	
+
 	@SuppressWarnings("unchecked")
-	public Set<Long> getDepartmentAttributeIds(){
-		return (EmptyUtil.isCollectionNotEmpty(departmentAttributes)) ?  Collections3.extractToSet(departmentAttributes, "id") : Sets.newHashSet();
+	public Set<Long> getDepartmentAttributeIds() {
+		return (EmptyUtil.isCollectionNotEmpty(departmentAttributes))
+				? Collections3.extractToSet(departmentAttributes, "id")
+				: Sets.newHashSet();
 	}
-	
+
 	public List<Profession> getProfessions() {
 		return professions;
 	}
@@ -173,14 +196,17 @@ public class SystemParameter extends BaseSequenceEntity<Long> implements LogicDe
 	public void setProfessions(List<Profession> professions) {
 		this.professions = professions;
 	}
-	
+
 	public String getProfessionNames() {
-		return (EmptyUtil.isCollectionNotEmpty(professions)) ?  Collections3.convertToString(Collections3.extractToList(professions, "name"), "/") : "";
+		return (EmptyUtil.isCollectionNotEmpty(professions))
+				? Collections3.convertToString(Collections3.extractToList(professions, "name"), "/")
+				: "";
 	}
-	
+
 	@SuppressWarnings("unchecked")
-	public Set<Long> getProfessionIds(){
-		return (EmptyUtil.isCollectionNotEmpty(professions)) ?  Collections3.extractToSet(professions, "id") : Sets.newHashSet();
+	public Set<Long> getProfessionIds() {
+		return (EmptyUtil.isCollectionNotEmpty(professions)) ? Collections3.extractToSet(professions, "id")
+				: Sets.newHashSet();
 	}
 
 	public List<TechnicalTitle> getTechnicalTitles() {
@@ -192,14 +218,17 @@ public class SystemParameter extends BaseSequenceEntity<Long> implements LogicDe
 	}
 
 	public String getTechnicalTitleNames() {
-		return (EmptyUtil.isCollectionNotEmpty(technicalTitles)) ?  Collections3.convertToString(Collections3.extractToList(technicalTitles, "name"), "/") : "";
+		return (EmptyUtil.isCollectionNotEmpty(technicalTitles))
+				? Collections3.convertToString(Collections3.extractToList(technicalTitles, "name"), "/")
+				: "";
 	}
-	
+
 	@SuppressWarnings("unchecked")
-	public Set<Long> getTechnicalTitleIds(){
-		return (EmptyUtil.isCollectionNotEmpty(technicalTitles)) ?  Collections3.extractToSet(technicalTitles, "id") : Sets.newHashSet();
+	public Set<Long> getTechnicalTitleIds() {
+		return (EmptyUtil.isCollectionNotEmpty(technicalTitles)) ? Collections3.extractToSet(technicalTitles, "id")
+				: Sets.newHashSet();
 	}
-	
+
 	public List<Appointment> getAppointments() {
 		return appointments;
 	}
@@ -209,14 +238,17 @@ public class SystemParameter extends BaseSequenceEntity<Long> implements LogicDe
 	}
 
 	public String getAppointmentNames() {
-		return (EmptyUtil.isCollectionNotEmpty(appointments)) ?  Collections3.convertToString(Collections3.extractToList(appointments, "name"), "/") : "";
+		return (EmptyUtil.isCollectionNotEmpty(appointments))
+				? Collections3.convertToString(Collections3.extractToList(appointments, "name"), "/")
+				: "";
 	}
-	
+
 	@SuppressWarnings("unchecked")
-	public Set<Long> getAppointmentIds(){
-		return (EmptyUtil.isCollectionNotEmpty(appointments)) ?  Collections3.extractToSet(appointments, "id") : Sets.newHashSet();
+	public Set<Long> getAppointmentIds() {
+		return (EmptyUtil.isCollectionNotEmpty(appointments)) ? Collections3.extractToSet(appointments, "id")
+				: Sets.newHashSet();
 	}
-	
+
 	public Long getPercent() {
 		return percent;
 	}
@@ -225,12 +257,12 @@ public class SystemParameter extends BaseSequenceEntity<Long> implements LogicDe
 		this.percent = percent;
 	}
 
-	public Long getTotalNumber() {
-		return totalNumber;
+	public Long getRandomNumber() {
+		return randomNumber;
 	}
 
-	public void setTotalNumber(Long totalNumber) {
-		this.totalNumber = totalNumber;
+	public void setRandomNumber(Long totalNumber) {
+		this.randomNumber = totalNumber;
 	}
 
 	public Long getDepartmentNumber() {
@@ -242,17 +274,17 @@ public class SystemParameter extends BaseSequenceEntity<Long> implements LogicDe
 	}
 
 	@Override
-    public Boolean getDeleted() {
-        return deleted;
-    }
+	public Boolean getDeleted() {
+		return deleted;
+	}
 
-    @Override
-    public void setDeleted(Boolean deleted) {
-        this.deleted = deleted;
-    }
+	@Override
+	public void setDeleted(Boolean deleted) {
+		this.deleted = deleted;
+	}
 
-    @Override
-    public void markDeleted() {
-        this.deleted = Boolean.TRUE;
-    }
+	@Override
+	public void markDeleted() {
+		this.deleted = Boolean.TRUE;
+	}
 }
