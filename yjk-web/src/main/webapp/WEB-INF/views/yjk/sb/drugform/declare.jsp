@@ -13,11 +13,21 @@
 						<th data-options="field:'auditStatusInfo',width:120">审核状态</th>		
 						<th data-options="field:'userName',width:120,sortable:true">申报医生</th>
 						<c:forEach items="${commonNameRuleList}" var="commonNameRule">
-						<th data-options="field:'${commonNameRule.ruleName}',width:120,
-								formatter:function(val,row){
-									return row.commonNameContents==null ?'':row.commonNameContents.${commonNameRule.ruleName};
-								}">${commonNameRule.ruleCnName}</th>		
-						</c:forEach>		
+							<c:choose>
+								<c:when test="${commonNameRule.ruleName == 'common.administration.id'}">
+									<th data-options="field:'name',width:120,
+											formatter:function(val,row){
+												return row.commonNameContents==null ?'':row.commonNameContents.common.administration.name;
+											}">${commonNameRule.ruleCnName}</th>
+								</c:when>
+								<c:otherwise>
+									<th data-options="field:'${commonNameRule.ruleName}',width:120,
+											formatter:function(val,row){
+												return row.commonNameContents==null ?'':row.commonNameContents.${commonNameRule.ruleName};
+											}">${commonNameRule.ruleCnName}</th>
+								</c:otherwise>
+							</c:choose>			
+						</c:forEach>	
 					</tr>
 				</thead>
 			</table>
@@ -60,7 +70,7 @@
 	        if (r){
 	            $.post('${ctx}/yjk/sb/drugform/savedeclaresubmit', parameter ,function(data){
 	            	if(data.success){
-	            		$.messager.alert('提示', data.message, 'info');
+	            		alert(data.message);
 	            		parent.$('#edit-window').window('close');
 	            	}
 	            	$.messager.alert('提示', data.message, 'info');

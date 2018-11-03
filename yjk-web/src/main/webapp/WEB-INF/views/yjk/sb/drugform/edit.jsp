@@ -19,7 +19,7 @@
 				        	<tr>
 								<td width="30%">${commonNameRule.ruleCnName}(拼音)：</td>
 								<td width="70%">							
-								<input type="text" id="CNRule${status.index}" name="commonNameContents.${commonNameRule.ruleName}" class="easyui-combobox" data-options="
+								<input type="text" id="CNRule${status.index}" name="commonNameContents.common.id" class="easyui-combobox" data-options="
 									valueField:'id',
 									textField:'commonName',
 									width:200,

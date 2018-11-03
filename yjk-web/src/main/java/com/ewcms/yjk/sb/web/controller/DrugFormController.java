@@ -31,7 +31,11 @@ import com.ewcms.yjk.sb.entity.DrugForm;
 import com.ewcms.yjk.sb.entity.AuditStatusEnum;
 import com.ewcms.yjk.sb.service.DrugFormService;
 import com.ewcms.yjk.sp.service.SystemParameterService;
+import com.ewcms.yjk.zd.commonname.entity.CommonName;
+import com.ewcms.yjk.zd.commonname.entity.CommonNameContents;
+import com.ewcms.yjk.zd.commonname.service.CommonNameContentsService;
 import com.ewcms.yjk.zd.commonname.service.CommonNameRuleService;
+import com.ewcms.yjk.zd.commonname.service.CommonNameService;
 
 /**
  *@author zhoudongchu
@@ -45,6 +49,10 @@ public class DrugFormController extends BaseCRUDController<DrugForm, Long> {
 	private UserService userService;
 	@Autowired
 	private SystemParameterService systemParameterService;
+	@Autowired
+	private CommonNameContentsService commonNameContentsService;
+	@Autowired
+	private CommonNameService commonNameService;
 	
 	private DrugFormService getDrugFormService() {
 		return (DrugFormService) baseService;
@@ -55,7 +63,19 @@ public class DrugFormController extends BaseCRUDController<DrugForm, Long> {
 		setResourceIdentity("sb:drugform");
 	}
 	
-    @Override
+	@RequestMapping(value = "index/discard")
+	@Override
+	public String index(Model model) {
+		throw new RuntimeException("discarded method");
+	}
+	
+	@RequestMapping(value = {"", "index"}, method = RequestMethod.GET)
+	public String index(@CurrentUser User user,Model model) {
+		model.addAttribute("isAdmin", user.getAdmin());
+		return super.index(model);
+	}
+
+	@Override
     protected void setCommonData(Model model) {
         super.setCommonData(model);
         model.addAttribute("isOpenDeclare", systemParameterService.isOpenDrugDeclare());
@@ -94,9 +114,26 @@ public class DrugFormController extends BaseCRUDController<DrugForm, Long> {
         if (permissionList != null) {
             this.permissionList.assertHasCreatePermission();
         }
-        
-		DrugForm lastM = getDrugFormService().drugDeclare(user, m.getCommonNameContents());
-		
+        CommonNameContents vo = m.getCommonNameContents();
+        if(vo.getId() == null){
+        	if(commonNameRuleService.findByDeletedFalseAndEnabledTrueOrderByWeightAsc().size()>2){
+    			redirectAttributes.addFlashAttribute(Constants.MESSAGE, "数据输入不完整，请重新输入");
+    			return redirectToUrl(viewName("save"));
+        	}
+        	CommonName commonName = commonNameService.findOne(vo.getCommon().getId());
+        	if(commonName == null){
+    			redirectAttributes.addFlashAttribute(Constants.MESSAGE, "数据输入不完整，请重新输入");
+    			return redirectToUrl(viewName("save"));
+        	}
+        	List<CommonNameContents> matchDeclareList = commonNameContentsService.findByCommonCommonNameAndCommonAdministrationIdAndDeletedFalseOrderByUpdateDateDesc(commonName.getCommonName(), vo.getCommon().getAdministration().getId());
+        	if(matchDeclareList==null || matchDeclareList.size()==0){
+    			redirectAttributes.addFlashAttribute(Constants.MESSAGE, "数据输入不完整，请重新输入");
+    			return redirectToUrl(viewName("save"));
+        	}
+        	vo = matchDeclareList.get(0);
+        }
+		DrugForm lastM = getDrugFormService().drugDeclare(user, vo);
+
 		if(lastM == null){
 			redirectAttributes.addFlashAttribute(Constants.MESSAGE, "修新药已超过限数，不能申报");
 			return redirectToUrl(viewName("save"));
@@ -136,7 +173,10 @@ public class DrugFormController extends BaseCRUDController<DrugForm, Long> {
         
         try{
 	        if (selections != null && !selections.isEmpty()){
-	        	getDrugFormService().saveDeclareSubmit(selections);
+	        	String noDeclareCommonName = getDrugFormService().saveDeclareSubmit(selections);
+	        	if(noDeclareCommonName!=null && noDeclareCommonName.length()>0){
+	        		ajaxResponse.setMessage("以下药品:" + noDeclareCommonName + "超过申报限数，未能申报！");
+	        	}
 			}
         } catch (IllegalStateException e){
         	ajaxResponse.setSuccess(Boolean.FALSE);

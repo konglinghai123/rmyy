@@ -7,10 +7,22 @@
 			<tr>
 			    <th data-options="field:'ck',checkbox:true"/>
 			    <th data-options="field:'id',hidden:true">编号</th>	
-				<th data-options="field:'common',width:120,sortable:true,
+				<th data-options="field:'commonName',width:120,sortable:true,
 						formatter:function(val,row){
 							return row.common==null?'':row.common.commonName;
 						}">通用名</th>
+				<th data-options="field:'number',width:50,
+						formatter:function(val,row){
+							return row.common==null?'':row.common.number;
+						}">编号</th>
+				<th data-options="field:'administration',width:80,
+						formatter:function(val,row){
+							return row.common==null?'':row.common.administration.name;
+						}">给药途径</th>
+				<th data-options="field:'drugCategoryInfo',width:80,
+						formatter:function(val,row){
+							return row.common==null?'':row.common.drugCategoryInfo;
+						}">药品种类</th>							
 				<th data-options="field:'commonName',width:100">院目录通用名</th>			    
 			    <th data-options="field:'drugCode',width:120">药品代码</th>
 				<th data-options="field:'pill',width:100">剂型</th>					

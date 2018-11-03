@@ -8,13 +8,25 @@
 					<tr>
 					    <th data-options="field:'ck',checkbox:true"/>
 					    <th data-options="field:'id',hidden:true">编号</th>
-						<th data-options="field:'auditStatusInfo',width:120,sortable:true">审核状态</th>		
-						<th data-options="field:'userName',width:120,sortable:true">申报医生</th>
+						<th data-options="field:'auditStatusInfo',width:120,sortable:true">审核状态</th>	
+						<c:if test="${isAdmin}">	
+							<th data-options="field:'userName',width:120,sortable:true">申报医生</th>
+						</c:if>
 						<c:forEach items="${commonNameRuleList}" var="commonNameRule">
-						<th data-options="field:'${commonNameRule.ruleName}',width:120,
-								formatter:function(val,row){
-									return row.commonNameContents==null ?'':row.commonNameContents.${commonNameRule.ruleName};
-								}">${commonNameRule.ruleCnName}</th>		
+							<c:choose>
+								<c:when test="${commonNameRule.ruleName == 'common.administration.id'}">
+									<th data-options="field:'name',width:120,
+											formatter:function(val,row){
+												return row.commonNameContents==null ?'':row.commonNameContents.common.administration.name;
+											}">${commonNameRule.ruleCnName}</th>
+								</c:when>
+								<c:otherwise>
+									<th data-options="field:'${commonNameRule.ruleName}',width:120,
+											formatter:function(val,row){
+												return row.commonNameContents==null ?'':row.commonNameContents.${commonNameRule.ruleName};
+											}">${commonNameRule.ruleCnName}</th>
+								</c:otherwise>
+							</c:choose>			
 						</c:forEach>
 						<th data-options="field:'declared',width:100,formatter:formatOperation">是否已经申报</th>		
 					</tr>
@@ -53,13 +65,15 @@
 		              			<td width="15%"><input type="text" name="LIKE_commonNameContents.pill" style="width:140px;"/></td>
 		            			<td width="7%">规格</td>
 		              			<td width="15%"><input type="text" name="LIKE_commonNameContents.specifications" style="width:140px;"/></td>
-		              			<td>申报医生</td>
-		           				<td>
-		           					<form:select id="userId" name="EQ_userId" path="userList" cssClass="easyui-combobox"  cssStyle="width:140px;" data-options="panelHeight:'auto',editable:false">
-							  			<form:option value="" label="------请选择------"/>
-							  			<form:options items="${userList}" itemLabel="username" itemValue="id"/>
-									</form:select>
-		           				</td>        				
+		              			<c:if test="${isAdmin}">
+			              			<td>申报医生</td>
+			           				<td>
+			           					<form:select id="userId" name="EQ_userId" path="userList" cssClass="easyui-combobox"  cssStyle="width:140px;" data-options="panelHeight:'auto',editable:false">
+								  			<form:option value="" label="------请选择------"/>
+								  			<form:options items="${userList}" itemLabel="username" itemValue="id"/>
+										</form:select>
+			           				</td>  
+		           				</c:if>      				
 		           			</tr>            			
 		           		</table>
 		          </form>
@@ -69,48 +83,80 @@
 		<ewcms:footer/>
 		<script type="text/javascript" src="${ctx}/static/easyui/ext/datagrid-detailview.js"></script>
 		<script type="text/javascript">
-			$(function(){
-				$('#tt').datagrid({
-					url:'${ctx}/yjk/sb/drugform/querybyuser',
-					toolbar:'#tb',
-					fit:true,
-					nowrap:true,
-					pagination:true,
-					rownumbers:true,
-					striped:true,
-					pageSize:20,
-					border:false,
-					view:detailview,
-					detailFormatter : function(rowIndex, rowData) {
-						return '<div id="ddv-' + rowIndex + '" style="padding:2px"></div>';
-					},
-					onExpandRow: function(rowIndex, rowData){
-						$('#ddv-' + rowIndex).panel({
-							border:false,
-							cache:false,
-							content: '<iframe src="${ctx}/yjk/sb/drugform/' + rowData.commonNameContents.id + '/detail" frameborder="0" width="100%" height="315px" scrolling="auto"></iframe>',
-							onLoad:function(){
+			<c:choose>
+				<c:when test="${isAdmin}">
+					$(function(){
+						$('#tt').datagrid({
+							url:'${ctx}/yjk/sb/drugform/querybyuser',
+							toolbar:'#tb',
+							fit:true,
+							nowrap:true,
+							pagination:true,
+							rownumbers:true,
+							striped:true,
+							pageSize:20,
+							border:false
+							
+							,
+							view:detailview,
+							detailFormatter : function(rowIndex, rowData) {
+								return '<div id="ddv-' + rowIndex + '" style="padding:2px"></div>';
+							},
+							onExpandRow: function(rowIndex, rowData){
+								$('#ddv-' + rowIndex).panel({
+									border:false,
+									cache:false,
+									content: '<iframe src="${ctx}/yjk/sb/drugform/' + rowData.commonNameContents.id + '/detail" frameborder="0" width="100%" height="315px" scrolling="auto"></iframe>',
+									onLoad:function(){
+										$('#tt').datagrid('fixDetailRowHeight',rowIndex);
+									}
+								});
 								$('#tt').datagrid('fixDetailRowHeight',rowIndex);
 							}
+							
 						});
-						$('#tt').datagrid('fixDetailRowHeight',rowIndex);
-					}					
-				});
-				
-				
-				$("form table tr").next("tr").hide();
-				$('#tb-more').bind('click', function(){
-			       	var showHideLabel_value = $('#showHideLabel').text();
-			    	$('form table tr').next('tr').toggle();
-			     	if (showHideLabel_value == '收缩'){
-			     		$('#showHideLabel').text('更多');
-			    	}else{
-			    		$('#showHideLabel').text('收缩');
-			    	}
-			    	$('#tt').datagrid('resize');
-			    });	
-			});
-			
+						
+						$("form table tr").next("tr").hide();
+						$('#tb-more').bind('click', function(){
+					       	var showHideLabel_value = $('#showHideLabel').text();
+					    	$('form table tr').next('tr').toggle();
+					     	if (showHideLabel_value == '收缩'){
+					     		$('#showHideLabel').text('更多');
+					    	}else{
+					    		$('#showHideLabel').text('收缩');
+					    	}
+					    	$('#tt').datagrid('resize');
+					    });	
+					});
+				</c:when>
+				<c:otherwise>
+					$(function(){
+						$('#tt').datagrid({
+							url:'${ctx}/yjk/sb/drugform/querybyuser',
+							toolbar:'#tb',
+							fit:true,
+							nowrap:true,
+							pagination:true,
+							rownumbers:true,
+							striped:true,
+							pageSize:20,
+							border:false
+						});
+						
+						$("form table tr").next("tr").hide();
+						$('#tb-more').bind('click', function(){
+					       	var showHideLabel_value = $('#showHideLabel').text();
+					    	$('form table tr').next('tr').toggle();
+					     	if (showHideLabel_value == '收缩'){
+					     		$('#showHideLabel').text('更多');
+					    	}else{
+					    		$('#showHideLabel').text('收缩');
+					    	}
+					    	$('#tt').datagrid('resize');
+					    });	
+					});				
+				</c:otherwise>
+			</c:choose>	
 			function formatOperation(val, row){
 				return val ?  '是': '否  <a class="resumedCls" onclick="deleteDeclare(' + row.id + ')" href="javascript:void(0);">删除</a>';
 			}

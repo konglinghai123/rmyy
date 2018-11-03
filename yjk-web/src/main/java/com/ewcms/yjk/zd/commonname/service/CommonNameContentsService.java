@@ -34,11 +34,13 @@ public class CommonNameContentsService extends BaseService<CommonNameContents, L
     private CommonNameContentsRepository getCommonNameContentsRepository(){
     	return (CommonNameContentsRepository)baseRepository;
     }
+    
 	@Override
 	public CommonNameContents save(CommonNameContents m) {
 		PinYin.initSpell(m);
 		return super.save(m);
 	}
+	
 	@Override
 	public CommonNameContents update(CommonNameContents m) {
 		PinYin.initSpell(m);
@@ -49,6 +51,12 @@ public class CommonNameContentsService extends BaseService<CommonNameContents, L
 	public List<Administration> findAdministrationByCommonName(String commonName){
 		return getCommonNameContentsRepository().findAdministrationByCommonName(commonName);
 	}
+	
+	public List<CommonNameContents> findByCommonCommonNameAndCommonAdministrationIdAndDeletedFalseOrderByUpdateDateDesc(String commonName, Long administrationId){
+		return getCommonNameContentsRepository().findByCommonCommonNameAndCommonAdministrationIdAndDeletedFalseOrderByUpdateDateDesc(commonName, administrationId);
+	}
+	
+	
 	public List<Integer> importExcel(InputStream in){
 		List<Integer> noSave = Lists.newArrayList();
 		
