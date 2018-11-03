@@ -7,13 +7,13 @@
 			<tr>
 			    <th data-options="field:'ck',checkbox:true"/>
 			    <th data-options="field:'id',hidden:true">编号</th>
-				<th data-options="field:'username',width:200,sortable:true">登录名</th>
-				<th data-options="field:'realname',width:200,sortable:true">实名</th>
-				<th data-options="field:'sex',width:80,sortable:true,
+				<th data-options="field:'username',width:150,sortable:true">登录名</th>
+				<th data-options="field:'realname',width:150,sortable:true">实名</th>
+				<th data-options="field:'sex',width:60,sortable:true,
 						formatter:function(val,row){
 							return row.sexDescription;
 						}">性别</th>
-				<th data-options="field:'email',width:300,sortable:true">邮箱</th>
+				<th data-options="field:'email',width:200,sortable:true">邮箱</th>
 				<th data-options="field:'mobilePhoneNumber',width:100,sortable:true">手机号</th>
 				<th data-options="field:'departmentAttribute',width:100,sortable:true,
 						formatter:function(val,row){

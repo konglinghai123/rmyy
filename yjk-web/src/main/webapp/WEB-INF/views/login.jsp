@@ -79,9 +79,10 @@
 				        			</ul>
 				        			<ul>
 				        				<li class="user_main_text"></li>
-				        				<li class="user_main_input"><span class="error"><ewcms:showMessage/></span></li>
+				        				<li class="user_main_input"></li>
 				        			</ul>
 			        			</div>
+			        			<span class="error"><ewcms:showMessage/></span>
 			        		</li>
 			    			<li class="user_main_r">
 			    				<input class="ibtnentercssclass" id="ibtnenter" style="border-top-width: 0px; border-left-width: 0px; border-bottom-width: 0px; border-right-width: 0px" type="image" src="${ctx}/static/image/login/user_botton.gif" name="ibtnenter"/> 

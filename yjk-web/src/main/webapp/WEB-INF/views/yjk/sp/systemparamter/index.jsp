@@ -10,16 +10,19 @@
 			<th data-options="field:'id',hidden:true">编号</th>
 			<th data-options="field:'applyStartDate',width:150">申请开始时间</th>
 			<th data-options="field:'applyEndDate',width:150">申请结束时间</th>
-			<th data-options="field:'declarationLimt',width:150">申报限数</th>
+			<th data-options="field:'declarationLimt',width:60">申报限数</th>
+			<th data-options="field:'organizationNames',width:200">科室/病区</th>
 			<th data-options="field:'departmentAttributeNames',width:200">科室属性</th>
 			<th data-options="field:'professionNames',width:200">执业类别</th>
 			<th data-options="field:'technicalTitleNames',width:200">技术职称(资格)</th>
 			<th data-options="field:'appointmentNames',width:200">聘任</th>
-			<th data-options="field:'percent',width:100">百分比</th>
-			<th data-options="field:'totalNumber',width:100">随机人数</th>
-			<th data-options="field:'departmentNumber',width:100">科室人数</th>
-			<th
-				data-options="field:'enabled',width:100,formatter:formatOperation">操作</th>
+			<th data-options="field:'percent',width:60,
+					formatter:function(val,row){
+						return val != null ? val + '%' : '';
+					}">百分比</th>
+			<th data-options="field:'randomNumber',width:60">随机人数</th>
+			<th data-options="field:'departmentNumber',width:60">科室人数</th>
+			<th data-options="field:'enabled',width:100,formatter:formatOperation">操作</th>
 		</tr>
 	</thead>
 </table>
@@ -62,7 +65,7 @@
 			url : '${ctx}/yjk/sp/systemparamter/query',
 			toolbar : '#tb',
 			fit : true,
-			nowrap : true,
+			nowrap : false,
 			pagination : true,
 			rownumbers : true,
 			striped : true,

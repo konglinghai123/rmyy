@@ -55,34 +55,38 @@
 		        	<tr>
 						<td><form:label path="declarationLimt">申报限数：</form:label></td>
 						<td><form:input path="declarationLimt" cssClass="validate[required,custom[integer]]" maxlength="4" size="10"/></td>
+					</tr>
+					<tr>
+						<td><form:label path="organizations">科室/病区：</form:label></td>
+						<td><form:input path="organizations" cssClass="easyui-combotree" data-options="url:'${ctx}/security/organization/organization/tree',editable:false,multiple:true,width:200,editable:false,multiple:true,onlyLeafCheck:true,onBeforeSelect:function(node){return false;}"/><font color="red">不选择为所有科室</font></td>
 					</tr>	
 					<tr>
 						<td><form:label path="departmentAttributes">科室属性：</form:label></td>
-						<td><form:input path="departmentAttributes" cssClass="easyui-combobox" data-options="url:'${ctx}/yjk/sp/systemparamter/departmentAttribute/canUse',valueField:'id',textField:'name',editable:false,multiple:true,width:200"/></td>
+						<td><form:input path="departmentAttributes" cssClass="easyui-combobox" data-options="url:'${ctx}/yjk/sp/systemparamter/departmentAttribute/canUse',valueField:'id',textField:'name',editable:false,multiple:true,width:200"/><font color="red">不选择为所有科室属性</font></td>
 					</tr>
 					<tr>
 						<td><form:label path="professions">执业类别：</form:label></td>
-						<td><form:input path="professions" cssClass="easyui-combobox" data-options="url:'${ctx}/yjk/sp/systemparamter/profession/canUse',valueField:'id',textField:'name',editable:false,multiple:true,width:200"/></td>
+						<td><form:input path="professions" cssClass="easyui-combobox" data-options="url:'${ctx}/yjk/sp/systemparamter/profession/canUse',valueField:'id',textField:'name',editable:false,multiple:true,width:200"/><font color="red">不选择为所有执业类别</font></td>
 					</tr>
 					<tr>
-						<td><form:label path="technicalTitles">技术职称(资格) ：</form:label></td>
-						<td><form:input path="technicalTitles" cssClass="easyui-combobox" data-options="url:'${ctx}/yjk/sp/systemparamter/technicalTitle/canUse',valueField:'id',textField:'name',editable:false,multiple:true,width:200"/></td>
+						<td><form:label path="technicalTitles">技术职称(资格)：</form:label></td>
+						<td><form:input path="technicalTitles" cssClass="easyui-combobox" data-options="url:'${ctx}/yjk/sp/systemparamter/technicalTitle/canUse',valueField:'id',textField:'name',editable:false,multiple:true,width:200"/><font color="red">不选择为所有技术职称(资格)</font></td>
 					</tr>
 					<tr>
-						<td><form:label path="appointments">技术职称(资格) ：</form:label></td>
-						<td><form:input path="appointments" cssClass="easyui-combobox" data-options="url:'${ctx}/yjk/sp/systemparamter/appointment/canUse',valueField:'id',textField:'name',editable:false,multiple:true,width:200"/></td>
+						<td><form:label path="appointments">聘任：</form:label></td>
+						<td><form:input path="appointments" cssClass="easyui-combobox" data-options="url:'${ctx}/yjk/sp/systemparamter/appointment/canUse',valueField:'id',textField:'name',editable:false,multiple:true,width:200"/><font color="red">不选择为所有聘任</font></td>
 					</tr>
 					<tr height="80">
 						<td><form:label path="percent">比率：</form:label></td>
 						<td height="280"><form:input path="percent" class="easyui-slider" style="width:300px" data-options="showTip: true,value:100,rule: [0,'|',25,'|',50,'|',75,'|',100],tipFormatter: function(value){return value+'%';}"/></td>
 					</tr>
 					<tr>
-						<td><form:label path="totalNumber">随机人数：</form:label></td>
-						<td><form:input path="totalNumber" cssClass="validate[custom[integer]]" maxlength="4" size="10"/>0代表无限</td>
+						<td><form:label path="randomNumber">随机人数：</form:label></td>
+						<td><form:input path="randomNumber" cssClass="validate[custom[integer]]" maxlength="4" size="10"/><font color="red">0代表不限</font></td>
 					</tr>
 					<tr>
 						<td><form:label path="departmentNumber">确保每部门人数：</form:label></td>
-						<td><form:input path="departmentNumber" cssClass="validate[custom[integer]]" maxlength="4" size="10"/>0代表不限</td>
+						<td><form:input path="departmentNumber" cssClass="validate[custom[integer]]" maxlength="4" size="10"/><font color="red">0代表不限</font></td>
 					</tr>			
 				</table>
 			</form:form>

@@ -18,7 +18,7 @@
 	
 	    <title>${title}</title>
 	    <%@ include file="/WEB-INF/views/jspf/import-css.jspf" %>
-	    <link rel="shortcut icon" href="${ctx}/static/images/favicon.ico">
+	    <link rel="shortcut icon" href="${ctx}/static/image/favicon.ico">
 	    <c:if test="${index eq true}">
 			<link rel="stylesheet" type="text/css" href="${ctx}/static/css/home.css"/>
 		</c:if>
