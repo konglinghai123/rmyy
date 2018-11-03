@@ -1,14 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/views/jspf/taglibs.jspf" %>
 
-<ewcms:head title="字典-职称"/>
+<ewcms:head title="字典-聘任"/>
 	<table id="tt">
 		<thead>
 			<tr>
 			    <th data-options="field:'ck',checkbox:true"/>
 			    <th data-options="field:'id',sortable:true,width:100">编号</th>
 				<th data-options="field:'name',sortable:true,width:300">名称</th>
-				<th data-options="field:'level',sortable:true,width:200">等级</th>
 			</tr>
 		</thead>
 	</table>
@@ -39,7 +38,7 @@
 <script type="text/javascript">
 	$(function(){
 		$('#tt').datagrid({
-			url:'${ctx}/security/dictionary/technical/query',
+			url:'${ctx}/security/dictionary/appointment/query',
 			toolbar:'#tb',
 			fit:true,
 			nowrap:true,

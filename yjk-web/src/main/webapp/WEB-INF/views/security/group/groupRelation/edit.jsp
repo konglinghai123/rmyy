@@ -16,8 +16,8 @@
 			  				<tr>
 			  					<td>用户：</td>
 			  					<td>
-			  						<form:input path="userId"/>
-				  					<form:input path="username" cssClass="validate[required]" cssStyle="display:none"/>
+			  						<input id="userIds" name="userIds"/>
+									（<input type="checkbox" id="checkAll" name="checkAll" style="vertical-align: middle;"/><label for="checkAll" style="vertical-align: middle;">&nbsp;全选</label>）
 			  					</td>
 			  				</tr>
 			  			</c:if>
@@ -33,8 +33,8 @@
 								  		<c:set var="organizationUrl" value="${ctx}/security/organization/organization/tree/${m.organizationId}/singleChecked"/>
 								  	</c:otherwise>
 								</c:choose>
-								<form:input path="organizationId"/>
-				  				<form:input path="organizationName" cssClass="validate[required]" cssStyle="display:none"/>
+								<input id="organizationIds" name="organizationIds"/>
+								（<input type="checkbox" id="checkAll" name="checkAll" style="vertical-align: middle;"/><label for="checkAll" style="vertical-align: middle;">&nbsp;全选</label>）
 			    			</td>
 			    		</tr>
 			    		</c:if>
@@ -51,13 +51,14 @@
 <script type="text/javascript">
 	$(function(){
 		<c:if test="${group.type eq 'user'}">
-			$('#userId').combobox({
+			$('#userIds').combobox({
 				panelWidth:150,
 				panelHeight:130,
 				url:'${ctx}/security/user/user/canUse',
 				method:'get',
 				valueField:'id',
 				textField:'username',
+				multiple:true,
 				editable:false,
 				onSelect:function(record){
 					$('#username').val(record.username);
@@ -65,19 +66,19 @@
 			});
 		</c:if>
 		<c:if test="${group.type eq 'organization'}">
-			$('#organizationId').combotree({
+			$('#organizationIds').combotree({
 		    	panelWidth:200,
 		    	panelHeight:130,
 		    	url:'${organizationUrl}',
 		    	editable:false,
+		    	multiple:true,
+		    	onlyLeafCheck:true,
 				onBeforeSelect : function(node){
-					if (node.attributes.root){
-						$.messager.alert('提示', '根节点不能被选中，请重新选择', 'info');
-						return false;
-					}
-				},
-				onSelect:function(node){
-					$('#organizationName').val(node.text);
+					return false;
+					//if (node.attributes.root){
+					//	$.messager.alert('提示', '根节点不能被选中，请重新选择', 'info');
+					//	return false;
+					//}
 				}
 			});
 		</c:if>

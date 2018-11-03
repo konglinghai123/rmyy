@@ -91,17 +91,9 @@ select setval('seq_sec_organization_id', 71);
  */
 delete from sec_job;
 insert into sec_job(id, parent_id, parent_ids, weight, name, is_show) values
-(1, 0, '0/', 1, '工作职务/职称', 'true')
-,(2, 1, '0/1/', 1, '主任医师', 'true')
-,(3, 1, '0/1/', 2, '主管护师', 'true')
-,(4, 1, '0/1/', 3, '副主任医师', 'true')
-,(5, 1, '0/1/', 4, '主治医师', 'true')
-,(6, 1, '0/1/', 5, '医师', 'true')
-,(7, 1, '0/1/', 6, '无职称', 'true')
-,(8, 1, '0/1/', 7, '其它', 'true')
-
+(1, 0, '0/', 1, '工作职务', 'true')
 ;
-select setval('seq_sec_job_id', 8);
+select setval('seq_sec_job_id', 1);
 
 /**
  * 菜单资源初始化
@@ -129,7 +121,7 @@ insert into sec_resource(id, icon, identity, name, parent_id, parent_ids, is_sho
 ,(60,'empi-security-permission-role-tree','role','授权权限给角色',58,'0/1/5/58/','true',null,'/security/permission/role/index',2)
 ,(61,'empi-security-permission-auth-tree','auth','授权角色给实体',58,'0/1/5/58/','true',null,'/security/auth/index',3)
 ,(63,'empi-personal-memoranda-tree','','备忘录',62,'0/1/62/','true',null,'/personal/calendar/index',4)
-,(64,'empi-personal-message-tree','','个人消息',62,'0/1/62/','true',null,'/personal/message/index',5)
+/*,(64,'empi-personal-message-tree','','个人消息',62,'0/1/62/','true',null,'/personal/message/index',5)*/
 ,(65,'empi-security-switch-tree','','切换身份',5,'0/1/5/','true',null,'/security/user/runAs/index',3)
 ,(66,'empi-system-icon-tree','icon','图标管理',6,'0/1/6/','true',null,'/system/icon/index',1)
 ,(68,'empi-system-externalds-tree','externalds','数据源',6,'0/1/6/','true',null,'/system/externalds/index',3)
@@ -156,8 +148,9 @@ insert into sec_resource(id, icon, identity, name, parent_id, parent_ids, is_sho
 ,(112,'empi-system-staticresource-tree','staticResource','静态资源版本控制',6,'0/1/6/','true',null,'/system/staticresource/index',8)
 ,(113,'ztree_file','','字典管理',5,'0/1/5/','true',null,'',7)
 ,(114,'ztree_file','departmentAttribute','科室属性',113,'0/1/5/113/','true',null,'/security/dictionary/departmentAttribute/index',1)
-,(115,'ztree_file','profession','职业',113,'0/1/5/113/','true',null,'/security/dictionary/profession/index',2)
-,(116,'ztree_file','technical','职称',113,'0/1/5/113/','true',null,'/security/dictionary/technical/index',3)
+,(115,'ztree_file','profession','执业类别',113,'0/1/5/113/','true',null,'/security/dictionary/profession/index',2)
+,(116,'ztree_file','technicalTitle','技术职称(资格)',113,'0/1/5/113/','true',null,'/security/dictionary/technicalTitle/index',3)
+,(117,'ztree_file','appointment','聘任',113,'0/1/5/113/','true',null,'/security/dictionary/appointment/index',3)
 ;
 select setval('seq_sec_resource_id', 116);
 
@@ -214,3 +207,47 @@ insert into sec_department_attribute(id, name) values
 ;
 select setval('seq_sec_department_attribute_id', 4);
 
+/**
+ * 执业类别
+ */
+delete from sec_profession;
+insert into sec_profession(id, name) values 
+(1,'医生')
+,(2,'护士')
+,(3,'药剂')
+,(4,'技师')
+,(5,'机关后勤')
+,(6,'其它')
+;
+select setval('seq_sec_profession_id', 6);
+
+/**
+ * 聘任
+ */
+delete from sec_appointment;
+insert into sec_appointment(id, name) values
+(1,'正高资格')
+,(2,'副高资格')
+,(3,'已聘正高')
+,(4,'已聘副高')
+;
+select setval('seq_sec_appointment_id', 4);
+
+/**
+ * 技术职称(资格)
+ */
+delete from sec_technical_title;
+insert into sec_technical_title(id, name) values
+(1,'主任中医师')
+,(2,'主任医师')
+,(3,'主任药师')
+,(4,'主任技师')
+,(5,'主任护师')
+,(6,'中西医结合副主任医师')
+,(7,'副主任中医师')
+,(8,'副主任医师')
+,(9,'副主任药师')
+,(10,'副主任技师')
+,(11,'副主任护师')
+;
+select setval('seq_sec_technical_title_id', 11);

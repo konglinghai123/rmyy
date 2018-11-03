@@ -33,8 +33,8 @@
 						</td>
 					</tr>
 		        	<tr>
-						<td width="30%"><form:label path="applyEndDate">申请结束时间：</form:label></td>
-						<td width="70%"><input type="text"   id="applyEndDate" name="applyEndDate"  class="easyui-datetimebox"  style="width:145px" data-options="
+						<td><form:label path="applyEndDate">申请结束时间：</form:label></td>
+						<td><input type="text"   id="applyEndDate" name="applyEndDate"  class="easyui-datetimebox"  style="width:145px" data-options="
 							editable:false,
 							required: true,
 							onSelect:function(d){
@@ -53,21 +53,37 @@
 						</td>
 					</tr>
 		        	<tr>
-						<td width="30%"><form:label path="declarationLimt">申报限数：</form:label></td>
-						<td width="70%"><form:input path="declarationLimt" cssClass="validate[required,custom[integer]]"/></td>
+						<td><form:label path="declarationLimt">申报限数：</form:label></td>
+						<td><form:input path="declarationLimt" cssClass="validate[required,custom[integer]]" maxlength="4" size="10"/></td>
 					</tr>	
 					<tr>
-						<td width="30%"><form:label path="departmentAttributes">科室属性：</form:label></td>
-						<td width="70%"><form:input path="departmentAttributes" cssClass="easyui-combobox" data-options="url:'${ctx}/yjk/sp/systemparamter/departmentAttribute/canUse',valueField:'id',textField:'name',editable:false,multiple:true,width:200"/></td>
+						<td><form:label path="departmentAttributes">科室属性：</form:label></td>
+						<td><form:input path="departmentAttributes" cssClass="easyui-combobox" data-options="url:'${ctx}/yjk/sp/systemparamter/departmentAttribute/canUse',valueField:'id',textField:'name',editable:false,multiple:true,width:200"/></td>
 					</tr>
 					<tr>
-						<td width="30%"><form:label path="professions">职业：</form:label></td>
-						<td width="70%"><form:input path="professions" cssClass="easyui-combobox" data-options="url:'${ctx}/yjk/sp/systemparamter/profession/canUse',valueField:'id',textField:'name',editable:false,multiple:true,width:200"/></td>
+						<td><form:label path="professions">执业类别：</form:label></td>
+						<td><form:input path="professions" cssClass="easyui-combobox" data-options="url:'${ctx}/yjk/sp/systemparamter/profession/canUse',valueField:'id',textField:'name',editable:false,multiple:true,width:200"/></td>
 					</tr>
 					<tr>
-						<td width="30%"><form:label path="technicals">职称 ：</form:label></td>
-						<td width="70%"><form:input path="technicals" cssClass="easyui-combobox" data-options="url:'${ctx}/yjk/sp/systemparamter/technical/canUse',valueField:'id',textField:'name',editable:false,multiple:true,width:200"/></td>
-					</tr>							
+						<td><form:label path="technicalTitles">技术职称(资格) ：</form:label></td>
+						<td><form:input path="technicalTitles" cssClass="easyui-combobox" data-options="url:'${ctx}/yjk/sp/systemparamter/technicalTitle/canUse',valueField:'id',textField:'name',editable:false,multiple:true,width:200"/></td>
+					</tr>
+					<tr>
+						<td><form:label path="appointments">技术职称(资格) ：</form:label></td>
+						<td><form:input path="appointments" cssClass="easyui-combobox" data-options="url:'${ctx}/yjk/sp/systemparamter/appointment/canUse',valueField:'id',textField:'name',editable:false,multiple:true,width:200"/></td>
+					</tr>
+					<tr height="80">
+						<td><form:label path="percent">比率：</form:label></td>
+						<td height="280"><form:input path="percent" class="easyui-slider" style="width:300px" data-options="showTip: true,value:100,rule: [0,'|',25,'|',50,'|',75,'|',100],tipFormatter: function(value){return value+'%';}"/></td>
+					</tr>
+					<tr>
+						<td><form:label path="totalNumber">随机人数：</form:label></td>
+						<td><form:input path="totalNumber" cssClass="validate[custom[integer]]" maxlength="4" size="10"/>0代表无限</td>
+					</tr>
+					<tr>
+						<td><form:label path="departmentNumber">确保每部门人数：</form:label></td>
+						<td><form:input path="departmentNumber" cssClass="validate[custom[integer]]" maxlength="4" size="10"/>0代表不限</td>
+					</tr>			
 				</table>
 			</form:form>
 		</div>

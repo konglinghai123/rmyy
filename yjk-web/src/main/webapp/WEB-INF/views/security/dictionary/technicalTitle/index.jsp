@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/views/jspf/taglibs.jspf" %>
 
-<ewcms:head title="字典-执业类别"/>
+<ewcms:head title="字典-技术职称(资格)"/>
 	<table id="tt">
 		<thead>
 			<tr>
@@ -38,7 +38,7 @@
 <script type="text/javascript">
 	$(function(){
 		$('#tt').datagrid({
-			url:'${ctx}/security/dictionary/profession/query',
+			url:'${ctx}/security/dictionary/technicalTitle/query',
 			toolbar:'#tb',
 			fit:true,
 			nowrap:true,

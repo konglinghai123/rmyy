@@ -1,11 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/jspf/taglibs.jspf" %>
 
-<ewcms:head title="编辑 - 执业类别"/>
+<ewcms:head title="编辑 - 技术职称(资格)"/>
 	<div id="edit-from" class="easyui-layout" data-options="fit:true" style="border:0;">
 		<ewcms:showMessage/>
 		<div data-options="region:'center',border:false">	
-		 	<form:form id="editForm" method="post" action="${ctx}/security/dictionary/profession/save" commandName="m"  class="form-horizontal">
+		 	<form:form id="editForm" method="post" action="${ctx}/security/dictionary/technicalTitle/save" commandName="m"  class="form-horizontal">
 		    	<ewcms:showGlobalError commandName="m"/>
 		    	<form:hidden path="id"/>
 		    	<c:forEach var="selection" items="${selections}">
@@ -34,7 +34,7 @@
 	    	</c:when>
 	    	<c:otherwise>
 				$.validationEngineLanguage.allRules.ajaxNameCall= {
-	                "url": "${ctx}/security/dictionary/profession/validate",
+	                "url": "${ctx}/security/dictionary/technicalTitle/validate",
 	                extraDataDynamic : ['#id'],
 	                "alertTextLoad": "* 正在验证，请稍等。。。"
 	            };

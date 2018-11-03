@@ -8,7 +8,7 @@ import javax.persistence.Table;
 import com.ewcms.common.entity.BaseSequenceEntity;
 
 /**
- * 执业类别
+ * 技术职称(资格)
  * <ul>
  * <li>name:名称</li>
  * </ul>
@@ -17,11 +17,11 @@ import com.ewcms.common.entity.BaseSequenceEntity;
  *
  */
 @Entity
-@Table(name = "sec_profession")
-@SequenceGenerator(name="seq", sequenceName="seq_sec_profession_id", allocationSize = 1)
-public class Profession extends BaseSequenceEntity<Long> {
+@Table(name = "sec_technical_title")
+@SequenceGenerator(name = "seq", sequenceName = "seq_sec_technical_title_id", allocationSize = 1)
+public class TechnicalTitle extends BaseSequenceEntity<Long> {
 
-	private static final long serialVersionUID = 6640574440371025721L;
+	private static final long serialVersionUID = -4968997866651361411L;
 
 	@Column(name = "name", nullable = false, unique = true)
 	private String name;

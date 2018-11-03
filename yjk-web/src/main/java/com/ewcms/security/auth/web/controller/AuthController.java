@@ -12,13 +12,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.alibaba.fastjson.JSON;
 import com.ewcms.common.entity.search.SearchHelper;
 import com.ewcms.common.entity.search.SearchParameter;
 import com.ewcms.common.entity.search.Searchable;
@@ -39,101 +38,83 @@ public class AuthController extends BaseCRUDController<Auth, Long> {
 
 	@Autowired
 	private RoleService roleService;
-	
-	private AuthService getAuthService(){
+
+	private AuthService getAuthService() {
 		return (AuthService) baseService;
 	}
-	
+
 	public AuthController() {
 		setListAlsoSetCommonData(true);
 		setResourceIdentity("security:auth");
 	}
-	
+
 	@Override
 	protected void setCommonData(Model model) {
 		super.setCommonData(model);
 		model.addAttribute("types", AuthType.values());
-		//model.addAttribute("roles", roleService.findAll());
+		// model.addAttribute("roles", roleService.findAll());
 	}
-	
+
 	@Override
-	public Map<String, Object> query(@ModelAttribute SearchParameter<Long> searchParameter, Model model){
+	public Map<String, Object> query(@ModelAttribute SearchParameter<Long> searchParameter, Model model) {
 		if (permissionList != null) {
-            this.permissionList.assertHasViewPermission();
-        }
-		
+			this.permissionList.assertHasViewPermission();
+		}
+
 		setCommonData(model);
-		
+
 		Searchable searchable = SearchHelper.parameterConverSearchable(searchParameter, Auth.class);
 		searchable.addSort(Direction.ASC, "id");
 		searchable.addSort(Direction.ASC, "type");
-		
+
 		Page<Auth> auths = baseService.findAll(searchable);
-		//List<Auth> newAuths = Lists.newArrayList();
-		
-		for (Auth auth : auths){
+		// List<Auth> newAuths = Lists.newArrayList();
+
+		for (Auth auth : auths) {
 			Set<Long> roleIds = auth.getRoleIds();
-			if (!roleIds.isEmpty() && roleIds.size() > 0){
+			if (!roleIds.isEmpty() && roleIds.size() > 0) {
 				Set<String> roleNames = roleService.findRoleNames(roleIds);
-				if (!roleNames.isEmpty() && roleNames.size() > 0){
+				if (!roleNames.isEmpty() && roleNames.size() > 0) {
 					auth.setRoleNames(Collections3.convertToString(roleNames, ","));
 				}
 			}
-			//auths.add(auth);
+			// auths.add(auth);
 		}
-		
+
 		Map<String, Object> resultMap = new HashMap<String, Object>(2);
 		resultMap.put("total", auths.getTotalElements());
 		resultMap.put("rows", auths.getContent());
 		return resultMap;
 	}
-	
+
 	@Override
-	public String save(Model model, @Valid @ModelAttribute("m") Auth m, BindingResult result, @RequestParam(required = false) List<Long> selections) {
-		if (hasError(m, result)) {
+	@RequestMapping(value = "save/discarded", method = RequestMethod.POST)
+	public String save(Model model, Auth m, BindingResult result, List<Long> selections) {
+		throw new RuntimeException("discard method");
+	}
+	
+	@RequestMapping(value = "save", method = RequestMethod.POST)	
+	public String save(Model model, @Valid @ModelAttribute("m") Auth m,
+			@RequestParam(value = "userIds", required = false) Long[] userIds,
+			@RequestParam(value = "groupIds", required = false) Long[] groupIds,
+			@RequestParam(value = "organizationIds", required = false) Long[] organizationIds,
+			@RequestParam(value = "jobIds", required = false) Long[] jobIds, BindingResult result,
+			@RequestParam(required = false) List<Long> selections) {
+		this.permissionList.assertHasCreatePermission();
+
+        if (hasError(m, result)) {
             return showSaveForm(model, selections);
         }
 
-		setCommonData(model);
-		
-		if (m.getId() != null && StringUtils.hasText(m.getId().toString())) {
-	        if (permissionList != null) {
-	            this.permissionList.assertHasUpdatePermission();
-	        }
-			
-	        Auth lastAuth = null;
-	        if (m.getType() == AuthType.user){
-	        	lastAuth = getAuthService().addUserAuth(m);
-	    	} else if (m.getType() == AuthType.user_group || m.getType() == AuthType.organization_group){
-	    		lastAuth = getAuthService().addGroupAuth(m);
-	    	} else if (m.getType() == AuthType.organization_job){
-	    		lastAuth = getAuthService().addOrganizationJobAuth(m);
-	    	}
-			
-			selections.remove(0);
-			if (selections == null || selections.isEmpty()) {
-				model.addAttribute("close", true);
-			}
-			model.addAttribute("lastM", JSON.toJSONString(lastAuth));
-		} else {
-	        if (permissionList != null) {
-	            this.permissionList.assertHasCreatePermission();
-	        }
-			
-	        Auth lastAuth = null;
-	        if (m.getType() == AuthType.user){
-	        	lastAuth = getAuthService().addUserAuth(m);
-	    	} else if (m.getType() == AuthType.user_group || m.getType() == AuthType.organization_group){
-	    		lastAuth = getAuthService().addGroupAuth(m);
-	    	} else if (m.getType() == AuthType.organization_job){
-	    		lastAuth = getAuthService().addOrganizationJobAuth(m);
-	    	}
-			
-			model.addAttribute("m", newModel());
-			
-			model.addAttribute("m", newModel());
-			model.addAttribute("lastM", JSON.toJSONString(lastAuth));
-		}
+        if (m.getType() == AuthType.user) {
+            getAuthService().addUserAuth(userIds, m);
+        } else if (m.getType() == AuthType.user_group || m.getType() == AuthType.organization_group) {
+            getAuthService().addGroupAuth(groupIds, m);
+        } else if (m.getType() == AuthType.organization_job) {
+            getAuthService().addOrganizationJobAuth(organizationIds, jobIds, m);
+        }
+        
+        model.addAttribute("close", true);
 		return showSaveForm(model, selections);
 	}
 }

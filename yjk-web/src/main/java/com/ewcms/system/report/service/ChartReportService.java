@@ -34,8 +34,8 @@ import com.ewcms.system.report.util.ParameterSetValueUtil;
 @Service
 public class ChartReportService extends BaseService<ChartReport, Long>{
 
-	@Autowired
-	private CategoryReportService categorReportService;
+//	@Autowired
+//	private CategoryReportService categorReportService;
 //	@Autowired
 //	private EwcmsJobReportDao ewcmsJobReportDao;
 	@Autowired

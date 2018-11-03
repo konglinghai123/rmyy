@@ -2,6 +2,7 @@ package com.ewcms.yjk.sp.entity;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -22,9 +23,12 @@ import com.ewcms.common.entity.BaseSequenceEntity;
 import com.ewcms.common.plugin.entity.LogicDeleteable;
 import com.ewcms.common.utils.Collections3;
 import com.ewcms.common.utils.EmptyUtil;
+import com.ewcms.security.dictionary.entity.Appointment;
 import com.ewcms.security.dictionary.entity.DepartmentAttribute;
 import com.ewcms.security.dictionary.entity.Profession;
-import com.ewcms.security.dictionary.entity.Technical;
+import com.ewcms.security.dictionary.entity.TechnicalTitle;
+import com.ewcms.security.organization.entity.Organization;
+import com.google.common.collect.Sets;
 
 /**
  * 系统参数设置
@@ -34,9 +38,15 @@ import com.ewcms.security.dictionary.entity.Technical;
  * <li>applyEndDate:申请结束时间</li>
  * <li>declarationLimt:申报限数</li>
  * <li>enabled:是否启用（系统中只能有1或0条设置启用）</li>
+ * <li>organizations:科室对象集合
  * <li>departmentAttributes:科室属性对象集合</li>
- * <li>professions:职业对象集合</li>
- * <li>technicals:职称对象集合</li>
+ * <li>professions:执业类别对象集合</li>
+ * <li>technicalTitle:技术职称(资格)对象集合</li>
+ * <li>appointment:聘任对象集合</li>
+ * <li>percent:百分比</li>
+ * <li>totalNumber:人数</li>
+ * <li>departmentNumber:部门人数</li>
+ * <li>enabled:是否启用</li>
  * <li>deleted:是否删除</li>
  * </ul>
  * 
@@ -62,10 +72,9 @@ public class SystemParameter extends BaseSequenceEntity<Long> implements LogicDe
 	private Date applyEndDate;
     @Column(name = "declaration_limt", nullable = false)
     private Long declarationLimt = Long.valueOf(2);
-	@Column(name = "is_enabled")
-	private Boolean enabled = Boolean.FALSE;
-    @Column(name = "is_deleted")
-    private Boolean deleted = Boolean.FALSE;
+    @OneToMany(cascade = {CascadeType.ALL})
+    @JoinTable(name="sp_system_parameter_organization", joinColumns= {@JoinColumn(name = "system_id", referencedColumnName = "id")}, inverseJoinColumns = {@JoinColumn(name = "organization_id", referencedColumnName = "id")})
+    private List<Organization> organizations;
     @OneToMany(cascade = {CascadeType.ALL})
     @JoinTable(name="sp_system_parameter_department_attribute", joinColumns= {@JoinColumn(name = "system_id", referencedColumnName = "id")}, inverseJoinColumns = {@JoinColumn(name = "department_attribute_id", referencedColumnName = "id")})
     private List<DepartmentAttribute> departmentAttributes;
@@ -73,8 +82,21 @@ public class SystemParameter extends BaseSequenceEntity<Long> implements LogicDe
     @JoinTable(name="sp_system_parameter_profession", joinColumns= {@JoinColumn(name = "system_id", referencedColumnName = "id")}, inverseJoinColumns = {@JoinColumn(name = "profession_id", referencedColumnName = "id")})
     private List<Profession> professions;
     @OneToMany(cascade = {CascadeType.ALL})
-    @JoinTable(name="sp_system_parameter_technical", joinColumns= {@JoinColumn(name = "system_id", referencedColumnName = "id")}, inverseJoinColumns = {@JoinColumn(name = "technical_id", referencedColumnName = "id")})
-    private List<Technical> technicals;
+    @JoinTable(name="sp_system_parameter_technical_title", joinColumns= {@JoinColumn(name = "system_id", referencedColumnName = "id")}, inverseJoinColumns = {@JoinColumn(name = "technical_title_id", referencedColumnName = "id")})
+    private List<TechnicalTitle> technicalTitles;
+    @OneToMany(cascade = {CascadeType.ALL})
+    @JoinTable(name="sp_system_parameter_appointment", joinColumns= {@JoinColumn(name = "system_id", referencedColumnName = "id")}, inverseJoinColumns = {@JoinColumn(name = "appointment_id", referencedColumnName = "id")})
+    private List<Appointment> appointments;
+    @Column(name = "percent")
+    private Long percent = 100L;
+    @Column(name = "total_number")
+    private Long totalNumber = 0L;
+    @Column(name = "department_number")
+    private Long departmentNumber = 0L;
+	@Column(name = "is_enabled")
+	private Boolean enabled = Boolean.FALSE;
+    @Column(name = "is_deleted")
+    private Boolean deleted = Boolean.FALSE;
     
     @JSONField(format = "yyyy-MM-dd HH:mm:ss")
 	public Date getApplyStartDate() {
@@ -110,6 +132,23 @@ public class SystemParameter extends BaseSequenceEntity<Long> implements LogicDe
 		this.enabled = enabled;
 	}
 
+	public List<Organization> getOrganizations() {
+		return organizations;
+	}
+
+	public void setOrganizations(List<Organization> organizations) {
+		this.organizations = organizations;
+	}
+
+	public String getOrganizationNames() {
+		return (EmptyUtil.isCollectionNotEmpty(organizations)) ?  Collections3.convertToString(Collections3.extractToList(organizations, "name"), "/") : "";
+	}
+	
+	@SuppressWarnings("unchecked")
+	public Set<Long> getOrganizationsIds(){
+		return (EmptyUtil.isCollectionNotEmpty(organizations)) ?  Collections3.extractToSet(organizations, "id") : Sets.newHashSet();
+	}
+	
 	public List<DepartmentAttribute> getDepartmentAttributes() {
 		return departmentAttributes;
 	}
@@ -120,6 +159,11 @@ public class SystemParameter extends BaseSequenceEntity<Long> implements LogicDe
 
 	public String getDepartmentAttributeNames() {
 		return (EmptyUtil.isCollectionNotEmpty(departmentAttributes)) ?  Collections3.convertToString(Collections3.extractToList(departmentAttributes, "name"), "/") : "";
+	}
+	
+	@SuppressWarnings("unchecked")
+	public Set<Long> getDepartmentAttributeIds(){
+		return (EmptyUtil.isCollectionNotEmpty(departmentAttributes)) ?  Collections3.extractToSet(departmentAttributes, "id") : Sets.newHashSet();
 	}
 	
 	public List<Profession> getProfessions() {
@@ -133,19 +177,70 @@ public class SystemParameter extends BaseSequenceEntity<Long> implements LogicDe
 	public String getProfessionNames() {
 		return (EmptyUtil.isCollectionNotEmpty(professions)) ?  Collections3.convertToString(Collections3.extractToList(professions, "name"), "/") : "";
 	}
-
-	public List<Technical> getTechnicals() {
-		return technicals;
+	
+	@SuppressWarnings("unchecked")
+	public Set<Long> getProfessionIds(){
+		return (EmptyUtil.isCollectionNotEmpty(professions)) ?  Collections3.extractToSet(professions, "id") : Sets.newHashSet();
 	}
 
-	public void setTechnicals(List<Technical> technicals) {
-		this.technicals = technicals;
+	public List<TechnicalTitle> getTechnicalTitles() {
+		return technicalTitles;
 	}
 
-	public String getTechnicalNames() {
-		return (EmptyUtil.isCollectionNotEmpty(technicals)) ?  Collections3.convertToString(Collections3.extractToList(technicals, "name"), "/") : "";
+	public void setTechnicalTitles(List<TechnicalTitle> technicalTitles) {
+		this.technicalTitles = technicalTitles;
+	}
+
+	public String getTechnicalTitleNames() {
+		return (EmptyUtil.isCollectionNotEmpty(technicalTitles)) ?  Collections3.convertToString(Collections3.extractToList(technicalTitles, "name"), "/") : "";
 	}
 	
+	@SuppressWarnings("unchecked")
+	public Set<Long> getTechnicalTitleIds(){
+		return (EmptyUtil.isCollectionNotEmpty(technicalTitles)) ?  Collections3.extractToSet(technicalTitles, "id") : Sets.newHashSet();
+	}
+	
+	public List<Appointment> getAppointments() {
+		return appointments;
+	}
+
+	public void setAppointments(List<Appointment> appointments) {
+		this.appointments = appointments;
+	}
+
+	public String getAppointmentNames() {
+		return (EmptyUtil.isCollectionNotEmpty(appointments)) ?  Collections3.convertToString(Collections3.extractToList(appointments, "name"), "/") : "";
+	}
+	
+	@SuppressWarnings("unchecked")
+	public Set<Long> getAppointmentIds(){
+		return (EmptyUtil.isCollectionNotEmpty(appointments)) ?  Collections3.extractToSet(appointments, "id") : Sets.newHashSet();
+	}
+	
+	public Long getPercent() {
+		return percent;
+	}
+
+	public void setPercent(Long percent) {
+		this.percent = percent;
+	}
+
+	public Long getTotalNumber() {
+		return totalNumber;
+	}
+
+	public void setTotalNumber(Long totalNumber) {
+		this.totalNumber = totalNumber;
+	}
+
+	public Long getDepartmentNumber() {
+		return departmentNumber;
+	}
+
+	public void setDepartmentNumber(Long departmentNumber) {
+		this.departmentNumber = departmentNumber;
+	}
+
 	@Override
     public Boolean getDeleted() {
         return deleted;

@@ -36,100 +36,115 @@ import com.ewcms.security.group.service.GroupRelationService;
  */
 @Controller
 @RequestMapping(value = "/security/group/groupRelation")
-public class GroupRelationController extends BaseCRUDController<GroupRelation, Long>{
-	
-	private GroupRelationService getGroupRelationService(){
-		return (GroupRelationService)baseService;
+public class GroupRelationController extends BaseCRUDController<GroupRelation, Long> {
+
+	private GroupRelationService getGroupRelationService() {
+		return (GroupRelationService) baseService;
 	}
-	
+
 	public GroupRelationController() {
 		setResourceIdentity("security:group");
 	}
-	
+
 	@RequestMapping(value = "index/discard")
 	@Override
 	public String index(Model model) {
 		throw new RuntimeException("discarded method");
 	}
-	
+
 	@RequestMapping(value = "{group}/index")
-	public String index(@PathVariable(value = "group")Group group, Model model){
+	public String index(@PathVariable(value = "group") Group group, Model model) {
 		return super.index(model);
 	}
-	
+
 	@RequestMapping(value = "query/discard")
 	@ResponseBody
 	@Override
-	public Map<String, Object> query(@ModelAttribute SearchParameter<Long> searchParameter, Model model){
+	public Map<String, Object> query(@ModelAttribute SearchParameter<Long> searchParameter, Model model) {
 		throw new RuntimeException("discarded method");
 	}
-	
+
 	@RequestMapping(value = "{groupId}/query")
 	@ResponseBody
-	public Map<String, Object> query(@ModelAttribute SearchParameter<Long> searchParameter, @PathVariable(value = "groupId") Long groupId){
+	public Map<String, Object> query(@ModelAttribute SearchParameter<Long> searchParameter,
+			@PathVariable(value = "groupId") Long groupId) {
 		Map<String, Object> resultMap = new HashMap<String, Object>(2);
 
 		Searchable searchable = SearchHelper.parameterConverSearchable(searchParameter, Group.class);
 		searchable.addSearchFilter("groupId", SearchOperator.EQ, groupId);
 		searchable.addSort(Direction.ASC, "id");
-		
+
 		searchable.setPage(searchParameter.getPage() - 1, searchParameter.getRows());
-		
+
 		Page<GroupRelation> groupRelations = baseService.findAll(searchable);
-		
+
 		resultMap.put("total", groupRelations.getTotalElements());
 		resultMap.put("rows", groupRelations.getContent());
 		return resultMap;
 	}
 
 	@RequestMapping(value = "{groupId}/save", method = RequestMethod.GET)
-	public String showSaveForm(Model model, @RequestParam(required = false) List<Long> selections, @PathVariable(value = "groupId") Group group){
+	public String showSaveForm(Model model, @RequestParam(required = false) List<Long> selections,
+			@PathVariable(value = "groupId") Group group) {
 		model.addAttribute("group", group);
 		return super.showSaveForm(model, selections);
 	}
-	
+
 	@RequestMapping(value = "{groupId}/save", method = RequestMethod.POST)
-	public String save(Model model, @Valid @ModelAttribute("m") GroupRelation m, BindingResult result, @RequestParam(required = false) List<Long> selections, @PathVariable(value = "groupId") Group group) {
-		model.addAttribute("group", group);
-		m.setGroupId(group.getId());
-		return super.save(model, m, result, selections);
+	public String save(Model model, @Valid @ModelAttribute("m") GroupRelation m, BindingResult result,
+			@RequestParam(required = false) List<Long> selections, @PathVariable(value = "groupId") Group group,
+			@RequestParam(value = "userIds", required = false) Long[] userIds,
+			@RequestParam(value = "checkAll", required = false, defaultValue = "false") Boolean checkAll,
+			@RequestParam(value = "organizationIds", required = false) Long[] organizationIds) {
+		if (group.getType() == GroupType.organization) {
+			getGroupRelationService().addOrganizationGroupRelation(m.getGroupId(), organizationIds, checkAll);
+		} else {
+			getGroupRelationService().addUserGroupRelation(m.getGroupId(), userIds, checkAll);
+		}
+		model.addAttribute("close", true);
+		return showSaveForm(model, selections, group);
 	}
-	
+
 	@RequestMapping(value = "delete/discard")
 	@ResponseBody
 	@Override
-	public AjaxResponse delete(@RequestParam(required = false) List<Long> selections){
+	public AjaxResponse delete(@RequestParam(required = false) List<Long> selections) {
 		throw new RuntimeException("discarded method");
 	}
-	
+
 	@RequestMapping(value = "{groupId}/delete")
 	@ResponseBody
-	public AjaxResponse delete(@RequestParam(required = false) List<Long> selections, @PathVariable(value = "groupId") Long groupId){
+	public AjaxResponse delete(@RequestParam(required = false) List<Long> selections,
+			@PathVariable(value = "groupId") Long groupId) {
 		return super.delete(selections);
 	}
-	
-    @RequestMapping(value = "{groupId}/validate")
-    @ResponseBody
-    public Object validate(@PathVariable("groupId")Group group, @ModelAttribute("m") GroupRelation m) {
-        ValidateResponse response = ValidateResponse.newInstance();
-    	if (group.getType() == GroupType.user){
-    		GroupRelation groupRelation = getGroupRelationService().findByGroupIdAndUserId(group.getId(), m.getUserId());
-    		if (groupRelation == null || (groupRelation.getId().equals(m.getId()) && groupRelation.getUserId().equals(m.getUserId()))) {
-                response.validateSuccess("username", "");
-            } else {
-                response.validateFail("username", "用户名已存在，请重新选择");
-            }
-    	}
-    	
-    	if (group.getType() == GroupType.organization){
-    		GroupRelation groupRelation = getGroupRelationService().findByGroupIdAndOrganizationId(group.getId(), m.getOrganizationId());
-    		if (groupRelation == null || (groupRelation.getId().equals(m.getId()) && groupRelation.getOrganizationId().equals(m.getOrganizationId()))){
-    			response.validateSuccess("organizationName", "");
-            } else {
-                response.validateFail("organizationName", "组织机构已存在，请重新选择");
-            }
-    	}
-        
-        return response.result();
-    }
+
+	@RequestMapping(value = "{groupId}/validate")
+	@ResponseBody
+	public Object validate(@PathVariable("groupId") Group group, @ModelAttribute("m") GroupRelation m) {
+		ValidateResponse response = ValidateResponse.newInstance();
+		if (group.getType() == GroupType.user) {
+			GroupRelation groupRelation = getGroupRelationService().findByGroupIdAndUserId(group.getId(),
+					m.getUserId());
+			if (groupRelation == null
+					|| (groupRelation.getId().equals(m.getId()) && groupRelation.getUserId().equals(m.getUserId()))) {
+				response.validateSuccess("username", "");
+			} else {
+				response.validateFail("username", "用户名已存在，请重新选择");
+			}
+		}
+
+		if (group.getType() == GroupType.organization) {
+			GroupRelation groupRelation = getGroupRelationService().findByGroupIdAndOrganizationId(group.getId(),
+					m.getOrganizationId());
+			if (groupRelation == null || (groupRelation.getId().equals(m.getId())
+					&& groupRelation.getOrganizationId().equals(m.getOrganizationId()))) {
+				response.validateSuccess("organizationName", "");
+			} else {
+				response.validateFail("organizationName", "组织机构已存在，请重新选择");
+			}
+		}
+
+		return response.result();
+	}
 }

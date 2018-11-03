@@ -11,4 +11,6 @@ import com.ewcms.security.organization.entity.Organization;
 public interface OrganizationRepository extends BaseRepository<Organization, Long> {
 	
 	List<Organization> findByName(String name);
+	
+	List<Organization> findByIdIn(Long[] organizationIds);
 }

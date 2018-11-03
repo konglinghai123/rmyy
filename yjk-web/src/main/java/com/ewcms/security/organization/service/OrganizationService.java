@@ -69,4 +69,8 @@ public class OrganizationService extends BaseSequenceTreeableService<Organizatio
 	public List<Organization> findByName(String name){
 		return getOrganizationRepository().findByName(name);
 	}
+	
+	public List<Organization> findByIdIn(Long[] organizationIds){
+		return getOrganizationRepository().findByIdIn(organizationIds);
+	}
 }

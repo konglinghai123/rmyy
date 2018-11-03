@@ -154,7 +154,16 @@ public class Auth extends BaseSequenceEntity<Long> {
 		this.roleIds = roleIds;
 	}
 
-	public String getRoleNames() {
+	public void addRoleId(Long roleId) {
+        getRoleIds().add(roleId);
+    }
+
+
+    public void addRoleIds(Set<Long> roleIds) {
+        getRoleIds().addAll(roleIds);
+    }
+    
+    public String getRoleNames() {
 		return roleNames;
 	}
 

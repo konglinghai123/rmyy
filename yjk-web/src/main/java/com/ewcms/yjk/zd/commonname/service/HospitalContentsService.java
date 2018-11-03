@@ -32,8 +32,6 @@ public class HospitalContentsService extends BaseService<HospitalContents, Long>
 	private CommonNameContentsService commonNameContentsService;
 	@Autowired
 	private CommonNameService commonNameService;
-    @Autowired
-    private AdministrationService administrationService;
 	
     private HospitalContentsRepository getHospitalContentsRepository() {
         return (HospitalContentsRepository) baseRepository;

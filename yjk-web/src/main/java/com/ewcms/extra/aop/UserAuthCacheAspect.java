@@ -26,7 +26,6 @@ import com.ewcms.security.permission.entity.RoleResourcePermission;
 import com.ewcms.security.permission.service.PermissionService;
 import com.ewcms.security.permission.service.RoleResourcePermissionService;
 import com.ewcms.security.permission.service.RoleService;
-import com.ewcms.security.resource.service.ResourceService;
 import com.ewcms.security.user.entity.User;
 import com.ewcms.security.user.entity.UserOrganizationJob;
 import com.ewcms.security.user.service.UserOrganizationJobService;
@@ -84,8 +83,8 @@ public class UserAuthCacheAspect extends BaseCacheAspect {
     
     @Autowired
     private AuthService authService;
-    @Autowired
-    private ResourceService resourceService;
+//    @Autowired
+//    private ResourceService resourceService;
     @Autowired
     private PermissionService permissionService;
     @Autowired

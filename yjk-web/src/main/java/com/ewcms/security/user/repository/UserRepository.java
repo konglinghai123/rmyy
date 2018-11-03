@@ -1,5 +1,6 @@
 package com.ewcms.security.user.repository;
 
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.data.jpa.repository.Query;
@@ -20,4 +21,7 @@ public interface UserRepository extends BaseRepository<User, Long> {
     
 	@Query("from User where id in ?1")
 	Set<User> findUserDisplay(Set<Long> userIds);
+	
+	@Query("select id from User where admin = false and deleted = false")
+	List<Long> findUserIds();
 }

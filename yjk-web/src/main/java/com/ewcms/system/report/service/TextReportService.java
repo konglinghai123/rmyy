@@ -37,8 +37,8 @@ import com.ewcms.system.report.util.TextDesignUtil;
 @Service
 public class TextReportService extends BaseService<TextReport, Long>{
 
-	@Autowired
-	private CategoryReportService categorReportService;
+//	@Autowired
+//	private CategoryReportService categorReportService;
 //	@Autowired
 //	private EwcmsJobReportDao ewcmsJobReportDao;
 	@Autowired

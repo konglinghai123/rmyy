@@ -103,4 +103,8 @@ public class UserOrganizationJobService extends BaseService<UserOrganizationJob,
     public Set<Long> findUserOrganizationJobAllOrganizationId(User user){
     	return getUserOrganizationJobRepository().findUserOrganizationJobAllOrganizationId(user);
     }
+    
+    public List<Long> findUsers(Set<Long> organizationIds, Set<Long> departmentAttributeIds, Set<Long> prefessionIds, Set<Long> technicalTitleIds, Set<Long> appointmentIds){
+    	return getUserOrganizationJobRepository().findUsers(organizationIds, departmentAttributeIds, prefessionIds, technicalTitleIds, appointmentIds);
+    }
 }

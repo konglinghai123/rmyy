@@ -28,10 +28,7 @@ import com.google.common.collect.Lists;
 @Service
 public class CommonNameContentsService extends BaseService<CommonNameContents, Long> {
 	
-    @Autowired
-    private AdministrationService administrationService;
-    
-    @Autowired
+   @Autowired
     private CommonNameService commonNameService;
     
     private CommonNameContentsRepository getCommonNameContentsRepository(){

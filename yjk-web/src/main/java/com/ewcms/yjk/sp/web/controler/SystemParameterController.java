@@ -13,12 +13,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.ewcms.common.entity.search.SearchParameter;
 import com.ewcms.common.web.controller.BaseCRUDController;
 import com.ewcms.common.web.validate.AjaxResponse;
+import com.ewcms.security.dictionary.entity.Appointment;
 import com.ewcms.security.dictionary.entity.DepartmentAttribute;
 import com.ewcms.security.dictionary.entity.Profession;
-import com.ewcms.security.dictionary.entity.Technical;
+import com.ewcms.security.dictionary.entity.TechnicalTitle;
+import com.ewcms.security.dictionary.service.AppointmentService;
 import com.ewcms.security.dictionary.service.DepartmentAttributeService;
 import com.ewcms.security.dictionary.service.ProfessionService;
-import com.ewcms.security.dictionary.service.TechnicalService;
+import com.ewcms.security.dictionary.service.TechnicalTitleService;
+import com.ewcms.security.user.entity.User;
+import com.ewcms.security.user.web.bind.annotation.CurrentUser;
 import com.ewcms.yjk.sp.entity.SystemParameter;
 import com.ewcms.yjk.sp.service.SystemParameterService;
 
@@ -38,9 +42,11 @@ public class SystemParameterController extends BaseCRUDController<SystemParamete
 	@Autowired
 	private DepartmentAttributeService departmentAttributeService;
 	@Autowired
-	private TechnicalService technicalService;
+	private TechnicalTitleService technicalTitleService;
 	@Autowired
 	private ProfessionService professionService;
+	@Autowired
+	private AppointmentService appointmentService;
 	
     public SystemParameterController() {
     	setListAlsoSetCommonData(true);
@@ -54,35 +60,29 @@ public class SystemParameterController extends BaseCRUDController<SystemParamete
 	
 	@RequestMapping(value = "{systemParameterId}/closedeclare")
 	@ResponseBody
-	public AjaxResponse closeDeclare(@PathVariable(value = "systemParameterId") Long systemParameterId) {
+	public AjaxResponse closeDeclare(@CurrentUser User user, @PathVariable(value = "systemParameterId") Long systemParameterId) {
 		AjaxResponse ajaxResponse = new AjaxResponse("关闭申报成功");
 		try{
-			SystemParameter vo = baseService.findOne(systemParameterId);
-			vo.setEnabled(Boolean.FALSE);
-			baseService.update(vo);
-			return ajaxResponse;
+			getSystemParameterService().closeDeclare(user, systemParameterId);
 		} catch(Exception e){
+			ajaxResponse.setSuccess(Boolean.FALSE);
+			ajaxResponse.setMessage("关闭申报失败");
 		}
-		ajaxResponse.setSuccess(Boolean.FALSE);
-		ajaxResponse.setMessage("关闭申报失败");
 		return ajaxResponse;
 	}	
 	
 	@RequestMapping(value = "{systemParameterId}/opendeclare")
 	@ResponseBody
-	public AjaxResponse openDeclare(@PathVariable(value = "systemParameterId") Long systemParameterId) {
+	public AjaxResponse openDeclare(@CurrentUser User user, @PathVariable(value = "systemParameterId") Long systemParameterId) {
 		AjaxResponse ajaxResponse = new AjaxResponse("启动申报成功");
 		try{
-			if(getSystemParameterService().openDeclare(systemParameterId)!=null){
-				return ajaxResponse;
-			}else{
+			if(getSystemParameterService().openDeclare(user, systemParameterId) == null){
 				ajaxResponse.setMessage("当前时间不在启动时间内");
 			}
-			
 		} catch(Exception e){
+			ajaxResponse.setSuccess(Boolean.FALSE);
+			ajaxResponse.setMessage("启动申报失败");
 		}
-		ajaxResponse.setSuccess(Boolean.FALSE);
-		ajaxResponse.setMessage("启动申报失败");
 		return ajaxResponse;
 	}
 	
@@ -98,12 +98,17 @@ public class SystemParameterController extends BaseCRUDController<SystemParamete
 		return professionService.findAll();
 	}
 	
-	@RequestMapping(value = "technical/canUse")
+	@RequestMapping(value = "technicalTitle/canUse")
 	@ResponseBody
-	public List<Technical> getTechnical(){
-		return technicalService.findAll();
+	public List<TechnicalTitle> getTechnical(){
+		return technicalTitleService.findAll();
 	}
 	
+	@RequestMapping(value = "appointment/canUse")
+	@ResponseBody
+	public List<Appointment> getAppointment(){
+		return appointmentService.findAll();
+	}
 	/*
 	@RequestMapping(value = "{systemParameterId}/delete")
 	@ResponseBody

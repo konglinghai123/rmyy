@@ -1,5 +1,6 @@
 package com.ewcms.security.user.repository;
 
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.data.domain.Page;
@@ -28,4 +29,7 @@ public interface UserOrganizationJobRepository extends BaseRepository<UserOrgani
     
     @Query("select organizationId from UserOrganizationJob where user=?1")
     Set<Long> findUserOrganizationJobAllOrganizationId(User user);
+    
+    List<Long> findUsers(Set<Long> organizationIds, Set<Long> departmentAttributeIds, Set<Long> prefessionIds, Set<Long> technicalTitleIds, Set<Long> appointmentIds);
+
 }

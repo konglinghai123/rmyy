@@ -1,11 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/jspf/taglibs.jspf" %>
 
-<ewcms:head title="编辑 - 用药途径"/>
+<ewcms:head title="编辑 - 聘任"/>
 	<div id="edit-from" class="easyui-layout" data-options="fit:true" style="border:0;">
 		<ewcms:showMessage/>
 		<div data-options="region:'center',border:false">	
-		 	<form:form id="editForm" method="post" action="${ctx}/security/dictionary/technical/save" commandName="m"  class="form-horizontal">
+		 	<form:form id="editForm" method="post" action="${ctx}/security/dictionary/appointment/save" commandName="m"  class="form-horizontal">
 		    	<ewcms:showGlobalError commandName="m"/>
 		    	<form:hidden path="id"/>
 		    	<c:forEach var="selection" items="${selections}">
@@ -15,10 +15,6 @@
 		        	<tr>
 						<td width="20%"><form:label path="name">名称：</form:label></td>
 						<td width="80%"><form:input path="name" cssClass="validate[required,ajax[ajaxNameCall]]" size="10"/></td>
-					</tr>
-					<tr>
-						<td width="20%"><form:label path="level">等级：</form:label></td>
-						<td width="80%"><form:input path="level" cssClass="validate[required,ajax[ajaxNameCall]]" size="10"/></td>
 					</tr>
 				</table>
 			</form:form>
@@ -38,7 +34,7 @@
 	    	</c:when>
 	    	<c:otherwise>
 				$.validationEngineLanguage.allRules.ajaxNameCall= {
-	                "url": "${ctx}/security/dictionary/technical/validate",
+	                "url": "${ctx}/security/dictionary/appointment/validate",
 	                extraDataDynamic : ['#id'],
 	                "alertTextLoad": "* 正在验证，请稍等。。。"
 	            };

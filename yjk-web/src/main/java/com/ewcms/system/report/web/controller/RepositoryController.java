@@ -3,7 +3,6 @@ package com.ewcms.system.report.web.controller;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,7 +11,6 @@ import com.ewcms.common.utils.EmptyUtil;
 import com.ewcms.common.web.controller.BaseCRUDController;
 import com.ewcms.common.web.utils.DownloadUtils;
 import com.ewcms.system.report.entity.Repository;
-import com.ewcms.system.report.service.RepositoryService;
 
 /**
  * @author 吴智俊
@@ -21,8 +19,8 @@ import com.ewcms.system.report.service.RepositoryService;
 @RequestMapping(value = "/system/report/repository")
 public class RepositoryController extends BaseCRUDController<Repository, Long>{
 
-	@Autowired
-	private RepositoryService repositoryService;
+//	@Autowired
+//	private RepositoryService repositoryService;
 	
 	public RepositoryController() {
 		setResourceIdentity("system:categoryreport");

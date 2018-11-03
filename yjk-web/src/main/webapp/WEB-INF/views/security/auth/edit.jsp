@@ -21,15 +21,13 @@
 				    	<tr id="tr-user">
 		            		<td>用户：</td>
 				  			<td>
-								<form:input path="userId"/>
-				  				<form:input path="userName" cssClass="validate[required,funcCall[funcValidate]]" cssStyle="display:none" data-prompt-position="bottomRight:140,70"/>
+								<input id="userIds" name="userIds" cssClass="validate[required]"/>
 							</td>
 				    	</tr>
 				    	<tr id="tr-group">
 				    		<td><span id="span-group"></span>：</td>
 				    		<td>
-				    			<form:input path="groupId"/>
-				    			<form:input path="groupName" cssClass="validate[required,funcCall[funcValidate]]" cssStyle="display:none" data-prompt-position="bottomRight:140,70"/>
+				    			<input id="groupIds" name="groupIds" cssClass="validate[required]"/>
 				    		</td>
 				    	</tr>
 				    	<tr id="tr-organization_job-1">
@@ -43,8 +41,7 @@
 									  	<c:set var="organizationUrl" value="${ctx}/security/organization/organization/tree/${m.organizationId}/singleChecked"/>
 									</c:otherwise>
 								</c:choose>
-								<form:input path="organizationId" data-options="url:'${organizationUrl}',editable:false,onSelect:function(node){$('#organizationName').val(node.text);}"/>
-				  				<form:input path="organizationName" cssClass="validate[required,funcCall[funcValidate]]" cssStyle="display:none" data-prompt-position="bottomRight:140,70"/>
+								<input id="organizationIds" name="organizationIds" cssClass="validate[required]" data-options="url:'${organizationUrl}',editable:false,multiple:true"/>
 							</td>
 				    	</tr>
 				    	<tr id="tr-organization_job-2">
@@ -58,8 +55,7 @@
 									  	<c:set var="jobUrl" value="${ctx}/security/organization/job/tree/${m.jobId}/singleChecked"/>
 									</c:otherwise>
 								</c:choose>
-								<form:input path="jobId" data-options="url:'${jobUrl}',editable:false,onSelect:function(node){$('#jobName').val(node.text);}"/>
-				  				<form:input path="jobName" cssClass="validate[required,funcCall[funcValidate]]" cssStyle="display:none" data-prompt-position="bottomRight:140,94"/>
+								<input id="jobIds" name="jobIds" cssClass="validate[required]" data-options="url:'${jobUrl}',editable:false,multiple:true"/>
 				    		</td>
 				    	</tr>
 				  	</table>
@@ -109,22 +105,6 @@
 	
 	$.ewcms.refresh({operate : '${operate}', data : '${lastM}'});
 
-	function funcValidate(field, rules, i, options){
-		var value = $('#type').combobox('getValue');
-		if (value == 'user' && $('#userName').val() == ''){
-			$('#userName').validationEngine('showPrompt','不能为空','error'); 	
-		} else if ((value == 'user_group' || value == 'organization_group') && $('#groupName').val() == ''){
-			$('#groupName').validationEngine('showPrompt','不能为空','error');
-		} else if (value == 'organization_job'){
-			if ($('#organizationName').val() == ''){
-				$('#organizationName').validationEngine('showPrompt','不能为空','error');
-			}
-			if ($('#jobName').val() == ''){
-				$('#jobName').validationEngine('showPrompt','不能为空','error');
-			}
-		}
-	}
-	
 	function typeSelect(value){
 		$('tr[id^="tr-"]').css('display', 'none');
 		if (value == 'user_group'){
@@ -138,13 +118,7 @@
 		}
 		
 		if (value == 'user'){
-			if ($('#id').val() == ''){
-				$('#userName').val('');
-			}
-			$('#groupName').val('test');
-			$('#organizationName').val('test');
-			$('#jobName').val('test');
-			$('#userId').combobox({
+			$('#userIds').combobox({
 				width:150,
 				panelWidth:150,
 				panelHeight:130,
@@ -153,24 +127,11 @@
 				valueField:'id',
 				textField:'usernameAndRealname',
 				editable:false,
-				onLoadSuccess:function(){
-					if ($('#userId').combobox('getValue') == 0){
-						$('#userId').combobox('setValue', '');
-					}
-				},
-				onSelect:function(record){
-					$('#userName').val(record.username);
-				}
+				multiple:true
 			});
 		} else if (value == 'user_group' || value == 'organization_group'){
-			if ($('#id').val() == ''){
-				$('#groupName').val('');
-			}
-			$('#userName').val('test');
-			$('#organizationName').val('test');
-			$('#jobName').val('test');
 			var groupType = (value == 'user_group') ? 'user' : 'organization';
-			$('#groupId').combobox({
+			$('#groupIds').combobox({
 				width:150,
 				panelWidth:150,
 				panelHeight:130,
@@ -179,32 +140,19 @@
 				valueField:'id',
 				textField:'name',
 				editable:false,
-				onLoadSuccess:function(){
-					if ($('#groupId').combobox('getValue') == 0){
-						$('#groupId').combobox('setValue', '');
-					}
-				},
-				onSelect:function(record){
-					$('#groupName').val(record.name);
-				}
+				multiple:true
 			});
 		} else if (value == 'organization_job'){
-			if ($('#id').val() == ''){
-				$('#organizationName').val('');
-				$('#jobName').val('');
-			}
-			$('#userName').val('test');
-			$('#groupName').val('test');
-			$('#organizationId, #jobId').combotree({
+			$('#organizationIds, #jobIds').combotree({
 				width:150,
 		    	panelWidth:200,
-		    	panelHeight:130//,
-				//onBeforeSelect : function(node){
-				//	if (node.attributes.root){
-				//		$.messager.alert('提示', '根节点不能被选中，请重新选择', 'info');
-				//		return false;
-				//	}
-				//}
+		    	panelHeight:130,
+		    	editable:false,
+		    	multiple:true,
+		    	onlyLeafCheck:true,
+				onBeforeSelect : function(node){
+					return false;
+				}
 			});
 		}
 	}

@@ -1,5 +1,6 @@
 package com.ewcms.common.utils;
 
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -120,5 +121,8 @@ public class ConvertUtil {
 		System.out.println(pinYin("25%葡萄糖"));
 		System.out.println(pinYin("草分枝杆菌F.U.36"));
 		System.out.println(pinYin("多维元素（21）"));
+		
+		Calendar calendar = Calendar.getInstance();
+		System.out.println(String.format("'F':将时间格式化为：2016-10-19。输出：%tF %tT", calendar, calendar));
 	}
 }
