@@ -10,8 +10,7 @@
 					<tr>
 					    <th data-options="field:'ck',checkbox:true"/>
 					    <th data-options="field:'id',hidden:true">编号</th>
-						<th data-options="field:'auditStatusInfo',width:120">审核状态</th>		
-						<th data-options="field:'userName',width:120,sortable:true">申报医生</th>
+								
 						<c:forEach items="${commonNameRuleList}" var="commonNameRule">
 							<c:choose>
 								<c:when test="${commonNameRule.ruleName == 'common.administration.id'}">
@@ -27,7 +26,8 @@
 											}">${commonNameRule.ruleCnName}</th>
 								</c:otherwise>
 							</c:choose>			
-						</c:forEach>		
+						</c:forEach>	
+						<th data-options="field:'auditStatusInfo',width:120">审核状态</th>	
 					</tr>
 				</thead>
 			</table>

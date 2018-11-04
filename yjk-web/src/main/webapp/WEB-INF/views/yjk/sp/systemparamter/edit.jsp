@@ -53,9 +53,13 @@
 						</td>
 					</tr>
 		        	<tr>
-						<td><form:label path="declarationLimt">申报限数：</form:label></td>
+						<td><form:label path="declarationLimt">院用限数：</form:label></td>
 						<td><form:input path="declarationLimt" cssClass="validate[required,custom[integer]]" maxlength="4" size="10"/></td>
 					</tr>
+		        	<tr>
+						<td><form:label path="declareTotalLimt">总报限数：</form:label></td>
+						<td><form:input path="declareTotalLimt" cssClass="validate[required,custom[integer]]" maxlength="4" size="10"/></td>
+					</tr>					
 					<tr>
 						<td><form:label path="organizations">科室/病区：</form:label></td>
 						<td><form:input path="organizations" cssClass="easyui-combotree" data-options="url:'${ctx}/security/organization/organization/tree',editable:false,multiple:true,width:200,editable:false,multiple:true,onlyLeafCheck:true,onBeforeSelect:function(node){return false;}"/><font color="red">不选择为所有科室</font></td>

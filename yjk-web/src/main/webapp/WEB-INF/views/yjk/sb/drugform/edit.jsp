@@ -31,7 +31,7 @@
 	       							},
 	     							onChange: function (newValue, oldValue) {
 								        	if(newValue==$('#CNRule${status.index}').combobox('getText')){
-								        		$('#CNRule${status.index}').combobox('reload','${ctx}/yjk/zd/commonname/findbyspell?spell='+newValue);
+								        		$('#CNRule${status.index}').combobox('reload','${ctx}/yjk/zd/commonname/finddistinctbyspell?spell='+newValue);
 								    		}
 								         }"/>
      							</td>
@@ -48,6 +48,7 @@
 									required:true,
 									panelHeight:200,
 									onSelect:function(rec){
+										$('#objIndex').val(${status.index+1});
 										$('#queryCNRule${status.index}').val(rec.id);
 	    	   							$('#CNRule${status.index+1}').combobox('reload','${ctx}/yjk/zd/commonnamecontents/querydeclare');
 	       							},
@@ -69,6 +70,7 @@
 										required:true,
 										panelHeight:200,
 										onSelect:function(rec){
+											$('#objIndex').val(${status.index+1});
 											$('#commonNameContentsId').val(rec.id);
 											$('#queryCNRule${status.index}').val(rec.${commonNameRule.ruleName});
 		    	   							$('#CNRule${status.index+1}').combobox('reload','${ctx}/yjk/zd/commonnamecontents/querydeclare');
@@ -87,6 +89,7 @@
 				<c:forEach items="${commonNameRuleList}" var="commonNameRule" varStatus="status">
 					<input type="hidden" id="queryCNRule${status.index}" name="EQ_${commonNameRule.ruleName}"/>
 				</c:forEach>
+				<input type="hidden" id="objIndex" name="objIndex"/>
 			</form>
 		</div>
 		<div data-options="region:'south'" style="text-align:center;height:30px;border:0">

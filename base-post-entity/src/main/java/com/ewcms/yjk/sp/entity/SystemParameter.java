@@ -37,7 +37,8 @@ import com.google.common.collect.Sets;
  * <ul>
  * <li>applyStartDate:申请开始时间</li>
  * <li>applyEndDate:申请结束时间</li>
- * <li>declarationLimt:申报限数</li>
+ * <li>declarationLimt:申报限数（院目录在用数量）</li>
+ * <li>declareTotalLimt:申报总数限制（单个医生）</li>
  * <li>enabled:是否启用（系统中只能有1或0条设置启用）</li>
  * <li>organizations:科室对象集合
  * <li>departmentAttributes:科室属性对象集合</li>
@@ -73,6 +74,9 @@ public class SystemParameter extends BaseSequenceEntity<Long> implements LogicDe
 	private Date applyEndDate;
 	@Column(name = "declaration_limt", nullable = false)
 	private Long declarationLimt = Long.valueOf(2);
+	@Column(name = "declare_total_limt", nullable = false)
+	private Long declareTotalLimt = Long.valueOf(999);
+	
 	@ManyToMany(cascade = { CascadeType.ALL })
 	@JoinTable(name = "sp_system_parameter_organization", joinColumns = {
 			@JoinColumn(name = "system_id", referencedColumnName = "id") }, inverseJoinColumns = {
@@ -138,6 +142,14 @@ public class SystemParameter extends BaseSequenceEntity<Long> implements LogicDe
 
 	public void setDeclarationLimt(Long declarationLimt) {
 		this.declarationLimt = declarationLimt;
+	}
+
+	public Long getDeclareTotalLimt() {
+		return declareTotalLimt;
+	}
+
+	public void setDeclareTotalLimt(Long declareTotalLimt) {
+		this.declareTotalLimt = declareTotalLimt;
 	}
 
 	public Boolean getEnabled() {

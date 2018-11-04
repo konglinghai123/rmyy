@@ -46,6 +46,7 @@ public class CommonNameService extends BaseService<CommonName, Long> {
     	return getCommonNameRepository().findCommonNameBySpell(spell);
     }
     
+
     public List<CommonName> findByCommonName(String commonName){
     	return getCommonNameRepository().findByCommonName(commonName);
     }
@@ -183,7 +184,7 @@ public class CommonNameService extends BaseService<CommonName, Long> {
 				int j = 0;
 				for (String key : keys) {
 					String value = "";
-					Object object = Reflections.invokeGetter(commonName, key);;
+					Object object = Reflections.invokeGetter(commonName, key);
 					if (object instanceof Long) {
 						if (object != null) {
 							value = Long.toString((Long) object);

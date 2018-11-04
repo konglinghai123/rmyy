@@ -10,7 +10,8 @@
 			<th data-options="field:'id',hidden:true">编号</th>
 			<th data-options="field:'applyStartDate',width:150">申请开始时间</th>
 			<th data-options="field:'applyEndDate',width:150">申请结束时间</th>
-			<th data-options="field:'declarationLimt',width:60">申报限数</th>
+			<th data-options="field:'declarationLimt',width:60">院用限数</th>
+			<th data-options="field:'declareTotalLimt',width:60">总报限数</th>
 			<th data-options="field:'organizationNames',width:200">科室/病区</th>
 			<th data-options="field:'departmentAttributeNames',width:200">科室属性</th>
 			<th data-options="field:'professionNames',width:100">执业类别</th>

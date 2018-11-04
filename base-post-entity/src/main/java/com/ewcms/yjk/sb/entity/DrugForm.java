@@ -20,6 +20,7 @@ import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.Formula;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.ewcms.common.entity.BaseSequenceEntity;
 import com.ewcms.yjk.zd.commonname.entity.CommonNameContents;
 
@@ -34,7 +35,8 @@ import com.ewcms.yjk.zd.commonname.entity.CommonNameContents;
  * <li>declared:是否申报</li>
  * <li>auditStatus:审核状态</li>
  * <li>remark:说明</li>
- * 
+ * <li>fillInDate:填报时间</li>
+ * <li>declareDate:申报时间</li>
  * </ul>
  * 
  * @author zhoudongchu
@@ -51,10 +53,15 @@ public class DrugForm extends BaseSequenceEntity<Long> {
 	private String userName;
 
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	@Column(name = "create_date", columnDefinition = "Timestamp default CURRENT_DATE", insertable = false, updatable = false)
+	@Column(name = "fill_in_date", columnDefinition = "Timestamp default CURRENT_DATE", insertable = false, updatable = false)
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date createDate;
-
+	private Date fillInDate;
+	
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@Column(name = "declare_date", columnDefinition = "Timestamp default CURRENT_DATE")
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date declareDate;
+	
 	@ManyToOne(cascade = { CascadeType.REFRESH }, fetch = FetchType.EAGER)
 	@Fetch(FetchMode.SELECT)
 	@JoinColumn(name = "commonNameContents_id")
@@ -80,13 +87,21 @@ public class DrugForm extends BaseSequenceEntity<Long> {
 	public String getUserName() {
 		return userName;
 	}
-
-	public Date getCreateDate() {
-		return createDate;
+	@JSONField(format = "yyyy-MM-dd")
+	public Date getFillInDate() {
+		return fillInDate;
 	}
 
-	public void setCreateDate(Date createDate) {
-		this.createDate = createDate;
+	public void setFillInDate(Date fillInDate) {
+		this.fillInDate = fillInDate;
+	}
+	@JSONField(format = "yyyy-MM-dd")
+	public Date getDeclareDate() {
+		return declareDate;
+	}
+
+	public void setDeclareDate(Date declareDate) {
+		this.declareDate = declareDate;
 	}
 
 	public CommonNameContents getCommonNameContents() {

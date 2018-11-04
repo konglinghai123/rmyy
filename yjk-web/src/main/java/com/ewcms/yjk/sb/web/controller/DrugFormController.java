@@ -135,7 +135,7 @@ public class DrugFormController extends BaseCRUDController<DrugForm, Long> {
 		DrugForm lastM = getDrugFormService().drugDeclare(user, vo);
 
 		if(lastM == null){
-			redirectAttributes.addFlashAttribute(Constants.MESSAGE, "修新药已超过限数，不能申报");
+			redirectAttributes.addFlashAttribute(Constants.MESSAGE, "新药已超过限数，不能申报");
 			return redirectToUrl(viewName("save"));
 		} else {
 			model.addAttribute("m", newModel());
@@ -175,7 +175,7 @@ public class DrugFormController extends BaseCRUDController<DrugForm, Long> {
 	        if (selections != null && !selections.isEmpty()){
 	        	String noDeclareCommonName = getDrugFormService().saveDeclareSubmit(selections);
 	        	if(noDeclareCommonName!=null && noDeclareCommonName.length()>0){
-	        		ajaxResponse.setMessage("以下药品:" + noDeclareCommonName + "超过申报限数，未能申报！");
+	        		ajaxResponse.setMessage("以下药品:" + noDeclareCommonName + "因超过申报限数或总数，未能申报！");
 	        	}
 			}
         } catch (IllegalStateException e){

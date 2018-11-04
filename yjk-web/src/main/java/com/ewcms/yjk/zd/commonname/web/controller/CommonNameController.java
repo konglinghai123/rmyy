@@ -22,10 +22,13 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-
+import java.util.Set;
+import java.util.TreeSet;
+import java.util.Comparator;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -73,6 +76,38 @@ public class CommonNameController extends BaseCRUDController<CommonName, Long> {
 		return getCommonNameService().findCommonNameBySpell(spell);
 	}
 	
+	@RequestMapping(value = "finddistinctbyspell")
+	@ResponseBody
+	public List<CommonName> findDistinctBySpell(@RequestParam(value="spell") String spell) {
+		if(spell==null||spell.length()==0) return null;
+		spell = spell.toLowerCase();
+		List<CommonName> commonNameList = getCommonNameService().findCommonNameBySpell(spell);
+		if(commonNameList!=null&&commonNameList.size()>1){
+			return removeDuplicateOrder(commonNameList);
+		}
+		return commonNameList;
+	}
+
+    /**
+     * 去重
+     * 
+     * @param orderList
+     * @return
+     * @author jqlin
+     */
+    private static List<CommonName> removeDuplicateOrder(List<CommonName> orderList) {
+        Set<CommonName> set = new TreeSet<CommonName>(new Comparator<CommonName>() {
+            @Override
+            public int compare(CommonName a, CommonName b) {
+                // 字符串则按照asicc码升序排列
+                return a.getCommonName().compareTo(b.getCommonName());
+            }
+        });
+        
+        set.addAll(orderList);
+        return new ArrayList<CommonName>(set);
+    }
+    
 //	@RequestMapping(value = "{commonNameId}/restore")
 //	@ResponseBody
 //	public AjaxResponse restoreCommonName(@PathVariable(value = "commonNameId") Long commonNameId) {

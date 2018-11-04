@@ -1,5 +1,7 @@
 package com.ewcms.yjk.sb.service;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,10 +41,12 @@ public class DrugFormService extends BaseService<DrugForm, Long> {
     private DrugFormRepository getDrugFormRepository() {
         return (DrugFormRepository) baseRepository;
     }
-	
+    
+
+    
 	public DrugForm drugDeclare(User user, CommonNameContents vo){
 		DrugForm drugForm = null;
-		if(isDeclareUpperList(vo.getId())){	
+		if(!isDeclareUpperLimt(vo.getId())){	
 			drugForm = new DrugForm();
 			drugForm.setUserId(user.getId());
 			drugForm.setCommonNameContents(vo);
@@ -56,9 +60,10 @@ public class DrugFormService extends BaseService<DrugForm, Long> {
 		if (selections != null && !selections.isEmpty()){
 			for(Long id:selections){
 				DrugForm drugForm = findOne(id);
-				if(isDeclareUpperList(drugForm.getCommonNameContents().getId())){
+				if(!isDeclareUpperLimt(drugForm.getCommonNameContents().getId())&&!isDeclareTotalUpperLimt(drugForm.getUserId())){
 					drugForm.setDeclared(Boolean.TRUE);
 					drugForm.setAuditStatus(AuditStatusEnum.init);
+					drugForm.setDeclareDate(new Date(Calendar.getInstance().getTime().getTime()));
 					super.save(drugForm);
 				}else{
 					noDeclareCommonName.append(drugForm.getCommonNameContents().getCommon().getCommonName()+"|");
@@ -75,12 +80,14 @@ public class DrugFormService extends BaseService<DrugForm, Long> {
 				if(drugForm.getAuditStatus()==AuditStatusEnum.init){
 					drugForm.setDeclared(Boolean.FALSE);
 					drugForm.setAuditStatus(AuditStatusEnum.nodeclare);
+					drugForm.setDeclareDate(null);
+					super.save(drugForm);
 				}
-				super.save(drugForm);
 			}
 		}
 	}
-	
+
+
 	public List<DrugForm> findByUserIdAndDeclaredFalse(Long userId){
 		return getDrugFormRepository().findByUserIdAndDeclaredFalse(userId);
 	}
@@ -94,7 +101,7 @@ public class DrugFormService extends BaseService<DrugForm, Long> {
 	 * @param commonNameContentsId
 	 * @return
 	 */
-	private Boolean isDeclareUpperList(Long commonNameContentsId){
+	private Boolean isDeclareUpperLimt(Long commonNameContentsId){
 		if(commonNameContentsId!=null){//申报目录编号存在
 			//获取新药申报的通用名对象
 			CommonNameContents vo = commonNameContentsService.findOne(commonNameContentsId);
@@ -111,10 +118,29 @@ public class DrugFormService extends BaseService<DrugForm, Long> {
 			SystemParameter systemParameter = systemParameterService.findByEnabledTrue();
 			if(systemParameter != null){
 				if(existNumber < systemParameter.getDeclarationLimt()){//申报新药的在院药品目录没有超过限数 
-					return Boolean.TRUE;
+					return Boolean.FALSE;
 				}
 			}
 		}
-		return Boolean.FALSE;
+		return Boolean.TRUE;
 	}
+	
+	/**
+	 * 判断医生申报新药数量是否超过上限
+	 * @param commonNameContentsId
+	 * @return
+	 */
+    private Boolean isDeclareTotalUpperLimt(Long userId){
+    	SystemParameter systemParameter = systemParameterService.findByEnabledTrue();
+		if(systemParameter == null){
+			return Boolean.TRUE;
+		}
+		Long declareTotal = getDrugFormRepository().findDeclareTotalByUserId(userId, systemParameter.getApplyStartDate(), systemParameter.getApplyEndDate());
+		
+		if(declareTotal<systemParameter.getDeclareTotalLimt()){
+			return Boolean.FALSE;
+		}else{
+			return Boolean.TRUE;
+		}
+    }
 }

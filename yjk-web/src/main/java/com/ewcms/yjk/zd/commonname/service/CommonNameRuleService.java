@@ -19,10 +19,7 @@ public class CommonNameRuleService extends BaseSequenceMovableService<CommonName
         return (CommonNameRuleRepository) baseRepository;
     }
 	
-//	public List<String> findRuleNameOrderByWeight(){
-//		return getCommonNameRuleRepository().findRuleNameOrderByWeight();
-//	}
-//	
+    
 	public List<CommonNameRule> findByDeletedFalseAndEnabledTrueOrderByWeightAsc(){
 		return getCommonNameRuleRepository().findByDeletedFalseAndEnabledTrueOrderByWeightAsc();
 	}
