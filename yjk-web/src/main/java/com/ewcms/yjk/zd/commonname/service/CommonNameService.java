@@ -67,6 +67,12 @@ public class CommonNameService extends BaseService<CommonName, Long> {
 		PinYin.initSpell(m);
 		return super.save(m);
 	}
+	
+	@Override
+	public CommonName saveAndFlush(CommonName m) {
+		PinYin.initSpell(m);
+		return super.saveAndFlush(m);
+	}
 
 	@Override
 	public CommonName update(CommonName m) {

@@ -13,7 +13,7 @@
 			<th data-options="field:'declarationLimt',width:60">申报限数</th>
 			<th data-options="field:'organizationNames',width:200">科室/病区</th>
 			<th data-options="field:'departmentAttributeNames',width:200">科室属性</th>
-			<th data-options="field:'professionNames',width:200">执业类别</th>
+			<th data-options="field:'professionNames',width:100">执业类别</th>
 			<th data-options="field:'technicalTitleNames',width:200">技术职称(资格)</th>
 			<th data-options="field:'appointmentNames',width:200">聘任</th>
 			<th data-options="field:'percent',width:60,
@@ -22,7 +22,7 @@
 					}">百分比</th>
 			<th data-options="field:'randomNumber',width:60">随机人数</th>
 			<th data-options="field:'departmentNumber',width:60">科室人数</th>
-			<th data-options="field:'enabled',width:100,formatter:formatOperation">操作</th>
+			<th data-options="field:'enabled',width:150,formatter:formatOperation">操作</th>
 		</tr>
 	</thead>
 </table>
@@ -70,7 +70,12 @@
 			rownumbers : true,
 			striped : true,
 			pageSize : 20,
-			border : false
+			border : false,
+	        rowStyler: function(index,row){
+	        	if (row.enabled){
+	    			return 'background-color:#FF9999;color:#0000FF;';
+	        	}
+	    	}
 		});
 	});
 
@@ -79,12 +84,12 @@
 		applyEndDateTimestamp = new Date(Date.parse(row.applyEndDate.replace(/-/g, "/"))).getTime();
 		applyStartDatetamp = new Date(Date.parse(row.applyStartDate.replace(/-/g, "/"))).getTime();
 		if (val) {
-			return '<a class="resumedCls" onclick="closeDeclare(' + row.id
+			return '启用&nbsp;&nbsp;<a class="resumedCls" onclick="closeDeclare(' + row.id
 					+ ')" href="javascript:void(0);">关闭申报</a> ';
 		} else {
 			if (applyStartDatetamp <= currentTimestamp
 					&& currentTimestamp <= applyEndDateTimestamp) {
-				return '<a class="resumedCls" onclick="openDeclare(' + row.id
+				return '关闭&nbsp&nbsp<a class="resumedCls" onclick="openDeclare(' + row.id
 						+ ')" href="javascript:void(0);">启动申报</a> ';
 			} else {
 				return '';
