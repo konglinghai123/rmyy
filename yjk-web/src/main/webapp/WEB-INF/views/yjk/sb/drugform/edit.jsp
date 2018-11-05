@@ -27,6 +27,7 @@
 									panelHeight:200,
 									onSelect:function(rec){
 										$('#queryCNRule${status.index}').val(rec.commonName);
+										$('#CNRule${status.index+1}').combobox('setValue','');
 	    	   							$('#CNRule${status.index+1}').combobox('reload','${ctx}/yjk/zd/commonnamecontents/queryadministration?commonName='+rec.commonName);
 	       							},
 	     							onChange: function (newValue, oldValue) {
@@ -50,6 +51,7 @@
 									onSelect:function(rec){
 										$('#objIndex').val(${status.index+1});
 										$('#queryCNRule${status.index}').val(rec.id);
+										$('#CNRule${status.index+1}').combobox('setValue','');
 	    	   							$('#CNRule${status.index+1}').combobox('reload','${ctx}/yjk/zd/commonnamecontents/querydeclare');
 	       							},
 	       							onBeforeLoad: function(param){
@@ -73,6 +75,7 @@
 											$('#objIndex').val(${status.index+1});
 											$('#commonNameContentsId').val(rec.id);
 											$('#queryCNRule${status.index}').val(rec.${commonNameRule.ruleName});
+											$('#CNRule${status.index+1}').combobox('setValue','');
 		    	   							$('#CNRule${status.index+1}').combobox('reload','${ctx}/yjk/zd/commonnamecontents/querydeclare');
 		       							},
 		       							onBeforeLoad: function(param){

@@ -26,7 +26,10 @@
 						method:'get',
 						valueField:'id',
 						textField:'name',
-						editable:false
+						editable:false,
+						onLoadSuccess:function(){
+							$(this).combobox('setValue', ${m.administration.id});
+						}
 						"/>
 						</td>
 					</tr>
@@ -40,17 +43,27 @@
 					</tr>					
 					<tr>
 						<td><form:label path="number">编号：</form:label></td>
-						<td><form:input path="number"/></td>
+						<td><form:input path="number" cssClass="validate[required]"/></td>
 					</tr>
 		        	<tr>
 						<td width="20%"><form:label path="enabled">是否启用：</form:label></td>
 						<td width="30%"><form:checkbox path="enabled"/></td>
-					</tr>						
+					</tr>
+					<c:if test="${!empty(m.id)}">
+					<tr>
+						<td><form:label path="spell">拼音：</form:label></td>
+						<td><form:input path="spell" cssClass="validate[required]"/></td>
+					</tr>
+					<tr>
+						<td><form:label path="spellSimplify">拼音简写：</form:label></td>
+						<td><form:input path="spellSimplify" cssClass="validate[required]"/></td>
+					</tr>										
+					</c:if>
 				</table>
 			</form:form>
 		</div>
 		<div data-options="region:'south'" style="text-align:center;height:30px;border:0">
-	  		<a class="easyui-linkbutton" data-options="iconCls:'icon-save'" href="javascript:void(0);" onclick="javascript:$('#editForm').submit();">提交</a>
+	  		<a class="easyui-linkbutton" data-options="iconCls:'icon-save'" href="javascript:void(0);" onclick="javascript:pageSubmit();">提交</a>
 	  		<a class="easyui-linkbutton" data-options="iconCls:'icon-undo'" href="javascript:void(0);" onclick="javascript:$('#editForm').form('reset');">重置</a>
 	  		<a class="easyui-linkbutton" data-options="iconCls:'icon-cancel'" href="javascript:void(0);" onclick="javascript:parent.$('#edit-window').window('close');">关闭</a>
 		</div>
@@ -78,5 +91,13 @@
 		</c:choose>
 	});
 	$.ewcms.refresh({operate : '${operate}', data : '${lastM}'});
+	
+	function pageSubmit() {
+		if ($('#administration').val() == '') {
+			alert('给药途径不能为空')
+			return;
+		}
+		$('#editForm').submit();
+	}
 </script>
 	

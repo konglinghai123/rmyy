@@ -77,7 +77,10 @@ public class CommonNameService extends BaseService<CommonName, Long> {
 
 	@Override
 	public CommonName update(CommonName m) {
-		PinYin.initSpell(m);
+		CommonName vo = findOne(m.getId());
+		if(!m.getCommonName().equals(vo.getCommonName())){
+			PinYin.initSpell(m);
+		}
 		return super.update(m);
 	}
 	

@@ -76,8 +76,14 @@ public class SystemParameterController extends BaseCRUDController<SystemParamete
 	public AjaxResponse openDeclare(@CurrentUser User user, @PathVariable(value = "systemParameterId") Long systemParameterId) {
 		AjaxResponse ajaxResponse = new AjaxResponse("启动申报成功");
 		try{
-			if(getSystemParameterService().openDeclare(user, systemParameterId) == null){
-				ajaxResponse.setMessage("当前时间不在启动时间内");
+			SystemParameter vo = getSystemParameterService().openDeclare(user, systemParameterId);
+			
+			if(vo == null){
+				ajaxResponse.setMessage("数据启动异常");
+			}else{
+				if(!vo.getEnabled()){
+					ajaxResponse.setMessage("当前时间不在启动时间范围内");
+				}
 			}
 		} catch(Exception e){
 			ajaxResponse.setSuccess(Boolean.FALSE);

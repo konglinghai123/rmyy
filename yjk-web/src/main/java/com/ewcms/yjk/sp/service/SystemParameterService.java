@@ -119,11 +119,14 @@ public class SystemParameterService extends BaseService<SystemParameter, Long> {
 					}
 				}
 				return update(vo);
+			}else{
+				return vo;
 			}
 		} catch (Exception e) {
 			System.out.println(e.toString());
+			return null;
 		}
-		return null;
+		
 	}
 	
 	public SystemParameter closeDeclare(User opUser, Long systemParameterId) {

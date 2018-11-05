@@ -13,29 +13,31 @@
 				</c:forEach>
 			  	<table class="formtable">
 					<tr>
-			        	<c:choose>
-				    		<c:when test="${empty(m.common.id)}">
-								<td width="20%"><form:label path="common">通用名：</form:label></td>
-								<td width="30%"><form:input path="common"  class="easyui-combobox" data-options="
-								valueField:'id',
-								textField:'commonName',
-								panelHeight:140,
-								width:150,
-								required:true,
-								method:'get',
-						        onChange: function (newValue, oldValue) {						        	
-						        	if(newValue==$('#common').combobox('getText')){
-						        		$('#common').combobox('reload','${ctx}/yjk/zd/commonname/findbyspell?spell='+newValue);
-						    		}
-						    	}"/>
-	         					</td>
-				    		</c:when>
-				    		<c:otherwise>
-				    			<form:hidden path="common.id"/>
-				    			<td width="20%"><form:label path="common.commonName">通用名：</form:label></td>
-								<td width="30%"><form:input path="common.commonName" readonly="true" cssStyle="background:grey"/></td>
-				    		</c:otherwise>
-				    	</c:choose>
+						<td width="20%"><form:label path="common">通用名(拼音)：</form:label></td>
+						<td width="30%"><from:input id="cc_common" name="common" data-options="
+							panelWidth: 500,
+				            idField: 'id',
+				            textField: 'commonName',
+				            fitColumns: true,
+				            singleSelect:true,
+				            url:'${ctx}/yjk/zd/commonname/findbyspell',
+				            queryParams:{spell:'${m.common.spell}'},
+				            columns: [[
+				                {field:'id',title:'序号',width:80},
+				                {field:'commonName',title:'通用名',width:120},
+				                {field:'administration',title:'给药途径',width:80,
+				                	formatter:function(val,row){
+										return (row.administration==null) ? '' : row.administration.name;
+									}
+								},
+				                {field:'number',title:'编号',width:80},
+				                {field:'drugCategoryInfo',title:'药品种类',width:200}
+				            ]],
+				            onLoadSuccess:function(old){
+				               	$('#cc_common').combogrid('setValue',${m.common.id});
+				            }
+						"/>
+						</td>
 						<td width="20%"><form:label path="commonName">院用目录通用名：</form:label></td>
 						<td width="30%"><form:input path="commonName" cssClass="validate[required]"/></td>			  	
 					</tr>
@@ -112,6 +114,10 @@
 	    	</c:otherwise>
 		</c:choose>
 	});
+	$('#cc_common').combogrid({keyHandler: {
+        enter: function (){
+        	$('#cc_common').combogrid('grid').datagrid('reload',{spell: $('#cc_common').combogrid("getText")});
+    }}}); 
 	$.ewcms.refresh({operate : '${operate}', data : '${lastM}'});
 </script>
 	

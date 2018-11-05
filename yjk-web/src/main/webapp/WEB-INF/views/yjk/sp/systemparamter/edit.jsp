@@ -14,7 +14,7 @@
 			  	<table class="formtable">
 		        	<tr>
 						<td width="30%"><form:label path="applyStartDate">申请开始时间：</form:label></td>
-						<td width="70%"><input type="text" id="applyStartDate" name="applyStartDate"  class="easyui-datetimebox" style="width:145px" data-options="
+						<td width="70%"><form:input type="text" path="applyStartDate"  class="easyui-datetimebox" style="width:145px" data-options="
 							editable:false,
 							required: true,
 							onSelect:function(d){
@@ -22,19 +22,19 @@
 					        	ed = new Date($('#applyEndDate').datebox('getValue'));
 					            if (d < now) {
 					            	alert('开始日期不能小于当前日期');
-					            	$('#applyStartDate').datebox('setValue', '').datebox('showPanel');
+					            	$(this).datebox('setValue', '').datebox('showPanel');
 					            	return;
 					            }
 					            if (ed < d) {
 					            	alert('结束日期不能小于开始日期');
-					                $('#applyStartDate').datebox('setValue', '').datebox('showPanel');
+					                $(this).datebox('setValue', '').datebox('showPanel');
 					            }
 					        }"/>
 						</td>
 					</tr>
 		        	<tr>
 						<td><form:label path="applyEndDate">申请结束时间：</form:label></td>
-						<td><input type="text"   id="applyEndDate" name="applyEndDate"  class="easyui-datetimebox"  style="width:145px" data-options="
+						<td><form:input type="text"   path="applyEndDate"  class="easyui-datetimebox"  style="width:145px" data-options="
 							editable:false,
 							required: true,
 							onSelect:function(d){
@@ -42,12 +42,12 @@
 					        	sd = new Date($('#applyStartDate').datebox('getValue'));
 					            if (d < now) {
 					            	alert('结束日期不能小于当前日期');
-					            	$('#applyEndDate').datebox('setValue', '').datebox('showPanel');
+					            	$(this).datebox('setValue', '').datebox('showPanel');
 					            	return;
 					            }					        	
 					            if (d < sd) {
 					               	alert('结束日期不能小于开始日期');
-					                $('#applyEndDate').datebox('setValue', '').datebox('showPanel');
+					                $(this).datebox('setValue', '').datebox('showPanel');
 					            }
 					        }"/>
 						</td>
