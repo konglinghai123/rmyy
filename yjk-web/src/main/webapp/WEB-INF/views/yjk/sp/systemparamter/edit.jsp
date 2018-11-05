@@ -70,7 +70,7 @@
 					</tr>
 					<tr>
 						<td><form:label path="professions">执业类别：</form:label></td>
-						<td><form:input path="professions" cssClass="easyui-combobox" data-options="url:'${ctx}/yjk/sp/systemparamter/profession/canUse',valueField:'id',textField:'name',editable:false,multiple:true,width:200"/><font color="red">不选择为所有执业类别</font></td>
+						<td><form:input path="professions" cssClass="easyui-combobox" data-options="url:'${ctx}/yjk/sp/systemparamter/profession/canUse',valueField:'id',textField:'name',editable:false,multiple:true,width:200,onLoadSuccess:function(){$(this).combobox('setValues', ${m.professionIds});}"/><font color="red">不选择为所有执业类别</font></td>
 					</tr>
 					<tr>
 						<td><form:label path="technicalTitles">技术职称(资格)：</form:label></td>
@@ -78,7 +78,7 @@
 					</tr>
 					<tr>
 						<td><form:label path="appointments">聘任：</form:label></td>
-						<td><form:input path="appointments" cssClass="easyui-combobox" data-options="url:'${ctx}/yjk/sp/systemparamter/appointment/canUse',valueField:'id',textField:'name',editable:false,multiple:true,width:200"/><font color="red">不选择为所有聘任</font></td>
+						<td><form:input path="appointments" cssClass="easyui-combobox" data-options="url:'${ctx}/yjk/sp/systemparamter/appointment/canUse',valueField:'id',textField:'name',editable:false,multiple:true,width:200,onLoadSuccess:function(){$(this).combobox('setValues', ${m.appointmentIds});}"/><font color="red">不选择为所有聘任</font></td>
 					</tr>
 					<tr height="80">
 						<td><form:label path="percent">比率：</form:label></td>
