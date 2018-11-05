@@ -11,6 +11,6 @@ import com.ewcms.yjk.zd.commonname.entity.CommonNameContents;
 public interface CommonNameContentsRepository extends BaseRepository<CommonNameContents, Long> {
 	@Query("select distinct c.common.administration from CommonNameContents c where c.common.commonName=?1 and c.deleted is false and c.declared is true")
 	List<Administration> findAdministrationByCommonName(String commonName);
-	
+	List<CommonNameContents> findByCommonIdAndDeletedFalse(Long commonId);
 	List<CommonNameContents> findByCommonCommonNameAndCommonAdministrationIdAndDeletedFalseOrderByUpdateDateDesc(String commonName, Long administrationId);
 }

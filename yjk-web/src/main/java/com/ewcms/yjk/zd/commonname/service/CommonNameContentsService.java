@@ -1,6 +1,7 @@
 package com.ewcms.yjk.zd.commonname.service;
 
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -19,6 +20,7 @@ import com.ewcms.yjk.zd.commonname.entity.Administration;
 import com.ewcms.yjk.zd.commonname.entity.CommonName;
 import com.ewcms.yjk.zd.commonname.entity.CommonNameContents;
 import com.ewcms.yjk.zd.commonname.entity.DrugCategoryEnum;
+import com.ewcms.yjk.zd.commonname.entity.HospitalContents;
 import com.ewcms.yjk.zd.commonname.repository.CommonNameContentsRepository;
 import com.google.common.collect.Lists;
 
@@ -60,7 +62,28 @@ public class CommonNameContentsService extends BaseService<CommonNameContents, L
 				.findByCommonCommonNameAndCommonAdministrationIdAndDeletedFalseOrderByUpdateDateDesc(commonName,
 						administrationId);
 	}
-
+	public List<CommonNameContents> findByCommonIdAndDeletedFalse(Long commonId){
+		return getCommonNameContentsRepository().findByCommonIdAndDeletedFalse(commonId);
+	}
+	/**
+	 * 根据申报药品查找当前大目录匹配胡数据集合
+	 * 
+	 * @param commonNameContentsId
+	 * @return
+	 */
+	public List<CommonNameContents> matchByCommonNameContentsId(Long commonNameContentsId) {
+		CommonNameContents commonNameContentsvo = findOne(commonNameContentsId);
+		List<CommonName> commonNameList = commonNameService.findByNumberAndAdministrationIdAndDrugCategory(
+				commonNameContentsvo.getCommon().getNumber(),
+				commonNameContentsvo.getCommon().getAdministration().getId(),
+				commonNameContentsvo.getCommon().getDrugCategory());
+		List<CommonNameContents> commonNameContentssList = new ArrayList<CommonNameContents>();
+		for (CommonName commonName : commonNameList) {
+			commonNameContentssList.addAll(findByCommonIdAndDeletedFalse(commonName.getId()));
+		}
+		return commonNameContentssList;
+	}
+	
 	public List<Integer> importExcel(InputStream in) {
 		List<Integer> noSave = Lists.newArrayList();
 

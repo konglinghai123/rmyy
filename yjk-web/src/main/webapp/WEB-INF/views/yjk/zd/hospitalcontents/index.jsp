@@ -7,7 +7,7 @@
 			<tr>
 			    <th data-options="field:'ck',checkbox:true"/>
 			    <th data-options="field:'id',hidden:true">编号</th>	
-				<th data-options="field:'commonName',width:120,sortable:true,
+				<th data-options="field:'commonName',width:150,sortable:true,
 						formatter:function(val,row){
 							return row.common==null?'':row.common.commonName;
 						}">通用名</th>
@@ -26,12 +26,12 @@
 				<th data-options="field:'commonName',width:100">院目录通用名</th>			    
 			    <th data-options="field:'drugCode',width:120">药品代码</th>
 				<th data-options="field:'pill',width:100">剂型</th>					
-				<th data-options="field:'specifications',width:70">规格</th>
+				<th data-options="field:'specifications',width:120">规格</th>
 				<th data-options="field:'amount',width:70">数量</th>
-				<th data-options="field:'manufacturer',width:120">生产企业</th>
-				<th data-options="field:'drugMajor',width:120">药品分类大类</th>
-				<th data-options="field:'drugCategory',width:80">药品分类</th>
+				<th data-options="field:'drugMajor',width:150">药品分类大类</th>
+				<th data-options="field:'drugCategory',width:120">药品分类</th>
 				<th data-options="field:'discom',width:80">配送公司</th>
+				<th data-options="field:'manufacturer',width:300">生产企业</th>
 				<!-- <th data-options="field:'deleted',width:100,
 						formatter:function(val,row){
 							return val ? '<font color=red>已删除</font>' : '';
@@ -88,7 +88,12 @@
 			rownumbers:true,
 			striped:true,
 			pageSize:20,
-			border:false
+			border:false,
+	        rowStyler: function(index,row){
+	        	if (row.deleted){
+	    			return 'background-color:#FF0000;color:#FFFFFF;';
+	        	}
+	    	}
 		});
 		
 		

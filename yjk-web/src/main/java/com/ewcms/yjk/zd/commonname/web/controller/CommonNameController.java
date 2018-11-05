@@ -70,8 +70,8 @@ public class CommonNameController extends BaseCRUDController<CommonName, Long> {
 
 	@RequestMapping(value = "findbyspell")
 	@ResponseBody
-	public List<CommonName> findBySpell(@RequestParam(value="spell") String spell) {
-		if(spell==null||spell.length()==0) return null;
+	public List<CommonName> findBySpell(@RequestParam(value="spell", required = false) String spell) {
+		if(EmptyUtil.isStringEmpty(spell)) return Lists.newArrayList();
 		spell = spell.toLowerCase();
 		return getCommonNameService().findCommonNameBySpell(spell);
 	}

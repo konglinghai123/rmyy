@@ -1,6 +1,7 @@
 package com.ewcms.yjk.zd.commonname.web.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -13,6 +14,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -24,6 +26,7 @@ import com.ewcms.common.utils.Reflections;
 import com.ewcms.common.web.controller.BaseCRUDController;
 import com.ewcms.yjk.zd.commonname.entity.Administration;
 import com.ewcms.yjk.zd.commonname.entity.CommonNameContents;
+import com.ewcms.yjk.zd.commonname.entity.HospitalContents;
 import com.ewcms.yjk.zd.commonname.service.CommonNameContentsService;
 import com.ewcms.yjk.zd.commonname.service.CommonNameRuleService;
 import com.google.common.collect.Lists;
@@ -97,6 +100,18 @@ public class CommonNameContentsController extends BaseCRUDController<CommonNameC
         return list1;    	
     }
     
+	@RequestMapping(value = "{commonNameContentsId}/query")
+	@ResponseBody
+	public Map<String, Object> query(@ModelAttribute SearchParameter<Long> searchParameter, @PathVariable(value = "commonNameContentsId")Long commonNameContentsId, Model model){
+		List<CommonNameContents> commonNameContentssList = getCommonNameContentsService().matchByCommonNameContentsId(commonNameContentsId);
+		Map<String, Object> queryMap = new HashMap<String, Object>();
+		if(commonNameContentssList != null){
+			queryMap.put("total", commonNameContentssList.size());
+			queryMap.put("rows", commonNameContentssList);
+		}
+		return queryMap;
+	}  
+	
 	@RequestMapping(value = "queryadministration")
 	@ResponseBody
 	public List<Administration> queryAdministration(@RequestParam(value = "commonName") String commonName,
