@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/views/jspf/taglibs.jspf" %>
 
 <ewcms:head title="匹配的医院药品目录"/>
-	<table id="tt1" class="easyui-datagrid" data-options="toolbar:'#tb',url:'${ctx}/yjk/zd/commonnamecontents/${commonNameContentsId}/query',nowrap:true,pagination:true,rownumbers:true,striped:true,pageSize:10">
+	<table id="tt1" class="easyui-datagrid" data-options="url:'${ctx}/yjk/zd/commonnamecontents/${commonNameContentsId}/query',nowrap:true,pagination:true,rownumbers:true,striped:true,pageSize:10">
 		<thead>
 				<th data-options="field:'commonName',width:150">大目录通用名</th>	
 				<th data-options="field:'projectName',width:100">项目名称</th>
@@ -22,7 +22,7 @@
 				<th data-options="field:'manufacturer',width:300">生产企业</th>
 		</thead>
 	</table>
-	<table id="tt2" class="easyui-datagrid" data-options="toolbar:'#tb',url:'${ctx}/yjk/zd/hospitalcontents/${commonNameContentsId}/query',nowrap:true,pagination:true,rownumbers:true,striped:true,pageSize:10">
+	<table id="tt2" class="easyui-datagrid" data-options="url:'${ctx}/yjk/zd/hospitalcontents/${commonNameContentsId}/query',nowrap:true,pagination:true,rownumbers:true,striped:true,pageSize:10">
 		<thead>
 			    <th data-options="field:'ck',checkbox:true"/>
 			    <th data-options="field:'id',hidden:true">编号</th>	
@@ -37,18 +37,6 @@
 				<th data-options="field:'manufacturer',width:300">生产企业</th>
 		</thead>
 	</table>
-	<div id="tb" style="padding:5px;height:auto;">
-		<div class="toolbar" style="margin-bottom:2px">
-			
-		</div>
-		<div style="padding-left:5px;">
-        	<form id="queryform" style="padding:0;margin:0;">
-        		<table class="formtable">
-              		      			
-           		</table>
-        	</form>
-        </div>
-	</div>
 <ewcms:editWindow/>
 <ewcms:footer/>
 <script type="text/javascript">

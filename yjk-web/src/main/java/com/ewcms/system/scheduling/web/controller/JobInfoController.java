@@ -108,6 +108,8 @@ public class JobInfoController extends BaseCRUDController<JobInfo, Long>{
 			if (className.toLowerCase().equals(JobReport.class.getCanonicalName().toLowerCase())){
 				pageDisplay = jobReportService.convertPageUse(objectId, reportType);
 			}
+		} else {
+			pageDisplay = new PageDisplay();
 		}
 		
 		model.addAttribute("selections", selections);

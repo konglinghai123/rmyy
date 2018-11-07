@@ -10,6 +10,9 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,7 +29,6 @@ import com.ewcms.common.utils.Reflections;
 import com.ewcms.common.web.controller.BaseCRUDController;
 import com.ewcms.yjk.zd.commonname.entity.Administration;
 import com.ewcms.yjk.zd.commonname.entity.CommonNameContents;
-import com.ewcms.yjk.zd.commonname.entity.HospitalContents;
 import com.ewcms.yjk.zd.commonname.service.CommonNameContentsService;
 import com.ewcms.yjk.zd.commonname.service.CommonNameRuleService;
 import com.google.common.collect.Lists;
@@ -103,12 +105,15 @@ public class CommonNameContentsController extends BaseCRUDController<CommonNameC
 	@RequestMapping(value = "{commonNameContentsId}/query")
 	@ResponseBody
 	public Map<String, Object> query(@ModelAttribute SearchParameter<Long> searchParameter, @PathVariable(value = "commonNameContentsId")Long commonNameContentsId, Model model){
-		List<CommonNameContents> commonNameContentssList = getCommonNameContentsService().matchByCommonNameContentsId(commonNameContentsId);
-		Map<String, Object> queryMap = new HashMap<String, Object>();
-		if(commonNameContentssList != null){
-			queryMap.put("total", commonNameContentssList.size());
-			queryMap.put("rows", commonNameContentssList);
-		}
+		Pageable pageable = new PageRequest(searchParameter.getPage() - 1, searchParameter.getRows());
+		
+		Page<CommonNameContents> pages = getCommonNameContentsService().matchByCommonNameContentsId(commonNameContentsId, pageable);
+		
+		Map<String, Object> queryMap = new HashMap<String, Object>(2);
+		
+		queryMap.put("total", pages.getTotalElements());
+		queryMap.put("rows", pages.getContent());
+		
 		return queryMap;
 	}  
 	

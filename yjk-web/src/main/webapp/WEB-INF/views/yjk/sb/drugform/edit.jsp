@@ -27,7 +27,13 @@
 									panelHeight:200,
 									onSelect:function(rec){
 										$('#queryCNRule${status.index}').val(rec.commonName);
-										$('#CNRule${status.index+1}').combobox('setValue','');
+										<c:forEach items="${commonNameRuleList}" var="commonNameRule" varStatus="status1">
+											if(${status1.index} > ${status.index}){
+												$('#CNRule${status1.index}').combobox('setValue','');
+												$('#queryCNRule${status1.index}').val('');
+											}
+										</c:forEach>
+										
 	    	   							$('#CNRule${status.index+1}').combobox('reload','${ctx}/yjk/zd/commonnamecontents/queryadministration?commonName='+rec.commonName);
 	       							},
 	     							onChange: function (newValue, oldValue) {
@@ -51,7 +57,12 @@
 									onSelect:function(rec){
 										$('#objIndex').val(${status.index+1});
 										$('#queryCNRule${status.index}').val(rec.id);
-										$('#CNRule${status.index+1}').combobox('setValue','');
+										<c:forEach items="${commonNameRuleList}" var="commonNameRule" varStatus="status1">
+												if(${status1.index} > ${status.index}){
+													$('#CNRule${status1.index}').combobox('setValue','');
+													$('#queryCNRule${status1.index}').val('');
+												}
+										</c:forEach>
 	    	   							$('#CNRule${status.index+1}').combobox('reload','${ctx}/yjk/zd/commonnamecontents/querydeclare');
 	       							},
 	       							onBeforeLoad: function(param){
@@ -65,7 +76,7 @@
 					        	<tr>
 									<td width="20%">${commonNameRule.ruleCnName}：</td>
 									<td width="70%">
-										<input type="text" id="CNRule${status.index}" name="commonNameContents.${commonNameRule.ruleName}" class="easyui-combobox" data-options="
+										<input type="text" id="CNRule${status.index}" name="commonNameContents.${commonNameRule.ruleName}" class="easyui-combobox"  data-options="
 										valueField:'id',
 										textField:'${commonNameRule.ruleName}',
 										width:200,
@@ -75,7 +86,12 @@
 											$('#objIndex').val(${status.index+1});
 											$('#commonNameContentsId').val(rec.id);
 											$('#queryCNRule${status.index}').val(rec.${commonNameRule.ruleName});
-											$('#CNRule${status.index+1}').combobox('setValue','');
+											<c:forEach items="${commonNameRuleList}" var="commonNameRule" varStatus="status1">
+												if(${status1.index} > ${status.index}){
+													$('#CNRule${status1.index}').combobox('setValue','');
+													$('#queryCNRule${status1.index}').val('');
+												}
+											</c:forEach>
 		    	   							$('#CNRule${status.index+1}').combobox('reload','${ctx}/yjk/zd/commonnamecontents/querydeclare');
 		       							},
 		       							onBeforeLoad: function(param){
@@ -96,12 +112,19 @@
 			</form>
 		</div>
 		<div data-options="region:'south'" style="text-align:center;height:30px;border:0">
-	  		<a class="easyui-linkbutton" data-options="iconCls:'icon-save'" href="javascript:void(0);" onclick="javascript:$('#editForm').submit();">提交</a>
+	  		<a class="easyui-linkbutton" data-options="iconCls:'icon-save'" href="javascript:void(0);" onclick="javascript:pageSubmit();">提交</a>
 	  		<a class="easyui-linkbutton" data-options="iconCls:'icon-undo'" href="javascript:void(0);" onclick="javascript:$('#editForm').form('reset');">重置</a>
 	  		<a class="easyui-linkbutton" data-options="iconCls:'icon-cancel'" href="javascript:void(0);" onclick="javascript:parent.$('#edit-window').window('close');">关闭</a>
 		</div>
 	</div>
 <ewcms:footer/>
+<script type="text/javascript">
+	var ruleArr = new Array();
+	<c:forEach items="${commonNameRuleList}" var="commonNameRule" varStatus="status">
+		ruleArr[${status.index}] = '${commonNameRule.ruleCnName}';
+	</c:forEach>
+</script>
+
 <script type="text/javascript">
 	$(function(){
 		<c:choose>
@@ -118,5 +141,15 @@
 		</c:choose>
 	});
 	$.ewcms.refresh({operate : '${operate}', data : '${lastM}'});
+	
+	function pageSubmit() {
+		for(j = 0; j < ruleArr.length; j++) {
+			if ($('#CNRule'+j).val() == '') {
+				alert(ruleArr[j]+'不能为空');
+				return;
+			}   
+		} 
+		$('#editForm').submit();
+	}
 </script>
 	

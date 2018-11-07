@@ -36,6 +36,18 @@ public class SystemParameterService extends BaseService<SystemParameter, Long> {
 	@Autowired
 	private UserOrganizationJobService userOrganizationJobService;
 
+	@Override
+	public SystemParameter update(SystemParameter m) {
+		SystemParameter dbSystemParameter = findOne(m.getId());
+		m.setOrganizations(dbSystemParameter.getOrganizations());
+		m.setDepartmentAttributes(dbSystemParameter.getDepartmentAttributes());
+		m.setProfessions(dbSystemParameter.getProfessions());
+		m.setTechnicalTitles(dbSystemParameter.getTechnicalTitles());
+		m.setAppointments(dbSystemParameter.getAppointments());
+
+		return super.update(m);
+	}
+	
 	public SystemParameter findByEnabledTrue() {
 		return getSystemParameterRepository().findByEnabledTrue();
 	}
@@ -61,7 +73,7 @@ public class SystemParameterService extends BaseService<SystemParameter, Long> {
 	
 				Long departmentNumber = vo.getDepartmentNumber();// 选定科室/病区确保人数
 				if (departmentNumber > 0L) {//从每个科室/病区里随机选择确保的人数
-					Set<Long> organizationIds = vo.getOrganizationsIds();
+					Set<Long> organizationIds = vo.getOrganizationIds();
 					for (Long organizationId : organizationIds) {
 						List<Long> userIds = userOrganizationJobService.findUsers(Sets.newHashSet(organizationId), vo.getDepartmentAttributeIds(), vo.getProfessionIds(), vo.getTechnicalTitleIds(), vo.getAppointmentIds());
 						if (EmptyUtil.isCollectionNotEmpty(userIds)) {
@@ -86,7 +98,7 @@ public class SystemParameterService extends BaseService<SystemParameter, Long> {
 					}
 				}
 	
-				List<Long> matchUsers = userOrganizationJobService.findUsers(vo.getOrganizationsIds(), vo.getDepartmentAttributeIds(), vo.getProfessionIds(), vo.getTechnicalTitleIds(), vo.getAppointmentIds());
+				List<Long> matchUsers = userOrganizationJobService.findUsers(vo.getOrganizationIds(), vo.getDepartmentAttributeIds(), vo.getProfessionIds(), vo.getTechnicalTitleIds(), vo.getAppointmentIds());
 				if (EmptyUtil.isCollectionNotEmpty(matchUsers)) {
 					int matchSize = matchUsers.size();//匹配到的人数
 					
@@ -143,5 +155,18 @@ public class SystemParameterService extends BaseService<SystemParameter, Long> {
 
 	public boolean isOpenDrugDeclare() {
 		return findByEnabledTrue() == null ? false : true;
+	}
+	
+	public void isCloseDeclare() {
+		SystemParameter systemParameter = findByEnabledTrue();
+		if (EmptyUtil.isNotNull(systemParameter)) {
+			if (systemParameter.getApplyEndDate().before(new Date())) {
+				List<User> users = userService.findByAdminTrueAndDeletedFalseAndStatus(UserStatus.normal);
+				if (EmptyUtil.isCollectionNotEmpty(users)) {
+					User opUser = users.get(0);
+					closeDeclare(opUser, systemParameter.getId());
+				}
+			}
+		}
 	}
 }

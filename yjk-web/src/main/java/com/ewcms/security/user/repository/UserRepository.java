@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import com.ewcms.common.repository.BaseRepository;
 import com.ewcms.security.user.entity.User;
+import com.ewcms.security.user.entity.UserStatus;
 
 /**
  * @author wu_zhijun
@@ -24,4 +25,6 @@ public interface UserRepository extends BaseRepository<User, Long> {
 	
 	@Query("select id from User where admin = false and deleted = false")
 	List<Long> findUserIds();
+	
+	List<User> findByAdminTrueAndDeletedFalseAndStatus(UserStatus status);
 }

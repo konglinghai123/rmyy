@@ -123,8 +123,21 @@ public class CommonNameController extends BaseCRUDController<CommonName, Long> {
 	
     @Override
 	public String save(Model model, @Valid @ModelAttribute("m")CommonName m, BindingResult result,@RequestParam(required = false) List<Long> selections) {
-		if (getCommonNameService().findByCommonNameAndNumberAndAdministrationIdAndDrugCategory(m.getCommonName(),m.getNumber(), m.getAdministration().getId(),m.getDrugCategory()).size() == 0) {
-			return super.save(model, m, result, selections);
+    	List<CommonName> commonNames = getCommonNameService().findByCommonNameAndNumberAndAdministrationIdAndDrugCategory(m.getCommonName(),m.getNumber(), m.getAdministration().getId(),m.getDrugCategory());
+		if (EmptyUtil.isNull(m.getId())) {
+			if (EmptyUtil.isCollectionEmpty(commonNames)) {
+				return super.save(model, m, result, selections);
+			}
+		} else {
+			if (EmptyUtil.isCollectionNotEmpty(commonNames)) {
+				CommonName commonName = commonNames.get(0);
+				if (m.getId().longValue() == commonName.getId().longValue()) {
+					return super.save(model, m, result, selections);
+				}
+			} else {
+				return super.save(model, m, result, selections);
+			}
+			
 		}
 		return showSaveForm(model, selections);
 	}

@@ -5,8 +5,6 @@ import javax.persistence.Entity;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-
 import com.ewcms.common.entity.BaseSequenceEntity;
 
 /**
@@ -21,7 +19,6 @@ import com.ewcms.common.entity.BaseSequenceEntity;
  */
 @Entity
 @Table(name = "zd_administration")
-@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @SequenceGenerator(name="seq", sequenceName="seq_zd_administration_id", allocationSize = 1)
 public class Administration extends BaseSequenceEntity<Long> {
 

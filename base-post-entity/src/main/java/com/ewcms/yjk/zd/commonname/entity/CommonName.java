@@ -11,7 +11,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -42,7 +41,6 @@ import com.ewcms.common.plugin.entity.LogicDeleteable;
 		@Index(name = "idx_zd_common_name_spell_simplify", columnList = "spell_simplify")
 	}
 )
-@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @SequenceGenerator(name="seq", sequenceName="seq_zd_common_name_id", allocationSize = 1)
 public class CommonName extends BaseSequenceEntity<Long> implements LogicDeleteable {
 	private static final long serialVersionUID = -2489387145827618904L;

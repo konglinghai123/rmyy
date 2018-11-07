@@ -107,18 +107,4 @@
 	    	$('#tt').datagrid('resize');
 	    });		
 	});
-	
-	/*
-	function formatOperation(val, row){
-		return val ? '<font color=red>已删除</font>  <a class="resumedCls" onclick="restore(' + row.id + ')" href="javascript:void(0);">还原</a>' : '';
-	}
-	
-	function restore(id){
-		$.post('${ctx}/yjk/zd/commonname/' + id + '/restore', {}, function(result) {
-			if (result.success){
-				$('#tt').datagrid('reload');
-			}
-			$.messager.alert('提示', result.message, 'info');
-		});
-	}*/
 </script>

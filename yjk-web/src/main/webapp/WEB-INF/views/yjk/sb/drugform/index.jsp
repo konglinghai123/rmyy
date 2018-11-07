@@ -97,9 +97,7 @@
 							rownumbers:true,
 							striped:true,
 							pageSize:20,
-							border:false
-							
-							,
+							border:false,
 							view:detailview,
 							detailFormatter : function(rowIndex, rowData) {
 								return '<div id="ddv-' + rowIndex + '" style="padding:2px"></div>';
@@ -108,14 +106,13 @@
 								$('#ddv-' + rowIndex).panel({
 									border:false,
 									cache:false,
-									content: '<iframe src="${ctx}/yjk/sb/drugform/' + rowData.commonNameContents.id + '/detail" frameborder="0" width="100%" height="315px" scrolling="auto"></iframe>',
+									content: '<iframe src="${ctx}/yjk/sb/drugform/' + rowData.commonNameContents.id + '/detail" frameborder="0" width="100%" height="450px" scrolling="auto"></iframe>',
 									onLoad:function(){
 										$('#tt').datagrid('fixDetailRowHeight',rowIndex);
 									}
 								});
 								$('#tt').datagrid('fixDetailRowHeight',rowIndex);
 							}
-							
 						});
 						
 						$("form table tr").next("tr").hide();

@@ -16,7 +16,6 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
 
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.alibaba.fastjson.annotation.JSONField;
@@ -58,7 +57,6 @@ import com.google.common.collect.Sets;
 
 @Entity
 @Table(name = "sp_system_parameter")
-@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @SequenceGenerator(name = "seq", sequenceName = "seq_zd_system_parameter_id", allocationSize = 1)
 public class SystemParameter extends BaseSequenceEntity<Long> implements LogicDeleteable {
 
@@ -76,7 +74,6 @@ public class SystemParameter extends BaseSequenceEntity<Long> implements LogicDe
 	private Long declarationLimt = Long.valueOf(2);
 	@Column(name = "declare_total_limt", nullable = false)
 	private Long declareTotalLimt = Long.valueOf(999);
-	
 	@ManyToMany(cascade = { CascadeType.ALL })
 	@JoinTable(name = "sp_system_parameter_organization", joinColumns = {
 			@JoinColumn(name = "system_id", referencedColumnName = "id") }, inverseJoinColumns = {
@@ -175,7 +172,7 @@ public class SystemParameter extends BaseSequenceEntity<Long> implements LogicDe
 	}
 
 	@SuppressWarnings("unchecked")
-	public Set<Long> getOrganizationsIds() {
+	public Set<Long> getOrganizationIds() {
 		return (EmptyUtil.isCollectionNotEmpty(organizations)) ? Collections3.extractToSet(organizations, "id")
 				: Sets.newHashSet();
 	}

@@ -11,4 +11,5 @@ import com.ewcms.yjk.sp.entity.SystemParameter;
 public interface SystemParameterRepository extends BaseRepository<SystemParameter, Long> {
 
 	SystemParameter findByEnabledTrue();
+	
 }

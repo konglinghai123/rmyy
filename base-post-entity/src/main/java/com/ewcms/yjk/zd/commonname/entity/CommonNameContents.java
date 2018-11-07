@@ -13,7 +13,6 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -64,7 +63,6 @@ import com.ewcms.common.plugin.entity.LogicDeleteable;
  */
 @Entity
 @Table(name = "zd_common_name_contents")
-@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @SequenceGenerator(name="seq", sequenceName="seq_zd_common_name_contents_id", allocationSize = 1)
 public class CommonNameContents extends BaseSequenceEntity<Long> implements LogicDeleteable {
 	private static final long serialVersionUID = 8558593211261565814L;

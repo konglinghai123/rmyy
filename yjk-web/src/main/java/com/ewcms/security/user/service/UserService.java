@@ -430,4 +430,8 @@ public class UserService extends BaseService<User, Long> {
 	public List<Long> findUserIds() {
 		return getUserRepository().findUserIds();
 	}
+	
+	public List<User> findByAdminTrueAndDeletedFalseAndStatus(UserStatus status){
+		return getUserRepository().findByAdminTrueAndDeletedFalseAndStatus(status);
+	}
 }

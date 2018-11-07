@@ -6,6 +6,9 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -36,7 +39,6 @@ public class HospitalContentsController extends BaseCRUDController<HospitalConte
 	}
 	
     public HospitalContentsController() {
-    	setListAlsoSetCommonData(true);
         setResourceIdentity("yjk:hospitalcontents");
     }
     
@@ -56,12 +58,15 @@ public class HospitalContentsController extends BaseCRUDController<HospitalConte
 	@RequestMapping(value = "{commonNameContentsId}/query")
 	@ResponseBody
 	public Map<String, Object> query(@ModelAttribute SearchParameter<Long> searchParameter, @PathVariable(value = "commonNameContentsId")Long commonNameContentsId, Model model){
-		List<HospitalContents> hospitalContentsList = getHospitalContentsService().matchByCommonNameContentsId(commonNameContentsId);
-		Map<String, Object> queryMap = new HashMap<String, Object>();
-		if(hospitalContentsList != null){
-			queryMap.put("total", hospitalContentsList.size());
-			queryMap.put("rows", hospitalContentsList);
-		}
+		Pageable pageable = new PageRequest(searchParameter.getPage() - 1, searchParameter.getRows());
+
+		Page<HospitalContents> pages = getHospitalContentsService().matchByCommonNameContentsId(commonNameContentsId, pageable);
+		
+		Map<String, Object> queryMap = new HashMap<String, Object>(2);
+			
+		queryMap.put("total", pages.getTotalElements());
+		queryMap.put("rows", pages.getContent());
+		
 		return queryMap;
 	}
 	

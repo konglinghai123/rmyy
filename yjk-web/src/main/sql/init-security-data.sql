@@ -142,17 +142,18 @@ insert into sec_resource(id, icon, identity, name, parent_id, parent_ids, is_sho
 ,(106,'empi-yjk-zd-hospitalcontents-tree','hospitalcontents','院用目录',102,'0/1/102/','true',null,'/yjk/zd/hospitalcontents/index',3)
 ,(107,'empi-yjk-zd-administration-tree','','用药途径',102,'0/1/102/','true',null,'/yjk/zd/administration/index',4)
 ,(108,'empi-yjk-zd-systemparameter-tree','','系统参数',102,'0/1/102/','true',null,'/yjk/sp/systemparamter/index',5)
-,(109,'empi-personal-medicine-tree','','新药申报',62,'0/1/62/','true',null,'/yjk/sb/drugform/index',3)
-,(110,'empi-yjk-zd-commonnamerule-tree','commonnamerule','匹配规则',102,'0/1/102/','true',null,'/yjk/zd/commonnamerule/index',6)
-,(111,'empi-system-onlineeditor-tree','onlineEditor','在线编辑',6,'0/1/6/','true',null,'/system/editor/index',7)
-,(112,'empi-system-staticresource-tree','staticResource','静态资源版本控制',6,'0/1/6/','true',null,'/system/staticresource/index',8)
-,(113,'ztree_file','','字典管理',5,'0/1/5/','true',null,'',7)
-,(114,'ztree_file','departmentAttribute','科室属性',113,'0/1/5/113/','true',null,'/security/dictionary/departmentAttribute/index',1)
-,(115,'ztree_file','profession','执业类别',113,'0/1/5/113/','true',null,'/security/dictionary/profession/index',2)
-,(116,'ztree_file','technicalTitle','技术职称(资格)',113,'0/1/5/113/','true',null,'/security/dictionary/technicalTitle/index',3)
-,(117,'ztree_file','appointment','聘任',113,'0/1/5/113/','true',null,'/security/dictionary/appointment/index',3)
+,(109,'empi-personal-medicine-tree','sb:drugform','新药申报',62,'0/1/62/','true',null,'/yjk/sb/drugform/index',3)
+,(110,'empi-yjk-zd-commonnamerule-tree','commonnamerule','匹配条件',102,'0/1/102/','true',null,'/yjk/zd/commonnamerule/index',6)
+,(111,'empi-yjk-zd-specialrule-tree','specialrule','特殊规则',102,'0/1/102/','true',null,'/yjk/zd/specialrule/index',7)
+,(112,'empi-system-onlineeditor-tree','onlineEditor','在线编辑',6,'0/1/6/','true',null,'/system/editor/index',7)
+,(113,'empi-system-staticresource-tree','staticResource','静态资源版本控制',6,'0/1/6/','true',null,'/system/staticresource/index',8)
+,(114,'ztree_file','','字典管理',5,'0/1/5/','true',null,'',7)
+,(115,'ztree_file','departmentAttribute','科室属性',6,'0/16/','true',null,'/security/dictionary/departmentAttribute/index',9)
+,(116,'ztree_file','profession','执业类别',6,'0/1/6/','true',null,'/security/dictionary/profession/index',10)
+,(117,'ztree_file','technicalTitle','技术职称(资格)',6,'0/1/6/','true',null,'/security/dictionary/technicalTitle/index',11)
+,(118,'ztree_file','appointment','聘任',6,'0/1/6/','true',null,'/security/dictionary/appointment/index',12)
 ;
-select setval('seq_sec_resource_id', 116);
+select setval('seq_sec_resource_id', 118);
 
 /**
  * 权限初始化

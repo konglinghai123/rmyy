@@ -16,7 +16,7 @@
 	</table>
 	<div id="tb" style="padding:5px;height:auto;">
 		<div class="toolbar" style="margin-bottom:2px">
-			<!-- <a class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true" onclick="$.ewcms.add({title:'新增',width:700,height:210});" href="javascript:void(0);">新增</a>  -->
+			<a class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true" onclick="$.ewcms.add({title:'新增',width:700,height:210});" href="javascript:void(0);">新增</a> 
 			<a class="easyui-linkbutton" data-options="iconCls:'icon-edit',plain:true" onclick="$.ewcms.edit({title:'修改',width:700,height:210});" href="javascript:void(0);">修改</a>
 			<a class="easyui-linkbutton" data-options="iconCls:'icon-remove',plain:true" onclick="$.ewcms.remove({title:'删除'});" href="javascript:void(0);">删除</a>
 		</div>

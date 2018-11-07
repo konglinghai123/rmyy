@@ -38,7 +38,7 @@ import com.ewcms.yjk.zd.commonname.service.CommonNameRuleService;
 import com.ewcms.yjk.zd.commonname.service.CommonNameService;
 
 /**
- *@author zhoudongchu
+ * @author zhoudongchu
  */
 @Controller
 @RequestMapping(value = "/yjk/sb/drugform")
@@ -53,41 +53,42 @@ public class DrugFormController extends BaseCRUDController<DrugForm, Long> {
 	private CommonNameContentsService commonNameContentsService;
 	@Autowired
 	private CommonNameService commonNameService;
-	
+
 	private DrugFormService getDrugFormService() {
 		return (DrugFormService) baseService;
 	}
-	
+
 	public DrugFormController() {
 		setListAlsoSetCommonData(true);
 		setResourceIdentity("sb:drugform");
 	}
-	
+
 	@RequestMapping(value = "index/discard")
 	@Override
 	public String index(Model model) {
 		throw new RuntimeException("discarded method");
 	}
-	
-	@RequestMapping(value = {"", "index"}, method = RequestMethod.GET)
-	public String index(@CurrentUser User user,Model model) {
+
+	@RequestMapping(value = { "", "index" }, method = RequestMethod.GET)
+	public String index(@CurrentUser User user, Model model) {
 		model.addAttribute("isAdmin", user.getAdmin());
 		return super.index(model);
 	}
 
 	@Override
-    protected void setCommonData(Model model) {
-        super.setCommonData(model);
-        model.addAttribute("isOpenDeclare", systemParameterService.isOpenDrugDeclare());
-        model.addAttribute("stateList", AuditStatusEnum.values());
-        model.addAttribute("userList", userService.findAll());
-        model.addAttribute("commonNameRuleList", commonNameRuleService.findByDeletedFalseAndEnabledTrueOrderByWeightAsc());
-    }
+	protected void setCommonData(Model model) {
+		super.setCommonData(model);
+		model.addAttribute("isOpenDeclare", systemParameterService.isOpenDrugDeclare());
+		model.addAttribute("stateList", AuditStatusEnum.values());
+		model.addAttribute("userList", userService.findAll());
+		model.addAttribute("commonNameRuleList",
+				commonNameRuleService.findByDeletedFalseAndEnabledTrueOrderByWeightAsc());
+	}
 
-	
-    @RequestMapping(value = "querybyuser")
-    @ResponseBody
-	public Map<String, Object> queryByUser(@CurrentUser User user,@ModelAttribute SearchParameter<Long> searchParameter, Model model){
+	@RequestMapping(value = "querybyuser")
+	@ResponseBody
+	public Map<String, Object> queryByUser(@CurrentUser User user,
+			@ModelAttribute SearchParameter<Long> searchParameter, Model model) {
 		searchParameter.getSorts().put("id", Direction.DESC);
 		if (!user.getAdmin()) {
 			searchParameter.getParameters().put("EQ_userId", user.getId());
@@ -98,43 +99,46 @@ public class DrugFormController extends BaseCRUDController<DrugForm, Long> {
 
 	@RequestMapping(value = "save/discard")
 	@Override
-    public String save(Model model, DrugForm m, BindingResult result, List<Long> selections) {
+	public String save(Model model, DrugForm m, BindingResult result, List<Long> selections) {
 		throw new RuntimeException("discarded method");
-    }
-    
+	}
+
 	@RequestMapping(value = "save", method = RequestMethod.POST)
-	public String save(@CurrentUser User user,Model model, @Valid @ModelAttribute("m")DrugForm m, BindingResult result,
-			 @RequestParam(required = false) List<Long> selections, RedirectAttributes redirectAttributes) {
+	public String save(@CurrentUser User user, Model model, @Valid @ModelAttribute("m") DrugForm m,
+			BindingResult result, @RequestParam(required = false) List<Long> selections,
+			RedirectAttributes redirectAttributes) {
 		if (hasError(m, result)) {
-            return showSaveForm(model, selections);
-        }
+			return showSaveForm(model, selections);
+		}
 
 		setCommonData(model);
-		
-        if (permissionList != null) {
-            this.permissionList.assertHasCreatePermission();
-        }
-        CommonNameContents vo = m.getCommonNameContents();
-        if(vo.getId() == null){
-        	if(commonNameRuleService.findByDeletedFalseAndEnabledTrueOrderByWeightAsc().size()>2){
-    			redirectAttributes.addFlashAttribute(Constants.MESSAGE, "数据输入不完整，请重新输入");
-    			return redirectToUrl(viewName("save"));
-        	}
-        	CommonName commonName = commonNameService.findOne(vo.getCommon().getId());
-        	if(commonName == null){
-    			redirectAttributes.addFlashAttribute(Constants.MESSAGE, "数据输入不完整，请重新输入");
-    			return redirectToUrl(viewName("save"));
-        	}
-        	List<CommonNameContents> matchDeclareList = commonNameContentsService.findByCommonCommonNameAndCommonAdministrationIdAndDeletedFalseOrderByUpdateDateDesc(commonName.getCommonName(), vo.getCommon().getAdministration().getId());
-        	if(matchDeclareList==null || matchDeclareList.size()==0){
-    			redirectAttributes.addFlashAttribute(Constants.MESSAGE, "数据输入不完整，请重新输入");
-    			return redirectToUrl(viewName("save"));
-        	}
-        	vo = matchDeclareList.get(0);
-        }
+
+		if (permissionList != null) {
+			this.permissionList.assertHasCreatePermission();
+		}
+		CommonNameContents vo = m.getCommonNameContents();
+		if (vo.getId() == null) {
+			if (commonNameRuleService.findByDeletedFalseAndEnabledTrueOrderByWeightAsc().size() > 2) {
+				redirectAttributes.addFlashAttribute(Constants.MESSAGE, "数据输入不完整，请重新输入");
+				return redirectToUrl(viewName("save"));
+			}
+			CommonName commonName = commonNameService.findOne(vo.getCommon().getId());
+			if (commonName == null) {
+				redirectAttributes.addFlashAttribute(Constants.MESSAGE, "数据输入不完整，请重新输入");
+				return redirectToUrl(viewName("save"));
+			}
+			List<CommonNameContents> matchDeclareList = commonNameContentsService
+					.findByCommonCommonNameAndCommonAdministrationIdAndDeletedFalseOrderByUpdateDateDesc(
+							commonName.getCommonName(), vo.getCommon().getAdministration().getId());
+			if (matchDeclareList == null || matchDeclareList.size() == 0) {
+				redirectAttributes.addFlashAttribute(Constants.MESSAGE, "数据输入不完整，请重新输入");
+				return redirectToUrl(viewName("save"));
+			}
+			vo = matchDeclareList.get(0);
+		}
 		DrugForm lastM = getDrugFormService().drugDeclare(user, vo);
 
-		if(lastM == null){
+		if (lastM == null) {
 			redirectAttributes.addFlashAttribute(Constants.MESSAGE, "新药已超过限数，不能申报");
 			return redirectToUrl(viewName("save"));
 		} else {
@@ -143,87 +147,93 @@ public class DrugFormController extends BaseCRUDController<DrugForm, Long> {
 			return showSaveForm(model, selections);
 		}
 	}
-	
+
 	@RequestMapping(value = "{drugFormId}/deletedeclare")
 	@ResponseBody
 	public AjaxResponse restoreCommonName(@PathVariable(value = "drugFormId") Long drugFormId) {
 		AjaxResponse ajaxResponse = new AjaxResponse("删除成功");
-		try{
+		try {
 			getDrugFormService().delete(drugFormId);
-		} catch(IllegalStateException e){
+		} catch (IllegalStateException e) {
 			ajaxResponse.setSuccess(Boolean.FALSE);
 			ajaxResponse.setMessage("删除失败");
 		}
 		return ajaxResponse;
-	}	
+	}
+
 	@RequestMapping(value = "{commonNameContentsId}/detail")
-	public String index(@PathVariable(value = "commonNameContentsId")Long commonNameContentsId, Model model){
+	public String index(@PathVariable(value = "commonNameContentsId") Long commonNameContentsId) {
 		return viewName("detail");
 	}
-	
-    @RequestMapping(value = "/declaresubmit")
+
+	@RequestMapping(value = "/declaresubmit")
 	public String declareSubmit(Model model) {
-    	 model.addAttribute("commonNameRuleList", commonNameRuleService.findByDeletedFalseAndEnabledTrueOrderByWeightAsc());
+		model.addAttribute("commonNameRuleList",
+				commonNameRuleService.findByDeletedFalseAndEnabledTrueOrderByWeightAsc());
 		return viewName("declare");
 	}
+
 	@RequestMapping(value = "savedeclaresubmit")
 	@ResponseBody
-	public AjaxResponse saveDeclareSubmit(@RequestParam(required = false) List<Long> selections){
-        AjaxResponse ajaxResponse = new AjaxResponse("申报提交成功！");
-        
-        try{
-	        if (selections != null && !selections.isEmpty()){
-	        	String noDeclareCommonName = getDrugFormService().saveDeclareSubmit(selections);
-	        	if(noDeclareCommonName!=null && noDeclareCommonName.length()>0){
-	        		ajaxResponse.setMessage("以下药品:" + noDeclareCommonName + "因超过申报限数或总数，未能申报！");
-	        	}
+	public AjaxResponse saveDeclareSubmit(@RequestParam(required = false) List<Long> selections) {
+		AjaxResponse ajaxResponse = new AjaxResponse("申报提交成功！");
+
+		try {
+			if (selections != null && !selections.isEmpty()) {
+				String noDeclareCommonName = getDrugFormService().saveDeclareSubmit(selections);
+				if (noDeclareCommonName != null && noDeclareCommonName.length() > 0) {
+					ajaxResponse.setMessage("以下药品:" + noDeclareCommonName + "因超过申报限数或总数，未能申报！");
+				}
 			}
-        } catch (IllegalStateException e){
-        	ajaxResponse.setSuccess(Boolean.FALSE);
-            ajaxResponse.setMessage("申报提交失败了！");
-        }
+		} catch (IllegalStateException e) {
+			ajaxResponse.setSuccess(Boolean.FALSE);
+			ajaxResponse.setMessage("申报提交失败了！");
+		}
 		return ajaxResponse;
-	} 
-	
+	}
+
 	@RequestMapping(value = "/querydeclaresubmit")
 	@ResponseBody
-	public Map<String, Object> queryDeclareSubmit(@CurrentUser User user, Model model){
+	public Map<String, Object> queryDeclareSubmit(@CurrentUser User user, Model model) {
 		List<DrugForm> drugFormList = getDrugFormService().findByUserIdAndDeclaredFalse(user.getId());
 		Map<String, Object> queryMap = new HashMap<String, Object>();
-		if(drugFormList != null){
+		if (drugFormList != null) {
 			queryMap.put("total", drugFormList.size());
 			queryMap.put("rows", drugFormList);
 		}
 		return queryMap;
 	}
-	
-    @RequestMapping(value = "/declarecancel")
+
+	@RequestMapping(value = "/declarecancel")
 	public String declareCancel(Model model) {
-    	 model.addAttribute("commonNameRuleList", commonNameRuleService.findByDeletedFalseAndEnabledTrueOrderByWeightAsc());
+		model.addAttribute("commonNameRuleList",
+				commonNameRuleService.findByDeletedFalseAndEnabledTrueOrderByWeightAsc());
 		return viewName("cancel");
 	}
+
 	@RequestMapping(value = "savedeclarecancel")
 	@ResponseBody
-	public AjaxResponse saveDeclareCancel(@RequestParam(required = false) List<Long> selections){
-        AjaxResponse ajaxResponse = new AjaxResponse("申报撤销成功！");
-        
-        try{
-	        if (selections != null && !selections.isEmpty()){
-	        	getDrugFormService().saveDeclareCancel(selections);
+	public AjaxResponse saveDeclareCancel(@RequestParam(required = false) List<Long> selections) {
+		AjaxResponse ajaxResponse = new AjaxResponse("申报撤销成功！");
+
+		try {
+			if (selections != null && !selections.isEmpty()) {
+				getDrugFormService().saveDeclareCancel(selections);
 			}
-        } catch (IllegalStateException e){
-        	ajaxResponse.setSuccess(Boolean.FALSE);
-            ajaxResponse.setMessage("申报撤销失败了！");
-        }
+		} catch (IllegalStateException e) {
+			ajaxResponse.setSuccess(Boolean.FALSE);
+			ajaxResponse.setMessage("申报撤销失败了！");
+		}
 		return ajaxResponse;
-	} 
-	
+	}
+
 	@RequestMapping(value = "/querydeclarecancel")
 	@ResponseBody
-	public Map<String, Object> queryDeclareCancel(@CurrentUser User user, Model model){
-		List<DrugForm> drugFormList = getDrugFormService().findByUserIdAndAuditStatus(user.getId(),AuditStatusEnum.init);
+	public Map<String, Object> queryDeclareCancel(@CurrentUser User user, Model model) {
+		List<DrugForm> drugFormList = getDrugFormService().findByUserIdAndAuditStatus(user.getId(),
+				AuditStatusEnum.init);
 		Map<String, Object> queryMap = new HashMap<String, Object>();
-		if(drugFormList != null){
+		if (drugFormList != null) {
 			queryMap.put("total", drugFormList.size());
 			queryMap.put("rows", drugFormList);
 		}

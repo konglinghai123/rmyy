@@ -59,7 +59,7 @@
 .empi-monitor-hibernate{background:url('/yjk-web/static/image/menu/monitor/hibernate.png') no-repeat -0px -0px;width:48px;height:48px;display:inline-block;vertical-align: middle;}
 .empi-monitor-hibernate-tree{background:url('/yjk-web/static/image/menu/monitor/hibernate.png') no-repeat -0px -0px;width:16px;height:18px;display:inline-block;vertical-align: middle;background-size:100%;}
 .empi-personal-medicine{background:url('/yjk-web/static/image/menu/personal/medicine.png') no-repeat -0px -0px;width:48px;height:48px;display:inline-block;vertical-align: middle;}
-.empi-personal-medicin-tree{background:url('/yjk-web/static/image/menu/personal/medicine.png') no-repeat -0px -0px;width:16px;height:18px;display:inline-block;vertical-align: middle;background-size:100%;}
+.empi-personal-medicine-tree{background:url('/yjk-web/static/image/menu/personal/medicine.png') no-repeat -0px -0px;width:16px;height:18px;display:inline-block;vertical-align: middle;background-size:100%;}
 .empi-yjk-zd-hospitalcontents{background:url('/yjk-web/static/image/menu/yjk/zd/hospitalcontents.png') no-repeat -0px -0px;width:48px;height:48px;display:inline-block;vertical-align: middle;}
 .empi-yjk-zd-hospitalcontents-tree{background:url('/yjk-web/static/image/menu/yjk/zd/hospitalcontents.png') no-repeat -0px -0px;width:16px;height:18px;display:inline-block;vertical-align: middle;background-size:100%;}
 .empi-yjk-zd-commonnamecontents{background:url('/yjk-web/static/image/menu/yjk/zd/commonnamecontents.png') no-repeat -0px -0px;width:48px;height:48px;display:inline-block;vertical-align: middle;}
@@ -70,11 +70,11 @@
 .empi-yjk-zd-administration-tree{background:url('/yjk-web/static/image/menu/yjk/zd/administration.png') no-repeat -0px -0px;width:16px;height:18px;display:inline-block;vertical-align: middle;background-size:100%;}
 .empi-yjk-zd-systemparameter{background:url('/yjk-web/static/image/menu/yjk/zd/systemparamter.png') no-repeat -0px -0px;width:48px;height:48px;display:inline-block;vertical-align: middle;}
 .empi-yjk-zd-systemparameter-tree{background:url('/yjk-web/static/image/menu/yjk/zd/systemparamter.png') no-repeat -0px -0px;width:16px;height:18px;display:inline-block;vertical-align: middle;background-size:100%;}
-.empi-yjk-zd-commonnamerule{background:url('/yjk-web/static/image/menu/yjk/zd/commonnamerule.png') no-repeat -0px -0px;width:48px;height:48px;display:inline-block;vertical-align: middle;}
-.empi-yjk-zd-commonnamerule-tree{background:url('/yjk-web/static/image/menu/yjk/zd/commonnamerule.png') no-repeat -0px -0px;width:16px;height:18px;display:inline-block;vertical-align: middle;background-size:100%;}
 .empi-system-onlineeditor{background:url('/yjk-web/static/image/menu/system/onlineeditor.png') no-repeat -0px -0px;width:48px;height:48px;display:inline-block;vertical-align: middle;}
 .empi-system-onlineeditor-tree{background:url('/yjk-web/static/image/menu/system/onlineeditor.png') no-repeat -0px -0px;width:16px;height:18px;display:inline-block;vertical-align: middle;background-size:100%;}
 .empi-system-staticresource{background:url('/yjk-web/static/image/menu/system/staticresource.png') no-repeat -0px -0px;width:48px;height:48px;display:inline-block;vertical-align: middle;}
 .empi-system-staticresource-tree{background:url('/yjk-web/static/image/menu/system/staticresource.png') no-repeat -0px -0px;width:16px;height:18px;display:inline-block;vertical-align: middle;background-size:100%;}
-.empi-security-dictionary-departmentAttribute{background:url('/yjk-web/static/image/menu/secutiry/departmentAttribute.png') no-repeat -0px -0px;width:48px;height:48px;display:inline-block;vertical-align: middle;}
-.empi-security-dictionary-departmentAttribute-tree{background:url('/yjk-web/static/image/menu/secutiry/departmentAttribute.png') no-repeat -0px -0px;width:16px;height:18px;display:inline-block;vertical-align: middle;background-size:100%;}
+.empi-yjk-zd-specialrule{background:url('/yjk-web/static/image/menu/yjk/zd/specialrule.png') no-repeat -0px -0px;width:48px;height:48px;display:inline-block;vertical-align: middle;}
+.empi-yjk-zd-specialrule-tree{background:url('/yjk-web/static/image/menu/yjk/zd/specialrule.png') no-repeat -0px -0px;width:16px;height:18px;display:inline-block;vertical-align: middle;background-size:100%;}
+.empi-yjk-zd-commonnamerule{background:url('/yjk-web/static/image/menu/yjk/zd/commonnamerule.png') no-repeat -0px -0px;width:48px;height:48px;display:inline-block;vertical-align: middle;}
+.empi-yjk-zd-commonnamerule-tree{background:url('/yjk-web/static/image/menu/yjk/zd/commonnamerule.png') no-repeat -0px -0px;width:16px;height:18px;display:inline-block;vertical-align: middle;background-size:100%;}

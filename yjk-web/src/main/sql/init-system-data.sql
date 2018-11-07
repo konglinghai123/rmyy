@@ -66,7 +66,7 @@ insert into sys_icon(id,css_class, description, icon_height, icon_type, identity
 ,(59,'','监控管理-Hibernate监控',48,'css_sprite','empi-monitor-hibernate','',0,'static/image/menu/monitor/hibernate.png','',0,48)
 ,(60,'','监控管理-Hibernate监控',18,'css_sprite','empi-monitor-hibernate-tree','',0,'static/image/menu/monitor/hibernate.png','background-size:100%;',0,16)
 ,(61,'','个人中心-新药申报',48,'css_sprite','empi-personal-medicine','',0,'static/image/menu/personal/medicine.png','',0,48)
-,(62,'','个人中心-新药申',18,'css_sprite','empi-personal-medicin-tree','',0,'static/image/menu/personal/medicine.png','background-size:100%;',0,16)
+,(62,'','个人中心-新药申报',18,'css_sprite','empi-personal-medicine-tree','',0,'static/image/menu/personal/medicine.png','background-size:100%;',0,16)
 ,(63,'','药剂管理-字典库-院用目录',48,'css_sprite','empi-yjk-zd-hospitalcontents','',0,'static/image/menu/yjk/zd/hospitalcontents.png','',0,48)
 ,(64,'','药剂管理-字典库-院用目录',18,'css_sprite','empi-yjk-zd-hospitalcontents-tree','',0,'static/image/menu/yjk/zd/hospitalcontents.png','background-size:100%;',0,16)
 ,(65,'','药剂管理-字典库-大总目录 ',48,'css_sprite','empi-yjk-zd-commonnamecontents','',0,'static/image/menu/yjk/zd/commonnamecontents.png','',0,48)
@@ -77,12 +77,13 @@ insert into sys_icon(id,css_class, description, icon_height, icon_type, identity
 ,(70,'','药剂管理-字典库-用药途径',18,'css_sprite','empi-yjk-zd-administration-tree','',0,'static/image/menu/yjk/zd/administration.png','background-size:100%;',0,16)
 ,(71,'','药剂管理-字典库-系统参数',48,'css_sprite','empi-yjk-zd-systemparameter','',0,'static/image/menu/yjk/zd/systemparamter.png','',0,48)
 ,(72,'','药剂管理-字典库-系统参数',18,'css_sprite','empi-yjk-zd-systemparameter-tree','',0,'static/image/menu/yjk/zd/systemparamter.png','background-size:100%;',0,16)
-,(73,'','药剂管理-字典库-匹配规则',48,'css_sprite','empi-yjk-zd-commonnamerule','',0,'static/image/menu/yjk/zd/commonnamerule.png','',0,48)
-,(74,'','药剂管理-字典库-匹配规则',18,'css_sprite','empi-yjk-zd-commonnamerule-tree','',0,'static/image/menu/yjk/zd/commonnamerule.png','background-size:100%;',0,16)
+,(73,'','药剂管理-字典库-匹配条件',48,'css_sprite','empi-yjk-zd-commonnamerule','',0,'static/image/menu/yjk/zd/commonnamerule.png','',0,48)
+,(74,'','药剂管理-字典库-匹配条件',18,'css_sprite','empi-yjk-zd-commonnamerule-tree','',0,'static/image/menu/yjk/zd/commonnamerule.png','background-size:100%;',0,16)
 ,(75,'','系统管理-在线编辑',48,'css_sprite','empi-system-onlineeditor','',0,'static/image/menu/system/onlineeditor.png','',0,48)
 ,(76,'','系统管理-在线编辑',18,'css_sprite','empi-system-onlineeditor-tree','',0,'static/image/menu/system/onlineeditor.png','background-size:100%;',0,16)
 ,(77,'','系统管理-静态资源版本控制',48,'css_sprite','empi-system-staticresource','',0,'static/image/menu/system/staticresource.png','',0,48)
 ,(78,'','系统管理-静态资源版本控制',18,'css_sprite','empi-system-staticresource-tree','',0,'static/image/menu/system/staticresource.png','background-size:100%;',0,16)
-
+,(79,'','药剂管理-字典库-特殊规则',48,'css_sprite','empi-yjk-zd-specialrule','',0,'static/image/menu/system/specialrule.png','',0,48)
+,(80,'','药剂管理-字典库-特殊规则',18,'css_sprite','empi-yjk-zd-specialrule-tree','',0,'static/image/menu/system/specialrule.png','background-size:100%;',0,16)
 ;
-select setval('seq_sys_icon_id', 78);
+select setval('seq_sys_icon_id', 80);

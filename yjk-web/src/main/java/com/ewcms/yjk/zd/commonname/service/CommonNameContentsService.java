@@ -1,7 +1,6 @@
 package com.ewcms.yjk.zd.commonname.service;
 
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -11,16 +10,18 @@ import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.ewcms.common.service.BaseService;
+import com.ewcms.common.utils.Collections3;
 import com.ewcms.common.utils.EmptyUtil;
 import com.ewcms.util.PinYin;
 import com.ewcms.yjk.zd.commonname.entity.Administration;
 import com.ewcms.yjk.zd.commonname.entity.CommonName;
 import com.ewcms.yjk.zd.commonname.entity.CommonNameContents;
 import com.ewcms.yjk.zd.commonname.entity.DrugCategoryEnum;
-import com.ewcms.yjk.zd.commonname.entity.HospitalContents;
 import com.ewcms.yjk.zd.commonname.repository.CommonNameContentsRepository;
 import com.google.common.collect.Lists;
 
@@ -62,28 +63,34 @@ public class CommonNameContentsService extends BaseService<CommonNameContents, L
 				.findByCommonCommonNameAndCommonAdministrationIdAndDeletedFalseOrderByUpdateDateDesc(commonName,
 						administrationId);
 	}
-	public List<CommonNameContents> findByCommonIdAndDeletedFalse(Long commonId){
+
+	public List<CommonNameContents> findByCommonIdAndDeletedFalse(Long commonId) {
 		return getCommonNameContentsRepository().findByCommonIdAndDeletedFalse(commonId);
 	}
+	
+	public Page<CommonNameContents> findByCommonIdInAndDeletedFalse(List<Long> commonIds, Pageable pageable){
+		return getCommonNameContentsRepository().findByCommonIdInAndDeletedFalse(commonIds, pageable);
+	}
+
 	/**
 	 * 根据申报药品查找当前大目录匹配胡数据集合
 	 * 
 	 * @param commonNameContentsId
 	 * @return
 	 */
-	public List<CommonNameContents> matchByCommonNameContentsId(Long commonNameContentsId) {
+	@SuppressWarnings("unchecked")
+	public Page<CommonNameContents> matchByCommonNameContentsId(Long commonNameContentsId, Pageable pageable) {
 		CommonNameContents commonNameContentsvo = findOne(commonNameContentsId);
-		List<CommonName> commonNameList = commonNameService.findByNumberAndAdministrationIdAndDrugCategory(
+		List<CommonName> commonNames = commonNameService.findByNumberAndAdministrationIdAndDrugCategory(
 				commonNameContentsvo.getCommon().getNumber(),
 				commonNameContentsvo.getCommon().getAdministration().getId(),
 				commonNameContentsvo.getCommon().getDrugCategory());
-		List<CommonNameContents> commonNameContentssList = new ArrayList<CommonNameContents>();
-		for (CommonName commonName : commonNameList) {
-			commonNameContentssList.addAll(findByCommonIdAndDeletedFalse(commonName.getId()));
-		}
-		return commonNameContentssList;
+
+		List<Long> commonNameIds = Collections3.extractToList(commonNames, "id");
+		
+		return findByCommonIdInAndDeletedFalse(commonNameIds, pageable);
 	}
-	
+
 	public List<Integer> importExcel(InputStream in) {
 		List<Integer> noSave = Lists.newArrayList();
 

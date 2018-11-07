@@ -2,7 +2,7 @@
 <!DOCTYPE xml>
 <configuration scan="true" scanPeriod="10 seconds" debug="false">
 	<!-- 开发环境使用 -->
-	 <property name="LOG_HOME" value="/home/wuzhijun/logs" /> 
+	<property name="LOG_HOME" value="/home/wuzhijun/logs" /> 
 	<!-- 生产环境使用 -->
 	<!--<property name="LOG_HOME" value="/webserver/tomcat/logs" />-->
 
@@ -85,8 +85,8 @@
     <!--系统用户操作日志-->
     <logger name="yjk-sys-user" level="info">
         <appender-ref ref="USER"/>
-        <!-- 正式使用时注释下面 -->
-        <appender-ref ref="STDOUT"/> 
+        <!-- 正式使用时注释下面  -->
+        <appender-ref ref="STDOUT"/>
     </logger>
 
     <!-- cache 

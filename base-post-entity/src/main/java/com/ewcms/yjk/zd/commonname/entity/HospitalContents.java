@@ -13,7 +13,6 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -56,7 +55,6 @@ import com.ewcms.common.plugin.entity.LogicDeleteable;
 
 @Entity
 @Table(name = "zd_hospital_contents")
-@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @SequenceGenerator(name="seq", sequenceName="seq_zd_hospital_contents_id", allocationSize = 1)
 public class HospitalContents extends BaseSequenceEntity<Long> implements LogicDeleteable {
 	private static final long serialVersionUID = -1099925594474353241L;

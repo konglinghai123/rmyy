@@ -1,7 +1,6 @@
 package com.ewcms.yjk.zd.commonname.service;
 
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -11,9 +10,12 @@ import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.ewcms.common.service.BaseService;
+import com.ewcms.common.utils.Collections3;
 import com.ewcms.common.utils.EmptyUtil;
 import com.ewcms.util.PinYin;
 import com.ewcms.yjk.zd.commonname.entity.Administration;
@@ -44,23 +46,27 @@ public class HospitalContentsService extends BaseService<HospitalContents, Long>
 		return getHospitalContentsRepository().findByCommonIdAndDeletedFalse(commonId);
 	}
 
+	public Page<HospitalContents> findByCommonIdInAndDeletedFalse(List<Long> commonIds, Pageable pageable){
+		return getHospitalContentsRepository().findByCommonIdInAndDeletedFalse(commonIds, pageable);
+	}
+	
 	/**
 	 * 根据申报药品查找当前院药品目录在用医院药品集合
 	 * 
 	 * @param commonNameContentsId
 	 * @return
 	 */
-	public List<HospitalContents> matchByCommonNameContentsId(Long commonNameContentsId) {
+	@SuppressWarnings("unchecked")
+	public Page<HospitalContents> matchByCommonNameContentsId(Long commonNameContentsId, Pageable pageable) {
 		CommonNameContents commonNameContentsvo = commonNameContentsService.findOne(commonNameContentsId);
-		List<CommonName> commonNameList = commonNameService.findByNumberAndAdministrationIdAndDrugCategory(
+		List<CommonName> commonNames = commonNameService.findByNumberAndAdministrationIdAndDrugCategory(
 				commonNameContentsvo.getCommon().getNumber(),
 				commonNameContentsvo.getCommon().getAdministration().getId(),
 				commonNameContentsvo.getCommon().getDrugCategory());
-		List<HospitalContents> hospitalContentsList = new ArrayList<HospitalContents>();
-		for (CommonName commonName : commonNameList) {
-			hospitalContentsList.addAll(findByCommonIdAndDeletedFalse(commonName.getId()));
-		}
-		return hospitalContentsList;
+		
+		List<Long> commonNameIds = Collections3.extractToList(commonNames, "id");
+		
+		return findByCommonIdInAndDeletedFalse(commonNameIds, pageable);
 	}
 
 	@Override

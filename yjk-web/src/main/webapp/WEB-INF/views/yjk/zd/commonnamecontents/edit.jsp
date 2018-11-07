@@ -18,31 +18,7 @@
 			<table class="formtable">
 				<tr>
 					<td width="20%"><form:label path="common">通用名(拼音)：</form:label></td>
-					<td width="30%"><from:input id="cc_common" name="common" data-options="
-						panelWidth: 500,
-			            idField: 'id',
-			            textField: 'commonName',
-			            fitColumns: true,
-			            singleSelect:true,
-			            url:'${ctx}/yjk/zd/commonname/findbyspell',
-			            queryParams:{spell:'${m.common.spell}'},
-			            columns: [[
-			                {field:'id',title:'序号',width:80},
-			                {field:'commonName',title:'通用名',width:120},
-			                {field:'administration',title:'给药途径',width:80,
-			                	formatter:function(val,row){
-									return (row.administration==null) ? '' : row.administration.name;
-								}
-							},
-			                {field:'number',title:'编号',width:80},
-			                {field:'drugCategoryInfo',title:'药品种类',width:200}
-			            ]],
-			            onLoadSuccess:function(old){
-			               	$('#cc_common').combogrid('setValue',${m.common.id});
-			            }
-					"/>
-					</td>
-	
+					<td width="30%"><from:input id="cc_common" name="common" cssClass="validate[required]"/>
 					<td width="20%"><form:label path="commonName">大目录通用名：</form:label></td>
 					<td width="30%"><form:input path="commonName" cssClass="validate[required]" /></td>
 				</tr>
@@ -148,29 +124,62 @@
 </div>
 <ewcms:footer />
 <script type="text/javascript">
-	$(function(){
+	$(function() {
+		var transTool = $('#cc_common').combogrid({
+			panelWidth: 500,
+            idField: 'id',
+            textField: 'commonName',
+            fitColumns: true,
+            singleSelect:true,
+            url:'${ctx}/yjk/zd/commonname/findbyspell',
+            queryParams:{spell:'${m.common.spell}'},
+            columns: [[
+                {field:'id',title:'序号',width:80},
+                {field:'commonName',title:'通用名',width:120},
+                {field:'administration',title:'给药途径',width:80,
+                	formatter:function(val,row){
+						return (row.administration==null) ? '' : row.administration.name;
+					}
+				},
+                {field:'number',title:'编号',width:80},
+                {field:'drugCategoryInfo',title:'药品种类',width:200},
+                {field:'spell',title:'全拼',width:100},
+                {field:'spellSimplify',title:'简拼',width:100}
+            ]],
+            onLoadSuccess:function(){
+            	if ($('#id').val() != ''){
+            		$('#cc_common').combogrid('setValue',${m.common.id});
+            	}
+            }
+		});
+		
+		transTool.combogrid('textbox').keyup(function(event) {
+			if (event.keyCode == 38){
+			} else if (event.keyCode == 40){
+			} else {
+				$('#cc_common').combogrid('grid').datagrid('reload', {
+					spell : $('#cc_common').combogrid("getText")
+				});
+	 		}
+       	});
+		
 		<c:choose>
-	    	<c:when test="${close}">
-	    		parent.$('#edit-window').window('close');
-	    	</c:when>
-	    	<c:otherwise>
-	    		var validationEngine = $("#editForm").validationEngine({
-	    			promptPosition:'bottomRight',
-	    			showOneMessage: true
-	    		});
-	        	<ewcms:showFieldError commandName="m"/>
-	    	</c:otherwise>
+			<c:when test="${close}">
+				parent.$('#edit-window').window('close');
+			</c:when>
+			<c:otherwise>
+				var validationEngine = $("#editForm").validationEngine({
+					promptPosition : 'bottomRight',
+					showOneMessage : true
+				});
+				<ewcms:showFieldError commandName="m"/>
+			</c:otherwise>
 		</c:choose>
 	});
 	$.ewcms.refresh({
 		operate : '${operate}',
 		data : '${lastM}'
 	});
-
-	$('#cc_common').combogrid({keyHandler: {
-        enter: function (){
-        	$('#cc_common').combogrid('grid').datagrid('reload',{spell: $('#cc_common').combogrid("getText")});
-    }}}); 
 
 	function pageSubmit() {
 		if ($('#cc_common').val() == '') {
@@ -179,6 +188,4 @@
 		}
 		$('#editForm').submit();
 	}
-	
-
 </script>

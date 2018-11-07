@@ -23,7 +23,7 @@
 					</c:otherwise>
 				</c:choose>
 				
-				<input type="hidden" id="className" name="className" value="${className}"/>
+				<input type="hidden" id="className" name="className" value="${m.className}"/>
 				<input type="hidden" id="objectId" name="objectId" value="${objectId}"/>
 		    	<c:forEach var="selection" items="${selections}">
 	  				<input type="hidden" name="selections" value="${selection}" />

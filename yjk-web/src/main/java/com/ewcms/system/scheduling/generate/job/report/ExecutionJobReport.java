@@ -35,14 +35,14 @@ public class ExecutionJobReport extends BaseExecutionJob {
     public static final String CHART_FACTORY = "chartFactory";
     public static final String TEXT_FACTORY = "textFactory";
 
-    private JobReport ewcmsJobReport;
+    private JobReport jobReport;
 
     protected void jobExecute(Long jobId) throws Exception {
-        ewcmsJobReport = getJobReportService().findOne(jobId);
-        if (ewcmsJobReport != null){
-	        String outputFormat = ewcmsJobReport.getOutputFormat();
-	        String label = ewcmsJobReport.getLabel();
-	        String description = ewcmsJobReport.getDescription();
+        jobReport = getJobReportService().findOne(jobId);
+        if (jobReport != null){
+	        String outputFormat = jobReport.getOutputFormat();
+	        String label = jobReport.getLabel();
+	        String description = jobReport.getDescription();
 	        
 	        logger.info("生成报表开始...");
 	        if (outputFormat != null && outputFormat.length() > 0) {
@@ -59,11 +59,11 @@ public class ExecutionJobReport extends BaseExecutionJob {
     }
 
 	protected void jobClear() {
-		ewcmsJobReport = null;		
+		jobReport = null;		
 	}
 	
 	private void attachOutput(Integer iOutput, String label, String description) throws Exception {
-        Set<JobReportParameter> jobParams = ewcmsJobReport.getJobReportParameters();
+        Set<JobReportParameter> jobParams = jobReport.getJobReportParameters();
         Map<String, String> parameters = new LinkedHashMap<String, String>();
         for (JobReportParameter jobParameter : jobParams) {
             String enName = jobParameter.getParameter().getEnName();
@@ -71,8 +71,8 @@ public class ExecutionJobReport extends BaseExecutionJob {
             parameters.put(enName, value);
         }
 
-        TextReport textReport = ewcmsJobReport.getTextReport();
-        ChartReport chartReport = ewcmsJobReport.getChartReport();
+        TextReport textReport = jobReport.getTextReport();
+        ChartReport chartReport = jobReport.getChartReport();
 
         String fileType = "";
         byte[] bytes = null;
