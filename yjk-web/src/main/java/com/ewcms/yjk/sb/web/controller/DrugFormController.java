@@ -30,6 +30,7 @@ import com.ewcms.security.user.web.bind.annotation.CurrentUser;
 import com.ewcms.yjk.sb.entity.DrugForm;
 import com.ewcms.yjk.sb.entity.AuditStatusEnum;
 import com.ewcms.yjk.sb.service.DrugFormService;
+import com.ewcms.yjk.sp.entity.SystemParameter;
 import com.ewcms.yjk.sp.service.SystemParameterService;
 import com.ewcms.yjk.zd.commonname.entity.CommonName;
 import com.ewcms.yjk.zd.commonname.entity.CommonNameContents;
@@ -79,6 +80,10 @@ public class DrugFormController extends BaseCRUDController<DrugForm, Long> {
 	protected void setCommonData(Model model) {
 		super.setCommonData(model);
 		model.addAttribute("isOpenDeclare", systemParameterService.isOpenDrugDeclare());
+		if(systemParameterService.isOpenDrugDeclare()){
+			SystemParameter systemParameter = systemParameterService.findByEnabledTrue();
+			model.addAttribute("declareRule", "申报规则：一品两规限数为"+ systemParameter.getDeclarationLimt()+"，最大药品申报数量为"+systemParameter.getDeclareTotalLimt());
+		}
 		model.addAttribute("stateList", AuditStatusEnum.values());
 		model.addAttribute("userList", userService.findAll());
 		model.addAttribute("commonNameRuleList",
@@ -134,9 +139,9 @@ public class DrugFormController extends BaseCRUDController<DrugForm, Long> {
 				redirectAttributes.addFlashAttribute(Constants.MESSAGE, "数据输入不完整，请重新输入");
 				return redirectToUrl(viewName("save"));
 			}
-			vo = matchDeclareList.get(0);
+			m.setCommonNameContents(matchDeclareList.get(0));
 		}
-		DrugForm lastM = getDrugFormService().drugDeclare(user, vo);
+		DrugForm lastM = getDrugFormService().drugDeclare(user, m);
 
 		if (lastM == null) {
 			redirectAttributes.addFlashAttribute(Constants.MESSAGE, "新药已超过限数，不能申报");

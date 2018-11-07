@@ -28,6 +28,9 @@
 								</c:otherwise>
 							</c:choose>			
 						</c:forEach>
+						<th data-options="field:'dosage',width:150">用法用量</th>
+						<th data-options="field:'indicationsEffect',width:300">适应症及药理作用</th>
+						<th data-options="field:'declareReason',width:300">申请理由</th>
 						<th data-options="field:'fillInDate',width:150">填报时间</th>
 						<th data-options="field:'declareDate',width:150">申报时间</th>
 						<th data-options="field:'declared',width:100,sortable:true,formatter:formatOperation">是否已经申报</th>		
@@ -36,9 +39,10 @@
 			</table>
 			<div id="tb" style="padding:5px;height:auto;">
 		        <div class="toolbar" style="margin-bottom:2px">
-					<a id="tb-add" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-add',toggle:true" onclick="$.ewcms.add({title:'新增',width:400,height:450});">新增</a>
+					<a id="tb-add" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-add',toggle:true" onclick="$.ewcms.add({title:'新增',width:600,height:450});">新增</a>
 					<a id="tb-declare" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-add',toggle:true" onclick="$.ewcms.openWindow({windowId:'#edit-window',width:750,height:450,title:'申报提交',src:'${ctx}/yjk/sb/drugform/declaresubmit'});">申报提交</a>
 					<a id="tb-canceldeclare" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-add',toggle:true" onclick="$.ewcms.openWindow({windowId:'#edit-window',width:750,height:450,title:'申报撤销',src:'${ctx}/yjk/sb/drugform/declarecancel'});">申报撤销</a>
+					<font color=red>${declareRule}</font>
 				</div>
 		        <div  style="padding-left:5px;">
 		        	<form id="queryform" style="padding:0;margin:0;" >

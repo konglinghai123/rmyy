@@ -102,6 +102,18 @@
 							</c:otherwise>
 						</c:choose>		
 					</c:forEach>
+					<tr>
+						<td width="30%"><form:label path="dosage">用法用量：</form:label></td>
+						<td width="70%"><form:textarea path="dosage" style="width:300px;height:30px" cssClass="validate[required]"/></td>
+					</tr>
+					<tr>
+						<td width="30%"><form:label path="indicationsEffect">适应症及药理作用：</form:label></td>
+						<td width="70%"><form:textarea path="indicationsEffect"	style="width:300px;height:30px" cssClass="validate[required]"/></td>
+					</tr>
+					<tr>
+						<td width="30%"><form:label path="declareReason">申请理由：</form:label></td>
+						<td width="70%"><form:textarea path="declareReason" style="width:300px;height:30px" cssClass="validate[required]"/></td>
+					</tr>
            		</table>
           	</form:form>
 		 	<form id="queryform">

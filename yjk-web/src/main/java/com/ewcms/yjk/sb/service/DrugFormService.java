@@ -49,15 +49,15 @@ public class DrugFormService extends BaseService<DrugForm, Long> {
 		return (DrugFormRepository) baseRepository;
 	}
 
-	public DrugForm drugDeclare(User user, CommonNameContents vo) {
-		DrugForm drugForm = null;
+	public DrugForm drugDeclare(User user, DrugForm drugForm) {
+		CommonNameContents vo = drugForm.getCommonNameContents();
 		if (!isDeclareUpperLimt(vo.getId())) {
-			drugForm = new DrugForm();
 			drugForm.setUserId(user.getId());
-			drugForm.setCommonNameContents(vo);
 			drugForm = baseRepository.save(drugForm);
+			return drugForm;
+		}else{
+			return null;
 		}
-		return drugForm;
 	}
 
 	public String saveDeclareSubmit(List<Long> selections) {

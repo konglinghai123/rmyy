@@ -37,6 +37,9 @@ import com.ewcms.yjk.zd.commonname.entity.CommonNameContents;
  * <li>remark:说明</li>
  * <li>fillInDate:填报时间</li>
  * <li>declareDate:申报时间</li>
+ * <li>dosage:用法用量</li>
+ * <li>indicationsEffect:适应症及药理作用</li>
+ * <li>declareReason:申请理由</li>
  * </ul>
  * 
  * @author zhoudongchu
@@ -52,12 +55,11 @@ public class DrugForm extends BaseSequenceEntity<Long> {
 	@Formula(value = "(select s_o.username  from sec_user s_o where s_o.id=user_id)")
 	private String userName;
 
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	@Column(name = "fill_in_date", columnDefinition = "Timestamp default CURRENT_DATE", insertable = false, updatable = false)
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date fillInDate;
-	
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	@Column(name = "declare_date", columnDefinition = "Timestamp default CURRENT_DATE")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date declareDate;
@@ -76,6 +78,15 @@ public class DrugForm extends BaseSequenceEntity<Long> {
 	@Column(name = "remark")
 	private String remark;	
 	
+	@Column(name = "dosage", nullable = false)
+	private String dosage;
+	
+	@Column(name = "indications_effect", nullable = false)
+	private String indicationsEffect;
+	
+	@Column(name = "declare_reason", nullable = false)
+	private String declareReason;
+	
 	public Long getUserId() {
 		return userId;
 	}
@@ -87,7 +98,7 @@ public class DrugForm extends BaseSequenceEntity<Long> {
 	public String getUserName() {
 		return userName;
 	}
-	@JSONField(format = "yyyy-MM-dd")
+	@JSONField(format = "yyyy-MM-dd HH:mm:ss")
 	public Date getFillInDate() {
 		return fillInDate;
 	}
@@ -95,7 +106,7 @@ public class DrugForm extends BaseSequenceEntity<Long> {
 	public void setFillInDate(Date fillInDate) {
 		this.fillInDate = fillInDate;
 	}
-	@JSONField(format = "yyyy-MM-dd")
+	@JSONField(format = "yyyy-MM-dd HH:mm:ss")
 	public Date getDeclareDate() {
 		return declareDate;
 	}
@@ -139,4 +150,28 @@ public class DrugForm extends BaseSequenceEntity<Long> {
 	public String getAuditStatusInfo(){
     	return auditStatus == null ? "" : auditStatus.getInfo();
     }
+
+	public String getDosage() {
+		return dosage;
+	}
+
+	public void setDosage(String dosage) {
+		this.dosage = dosage;
+	}
+
+	public String getIndicationsEffect() {
+		return indicationsEffect;
+	}
+
+	public void setIndicationsEffect(String indicationsEffect) {
+		this.indicationsEffect = indicationsEffect;
+	}
+
+	public String getDeclareReason() {
+		return declareReason;
+	}
+
+	public void setDeclareReason(String declareReason) {
+		this.declareReason = declareReason;
+	}
 }

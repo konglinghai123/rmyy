@@ -34,7 +34,7 @@
 			onclick="$.ewcms.add({title:'新增',width:600,height:500});">新增</a> <a
 			id="tb-edit" href="javascript:void(0);" class="easyui-linkbutton"
 			data-options="plain:true,iconCls:'icon-edit',toggle:true"
-			onclick="$.ewcms.edit({title:'修改',width:600,height:500});">修改</a>
+			onclick="updateSystemParameter();">修改</a>
 	</div>
 	<div style="padding-left: 5px;">
 		<form id="queryform" style="padding: 0; margin: 0;">
@@ -109,7 +109,6 @@
 	}*/
 
 	function closeDeclare(id) {
-		loadingEnable();
 		$.messager.confirm('提示', '确定要关闭申报吗?<br/><font color="red">关闭后所有人员将无法进行新药申报!</font>', function(r) {
 			if (r) {
 				$.post('${ctx}/yjk/sp/systemparamter/' + id + '/closedeclare',{}, function(result) {
@@ -126,7 +125,6 @@
 	}
 
 	function openDeclare(id) {
-		loadingEnable();
 		$.messager.confirm('提示', '确定要启动申报吗?<br/><font color="red">启动后将根据所选条件进行人员重新筛选!</font>', function(r) {
 			if (r) {
 				loadingEnable();
@@ -145,5 +143,19 @@
 	function loadingEnable(){
 		$("<div class=\"datagrid-mask\"></div>").css({display:"block",width:"100%",height:$(window).height()}).appendTo("body");
 		$("<div class=\"datagrid-mask-msg\"></div>").html("<font size='9'>正在处理，请稍候。。。</font>").appendTo("body").css({display:"block",left:($(document.body).outerWidth(true) - 190) / 2,top:($(window).height() - 45) / 2}); 
+	}
+	
+	function updateSystemParameter(){
+		var rows = $('#tt').datagrid('getSelections');
+	    
+    	if(rows.length != 1){
+	        $.messager.alert('提示','请选择1条记录进行修改','info');
+	        return;
+	    }
+    	if(rows[0].enabled){
+	        $.messager.alert('提示','启动记录不能修改，关闭以后才可修改','info');
+	        return;
+    	}
+    	$.ewcms.edit({title:'修改',width:600,height:500});
 	}
 </script>
