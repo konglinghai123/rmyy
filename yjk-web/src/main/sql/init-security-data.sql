@@ -148,7 +148,7 @@ insert into sec_resource(id, icon, identity, name, parent_id, parent_ids, is_sho
 ,(112,'empi-system-onlineeditor-tree','onlineEditor','在线编辑',6,'0/1/6/','true',null,'/system/editor/index',7)
 ,(113,'empi-system-staticresource-tree','staticResource','静态资源版本控制',6,'0/1/6/','true',null,'/system/staticresource/index',8)
 ,(114,'ztree_file','','字典管理',5,'0/1/5/','true',null,'',7)
-,(115,'ztree_file','departmentAttribute','科室属性',6,'0/16/','true',null,'/security/dictionary/departmentAttribute/index',9)
+,(115,'ztree_file','departmentAttribute','科室属性',6,'0/1/6/','true',null,'/security/dictionary/departmentAttribute/index',9)
 ,(116,'ztree_file','profession','执业类别',6,'0/1/6/','true',null,'/security/dictionary/profession/index',10)
 ,(117,'ztree_file','technicalTitle','技术职称(资格)',6,'0/1/6/','true',null,'/security/dictionary/technicalTitle/index',11)
 ,(118,'ztree_file','appointment','聘任',6,'0/1/6/','true',null,'/security/dictionary/appointment/index',12)
