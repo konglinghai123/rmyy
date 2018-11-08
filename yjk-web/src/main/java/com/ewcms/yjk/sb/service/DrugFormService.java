@@ -108,34 +108,18 @@ public class DrugFormService extends BaseService<DrugForm, Long> {
 	 * @return
 	 */
 	private Boolean isDeclareUpperLimt(Long commonNameContentsId) {
+		Boolean isDeclare = Boolean.TRUE;
 		if (commonNameContentsId != null) {// 申报目录编号存在
 			// 获取新药申报的通用名对象
 			CommonNameContents vo = commonNameContentsService.findOne(commonNameContentsId);
+			// 根据编号、用药途径、药品种类反查所有该匹配的通用名集,一品两规
+			List<CommonName> commonNameList = commonNameService.findByNumberAndAdministrationIdAndDrugCategory(vo.getCommon().getNumber(), vo.getCommon().getAdministration().getId(), vo.getCommon().getDrugCategory());
 			
-			//查询特殊规则中的随数与特殊规则对象
-			Map<Long, SpecialRule> map = specialRuleService.findMaxLimitNumber(vo.getCommon().getId());
-			
+			//查询系统参数的限数
 			Long maxNumber = 0L;
-			SpecialRule specialRule = null;
-			
-			for(Long key : map.keySet()) {
-				maxNumber = key;
-				specialRule = map.get(key);
-			}
-			
-			List<CommonName> commonNameList = null;
-			if(EmptyUtil.isNotNull(specialRule)) {
-				commonNameList = specialRule.getCommonNames();
-			} else {
-				// 根据编号、用药途径、药品种类反查所有该匹配的通用名集
-				commonNameList = commonNameService.findByNumberAndAdministrationIdAndDrugCategory(
-						vo.getCommon().getNumber(), vo.getCommon().getAdministration().getId(),
-						vo.getCommon().getDrugCategory());
-				//查询系统参数的限数
-				SystemParameter systemParameter = systemParameterService.findByEnabledTrue();
-				if (EmptyUtil.isNotNull(systemParameter)) {
-					maxNumber = systemParameter.getDeclarationLimt();
-				}
+			SystemParameter systemParameter = systemParameterService.findByEnabledTrue();
+			if (EmptyUtil.isNotNull(systemParameter)) {
+				maxNumber = systemParameter.getDeclarationLimt();
 			}
 			
 			// 根据通用名集找院目录在该通用名集中的记录集
@@ -148,10 +132,36 @@ public class DrugFormService extends BaseService<DrugForm, Long> {
 			}
 			
 			if (existNumber < maxNumber) {
-				return Boolean.FALSE;
+				//查询特殊规则中的随数与特殊规则对象
+				Map<Long, SpecialRule> map = specialRuleService.findMaxLimitNumber(vo.getCommon().getId());
+				
+				SpecialRule specialRule = null;
+				
+				for(Long key : map.keySet()) {
+					maxNumber = key;
+					specialRule = map.get(key);
+				}
+				
+				if (EmptyUtil.isNotNull(specialRule)) {
+					commonNameList.clear();
+					commonNameList = specialRule.getCommonNames();
+					
+					existNumber = 0;
+					for (CommonName commonName : commonNameList) {
+						hospitalContentsList = hospitalContentsService.findByCommonIdAndDeletedFalse(commonName.getId());
+						if (hospitalContentsList != null && hospitalContentsList.size() > 0)
+							existNumber += hospitalContentsList.size();
+					}
+					
+					if (existNumber < maxNumber) {
+						isDeclare = Boolean.FALSE;
+					}
+				} else {
+					isDeclare = Boolean.FALSE;
+				}
 			}
 		}
-		return Boolean.TRUE;
+		return isDeclare;
 	}
 
 	/**

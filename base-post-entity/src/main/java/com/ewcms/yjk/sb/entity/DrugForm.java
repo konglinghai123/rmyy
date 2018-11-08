@@ -78,13 +78,13 @@ public class DrugForm extends BaseSequenceEntity<Long> {
 	@Column(name = "remark")
 	private String remark;	
 	
-	@Column(name = "dosage", nullable = false)
+	@Column(name = "dosage", nullable = false, columnDefinition = "text")
 	private String dosage;
 	
-	@Column(name = "indications_effect", nullable = false)
+	@Column(name = "indications_effect", nullable = false, columnDefinition = "text")
 	private String indicationsEffect;
 	
-	@Column(name = "declare_reason", nullable = false)
+	@Column(name = "declare_reason", nullable = false, columnDefinition = "text")
 	private String declareReason;
 	
 	public Long getUserId() {

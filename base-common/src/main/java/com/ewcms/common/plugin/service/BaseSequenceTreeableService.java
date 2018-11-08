@@ -309,7 +309,7 @@ public abstract class BaseSequenceTreeableService<M extends BaseSequenceEntity<I
 	public Set<ID> findAncestorIds(ID currentId) {
         Set ids = Sets.newHashSet();
         M m = findOne(currentId);
-        if (m == null) {
+        if (m == null || m.getParentIds() == null) {
             return ids;
         }
         for (String idStr : StringUtils.tokenizeToStringArray(m.getParentIds(), "/")) {

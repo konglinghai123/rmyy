@@ -102,7 +102,6 @@ public class CommonName extends BaseSequenceEntity<Long> implements LogicDeletea
 		return drugCategory == null ? "" : drugCategory.getInfo();
 	}
 
-
 	public DrugCategoryEnum getDrugCategory() {
 		return drugCategory;
 	}

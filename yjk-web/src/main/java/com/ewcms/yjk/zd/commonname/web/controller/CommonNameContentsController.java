@@ -1,11 +1,8 @@
 package com.ewcms.yjk.zd.commonname.web.controller;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -25,12 +22,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ewcms.common.entity.search.SearchParameter;
-import com.ewcms.common.utils.Reflections;
 import com.ewcms.common.web.controller.BaseCRUDController;
 import com.ewcms.yjk.zd.commonname.entity.Administration;
 import com.ewcms.yjk.zd.commonname.entity.CommonNameContents;
 import com.ewcms.yjk.zd.commonname.service.CommonNameContentsService;
 import com.ewcms.yjk.zd.commonname.service.CommonNameRuleService;
+import com.ewcms.yjk.zd.commonname.util.DuplicateRemovalUtil;
 import com.google.common.collect.Lists;
 
 /**
@@ -56,6 +53,19 @@ public class CommonNameContentsController extends BaseCRUDController<CommonNameC
 		super.setCommonData(model);
 		// model.addAttribute("booleanList", BooleanEnum.values());
 	}
+	
+	@SuppressWarnings("unchecked")
+	@RequestMapping(value = "/querydeclare")
+	@ResponseBody
+	public List<CommonNameContents> queryDeclare(@ModelAttribute SearchParameter<Long> searchParameter, Model model) {
+		searchParameter.getSorts().put("updateDate", Direction.DESC);
+		searchParameter.getParameters().put("EQ_deleted", Boolean.FALSE);
+		Map<String, Object> map = getCommonNameContentsService().query(searchParameter);
+		return DuplicateRemovalUtil.removeDuplicateOrder((List<CommonNameContents>) map.get("rows"),
+				commonNameRuleService.findByDeletedFalseAndEnabledTrueOrderByWeightAsc()
+						.get(Integer.parseInt(searchParameter.getParameters().get("objIndex").toString()))
+						.getRuleName());
+	}
 
 	@Override
 	public Map<String, Object> query(SearchParameter<Long> searchParameter, Model model) {
@@ -64,44 +74,6 @@ public class CommonNameContentsController extends BaseCRUDController<CommonNameC
 		return super.query(searchParameter, model);
 	}
 
-	@SuppressWarnings("unchecked")
-	@RequestMapping(value = "querydeclare")
-	@ResponseBody
-	public List<CommonNameContents> queryDeclare(@ModelAttribute SearchParameter<Long> searchParameter, Model model) {
-		searchParameter.getSorts().put("updateDate", Direction.DESC);
-		searchParameter.getParameters().put("EQ_deleted", Boolean.FALSE);
-		Map<String, Object> map = super.query(searchParameter, model);
-		return removeDuplicateOrder((List<CommonNameContents>) map.get("rows"),	commonNameRuleService.findByDeletedFalseAndEnabledTrueOrderByWeightAsc().get(Integer.parseInt(searchParameter.getParameters().get("objIndex").toString())).getRuleName());
-	}
-	
-    /**
-     * 去重
-     * 
-     * @param orderList
-     * @return
-     * @author jqlin
-     */
-    private static List<CommonNameContents> removeDuplicateOrder(List<CommonNameContents> orderList, String objName) {
-    	 List<CommonNameContents> list1= new ArrayList<CommonNameContents>();
-    	 Set<String> set=new HashSet<String>();
-    	 for(CommonNameContents vo : orderList) {
-    		 if (vo == null) {
-    			 continue;
-    	     }
-    		 String aValue = String.valueOf(Reflections.getFieldValue(vo, objName));
-    	     if (aValue != null) {
-    	    	 if (!set.contains(aValue)) { //set中不包含重复的
-    	    		 set.add(aValue);
-    	    		 list1.add(vo);
-    	         } else {
-    	             continue;
-    	         }
-    	      }   
-    	}
-    	 set.clear(); 
-        return list1;    	
-    }
-    
 	@RequestMapping(value = "{commonNameContentsId}/query")
 	@ResponseBody
 	public Map<String, Object> query(@ModelAttribute SearchParameter<Long> searchParameter, @PathVariable(value = "commonNameContentsId")Long commonNameContentsId, Model model){
@@ -119,8 +91,7 @@ public class CommonNameContentsController extends BaseCRUDController<CommonNameC
 	
 	@RequestMapping(value = "queryadministration")
 	@ResponseBody
-	public List<Administration> queryAdministration(@RequestParam(value = "commonName") String commonName,
-			Model model) {
+	public List<Administration> queryAdministration(@RequestParam(value = "commonName") String commonName, Model model) {
 		List<Administration> admList = getCommonNameContentsService().findAdministrationByCommonName(commonName);
 		return admList;
 	}

@@ -62,7 +62,7 @@
         		<table class="formtable">
               		<tr>
               			<td width="5%">通用名</td>
-              			<td width="15%"><input type="text" name="LIKE_commonName.commonName" style="width:140px;"/></td>
+              			<td width="15%"><input type="text" name="LIKE_common.commonName" style="width:140px;"/></td>
             			<td width="5%">剂型</td>
               			<td width="15%"><input type="text" name="LIKE_pill" style="width:140px;"/></td>
               			<td width="7%">通用名拼音</td>

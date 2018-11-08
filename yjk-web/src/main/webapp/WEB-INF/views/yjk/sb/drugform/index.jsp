@@ -118,18 +118,6 @@
 								$('#tt').datagrid('fixDetailRowHeight',rowIndex);
 							}
 						});
-						
-						$("form table tr").next("tr").hide();
-						$('#tb-more').bind('click', function(){
-					       	var showHideLabel_value = $('#showHideLabel').text();
-					    	$('form table tr').next('tr').toggle();
-					     	if (showHideLabel_value == '收缩'){
-					     		$('#showHideLabel').text('更多');
-					    	}else{
-					    		$('#showHideLabel').text('收缩');
-					    	}
-					    	$('#tt').datagrid('resize');
-					    });	
 					});
 				</c:when>
 				<c:otherwise>
@@ -145,21 +133,23 @@
 							pageSize:20,
 							border:false
 						});
-						
-						$("form table tr").next("tr").hide();
-						$('#tb-more').bind('click', function(){
-					       	var showHideLabel_value = $('#showHideLabel').text();
-					    	$('form table tr').next('tr').toggle();
-					     	if (showHideLabel_value == '收缩'){
-					     		$('#showHideLabel').text('更多');
-					    	}else{
-					    		$('#showHideLabel').text('收缩');
-					    	}
-					    	$('#tt').datagrid('resize');
-					    });	
 					});				
 				</c:otherwise>
 			</c:choose>	
+			
+			$("form table tr").next("tr").hide();
+			$('#tb-more').bind('click', function(){
+		       	var showHideLabel_value = $('#showHideLabel').text();
+		    	$('form table tr').next('tr').toggle();
+		     	if (showHideLabel_value == '收缩'){
+		     		$('#showHideLabel').text('更多');
+		    	}else{
+		    		$('#showHideLabel').text('收缩');
+		    	}
+		    	$('#tt').datagrid('resize');
+		    });	
+			
+			
 			function formatOperation(val, row){
 				return val ?  '是': '否  <a class="resumedCls" onclick="deleteDeclare(' + row.id + ')" href="javascript:void(0);">删除</a>';
 			}

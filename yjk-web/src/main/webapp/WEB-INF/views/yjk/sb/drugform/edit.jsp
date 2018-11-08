@@ -71,7 +71,6 @@
      							</td>
 							</tr>
 							</c:when>
-							
 							<c:otherwise>
 					        	<tr>
 									<td width="20%">${commonNameRule.ruleCnName}：</td>

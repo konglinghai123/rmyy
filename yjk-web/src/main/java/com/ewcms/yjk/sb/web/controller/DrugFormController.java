@@ -37,6 +37,7 @@ import com.ewcms.yjk.zd.commonname.entity.CommonNameContents;
 import com.ewcms.yjk.zd.commonname.service.CommonNameContentsService;
 import com.ewcms.yjk.zd.commonname.service.CommonNameRuleService;
 import com.ewcms.yjk.zd.commonname.service.CommonNameService;
+import com.ewcms.yjk.zd.commonname.util.DuplicateRemovalUtil;
 
 /**
  * @author zhoudongchu
@@ -80,9 +81,10 @@ public class DrugFormController extends BaseCRUDController<DrugForm, Long> {
 	protected void setCommonData(Model model) {
 		super.setCommonData(model);
 		model.addAttribute("isOpenDeclare", systemParameterService.isOpenDrugDeclare());
-		if(systemParameterService.isOpenDrugDeclare()){
+		if (systemParameterService.isOpenDrugDeclare()) {
 			SystemParameter systemParameter = systemParameterService.findByEnabledTrue();
-			model.addAttribute("declareRule", "申报规则：一品两规限数为"+ systemParameter.getDeclarationLimt()+"，最大药品申报数量为"+systemParameter.getDeclareTotalLimt());
+			model.addAttribute("declareRule", "申报规则：一品两规限数为" + systemParameter.getDeclarationLimt() + "，最大药品申报数量为"
+					+ systemParameter.getDeclareTotalLimt());
 		}
 		model.addAttribute("stateList", AuditStatusEnum.values());
 		model.addAttribute("userList", userService.findAll());
@@ -244,4 +246,18 @@ public class DrugFormController extends BaseCRUDController<DrugForm, Long> {
 		}
 		return queryMap;
 	}
+
+	@SuppressWarnings("unchecked")
+	@RequestMapping(value = "/querydeclare")
+	@ResponseBody
+	public List<CommonNameContents> queryDeclare(@ModelAttribute SearchParameter<Long> searchParameter, Model model) {
+		searchParameter.getSorts().put("updateDate", Direction.DESC);
+		searchParameter.getParameters().put("EQ_deleted", Boolean.FALSE);
+		Map<String, Object> map = super.query(searchParameter, model);
+		return DuplicateRemovalUtil.removeDuplicateOrder((List<CommonNameContents>) map.get("rows"),
+				commonNameRuleService.findByDeletedFalseAndEnabledTrueOrderByWeightAsc()
+						.get(Integer.parseInt(searchParameter.getParameters().get("objIndex").toString()))
+						.getRuleName());
+	}
+
 }
