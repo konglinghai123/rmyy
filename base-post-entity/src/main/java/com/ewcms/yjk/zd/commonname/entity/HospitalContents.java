@@ -29,7 +29,7 @@ import com.ewcms.common.plugin.entity.LogicDeleteable;
  * <li>common:通用名对象(CommonName)</li>
  * <li>pill:剂型</li>
  * <li>specifications:规格</li>
- * <li>amount:数量</li>
+ * <li>amount:包装数量</li>
  * <li>manufacturer:生产企业</li>
  * <li>contentCategory:目录分类</li>
  * <li>drugMajor:药品分类大类</li>

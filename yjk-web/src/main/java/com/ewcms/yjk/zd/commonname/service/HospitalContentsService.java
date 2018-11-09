@@ -50,6 +50,9 @@ public class HospitalContentsService extends BaseService<HospitalContents, Long>
 		return getHospitalContentsRepository().findByCommonIdInAndDeletedFalse(commonIds, pageable);
 	}
 	
+	public void deleteAllHospitalContents(){
+		getHospitalContentsRepository().deleteAllHospitalContents();
+	}
 	/**
 	 * 根据申报药品查找当前院药品目录在用医院药品集合
 	 * 
@@ -82,7 +85,7 @@ public class HospitalContentsService extends BaseService<HospitalContents, Long>
 		return super.update(m);
 	}
 
-	public List<Integer> importExcel(InputStream in) {
+	public List<Integer> importExcel(InputStream in,Boolean isDisabledOriginalData) {
 		List<Integer> noSave = Lists.newArrayList();
 
 		try {
@@ -90,7 +93,9 @@ public class HospitalContentsService extends BaseService<HospitalContents, Long>
 			HSSFWorkbook wb = new HSSFWorkbook(fs);
 			HSSFSheet sheet = wb.getSheetAt(0);
 			int records = sheet.getLastRowNum();
-
+			if(isDisabledOriginalData){//如果作废数据库以前数据，将数据库所有数据删除标志设为true
+				deleteAllHospitalContents();
+			}
 			// 获得列名，为第0行位置
 			HSSFRow rows = sheet.getRow(0);
 			int cols = rows.getLastCellNum() - 1;
@@ -169,6 +174,12 @@ public class HospitalContentsService extends BaseService<HospitalContents, Long>
 						} else if (columnNames[j].equals("类别")) {
 							String drugCategoryValue = rows.getCell(j).getStringCellValue().trim();
 							drugCategory = DrugCategoryEnum.valueOf(drugCategoryValue);
+						}else if (columnNames[j].equals("备注1")) {
+							hospitalContents.setRemark1(rows.getCell(j).getStringCellValue().trim());
+						}else if (columnNames[j].equals("备注2")) {
+							hospitalContents.setRemark2(rows.getCell(j).getStringCellValue().trim());
+						}else if (columnNames[j].equals("备注3")) {
+							hospitalContents.setRemark3(rows.getCell(j).getStringCellValue().trim());
 						}
 					}
 					List<CommonName> commonNameList = commonNameService

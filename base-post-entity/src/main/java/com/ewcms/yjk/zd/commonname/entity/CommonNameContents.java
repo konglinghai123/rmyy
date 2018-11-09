@@ -38,7 +38,7 @@ import com.ewcms.common.plugin.entity.LogicDeleteable;
  * <li>medicalRemark:医保备注</li>
  * <li>pill:剂型</li>
  * <li>specifications:规格</li>
- * <li>amount:数量</li>
+ * <li>amount:包装数量</li>
  * <li>productName:商品名</li>
  * <li>packageUnit:包装单位</li>
  * <li>manufacturer:生产企业</li>

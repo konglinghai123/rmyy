@@ -135,7 +135,7 @@ public class DrugFormController extends BaseCRUDController<DrugForm, Long> {
 				return redirectToUrl(viewName("save"));
 			}
 			List<CommonNameContents> matchDeclareList = commonNameContentsService
-					.findByCommonCommonNameAndCommonAdministrationIdAndDeletedFalseOrderByUpdateDateDesc(
+					.findByCommonCommonNameAndCommonAdministrationIdAndDeletedFalseAndDeclaredTrueOrderByUpdateDateDesc(
 							commonName.getCommonName(), vo.getCommon().getAdministration().getId());
 			if (matchDeclareList == null || matchDeclareList.size() == 0) {
 				redirectAttributes.addFlashAttribute(Constants.MESSAGE, "数据输入不完整，请重新输入");

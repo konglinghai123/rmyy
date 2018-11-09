@@ -104,13 +104,14 @@ public class CommonNameContentsController extends BaseCRUDController<CommonNameC
 	@RequestMapping(value = "/saveimport", method = RequestMethod.POST)
 	@ResponseBody
 	public String saveImportStudent(@RequestParam(value = "excelFile", required = false) MultipartFile excelFile,
+			@RequestParam(value = "isDisabledOriginalData", required = false) Boolean isDisabledOriginalData,
 			HttpServletRequest request) {
 		List<Integer> noSave = Lists.newArrayList();
 		String message = "导入信息";
 		try {
 			request.setCharacterEncoding("UTF-8");
 			if (excelFile != null && !excelFile.isEmpty()) {
-				noSave = getCommonNameContentsService().importExcel(excelFile.getInputStream());
+				noSave = getCommonNameContentsService().importExcel(excelFile.getInputStream(),isDisabledOriginalData);
 			}
 		} catch (Exception e) {
 			message += "失败";
