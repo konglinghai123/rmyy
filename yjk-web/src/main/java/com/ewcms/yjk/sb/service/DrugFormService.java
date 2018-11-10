@@ -92,15 +92,37 @@ public class DrugFormService extends BaseService<DrugForm, Long> {
 			}
 		}
 	}
-
+	/**
+	 * 查询未申报的新药
+	 * 
+	 */
 	public List<DrugForm> findByUserIdAndDeclaredFalse(Long userId) {
 		return getDrugFormRepository().findByUserIdAndDeclaredFalse(userId);
 	}
-
+	/**
+	 * 查询未审核的申报的新药
+	 * 
+	 */
 	public List<DrugForm> findByUserIdAndAuditStatus(Long userId, AuditStatusEnum auditStatus) {
 		return getDrugFormRepository().findByUserIdAndAuditStatus(userId, auditStatus);
 	}
 
+	/**
+	 * 新药初审
+	 * 
+	 */
+	public void initAudit(List<Long> selections,Boolean isAuditPassed,String remark){
+		for(Long drugFormId:selections){
+			DrugForm drugForm = findOne(drugFormId);
+			if(isAuditPassed){
+				drugForm.setAuditStatus(AuditStatusEnum.passed);
+			}else{
+				drugForm.setAuditStatus(AuditStatusEnum.un_passed);
+			}
+			drugForm.setRemark(remark);
+			super.save(drugForm);
+		}
+	}
 	/**
 	 * 判断当前申报新药是否超过上限
 	 * 

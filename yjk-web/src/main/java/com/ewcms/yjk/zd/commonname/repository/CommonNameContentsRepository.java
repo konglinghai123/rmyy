@@ -26,5 +26,5 @@ public interface CommonNameContentsRepository extends BaseRepository<CommonNameC
 	@Query("update CommonNameContents  set deleted = true where deleted is false")
 	void deleteAllCommonNameContents();
 	
-	List<CommonNameContents> findByCommonCommonNameAndCommonAdministrationIdAndCommonDrugCategoryAndCommonNumberAndPillAndManufacturerAndCommonNameAndDeletedFalse(String extractCommonName, Long administrationId,DrugCategoryEnum drugCategory,String number,String pill,String manufacturer,String commonName);
+	List<CommonNameContents> findByCommonCommonNameAndCommonAdministrationIdAndCommonDrugCategoryAndCommonNumberAndPillAndManufacturerAndCommonNameAndSpecificationsAndAmountAndDeletedFalse(String extractCommonName, Long administrationId,DrugCategoryEnum drugCategory,String number,String pill,String manufacturer,String commonName,String specifications,String amount);
 }

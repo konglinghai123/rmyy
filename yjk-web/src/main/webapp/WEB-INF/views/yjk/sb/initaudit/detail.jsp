@@ -39,7 +39,3 @@
 	</table>
 <ewcms:editWindow/>
 <ewcms:footer/>
-<script type="text/javascript">
-	
-
-</script>

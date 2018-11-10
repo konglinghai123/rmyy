@@ -1,0 +1,86 @@
+package com.ewcms.yjk.sb.web.controller;
+
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import com.ewcms.common.Constants;
+import com.ewcms.common.entity.search.SearchParameter;
+import com.ewcms.common.utils.EmptyUtil;
+import com.ewcms.common.web.controller.BaseCRUDController;
+import com.ewcms.security.user.service.UserService;
+import com.ewcms.yjk.sb.entity.AuditStatusEnum;
+import com.ewcms.yjk.sb.entity.DrugForm;
+import com.ewcms.yjk.sb.service.DrugFormService;
+import com.ewcms.yjk.zd.commonname.service.CommonNameRuleService;
+
+/**
+ * @author zhoudongchu
+ */
+@Controller
+@RequestMapping(value = "/yjk/sb/initaudit")
+public class InitAuditController extends BaseCRUDController<DrugForm, Long> {
+	@Autowired
+	private CommonNameRuleService commonNameRuleService;
+	@Autowired
+	private UserService userService;
+	private DrugFormService getDrugFormService() {
+		return (DrugFormService) baseService;
+	}
+
+	public InitAuditController() {
+		setListAlsoSetCommonData(true);
+		setResourceIdentity("yjk:initaudit");
+	}
+	
+	@Override
+	protected void setCommonData(Model model) {
+		super.setCommonData(model);
+		model.addAttribute("stateList", AuditStatusEnum.values());
+		model.addAttribute("userList", userService.findAll());
+		model.addAttribute("commonNameRuleList",commonNameRuleService.findByDeletedFalseAndEnabledTrueOrderByWeightAsc());
+	}
+	
+	@RequestMapping(value = "{commonNameContentsId}/detail")
+	public String index(@PathVariable(value = "commonNameContentsId") Long commonNameContentsId) {
+		return viewName("detail");
+	}
+
+	@Override
+	public Map<String, Object> query(SearchParameter<Long> searchParameter,	Model model) {
+		searchParameter.getParameters().put("EQ_declared", Boolean.TRUE);
+		return super.query(searchParameter, model);
+	}
+	@RequestMapping(value = "/auditsubmit")
+	public String auditSubmit(Model model, @RequestParam(required = false) List<Long> selections) {
+		model.addAttribute("selections",selections);
+		return viewName("audit");
+	}
+	@RequestMapping(value = "save/discard")
+	@Override
+	public String save(Model model, DrugForm m, BindingResult result, List<Long> selections) {
+		throw new RuntimeException("discarded method");
+	}	
+	
+	public String save(Model model, @RequestParam(required = false) List<Long> selections,
+			@RequestParam(required = false) Boolean isAuditPassed,
+			@RequestParam(required = false) String remark,RedirectAttributes redirectAttributes) {
+		try{
+			if(EmptyUtil.isCollectionNotEmpty(selections)){
+				getDrugFormService().initAudit(selections, isAuditPassed, remark);
+				redirectAttributes.addFlashAttribute(Constants.MESSAGE, "true");
+			}
+		}catch(Exception e){
+			redirectAttributes.addFlashAttribute(Constants.MESSAGE, "false");
+		}
+		return redirectToUrl(viewName("save"));
+	}
+}

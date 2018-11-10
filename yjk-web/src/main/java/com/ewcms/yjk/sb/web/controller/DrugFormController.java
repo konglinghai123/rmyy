@@ -25,7 +25,6 @@ import com.ewcms.common.entity.search.SearchParameter;
 import com.ewcms.common.web.controller.BaseCRUDController;
 import com.ewcms.common.web.validate.AjaxResponse;
 import com.ewcms.security.user.entity.User;
-import com.ewcms.security.user.service.UserService;
 import com.ewcms.security.user.web.bind.annotation.CurrentUser;
 import com.ewcms.yjk.sb.entity.DrugForm;
 import com.ewcms.yjk.sb.entity.AuditStatusEnum;
@@ -48,8 +47,6 @@ public class DrugFormController extends BaseCRUDController<DrugForm, Long> {
 	@Autowired
 	private CommonNameRuleService commonNameRuleService;
 	@Autowired
-	private UserService userService;
-	@Autowired
 	private SystemParameterService systemParameterService;
 	@Autowired
 	private CommonNameContentsService commonNameContentsService;
@@ -65,18 +62,6 @@ public class DrugFormController extends BaseCRUDController<DrugForm, Long> {
 		setResourceIdentity("sb:drugform");
 	}
 
-	@RequestMapping(value = "index/discard")
-	@Override
-	public String index(Model model) {
-		throw new RuntimeException("discarded method");
-	}
-
-	@RequestMapping(value = { "", "index" }, method = RequestMethod.GET)
-	public String index(@CurrentUser User user, Model model) {
-		model.addAttribute("isAdmin", user.getAdmin());
-		return super.index(model);
-	}
-
 	@Override
 	protected void setCommonData(Model model) {
 		super.setCommonData(model);
@@ -87,7 +72,6 @@ public class DrugFormController extends BaseCRUDController<DrugForm, Long> {
 					+ systemParameter.getDeclareTotalLimt());
 		}
 		model.addAttribute("stateList", AuditStatusEnum.values());
-		model.addAttribute("userList", userService.findAll());
 		model.addAttribute("commonNameRuleList",
 				commonNameRuleService.findByDeletedFalseAndEnabledTrueOrderByWeightAsc());
 	}
@@ -97,9 +81,7 @@ public class DrugFormController extends BaseCRUDController<DrugForm, Long> {
 	public Map<String, Object> queryByUser(@CurrentUser User user,
 			@ModelAttribute SearchParameter<Long> searchParameter, Model model) {
 		searchParameter.getSorts().put("id", Direction.DESC);
-		if (!user.getAdmin()) {
-			searchParameter.getParameters().put("EQ_userId", user.getId());
-		}
+		searchParameter.getParameters().put("EQ_userId", user.getId());
 		Map<String, Object> queryObj = super.query(searchParameter, model);
 		return queryObj;
 	}
@@ -168,10 +150,6 @@ public class DrugFormController extends BaseCRUDController<DrugForm, Long> {
 		return ajaxResponse;
 	}
 
-	@RequestMapping(value = "{commonNameContentsId}/detail")
-	public String index(@PathVariable(value = "commonNameContentsId") Long commonNameContentsId) {
-		return viewName("detail");
-	}
 
 	@RequestMapping(value = "/declaresubmit")
 	public String declareSubmit(Model model) {

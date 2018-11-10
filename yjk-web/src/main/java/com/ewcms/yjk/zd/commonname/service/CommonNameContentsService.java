@@ -72,8 +72,8 @@ public class CommonNameContentsService extends BaseService<CommonNameContents, L
 		return getCommonNameContentsRepository().findByCommonIdInAndDeletedFalseAndDeclaredTrue(commonIds, pageable);
 	}
 
-	public List<CommonNameContents> findByCommonCommonNameAndCommonAdministrationIdAndCommonDrugCategoryAndCommonNumberAndPillAndManufacturerAndCommonNameAndDeletedFalse(String extractCommonName, Long administrationId,DrugCategoryEnum drugCategory,String number,String pill,String manufacturer,String commonName){
-		return getCommonNameContentsRepository().findByCommonCommonNameAndCommonAdministrationIdAndCommonDrugCategoryAndCommonNumberAndPillAndManufacturerAndCommonNameAndDeletedFalse(extractCommonName, administrationId, drugCategory, number, pill, manufacturer, commonName);
+	public List<CommonNameContents> findByCommonCommonNameAndCommonAdministrationIdAndCommonDrugCategoryAndCommonNumberAndPillAndManufacturerAndCommonNameAndSpecificationsAndAmountAndDeletedFalse(String extractCommonName, Long administrationId,DrugCategoryEnum drugCategory,String number,String pill,String manufacturer,String commonName,String specifications,String amount){
+		return getCommonNameContentsRepository().findByCommonCommonNameAndCommonAdministrationIdAndCommonDrugCategoryAndCommonNumberAndPillAndManufacturerAndCommonNameAndSpecificationsAndAmountAndDeletedFalse(extractCommonName, administrationId, drugCategory, number, pill, manufacturer, commonName,specifications,amount);
 	}
 	
 	public void deleteAllCommonNameContents(){
@@ -119,7 +119,7 @@ public class CommonNameContentsService extends BaseService<CommonNameContents, L
 
 			// 获得数据，数据从第1行开始
 			for (int i = 1; i <= records; i++) {
-				String extactCommonName = "", number = "",pill = "",manufacturer = "",contentsCommonName="";
+				String extactCommonName = "", number = "",pill = "",manufacturer = "",contentsCommonName="",specifications="",amount="";
 				DrugCategoryEnum drugCategory = DrugCategoryEnum.H;
 				Long administrationId = 1L;
 				CommonNameContents commonNameContents = new CommonNameContents();
@@ -200,6 +200,8 @@ public class CommonNameContentsService extends BaseService<CommonNameContents, L
 								if (tmp.length == 2) {
 									commonNameContents.setSpecifications(tmp[0]);
 									commonNameContents.setAmount(tmp[1]);
+									specifications = tmp[0];
+									amount = tmp[1];
 								}
 							}
 						} else if (columnNames[j].equals("商品名")) {
@@ -234,13 +236,13 @@ public class CommonNameContentsService extends BaseService<CommonNameContents, L
 							commonNameContents.setRemark3(rows.getCell(j).getStringCellValue().trim());
 						}
 					}
-//					if(!isDisabledOriginalData){//增量导入，需要按照提取通用名，给药途径，编号，药品类型，大目录通用名，生产企业，剂型查重，重复记录的不保存
-//						List<CommonNameContents> repeatList = findByCommonCommonNameAndCommonAdministrationIdAndCommonDrugCategoryAndCommonNumberAndPillAndManufacturerAndCommonNameAndDeletedFalse(extactCommonName, administrationId, drugCategory, number, pill, manufacturer, contentsCommonName);
-//						if(EmptyUtil.isCollectionNotEmpty(repeatList)){
-//							noSave.add(i + 1);
-//							continue;
-//						}
-//					}
+					if(!isDisabledOriginalData){//增量导入，需要按照提取通用名，给药途径，编号，药品类型，大目录通用名，生产企业，剂型查重，重复记录的不保存
+						List<CommonNameContents> repeatList = findByCommonCommonNameAndCommonAdministrationIdAndCommonDrugCategoryAndCommonNumberAndPillAndManufacturerAndCommonNameAndSpecificationsAndAmountAndDeletedFalse(extactCommonName, administrationId, drugCategory, number, pill, manufacturer, contentsCommonName,specifications,amount);
+						if(EmptyUtil.isCollectionNotEmpty(repeatList)){
+							noSave.add(i + 1);
+							continue;
+						}
+					}
 					
 					List<CommonName> commonNameList = commonNameService
 							.findByCommonNameAndNumberAndAdministrationIdAndDrugCategory(extactCommonName, number,administrationId, drugCategory);

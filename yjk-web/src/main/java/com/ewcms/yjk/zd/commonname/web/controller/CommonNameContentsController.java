@@ -60,6 +60,8 @@ public class CommonNameContentsController extends BaseCRUDController<CommonNameC
 	public List<CommonNameContents> queryDeclare(@ModelAttribute SearchParameter<Long> searchParameter, Model model) {
 		searchParameter.getSorts().put("updateDate", Direction.DESC);
 		searchParameter.getParameters().put("EQ_deleted", Boolean.FALSE);
+		searchParameter.getParameters().put("EQ_declared", Boolean.TRUE);
+		
 		Map<String, Object> map = getCommonNameContentsService().query(searchParameter);
 		return DuplicateRemovalUtil.removeDuplicateOrder((List<CommonNameContents>) map.get("rows"),
 				commonNameRuleService.findByDeletedFalseAndEnabledTrueOrderByWeightAsc()
