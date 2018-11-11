@@ -125,6 +125,6 @@
 		</script>
 	</c:when>
 	<c:otherwise>
-		药品申报未开启
+		新药申报未开启
 	</c:otherwise>
 </c:choose>

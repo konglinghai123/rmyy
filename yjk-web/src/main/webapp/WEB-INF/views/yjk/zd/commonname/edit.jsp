@@ -94,7 +94,7 @@
 	
 	function pageSubmit() {
 		if ($('#administration').val() == '') {
-			alert('给药途径不能为空')
+			$.messager.alert('提示','给药途径不能为空','info');
 			return;
 		}
 		$('#editForm').submit();

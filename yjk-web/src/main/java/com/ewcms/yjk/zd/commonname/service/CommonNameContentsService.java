@@ -236,7 +236,7 @@ public class CommonNameContentsService extends BaseService<CommonNameContents, L
 							commonNameContents.setRemark3(rows.getCell(j).getStringCellValue().trim());
 						}
 					}
-					if(!isDisabledOriginalData){//增量导入，需要按照提取通用名，给药途径，编号，药品类型，大目录通用名，生产企业，剂型查重，重复记录的不保存
+					if(!isDisabledOriginalData){//增量导入，需要按照提取通用名，给药途径，编号，药品类型，大目录通用名，生产企业，剂型,规格，包装数量查重，重复记录的不保存
 						List<CommonNameContents> repeatList = findByCommonCommonNameAndCommonAdministrationIdAndCommonDrugCategoryAndCommonNumberAndPillAndManufacturerAndCommonNameAndSpecificationsAndAmountAndDeletedFalse(extactCommonName, administrationId, drugCategory, number, pill, manufacturer, contentsCommonName,specifications,amount);
 						if(EmptyUtil.isCollectionNotEmpty(repeatList)){
 							noSave.add(i + 1);

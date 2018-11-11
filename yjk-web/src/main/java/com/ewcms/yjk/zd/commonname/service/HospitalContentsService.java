@@ -53,6 +53,10 @@ public class HospitalContentsService extends BaseService<HospitalContents, Long>
 	public void deleteAllHospitalContents(){
 		getHospitalContentsRepository().deleteAllHospitalContents();
 	}
+	
+	public List<HospitalContents> findByCommonCommonNameAndCommonAdministrationIdAndCommonDrugCategoryAndCommonNumberAndPillAndManufacturerAndCommonNameAndSpecificationsAndAmountAndDeletedFalse(String extractCommonName, Long administrationId,DrugCategoryEnum drugCategory,String number,String pill,String manufacturer,String commonName,String specifications,String amount){
+		return getHospitalContentsRepository().findByCommonCommonNameAndCommonAdministrationIdAndCommonDrugCategoryAndCommonNumberAndPillAndManufacturerAndCommonNameAndSpecificationsAndAmountAndDeletedFalse(extractCommonName, administrationId, drugCategory, number, pill, manufacturer, commonName, specifications, amount);
+	}
 	/**
 	 * 根据申报药品查找当前院药品目录在用医院药品集合
 	 * 
@@ -107,7 +111,7 @@ public class HospitalContentsService extends BaseService<HospitalContents, Long>
 
 			// 获得数据，数据从第1行开始
 			for (int i = 1; i <= records; i++) {
-				String extactCommonName = "", number = "";
+				String extactCommonName = "", number = "",pill = "",manufacturer = "",hospitalCommonName="",specifications="",amount="";
 				DrugCategoryEnum drugCategory = DrugCategoryEnum.H;
 				Long administrationId = 1L;
 				HospitalContents hospitalContents = new HospitalContents();
@@ -123,6 +127,7 @@ public class HospitalContentsService extends BaseService<HospitalContents, Long>
 							}
 						} else if (columnNames[j].equals("药品通用名")) {
 							hospitalContents.setCommonName(rows.getCell(j).getStringCellValue().trim());
+							hospitalCommonName = rows.getCell(j).getStringCellValue().trim();
 							PinYin.initSpell(hospitalContents);
 						} else if (columnNames[j].equals("给药途径")) {
 							try {
@@ -142,6 +147,7 @@ public class HospitalContentsService extends BaseService<HospitalContents, Long>
 							}
 						} else if (columnNames[j].equals("剂型")) {
 							hospitalContents.setPill(rows.getCell(j).getStringCellValue().trim());
+							pill = rows.getCell(j).getStringCellValue().trim();
 						} else if (columnNames[j].equals("规格*数量")) {
 							String specNumber = rows.getCell(j).getStringCellValue().trim();
 							if (EmptyUtil.isStringNotEmpty(specNumber)) {
@@ -149,10 +155,13 @@ public class HospitalContentsService extends BaseService<HospitalContents, Long>
 								if (tmp.length == 2) {
 									hospitalContents.setSpecifications(tmp[0]);
 									hospitalContents.setAmount(tmp[1]);
+									specifications = tmp[0];
+									amount = tmp[1];
 								}
 							}
 						} else if (columnNames[j].equals("生产企业")) {
 							hospitalContents.setManufacturer(rows.getCell(j).getStringCellValue().trim());
+							manufacturer = rows.getCell(j).getStringCellValue().trim();
 						} else if (columnNames[j].equals("目录分类")) {
 							hospitalContents.setContentCategory(rows.getCell(j).getStringCellValue().trim());
 						} else if (columnNames[j].equals("备注")) {
@@ -180,6 +189,13 @@ public class HospitalContentsService extends BaseService<HospitalContents, Long>
 							hospitalContents.setRemark2(rows.getCell(j).getStringCellValue().trim());
 						}else if (columnNames[j].equals("备注3")) {
 							hospitalContents.setRemark3(rows.getCell(j).getStringCellValue().trim());
+						}
+					}
+					if(!isDisabledOriginalData){//增量导入，需要按照提取通用名，给药途径，编号，药品类型，院用目录通用名，生产企业，剂型,规格，包装数量查重，重复记录的不保存
+						List<HospitalContents> repeatList = findByCommonCommonNameAndCommonAdministrationIdAndCommonDrugCategoryAndCommonNumberAndPillAndManufacturerAndCommonNameAndSpecificationsAndAmountAndDeletedFalse(extactCommonName, administrationId, drugCategory, number, pill, manufacturer, hospitalCommonName,specifications,amount);
+						if(EmptyUtil.isCollectionNotEmpty(repeatList)){
+							noSave.add(i + 1);
+							continue;
 						}
 					}
 					List<CommonName> commonNameList = commonNameService

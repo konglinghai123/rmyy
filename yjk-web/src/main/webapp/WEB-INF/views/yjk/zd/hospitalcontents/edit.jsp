@@ -21,7 +21,7 @@
 		        	<tr>
 						<td width="20%"><form:label path="specifications">规格：</form:label></td>
 						<td width="30%"><form:input path="specifications"/></td>
-						<td width="20%"><form:label path="amount">数量：</form:label></td>
+						<td width="20%"><form:label path="amount">包装数量：</form:label></td>
 						<td width="30%"><form:input path="amount"/></td>
 					</tr>					
 		        	<tr>
@@ -70,7 +70,7 @@
 			</form:form>
 		</div>
 		<div data-options="region:'south'" style="text-align:center;height:30px;border:0">
-	  		<a class="easyui-linkbutton" data-options="iconCls:'icon-save'" href="javascript:void(0);" onclick="javascript:$('#editForm').submit();">提交</a>
+	  		<a class="easyui-linkbutton" data-options="iconCls:'icon-save'" href="javascript:void(0);" onclick="javascript:pageSubmit();">提交</a>
 	  		<a class="easyui-linkbutton" data-options="iconCls:'icon-undo'" href="javascript:void(0);" onclick="javascript:$('#editForm').form('reset');">重置</a>
 	  		<a class="easyui-linkbutton" data-options="iconCls:'icon-cancel'" href="javascript:void(0);" onclick="javascript:parent.$('#edit-window').window('close');">关闭</a>
 		</div>
@@ -129,5 +129,13 @@
 		</c:choose>
 	});
 	$.ewcms.refresh({operate : '${operate}', data : '${lastM}'});
+	
+	function pageSubmit() {
+		if ($('#cc_common').val() == '') {
+			 $.messager.alert('提示','通用名不能为空','info');
+			return;
+		}
+		$('#editForm').submit();
+	}
 </script>
 	

@@ -35,7 +35,7 @@
 			</table>
 			<div id="tb" style="padding:5px;height:auto;">
 		        <div class="toolbar" style="margin-bottom:2px">
-					<a id="tb-itaudit" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-add',toggle:true" >新药初审</a>
+		        	<a id="tb-audit" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-edit',toggle:true" onclick="initAudit();">新药初审</a>
 				</div>
 		        <div  style="padding-left:5px;">
 		        	<form id="queryform" style="padding:0;margin:0;" >
@@ -120,5 +120,19 @@
 				    	$('#tt').datagrid('resize');
 				    });	
 					
-					$.ewcms.openWindow({windowId:'#edit-window',width:500,height:450,title:'申新药初审',src:'${ctx}/yjk/sb/initaudit/auditsubmit'});
+					function initAudit(){
+						var rows = $('#tt').datagrid('getSelections');
+					    
+					    if(rows.length == 0){
+					        $.messager.alert('提示','请选择要初审的记录','info');
+					        return;
+					    }
+					    for(j=0;j<rows.length;j++){
+					    	if(rows[j].auditStatusInfo!='等待初审'){
+						        $.messager.alert('提示','选择记录里不能有初审过的记录','info');
+						        return;
+					    	}
+					    }
+					    $.ewcms.edit({title:'新药初审',width:400,height:265});
+					}
 		</script>

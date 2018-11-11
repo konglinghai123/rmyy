@@ -18,5 +18,9 @@ insert into zd_common_name_rule(id, is_deleted,rule_cn_name,rule_name,weight,is_
 ,(2, 'false', '给药途径', 'common.administration.id', 2,'true')
 ,(3, 'false', '剂型', 'pill', 3, 'false')
 ,(4, 'false', '规格', 'specifications', 4, 'false')
+,(5, 'false', '生产企业', 'manufacturer', 5, 'false')
+,(6, 'false', '包装数量', 'amount', 6, 'false')
+,(7, 'false', '商品名', 'productName', 7, 'false')
+,(8, 'false', '包装单位', 'packageUnit', 8, 'false')
 ;
-select setval('seq_zd_common_name_rule_id', 4);
+select setval('seq_zd_common_name_rule_id', 8);

@@ -15,6 +15,7 @@
 						<td width="20%">导入方式：</td>
 						<td width="80%">
 						<select id="isDisabledOriginalData" name="isDisabledOriginalData">
+							<option value="">--选择导入方式--</option>
 							<option value="false">增量导入</option>
 							<option value="true">作废以前数据再导入</option>
 						</select>
@@ -32,6 +33,10 @@
 <script type="text/javascript">
 	$(function(){
 		 $("#tb-import").bind('click', function(){
+			 if($('#isDisabledOriginalData').val()==''){
+				 $.messager.alert('提示','请选择导入方式','info');
+				 return;
+			 }
 			 if($('#isDisabledOriginalData').val()=='true'){
 				$.messager.confirm('提示', '确定要作废以前数据再导入吗？ <br/><font color="red">该操作会删除数据库大总目录所有数据，请慎重操作！！！</font>', function(r) {
 					if (r) {
@@ -40,7 +45,7 @@
 					}
 				});			 
 		 	}else{
-				$.messager.confirm('提示', '确定要增量导入新数据吗？', function(r) {
+				$.messager.confirm('提示', '确定要增量导入新数据吗？<br/><font color="red">按照提取通用名，给药途径，编号，药品类型，大目录通用名，生产企业，剂型,规格，包装数量查重，重复记录的不保存</font>', function(r) {
 					if (r) {
 						document.forms[0].submit();
 						loadingEnable();

@@ -156,7 +156,7 @@
 	function pageSubmit() {
 		for(j = 0; j < ruleArr.length; j++) {
 			if ($('#CNRule'+j).val() == '') {
-				alert(ruleArr[j]+'不能为空');
+				 $.messager.alert('提示',ruleArr[j]+'不能为空','info');
 				return;
 			}   
 		} 

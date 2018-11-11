@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -56,30 +57,30 @@ public class InitAuditController extends BaseCRUDController<DrugForm, Long> {
 
 	@Override
 	public Map<String, Object> query(SearchParameter<Long> searchParameter,	Model model) {
+		if(searchParameter.getParameters().size()==0){
+			searchParameter.getParameters().put("EQ_auditStatus",AuditStatusEnum.init);
+		}
 		searchParameter.getParameters().put("EQ_declared", Boolean.TRUE);
 		return super.query(searchParameter, model);
 	}
-	@RequestMapping(value = "/auditsubmit")
-	public String auditSubmit(Model model, @RequestParam(required = false) List<Long> selections) {
-		model.addAttribute("selections",selections);
-		return viewName("audit");
-	}
+
 	@RequestMapping(value = "save/discard")
 	@Override
 	public String save(Model model, DrugForm m, BindingResult result, List<Long> selections) {
 		throw new RuntimeException("discarded method");
 	}	
 	
+	@RequestMapping(value = "save", method = RequestMethod.POST)
 	public String save(Model model, @RequestParam(required = false) List<Long> selections,
 			@RequestParam(required = false) Boolean isAuditPassed,
 			@RequestParam(required = false) String remark,RedirectAttributes redirectAttributes) {
 		try{
 			if(EmptyUtil.isCollectionNotEmpty(selections)){
 				getDrugFormService().initAudit(selections, isAuditPassed, remark);
-				redirectAttributes.addFlashAttribute(Constants.MESSAGE, "true");
+				redirectAttributes.addFlashAttribute(Constants.MESSAGE, "初审成功");
 			}
 		}catch(Exception e){
-			redirectAttributes.addFlashAttribute(Constants.MESSAGE, "false");
+			redirectAttributes.addFlashAttribute(Constants.MESSAGE, "初审失败");
 		}
 		return redirectToUrl(viewName("save"));
 	}

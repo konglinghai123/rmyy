@@ -31,7 +31,7 @@
 				<tr>
 					<td width="20%"><form:label path="specifications">规格：</form:label></td>
 					<td width="30%"><form:input path="specifications" /></td>
-					<td width="20%"><form:label path="amount">数量：</form:label></td>
+					<td width="20%"><form:label path="amount">包装数量：</form:label></td>
 					<td width="30%"><form:input path="amount" /></td>
 				</tr>
 				<tr>
@@ -183,7 +183,7 @@
 
 	function pageSubmit() {
 		if ($('#cc_common').val() == '') {
-			alert('通用名不能为空')
+			 $.messager.alert('提示','通用名不能为空','info');
 			return;
 		}
 		$('#editForm').submit();
