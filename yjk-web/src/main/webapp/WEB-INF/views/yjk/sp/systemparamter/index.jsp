@@ -83,16 +83,18 @@
 				return '<div id="ddv-' + rowIndex + '" style="padding:2px"></div>';
 			},
 			onExpandRow: function(rowIndex, rowData){
-				$('#ddv-' + rowIndex).panel({
-					border:false,
-					cache:false,
-					content: '<iframe src="${ctx}/yjk/sp/systemparamter/' + rowData.id + '/indexUser" frameborder="0" width="100%" height="450px" scrolling="auto"></iframe>',
-					onLoad:function(){
-						$('#tt').datagrid('fixDetailRowHeight',rowIndex);
-					}
-				});
-				$('#tt').datagrid('fixDetailRowHeight',rowIndex);
-			}
+				if (rowData.enabled){
+					$('#ddv-' + rowIndex).panel({
+						border:false,
+						cache:false,
+						content: '<iframe src="${ctx}/yjk/sp/systemparamter/' + rowData.id + '/indexUser" frameborder="0" width="100%" height="450px" scrolling="auto"></iframe>',
+						onLoad:function(){
+							$('#tt').datagrid('fixDetailRowHeight',rowIndex);
+						}
+					});
+					$('#tt').datagrid('fixDetailRowHeight',rowIndex);
+				}
+		}
 		});
 	});
 

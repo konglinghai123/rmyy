@@ -59,7 +59,7 @@
 .empi-monitor-hibernate{background:url('/yjk-web/static/image/menu/monitor/hibernate.png') no-repeat -0px -0px;width:48px;height:48px;display:inline-block;vertical-align: middle;}
 .empi-monitor-hibernate-tree{background:url('/yjk-web/static/image/menu/monitor/hibernate.png') no-repeat -0px -0px;width:16px;height:18px;display:inline-block;vertical-align: middle;background-size:100%;}
 .empi-personal-medicine{background:url('/yjk-web/static/image/menu/personal/medicine.png') no-repeat -0px -0px;width:48px;height:48px;display:inline-block;vertical-align: middle;}
-.empi-personal-medicine-tree{background:url('/yjk-web/static/image/menu/personal/medicine.png') no-repeat -0px -0px;width:16px;height:18px;display:inline-block;vertical-align: middle;background-size:100%;}
+.empi-personal-medicin-tree{background:url('/yjk-web/static/image/menu/personal/medicine.png') no-repeat -0px -0px;width:16px;height:18px;display:inline-block;vertical-align: middle;background-size:100%;}
 .empi-yjk-zd-hospitalcontents{background:url('/yjk-web/static/image/menu/yjk/zd/hospitalcontents.png') no-repeat -0px -0px;width:48px;height:48px;display:inline-block;vertical-align: middle;}
 .empi-yjk-zd-hospitalcontents-tree{background:url('/yjk-web/static/image/menu/yjk/zd/hospitalcontents.png') no-repeat -0px -0px;width:16px;height:18px;display:inline-block;vertical-align: middle;background-size:100%;}
 .empi-yjk-zd-commonnamecontents{background:url('/yjk-web/static/image/menu/yjk/zd/commonnamecontents.png') no-repeat -0px -0px;width:48px;height:48px;display:inline-block;vertical-align: middle;}
@@ -78,3 +78,5 @@
 .empi-yjk-zd-specialrule-tree{background:url('/yjk-web/static/image/menu/yjk/zd/specialrule.png') no-repeat -0px -0px;width:16px;height:18px;display:inline-block;vertical-align: middle;background-size:100%;}
 .empi-yjk-zd-commonnamerule{background:url('/yjk-web/static/image/menu/yjk/zd/commonnamerule.png') no-repeat -0px -0px;width:48px;height:48px;display:inline-block;vertical-align: middle;}
 .empi-yjk-zd-commonnamerule-tree{background:url('/yjk-web/static/image/menu/yjk/zd/commonnamerule.png') no-repeat -0px -0px;width:16px;height:18px;display:inline-block;vertical-align: middle;background-size:100%;}
+.empi-yjk-zd-reviewmain{background:url('/yjk-web/static/image/menu/yjk/zd/reviewmain.png') no-repeat -0px -0px;width:48px;height:48px;display:inline-block;vertical-align: middle;}
+.empi-yjk-zd-reviewmain-tree{background:url('/yjk-web/static/image/menu/yjk/zd/reviewmain.png') no-repeat -0px -0px;width:16px;height:18px;display:inline-block;vertical-align: middle;background-size:100%;}
