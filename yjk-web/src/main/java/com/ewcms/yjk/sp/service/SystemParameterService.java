@@ -9,7 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ewcms.common.service.BaseService;
+import com.ewcms.common.utils.Collections3;
 import com.ewcms.common.utils.EmptyUtil;
+import com.ewcms.security.organization.service.OrganizationService;
 import com.ewcms.security.user.entity.User;
 import com.ewcms.security.user.entity.UserStatus;
 import com.ewcms.security.user.service.UserOrganizationJobService;
@@ -35,6 +37,8 @@ public class SystemParameterService extends BaseService<SystemParameter, Long> {
 	private UserService userService;
 	@Autowired
 	private UserOrganizationJobService userOrganizationJobService;
+	@Autowired
+	private OrganizationService organizationService;
 
 	@Override
 	public SystemParameter update(SystemParameter m) {
@@ -52,6 +56,7 @@ public class SystemParameterService extends BaseService<SystemParameter, Long> {
 		return getSystemParameterRepository().findByEnabledTrue();
 	}
 
+	@SuppressWarnings("unchecked")
 	public SystemParameter openDeclare(User opUser, Long systemParameterId) {
 		try {
 			SystemParameter vo = findOne(systemParameterId);
@@ -74,8 +79,11 @@ public class SystemParameterService extends BaseService<SystemParameter, Long> {
 				Long departmentNumber = vo.getDepartmentNumber();// 选定科室/病区确保人数
 				if (departmentNumber > 0L) {//从每个科室/病区里随机选择确保的人数
 					Set<Long> organizationIds = vo.getOrganizationIds();
+					if (EmptyUtil.isCollectionEmpty(organizationIds)) {//未选择科室/病区，就是所有科室/病区
+						organizationIds = Collections3.extractToSet(organizationService.findAll(), "id");
+					}
 					for (Long organizationId : organizationIds) {
-						List<Long> userIds = userOrganizationJobService.findUsers(Sets.newHashSet(organizationId), vo.getDepartmentAttributeIds(), vo.getProfessionIds(), vo.getTechnicalTitleIds(), vo.getAppointmentIds());
+						List<Long> userIds = userOrganizationJobService.findDeclareUsers(Sets.newHashSet(organizationId), vo.getDepartmentAttributeIds(), vo.getProfessionIds(), vo.getTechnicalTitleIds(), vo.getAppointmentIds());
 						if (EmptyUtil.isCollectionNotEmpty(userIds)) {
 							useNumber += ((departmentNumber >= userIds.size()) ? userIds.size() : departmentNumber);
 	
@@ -98,15 +106,15 @@ public class SystemParameterService extends BaseService<SystemParameter, Long> {
 					}
 				}
 	
-				List<Long> matchUsers = userOrganizationJobService.findUsers(vo.getOrganizationIds(), vo.getDepartmentAttributeIds(), vo.getProfessionIds(), vo.getTechnicalTitleIds(), vo.getAppointmentIds());
+				List<Long> matchUsers = userOrganizationJobService.findDeclareUsers(vo.getOrganizationIds(), vo.getDepartmentAttributeIds(), vo.getProfessionIds(), vo.getTechnicalTitleIds(), vo.getAppointmentIds());
 				if (EmptyUtil.isCollectionNotEmpty(matchUsers)) {
 					int matchSize = matchUsers.size();//匹配到的人数
 					
 					Long percentNumber = Long.valueOf((vo.getPercent() * matchSize) / 100);//百分比人数
 					Long randomNumber = vo.getRandomNumber();//随机人数
 	
-					if (randomNumber > 0L && percentNumber <= randomNumber) {// 当随机人数大于比率人数时，使用随机人数
-						percentNumber = randomNumber;
+					if (randomNumber > 0L) {
+						percentNumber = Math.min(percentNumber, randomNumber);
 					}
 	
 					Long overplusNumber = percentNumber - useNumber;//剩余人数

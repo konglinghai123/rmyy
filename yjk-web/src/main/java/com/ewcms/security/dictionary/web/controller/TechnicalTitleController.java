@@ -51,4 +51,10 @@ public class TechnicalTitleController extends BaseCRUDController<TechnicalTitle,
 	public AjaxResponse delete(List<Long> selections) {
 		throw new RuntimeException("discarded method");
 	}
+	
+	@RequestMapping(value = "canUse")
+	@ResponseBody
+	public List<TechnicalTitle> getTechnical(){
+		return getTechnicalTitleService().findAll();
+	}
 }

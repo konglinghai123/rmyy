@@ -60,6 +60,7 @@
 </div>
 <ewcms:editWindow />
 <ewcms:footer />
+<script type="text/javascript" src="${ctx}/static/easyui/ext/datagrid-detailview.js"></script>
 <script type="text/javascript">
 	$(function() {
 		$('#tt').datagrid({
@@ -76,7 +77,22 @@
 	        	if (row.enabled){
 	    			return 'background-color:#FF9999;color:#0000FF;';
 	        	}
-	    	}
+	    	},
+			view : detailview,
+			detailFormatter : function(rowIndex, rowData) {
+				return '<div id="ddv-' + rowIndex + '" style="padding:2px"></div>';
+			},
+			onExpandRow: function(rowIndex, rowData){
+				$('#ddv-' + rowIndex).panel({
+					border:false,
+					cache:false,
+					content: '<iframe src="${ctx}/yjk/sp/systemparamter/' + rowData.id + '/indexUser" frameborder="0" width="100%" height="450px" scrolling="auto"></iframe>',
+					onLoad:function(){
+						$('#tt').datagrid('fixDetailRowHeight',rowIndex);
+					}
+				});
+				$('#tt').datagrid('fixDetailRowHeight',rowIndex);
+			}
 		});
 	});
 
@@ -141,8 +157,8 @@
 		
 	}
 	function loadingEnable(){
-		$("<div class=\"datagrid-mask\"></div>").css({display:"block",width:"100%",height:$(window).height()}).appendTo("body");
-		$("<div class=\"datagrid-mask-msg\"></div>").html("<font size='9'>正在处理，请稍候。。。</font>").appendTo("body").css({display:"block",left:($(document.body).outerWidth(true) - 190) / 2,top:($(window).height() - 45) / 2}); 
+		$('<div class="datagrid-mask"></div>').css({display:'block',width:'100%',height:$(window).height()}).appendTo('body');
+		$('<div class="datagrid-mask-msg"></div>').html('<font size="9">正在处理，请稍候。。。</font>').appendTo('body').css({display:'block',left:($(document.body).outerWidth(true) - 190) / 2,top:($(window).height() - 45) / 2}); 
 	}
 	
 	function updateSystemParameter(){

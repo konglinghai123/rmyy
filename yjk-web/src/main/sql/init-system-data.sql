@@ -85,5 +85,7 @@ insert into sys_icon(id,css_class, description, icon_height, icon_type, identity
 ,(78,'','系统管理-静态资源版本控制',18,'css_sprite','empi-system-staticresource-tree','',0,'static/image/menu/system/staticresource.png','background-size:100%;',0,16)
 ,(79,'','药剂管理-字典库-特殊规则',48,'css_sprite','empi-yjk-zd-specialrule','',0,'static/image/menu/system/specialrule.png','',0,48)
 ,(80,'','药剂管理-字典库-特殊规则',18,'css_sprite','empi-yjk-zd-specialrule-tree','',0,'static/image/menu/system/specialrule.png','background-size:100%;',0,16)
+,(81,'','药剂管理-专家遴选',48,'css_sprite','empi-yjk-zd-reviewmain','',0,'static/image/menu/yjk/zd/reviewmain.png','';0;48)
+,(82,'','药剂管理-专家遴选',18,'css_sprite','empi-yjk-zd-reviewmain-tree','',0,'static/image/menu/yjk/zd/reviewmain.png','background-size:100%,';0;16)
 ;
-select setval('seq_sys_icon_id', 80);
+select setval('seq_sys_icon_id', 82);

@@ -1,26 +1,26 @@
-package com.ewcms.yjk.sp.entity;
+package com.ewcms.yjk.re.entity;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
 
-import org.springframework.format.annotation.DateTimeFormat;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.ewcms.common.entity.BaseSequenceEntity;
-import com.ewcms.common.plugin.entity.LogicDeleteable;
+import com.ewcms.common.plugin.entity.Movable;
 import com.ewcms.common.utils.Collections3;
 import com.ewcms.common.utils.EmptyUtil;
 import com.ewcms.security.dictionary.entity.Appointment;
@@ -28,18 +28,21 @@ import com.ewcms.security.dictionary.entity.DepartmentAttribute;
 import com.ewcms.security.dictionary.entity.Profession;
 import com.ewcms.security.dictionary.entity.TechnicalTitle;
 import com.ewcms.security.organization.entity.Organization;
+import com.ewcms.security.user.entity.User;
 import com.google.common.collect.Sets;
 
 /**
- * 系统参数设置
+ * 评审专家
  * 
  * <ul>
- * <li>applyStartDate:申请开始时间</li>
- * <li>applyEndDate:申请结束时间</li>
- * <li>declarationLimt:申报限数（院目录在用数量）</li>
- * <li>declareTotalLimt:申报总数限制（单个医生）</li>
- * <li>enabled:是否启用（系统中只能有1或0条设置启用）</li>
- * <li>organizations:科室对象集合
+ * <li>conditioningOptions:条件选择枚举</li>
+ * <li>weight:排序</li>
+ * <li>director:科主任</li>
+ * <li>secondDirector:科副主任</li>
+ * <li>pharmacy:药事会成员</li>
+ * <li>science:院学术委员会成员</li>
+ * <li>antibiosis:抗菌药物遴选小组成员</li>
+ * <li>organizations:科室对象集合</li>
  * <li>departmentAttributes:科室属性对象集合</li>
  * <li>professions:执业类别对象集合</li>
  * <li>technicalTitle:技术职称(资格)对象集合</li>
@@ -48,61 +51,62 @@ import com.google.common.collect.Sets;
  * <li>totalNumber:人数</li>
  * <li>departmentNumber:部门人数</li>
  * <li>enabled:是否启用</li>
- * <li>deleted:是否删除</li>
  * </ul>
  * 
  * @author wuzhijun
  *
  */
-
 @Entity
-@Table(name = "sp_system_parameter")
-@SequenceGenerator(name = "seq", sequenceName = "seq_zd_system_parameter_id", allocationSize = 1)
-public class SystemParameter extends BaseSequenceEntity<Long> implements LogicDeleteable {
+@Table(name = "re_review_expert")
+@SequenceGenerator(name = "seq", sequenceName = "seq_re_review_expert_id", allocationSize = 1)
+public class ReviewExpert extends BaseSequenceEntity<Long> implements Movable {
 
-	private static final long serialVersionUID = 4409780231040092738L;
+	private static final long serialVersionUID = 8561279047766937192L;
 
-	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	@Column(name = "apply_start_date", nullable = false, unique = true)
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date applyStartDate;
-	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	@Column(name = "apply_end_date", nullable = false, unique = true)
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date applyEndDate;
-	@Column(name = "declaration_limt", nullable = false)
-	private Long declarationLimt = Long.valueOf(2);
-	@Column(name = "declare_total_limt", nullable = false)
-	private Long declareTotalLimt = Long.valueOf(999);
+	@ManyToOne(optional = true, fetch = FetchType.EAGER)
+    @Fetch(FetchMode.SELECT)
+	private ReviewMain reviewMain;
+	@Column(name = "weight")
+	private Integer weight;
+	@Column(name = "is_director")
+	private Boolean director = Boolean.FALSE;
+	@Column(name = "is_second_director")
+	private Boolean secondDirector = Boolean.FALSE;
+	@Column(name = "is_pharmacy")
+	private Boolean pharmacy = Boolean.FALSE;
+	@Column(name = "is_science")
+	private Boolean science = Boolean.FALSE;
+	@Column(name = "is_antibiosis")
+	private Boolean antibiosis = Boolean.FALSE;
 	@ManyToMany(cascade = { CascadeType.ALL })
-	@JoinTable(name = "sp_system_parameter_organization", joinColumns = {
-			@JoinColumn(name = "system_id", referencedColumnName = "id") }, inverseJoinColumns = {
+	@JoinTable(name = "re_review_expert_organization", joinColumns = {
+			@JoinColumn(name = "review_expert_id", referencedColumnName = "id") }, inverseJoinColumns = {
 					@JoinColumn(name = "organization_id", referencedColumnName = "id") }, uniqueConstraints = {@UniqueConstraint(columnNames = {
-							"system_id", "organization_id" })})
+							"review_expert_id", "organization_id" })})
 	private List<Organization> organizations;
 	@ManyToMany(cascade = { CascadeType.ALL })
-	@JoinTable(name = "sp_system_parameter_department_attribute", joinColumns = {
-			@JoinColumn(name = "system_id", referencedColumnName = "id") }, inverseJoinColumns = {
+	@JoinTable(name = "re_review_expert_department_attribute", joinColumns = {
+			@JoinColumn(name = "review_expert_id", referencedColumnName = "id") }, inverseJoinColumns = {
 					@JoinColumn(name = "department_attribute_id", referencedColumnName = "id") }, uniqueConstraints = {@UniqueConstraint(columnNames = {
-							"system_id", "department_attribute_id" })})
+							"review_expert_id", "department_attribute_id" })})
 	private List<DepartmentAttribute> departmentAttributes;
 	@ManyToMany(cascade = { CascadeType.ALL })
-	@JoinTable(name = "sp_system_parameter_profession", joinColumns = {
-			@JoinColumn(name = "system_id", referencedColumnName = "id") }, inverseJoinColumns = {
+	@JoinTable(name = "re_review_expert_profession", joinColumns = {
+			@JoinColumn(name = "review_expert_id", referencedColumnName = "id") }, inverseJoinColumns = {
 					@JoinColumn(name = "profession_id", referencedColumnName = "id") }, uniqueConstraints = {@UniqueConstraint(columnNames = {
-							"system_id", "profession_id" })})
+							"review_expert_id", "profession_id" })})
 	private List<Profession> professions;
 	@ManyToMany(cascade = { CascadeType.ALL })
-	@JoinTable(name = "sp_system_parameter_technical_title", joinColumns = {
-			@JoinColumn(name = "system_id", referencedColumnName = "id") }, inverseJoinColumns = {
+	@JoinTable(name = "re_review_expert_technical_title", joinColumns = {
+			@JoinColumn(name = "review_expert_id", referencedColumnName = "id") }, inverseJoinColumns = {
 					@JoinColumn(name = "technical_title_id", referencedColumnName = "id") }, uniqueConstraints = {@UniqueConstraint(columnNames = {
-							"system_id", "technical_title_id" })})
+							"review_expert_id", "technical_title_id" })})
 	private List<TechnicalTitle> technicalTitles;
 	@ManyToMany(cascade = { CascadeType.ALL })
-	@JoinTable(name = "sp_system_parameter_appointment", joinColumns = {
-			@JoinColumn(name = "system_id", referencedColumnName = "id") }, inverseJoinColumns = {
+	@JoinTable(name = "re_review_expert_appointment", joinColumns = {
+			@JoinColumn(name = "review_expert_id", referencedColumnName = "id") }, inverseJoinColumns = {
 					@JoinColumn(name = "appointment_id", referencedColumnName = "id") }, uniqueConstraints = {@UniqueConstraint(columnNames = {
-							"system_id", "appointment_id" })})
+							"review_expert_id", "appointment_id" })})
 	private List<Appointment> appointments;
 	@Column(name = "percent")
 	private Long percent = 100L;
@@ -111,53 +115,63 @@ public class SystemParameter extends BaseSequenceEntity<Long> implements LogicDe
 	@Column(name = "department_number")
 	private Long departmentNumber = 0L;
 	@Column(name = "is_enabled")
-	private Boolean enabled = Boolean.FALSE;
-	@Column(name = "is_deleted")
-	private Boolean deleted = Boolean.FALSE;
-
-	@JSONField(format = "yyyy-MM-dd HH:mm:ss")
-	public Date getApplyStartDate() {
-		return applyStartDate;
-	}
-
-	public void setApplyStartDate(Date applyStartDate) {
-		this.applyStartDate = applyStartDate;
-	}
-
-	@JSONField(format = "yyyy-MM-dd HH:mm:ss")
-	public Date getApplyEndDate() {
-		return applyEndDate;
-	}
-
-	public void setApplyEndDate(Date applyEndDate) {
-		this.applyEndDate = applyEndDate;
-	}
-
-	public Long getDeclarationLimt() {
-		return declarationLimt;
-	}
-
-	public void setDeclarationLimt(Long declarationLimt) {
-		this.declarationLimt = declarationLimt;
-	}
-
-	public Long getDeclareTotalLimt() {
-		return declareTotalLimt;
-	}
-
-	public void setDeclareTotalLimt(Long declareTotalLimt) {
-		this.declareTotalLimt = declareTotalLimt;
-	}
-
-	public Boolean getEnabled() {
-		return enabled;
-	}
-
-	public void setEnabled(Boolean enabled) {
-		this.enabled = enabled;
-	}
-
+	private Boolean enabled = Boolean.TRUE;
+	@ManyToMany(cascade = { CascadeType.ALL })
+	@JoinTable(name = "re_review_expert_user", joinColumns = {
+			@JoinColumn(name = "review_expert_id", referencedColumnName = "id") }, inverseJoinColumns = {
+					@JoinColumn(name = "user_id", referencedColumnName = "id") }, uniqueConstraints = {@UniqueConstraint(columnNames = {
+							"user_id", "review_expert_id" })})
+	private List<User> users;
+	
 	@JSONField(serialize = false)
+	public ReviewMain getReviewMain() {
+		return reviewMain;
+	}
+
+	public void setReviewMain(ReviewMain reviewMain) {
+		this.reviewMain = reviewMain;
+	}
+
+	public Boolean getDirector() {
+		return director;
+	}
+
+	public void setDirector(Boolean director) {
+		this.director = director;
+	}
+
+	public Boolean getSecondDirector() {
+		return secondDirector;
+	}
+
+	public void setSecondDirector(Boolean secondDirector) {
+		this.secondDirector = secondDirector;
+	}
+
+	public Boolean getPharmacy() {
+		return pharmacy;
+	}
+
+	public void setPharmacy(Boolean pharmacy) {
+		this.pharmacy = pharmacy;
+	}
+
+	public Boolean getScience() {
+		return science;
+	}
+
+	public void setScience(Boolean science) {
+		this.science = science;
+	}
+
+	public Boolean getAntibiosis() {
+		return antibiosis;
+	}
+
+	public void setAntibiosis(Boolean antibiosis) {
+		this.antibiosis = antibiosis;
+	}
+
 	public List<Organization> getOrganizations() {
 		return organizations;
 	}
@@ -177,8 +191,7 @@ public class SystemParameter extends BaseSequenceEntity<Long> implements LogicDe
 		return (EmptyUtil.isCollectionNotEmpty(organizations)) ? Collections3.extractToSet(organizations, "id")
 				: Sets.newHashSet();
 	}
-
-	@JSONField(serialize = false)
+	
 	public List<DepartmentAttribute> getDepartmentAttributes() {
 		return departmentAttributes;
 	}
@@ -200,13 +213,8 @@ public class SystemParameter extends BaseSequenceEntity<Long> implements LogicDe
 				: Sets.newHashSet();
 	}
 
-	@JSONField(serialize = false)
 	public List<Profession> getProfessions() {
 		return professions;
-	}
-
-	public void setProfessions(List<Profession> professions) {
-		this.professions = professions;
 	}
 
 	public String getProfessionNames() {
@@ -221,7 +229,10 @@ public class SystemParameter extends BaseSequenceEntity<Long> implements LogicDe
 				: Sets.newHashSet();
 	}
 
-	@JSONField(serialize = false)
+	public void setProfessions(List<Profession> professions) {
+		this.professions = professions;
+	}
+
 	public List<TechnicalTitle> getTechnicalTitles() {
 		return technicalTitles;
 	}
@@ -242,7 +253,6 @@ public class SystemParameter extends BaseSequenceEntity<Long> implements LogicDe
 				: Sets.newHashSet();
 	}
 
-	@JSONField(serialize = false)
 	public List<Appointment> getAppointments() {
 		return appointments;
 	}
@@ -275,8 +285,8 @@ public class SystemParameter extends BaseSequenceEntity<Long> implements LogicDe
 		return randomNumber;
 	}
 
-	public void setRandomNumber(Long totalNumber) {
-		this.randomNumber = totalNumber;
+	public void setRandomNumber(Long randomNumber) {
+		this.randomNumber = randomNumber;
 	}
 
 	public Long getDepartmentNumber() {
@@ -287,18 +297,41 @@ public class SystemParameter extends BaseSequenceEntity<Long> implements LogicDe
 		this.departmentNumber = departmentNumber;
 	}
 
-	@Override
-	public Boolean getDeleted() {
-		return deleted;
+	public Boolean getEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(Boolean enabled) {
+		this.enabled = enabled;
+	}
+
+	public List<User> getUsers() {
+		return users;
+	}
+
+	public void setUsers(List<User> users) {
+		this.users = users;
+	}
+
+	public String getUserNames() {
+		return (EmptyUtil.isCollectionNotEmpty(users))
+				? Collections3.convertToString(Collections3.extractToList(users, "username"), "/")
+				: "";
+	}
+
+	@SuppressWarnings("unchecked")
+	public Set<Long> getUserIds() {
+		return (EmptyUtil.isCollectionNotEmpty(users)) ? Collections3.extractToSet(users, "id")
+				: Sets.newHashSet();
 	}
 
 	@Override
-	public void setDeleted(Boolean deleted) {
-		this.deleted = deleted;
+	public Integer getWeight() {
+		return weight;
 	}
 
 	@Override
-	public void markDeleted() {
-		this.deleted = Boolean.TRUE;
+	public void setWeight(Integer weight) {
+		this.weight = weight;
 	}
 }

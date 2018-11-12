@@ -27,4 +27,7 @@ public interface UserRepository extends BaseRepository<User, Long> {
 	List<Long> findUserIds();
 	
 	List<User> findByAdminTrueAndDeletedFalseAndStatus(UserStatus status);
+	
+	@Query("select id from User where admin = false and deleted = false and id not in (?1)")
+	List<Long> findUserIdOffscale(List<Long> userIds);
 }

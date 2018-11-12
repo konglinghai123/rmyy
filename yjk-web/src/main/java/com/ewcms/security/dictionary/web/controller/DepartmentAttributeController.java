@@ -52,4 +52,11 @@ public class DepartmentAttributeController extends BaseCRUDController<Department
 		throw new RuntimeException("discarded method");
 	}
 	
+	@RequestMapping(value = "canUse")
+	@ResponseBody
+	public List<DepartmentAttribute> getDepartmentAttribute(){
+		return getDepartmentAttributeService().findAll();
+	}
+
+	
 }

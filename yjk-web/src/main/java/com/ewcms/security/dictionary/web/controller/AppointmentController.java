@@ -51,4 +51,10 @@ public class AppointmentController extends BaseCRUDController<Appointment, Long>
 	public AjaxResponse delete(List<Long> selections) {
 		throw new RuntimeException("discarded method");
 	}
+	
+	@RequestMapping(value = "canUse")
+	@ResponseBody
+	public List<Appointment> getAppointment(){
+		return getAppointmentService().findAll();
+	}
 }

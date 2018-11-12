@@ -17,19 +17,23 @@ import com.ewcms.security.user.entity.UserOrganizationJob;
  * @author 吴智俊
  */
 public interface UserOrganizationJobRepository extends BaseRepository<UserOrganizationJob, Long> {
-	
-    UserOrganizationJob findByUserAndOrganizationIdAndJobId(User user, Long organizationId, Long jobId);
+
+	UserOrganizationJob findByUserAndOrganizationIdAndJobId(User user, Long organizationId, Long jobId);
 
 	@Query("select uoj from UserOrganizationJob uoj where not exists(select 1 from Job j where uoj.jobId=j.id) or not exists(select 1 from Organization o where uoj.organizationId=o.id)")
-    Page<UserOrganizationJob> findUserOrganizationJobOnNotExistsOrganizationOrJob(Pageable pageable);
+	Page<UserOrganizationJob> findUserOrganizationJobOnNotExistsOrganizationOrJob(Pageable pageable);
 
-    @Modifying
-    @Query("delete from UserOrganizationJob uoj where not exists(select 1 from User u where uoj.user=u)")
-    void deleteUserOrganizationJobOnNotExistsUser();
-    
-    @Query("select organizationId from UserOrganizationJob where user=?1")
-    Set<Long> findUserOrganizationJobAllOrganizationId(User user);
-    
-    List<Long> findUsers(Set<Long> organizationIds, Set<Long> departmentAttributeIds, Set<Long> prefessionIds, Set<Long> technicalTitleIds, Set<Long> appointmentIds);
+	@Modifying
+	@Query("delete from UserOrganizationJob uoj where not exists(select 1 from User u where uoj.user=u)")
+	void deleteUserOrganizationJobOnNotExistsUser();
 
+	@Query("select organizationId from UserOrganizationJob where user=?1")
+	Set<Long> findUserOrganizationJobAllOrganizationId(User user);
+
+	List<Long> findDeclareUsers(Set<Long> organizationIds, Set<Long> departmentAttributeIds, Set<Long> professionIds,
+			Set<Long> technicalTitleIds, Set<Long> appointmentIds);
+
+	public List<Long> findReviewUsers(Boolean director, Boolean secondDirector, Boolean pharmacy, Boolean science,
+			Boolean antibiosis, Set<Long> organizationIds, Set<Long> departmentAttributeIds, Set<Long> professionIds,
+			Set<Long> technicalTitleIds, Set<Long> appointmentIds, List<Long> userIds);
 }

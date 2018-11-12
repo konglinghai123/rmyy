@@ -51,4 +51,10 @@ public class ProfessionController extends BaseCRUDController<Profession, Long> {
 	public AjaxResponse delete(List<Long> selections) {
 		throw new RuntimeException("discarded method");
 	}
+	
+	@RequestMapping(value = "canUse")
+	@ResponseBody
+	public List<Profession> getProfession(){
+		return getProfessionService().findAll();
+	}
 }

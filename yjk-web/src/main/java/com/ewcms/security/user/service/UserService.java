@@ -434,4 +434,8 @@ public class UserService extends BaseService<User, Long> {
 	public List<User> findByAdminTrueAndDeletedFalseAndStatus(UserStatus status){
 		return getUserRepository().findByAdminTrueAndDeletedFalseAndStatus(status);
 	}
+	
+	public List<Long> findUserIdOffscale(List<Long> userIds){
+		return getUserRepository().findUserIdOffscale(userIds);
+	}
 }

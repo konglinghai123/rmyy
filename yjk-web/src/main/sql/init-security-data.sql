@@ -153,8 +153,9 @@ insert into sec_resource(id, icon, identity, name, parent_id, parent_ids, is_sho
 ,(117,'ztree_file','technicalTitle','技术职称(资格)',6,'0/1/6/','true',null,'/security/dictionary/technicalTitle/index',11)
 ,(118,'ztree_file','appointment','聘任',6,'0/1/6/','true',null,'/security/dictionary/appointment/index',12)
 ,(119,'empi-security-permission-auth-tree','initaudit','新药初审',102,'0/1/102/','true',null,'/yjk/sb/initaudit/index',8)
+,(120,'empi-yjk-zd-reviewmain-tree','reviewmain','专家遴选',102,'0/1/102/','true',null,'/yjk/re/reviewmain/index',9)
 ;
-select setval('seq_sec_resource_id', 119);
+select setval('seq_sec_resource_id', 120);
 
 /**
  * 权限初始化

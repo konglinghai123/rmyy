@@ -26,85 +26,98 @@ import com.ewcms.security.user.repository.UserOrganizationJobRepository;
  * @author 吴智俊
  */
 @Service
-public class UserOrganizationJobService extends BaseService<UserOrganizationJob, Long>{
-	
-    private UserOrganizationJobRepository getUserOrganizationJobRepository() {
-        return (UserOrganizationJobRepository) baseRepository;
-    }
-    
-    @Autowired
-    private OrganizationService organizationService;
-    @Autowired
-    private JobService jobService;
-    
-    @Override
-    public UserOrganizationJob save(UserOrganizationJob m){
-    	UserOrganizationJob dbUserOrganizationJob = findByUserAndOrganizationIdAndJobId(m.getUser(), m.getOrganizationId(), m.getJobId());
-    	if (dbUserOrganizationJob != null){
-    		m.setId(dbUserOrganizationJob.getId());
-    	}
-    	return super.save(m);
-    }
-    
-    public UserOrganizationJob findByUserAndOrganizationIdAndJobId(User user, Long organizationJob, Long jobId){
-    	return getUserOrganizationJobRepository().findByUserAndOrganizationIdAndJobId(user, organizationJob, jobId);
-    }
-    
-    /**
-     * 获取那些在用户-组织机构/工作职务中存在 但在组织机构/工作职务中不存在的
-     *
-     * @param pageable
-     * @return
-     */
-    public Page<UserOrganizationJob> findUserOrganizationJobOnNotExistsOrganizationOrJob(Pageable pageable) {
-        return getUserOrganizationJobRepository().findUserOrganizationJobOnNotExistsOrganizationOrJob(pageable);
-    }
+public class UserOrganizationJobService extends BaseService<UserOrganizationJob, Long> {
 
-    /**
-     * 删除用户不存在的情况的UserOrganizationJob（比如手工从数据库物理删除）。。
-     *
-     * @return
-     */
-    public void deleteUserOrganizationJobOnNotExistsUser() {
-    	getUserOrganizationJobRepository().deleteUserOrganizationJobOnNotExistsUser();
-    }
-    
-    /**
-     * 查询组织机构和工作职务的全名
-     * 
-     * @param searchable
-     * @param separator 分格符
-     * @return
-     */
-    public Map<String, Object> findUserOrganizationJobFullNames(Searchable searchable, String separator){
-    	Page<UserOrganizationJob> pages = findAll(searchable);
-    	
-    	List<UserOrganizationJob> userOrganizationJobs = pages.getContent();
-    	
-    	for (UserOrganizationJob userOrganizationJob : userOrganizationJobs){
-    		Organization organization = organizationService.findOne(userOrganizationJob.getOrganizationId());
-			if (EmptyUtil.isNotNull(organization)){
-				userOrganizationJob.setOrganizationName(organizationService.findNames(organization.getName(), organization.getParentIds(), false, separator));
+	private UserOrganizationJobRepository getUserOrganizationJobRepository() {
+		return (UserOrganizationJobRepository) baseRepository;
+	}
+
+	@Autowired
+	private OrganizationService organizationService;
+	@Autowired
+	private JobService jobService;
+
+	@Override
+	public UserOrganizationJob save(UserOrganizationJob m) {
+		UserOrganizationJob dbUserOrganizationJob = findByUserAndOrganizationIdAndJobId(m.getUser(),
+				m.getOrganizationId(), m.getJobId());
+		if (dbUserOrganizationJob != null) {
+			m.setId(dbUserOrganizationJob.getId());
+		}
+		return super.save(m);
+	}
+
+	public UserOrganizationJob findByUserAndOrganizationIdAndJobId(User user, Long organizationJob, Long jobId) {
+		return getUserOrganizationJobRepository().findByUserAndOrganizationIdAndJobId(user, organizationJob, jobId);
+	}
+
+	/**
+	 * 获取那些在用户-组织机构/工作职务中存在 但在组织机构/工作职务中不存在的
+	 *
+	 * @param pageable
+	 * @return
+	 */
+	public Page<UserOrganizationJob> findUserOrganizationJobOnNotExistsOrganizationOrJob(Pageable pageable) {
+		return getUserOrganizationJobRepository().findUserOrganizationJobOnNotExistsOrganizationOrJob(pageable);
+	}
+
+	/**
+	 * 删除用户不存在的情况的UserOrganizationJob（比如手工从数据库物理删除）。。
+	 *
+	 * @return
+	 */
+	public void deleteUserOrganizationJobOnNotExistsUser() {
+		getUserOrganizationJobRepository().deleteUserOrganizationJobOnNotExistsUser();
+	}
+
+	/**
+	 * 查询组织机构和工作职务的全名
+	 * 
+	 * @param searchable
+	 * @param separator
+	 *            分格符
+	 * @return
+	 */
+	public Map<String, Object> findUserOrganizationJobFullNames(Searchable searchable, String separator) {
+		Page<UserOrganizationJob> pages = findAll(searchable);
+
+		List<UserOrganizationJob> userOrganizationJobs = pages.getContent();
+
+		for (UserOrganizationJob userOrganizationJob : userOrganizationJobs) {
+			Organization organization = organizationService.findOne(userOrganizationJob.getOrganizationId());
+			if (EmptyUtil.isNotNull(organization)) {
+				userOrganizationJob.setOrganizationName(organizationService.findNames(organization.getName(),
+						organization.getParentIds(), false, separator));
 			}
-			
+
 			Job job = jobService.findOne(userOrganizationJob.getJobId());
 			if (EmptyUtil.isNotNull(job)) {
-				userOrganizationJob.setJobName(jobService.findNames(job.getName(), job.getParentIds(), false, separator));
+				userOrganizationJob
+						.setJobName(jobService.findNames(job.getName(), job.getParentIds(), false, separator));
 			}
-    	}
-    	
+		}
+
 		Map<String, Object> resultMap = new HashMap<String, Object>(2);
 		resultMap.put("total", pages.getTotalElements());
 		resultMap.put("rows", userOrganizationJobs);
 
-    	return resultMap;
-    }
-    
-    public Set<Long> findUserOrganizationJobAllOrganizationId(User user){
-    	return getUserOrganizationJobRepository().findUserOrganizationJobAllOrganizationId(user);
-    }
-    
-    public List<Long> findUsers(Set<Long> organizationIds, Set<Long> departmentAttributeIds, Set<Long> prefessionIds, Set<Long> technicalTitleIds, Set<Long> appointmentIds){
-    	return getUserOrganizationJobRepository().findUsers(organizationIds, departmentAttributeIds, prefessionIds, technicalTitleIds, appointmentIds);
-    }
+		return resultMap;
+	}
+
+	public Set<Long> findUserOrganizationJobAllOrganizationId(User user) {
+		return getUserOrganizationJobRepository().findUserOrganizationJobAllOrganizationId(user);
+	}
+
+	public List<Long> findDeclareUsers(Set<Long> organizationIds, Set<Long> departmentAttributeIds,
+			Set<Long> prefessionIds, Set<Long> technicalTitleIds, Set<Long> appointmentIds) {
+		return getUserOrganizationJobRepository().findDeclareUsers(organizationIds, departmentAttributeIds,
+				prefessionIds, technicalTitleIds, appointmentIds);
+	}
+
+	public List<Long> findReviewUsers(Boolean director, Boolean secondDirector, Boolean pharmacy, Boolean science,
+			Boolean antibiosis, Set<Long> organizationIds, Set<Long> departmentAttributeIds, Set<Long> prefessionIds,
+			Set<Long> technicalTitleIds, Set<Long> appointmentIds, List<Long> userIds) {
+		return getUserOrganizationJobRepository().findReviewUsers(director, secondDirector, pharmacy, science,
+				antibiosis, organizationIds, departmentAttributeIds, prefessionIds, technicalTitleIds, appointmentIds, userIds);
+	}
 }
