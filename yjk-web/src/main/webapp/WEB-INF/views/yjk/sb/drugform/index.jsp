@@ -5,8 +5,15 @@
 		<ewcms:head title="申报-新药申报"/>
 			<table id="tt">
 				<thead>
-					<tr>
+				    <thead frozen="true">    
+				        <tr>    
 					    <th data-options="field:'ck',checkbox:true"/>
+					    <th data-options="field:'declared',width:100,sortable:true,formatter:formatOperation">是否已经申报</th> 
+				        </tr>    
+				    </thead>  
+				    <thead >  				
+					<tr>
+	
 					    <th data-options="field:'id',hidden:true">编号</th>
 						<th data-options="field:'auditStatusInfo',width:100">审核状态</th>	
 						<c:forEach items="${commonNameRuleList}" var="commonNameRule">
@@ -31,8 +38,9 @@
 						<th data-options="field:'fillInDate',width:150">填报时间</th>
 						<th data-options="field:'declareDate',width:150">申报时间</th>
 						<th data-options="field:'remark',width:150">初审说明</th>
-						<th data-options="field:'declared',width:100,sortable:true,formatter:formatOperation">是否已经申报</th>		
+							
 					</tr>
+					 </thead> 
 				</thead>
 			</table>
 			<div id="tb" style="padding:5px;height:auto;">
@@ -88,7 +96,10 @@
 							rownumbers:true,
 							striped:true,
 							pageSize:20,
-							border:false
+							border:false,
+							onLoadSuccess:function(row){
+								$('.removeCls').linkbutton({text:'删除',plain:true,iconCls:'icon-remove'});
+							}
 						});
 					});				
 
@@ -107,7 +118,7 @@
 			
 			
 			function formatOperation(val, row){
-				return val ?  '是': '否  <a class="resumedCls" onclick="deleteDeclare(' + row.id + ')" href="javascript:void(0);">删除</a>';
+				return val ?  '是': '否  <a class="removeCls" onclick="deleteDeclare(' + row.id + ')" style="height:24px;" href="javascript:void(0);">删除</a>';
 			}
 			
 			function deleteDeclare(id){

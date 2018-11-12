@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.alibaba.fastjson.JSON;
 import com.ewcms.common.Constants;
 import com.ewcms.common.entity.search.SearchParameter;
 import com.ewcms.common.web.controller.BaseCRUDController;
@@ -125,17 +124,17 @@ public class DrugFormController extends BaseCRUDController<DrugForm, Long> {
 			}
 			m.setCommonNameContents(matchDeclareList.get(0));
 		}
-		DrugForm lastM = getDrugFormService().drugDeclare(user, m);
+		String declareResult = getDrugFormService().drugDeclare(user, m);
 
-		if (lastM == null) {
-			redirectAttributes.addFlashAttribute(Constants.MESSAGE, "新药已超过限数，不能申报");
-			return redirectToUrl(viewName("save"));
+		if (!declareResult.equals("false")) {
+			redirectAttributes.addFlashAttribute(Constants.MESSAGE, declareResult);
+			
 		} else {
-			model.addAttribute("m", newModel());
-			model.addAttribute("lastM", JSON.toJSONString(lastM));
-			return showSaveForm(model, selections);
+			redirectAttributes.addFlashAttribute(Constants.MESSAGE, "药品申报成功！");
 		}
+		return redirectToUrl(viewName("save"));
 	}
+	
 
 	@RequestMapping(value = "{drugFormId}/deletedeclare")
 	@ResponseBody

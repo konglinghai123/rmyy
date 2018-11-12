@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -61,6 +62,8 @@ public class InitAuditController extends BaseCRUDController<DrugForm, Long> {
 			searchParameter.getParameters().put("EQ_auditStatus",AuditStatusEnum.init);
 		}
 		searchParameter.getParameters().put("EQ_declared", Boolean.TRUE);
+		searchParameter.getSorts().put("userId", Direction.DESC);
+		searchParameter.getSorts().put("auditStatus", Direction.ASC);
 		return super.query(searchParameter, model);
 	}
 

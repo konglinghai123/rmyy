@@ -49,15 +49,15 @@ public class DrugFormService extends BaseService<DrugForm, Long> {
 		return (DrugFormRepository) baseRepository;
 	}
 
-	public DrugForm drugDeclare(User user, DrugForm drugForm) {
+	public String drugDeclare(User user, DrugForm drugForm) {
 		CommonNameContents vo = drugForm.getCommonNameContents();
-		if (!isDeclareUpperLimt(vo.getId())) {
+		String isDeclareLimt = isDeclareUpperLimt(vo.getId());
+		if (isDeclareLimt.equals("false")) {
 			drugForm.setUserId(user.getId());
 			drugForm = baseRepository.save(drugForm);
-			return drugForm;
-		}else{
-			return null;
+			
 		}
+		return isDeclareLimt;
 	}
 
 	public String saveDeclareSubmit(List<Long> selections) {
@@ -65,7 +65,7 @@ public class DrugFormService extends BaseService<DrugForm, Long> {
 		if (selections != null && !selections.isEmpty()) {
 			for (Long id : selections) {
 				DrugForm drugForm = findOne(id);
-				if (!isDeclareUpperLimt(drugForm.getCommonNameContents().getId())
+				if (isDeclareUpperLimt(drugForm.getCommonNameContents().getId()).equals("false")
 						&& !isDeclareTotalUpperLimt(drugForm.getUserId())) {
 					drugForm.setDeclared(Boolean.TRUE);
 					drugForm.setAuditStatus(AuditStatusEnum.init);
@@ -129,8 +129,8 @@ public class DrugFormService extends BaseService<DrugForm, Long> {
 	 * @param commonNameContentsId
 	 * @return
 	 */
-	private Boolean isDeclareUpperLimt(Long commonNameContentsId) {
-		Boolean isDeclare = Boolean.TRUE;
+	private String isDeclareUpperLimt(Long commonNameContentsId) {
+		String isDeclareLimt = "false";
 		if (commonNameContentsId != null) {// 申报目录编号存在
 			// 获取新药申报的通用名对象
 			CommonNameContents vo = commonNameContentsService.findOne(commonNameContentsId);
@@ -175,15 +175,18 @@ public class DrugFormService extends BaseService<DrugForm, Long> {
 							existNumber += hospitalContentsList.size();
 					}
 					
-					if (existNumber < maxNumber) {
-						isDeclare = Boolean.FALSE;
+					if (existNumber >= maxNumber) {
+						isDeclareLimt = "申报药品达到特殊药品最高" + maxNumber +"的限制，不能申报";
 					}
-				} else {
-					isDeclare = Boolean.FALSE;
 				}
+			}else{
+				isDeclareLimt = "申报药品达到一品两规最高" + maxNumber +"的限制，不能申报";
 			}
+		}else{
+			isDeclareLimt = "申报药品不在大目录范围，不能申报";
 		}
-		return isDeclare;
+		
+		return isDeclareLimt;
 	}
 
 	/**

@@ -27,7 +27,7 @@
 			    <th data-options="field:'drugCode',width:120">药品代码</th>
 				<th data-options="field:'pill',width:100">剂型</th>					
 				<th data-options="field:'specifications',width:120">规格</th>
-				<th data-options="field:'amount',width:70">数量</th>
+				<th data-options="field:'amount',width:70">包装数量</th>
 				<th data-options="field:'drugMajor',width:150">药品分类大类</th>
 				<th data-options="field:'drugCategory',width:120">药品分类</th>
 				<th data-options="field:'discom',width:80">配送公司</th>

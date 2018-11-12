@@ -4,28 +4,33 @@
 
 <ewcms:head title="审批-系统参数设置" />
 <table id="tt">
-	<thead>
-		<tr>
-			<th data-options="field:'ck',checkbox:true" />
-			<th data-options="field:'id',hidden:true">编号</th>
-			<th data-options="field:'applyStartDate',width:150">申请开始时间</th>
-			<th data-options="field:'applyEndDate',width:150">申请结束时间</th>
-			<th data-options="field:'declarationLimt',width:60">院用限数</th>
-			<th data-options="field:'declareTotalLimt',width:60">总报限数</th>
-			<th data-options="field:'organizationNames',width:200">科室/病区</th>
-			<th data-options="field:'departmentAttributeNames',width:200">科室属性</th>
-			<th data-options="field:'professionNames',width:100">执业类别</th>
-			<th data-options="field:'technicalTitleNames',width:200">技术职称(资格)</th>
-			<th data-options="field:'appointmentNames',width:200">聘任</th>
-			<th data-options="field:'percent',width:60,
-					formatter:function(val,row){
-						return val != null ? val + '%' : '';
-					}">百分比</th>
-			<th data-options="field:'randomNumber',width:60">随机人数</th>
-			<th data-options="field:'departmentNumber',width:60">科室人数</th>
-			<th data-options="field:'enabled',width:150,formatter:formatOperation">操作</th>
-		</tr>
-	</thead>
+		
+		 <thead frozen="true">    
+			<tr>    
+				<th data-options="field:'ck',checkbox:true"/>
+				<th data-options="field:'enabled',width:140,formatter:formatOperation">操作</th>
+			</tr>    
+		</thead>  
+		<thead > 	
+			<tr>	
+				<th data-options="field:'id',hidden:true">编号</th>
+				<th data-options="field:'applyStartDate',width:150">申请开始时间</th>
+				<th data-options="field:'applyEndDate',width:150">申请结束时间</th>
+				<th data-options="field:'declarationLimt',width:60">院用限数</th>
+				<th data-options="field:'declareTotalLimt',width:60">总报限数</th>
+				<th data-options="field:'organizationNames',width:200">科室/病区</th>
+				<th data-options="field:'departmentAttributeNames',width:200">科室属性</th>
+				<th data-options="field:'professionNames',width:100">执业类别</th>
+				<th data-options="field:'technicalTitleNames',width:200">技术职称(资格)</th>
+				<th data-options="field:'appointmentNames',width:200">聘任</th>
+				<th data-options="field:'percent',width:60,
+						formatter:function(val,row){
+							return val != null ? val + '%' : '';
+						}">百分比</th>
+				<th data-options="field:'randomNumber',width:60">随机人数</th>
+				<th data-options="field:'departmentNumber',width:60">科室人数</th>
+			</tr>
+		</thread>
 </table>
 <div id="tb" style="padding: 5px; height: auto;">
 	<div class="toolbar" style="margin-bottom: 2px">
@@ -94,6 +99,10 @@
 					});
 					$('#tt').datagrid('fixDetailRowHeight',rowIndex);
 				}
+		},
+		onLoadSuccess:function(row){
+			$('.openCls').linkbutton({text:'启动申报',plain:true,iconCls:'icon-operate'});
+			$('.closeCls').linkbutton({text:'关闭申报',plain:true,iconCls:'icon-cancel'});
 		}
 		});
 	});
@@ -103,28 +112,18 @@
 		applyEndDateTimestamp = new Date(Date.parse(row.applyEndDate.replace(/-/g, "/"))).getTime();
 		applyStartDatetamp = new Date(Date.parse(row.applyStartDate.replace(/-/g, "/"))).getTime();
 		if (val) {
-			return '启用&nbsp;&nbsp;<a class="resumedCls" onclick="closeDeclare(' + row.id
+			return '启用&nbsp;&nbsp;<a class="closeCls" onclick="closeDeclare(' + row.id
 					+ ')" href="javascript:void(0);">关闭申报</a> ';
 		} else {
 			if (applyStartDatetamp <= currentTimestamp
 					&& currentTimestamp <= applyEndDateTimestamp) {
-				return '关闭&nbsp&nbsp<a class="resumedCls" onclick="openDeclare(' + row.id
+				return '关闭&nbsp&nbsp<a class="openCls" onclick="openDeclare(' + row.id
 						+ ')" href="javascript:void(0);">启动申报</a> ';
 			} else {
 				return '';
 			}
 		}
 	}
-
-	/*
-	function deleteSystemParameter(id){
-		$.post('${ctx}/yjk/sp/systemparamter/' + id + '/delete', {}, function(result) {
-			if (result.success){
-				$('#tt').datagrid('reload');
-			}
-			$.messager.alert('提示', result.message, 'info');
-		});
-	}*/
 
 	function closeDeclare(id) {
 		$.messager.confirm('提示', '确定要关闭申报吗?<br/><font color="red">关闭后所有人员将无法进行新药申报!</font>', function(r) {

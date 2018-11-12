@@ -197,11 +197,21 @@ public class CommonNameContentsService extends BaseService<CommonNameContents, L
 							String specNumber = rows.getCell(j).getStringCellValue().trim();
 							if (EmptyUtil.isStringNotEmpty(specNumber)) {
 								String[] tmp = specNumber.split("\\*");
-								if (tmp.length == 2) {
-									commonNameContents.setSpecifications(tmp[0]);
-									commonNameContents.setAmount(tmp[1]);
-									specifications = tmp[0];
-									amount = tmp[1];
+								if (tmp.length >1) {
+									String tmpSpecfications = "";
+									for(int k=0;k<tmp.length-1;k++){
+										tmpSpecfications +=tmp[k]+"*";
+									}
+									tmpSpecfications = tmpSpecfications.substring(0, tmpSpecfications.length()-1);
+									commonNameContents.setSpecifications(tmpSpecfications);
+									commonNameContents.setAmount(tmp[tmp.length-1]);
+									specifications = tmpSpecfications;
+									amount = tmp[tmp.length-1];
+								}else{
+									commonNameContents.setSpecifications(specNumber);
+									commonNameContents.setAmount("");
+									specifications = specNumber;
+									amount = "";
 								}
 							}
 						} else if (columnNames[j].equals("商品名")) {

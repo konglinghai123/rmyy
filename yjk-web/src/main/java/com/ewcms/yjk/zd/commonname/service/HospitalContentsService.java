@@ -152,11 +152,21 @@ public class HospitalContentsService extends BaseService<HospitalContents, Long>
 							String specNumber = rows.getCell(j).getStringCellValue().trim();
 							if (EmptyUtil.isStringNotEmpty(specNumber)) {
 								String[] tmp = specNumber.split("\\*");
-								if (tmp.length == 2) {
-									hospitalContents.setSpecifications(tmp[0]);
-									hospitalContents.setAmount(tmp[1]);
-									specifications = tmp[0];
-									amount = tmp[1];
+								if (tmp.length >1) {
+									String tmpSpecfications = "";
+									for(int k=0;k<tmp.length-1;k++){
+										tmpSpecfications +=tmp[k]+"*";
+									}
+									tmpSpecfications = tmpSpecfications.substring(0, tmpSpecfications.length()-1);
+									hospitalContents.setSpecifications(tmpSpecfications);
+									hospitalContents.setAmount(tmp[tmp.length-1]);
+									specifications = tmpSpecfications;
+									amount = tmp[tmp.length-1];
+								}else{
+									hospitalContents.setSpecifications(specNumber);
+									hospitalContents.setAmount("");
+									specifications = specNumber;
+									amount = "";
 								}
 							}
 						} else if (columnNames[j].equals("生产企业")) {
@@ -234,5 +244,4 @@ public class HospitalContentsService extends BaseService<HospitalContents, Long>
 		}
 		return noSave;
 	}
-
 }
