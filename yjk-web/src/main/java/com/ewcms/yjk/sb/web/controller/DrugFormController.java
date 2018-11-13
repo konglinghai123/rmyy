@@ -79,6 +79,7 @@ public class DrugFormController extends BaseCRUDController<DrugForm, Long> {
 	@ResponseBody
 	public Map<String, Object> queryByUser(@CurrentUser User user,
 			@ModelAttribute SearchParameter<Long> searchParameter, Model model) {
+		searchParameter.getSorts().put("auditStatus", Direction.DESC);
 		searchParameter.getSorts().put("id", Direction.DESC);
 		searchParameter.getParameters().put("EQ_userId", user.getId());
 		Map<String, Object> queryObj = super.query(searchParameter, model);

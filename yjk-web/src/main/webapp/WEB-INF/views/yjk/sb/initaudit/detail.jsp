@@ -10,7 +10,7 @@
 				<th data-options="field:'source',width:100">来源</th>
 				<th data-options="field:'pill',width:100">剂型</th>
 				<th data-options="field:'specifications',width:150">规格</th>
-				<th data-options="field:'amount',width:70">数量</th>
+				<th data-options="field:'amount',width:70">包装数量</th>
 				<th data-options="field:'productName',width:100">商品名</th>
 				<th data-options="field:'packageUnit',width:80">包装单位</th>
 				<th data-options="field:'purchasePrice',width:50">采购价</th>
@@ -30,7 +30,7 @@
 			    <th data-options="field:'drugCode',width:120">药品代码</th>
 				<th data-options="field:'pill',width:100">剂型</th>					
 				<th data-options="field:'specifications',width:120">规格</th>
-				<th data-options="field:'amount',width:70">数量</th>
+				<th data-options="field:'amount',width:70">包装数量</th>
 				<th data-options="field:'drugMajor',width:150">药品分类大类</th>
 				<th data-options="field:'drugCategory',width:120">药品分类</th>
 				<th data-options="field:'discom',width:80">配送公司</th>

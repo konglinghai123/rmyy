@@ -31,10 +31,11 @@
 											if(${status1.index} > ${status.index}){
 												$('#CNRule${status1.index}').combobox('setValue','');
 												$('#queryCNRule${status1.index}').val('');
+												$('#selectDrugCategory${status1.index}').text('');
 											}
 										</c:forEach>
 										
-	    	   							$('#CNRule${status.index+1}').combobox('reload','${ctx}/yjk/zd/commonnamecontents/queryadministration?commonName='+rec.commonName);
+	    	   							$('#CNRule${status.index+1}').combobox('reload','${ctx}/yjk/zd/commonnamecontents/queryadministration?commonName='+rec.commonName.replace(/%/, '%25'));
 	       							},
 	     							onChange: function (newValue, oldValue) {
 								        	if(newValue==$('#CNRule${status.index}').combobox('getText')){
@@ -61,6 +62,7 @@
 												if(${status1.index} > ${status.index}){
 													$('#CNRule${status1.index}').combobox('setValue','');
 													$('#queryCNRule${status1.index}').val('');
+													$('#selectDrugCategory${status1.index}').text('');
 												}
 										</c:forEach>
 	    	   							$('#CNRule${status.index+1}').combobox('reload','${ctx}/yjk/zd/commonnamecontents/querydeclare');
@@ -71,6 +73,36 @@
      							</td>
 							</tr>
 							</c:when>
+							<c:when test="${commonNameRule.ruleName == 'common.drugCategory'}">
+				        	<tr>
+								<td width="30%">${commonNameRule.ruleCnName}：</td>
+								<td width="70%">							
+								<input type="text" id="CNRule${status.index}" name="drugCategory" class="easyui-combobox" data-options="
+									valueField:'id',
+									textField:'drugCategory',
+									width:200,
+									required:true,
+									panelHeight:200,
+									formatter: function(row){ return row.common.drugCategoryInfo; },
+									onSelect:function(rec){
+										$('#selectDrugCategory${status.index}').text(rec.common.drugCategoryInfo);
+										$('#objIndex').val(${status.index+1});
+										$('#commonNameContentsId').val(rec.id);
+										$('#queryCNRule${status.index}').val(rec.common.drugCategory);
+										<c:forEach items="${commonNameRuleList}" var="commonNameRule" varStatus="status1">
+												if(${status1.index} > ${status.index}){
+													$('#CNRule${status1.index}').combobox('setValue','');
+													$('#queryCNRule${status1.index}').val('');
+												}
+										</c:forEach>
+	    	   							$('#CNRule${status.index+1}').combobox('reload','${ctx}/yjk/zd/commonnamecontents/querydeclare');
+	       							},
+	       							onBeforeLoad: function(param){
+	        	 						param['parameters']=$('#queryform').serializeObject();
+	     							}"/><label id="selectDrugCategory${status.index}"/>
+     							</td>
+							</tr>
+							</c:when>							
 							<c:otherwise>
 					        	<tr>
 									<td width="20%">${commonNameRule.ruleCnName}：</td>
@@ -89,6 +121,7 @@
 												if(${status1.index} > ${status.index}){
 													$('#CNRule${status1.index}').combobox('setValue','');
 													$('#queryCNRule${status1.index}').val('');
+													$('#selectDrugCategory${status1.index}').text('');
 												}
 											</c:forEach>
 		    	   							$('#CNRule${status.index+1}').combobox('reload','${ctx}/yjk/zd/commonnamecontents/querydeclare');
@@ -156,8 +189,8 @@
 	function pageSubmit() {
 		for(j = 0; j < ruleArr.length; j++) {
 			if ($('#CNRule'+j).val() == '') {
-				 $.messager.alert('提示',ruleArr[j]+'不能为空','info');
-				return;
+					 $.messager.alert('提示',ruleArr[j]+'不能为空','info');
+						return;
 			}   
 		} 
 		$('#editForm').submit();

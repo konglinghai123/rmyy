@@ -16,7 +16,7 @@ delete from zd_common_name_rule;
 insert into zd_common_name_rule(id, is_deleted,rule_cn_name,rule_name,weight,is_enabled) values
 (1, 'false', '通用名', 'common.commonName', 1,'true')
 ,(2, 'false', '给药途径', 'common.administration.id', 2,'true')
-,(3, 'false', '给药途径', 'common.drugCategory', 3,'true')
+,(3, 'false', '药品种类', 'common.drugCategory', 3,'true')
 ,(4, 'false', '剂型', 'pill', 4, 'false')
 ,(5, 'false', '规格', 'specifications', 5, 'false')
 ,(6, 'false', '生产企业', 'manufacturer', 6, 'false')

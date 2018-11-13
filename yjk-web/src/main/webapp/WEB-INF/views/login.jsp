@@ -96,6 +96,17 @@
 				    	<li class="user_bottom_c"></li>
 					    <li class="user_bottom_r"></li>
 					</ul>
+					<ul>
+					<span>				    	
+			        				<c:choose>
+										<c:when test="${empty(openDeclareObj)}">
+										</c:when>
+										<c:otherwise>
+										<center><font color="white">你现在可以在${openDeclareObj.applyStartDate}到${openDeclareObj.applyEndDate}时间段内申报新药</font></center>
+										</c:otherwise>
+									</c:choose>
+								</span>
+					</ul>
 				</dd>
 			</dl>
 		</div>

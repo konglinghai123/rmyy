@@ -1,8 +1,12 @@
 package com.ewcms.yjk.zd.commonname.web.controller;
 
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -24,6 +28,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.ewcms.common.entity.search.SearchParameter;
 import com.ewcms.common.web.controller.BaseCRUDController;
 import com.ewcms.yjk.zd.commonname.entity.Administration;
+import com.ewcms.yjk.zd.commonname.entity.CommonName;
 import com.ewcms.yjk.zd.commonname.entity.CommonNameContents;
 import com.ewcms.yjk.zd.commonname.service.CommonNameContentsService;
 import com.ewcms.yjk.zd.commonname.service.CommonNameRuleService;
@@ -63,12 +68,37 @@ public class CommonNameContentsController extends BaseCRUDController<CommonNameC
 		searchParameter.getParameters().put("EQ_declared", Boolean.TRUE);
 		
 		Map<String, Object> map = getCommonNameContentsService().query(searchParameter);
-		return DuplicateRemovalUtil.removeDuplicateOrder((List<CommonNameContents>) map.get("rows"),
-				commonNameRuleService.findByDeletedFalseAndEnabledTrueOrderByWeightAsc()
-						.get(Integer.parseInt(searchParameter.getParameters().get("objIndex").toString()))
-						.getRuleName());
+		String duplicateColumn = commonNameRuleService.findByDeletedFalseAndEnabledTrueOrderByWeightAsc()
+				.get(Integer.parseInt(searchParameter.getParameters().get("objIndex").toString()))
+				.getRuleName();
+		if(duplicateColumn.equals("common.drugCategory")){
+			return removeDuplicateOrder((List<CommonNameContents>) map.get("rows"));
+		}else{
+			return DuplicateRemovalUtil.removeDuplicateOrder((List<CommonNameContents>) map.get("rows"),duplicateColumn);
+			
+		}
 	}
 
+    /**
+     * 去重
+     * 
+     * @param orderList
+     * @return
+     * @author jqlin
+     */
+    private static List<CommonNameContents> removeDuplicateOrder(List<CommonNameContents> orderList) {
+        Set<CommonNameContents> set = new TreeSet<CommonNameContents>(new Comparator<CommonNameContents>() {
+            @Override
+            public int compare(CommonNameContents a, CommonNameContents b) {
+                // 字符串则按照asicc码升序排列
+                return a.getCommon().getDrugCategory().compareTo(b.getCommon().getDrugCategory());
+            }
+        });
+        
+        set.addAll(orderList);
+        return new ArrayList<CommonNameContents>(set);
+    } 
+    
 	@Override
 	public Map<String, Object> query(SearchParameter<Long> searchParameter, Model model) {
 		searchParameter.getSorts().put("id", Direction.DESC);

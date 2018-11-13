@@ -16,6 +16,12 @@
 												return row.commonNameContents==null ?'':row.commonNameContents.common.administration.name;
 											}">${commonNameRule.ruleCnName}</th>
 								</c:when>
+								<c:when test="${commonNameRule.ruleName == 'common.drugCategory'}">
+									<th data-options="field:'drugCategory',width:120,
+											formatter:function(val,row){
+												return row.commonNameContents==null ?'':row.commonNameContents.common.drugCategoryInfo;
+											}">${commonNameRule.ruleCnName}</th>
+								</c:when>								
 								<c:otherwise>
 									<th data-options="field:'${commonNameRule.ruleName}',width:120,
 											formatter:function(val,row){

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.ewcms.common.Constants;
 import com.ewcms.security.user.entity.User;
 import com.ewcms.security.user.service.UserStatusHistoryService;
+import com.ewcms.yjk.sp.service.SystemParameterService;
 
 /**
  *
@@ -30,6 +31,8 @@ public class LoginFormController {
 	private MessageSource messageSource;
 	@Autowired
 	private UserStatusHistoryService userStatusHistoryService;
+	@Autowired
+	private SystemParameterService systemParameterService;
 	
 	@RequestMapping(value =  "login")
 	public String loginForm(HttpServletRequest request, ModelMap model){
@@ -72,6 +75,7 @@ public class LoginFormController {
 		if (model.containsAttribute(Constants.ERROR)){
 			model.remove(Constants.MESSAGE);
 		}
+		model.addAttribute("openDeclareObj", systemParameterService.findByEnabledTrue());
 		return loginUrl;
 	}
 }
