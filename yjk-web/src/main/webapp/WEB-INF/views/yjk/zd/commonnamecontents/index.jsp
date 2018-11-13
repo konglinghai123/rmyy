@@ -39,6 +39,9 @@
 				<th data-options="field:'medicalDirName',width:120">医保目录药品名称</th>
 				<th data-options="field:'medicalDirPill',width:80">医保药品剂型</th>
 				<th data-options="field:'manufacturer',width:300">生产企业</th>
+				<th data-options="field:'remark1',width:80">备注1</th>
+				<th data-options="field:'remark2',width:80">备注2</th>
+				<th data-options="field:'remark3',width:80">备注3</th>
 				<th data-options="field:'declared',width:100,
 						formatter:function(val,row){
 							return val ? '是' : '否';
