@@ -48,7 +48,10 @@ public class DrugFormService extends BaseService<DrugForm, Long> {
 	private DrugFormRepository getDrugFormRepository() {
 		return (DrugFormRepository) baseRepository;
 	}
-
+	/**
+	 * 新药填写，满足一品两规的才能填写入库
+	 * 
+	 */
 	public String drugDeclare(User user, DrugForm drugForm) {
 		CommonNameContents vo = drugForm.getCommonNameContents();
 		String isDeclareLimt = isDeclareUpperLimt(vo.getId());
@@ -59,7 +62,10 @@ public class DrugFormService extends BaseService<DrugForm, Long> {
 		}
 		return isDeclareLimt;
 	}
-
+	/**
+	 * 批量对填写新药进行申报，同时要满足一品量规和申报上限的才可入库
+	 * 
+	 */
 	public String saveDeclareSubmit(List<Long> selections) {
 		StringBuffer noDeclareCommonName = new StringBuffer();
 		if (selections != null && !selections.isEmpty()) {
@@ -78,7 +84,10 @@ public class DrugFormService extends BaseService<DrugForm, Long> {
 		}
 		return noDeclareCommonName.toString();
 	}
-
+	/**
+	 * 批量撤销还未初审的申报药品
+	 * 
+	 */
 	public void saveDeclareCancel(List<Long> selections) {
 		if (selections != null && !selections.isEmpty()) {
 			for (Long id : selections) {

@@ -53,9 +53,9 @@ public class CommonNameContentsService extends BaseService<CommonNameContents, L
 		return super.update(m);
 	}
 
-	public List<Administration> findAdministrationByCommonName(String commonName) {
-		return getCommonNameContentsRepository().findAdministrationByCommonName(commonName);
-	}
+//	public List<Administration> findAdministrationByCommonName(String commonName) {
+//		return getCommonNameContentsRepository().findAdministrationByCommonName(commonName);
+//	}
 
 	public List<CommonNameContents> findByCommonCommonNameAndCommonAdministrationIdAndDeletedFalseAndDeclaredTrueOrderByUpdateDateDesc(
 			String commonName, Long administrationId) {
@@ -75,7 +75,9 @@ public class CommonNameContentsService extends BaseService<CommonNameContents, L
 	public List<CommonNameContents> findByCommonCommonNameAndCommonAdministrationIdAndCommonDrugCategoryAndCommonNumberAndPillAndManufacturerAndCommonNameAndSpecificationsAndAmountAndDeletedFalse(String extractCommonName, Long administrationId,DrugCategoryEnum drugCategory,String number,String pill,String manufacturer,String commonName,String specifications,String amount){
 		return getCommonNameContentsRepository().findByCommonCommonNameAndCommonAdministrationIdAndCommonDrugCategoryAndCommonNumberAndPillAndManufacturerAndCommonNameAndSpecificationsAndAmountAndDeletedFalse(extractCommonName, administrationId, drugCategory, number, pill, manufacturer, commonName,specifications,amount);
 	}
-	
+	public List<CommonNameContents> findCommonNameContentsBySpell(String spell){
+		return getCommonNameContentsRepository().findCommonNameContentsBySpell(spell);
+	}
 	public void deleteAllCommonNameContents(){
 		getCommonNameContentsRepository().deleteAllCommonNameContents();
 	}

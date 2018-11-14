@@ -30,12 +30,10 @@ import com.ewcms.yjk.sb.entity.AuditStatusEnum;
 import com.ewcms.yjk.sb.service.DrugFormService;
 import com.ewcms.yjk.sp.entity.SystemParameter;
 import com.ewcms.yjk.sp.service.SystemParameterService;
-import com.ewcms.yjk.zd.commonname.entity.CommonName;
 import com.ewcms.yjk.zd.commonname.entity.CommonNameContents;
 import com.ewcms.yjk.zd.commonname.service.CommonNameContentsService;
 import com.ewcms.yjk.zd.commonname.service.CommonNameRuleService;
 import com.ewcms.yjk.zd.commonname.service.CommonNameService;
-import com.ewcms.yjk.zd.commonname.util.DuplicateRemovalUtil;
 
 /**
  * @author zhoudongchu
@@ -91,7 +89,10 @@ public class DrugFormController extends BaseCRUDController<DrugForm, Long> {
 	public String save(Model model, DrugForm m, BindingResult result, List<Long> selections) {
 		throw new RuntimeException("discarded method");
 	}
-
+	/**
+	 * 新药填写，满足一品两规的才能填写入库
+	 * 
+	 */
 	@RequestMapping(value = "save", method = RequestMethod.POST)
 	public String save(@CurrentUser User user, Model model, @Valid @ModelAttribute("m") DrugForm m,
 			BindingResult result, @RequestParam(required = false) List<Long> selections,
@@ -106,24 +107,10 @@ public class DrugFormController extends BaseCRUDController<DrugForm, Long> {
 			this.permissionList.assertHasCreatePermission();
 		}
 		CommonNameContents vo = m.getCommonNameContents();
-		if (vo.getId() == null) {
-			if (commonNameRuleService.findByDeletedFalseAndEnabledTrueOrderByWeightAsc().size() > 2) {
+		if (vo == null || vo.getId() == null) {
 				redirectAttributes.addFlashAttribute(Constants.MESSAGE, "数据输入不完整，请重新输入");
 				return redirectToUrl(viewName("save"));
-			}
-			CommonName commonName = commonNameService.findOne(vo.getCommon().getId());
-			if (commonName == null) {
-				redirectAttributes.addFlashAttribute(Constants.MESSAGE, "数据输入不完整，请重新输入");
-				return redirectToUrl(viewName("save"));
-			}
-			List<CommonNameContents> matchDeclareList = commonNameContentsService
-					.findByCommonCommonNameAndCommonAdministrationIdAndDeletedFalseAndDeclaredTrueOrderByUpdateDateDesc(
-							commonName.getCommonName(), vo.getCommon().getAdministration().getId());
-			if (matchDeclareList == null || matchDeclareList.size() == 0) {
-				redirectAttributes.addFlashAttribute(Constants.MESSAGE, "数据输入不完整，请重新输入");
-				return redirectToUrl(viewName("save"));
-			}
-			m.setCommonNameContents(matchDeclareList.get(0));
+
 		}
 		String declareResult = getDrugFormService().drugDeclare(user, m);
 
@@ -131,7 +118,7 @@ public class DrugFormController extends BaseCRUDController<DrugForm, Long> {
 			redirectAttributes.addFlashAttribute(Constants.MESSAGE, declareResult);
 			
 		} else {
-			redirectAttributes.addFlashAttribute(Constants.MESSAGE, "药品申报成功！");
+			redirectAttributes.addFlashAttribute(Constants.MESSAGE, "新药填写成功！");
 		}
 		return redirectToUrl(viewName("save"));
 	}
@@ -157,7 +144,10 @@ public class DrugFormController extends BaseCRUDController<DrugForm, Long> {
 				commonNameRuleService.findByDeletedFalseAndEnabledTrueOrderByWeightAsc());
 		return viewName("declare");
 	}
-
+	/**
+	 * 批量对填写新药进行申报，同时要满足一品量规和申报上限的才可入库
+	 * 
+	 */
 	@RequestMapping(value = "savedeclaresubmit")
 	@ResponseBody
 	public AjaxResponse saveDeclareSubmit(@RequestParam(required = false) List<Long> selections) {
@@ -176,7 +166,10 @@ public class DrugFormController extends BaseCRUDController<DrugForm, Long> {
 		}
 		return ajaxResponse;
 	}
-
+	/**
+	 * 查询登录系统的医生所有未申报所填写的新药
+	 * 
+	 */
 	@RequestMapping(value = "/querydeclaresubmit")
 	@ResponseBody
 	public Map<String, Object> queryDeclareSubmit(@CurrentUser User user, Model model) {
@@ -195,7 +188,10 @@ public class DrugFormController extends BaseCRUDController<DrugForm, Long> {
 				commonNameRuleService.findByDeletedFalseAndEnabledTrueOrderByWeightAsc());
 		return viewName("cancel");
 	}
-
+	/**
+	 * 批量撤销还未初审的申报药品
+	 * 
+	 */
 	@RequestMapping(value = "savedeclarecancel")
 	@ResponseBody
 	public AjaxResponse saveDeclareCancel(@RequestParam(required = false) List<Long> selections) {
@@ -211,7 +207,10 @@ public class DrugFormController extends BaseCRUDController<DrugForm, Long> {
 		}
 		return ajaxResponse;
 	}
-
+	/**
+	 * 查询当前登录系统医生未初审了的所有申报药品
+	 * 
+	 */
 	@RequestMapping(value = "/querydeclarecancel")
 	@ResponseBody
 	public Map<String, Object> queryDeclareCancel(@CurrentUser User user, Model model) {
@@ -225,17 +224,17 @@ public class DrugFormController extends BaseCRUDController<DrugForm, Long> {
 		return queryMap;
 	}
 
-	@SuppressWarnings("unchecked")
-	@RequestMapping(value = "/querydeclare")
-	@ResponseBody
-	public List<CommonNameContents> queryDeclare(@ModelAttribute SearchParameter<Long> searchParameter, Model model) {
-		searchParameter.getSorts().put("updateDate", Direction.DESC);
-		searchParameter.getParameters().put("EQ_deleted", Boolean.FALSE);
-		Map<String, Object> map = super.query(searchParameter, model);
-		return DuplicateRemovalUtil.removeDuplicateOrder((List<CommonNameContents>) map.get("rows"),
-				commonNameRuleService.findByDeletedFalseAndEnabledTrueOrderByWeightAsc()
-						.get(Integer.parseInt(searchParameter.getParameters().get("objIndex").toString()))
-						.getRuleName());
-	}
+//	@SuppressWarnings("unchecked")
+//	@RequestMapping(value = "/querydeclare")
+//	@ResponseBody
+//	public List<CommonNameContents> queryDeclare(@ModelAttribute SearchParameter<Long> searchParameter, Model model) {
+//		searchParameter.getSorts().put("updateDate", Direction.DESC);
+//		searchParameter.getParameters().put("EQ_deleted", Boolean.FALSE);
+//		Map<String, Object> map = super.query(searchParameter, model);
+//		return DuplicateRemovalUtil.removeDuplicateOrder((List<CommonNameContents>) map.get("rows"),
+//				commonNameRuleService.findByDeletedFalseAndEnabledTrueOrderByWeightAsc()
+//						.get(Integer.parseInt(searchParameter.getParameters().get("objIndex").toString()))
+//						.getRuleName());
+//	}
 
 }
