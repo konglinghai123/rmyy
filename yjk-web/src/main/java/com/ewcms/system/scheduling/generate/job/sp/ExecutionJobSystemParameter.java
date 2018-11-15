@@ -1,8 +1,5 @@
 package com.ewcms.system.scheduling.generate.job.sp;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.ewcms.system.scheduling.generate.job.BaseExecutionJob;
 import com.ewcms.yjk.sp.service.SystemParameterService;
 
@@ -16,7 +13,6 @@ public class ExecutionJobSystemParameter extends BaseExecutionJob {
     public static final String SYSTEM_PARAMETER_SERVICE = "systemParameterService";
 
     protected void jobExecute(Long jobId) throws Exception {
-    	System.out.println("---1----");
        getSystemParameterService().isCloseDeclare();
     }
 

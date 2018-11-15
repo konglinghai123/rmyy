@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Map;
 
 import com.ewcms.system.report.entity.TextReport;
+import com.google.common.collect.Maps;
 
 /**
  * @author 吴智俊
@@ -12,8 +13,8 @@ public class ParameterBuilder implements Serializable {
 
 	private static final long serialVersionUID = -6953111348682302225L;
 
-	private TextReport.Type textType;
-	private Map<String, String> paramMap;
+	private TextReport.Type textType = TextReport.Type.PDF;
+	private Map<String, String> paramMap = Maps.newHashMap();
 
 	public TextReport.Type getTextType() {
 		return textType;

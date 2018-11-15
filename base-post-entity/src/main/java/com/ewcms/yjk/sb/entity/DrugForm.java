@@ -87,6 +87,10 @@ public class DrugForm extends BaseSequenceEntity<Long> {
 	@Column(name = "declare_reason", nullable = false, columnDefinition = "text")
 	private String declareReason;
 	
+	public String getFormatId() {
+		return String.format("%08d", getId());
+	}
+	
 	public Long getUserId() {
 		return userId;
 	}

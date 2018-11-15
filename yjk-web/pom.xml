@@ -37,10 +37,6 @@
 			<version>${empi.version}</version>
 			<exclusions>
 				<exclusion>
-					<artifactId>commons-collections</artifactId>
-					<groupId>commons-collections</groupId>
-				</exclusion>
-				<exclusion>
 					<artifactId>dom4j</artifactId>
 					<groupId>dom4j</groupId>
 				</exclusion>

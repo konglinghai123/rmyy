@@ -6,6 +6,7 @@
 					<tr>
 					    <th data-options="field:'ck',checkbox:true"/>
 					    <th data-options="field:'id',hidden:true">编号</th>
+					    <th data-options="field:'formatId',width:100">编号</th>
 						<th data-options="field:'auditStatusInfo',width:100">审核状态</th>	
 						<th data-options="field:'userName',width:120,sortable:true">申报医生</th>
 						<c:forEach items="${commonNameRuleList}" var="commonNameRule">

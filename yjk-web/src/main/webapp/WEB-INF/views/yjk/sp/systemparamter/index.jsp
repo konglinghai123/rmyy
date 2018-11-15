@@ -4,7 +4,6 @@
 
 <ewcms:head title="审批-系统参数设置" />
 <table id="tt">
-		
 		 <thead frozen="true">    
 			<tr>    
 				<th data-options="field:'ck',checkbox:true"/>
@@ -102,7 +101,7 @@
 		},
 		onLoadSuccess:function(row){
 			$('.openCls').linkbutton({text:'启动申报',plain:true,iconCls:'icon-operate'});
-			$('.closeCls').linkbutton({text:'关闭申报',plain:true,iconCls:'icon-cancel'});
+			$('.closeCls').linkbutton({text:'关闭申报',plain:true,iconCls:'icon-exit'});
 		}
 		});
 	});
@@ -159,7 +158,7 @@
 	}
 	function loadingEnable(){
 		$('<div class="datagrid-mask"></div>').css({display:'block',width:'100%',height:$(window).height()}).appendTo('body');
-		$('<div class="datagrid-mask-msg"></div>').html('<font size="9">正在处理，请稍候。。。</font>').appendTo('body').css({display:'block',left:($(document.body).outerWidth(true) - 190) / 2,top:($(window).height() - 45) / 2}); 
+		$('<div class="datagrid-mask-msg"></div>').html('<font size="9">正在处理，请稍候。。。</font>').appendTo('body').css({display:'block',left:(($(document.body).outerWidth(true) - 190) / 2),top:(($(window).height() - 45) / 2)}); 
 	}
 	
 	function updateSystemParameter(){

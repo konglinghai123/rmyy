@@ -19,7 +19,7 @@
 				<th data-options="field:'createDate',width:145">创建时间</th>
 				<th data-options="field:'updateDate',width:145">更新时间</th>
 				<th data-options="field:'remarks',width:300">说明</th>
-				<th data-options="field:'operation',width:70,align:'center',formatter:formatOperation">操作</th>
+				<th data-options="field:'operation',width:200,align:'center',formatter:formatOperation">操作</th>
 			</tr>
 		</thead>
 	</table>
@@ -78,8 +78,8 @@
 				$('#tt').datagrid('fixDetailRowHeight',rowIndex);
 			},
 			onLoadSuccess:function(row){
-				$('.previewCls').linkbutton({test:'预览',plain:true,iconCls:'icon-preview'});
-				$('.schedulingCls').linkbutton({test:'定时设置',plain:true,iconCls:'icon-scheduling'});
+				$('.previewCls').linkbutton({text:'预览',plain:true,iconCls:'icon-preview'});
+				$('.schedulingCls').linkbutton({text:'定时设置',plain:true,iconCls:'icon-scheduling'});
 				$('.downloadCls').linkbutton({text:'下载',plain:true,iconCls:'icon-download'});
 			}
 		});
@@ -94,7 +94,7 @@
 		$.ewcms.openWindow({
 			windowId:'#edit-window',
 			iframeId : '#editifr', 
-			url : options.previewUrl + '/text/' + id, 
+			src:'${ctx}/system/report/show/text/' + id + '/paraset', 
 			width:550,
 			height:200,
 			title:'参数选择'

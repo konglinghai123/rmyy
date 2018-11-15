@@ -182,7 +182,7 @@
 			        zIndex:999,  
 			        inline:true,
 			        content:function(){
-			        	return position + '<iframe scrolling="no" frameborder="0"  src="' + options.url + '" style="width:100%;height:100%;"></iframe>';
+			        	return position + '<iframe scrolling="no" frameborder="0"  src="' + options.src + '" style="width:100%;height:100%;"></iframe>';
 			        },
 			        onClose:function(){
 			        	if (opts.isRefresh){

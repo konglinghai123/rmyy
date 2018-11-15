@@ -13,9 +13,9 @@
 				    </thead>  
 				    <thead >  				
 					<tr>
-	
 					    <th data-options="field:'id',hidden:true">编号</th>
-						<th data-options="field:'auditStatusInfo',width:100">审核状态</th>	
+					    <th data-options="field:'formatId',width:100">编号</th>
+						<th data-options="field:'auditStatusInfo',width:140,formatter:formatAudit">审核状态</th>	
 						<c:forEach items="${commonNameRuleList}" var="commonNameRule">
 							<c:choose>
 								<c:when test="${commonNameRule.ruleName == 'common.administration.id'}">
@@ -88,27 +88,32 @@
 		          </form>
 		        </div>
 			</div>
+			<div>
+				<form:form id="printForm" method="post" action="${ctx}/system/report/show/text/1/build" commandName="m"  class="form-horizontal" target="_blank">
+					<input type="hidden" id="printDrugFormId" name="paramMap['drugFormId']"/>
+					<input type="hidden" name="textType" vlaue="PDF"/>
+				</form:form>
+			</div>
 			<ewcms:editWindow/>
 		<ewcms:footer/>
 		<script type="text/javascript">
-
-					$(function(){
-						$('#tt').datagrid({
-							url:'${ctx}/yjk/sb/drugform/querybyuser',
-							toolbar:'#tb',
-							fit:true,
-							nowrap:true,
-							pagination:true,
-							rownumbers:true,
-							striped:true,
-							pageSize:20,
-							border:false,
-							onLoadSuccess:function(row){
-								$('.removeCls').linkbutton({text:'删除',plain:true,iconCls:'icon-remove'});
-							}
-						});
-					});				
-
+			$(function(){
+				$('#tt').datagrid({
+					url:'${ctx}/yjk/sb/drugform/querybyuser',
+					toolbar:'#tb',
+					fit:true,
+					nowrap:true,
+					pagination:true,
+					rownumbers:true,
+					striped:true,
+					pageSize:20,
+					border:false,
+					onLoadSuccess:function(row){
+						$('.removeCls').linkbutton({text:'删除',plain:true,iconCls:'icon-remove'});
+						$('.printCls').linkbutton({text:'打印',plain:true,iconCls:'icon-print'});
+					}
+				});
+			});				
 			
 			$("form table tr").next("tr").hide();
 			$('#tb-more').bind('click', function(){
@@ -124,7 +129,13 @@
 			
 			
 			function formatOperation(val, row){
-				return val ?  '是': '否  <a class="removeCls" onclick="deleteDeclare(' + row.id + ')" style="height:24px;" href="javascript:void(0);">删除</a>';
+				return val ?  '是' : '否&nbsp;|&nbsp;<a class="removeCls" onclick="deleteDeclare(' + row.id + ')" style="height:24px;" href="javascript:void(0);">删除</a>';
+			}
+			
+			function formatAudit(val, row){
+				if (row.auditStatus == 'passed'){
+					return val + '&nbsp;|<a class="printCls" onclick="print(' + row.id + ')" style="height:24px;" href="javascript:void(0);">删除</a>'
+				}
 			}
 			
 			function deleteDeclare(id){
@@ -138,6 +149,10 @@
 						});
 			        }
 				});
+			}
+			
+			function print(id){
+				$.ewcms.openTopWindow({src:'${ctx}/yjk/sb/drugform/build?drugFormId=' + id,title:'打印新药申报表',isRefresh:false,maximizable:true});
 			}
 		</script>
 	</c:when>

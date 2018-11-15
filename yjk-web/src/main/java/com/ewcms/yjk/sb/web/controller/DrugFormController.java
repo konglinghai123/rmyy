@@ -1,11 +1,15 @@
 package com.ewcms.yjk.sb.web.controller;
 
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Controller;
@@ -25,6 +29,9 @@ import com.ewcms.common.web.controller.BaseCRUDController;
 import com.ewcms.common.web.validate.AjaxResponse;
 import com.ewcms.security.user.entity.User;
 import com.ewcms.security.user.web.bind.annotation.CurrentUser;
+import com.ewcms.system.report.entity.TextReport;
+import com.ewcms.system.report.generate.entity.ParameterBuilder;
+import com.ewcms.system.report.service.TextReportService;
 import com.ewcms.yjk.sb.entity.DrugForm;
 import com.ewcms.yjk.sb.entity.AuditStatusEnum;
 import com.ewcms.yjk.sb.service.DrugFormService;
@@ -51,6 +58,8 @@ public class DrugFormController extends BaseCRUDController<DrugForm, Long> {
 	private CommonNameContentsService commonNameContentsService;
 	@Autowired
 	private CommonNameService commonNameService;
+	@Autowired
+	private TextReportService textReportService;
 
 	private DrugFormService getDrugFormService() {
 		return (DrugFormService) baseService;
@@ -129,13 +138,12 @@ public class DrugFormController extends BaseCRUDController<DrugForm, Long> {
 
 		if (!declareResult.equals("false")) {
 			redirectAttributes.addFlashAttribute(Constants.MESSAGE, declareResult);
-			
+
 		} else {
 			redirectAttributes.addFlashAttribute(Constants.MESSAGE, "药品申报成功！");
 		}
 		return redirectToUrl(viewName("save"));
 	}
-	
 
 	@RequestMapping(value = "{drugFormId}/deletedeclare")
 	@ResponseBody
@@ -149,7 +157,6 @@ public class DrugFormController extends BaseCRUDController<DrugForm, Long> {
 		}
 		return ajaxResponse;
 	}
-
 
 	@RequestMapping(value = "/declaresubmit")
 	public String declareSubmit(Model model) {
@@ -238,4 +245,32 @@ public class DrugFormController extends BaseCRUDController<DrugForm, Long> {
 						.getRuleName());
 	}
 
+	@RequestMapping(value = "build")
+	public void build(@RequestParam(value = "reportId", defaultValue = "1") Long reportId, @RequestParam(value = "drugFormId") DrugForm drugForm, HttpServletResponse response) {
+        response.setDateHeader("Expires", 0L);
+        response.setHeader("Cache-Control", "no-store, no-cache, must-revalidate");
+        response.addHeader("Cache-Control", "post-check=0, pre-check=0");
+        response.setHeader("Pragma", "no-cache");
+        
+        if (drugForm.getAuditStatus() == AuditStatusEnum.passed) {
+	        ParameterBuilder parameterBuilder = new ParameterBuilder();
+	        parameterBuilder.getParamMap().put("drugFormId", String.valueOf(drugForm.getId()));
+	        parameterBuilder.setTextType(TextReport.Type.PDF);
+	        
+			textReportService.buildText(parameterBuilder.getParamMap(), reportId, parameterBuilder.getTextType(), response);
+        } else {
+        	String str="未初审通过的新药申报是不能打印的！";
+        	response.setHeader("content-type", "text/html;charset=UTF-8");
+        	OutputStream os = null;
+        	try {
+	        	os = response.getOutputStream();
+	        	byte[]b=str.getBytes("utf-8");
+	        	os.write(b);
+	        	os.flush();
+        	}catch (IOException e) {
+        	} finally {
+                 IOUtils.closeQuietly(os);	
+        	}
+        }
+	}
 }
