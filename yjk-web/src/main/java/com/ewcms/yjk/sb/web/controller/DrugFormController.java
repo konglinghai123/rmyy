@@ -38,9 +38,7 @@ import com.ewcms.yjk.sb.service.DrugFormService;
 import com.ewcms.yjk.sp.entity.SystemParameter;
 import com.ewcms.yjk.sp.service.SystemParameterService;
 import com.ewcms.yjk.zd.commonname.entity.CommonNameContents;
-import com.ewcms.yjk.zd.commonname.service.CommonNameContentsService;
 import com.ewcms.yjk.zd.commonname.service.CommonNameRuleService;
-import com.ewcms.yjk.zd.commonname.service.CommonNameService;
 
 /**
  * @author zhoudongchu
@@ -52,10 +50,6 @@ public class DrugFormController extends BaseCRUDController<DrugForm, Long> {
 	private CommonNameRuleService commonNameRuleService;
 	@Autowired
 	private SystemParameterService systemParameterService;
-	@Autowired
-	private CommonNameContentsService commonNameContentsService;
-	@Autowired
-	private CommonNameService commonNameService;
 	@Autowired
 	private TextReportService textReportService;
 
@@ -251,14 +245,29 @@ public class DrugFormController extends BaseCRUDController<DrugForm, Long> {
         response.addHeader("Cache-Control", "post-check=0, pre-check=0");
         response.setHeader("Pragma", "no-cache");
         
-        if (drugForm.getAuditStatus() == AuditStatusEnum.passed) {
-	        ParameterBuilder parameterBuilder = new ParameterBuilder();
-	        parameterBuilder.getParamMap().put("drugFormId", String.valueOf(drugForm.getId()));
-	        parameterBuilder.setTextType(TextReport.Type.PDF);
-	        
-			textReportService.buildText(parameterBuilder.getParamMap(), reportId, parameterBuilder.getTextType(), response);
-        } else {
-        	String str="未初审通过的新药申报是不能打印的！";
+        try {
+	        if (drugForm.getAuditStatus() == AuditStatusEnum.passed) {
+		        ParameterBuilder parameterBuilder = new ParameterBuilder();
+		        parameterBuilder.getParamMap().put("drugFormId", String.valueOf(drugForm.getId()));
+		        parameterBuilder.setTextType(TextReport.Type.PDF);
+		        
+				textReportService.buildText(parameterBuilder.getParamMap(), reportId, parameterBuilder.getTextType(), response);
+	        } else {
+	        	String str = "未初审通过的新药申报是不能打印的！";
+	        	response.setHeader("content-type", "text/html;charset=UTF-8");
+	        	OutputStream os = null;
+	        	try {
+		        	os = response.getOutputStream();
+		        	byte[]b=str.getBytes("utf-8");
+		        	os.write(b);
+		        	os.flush();
+	        	}catch (IOException e) {
+	        	} finally {
+	                 IOUtils.closeQuietly(os);	
+	        	}
+	        }
+        }catch (Exception e) {
+        	String str = "新药申报打印错误，请联系管理员！";
         	response.setHeader("content-type", "text/html;charset=UTF-8");
         	OutputStream os = null;
         	try {
@@ -266,7 +275,7 @@ public class DrugFormController extends BaseCRUDController<DrugForm, Long> {
 	        	byte[]b=str.getBytes("utf-8");
 	        	os.write(b);
 	        	os.flush();
-        	}catch (IOException e) {
+        	}catch (IOException ex) {
         	} finally {
                  IOUtils.closeQuietly(os);	
         	}

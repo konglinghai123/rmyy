@@ -49,7 +49,7 @@
 			pageSize:20,
 			border:false,
 			onLoadSuccess:function(row){
-				$('.closeCls').linkbutton({text:'关闭',plain:true,iconCls:'icon-close'});
+				$('.closeCls').linkbutton({text:'关闭',plain:true,iconCls:'icon-exit'});
 				$('.openCls').linkbutton({text:'启用',plain:true,iconCls:'icon-operate'});
 			}
 		});

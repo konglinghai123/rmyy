@@ -338,8 +338,6 @@ public class CommonNameContents extends BaseSequenceEntity<Long> implements Logi
 		this.importEnterprise = importEnterprise;
 	}
 
-
-
 	public CommonName getCommon() {
 		return common;
 	}
