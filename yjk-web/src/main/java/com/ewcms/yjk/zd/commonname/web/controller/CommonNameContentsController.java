@@ -27,8 +27,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.ewcms.common.entity.search.SearchParameter;
 import com.ewcms.common.web.controller.BaseCRUDController;
-import com.ewcms.yjk.zd.commonname.entity.Administration;
-import com.ewcms.yjk.zd.commonname.entity.CommonName;
 import com.ewcms.yjk.zd.commonname.entity.CommonNameContents;
 import com.ewcms.yjk.zd.commonname.service.CommonNameContentsService;
 import com.ewcms.yjk.zd.commonname.service.CommonNameRuleService;
@@ -59,6 +57,10 @@ public class CommonNameContentsController extends BaseCRUDController<CommonNameC
 		// model.addAttribute("booleanList", BooleanEnum.values());
 	}
 	
+	/**
+	 * 新药填写时根据填写信息匹配大目录的相应记录
+	 * 
+	 */
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/querydeclare")
 	@ResponseBody
@@ -72,21 +74,36 @@ public class CommonNameContentsController extends BaseCRUDController<CommonNameC
 				.get(Integer.parseInt(searchParameter.getParameters().get("objIndex").toString()))
 				.getRuleName();
 		if(duplicateColumn.equals("common.drugCategory")){
-			return removeDuplicateOrder((List<CommonNameContents>) map.get("rows"));
+			return removeDrugCategoryDuplicateOrder((List<CommonNameContents>) map.get("rows"));
+		}else if(duplicateColumn.equals("common.administration.id")){
+			return removeAdministrationDuplicateOrder((List<CommonNameContents>) map.get("rows"));
+			
 		}else{
 			return DuplicateRemovalUtil.removeDuplicateOrder((List<CommonNameContents>) map.get("rows"),duplicateColumn);
-			
 		}
 	}
+	
+	@RequestMapping(value = "/querydeclarebyspell")
+	@ResponseBody
+	public List<CommonNameContents> queryDeclareBySpell(@RequestParam(value="spell") String spell) {
+		if(spell==null||spell.length()==0) return Lists.newArrayList();;
+		spell = spell.toLowerCase();
+		List<CommonNameContents> commonNameContentsList = getCommonNameContentsService().findCommonNameContentsBySpell(spell);
+		if(commonNameContentsList!=null&&commonNameContentsList.size()>1){
+			return removeExtractCommonNameDuplicateOrder(commonNameContentsList);
+		}
+		return commonNameContentsList;
+	}
+
 
     /**
-     * 去重
+     * 去重 药品类别
      * 
      * @param orderList
      * @return
      * @author jqlin
      */
-    private static List<CommonNameContents> removeDuplicateOrder(List<CommonNameContents> orderList) {
+    private static List<CommonNameContents> removeDrugCategoryDuplicateOrder(List<CommonNameContents> orderList) {
         Set<CommonNameContents> set = new TreeSet<CommonNameContents>(new Comparator<CommonNameContents>() {
             @Override
             public int compare(CommonNameContents a, CommonNameContents b) {
@@ -98,7 +115,45 @@ public class CommonNameContentsController extends BaseCRUDController<CommonNameC
         set.addAll(orderList);
         return new ArrayList<CommonNameContents>(set);
     } 
+    /**
+     * 去重 提取通用名
+     * 
+     * @param orderList
+     * @return
+     * @author jqlin
+     */
+    private static List<CommonNameContents> removeExtractCommonNameDuplicateOrder(List<CommonNameContents> orderList) {
+        Set<CommonNameContents> set = new TreeSet<CommonNameContents>(new Comparator<CommonNameContents>() {
+            @Override
+            public int compare(CommonNameContents a, CommonNameContents b) {
+                // 字符串则按照asicc码升序排列
+                return a.getCommon().getCommonName().compareTo(b.getCommon().getCommonName());
+            }
+        });
+        
+        set.addAll(orderList);
+        return new ArrayList<CommonNameContents>(set);
+    }    
     
+    /**
+     * 去重给药途径
+     * 
+     * @param orderList
+     * @return
+     * @author jqlin
+     */
+    private static List<CommonNameContents> removeAdministrationDuplicateOrder(List<CommonNameContents> orderList) {
+        Set<CommonNameContents> set = new TreeSet<CommonNameContents>(new Comparator<CommonNameContents>() {
+            @Override
+            public int compare(CommonNameContents a, CommonNameContents b) {
+                // 字符串则按照asicc码升序排列
+                return a.getCommon().getAdministration().getId().compareTo(b.getCommon().getAdministration().getId());
+            }
+        });
+        
+        set.addAll(orderList);
+        return new ArrayList<CommonNameContents>(set);
+    }        
 	@Override
 	public Map<String, Object> query(SearchParameter<Long> searchParameter, Model model) {
 		searchParameter.getSorts().put("id", Direction.DESC);
@@ -121,12 +176,12 @@ public class CommonNameContentsController extends BaseCRUDController<CommonNameC
 		return queryMap;
 	}  
 	
-	@RequestMapping(value = "queryadministration")
-	@ResponseBody
-	public List<Administration> queryAdministration(@RequestParam(value = "commonName") String commonName, Model model) {
-		List<Administration> admList = getCommonNameContentsService().findAdministrationByCommonName(commonName);
-		return admList;
-	}
+//	@RequestMapping(value = "queryadministration")
+//	@ResponseBody
+//	public List<Administration> queryAdministration(@RequestParam(value = "commonName") String commonName, Model model) {
+//		List<Administration> admList = getCommonNameContentsService().findAdministrationByCommonName(commonName);
+//		return admList;
+//	}
 
 	@RequestMapping(value = "/import")
 	public String importStudent() {

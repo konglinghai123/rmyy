@@ -21,27 +21,27 @@
 								<td width="70%">							
 								<input type="text" id="CNRule${status.index}" name="commonNameContents.common.id" class="easyui-combobox" data-options="
 									valueField:'id',
-									textField:'commonName',
+									textField:'extractCommonName',
 									width:200,
 									required:true,
 									panelHeight:200,
 									onSelect:function(rec){
-										$('#queryCNRule${status.index}').val(rec.commonName);
+										$('#objIndex').val(${status.index+1});
+										$('#commonNameContentsId').val(rec.id);
+										$('#queryCNRule${status.index}').val(rec.extractCommonName);
 										<c:forEach items="${commonNameRuleList}" var="commonNameRule" varStatus="status1">
 											if(${status1.index} > ${status.index}){
 												$('#CNRule${status1.index}').combobox('setValue','');
 												$('#queryCNRule${status1.index}').val('');
-												$('#selectDrugCategory${status1.index}').text('');
 											}
 										</c:forEach>
-										
-	    	   							$('#CNRule${status.index+1}').combobox('reload','${ctx}/yjk/zd/commonnamecontents/queryadministration?commonName='+rec.commonName.replace(/%/, '%25'));
+	    	   							$('#CNRule${status.index+1}').combobox('reload','${ctx}/yjk/zd/commonnamecontents/querydeclare');
 	       							},
 	     							onChange: function (newValue, oldValue) {
 								        	if(newValue==$('#CNRule${status.index}').combobox('getText')){
-								        		$('#CNRule${status.index}').combobox('reload','${ctx}/yjk/zd/commonname/finddistinctbyspell?spell='+newValue);
+								        		$('#CNRule${status.index}').combobox('reload','${ctx}/yjk/zd/commonnamecontents/querydeclarebyspell?spell='+newValue.replace(/%/, '%25'));
 								    		}
-								         }"/>
+								    }"/>
      							</td>
 							</tr>
 							</c:when>
@@ -51,18 +51,18 @@
 								<td width="70%">							
 								<input type="text" id="CNRule${status.index}" name="commonNameContents.${commonNameRule.ruleName}" class="easyui-combobox" data-options="
 									valueField:'id',
-									textField:'name',
+									textField:'administrationName',
 									width:200,
 									required:true,
 									panelHeight:200,
 									onSelect:function(rec){
 										$('#objIndex').val(${status.index+1});
-										$('#queryCNRule${status.index}').val(rec.id);
+										$('#commonNameContentsId').val(rec.id);
+										$('#queryCNRule${status.index}').val(rec.common.administration.id);
 										<c:forEach items="${commonNameRuleList}" var="commonNameRule" varStatus="status1">
 												if(${status1.index} > ${status.index}){
 													$('#CNRule${status1.index}').combobox('setValue','');
 													$('#queryCNRule${status1.index}').val('');
-													$('#selectDrugCategory${status1.index}').text('');
 												}
 										</c:forEach>
 	    	   							$('#CNRule${status.index+1}').combobox('reload','${ctx}/yjk/zd/commonnamecontents/querydeclare');
@@ -77,15 +77,13 @@
 				        	<tr>
 								<td width="30%">${commonNameRule.ruleCnName}：</td>
 								<td width="70%">							
-								<input type="text" id="CNRule${status.index}" name="drugCategory" class="easyui-combobox" data-options="
+								<input type="text" id="CNRule${status.index}" name="drugCategoryInfo" class="easyui-combobox" data-options="
 									valueField:'id',
-									textField:'drugCategory',
+									textField:'drugCategoryInfo',
 									width:200,
 									required:true,
 									panelHeight:200,
-									formatter: function(row){ return row.common.drugCategoryInfo; },
 									onSelect:function(rec){
-										$('#selectDrugCategory${status.index}').text(rec.common.drugCategoryInfo);
 										$('#objIndex').val(${status.index+1});
 										$('#commonNameContentsId').val(rec.id);
 										$('#queryCNRule${status.index}').val(rec.common.drugCategory);
@@ -99,7 +97,7 @@
 	       							},
 	       							onBeforeLoad: function(param){
 	        	 						param['parameters']=$('#queryform').serializeObject();
-	     							}"/><label id="selectDrugCategory${status.index}"/>
+	     							}"/>
      							</td>
 							</tr>
 							</c:when>							
@@ -121,7 +119,6 @@
 												if(${status1.index} > ${status.index}){
 													$('#CNRule${status1.index}').combobox('setValue','');
 													$('#queryCNRule${status1.index}').val('');
-													$('#selectDrugCategory${status1.index}').text('');
 												}
 											</c:forEach>
 		    	   							$('#CNRule${status.index+1}').combobox('reload','${ctx}/yjk/zd/commonnamecontents/querydeclare');
@@ -151,7 +148,7 @@
 		 	<form id="queryform">
 				<c:forEach items="${commonNameRuleList}" var="commonNameRule" varStatus="status">
 					<input type="hidden" id="queryCNRule${status.index}" name="EQ_${commonNameRule.ruleName}"/>
-				</c:forEach>
+				</c:forEach>'
 				<input type="hidden" id="objIndex" name="objIndex"/>
 			</form>
 		</div>
@@ -189,8 +186,8 @@
 	function pageSubmit() {
 		for(j = 0; j < ruleArr.length; j++) {
 			if ($('#CNRule'+j).val() == '') {
-					 $.messager.alert('提示',ruleArr[j]+'不能为空','info');
-						return;
+				$.messager.alert('提示',ruleArr[j]+'不能为空','info');
+				return;
 			}   
 		} 
 		$('#editForm').submit();
