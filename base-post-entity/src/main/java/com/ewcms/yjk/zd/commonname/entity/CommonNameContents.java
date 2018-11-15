@@ -419,7 +419,18 @@ public class CommonNameContents extends BaseSequenceEntity<Long> implements Logi
 	public void setSpellSimplify(String spellSimplify) {
 		this.spellSimplify = spellSimplify;
 	}
-
+	
+	public String getDrugCategoryInfo() {
+		return common == null||common.getDrugCategory()==null ? "" : common.getDrugCategory().getInfo();
+	}
+	
+	public String getAdministrationName() {
+		return common == null||common.getDrugCategory()==null ? "" : common.getAdministration().getName();
+	}
+	
+	public String getExtractCommonName() {
+		return common == null||common.getDrugCategory()==null ? "" : common.getCommonName();
+	}	
 	@Override
     public Boolean getDeleted() {
         return deleted;
