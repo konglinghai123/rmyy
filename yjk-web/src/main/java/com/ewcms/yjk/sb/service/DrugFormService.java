@@ -58,7 +58,6 @@ public class DrugFormService extends BaseService<DrugForm, Long> {
 		if (isDeclareLimt.equals("false")) {
 			drugForm.setUserId(user.getId());
 			drugForm = baseRepository.save(drugForm);
-			
 		}
 		return isDeclareLimt;
 	}
@@ -71,14 +70,16 @@ public class DrugFormService extends BaseService<DrugForm, Long> {
 		if (selections != null && !selections.isEmpty()) {
 			for (Long id : selections) {
 				DrugForm drugForm = findOne(id);
-				if (isDeclareUpperLimt(drugForm.getCommonNameContents().getId()).equals("false")
-						&& !isDeclareTotalUpperLimt(drugForm.getUserId())) {
-					drugForm.setDeclared(Boolean.TRUE);
-					drugForm.setAuditStatus(AuditStatusEnum.init);
-					drugForm.setDeclareDate(new Date(Calendar.getInstance().getTime().getTime()));
-					super.save(drugForm);
-				} else {
-					noDeclareCommonName.append(drugForm.getCommonNameContents().getCommon().getCommonName() + "|");
+				if(!drugForm.getDeclared()){
+					if (isDeclareUpperLimt(drugForm.getCommonNameContents().getId()).equals("false")
+							&& !isDeclareTotalUpperLimt(drugForm.getUserId())) {
+						drugForm.setDeclared(Boolean.TRUE);
+						drugForm.setAuditStatus(AuditStatusEnum.init);
+						drugForm.setDeclareDate(new Date(Calendar.getInstance().getTime().getTime()));
+						super.save(drugForm);
+					} else {
+						noDeclareCommonName.append(drugForm.getCommonNameContents().getCommon().getCommonName() + "|");
+					}
 				}
 			}
 		}
@@ -101,6 +102,7 @@ public class DrugFormService extends BaseService<DrugForm, Long> {
 			}
 		}
 	}
+	
 	/**
 	 * 查询未申报的新药
 	 * 

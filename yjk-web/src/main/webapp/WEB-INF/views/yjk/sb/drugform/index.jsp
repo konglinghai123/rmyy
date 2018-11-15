@@ -134,7 +134,9 @@
 			
 			function formatAudit(val, row){
 				if (row.auditStatus == 'passed'){
-					return val + '&nbsp;|<a class="printCls" onclick="print(' + row.id + ')" style="height:24px;" href="javascript:void(0);">删除</a>'
+					return val + '&nbsp;|<a class="printCls" onclick="print(' + row.id + ')" style="height:24px;" href="javascript:void(0);"></a>'
+				}else{
+					return val;
 				}
 			}
 			
