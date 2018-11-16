@@ -28,9 +28,11 @@ import com.ewcms.common.plugin.entity.LogicDeleteable;
  * <li>drugCode:药品代码</li>
  * <li>common:通用名对象(CommonName)</li>
  * <li>pill:剂型</li>
+ * <li>productName:商品名</li>
  * <li>specifications:规格</li>
  * <li>amount:包装数量</li>
  * <li>manufacturer:生产企业</li>
+ * <li>importEnterprise:进口企业</li>
  * <li>contentCategory:目录分类</li>
  * <li>drugMajor:药品分类大类</li>
  * <li>drugCategory:药品分类</li>
@@ -46,6 +48,8 @@ import com.ewcms.common.plugin.entity.LogicDeleteable;
  * <li>spell:通用名称拼音</li>
  * <li>spellSimplify:通用名称拼音简写</li>
  * <li>originalCategory:原类别</li>
+ * <li>limitRange:限制范围</li>
+ * <li>medical:医保</li>
  * <li>medicalInfo:医保等信息</li>
  * <li>qualityLevel:原质量层次</li>
  * </ul>
@@ -81,7 +85,8 @@ public class HospitalContents extends BaseSequenceEntity<Long> implements LogicD
 	
 	@Column(name = "manufacturer")
 	private String manufacturer;
-		
+	@Column(name = "import_enterprise")
+	private String importEnterprise;
 	@Column(name = "content_category")
 	private String contentCategory;
 	
@@ -93,6 +98,9 @@ public class HospitalContents extends BaseSequenceEntity<Long> implements LogicD
 	
 	@Column(name = "discomp")
 	private String discom;
+	
+	@Column(name = "product_name")
+	private String productName; 
 	
 	@Column(name = "remark")
 	private String remark;
@@ -136,6 +144,23 @@ public class HospitalContents extends BaseSequenceEntity<Long> implements LogicD
 	
 	@Column(name = "quality_level")
 	private String qualityLevel;
+	
+	@Column(name = "bid_price")
+	private Double bidPrice;
+	
+	@Column(name = "medical")
+	private String medical;	
+	
+	@Column(name = "limit_range")
+	private String limitRange;	
+	
+	public Double getBidPrice() {
+		return bidPrice;
+	}
+
+	public void setBidPrice(Double bidPrice) {
+		this.bidPrice = bidPrice;
+	}
 
 	public String getDrugCode() {
 		return drugCode;
@@ -319,6 +344,38 @@ public class HospitalContents extends BaseSequenceEntity<Long> implements LogicD
 
 	public void setQualityLevel(String qualityLevel) {
 		this.qualityLevel = qualityLevel;
+	}
+
+	public String getProductName() {
+		return productName;
+	}
+
+	public void setProductName(String productName) {
+		this.productName = productName;
+	}
+
+	public String getImportEnterprise() {
+		return importEnterprise;
+	}
+
+	public void setImportEnterprise(String importEnterprise) {
+		this.importEnterprise = importEnterprise;
+	}
+
+	public String getMedical() {
+		return medical;
+	}
+
+	public void setMedical(String medical) {
+		this.medical = medical;
+	}
+
+	public String getLimitRange() {
+		return limitRange;
+	}
+
+	public void setLimitRange(String limitRange) {
+		this.limitRange = limitRange;
 	}
 
 	@Override

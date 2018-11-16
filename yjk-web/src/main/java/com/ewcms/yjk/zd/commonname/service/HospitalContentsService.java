@@ -148,6 +148,8 @@ public class HospitalContentsService extends BaseService<HospitalContents, Long>
 						} else if (columnNames[j].equals("剂型")) {
 							hospitalContents.setPill(rows.getCell(j).getStringCellValue().trim());
 							pill = rows.getCell(j).getStringCellValue().trim();
+						} else if (columnNames[j].equals("商品名")) {
+							hospitalContents.setProductName(rows.getCell(j).getStringCellValue().trim());
 						} else if (columnNames[j].equals("规格*数量")) {
 							String specNumber = rows.getCell(j).getStringCellValue().trim();
 							if (EmptyUtil.isStringNotEmpty(specNumber)) {
@@ -172,6 +174,19 @@ public class HospitalContentsService extends BaseService<HospitalContents, Long>
 						} else if (columnNames[j].equals("生产企业")) {
 							hospitalContents.setManufacturer(rows.getCell(j).getStringCellValue().trim());
 							manufacturer = rows.getCell(j).getStringCellValue().trim();
+						} else if (columnNames[j].equals("进口企业")) {
+							hospitalContents.setImportEnterprise(rows.getCell(j).getStringCellValue().trim());
+						} else if (columnNames[j].equals("中标价")) {
+							try {
+								Double bidPrice = rows.getCell(j).getNumericCellValue();
+								if (bidPrice == 0L) {
+									hospitalContents.setBidPrice(null);
+								} else {
+									hospitalContents.setBidPrice(bidPrice);
+								}
+							} catch (Exception e) {
+								hospitalContents.setBidPrice(null);
+							}
 						} else if (columnNames[j].equals("目录分类")) {
 							hospitalContents.setContentCategory(rows.getCell(j).getStringCellValue().trim());
 						} else if (columnNames[j].equals("备注")) {
@@ -190,6 +205,10 @@ public class HospitalContentsService extends BaseService<HospitalContents, Long>
 							hospitalContents.setMedicalInfo(rows.getCell(j).getStringCellValue().trim());
 						} else if (columnNames[j].equals("原质量层次")) {
 							hospitalContents.setQualityLevel(rows.getCell(j).getStringCellValue().trim());
+						} else if (columnNames[j].equals("医保")) {
+							hospitalContents.setMedical(rows.getCell(j).getStringCellValue().trim());
+						} else if (columnNames[j].equals("限制范围")) {
+							hospitalContents.setLimitRange(rows.getCell(j).getStringCellValue().trim());
 						} else if (columnNames[j].equals("类别")) {
 							String drugCategoryValue = rows.getCell(j).getStringCellValue().trim();
 							drugCategory = DrugCategoryEnum.valueOf(drugCategoryValue);

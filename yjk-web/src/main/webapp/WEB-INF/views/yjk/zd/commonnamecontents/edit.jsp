@@ -38,8 +38,7 @@
 					<td width="20%"><form:label path="pill">剂型：</form:label></td>
 					<td width="30%"><form:input path="pill" /></td>
 					<td width="20%"><form:label path="purchasePrice">采购价：</form:label></td>
-					<td width="30%"><form:input path="purchasePrice"
-							cssClass="validate[custom[number]]" /></td>
+					<td width="30%"><form:input path="purchasePrice"	cssClass="validate[custom[number]]" /></td>
 				</tr>
 				<tr>
 					<td width="20%"><form:label path="productName">商品名：</form:label></td>

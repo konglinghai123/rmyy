@@ -27,9 +27,15 @@
 		        	<tr>
 						<td width="20%"><form:label path="pill">剂型：</form:label></td>
 						<td width="30%"><form:input path="pill"/></td>
+						<td width="20%"><form:label path="productName">商品名：</form:label></td>
+						<td width="30%"><form:input path="productName" /></td>						
+					</tr>
+					<tr>
 						<td width="20%"><form:label path="contentCategory">目录分类：</form:label></td>
 						<td width="30%"><form:input path="contentCategory"/></td>
-					</tr>
+						<td width="20%"><form:label path="bidPrice">中标价：</form:label></td>
+						<td width="30%"><form:input path="bidPrice" cssClass="validate[custom[number]]" /></td>						
+					</tr>					
 		        	<tr>
 						<td width="20%"><form:label path="drugMajor">药品分类大类：</form:label></td>
 						<td width="30%"><form:input path="drugMajor"/></td>
@@ -56,16 +62,30 @@
 					</tr>
 					<tr>
 						<td width="20%"><form:label path="qualityLevel">原质量层次：</form:label></td>
-						<td width="30%"><form:input path="qualityLevel" /></td>
-						<td width="20%"><form:label path="remark1">备注1：</form:label></td>
-						<td width="30%"><form:input path="remark1" /></td>
+						<td width="30%"><form:input path="qualityLevel" /></td>						
+						<td width="20%"><form:label path="importEnterprise">进口企业：</form:label></td>
+						<td width="30%"><form:textarea path="importEnterprise"	style="height:50px" /></td>
 					</tr>	
 					<tr>
+						<td width="20%"><form:label path="medical">医保：</form:label></td>
+						<td width="30%"><form:input path="medical" /></td>						
+						<td width="20%"><form:label path="limitRange">限制范围：</form:label></td>
+						<td width="30%"><form:textarea path="limitRange"	style="height:50px" /></td>
+					</tr>											
+					<tr>
+						<td width="20%"><form:label path="remark1">备注1：</form:label></td>
+						<td width="30%"><form:input path="remark1" /></td>
 						<td width="20%"><form:label path="remark2">备注2：</form:label></td>
 						<td width="30%"><form:input path="remark2" /></td>
+					</tr>
+					<tr>
 						<td width="20%"><form:label path="remark3">备注3：</form:label></td>
 						<td width="30%"><form:input path="remark3" /></td>
-					</tr>																																																									
+						<td width="20%"></td>
+						<td width="30%"></td>						
+					</tr>						
+
+																																																													
 				</table>
 			</form:form>
 		</div>
