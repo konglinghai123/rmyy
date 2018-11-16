@@ -35,8 +35,8 @@ public class XlsGenerateService extends BaseTextGenerateServiceable {
             // 删除记录最下面的空行
             exporter.setParameter(JRXlsExporterParameter.IS_REMOVE_EMPTY_SPACE_BETWEEN_ROWS, Boolean.TRUE);
             // 删除多余的ColumnHeader
-            exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.TRUE);
-            exporter.setParameter(JRXlsExporterParameter.SHEET_NAMES, new String[]{"AlqcXls"});
+            exporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.FALSE);
+            exporter.setParameter(JRXlsExporterParameter.SHEET_NAMES, new String[]{"导出数据"});
             // 显示边框
             exporter.setParameter(JRXlsExporterParameter.IS_WHITE_PAGE_BACKGROUND, Boolean.FALSE);
             exporter.setParameter(JRXlsExporterParameter.IS_COLLAPSE_ROW_SPAN, Boolean.TRUE);;

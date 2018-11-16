@@ -43,14 +43,21 @@
 										</td>
 			  						</tr>
 			  					</c:forEach>
-			  					<c:if test="${reportType=='text'}">
-			  						<tr>
-										<td class="texttd">报表文件类型：</td>
-										<td class="inputtd">
-				  							<form:select path="textType" items="${textReportTypeMap}" itemLabel="description" cssClass="easyui-combobox"/>
-										</td>
-			  						</tr>
-			  					</c:if>
+					  			<c:if test="${reportType=='text'}">
+					  				<c:choose>
+										<c:when test="${empty textType}">
+					  						<tr>
+												<td class="texttd">报表文件类型：</td>
+												<td class="inputtd">
+						  							<form:select path="textType" items="${textReportTypeMap}" itemLabel="description" cssClass="easyui-combobox"/>
+												</td>
+					  						</tr>
+			  							</c:when>
+										<c:otherwise>
+											<input type="hidden" name="textType" value="${textType}">
+			  							</c:otherwise>
+									</c:choose>
+								</c:if>
 							</table>
 		  				</td>
 					</tr>

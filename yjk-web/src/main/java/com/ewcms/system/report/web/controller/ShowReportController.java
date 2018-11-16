@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ewcms.common.web.controller.BaseController;
 import com.ewcms.system.report.entity.Parameter;
@@ -51,10 +52,11 @@ public class ShowReportController extends BaseController<Parameter, Long>{
 	}
 
 	@RequestMapping(value = "{reportType}/{reportId}/paraset")
-	public String parameterSet(@PathVariable("reportType") String reportType, @PathVariable("reportId") Long reportId, Model model) {
+	public String parameterSet(@PathVariable("reportType") String reportType, @PathVariable("reportId") Long reportId, @RequestParam(value = "textType", required = false) String textType, Model model) {
 		setCommonData(model);
 		List<PageShowParam> pageShowParams = new ArrayList<PageShowParam>();
 		if (reportType.toLowerCase().trim().equals("text")) {
+			model.addAttribute("textType", textType);
 			pageShowParams = ParamConversionPage.conversion(textReportService.findOne(reportId).getParameters());
 		} else if (reportType.toLowerCase().trim().equals("chart")) {
 			pageShowParams = ParamConversionPage.conversion(chartReportService.findOne(reportId).getParameters());
