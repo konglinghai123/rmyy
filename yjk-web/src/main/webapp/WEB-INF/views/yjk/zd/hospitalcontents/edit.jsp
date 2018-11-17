@@ -70,7 +70,7 @@
 						<td width="20%"><form:label path="medical">医保：</form:label></td>
 						<td width="30%"><form:input path="medical" /></td>						
 						<td width="20%"><form:label path="limitRange">限制范围：</form:label></td>
-						<td width="30%"><form:textarea path="limitRange"	style="height:50px" /></td>
+						<td width="30%"><form:input path="limitRange" /></td>
 					</tr>											
 					<tr>
 						<td width="20%"><form:label path="remark1">备注1：</form:label></td>

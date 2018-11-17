@@ -31,6 +31,7 @@
 				<th data-options="field:'drugMajor',width:150">药品分类大类</th>
 				<th data-options="field:'drugCategory',width:120">药品分类</th>
 				<th data-options="field:'discom',width:80">配送公司</th>
+				<th data-options="field:'medical',width:80">医保</th>
 				<th data-options="field:'manufacturer',width:300">生产企业</th>
 				<!-- <th data-options="field:'deleted',width:100,
 						formatter:function(val,row){
@@ -45,6 +46,7 @@
 			<a id="tb-edit" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-edit',toggle:true" onclick="$.ewcms.edit({title:'修改',width:750,height:450});">修改</a>
  			<a id="tb-remove" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-remove',toggle:true" onclick="$.ewcms.remove({title:'删除'});">删除</a>
  			<a id="tb-import" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-import',toggle:true" onclick="$.ewcms.openWindow({windowId:'#edit-window',width:500,height:350,title:'导入医院在用目录信息',src:'${ctx}/yjk/zd/hospitalcontents/import'});">导入</a>
+ 			<a id="tb-export" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-export',toggle:true" onclick="$.ewcms.openWindow({windowId:'#edit-window',width:500,height:350,title:'导出通用名信息',src:'${ctx}/system/report/show/text/3/paraset?textType=XLS'});">导出</a>
 		</div>
         <div  style="padding-left:5px;">
         	<form id="queryform">
