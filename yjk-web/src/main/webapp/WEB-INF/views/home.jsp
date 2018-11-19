@@ -103,6 +103,7 @@
 			if (id == 'index'){
 				$('#index').show();
 				$('#center').hide();
+				drugFormCountChart	();
 			}else{
 				$('#index').hide();
 				$('#center').show();
@@ -135,6 +136,13 @@
 			}
 		}
 	    
-	    //var poll = new Poll();
+	    var poll = new Poll();
+	    drugFormCountChart();
 	});
+	
+	function drugFormCountChart(){
+		var myChart = new FusionCharts('${ctx}/static/fcf/swf/Pie3D.swf?ChartNoDataText=无数据显示', new Date().getTime(), '400', '170');
+   		myChart.setDataURL('${ctx}/drugFormCountChart?_=' + new Date().getTime());
+   		myChart.render('drugFormCountDiv');
+	}
 </script>

@@ -13,6 +13,9 @@ import com.ewcms.extra.push.PushService;
 import com.ewcms.personal.message.service.MessageApi;
 import com.ewcms.security.user.entity.User;
 import com.ewcms.security.user.web.bind.annotation.CurrentUser;
+import com.ewcms.yjk.sb.entity.AuditStatusEnum;
+import com.ewcms.yjk.sb.service.DrugFormService;
+import com.ewcms.yjk.sp.service.SystemParameterService;
 import com.google.common.collect.Maps;
 
 @Controller
@@ -22,6 +25,10 @@ public class PushController {
 	private MessageApi messageApi;
     @Autowired
     private PushService pushService;
+    @Autowired
+    private SystemParameterService systemParameterService;
+    @Autowired
+    private DrugFormService drugFromService;
 
     /**
      * 获取页面的提示信息
@@ -42,9 +49,18 @@ public class PushController {
         //如果用户第一次来 立即返回
         if(!pushService.isOnline(userId)) {
             Long unreadMessageCount = messageApi.countUnread(userId);
+            String notice = systemParameterService.pushNotice();
+            Long initAudit = drugFromService.countByAuditStatusAndFillInDateBetween(AuditStatusEnum.init);
+            Long passedAudit = drugFromService.countByAuditStatusAndFillInDateBetween(AuditStatusEnum.passed);
+            Long unPassedAudit = drugFromService.countByAuditStatusAndFillInDateBetween(AuditStatusEnum.un_passed);
             
             Map<String, Object> data = Maps.newHashMap();
             data.put("unreadMessageCount", unreadMessageCount);
+            data.put("notice", notice);
+            data.put("initAudit", initAudit);
+            data.put("passedAudit", passedAudit);
+            data.put("unPassedAudit", unPassedAudit);
+            
             pushService.online(userId);
             return data;
         } else {

@@ -2,6 +2,7 @@ package com.ewcms.yjk.sb.repository;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.data.jpa.repository.Query;
 
@@ -17,5 +18,11 @@ public interface DrugFormRepository extends BaseRepository<DrugForm, Long> {
 	Long findDeclareTotalByUserId(Long userId,Date starDate,Date endDate);
 	
 	List<DrugForm> findByUserIdAndDeclaredFalse(Long userId);
+	
 	List<DrugForm> findByUserIdAndAuditStatus(Long userId,AuditStatusEnum auditStatus);
+	
+	Long countByAuditStatusAndFillInDateBetween(AuditStatusEnum auditStatus, Date beginDate, Date endDate);
+	
+	Long countByUserIdInAndAuditStatusAndFillInDateBetween(Set<Long> userIds, AuditStatusEnum auditStatus, Date beginDate, Date endDate);
+	
 }

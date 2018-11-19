@@ -177,4 +177,13 @@ public class SystemParameterService extends BaseService<SystemParameter, Long> {
 			}
 		}
 	}
+	
+	public String pushNotice() {
+		SystemParameter systemParameter = findByEnabledTrue();
+		if (systemParameter == null) {
+			return "申报新药还未开启，请等待!!!";
+		} else {
+			return "请大家在 " + systemParameter.getApplyStartDate() + " 至 " + systemParameter.getApplyEndDate() + " 之间申报新药！！！";
+		}
+	}
 }

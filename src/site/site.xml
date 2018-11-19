@@ -3,7 +3,7 @@
     <publishDate position="left" format="yyyy-MM-dd HH:mm" />
     <version position="left"/>    
     <bannerLeft>
-        <name>es</name>
+        <name>rmyy</name>
         <src>http://maven.apache.org/images/apache-maven-project-2.png</src>
         <href>index.html</href>
     </bannerLeft>

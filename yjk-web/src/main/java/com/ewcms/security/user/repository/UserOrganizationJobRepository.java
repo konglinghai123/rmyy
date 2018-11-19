@@ -30,6 +30,9 @@ public interface UserOrganizationJobRepository extends BaseRepository<UserOrgani
 	@Query("select organizationId from UserOrganizationJob where user=?1")
 	Set<Long> findUserOrganizationJobAllOrganizationId(User user);
 
+	@Query("select o.user.id from UserOrganizationJob o where o.organizationId=?1")
+	Set<Long> findUsersByOrganization(Long organizationId);
+	
 	List<Long> findDeclareUsers(Set<Long> organizationIds, Set<Long> departmentAttributeIds, Set<Long> professionIds,
 			Set<Long> technicalTitleIds, Set<Long> appointmentIds);
 
