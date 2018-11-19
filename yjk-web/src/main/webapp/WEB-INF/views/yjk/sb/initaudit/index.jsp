@@ -36,7 +36,8 @@
 						<th data-options="field:'declareReason',width:300">申请理由</th>
 						<th data-options="field:'remark',width:150">初审说明</th>
 						<th data-options="field:'fillInDate',width:150">填报时间</th>
-						<th data-options="field:'declareDate',width:150">申报时间</th>	
+						<th data-options="field:'declareDate',width:150">申报时间</th>
+						<th data-options="field:'auditDate',width:150">初审时间</th>	
 					</tr>
 				</thead>
 			</table>

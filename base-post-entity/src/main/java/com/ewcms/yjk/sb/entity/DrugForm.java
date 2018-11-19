@@ -37,6 +37,7 @@ import com.ewcms.yjk.zd.commonname.entity.CommonNameContents;
  * <li>remark:说明</li>
  * <li>fillInDate:填报时间</li>
  * <li>declareDate:申报时间</li>
+ * <li>auditDate:初审时间</li>
  * <li>dosage:用法用量</li>
  * <li>indicationsEffect:适应症及药理作用</li>
  * <li>declareReason:申请理由</li>
@@ -56,13 +57,17 @@ public class DrugForm extends BaseSequenceEntity<Long> {
 	private String userName;
 
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	@Column(name = "fill_in_date", columnDefinition = "Timestamp default CURRENT_DATE", insertable = false, updatable = false)
+	@Column(name = "fill_in_date", insertable = false, updatable = false)
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date fillInDate;
+	
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	@Column(name = "declare_date", columnDefinition = "Timestamp default CURRENT_DATE")
-	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "declare_date")
 	private Date declareDate;
+	
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	@Column(name = "audit_date")
+	private Date auditDate;	
 	
 	@ManyToOne(cascade = { CascadeType.REFRESH }, fetch = FetchType.EAGER)
 	@Fetch(FetchMode.SELECT)
@@ -178,4 +183,14 @@ public class DrugForm extends BaseSequenceEntity<Long> {
 	public void setDeclareReason(String declareReason) {
 		this.declareReason = declareReason;
 	}
+	@JSONField(format = "yyyy-MM-dd HH:mm:ss")
+	public Date getAuditDate() {
+		return auditDate;
+	}
+
+	public void setAuditDate(Date auditDate) {
+		this.auditDate = auditDate;
+	}
+	
+	
 }

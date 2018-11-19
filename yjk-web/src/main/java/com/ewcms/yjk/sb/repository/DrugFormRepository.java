@@ -15,11 +15,11 @@ import com.ewcms.yjk.sb.entity.DrugForm;
  */
 public interface DrugFormRepository extends BaseRepository<DrugForm, Long> {
 	@Query("select count(*) from DrugForm c where c.userId=?1 and c.declareDate between ?2 and ?3")
-	Long findDeclareTotalByUserId(Long userId,Date starDate,Date endDate);
+	Long findDeclareTotalByUserId(Long userId,Date startDate,Date endDate);
 	
-	List<DrugForm> findByUserIdAndDeclaredFalse(Long userId);
+	List<DrugForm> findByUserIdAndDeclaredFalseAndFillInDateBetween(Long userId, Date beginDate, Date endDate);
 	
-	List<DrugForm> findByUserIdAndAuditStatus(Long userId,AuditStatusEnum auditStatus);
+	List<DrugForm> findByUserIdAndAuditStatusAndFillInDateBetween(Long userId,AuditStatusEnum auditStatus, Date beginDate, Date endDate);
 	
 	Long countByAuditStatusAndFillInDateBetween(AuditStatusEnum auditStatus, Date beginDate, Date endDate);
 	

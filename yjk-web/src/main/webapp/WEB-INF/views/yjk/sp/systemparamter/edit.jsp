@@ -53,6 +53,10 @@
 						</td>
 					</tr>
 		        	<tr>
+						<td><form:label path="repeatDeclared">是否可以重复申报：</form:label></td>
+						<td><form:checkbox path="repeatDeclared"/></td>
+					</tr>					
+		        	<tr>
 						<td><form:label path="declarationLimt">院用限数：</form:label></td>
 						<td><form:input path="declarationLimt" cssClass="validate[required,custom[integer]]" maxlength="4" size="10"/></td>
 					</tr>

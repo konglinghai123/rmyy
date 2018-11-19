@@ -48,6 +48,7 @@ import com.google.common.collect.Sets;
  * <li>totalNumber:人数</li>
  * <li>departmentNumber:部门人数</li>
  * <li>enabled:是否启用</li>
+ * <li>repeatDeclared:是否重复申报</li>
  * <li>deleted:是否删除</li>
  * </ul>
  * 
@@ -114,7 +115,9 @@ public class SystemParameter extends BaseSequenceEntity<Long> implements LogicDe
 	private Boolean enabled = Boolean.FALSE;
 	@Column(name = "is_deleted")
 	private Boolean deleted = Boolean.FALSE;
-
+	@Column(name = "is_repeat_declared")
+	private Boolean repeatDeclared = Boolean.FALSE;
+	
 	@JSONField(format = "yyyy-MM-dd HH:mm:ss")
 	public Date getApplyStartDate() {
 		return applyStartDate;
@@ -285,6 +288,14 @@ public class SystemParameter extends BaseSequenceEntity<Long> implements LogicDe
 
 	public void setDepartmentNumber(Long departmentNumber) {
 		this.departmentNumber = departmentNumber;
+	}
+
+	public Boolean getRepeatDeclared() {
+		return repeatDeclared;
+	}
+
+	public void setRepeatDeclared(Boolean repeatDeclared) {
+		this.repeatDeclared = repeatDeclared;
 	}
 
 	@Override

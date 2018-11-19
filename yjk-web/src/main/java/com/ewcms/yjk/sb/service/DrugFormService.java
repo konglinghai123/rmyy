@@ -11,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
+import com.ewcms.common.Constants;
 import com.ewcms.common.entity.search.SearchHelper;
 import com.ewcms.common.entity.search.SearchOperator;
 import com.ewcms.common.entity.search.SearchParameter;
@@ -18,6 +19,7 @@ import com.ewcms.common.entity.search.Searchable;
 import com.ewcms.common.service.BaseService;
 import com.ewcms.common.utils.Collections3;
 import com.ewcms.common.utils.EmptyUtil;
+import com.ewcms.common.utils.Reflections;
 import com.ewcms.security.organization.entity.Organization;
 import com.ewcms.security.organization.service.OrganizationService;
 import com.ewcms.security.user.entity.User;
@@ -31,9 +33,11 @@ import com.ewcms.yjk.sp.entity.SystemParameter;
 import com.ewcms.yjk.sp.service.SystemParameterService;
 import com.ewcms.yjk.zd.commonname.entity.CommonName;
 import com.ewcms.yjk.zd.commonname.entity.CommonNameContents;
+import com.ewcms.yjk.zd.commonname.entity.CommonNameRule;
 import com.ewcms.yjk.zd.commonname.entity.HospitalContents;
 import com.ewcms.yjk.zd.commonname.entity.SpecialRule;
 import com.ewcms.yjk.zd.commonname.service.CommonNameContentsService;
+import com.ewcms.yjk.zd.commonname.service.CommonNameRuleService;
 import com.ewcms.yjk.zd.commonname.service.CommonNameService;
 import com.ewcms.yjk.zd.commonname.service.HospitalContentsService;
 import com.ewcms.yjk.zd.commonname.service.SpecialRuleService;
@@ -59,6 +63,8 @@ public class DrugFormService extends BaseService<DrugForm, Long> {
 	private OrganizationService organizationService;
 	@Autowired
 	private UserOrganizationJobService userOrganizationJobService;
+	@Autowired
+	private CommonNameRuleService commonNameRuleService;
 	
 	private DrugFormRepository getDrugFormRepository() {
 		return (DrugFormRepository) baseRepository;
@@ -69,6 +75,10 @@ public class DrugFormService extends BaseService<DrugForm, Long> {
 	 */
 	public String drugDeclare(User user, DrugForm drugForm) {
 		CommonNameContents vo = drugForm.getCommonNameContents();
+		if(isRepeatDeclare(vo.getId())){
+			return "该药已经被申报，不能重复申报";
+		}
+		
 		String isDeclareLimt = isDeclareUpperLimt(vo.getId());
 		if (isDeclareLimt.equals("false")) {
 			drugForm.setUserId(user.getId());
@@ -87,7 +97,7 @@ public class DrugFormService extends BaseService<DrugForm, Long> {
 				DrugForm drugForm = findOne(id);
 				if(!drugForm.getDeclared()){
 					if (isDeclareUpperLimt(drugForm.getCommonNameContents().getId()).equals("false")
-							&& !isDeclareTotalUpperLimt(drugForm.getUserId())) {
+							&& !isDeclareTotalUpperLimt(drugForm.getUserId()) && !isRepeatDeclare(drugForm.getCommonNameContents().getId())) {
 						drugForm.setDeclared(Boolean.TRUE);
 						drugForm.setAuditStatus(AuditStatusEnum.init);
 						drugForm.setDeclareDate(new Date(Calendar.getInstance().getTime().getTime()));
@@ -123,14 +133,22 @@ public class DrugFormService extends BaseService<DrugForm, Long> {
 	 * 
 	 */
 	public List<DrugForm> findByUserIdAndDeclaredFalse(Long userId) {
-		return getDrugFormRepository().findByUserIdAndDeclaredFalse(userId);
+		SystemParameter systemParameter = systemParameterService.findByEnabledTrue();
+		if (EmptyUtil.isNotNull(systemParameter)) {
+			return getDrugFormRepository().findByUserIdAndDeclaredFalseAndFillInDateBetween(userId, systemParameter.getApplyStartDate(), systemParameter.getApplyEndDate());
+		}
+		return Lists.newArrayList();
 	}
 	/**
 	 * 查询未审核的申报的新药
 	 * 
 	 */
 	public List<DrugForm> findByUserIdAndAuditStatus(Long userId, AuditStatusEnum auditStatus) {
-		return getDrugFormRepository().findByUserIdAndAuditStatus(userId, auditStatus);
+		SystemParameter systemParameter = systemParameterService.findByEnabledTrue();
+		if (EmptyUtil.isNotNull(systemParameter)) {
+			return getDrugFormRepository().findByUserIdAndAuditStatusAndFillInDateBetween(userId, auditStatus, systemParameter.getApplyStartDate(), systemParameter.getApplyEndDate());
+		}
+		return Lists.newArrayList();
 	}
 
 	/**
@@ -142,13 +160,50 @@ public class DrugFormService extends BaseService<DrugForm, Long> {
 			DrugForm drugForm = findOne(drugFormId);
 			if(isAuditPassed){
 				drugForm.setAuditStatus(AuditStatusEnum.passed);
+				drugForm.setAuditDate(new Date(Calendar.getInstance().getTime().getTime()));
 			}else{
 				drugForm.setAuditStatus(AuditStatusEnum.un_passed);
+				drugForm.setAuditDate(new Date(Calendar.getInstance().getTime().getTime()));
+
 			}
 			drugForm.setRemark(remark);
 			super.save(drugForm);
 		}
 	}
+	private Boolean isRepeatDeclare(Long commonNameContentsId){
+		Boolean isRepeatDeclare = Boolean.FALSE;
+		SystemParameter systemParameter = systemParameterService.findByEnabledTrue();
+		if(EmptyUtil.isNotNull(systemParameter)){
+			if(!systemParameter.getRepeatDeclared()){
+				Searchable searchable = Searchable.newSearchable();
+				searchable.addSearchFilter("fillInDate", SearchOperator.GTE, systemParameter.getApplyStartDate());
+				searchable.addSearchFilter("fillInDate", SearchOperator.LTE, systemParameter.getApplyEndDate());
+				searchable.addSearchFilter("auditStatus", SearchOperator.EQ, AuditStatusEnum.passed);
+				List<CommonNameRule> cnRuleList = commonNameRuleService.findByDeletedFalseAndEnabledTrueOrderByWeightAsc();
+				CommonNameContents commonNameContents = commonNameContentsService.findOne(commonNameContentsId);
+				String columnName;
+				for(CommonNameRule commonNameRule:cnRuleList){
+					columnName = commonNameRule.getRuleName();
+					if(columnName.equals("common.commonName")){
+						searchable.addSearchFilter("commonNameContents."+columnName, SearchOperator.EQ, commonNameContents.getCommon().getCommonName());
+					}else if(columnName.equals("common.administration.id")){
+						searchable.addSearchFilter("commonNameContents."+columnName, SearchOperator.EQ, commonNameContents.getCommon().getAdministration().getId());
+					}else if(columnName.equals("common.drugCategory")){
+						searchable.addSearchFilter("commonNameContents."+columnName, SearchOperator.EQ, commonNameContents.getCommon().getDrugCategory());
+					}else{
+						searchable.addSearchFilter("commonNameContents."+columnName, SearchOperator.EQ, Reflections.getFieldValue(commonNameContents, columnName));
+					}	
+				}
+				
+				List<DrugForm> drugFormList = findAllWithNoPageNoSort(searchable);
+				if(EmptyUtil.isCollectionNotEmpty(drugFormList)){
+					isRepeatDeclare = Boolean.TRUE;
+				}
+			}
+		}
+		return isRepeatDeclare;
+	}
+	
 	/**
 	 * 判断当前申报新药是否超过上限
 	 * 

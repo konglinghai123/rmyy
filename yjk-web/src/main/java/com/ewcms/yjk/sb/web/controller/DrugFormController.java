@@ -25,6 +25,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.ewcms.common.Constants;
 import com.ewcms.common.entity.search.SearchParameter;
+import com.ewcms.common.utils.EmptyUtil;
 import com.ewcms.common.web.controller.BaseCRUDController;
 import com.ewcms.common.web.validate.AjaxResponse;
 import com.ewcms.security.user.entity.User;
@@ -37,7 +38,7 @@ import com.ewcms.yjk.sb.entity.AuditStatusEnum;
 import com.ewcms.yjk.sb.service.DrugFormService;
 import com.ewcms.yjk.sp.entity.SystemParameter;
 import com.ewcms.yjk.sp.service.SystemParameterService;
-import com.ewcms.yjk.zd.commonname.entity.CommonNameContents;
+import com.ewcms.yjk.zd.commonname.service.CommonNameContentsService;
 import com.ewcms.yjk.zd.commonname.service.CommonNameRuleService;
 
 /**
@@ -52,7 +53,8 @@ public class DrugFormController extends BaseCRUDController<DrugForm, Long> {
 	private SystemParameterService systemParameterService;
 	@Autowired
 	private TextReportService textReportService;
-
+	@Autowired
+	private CommonNameContentsService commonNameContentsService;
 	private DrugFormService getDrugFormService() {
 		return (DrugFormService) baseService;
 	}
@@ -83,6 +85,11 @@ public class DrugFormController extends BaseCRUDController<DrugForm, Long> {
 		searchParameter.getSorts().put("auditStatus", Direction.DESC);
 		searchParameter.getSorts().put("id", Direction.DESC);
 		searchParameter.getParameters().put("EQ_userId", user.getId());
+		SystemParameter systemParameter = systemParameterService.findByEnabledTrue();
+		if(EmptyUtil.isNotNull(systemParameter)){
+			searchParameter.getParameters().put("GTE_fillInDate", systemParameter.getApplyStartDate());
+			searchParameter.getParameters().put("LTE_fillInDate", systemParameter.getApplyEndDate());
+		}
 		Map<String, Object> queryObj = super.query(searchParameter, model);
 		return queryObj;
 	}
@@ -109,8 +116,8 @@ public class DrugFormController extends BaseCRUDController<DrugForm, Long> {
 		if (permissionList != null) {
 			this.permissionList.assertHasCreatePermission();
 		}
-		CommonNameContents vo = m.getCommonNameContents();
-		if (vo == null || vo.getId() == null) {
+
+		if ( m.getCommonNameContents() == null ||  m.getCommonNameContents().getId() == null) {
 				redirectAttributes.addFlashAttribute(Constants.MESSAGE, "数据输入不完整，请重新输入");
 				return redirectToUrl(viewName("save"));
 
@@ -158,7 +165,7 @@ public class DrugFormController extends BaseCRUDController<DrugForm, Long> {
 			if (selections != null && !selections.isEmpty()) {
 				String noDeclareCommonName = getDrugFormService().saveDeclareSubmit(selections);
 				if (noDeclareCommonName != null && noDeclareCommonName.length() > 0) {
-					ajaxResponse.setMessage("以下药品:" + noDeclareCommonName + "因超过申报限数或总数，未能申报！");
+					ajaxResponse.setMessage("以下药品:" + noDeclareCommonName + "因超过申报限数、总数或已经被申报，不能继续申报！");
 				}
 			}
 		} catch (IllegalStateException e) {
@@ -215,8 +222,7 @@ public class DrugFormController extends BaseCRUDController<DrugForm, Long> {
 	@RequestMapping(value = "/querydeclarecancel")
 	@ResponseBody
 	public Map<String, Object> queryDeclareCancel(@CurrentUser User user, Model model) {
-		List<DrugForm> drugFormList = getDrugFormService().findByUserIdAndAuditStatus(user.getId(),
-				AuditStatusEnum.init);
+		List<DrugForm> drugFormList = getDrugFormService().findByUserIdAndAuditStatus(user.getId(),AuditStatusEnum.init);
 		Map<String, Object> queryMap = new HashMap<String, Object>();
 		if (drugFormList != null) {
 			queryMap.put("total", drugFormList.size());
@@ -224,19 +230,6 @@ public class DrugFormController extends BaseCRUDController<DrugForm, Long> {
 		}
 		return queryMap;
 	}
-
-//	@SuppressWarnings("unchecked")
-//	@RequestMapping(value = "/querydeclare")
-//	@ResponseBody
-//	public List<CommonNameContents> queryDeclare(@ModelAttribute SearchParameter<Long> searchParameter, Model model) {
-//		searchParameter.getSorts().put("updateDate", Direction.DESC);
-//		searchParameter.getParameters().put("EQ_deleted", Boolean.FALSE);
-//		Map<String, Object> map = super.query(searchParameter, model);
-//		return DuplicateRemovalUtil.removeDuplicateOrder((List<CommonNameContents>) map.get("rows"),
-//				commonNameRuleService.findByDeletedFalseAndEnabledTrueOrderByWeightAsc()
-//						.get(Integer.parseInt(searchParameter.getParameters().get("objIndex").toString()))
-//						.getRuleName());
-//	}
 
 	@RequestMapping(value = "build")
 	public void build(@RequestParam(value = "reportId", defaultValue = "1") Long reportId, @RequestParam(value = "drugFormId") DrugForm drugForm, HttpServletResponse response) {
