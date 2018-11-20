@@ -37,6 +37,8 @@
 						formatter:function(val,row){
 							return val ? '是' : '否';
 						}">是否允许申报</th>
+				<th data-options="field:'createDate',width:100">创建时间</th>
+				<th data-options="field:'updateDate',width:100">修改时间</th>
 				<!--  <th data-options="field:'deleted',width:100,
 						formatter:function(val,row){
 							return val ? '<font color=red>已删除</font>' : '';

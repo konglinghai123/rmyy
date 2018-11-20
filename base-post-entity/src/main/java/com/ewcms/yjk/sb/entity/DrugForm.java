@@ -57,16 +57,18 @@ public class DrugForm extends BaseSequenceEntity<Long> {
 	private String userName;
 
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	@Column(name = "fill_in_date", columnDefinition = "Timestamp default CURRENT_TIMESTAMP", insertable = false, updatable = false)
+	@Column(name = "fill_in_date", updatable = false)
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date fillInDate;
+	private Date fillInDate = new Date();
 	
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	@Column(name = "declare_date")
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date declareDate;
 	
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	@Column(name = "audit_date")
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date auditDate;	
 	
 	@ManyToOne(cascade = { CascadeType.REFRESH }, fetch = FetchType.EAGER)

@@ -38,9 +38,13 @@
 	    	   							$('#CNRule${status.index+1}').combobox('reload','${ctx}/yjk/zd/commonnamecontents/querydeclare');
 	       							},
 	     							onChange: function (newValue, oldValue) {
-								        	if(newValue==$('#CNRule${status.index}').combobox('getText')){
-								        		$('#CNRule${status.index}').combobox('reload','${ctx}/yjk/zd/commonnamecontents/querydeclarebyspell?spell='+newValue.replace(/%/, '%25'));
-								    		}
+	     								if(newValue==$('#CNRule${status.index}').combobox('getText')){
+									        if(newValue != '' && newValue.length>1){
+									        	$('#CNRule${status.index}').combobox('reload','${ctx}/yjk/zd/commonnamecontents/querydeclarebyspell?spell='+newValue.replace(/%/, '%25'));
+									    	}else{
+									    	  $('#CNRule${status.index}').combobox('loadData', {});
+									    	}
+								    	}
 								    }"/>
      							</td>
 							</tr>
@@ -55,6 +59,7 @@
 									width:200,
 									required:true,
 									panelHeight:200,
+									editable:false,
 									onSelect:function(rec){
 										$('#objIndex').val(${status.index+1});
 										$('#commonNameContentsId').val(rec.id);
@@ -83,6 +88,7 @@
 									width:200,
 									required:true,
 									panelHeight:200,
+									editable:false,
 									onSelect:function(rec){
 										$('#objIndex').val(${status.index+1});
 										$('#commonNameContentsId').val(rec.id);
@@ -110,6 +116,7 @@
 										textField:'${commonNameRule.ruleName}',
 										width:200,
 										required:true,
+										editable:false,
 										panelHeight:200,
 										onSelect:function(rec){
 											$('#objIndex').val(${status.index+1});

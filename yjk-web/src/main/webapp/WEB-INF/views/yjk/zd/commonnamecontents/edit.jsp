@@ -12,6 +12,7 @@
 			class="form-horizontal">
 			<ewcms:showGlobalError commandName="m" />
 			<form:hidden path="id" />
+			<input type="hidden" id="isSetValue" value="true">
 			<c:forEach var="selection" items="${selections}">
 				<input type="hidden" name="selections" value="${selection}" />
 			</c:forEach>
@@ -146,7 +147,7 @@
                 {field:'spellSimplify',title:'简拼',width:100}
             ]],
             onLoadSuccess:function(){
-            	if ($('#id').val() != ''){
+            	if ($('#id').val() != '' && $('#isSetValue').val() == 'true'){
             		$('#cc_common').combogrid('setValue',${m.common.id});
             	}
             }
@@ -156,9 +157,13 @@
 			if (event.keyCode == 38){
 			} else if (event.keyCode == 40){
 			} else {
-				$('#cc_common').combogrid('grid').datagrid('reload', {
-					spell : $('#cc_common').combogrid("getText")
-				});
+				newValue =  $('#cc_common').combogrid("getText");
+				if(newValue != '' && newValue.length>1){
+					$('#isSetValue').val('false');
+					$('#cc_common').combogrid('grid').datagrid('reload', {
+						spell : newValue
+					});
+				}
 	 		}
        	});
 		

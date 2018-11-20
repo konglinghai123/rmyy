@@ -33,6 +33,8 @@
 				<th data-options="field:'discom',width:80">配送公司</th>
 				<th data-options="field:'medical',width:80">医保</th>
 				<th data-options="field:'manufacturer',width:300">生产企业</th>
+				<th data-options="field:'createDate',width:100">创建时间</th>
+				<th data-options="field:'updateDate',width:100">修改时间</th>
 				<!-- <th data-options="field:'deleted',width:100,
 						formatter:function(val,row){
 							return val ? '<font color=red>已删除</font>' : '';

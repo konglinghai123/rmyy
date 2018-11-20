@@ -17,6 +17,7 @@ import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.ewcms.common.entity.BaseSequenceEntity;
 import com.ewcms.common.plugin.entity.LogicDeleteable;
 
@@ -129,13 +130,13 @@ public class CommonNameContents extends BaseSequenceEntity<Long> implements Logi
     @JoinColumn(name = "common_name_id")
     private CommonName common;
 	
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    @Column(name = "create_date", columnDefinition = "Timestamp default CURRENT_TIMESTAMP", insertable = false, updatable = false)
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @Column(name = "create_date", updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
-    private Date createDate;
+    private Date createDate = new Date();
     
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    @Column(name = "update_date", columnDefinition = "Timestamp default CURRENT_DATE")
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @Column(name = "update_date")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updateDate;
     
@@ -168,7 +169,7 @@ public class CommonNameContents extends BaseSequenceEntity<Long> implements Logi
 	
 	@Column(name = "spell_simplify")
 	private String spellSimplify;	
-	
+	@JSONField(format = "yyyy-MM-dd HH:mm:ss")
 	public Date getCreateDate() {
 		return createDate;
 	}
@@ -176,7 +177,7 @@ public class CommonNameContents extends BaseSequenceEntity<Long> implements Logi
 	public void setCreateDate(Date createDate) {
 		this.createDate = createDate;
 	}
-
+	@JSONField(format = "yyyy-MM-dd HH:mm:ss")
 	public Date getUpdateDate() {
 		return updateDate;
 	}
