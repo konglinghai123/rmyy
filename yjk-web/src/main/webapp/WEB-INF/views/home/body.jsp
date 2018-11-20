@@ -1,10 +1,10 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-		<div data-options="region:'north',border:false" style="height:60px;overflow:no;">
+		<div data-options="region:'north',border:false" style="height:70px;overflow:no;">
 		    <h2 align="center">欢迎使用网上药品申报信息管理系统</h2>
 		</div>
-		<div data-options="region:'center',border:false" style="width:35%;overflow:auto;">
+		<div data-options="region:'center',border:false" style="width:40%;overflow:auto;">
 			<table style="width:100%;padding:0;">
 		    	<tr>
 		    		<td width="1%"></td>
@@ -16,17 +16,17 @@
 		                    		<a href="javascript:void(0);" style="display:inline;"></a>
 		                   		</div>
 		                 	</div>
-		                 	<div style="height:382px; padding: 5px;" title="" id="tip" class="portal-p panel-body" data-options="closable:true,collapsible:false">
+		                 	<div style="height:410px; padding: 5px;" title="" id="tip" class="portal-p panel-body" data-options="closable:true,collapsible:false">
 		                 		<div class="t-list">
-									<table class="easyui-datagrid" data-options="height:382,url:'${ctx}/drugFormCountReport',nowrap:true,pagination:true,rownumbers:true,striped:true,pageSize:10">
+									<table class="easyui-datagrid" data-options="height:400,url:'${ctx}/drugFormCountReport',nowrap:true,pagination:true,rownumbers:true,striped:true,pageSize:10">
 										<thead>
 											<tr>
 											    <th data-options="field:'organizationId',hidden:true">部门编号</th>
-											    <th data-options="field:'organizationName',width:130">部门名称</th>
-											    <th data-options="field:'noDeclareNumber',width:50">填报数</th>
-											    <th data-options="field:'initNumber',width:70">提交初审数</th>
-											    <th data-options="field:'passedNumber',width:80">已通过初审数</th>
-											    <th data-options="field:'unPassedNumber',width:80">未通过初审数</th>
+											    <th data-options="field:'organizationName',width:160">部门名称</th>
+											    <th data-options="field:'noDeclareNumber',width:70">填报</th>
+											    <th data-options="field:'initNumber',width:90">提交初审</th>
+											    <th data-options="field:'passedNumber',width:90">已通过初审</th>
+											    <th data-options="field:'unPassedNumber',width:90">未通过初审</th>
 											</tr>
 										</thead>
 									</table>
@@ -38,7 +38,7 @@
 		    	</tr>
 		    </table>
 		</div>
-		<div data-options="region:'west',border:false" style="width:65%;overflow: auto;">
+		<div data-options="region:'west',border:false" style="width:60%;overflow: auto;">
 		    <table style="width:100%;padding:0;">
 		    	<tr>
 		    		<td width="1%"></td>
@@ -51,7 +51,7 @@
 		                     			<a href="javascript:void(0);" style="display:inline;"></a>
 		                   			</div>
 		                 		</div>
-		                 		<div style="height: 170px; padding: 5px;" title="" id="notice" class="portal-p panel-body" data-options="closable:true,collapsible:false">
+		                 		<div style="height: 190px; padding: 5px;" title="" id="notice" class="portal-p panel-body" data-options="closable:true,collapsible:false">
 		                 			<div class="t-list">
 		                 				<table style="width:100%;">
 		                 					<tr>	
@@ -75,7 +75,7 @@
 		                     			<a href="javascript:void(0);" style="display:inline;"></a>
 		                   			</div>
 		                 		</div>
-		                 		<div style="height: 170px; padding: 5px;" title="" id="tip" class="portal-p panel-body" data-options="closable:true,collapsible:false">
+		                 		<div style="height: 190px; padding: 5px;" title="" id="tip" class="portal-p panel-body" data-options="closable:true,collapsible:false">
 		                 			<div class="t-list">
 		                 				<table style="width:100%;">
 		                 					<tr>	
@@ -112,7 +112,7 @@
 		                     			<a href="javascript:void(0);" class="icon-reload panel-tool-a" onclick="drugFormCountChart();" title="刷新"></a>
 		                   			</div>
 		                 		</div>
-			             		<div style="height: 170px; padding: 5px;" title="" class="portal-p panel-body" data-options="closable:true,collapsible:false">
+			             		<div style="height: 190px; padding: 5px;" title="" class="portal-p panel-body" data-options="closable:true,collapsible:false">
 		        					<div id="drugFormCountDiv" align="center"></div>
 				    			</div>
 				    		</div>

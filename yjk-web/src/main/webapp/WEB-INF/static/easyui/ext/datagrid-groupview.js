@@ -1,5 +1,5 @@
 $.extend($.fn.datagrid.defaults, {
-	groupHeight: 25,
+	groupHeight: 28,
 	expanderWidth: 30,
 	groupStyler: function(value,rows){return ''}
 });
@@ -195,6 +195,7 @@ $.extend($.fn.datagrid.methods, {
 	},
     expandGroup:function(jq, groupIndex){
         return jq.each(function(){
+        	var opts = $(this).datagrid('options');
             var view = $.data(this, 'datagrid').dc.view;
             var group = view.find(groupIndex!=undefined ? 'div.datagrid-group[group-index="'+groupIndex+'"]' : 'div.datagrid-group');
             var expander = group.find('span.datagrid-row-expander');
@@ -203,10 +204,14 @@ $.extend($.fn.datagrid.methods, {
                 group.next('table').show();
             }
             $(this).datagrid('fixRowHeight');
+            if (opts.onExpandGroup){
+            	opts.onExpandGroup.call(this, groupIndex);
+            }
         });
     },
     collapseGroup:function(jq, groupIndex){
         return jq.each(function(){
+        	var opts = $(this).datagrid('options');
             var view = $.data(this, 'datagrid').dc.view;
             var group = view.find(groupIndex!=undefined ? 'div.datagrid-group[group-index="'+groupIndex+'"]' : 'div.datagrid-group');
             var expander = group.find('span.datagrid-row-expander');
@@ -215,6 +220,9 @@ $.extend($.fn.datagrid.methods, {
                 group.next('table').hide();
             }
             $(this).datagrid('fixRowHeight');
+            if (opts.onCollapseGroup){
+            	opts.onCollapseGroup.call(this, groupIndex);
+            }
         });
     },
     scrollToGroup: function(jq, groupIndex){
@@ -251,7 +259,8 @@ $.extend(groupview, {
 		var dc = state.dc;
 		var ht = dc.header2.find('table');
 		var fr = ht.find('tr.datagrid-filter-row').hide();
-		var ww = ht.width();
+		// var ww = ht.width();
+		var ww = dc.body2.children('table.datagrid-btable:first').width();
 		if (groupIndex == undefined){
 			var groupHeader = dc.body2.children('div.datagrid-group');
 		} else {
@@ -264,7 +273,12 @@ $.extend(groupview, {
 			var isRtl = dc.view1.css('direction').toLowerCase()=='rtl';
 			groupHeader.find('.datagrid-group-title').css(isRtl?'right':'left', -width+'px');
 		}
-		fr.show();
+		if (fr.length){
+			if (opts.showFilterBar){
+				fr.show();
+			}
+		}
+		// fr.show();
 	},
 
 	insertRow: function(target, index, row){

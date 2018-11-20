@@ -56,6 +56,7 @@
 			nowrap:true,
 			rownumbers:true,
 			singleSelect:true,
+			border:false,
 			onBeforeExpand:function(row){
 				var url = '${ctx}/system/editor/table?path=' + row.attributes.path; 
 		        $("#tt").treegrid("options").url = url;  

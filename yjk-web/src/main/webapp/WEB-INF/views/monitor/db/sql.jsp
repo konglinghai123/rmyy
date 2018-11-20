@@ -48,6 +48,7 @@
 			striped:true,
 			fitColumns:true,
 			striped:true,
+			border:false,
 			pageSize:20,
 			onBeforeLoad:function(param){
 				param['parameters']=$('#queryform').serializeObject();

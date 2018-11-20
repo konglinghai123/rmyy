@@ -45,6 +45,7 @@
 			lines:true,
 			nowrap:true,
 			rownumbers:true,
+			border:false,
 			singleSelect:false
 		});
 		

@@ -22,7 +22,7 @@
 	           			<td><form:label path="icon">图标：</form:label></td>
 		  				<td>
 		  					<span id="showIcon" class="${m.icon}"></span>&nbsp;
-		  					<form:input path="icon" cssStyle="width:18px;"/>&nbsp;&nbsp;
+		  					<form:input path="icon" cssStyle="width:24px;"/>&nbsp;&nbsp;
 		  					<a id="tb-clear" href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-clear'">清除</a>
 		  				</td>
 		    		</tr>

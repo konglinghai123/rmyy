@@ -84,6 +84,7 @@
 			pageSize:20,
 			fitColumns:true,
 			view : detailview,
+			border:false,
 			detailFormatter : function(rowIndex, rowData) {
 				return '<div id="ddv-' + rowIndex + '" style="padding:2px"></div>';
 			},

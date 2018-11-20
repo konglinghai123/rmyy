@@ -73,7 +73,6 @@ public class CommonName extends BaseSequenceEntity<Long> implements LogicDeletea
     @Column(name = "is_deleted")
     private Boolean deleted = Boolean.FALSE;
     
-    
     public String getCommonName() {
 		return commonName;
 	}

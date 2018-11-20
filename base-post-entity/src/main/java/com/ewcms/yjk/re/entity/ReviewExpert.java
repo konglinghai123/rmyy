@@ -172,6 +172,7 @@ public class ReviewExpert extends BaseSequenceEntity<Long> implements Movable {
 		this.antibiosis = antibiosis;
 	}
 
+	@JSONField(serialize = false)
 	public List<Organization> getOrganizations() {
 		return organizations;
 	}
@@ -192,6 +193,7 @@ public class ReviewExpert extends BaseSequenceEntity<Long> implements Movable {
 				: Sets.newHashSet();
 	}
 	
+	@JSONField(serialize = false)
 	public List<DepartmentAttribute> getDepartmentAttributes() {
 		return departmentAttributes;
 	}
@@ -213,6 +215,7 @@ public class ReviewExpert extends BaseSequenceEntity<Long> implements Movable {
 				: Sets.newHashSet();
 	}
 
+	@JSONField(serialize = false)
 	public List<Profession> getProfessions() {
 		return professions;
 	}
@@ -233,6 +236,7 @@ public class ReviewExpert extends BaseSequenceEntity<Long> implements Movable {
 		this.professions = professions;
 	}
 
+	@JSONField(serialize = false)
 	public List<TechnicalTitle> getTechnicalTitles() {
 		return technicalTitles;
 	}
@@ -253,6 +257,7 @@ public class ReviewExpert extends BaseSequenceEntity<Long> implements Movable {
 				: Sets.newHashSet();
 	}
 
+	@JSONField(serialize = false)
 	public List<Appointment> getAppointments() {
 		return appointments;
 	}
@@ -305,6 +310,7 @@ public class ReviewExpert extends BaseSequenceEntity<Long> implements Movable {
 		this.enabled = enabled;
 	}
 
+	@JSONField(serialize = false)
 	public List<User> getUsers() {
 		return users;
 	}

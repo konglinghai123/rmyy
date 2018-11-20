@@ -38,7 +38,6 @@ import com.ewcms.yjk.sb.entity.AuditStatusEnum;
 import com.ewcms.yjk.sb.service.DrugFormService;
 import com.ewcms.yjk.sp.entity.SystemParameter;
 import com.ewcms.yjk.sp.service.SystemParameterService;
-import com.ewcms.yjk.zd.commonname.service.CommonNameContentsService;
 import com.ewcms.yjk.zd.commonname.service.CommonNameRuleService;
 
 /**
@@ -53,8 +52,7 @@ public class DrugFormController extends BaseCRUDController<DrugForm, Long> {
 	private SystemParameterService systemParameterService;
 	@Autowired
 	private TextReportService textReportService;
-	@Autowired
-	private CommonNameContentsService commonNameContentsService;
+	
 	private DrugFormService getDrugFormService() {
 		return (DrugFormService) baseService;
 	}

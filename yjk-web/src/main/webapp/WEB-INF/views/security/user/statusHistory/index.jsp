@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/views/jspf/taglibs.jspf" %>
 
 <ewcms:head/>
-	<table id="tt" class="easyui-datagrid" data-options="url:'${ctx}/security/user/statusHistory/query',toolbar:'#tb',fit:true,nowrap:true,pagination:true,rownumbers:true,striped:true,pageSize:20">
+	<table id="tt" class="easyui-datagrid" data-options="url:'${ctx}/security/user/statusHistory/query',toolbar:'#tb',fit:true,nowrap:true,pagination:true,rownumbers:true,striped:true,border:false,pageSize:20">
 		<thead>
 			<tr>
 				<th data-options="field:'ck',checkbox:true"></th>

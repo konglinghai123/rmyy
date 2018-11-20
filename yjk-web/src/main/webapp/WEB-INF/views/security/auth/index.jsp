@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/views/jspf/taglibs.jspf" %>
 
 <ewcms:head/>
-	<table id="tt" class="easyui-datagrid" data-options="toolbar:'#tb',fit:true,url:'${ctx}/security/auth/query',nowrap:true,pagination:true,rownumbers:true,striped:true,pageSize:20,fitColumns:true">
+	<table id="tt" class="easyui-datagrid" data-options="toolbar:'#tb',fit:true,url:'${ctx}/security/auth/query',nowrap:true,pagination:true,rownumbers:true,striped:true,pageSize:20,border:false,fitColumns:true">
 		<thead>
 			<tr>
 			    <th data-options="field:'ck',checkbox:true"></th>

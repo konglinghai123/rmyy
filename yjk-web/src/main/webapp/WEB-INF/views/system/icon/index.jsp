@@ -3,7 +3,7 @@
 <%@ page import="com.ewcms.common.web.controller.entity.TreeIconCls"%>
 
 <ewcms:head title="图标设置"/>
-	<table id="tt" class="easyui-datagrid" data-options="toolbar:'#tb',fit:true,url:'${ctx}/system/icon/query',nowrap:true,pagination:true,rownumbers:true,striped:true,pageSize:20">
+	<table id="tt" class="easyui-datagrid" data-options="toolbar:'#tb',fit:true,url:'${ctx}/system/icon/query',nowrap:true,pagination:true,rownumbers:true,striped:true,border:false,pageSize:20">
 		<thead>
 			<tr>
 			    <th data-options="field:'ck',checkbox:true"></th>

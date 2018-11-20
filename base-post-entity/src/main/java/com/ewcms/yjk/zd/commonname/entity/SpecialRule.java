@@ -12,6 +12,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.ewcms.common.entity.BaseSequenceEntity;
 
 /**
@@ -67,6 +68,7 @@ public class SpecialRule extends BaseSequenceEntity<Long> {
 		this.limitNumber = limitNumber;
 	}
 
+	@JSONField(serialize = false)
 	public List<CommonName> getCommonNames() {
 		return commonNames;
 	}

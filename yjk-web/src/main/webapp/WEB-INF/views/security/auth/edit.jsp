@@ -126,8 +126,7 @@
 				method:'get',
 				valueField:'id',
 				textField:'usernameAndRealname',
-				editable:false,
-				multiple:true
+				editable:false
 			});
 		} else if (value == 'user_group' || value == 'organization_group'){
 			var groupType = (value == 'user_group') ? 'user' : 'organization';

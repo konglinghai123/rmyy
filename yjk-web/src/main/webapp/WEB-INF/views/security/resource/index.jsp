@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/views/jspf/taglibs.jspf" %>
 
-<ewcms:head/>
+<ewcms:head title="权限管理-控制列表"/>
 	<table id="tt">
 		<thead>
 			<tr>
@@ -56,6 +56,7 @@
 			nowrap:true,
 			rownumbers:true,
 			singleSelect:false,
+			border:false,
 			onLoadSuccess:function(row){
 				$(this).treegrid('enableDnd', row?row.id:null);
 			},

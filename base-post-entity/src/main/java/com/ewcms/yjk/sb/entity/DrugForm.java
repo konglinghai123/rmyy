@@ -57,7 +57,7 @@ public class DrugForm extends BaseSequenceEntity<Long> {
 	private String userName;
 
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	@Column(name = "fill_in_date", insertable = false, updatable = false)
+	@Column(name = "fill_in_date", columnDefinition = "Timestamp default CURRENT_TIMESTAMP", insertable = false, updatable = false)
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date fillInDate;
 	
@@ -191,6 +191,4 @@ public class DrugForm extends BaseSequenceEntity<Long> {
 	public void setAuditDate(Date auditDate) {
 		this.auditDate = auditDate;
 	}
-	
-	
 }

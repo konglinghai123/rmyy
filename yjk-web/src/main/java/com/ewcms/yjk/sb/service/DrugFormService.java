@@ -11,7 +11,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
-import com.ewcms.common.Constants;
 import com.ewcms.common.entity.search.SearchHelper;
 import com.ewcms.common.entity.search.SearchOperator;
 import com.ewcms.common.entity.search.SearchParameter;

@@ -131,6 +131,7 @@
 	function closeDeclare(id) {
 		$.messager.confirm('提示', '确定要关闭申报吗?<br/><font color="red">关闭后所有人员将无法进行新药申报!</font>', function(r) {
 			if (r) {
+				loadingEnable();
 				$.post('${ctx}/yjk/sp/systemparamter/' + id + '/closedeclare',{}, function(result) {
 					if (result.success) {
 						$('#tt').datagrid('reload');
@@ -162,14 +163,14 @@
 	}
 	function loadingEnable(){
 		$('<div class="datagrid-mask"></div>').css({display:'block',width:'100%',height:$(window).height()}).appendTo('body');
-		$('<div class="datagrid-mask-msg"></div>').html('<font size="9">正在处理，请稍候。。。</font>').appendTo('body').css({display:'block',left:(($(document.body).outerWidth(true) - 190) / 2),top:(($(window).height() - 45) / 2)}); 
+		$('<div class="datagrid-mask-msg" style="height:40px"></div>').html('正在处理，请稍候。。。').appendTo('body').css({display:'block',left:(($(document.body).outerWidth(true) - 190) / 2),top:(($(window).height() - 45) / 2)}); 
 	}
 	
 	function updateSystemParameter(){
 		var rows = $('#tt').datagrid('getSelections');
 	    
     	if(rows.length != 1){
-	        $.messager.alert('提示','请选择1条记录进行修改','info');
+	        $.messager.alert('提示','请选择一条记录进行修改','info');
 	        return;
 	    }
     	if(rows[0].enabled){

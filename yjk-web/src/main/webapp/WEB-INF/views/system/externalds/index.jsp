@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/views/jspf/taglibs.jspf" %>
 
 <ewcms:head title="外部数据源 - 标签页"/>
-	<div id="tab-externalds" class="easyui-tabs" data-options="fit:true,border:true,tabPosition:'right',headerWidth:70">
+	<div id="tab-externalds" class="easyui-tabs" data-options="fit:true,tabPosition:'right',border:false,headerWidth:70">
 		<div title="JDBC" style="padding:2px;overflow:hidden;">
 			<iframe id="editjdbcifr" name="editjdbcifr" class="editifr" src="${ctx}/system/externalds/jdbc/index"></iframe>
 		</div>			

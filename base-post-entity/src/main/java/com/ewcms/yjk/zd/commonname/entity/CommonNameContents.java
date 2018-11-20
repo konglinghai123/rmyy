@@ -130,7 +130,7 @@ public class CommonNameContents extends BaseSequenceEntity<Long> implements Logi
     private CommonName common;
 	
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    @Column(name = "create_date", columnDefinition = "Timestamp default CURRENT_DATE", insertable = false, updatable = false)
+    @Column(name = "create_date", columnDefinition = "Timestamp default CURRENT_TIMESTAMP", insertable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date createDate;
     

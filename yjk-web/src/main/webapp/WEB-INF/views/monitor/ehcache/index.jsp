@@ -29,6 +29,7 @@
 			pagination:true,
 			rownumbers:true,
 			striped:true,
+			border:false,
 			pageSize:20,
 			view : detailview,
 			detailFormatter : function(rowIndex, rowData) {

@@ -51,6 +51,7 @@
 			pagination:true,
 			rownumbers:true,
 			striped:true,
+			border:false,
 			pageSize:20,
 			onLoadSuccess:function(row){
 				$('.downloadCls').linkbutton({text:'下载',plain:true,iconCls:'icon-download'});
