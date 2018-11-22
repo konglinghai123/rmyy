@@ -15,9 +15,8 @@
 				<th data-options="field:'administrationName',width:80">给药途径</th>
 				<th data-options="field:'drugCategoryInfo',width:80">药品种类</th>												
 				<th data-options="field:'commonName',width:150">大目录通用名</th>	
-				<th data-options="field:'projectName',width:100">项目名称</th>
+				<th data-options="field:'projectName',width:100,sortable:true">项目名称</th>
 				<th data-options="field:'batch',width:80">批次</th>
-				<th data-options="field:'source',width:100">来源</th>
 				<th data-options="field:'pill',width:100">剂型</th>
 				<th data-options="field:'specifications',width:150">规格</th>
 				<th data-options="field:'amount',width:70">包装数量</th>
@@ -51,7 +50,8 @@
 			<a id="tb-add" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-add',toggle:true" onclick="$.ewcms.add({title:'新增',width:750,height:450});">新增</a>
 			<a id="tb-edit" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-edit',toggle:true" onclick="$.ewcms.edit({title:'修改',width:750,height:450});">修改</a>
  			<a id="tb-remove" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-remove',toggle:true" onclick="$.ewcms.remove({title:'删除'});">删除</a>
- 			<a id="tb-import" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-import',toggle:true" onclick="$.ewcms.openWindow({windowId:'#edit-window',width:500,height:350,title:'导入大目录信息',src:'${ctx}/yjk/zd/commonnamecontents/import'});">导入</a>
+ 			<a id="tb-import" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-import',toggle:true" onclick="$.ewcms.openWindow({windowId:'#edit-window',width:400,height:300,title:'导入大目录信息',src:'${ctx}/yjk/zd/commonnamecontents/import'});">导入</a>
+ 			<a id="tb-declare" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-save',toggle:true" onclick="$.ewcms.openWindow({windowId:'#edit-window',width:600,height:300,title:'过滤大目录',src:'${ctx}/yjk/zd/commonnamecontents/filterdeclared'});">过滤</a>
 		</div>
         <div  style="padding-left:5px;">
         	<form id="queryform" style="padding:0;margin:0;">

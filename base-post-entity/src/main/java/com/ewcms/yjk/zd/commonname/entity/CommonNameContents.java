@@ -30,7 +30,6 @@ import com.ewcms.common.plugin.entity.LogicDeleteable;
  * <li>orderNo:序号</li>
  * <li>projectName:项目名称</li>
  * <li>batch:批次</li>
- * <li>source:来源</li>
  * <li>commonName:通用名</li>
  * <li>medicalDirNo:医保目录编号</li>
  * <li>medicalDirName:医保目录药品名称</li>
@@ -73,9 +72,6 @@ public class CommonNameContents extends BaseSequenceEntity<Long> implements Logi
     
 	@Column(name = "batch")
 	private String batch;	
-	
-	@Column(name = "source")
-	private String source;
 	
 	@Column(name = "common_name", nullable = false)
 	private String commonName;
@@ -201,15 +197,6 @@ public class CommonNameContents extends BaseSequenceEntity<Long> implements Logi
 	public void setBatch(String batch) {
 		this.batch = batch;
 	}
-
-	public String getSource() {
-		return source;
-	}
-
-	public void setSource(String source) {
-		this.source = source;
-	}
-
 
 	public String getCommonName() {
 		return commonName;

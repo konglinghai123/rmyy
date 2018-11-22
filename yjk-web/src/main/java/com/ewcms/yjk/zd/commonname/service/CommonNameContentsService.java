@@ -78,9 +78,7 @@ public class CommonNameContentsService extends BaseService<CommonNameContents, L
 	public List<CommonNameContents> findCommonNameContentsBySpell(String spell){
 		return getCommonNameContentsRepository().findCommonNameContentsBySpell(spell);
 	}
-	public void deleteAllCommonNameContents(){
-		getCommonNameContentsRepository().deleteAllCommonNameContents();
-	}
+
 	/**
 	 * 根据申报药品查找当前大目录匹配胡数据集合
 	 * 
@@ -100,6 +98,12 @@ public class CommonNameContentsService extends BaseService<CommonNameContents, L
 		return findByCommonIdInAndDeletedFalseAndDeclaredTrue(commonNameIds, pageable);
 	}
 
+	public void filterDeclaredByProjectName(List<String> projectDeclareds){
+		if(EmptyUtil.isCollectionNotEmpty(projectDeclareds)){
+			getCommonNameContentsRepository().setAllValidRecordDeclaredFalse();
+			getCommonNameContentsRepository().setDeclaredTrueByProjectName(projectDeclareds);
+		}
+	}
 	public List<Integer> importExcel(InputStream in,Boolean isDisabledOriginalData) {
 		List<Integer> noSave = Lists.newArrayList();
 		try {
@@ -108,7 +112,7 @@ public class CommonNameContentsService extends BaseService<CommonNameContents, L
 			HSSFSheet sheet = wb.getSheetAt(0);
 			int records = sheet.getLastRowNum();
 			if(isDisabledOriginalData){//如果作废数据库以前数据，将数据库所有数据删除标志设为true
-				deleteAllCommonNameContents();
+				getCommonNameContentsRepository().deleteAllCommonNameContents();
 			}
 			// 获得列名，为第0行位置
 			HSSFRow rows = sheet.getRow(0);

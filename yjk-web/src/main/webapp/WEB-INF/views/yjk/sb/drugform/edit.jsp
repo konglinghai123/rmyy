@@ -9,6 +9,7 @@
         		<ewcms:showGlobalError commandName="m"/>
 		    	<form:hidden path="id"/>
 		    	<form:hidden id="commonNameContentsId" path="commonNameContents.id"/>
+		    	<input type="hidden" id="isDeclareCondition" value="true">
 		    	<c:forEach var="selection" items="${selections}">
 	  				<input type="hidden" name="selections" value="${selection}" />
 				</c:forEach>
@@ -70,7 +71,19 @@
 													$('#queryCNRule${status1.index}').val('');
 												}
 										</c:forEach>
-	    	   							$('#CNRule${status.index+1}').combobox('reload','${ctx}/yjk/zd/commonnamecontents/querydeclare');
+										<c:if test="${status.last}">
+											$.post('${ctx}/yjk/sb/drugform/' + rec.id + '/declarecondition',{}, function(result) {
+												if (result.message != 'false') {
+													$('#isDeclareCondition').val(result.message);
+													$.messager.alert('提示', result.message, 'info');
+												}else{
+													$('#isDeclareCondition').val('true');
+												}
+											});
+										</c:if>
+										<c:if test="${!status.last}">
+	    	   								$('#CNRule${status.index+1}').combobox('reload','${ctx}/yjk/zd/commonnamecontents/querydeclare');
+	    	   							</c:if>
 	       							},
 	       							onBeforeLoad: function(param){
 	        	 						param['parameters']=$('#queryform').serializeObject();
@@ -99,7 +112,19 @@
 													$('#queryCNRule${status1.index}').val('');
 												}
 										</c:forEach>
-	    	   							$('#CNRule${status.index+1}').combobox('reload','${ctx}/yjk/zd/commonnamecontents/querydeclare');
+										<c:if test="${status.last}">
+											$.post('${ctx}/yjk/sb/drugform/' + rec.id + '/declarecondition',{}, function(result) {
+												if (result.message != 'false') {
+													$('#isDeclareCondition').val(result.message);
+													$.messager.alert('提示', result.message, 'info');
+												}else{
+													$('#isDeclareCondition').val('true');
+												}
+											});
+										</c:if>
+										<c:if test="${!status.last}">
+	    	   								$('#CNRule${status.index+1}').combobox('reload','${ctx}/yjk/zd/commonnamecontents/querydeclare');
+	    	   							</c:if>
 	       							},
 	       							onBeforeLoad: function(param){
 	        	 						param['parameters']=$('#queryform').serializeObject();
@@ -128,7 +153,19 @@
 													$('#queryCNRule${status1.index}').val('');
 												}
 											</c:forEach>
-		    	   							$('#CNRule${status.index+1}').combobox('reload','${ctx}/yjk/zd/commonnamecontents/querydeclare');
+										<c:if test="${status.last}">
+											$.post('${ctx}/yjk/sb/drugform/' + rec.id + '/declarecondition',{}, function(result) {
+												if (result.message != 'false') {
+													$('#isDeclareCondition').val(result.message);
+													$.messager.alert('提示', result.message, 'info');
+												}else{
+													$('#isDeclareCondition').val('true');
+												}
+											});
+										</c:if>
+										<c:if test="${!status.last}">
+	    	   								$('#CNRule${status.index+1}').combobox('reload','${ctx}/yjk/zd/commonnamecontents/querydeclare');
+	    	   							</c:if>
 		       							},
 		       							onBeforeLoad: function(param){
 		        	 						param['parameters']=$('#queryform').serializeObject();
@@ -197,6 +234,10 @@
 				return;
 			}   
 		} 
+		if($('#isDeclareCondition').val() != 'true'){
+			$.messager.alert('提示',$('#isDeclareCondition').val(),'info');
+			return;	
+		}
 		$('#editForm').submit();
 	}
 </script>

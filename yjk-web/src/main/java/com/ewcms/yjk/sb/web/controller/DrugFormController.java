@@ -80,7 +80,7 @@ public class DrugFormController extends BaseCRUDController<DrugForm, Long> {
 	@ResponseBody
 	public Map<String, Object> queryByUser(@CurrentUser User user,
 			@ModelAttribute SearchParameter<Long> searchParameter, Model model) {
-		searchParameter.getSorts().put("auditStatus", Direction.DESC);
+		searchParameter.getSorts().put("auditStatus", Direction.ASC);
 		searchParameter.getSorts().put("id", Direction.DESC);
 		searchParameter.getParameters().put("EQ_userId", user.getId());
 		SystemParameter systemParameter = systemParameterService.findByEnabledTrue();
@@ -213,6 +213,16 @@ public class DrugFormController extends BaseCRUDController<DrugForm, Long> {
 		}
 		return ajaxResponse;
 	}
+	/**
+	 * 批量撤销还未初审的申报药品
+	 * 
+	 */
+	@RequestMapping(value = "{commonNameContentsId}/declarecondition")
+	@ResponseBody
+	public AjaxResponse isSatisfyDrugDeclare(@PathVariable(value = "commonNameContentsId") Long commonNameContentsId) {
+		AjaxResponse ajaxResponse = new AjaxResponse(getDrugFormService().isSatisfyDrugDeclare(commonNameContentsId));
+		return ajaxResponse;
+	}	
 	/**
 	 * 查询当前登录系统医生未初审了的所有申报药品
 	 * 

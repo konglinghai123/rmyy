@@ -29,6 +29,7 @@ import com.ewcms.yjk.zd.commonname.entity.CommonNameContents;
  * 
  * <ul>
  * <li>userId:申报医生ID</li>
+ * <li>systemParameterId:启动的系统参数申报ID</li>
  * <li>userName:申报医生姓名</li>
  * <li>createDate:申报日期</li>
  * <li>commonNameContents:申请大通用名药品</li>
@@ -52,7 +53,10 @@ public class DrugForm extends BaseSequenceEntity<Long> {
 	private static final long serialVersionUID = 9001257669684367907L;
 	@Column(name = "user_id", nullable = false)
 	private Long userId;
-
+	
+	@Column(name = "system_parameter_id", nullable = false)
+	private Long systemParameterId;
+	
 	@Formula(value = "(select s_o.username  from sec_user s_o where s_o.id=user_id)")
 	private String userName;
 
@@ -94,6 +98,16 @@ public class DrugForm extends BaseSequenceEntity<Long> {
 	@Column(name = "declare_reason", nullable = false, columnDefinition = "text")
 	private String declareReason;
 	
+
+
+	public Long getSystemParameterId() {
+		return systemParameterId;
+	}
+
+	public void setSystemParameterId(Long systemParameterId) {
+		this.systemParameterId = systemParameterId;
+	}
+
 	public String getFormatId() {
 		return String.format("%08d", getId());
 	}

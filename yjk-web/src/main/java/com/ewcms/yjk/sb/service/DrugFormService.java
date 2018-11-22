@@ -69,22 +69,37 @@ public class DrugFormService extends BaseService<DrugForm, Long> {
 		return (DrugFormRepository) baseRepository;
 	}
 	/**
-	 * 新药填写，满足一品两规的才能填写入库
+	 * 新药填写，满足一品两规和特殊药品规则的才能填写入库
 	 * 
 	 */
 	public String drugDeclare(User user, DrugForm drugForm) {
 		CommonNameContents vo = drugForm.getCommonNameContents();
-		if(isRepeatDeclare(vo.getId())){
+		if(isRepeatDeclare(vo.getId())){//判断是否重复申报，如果新药是重复的申报，则终止申报
 			return "该药已经被申报，不能重复申报";
 		}
 		
 		String isDeclareLimt = isDeclareUpperLimt(vo.getId());
 		if (isDeclareLimt.equals("false")) {
+			SystemParameter systemParameter = systemParameterService.findByEnabledTrue();
 			drugForm.setUserId(user.getId());
+			drugForm.setSystemParameterId(systemParameter.getId());
 			drugForm = baseRepository.save(drugForm);
 		}
 		return isDeclareLimt;
 	}
+	
+	/**
+	 * 判断新药是否符合申报条件
+	 * 
+	 */
+	public String isSatisfyDrugDeclare(Long commonNameContentsId){
+		if(isRepeatDeclare(commonNameContentsId)){//判断是否重复申报，如果新药是重复的申报，则终止申报
+			return "该药已经被申报，不能重复申报";
+		}
+		return isDeclareUpperLimt(commonNameContentsId);
+	}
+	
+	
 	/**
 	 * 批量对填写新药进行申报，同时要满足一品量规和申报上限的才可入库
 	 * 
@@ -134,7 +149,7 @@ public class DrugFormService extends BaseService<DrugForm, Long> {
 	public List<DrugForm> findByUserIdAndDeclaredFalse(Long userId) {
 		SystemParameter systemParameter = systemParameterService.findByEnabledTrue();
 		if (EmptyUtil.isNotNull(systemParameter)) {
-			return getDrugFormRepository().findByUserIdAndDeclaredFalseAndFillInDateBetween(userId, systemParameter.getApplyStartDate(), systemParameter.getApplyEndDate());
+			return getDrugFormRepository().findByUserIdAndDeclaredFalseAndSystemParameterId(userId, systemParameter.getId());
 		}
 		return Lists.newArrayList();
 	}
@@ -145,7 +160,7 @@ public class DrugFormService extends BaseService<DrugForm, Long> {
 	public List<DrugForm> findByUserIdAndAuditStatus(Long userId, AuditStatusEnum auditStatus) {
 		SystemParameter systemParameter = systemParameterService.findByEnabledTrue();
 		if (EmptyUtil.isNotNull(systemParameter)) {
-			return getDrugFormRepository().findByUserIdAndAuditStatusAndFillInDateBetween(userId, auditStatus, systemParameter.getApplyStartDate(), systemParameter.getApplyEndDate());
+			return getDrugFormRepository().findByUserIdAndAuditStatusAndSystemParameterId(userId, auditStatus, systemParameter.getId());
 		}
 		return Lists.newArrayList();
 	}
@@ -280,8 +295,7 @@ public class DrugFormService extends BaseService<DrugForm, Long> {
 		if (systemParameter == null) {
 			return Boolean.TRUE;
 		}
-		Long declareTotal = getDrugFormRepository().findDeclareTotalByUserId(userId,
-				systemParameter.getApplyStartDate(), systemParameter.getApplyEndDate());
+		Long declareTotal = getDrugFormRepository().findDeclareTotalByUserId(userId,systemParameter.getId());
 
 		if (declareTotal < systemParameter.getDeclareTotalLimt()) {
 			return Boolean.FALSE;
@@ -293,7 +307,7 @@ public class DrugFormService extends BaseService<DrugForm, Long> {
 	public Long countByAuditStatusAndFillInDateBetween(AuditStatusEnum auditStatus) {
 		SystemParameter systemParameter = systemParameterService.findByEnabledTrue();
 		if (systemParameter == null) return 0L;
-		else return getDrugFormRepository().countByAuditStatusAndFillInDateBetween(auditStatus, systemParameter.getApplyStartDate(), systemParameter.getApplyEndDate());
+		else return getDrugFormRepository().countByAuditStatusAndSystemParameterId(auditStatus, systemParameter.getId());
 	}
 	
 	public Map<String, Object> findDrugFormCount(User user, SearchParameter<Long> searchParameter) {
@@ -317,10 +331,10 @@ public class DrugFormService extends BaseService<DrugForm, Long> {
 		for (Organization organization : organizations) {
 			Set<Long> userIds = userOrganizationJobService.findUsersByOrganization(organization.getId());
 			if (EmptyUtil.isCollectionNotEmpty(userIds)) {
-				Long noDeclareNumber = getDrugFormRepository().countByUserIdInAndAuditStatusAndFillInDateBetween(userIds, AuditStatusEnum.nodeclare, systemParameter.getApplyStartDate(), systemParameter.getApplyEndDate());
-				Long initNumber = getDrugFormRepository().countByUserIdInAndAuditStatusAndFillInDateBetween(userIds, AuditStatusEnum.init, systemParameter.getApplyStartDate(), systemParameter.getApplyEndDate());
-				Long passedNumber = getDrugFormRepository().countByUserIdInAndAuditStatusAndFillInDateBetween(userIds, AuditStatusEnum.passed, systemParameter.getApplyStartDate(), systemParameter.getApplyEndDate());
-				Long unPassedNumber = getDrugFormRepository().countByUserIdInAndAuditStatusAndFillInDateBetween(userIds, AuditStatusEnum.un_passed, systemParameter.getApplyStartDate(), systemParameter.getApplyEndDate());
+				Long noDeclareNumber = getDrugFormRepository().countByUserIdInAndAuditStatusAndSystemParameterId(userIds, AuditStatusEnum.nodeclare, systemParameter.getId());
+				Long initNumber = getDrugFormRepository().countByUserIdInAndAuditStatusAndSystemParameterId(userIds, AuditStatusEnum.init, systemParameter.getId());
+				Long passedNumber = getDrugFormRepository().countByUserIdInAndAuditStatusAndSystemParameterId(userIds, AuditStatusEnum.passed, systemParameter.getId());
+				Long unPassedNumber = getDrugFormRepository().countByUserIdInAndAuditStatusAndSystemParameterId(userIds, AuditStatusEnum.un_passed, systemParameter.getId());
 				drugFormCount = new DrugFormCount(organization.getId(), organization.getName(), noDeclareNumber, initNumber, passedNumber, unPassedNumber);
 			} else {
 				drugFormCount = new DrugFormCount(organization.getId(), organization.getName());

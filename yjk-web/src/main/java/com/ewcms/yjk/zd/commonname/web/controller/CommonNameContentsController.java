@@ -209,4 +209,23 @@ public class CommonNameContentsController extends BaseCRUDController<CommonNameC
 			message += "部分成功，不成功的所在Excel行数为：\r\n" + noSave;
 		return message;
 	}
+	
+	@RequestMapping(value = "/filterdeclared")
+	public String filterDeclared() {
+		return viewName("filterdeclared");
+	}
+
+	@RequestMapping(value = "/savefilterdeclared", method = RequestMethod.POST)
+	@ResponseBody
+	public String savefilterDeclared(@RequestParam(value = "projectDeclareds", required = false) List<String> projectDeclareds,
+			HttpServletRequest request) {
+		String message = "过滤大目录成功！";
+		try {
+			getCommonNameContentsService().filterDeclaredByProjectName(projectDeclareds);
+		} catch (Exception e) {
+			message = "过滤大目录失败！";
+		}
+
+		return message;
+	}
 }

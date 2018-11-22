@@ -1,6 +1,5 @@
 package com.ewcms.yjk.sb.repository;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -14,15 +13,16 @@ import com.ewcms.yjk.sb.entity.DrugForm;
  *@author zhoudongchu
  */
 public interface DrugFormRepository extends BaseRepository<DrugForm, Long> {
-	@Query("select count(*) from DrugForm c where c.userId=?1 and c.declareDate between ?2 and ?3")
-	Long findDeclareTotalByUserId(Long userId,Date startDate,Date endDate);
+																	
+	@Query("select count(*) from DrugForm c where c.userId=?1 and c.systemParameterId=?2")
+	Long findDeclareTotalByUserId(Long userId,Long systemParameterId);
 	
-	List<DrugForm> findByUserIdAndDeclaredFalseAndFillInDateBetween(Long userId, Date beginDate, Date endDate);
+	List<DrugForm> findByUserIdAndDeclaredFalseAndSystemParameterId(Long userId, Long systemParameterId);
 	
-	List<DrugForm> findByUserIdAndAuditStatusAndFillInDateBetween(Long userId,AuditStatusEnum auditStatus, Date beginDate, Date endDate);
+	List<DrugForm> findByUserIdAndAuditStatusAndSystemParameterId(Long userId,AuditStatusEnum auditStatus, Long systemParameterId);
 	
-	Long countByAuditStatusAndFillInDateBetween(AuditStatusEnum auditStatus, Date beginDate, Date endDate);
+	Long countByAuditStatusAndSystemParameterId(AuditStatusEnum auditStatus, Long systemParameterId);
 	
-	Long countByUserIdInAndAuditStatusAndFillInDateBetween(Set<Long> userIds, AuditStatusEnum auditStatus, Date beginDate, Date endDate);
+	Long countByUserIdInAndAuditStatusAndSystemParameterId(Set<Long> userIds, AuditStatusEnum auditStatus, Long systemParameterId);
 	
 }

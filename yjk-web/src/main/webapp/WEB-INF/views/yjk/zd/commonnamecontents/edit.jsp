@@ -25,9 +25,17 @@
 				</tr>
 				<tr>
 					<td width="20%"><form:label path="projectName">项目名称：</form:label></td>
-					<td width="30%"><form:input path="projectName" /></td>
-					<td width="20%"><form:label path="batch">批次：</form:label></td>
-					<td width="30%"><form:input path="batch" /></td>
+					<td width="30%"><form:select path="projectName">
+							<form:option value="省直联合体项目">省直联合体项目</form:option>
+							<form:option value="增补待谈价">增补待谈价</form:option>
+							<form:option value="双信封中标项目">双信封中标项目</form:option>
+							<form:option value="国家谈判项目">国家谈判项目</form:option>
+							<form:option value="定点生产项目">定点生产项目</form:option>
+							<form:option value="省级谈判项目">省级谈判项目</form:option>		
+							<form:option value="市场撮合项目">市场撮合项目</form:option>						
+						</form:select></td>				
+					<td width="20%"><form:label path="productName">商品名：</form:label></td>
+					<td width="30%"><form:input path="productName" /></td>
 				</tr>
 				<tr>
 					<td width="20%"><form:label path="specifications">规格：</form:label></td>
@@ -42,8 +50,9 @@
 					<td width="30%"><form:input path="purchasePrice"	cssClass="validate[custom[number]]" /></td>
 				</tr>
 				<tr>
-					<td width="20%"><form:label path="productName">商品名：</form:label></td>
-					<td width="30%"><form:input path="productName" /></td>
+
+					<td width="20%"><form:label path="batch">批次：</form:label></td>
+					<td width="30%"><form:input path="batch" /></td>					
 					<td width="20%"><form:label path="packageUnit">包装单位：</form:label></td>
 					<td width="30%"><form:input path="packageUnit" /></td>
 				</tr>
@@ -68,14 +77,8 @@
 					<td width="30%"><form:checkbox path="antibacterialsed" /></td>
 				</tr>
 				<tr>
-					<td width="20%"><form:label path="source">来源：</form:label></td>
-					<td width="30%"><form:select path="source">
-							<form:option value="双信封目录">双信封目录</form:option>
-							<form:option value="医联体目录">医联体目录</form:option>
-							<form:option value="已审核待议价目录">已审核待议价目录</form:option>
-						</form:select></td>
-					<td width="20%"><form:label path="orderNo">序号：</form:label></td>
-					<td width="30%"><form:input path="orderNo" /></td>
+
+
 				</tr>
 				<tr>
 					<td width="20%"><form:label path="declared">是否允许申报：</form:label></td>
@@ -96,16 +99,16 @@
 					<td width="30%"><form:input path="medicalRemark" /></td>
 				</tr>
 				<tr>
+					<td width="20%"><form:label path="orderNo">序号：</form:label></td>
+					<td width="30%"><form:input path="orderNo" /></td>				
 					<td width="20%"><form:label path="remark1">备注1</form:label></td>
 					<td width="30%"><form:input path="remark1" /></td>
-					<td width="20%"><form:label path="remark2">备注2：</form:label></td>
-					<td width="30%"><form:input path="remark2" /></td>
 				</tr>
 				<tr>
+					<td width="20%"><form:label path="remark2">备注2：</form:label></td>
+					<td width="30%"><form:input path="remark2" /></td>				
 					<td width="20%"><form:label path="remark3">备注3：</form:label></td>
 					<td width="30%"><form:input path="remark3" /></td>
-					<td width="20%"></td>
-					<td width="30%"></td>
 				</tr>
 			</table>
 		</form:form>
