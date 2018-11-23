@@ -51,8 +51,8 @@ public class GroupRelation extends BaseSequenceEntity<Long> {
     private Long userId;
     @Formula(value = "(select s_u.username from sec_user s_u where s_u.id = user_id)")
     private String username;
-//    @Formula(value = "(select s_u.real_name from sec_user s_u where s_u.id = user_id)")
-//    private String realname;
+    @Formula(value = "(select s_u.realname from sec_user s_u where s_u.id = user_id)")
+    private String realname;
 
     public Long getGroupId() {
         return groupId;
@@ -86,7 +86,7 @@ public class GroupRelation extends BaseSequenceEntity<Long> {
 		return username;
 	}
 
-//	public String getRealname() {
-//		return realname;
-//	}
+	public String getRealname() {
+		return realname;
+	}
 }

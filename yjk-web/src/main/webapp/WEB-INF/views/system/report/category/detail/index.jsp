@@ -7,7 +7,7 @@
         <div class="toolbar" style="margin-bottom:2px">
 			<a class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-add',toggle:true" onclick="$.ewcms.add({title:'重设',width:700,height:200});" href="javascript:void(0);">重设</a>
 		</div>
-        <div  style="padding-left:5px;">
+        <div>
         	<form id="queryform" style="padding:0;margin:0;">
         		<table class="formtable">
               		<tr>

@@ -19,7 +19,7 @@
         <div class="toolbar" style="margin-bottom:2px">
 			<a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true" onclick="$.ewcms.add({title:'新增',width:750,height:265});">新增</a>
 		</div>
-        <div  style="padding-left:5px;">
+        <div>
         	<form id="queryform" style="padding:0;margin:0;">
         		<table class="formtable">
               		<tr>
@@ -76,11 +76,6 @@
 		});
 	});
 	
-	function loadingEnable(){
-		$('<div class="datagrid-mask"></div>').css({display:'block',width:'100%',height:$(window).height()}).appendTo('body');
-		$('<div class="datagrid-mask-msg"></div>').html('<font size="9">正在处理，请稍候。。。</font>').appendTo('body').css({display:'block',left:($(document.body).outerWidth(true) - 190) / 2,top:($(window).height() - 45) / 2}); 
-	}
-	
 	function formatOperation(val, row) {
 		if (row.extractDate == null) {
 			return '<a class="verifyCls" onclick="filter(' + row.id + ');" href="javascript:void(0);" style="height:24px;">筛选</a>|';
@@ -92,12 +87,11 @@
 	function filter(id){
 		$.messager.confirm('提示', '确定要生成评审专家吗?<br/><font color="red">筛选后将不能重新生成，请谨慎使用!</font>', function(r) {
 			if (r) {
-				loadingEnable();
+				$.ewcms.addLoading();
 				$.post('${ctx}/yjk/re/reviewmain/' + id + '/filter', {}, function(result){
 					if (result.success){
 						$('#tt').datagrid('reload');
-						$('.datagrid-mask').remove();
-						$('.datagrid-mask-msg').remove();						
+						$.ewcms.removeLoading();
 					}
 					$.messager.alert('提示', result.message, 'info');
 				});

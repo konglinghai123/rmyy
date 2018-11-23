@@ -1,6 +1,5 @@
 package com.ewcms.yjk.sp.web.controler;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -21,15 +20,17 @@ import com.ewcms.common.entity.search.SearchOperator;
 import com.ewcms.common.entity.search.SearchParameter;
 import com.ewcms.common.entity.search.Searchable;
 import com.ewcms.common.entity.search.filter.SearchFilterHelper;
+import com.ewcms.common.utils.Collections3;
 import com.ewcms.common.utils.EmptyUtil;
 import com.ewcms.common.web.controller.BaseCRUDController;
 import com.ewcms.common.web.validate.AjaxResponse;
 import com.ewcms.security.user.entity.User;
-import com.ewcms.security.user.entity.UserStatus;
 import com.ewcms.security.user.service.UserService;
 import com.ewcms.security.user.web.bind.annotation.CurrentUser;
+import com.ewcms.yjk.sp.entity.SystemExpert;
 import com.ewcms.yjk.sp.entity.SystemParameter;
 import com.ewcms.yjk.sp.service.SystemParameterService;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 /**
@@ -38,7 +39,7 @@ import com.google.common.collect.Maps;
  *
  */
 @Controller
-@RequestMapping(value = "/yjk/sp/systemparamter")
+@RequestMapping(value = "/yjk/sp/systemparameter")
 public class SystemParameterController extends BaseCRUDController<SystemParameter, Long> {
 
 	private SystemParameterService getSystemParameterService() {
@@ -50,7 +51,7 @@ public class SystemParameterController extends BaseCRUDController<SystemParamete
 
 	public SystemParameterController() {
 		setListAlsoSetCommonData(true);
-		setResourceIdentity("yjk:systemparamter");
+		setResourceIdentity("yjk:systemparameter");
 	}
 
 	@Override
@@ -95,79 +96,85 @@ public class SystemParameterController extends BaseCRUDController<SystemParamete
 		return ajaxResponse;
 	}
 
+	@RequestMapping(value = "{systemParameterId}/filter")
+	@ResponseBody
+	public AjaxResponse filter(@PathVariable("systemParameterId") SystemParameter systemParameter) {
+		AjaxResponse ajaxResponse = new AjaxResponse("筛选成功");
+		getSystemParameterService().filter(systemParameter.getId());
+		return ajaxResponse;
+	}
+
 	@RequestMapping(value = "{systemParameterId}/indexUser")
 	public String indexUser(@PathVariable(value = "systemParameterId") SystemParameter systemParameter, Model model) {
 		model.addAttribute("m", systemParameter);
 		return viewName("indexUser");
 	}
 
+	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "{systemParameterId}/queryUser")
 	@ResponseBody
 	public Map<String, Object> queryUser(@PathVariable(value = "systemParameterId") SystemParameter systemParameter, @ModelAttribute SearchParameter<Long> searchParameter) {
 		Map<String, Object> map = Maps.newHashMap();
-		if (systemParameter.getApplyEndDate().after(new Date()) && systemParameter.getApplyStartDate().before(new Date()) && systemParameter.getEnabled()) {
-			Searchable searchable = SearchHelper.parameterConverSearchable(searchParameter, User.class);
-	
-			searchable.and(SearchFilterHelper.newCondition("admin", SearchOperator.EQ, Boolean.FALSE),
-					SearchFilterHelper.newCondition("deleted", SearchOperator.EQ, Boolean.FALSE),
-					SearchFilterHelper.newCondition("status", SearchOperator.EQ, UserStatus.normal));
-	
-			searchable.addSort(Direction.ASC, "id");
-	
-			Page<User> users = userService.findAll(searchable);
-	
-			map.put("total", users.getTotalElements());
-			map.put("rows", users.getContent());
+
+		List<Long> allUserIds = Lists.newArrayList();
+
+		List<User> systemParameterUsers = systemParameter.getUsers();
+		if (EmptyUtil.isCollectionNotEmpty(systemParameterUsers)) {
+			allUserIds.addAll(Collections3.extractToList(systemParameterUsers, "id"));
 		}
+
+		List<SystemExpert> systemExperts = systemParameter.getSystemExperts();
+		if (EmptyUtil.isCollectionNotEmpty(systemExperts)) {
+			for (SystemExpert systemExpert : systemExperts) {
+				allUserIds.addAll(Collections3.extractToList(systemExpert.getUsers(), "id"));
+			}
+		}
+		
+		Searchable searchable = SearchHelper.parameterConverSearchable(searchParameter, User.class);
+		searchable.addSort(Direction.ASC, "id");
+		if (EmptyUtil.isCollectionNotEmpty(allUserIds)) {
+			searchable.addSearchFilter("id", SearchOperator.IN, allUserIds);
+		}
+		
+		Page<User> users = userService.findAll(searchable);
+		
+		map.put("total", users.getTotalElements());
+		map.put("rows", users.getContent());
+		
 		return map;
 	}
 
 	@RequestMapping(value = "{systemParameterId}/saveUser", method = RequestMethod.GET)
-	public String showSaveUserForm(@PathVariable(value = "systemParameterId") SystemParameter systemParameter, Model model) {
+	public String showSaveUserForm(@PathVariable(value = "systemParameterId") Long systemParameterId, Model model) {
 		if (permissionList != null) {
 			this.permissionList.assertHasCreatePermission();
 		}
-		if (systemParameter.getApplyEndDate().after(new Date()) && systemParameter.getApplyStartDate().before(new Date()) && systemParameter.getEnabled()) {
-			model.addAttribute("systemParameterId", systemParameter.getId());
-			return viewName("editUser");
-		} else {
-			return null;
-		}
+		return viewName("editUser");
 	}
 
 	@RequestMapping(value = "{systemParameterId}/saveUser", method = RequestMethod.POST)
-	public String saveUser(@CurrentUser User user, @PathVariable(value = "systemParameterId") Long systemParameterId,
-			@RequestParam(required = false) List<Long> userIds) {
+	public String saveUser(@CurrentUser User user, @PathVariable(value = "systemParameterId") SystemParameter systemParameter, @RequestParam(required = false) List<Long> userIds) {
 		if (permissionList != null) {
 			this.permissionList.assertHasCreatePermission();
 		}
-		userService.changeStatus(user, userIds, UserStatus.normal, "手动添加为可申报新药");
-
-		return redirectToUrl(viewName(systemParameterId + "/saveUser"));
+		getSystemParameterService().addUser(systemParameter, userIds);
+		
+		return redirectToUrl(viewName(systemParameter.getId() + "/saveUser"));
 	}
 
 	@RequestMapping(value = "{systemParameterId}/removeUser")
 	@ResponseBody
-	public AjaxResponse removeUser(@CurrentUser User user, @PathVariable(value = "systemParameterId") SystemParameter systemParameter,
-			@RequestParam(required = false) List<Long> selections) {
-		if (permissionList != null) {
-			this.permissionList.assertHasDeletePermission();
-		}
+	public AjaxResponse removeUser(@CurrentUser User user, @PathVariable(value = "systemParameterId") SystemParameter systemParameter, @RequestParam(required = false) List<Long> selections) {
 		AjaxResponse ajaxResponse = new AjaxResponse("除移成功！");
-		if (systemParameter.getApplyEndDate().after(new Date()) && systemParameter.getApplyStartDate().before(new Date()) && systemParameter.getEnabled()) {
-			try {
-				if (selections != null && !selections.isEmpty()) {
-					userService.changeStatus(user, selections, UserStatus.blocked, "手动禁止申报新药");
-				}
-			} catch (IllegalStateException e) {
-				ajaxResponse.setSuccess(Boolean.FALSE);
-				ajaxResponse.setMessage("移除失败了！");
-			}
-		} else {
-			ajaxResponse.setSuccess(Boolean.FALSE);
-			ajaxResponse.setMessage("系统参数不在此范围内不能操作");
-		}
 
+		try {
+			if (selections != null && !selections.isEmpty()) {
+				getSystemParameterService().removeUser(systemParameter, selections);
+			}
+		} catch (IllegalStateException e) {
+			ajaxResponse.setSuccess(Boolean.FALSE);
+			ajaxResponse.setMessage("移除失败了！");
+		}
 		return ajaxResponse;
 	}
 
@@ -175,38 +182,23 @@ public class SystemParameterController extends BaseCRUDController<SystemParamete
 	@ResponseBody
 	public Map<String, Object> canUseUser(@RequestParam(value = "name", required = false) String name, @ModelAttribute SearchParameter<Long> searchParameter) {
 		Searchable searchable = SearchHelper.parameterConverSearchable(searchParameter, User.class);
-
+		
 		if (EmptyUtil.isStringNotEmpty(name)) {
-			searchable.or(SearchFilterHelper.newCondition("username", SearchOperator.LIKE, name),
-					SearchFilterHelper.newCondition("realname", SearchOperator.LIKE, name));
+			searchable.or(SearchFilterHelper.newCondition("username", SearchOperator.LIKE, name), SearchFilterHelper.newCondition("realname", SearchOperator.LIKE, name));
 		}
 
-		searchable.and(SearchFilterHelper.newCondition("admin", SearchOperator.EQ, Boolean.FALSE),
-				SearchFilterHelper.newCondition("deleted", SearchOperator.EQ, Boolean.FALSE),
-				SearchFilterHelper.newCondition("status", SearchOperator.EQ, UserStatus.blocked));
-
+		searchable.and(SearchFilterHelper.newCondition("admin", SearchOperator.EQ, Boolean.FALSE), SearchFilterHelper.newCondition("deleted", SearchOperator.EQ, Boolean.FALSE));
+		
 		searchable.addSort(Direction.ASC, "id");
 
 		Page<User> users = userService.findAll(searchable);
-
+		
 		Map<String, Object> map = Maps.newHashMap();
-
+		
 		map.put("total", users.getTotalElements());
 		map.put("rows", users.getContent());
-
+		
 		return map;
 	}
 
-	/*
-	 * @RequestMapping(value = "{systemParameterId}/delete")
-	 * 
-	 * @ResponseBody public AjaxResponse delete(@PathVariable(value =
-	 * "systemParameterId") Long systemParameterId) { AjaxResponse ajaxResponse =
-	 * new AjaxResponse("删除成功"); try{ SystemParameter vo =
-	 * baseService.findOne(systemParameterId); if(vo != null){
-	 * if(vo.getApplyEndDate().after(new Date())){
-	 * baseService.delete(systemParameterId); return ajaxResponse; } } }
-	 * catch(Exception e){ } ajaxResponse.setSuccess(Boolean.FALSE);
-	 * ajaxResponse.setMessage("删除失败"); return ajaxResponse; }
-	 */
 }

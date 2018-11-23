@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/views/jspf/taglibs.jspf" %>
 
-<ewcms:head title="字典-特殊规则"/>
+<ewcms:head title="字典 - 特殊规则"/>
 	<table id="tt">
 		<thead>
 			<tr>
@@ -28,7 +28,7 @@
 			<div id="menu-status-show" data-options="iconCls:'icon-status-show'" onclick="$.ewcms.status({status:'true',info:'启用',prompt:false});">启用</div>
 			<div id="menu-status-hide" data-options="iconCls:'icon-status-hide'" onclick="$.ewcms.status({status:'false',info:'不启用',prompt:false});">不启用</div>
 		</div>
-        <div  style="padding-left:5px;">
+        <div>
         	<form id="queryform" style="padding:0;margin:0;">
         		<table class="formtable">
               		<tr>
@@ -41,7 +41,6 @@
               			<td width="25%" colspan="2">
             				<a id="tb-query" href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="$.ewcms.query();">查询</a>
            					<a id="tb-clear" href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-clear'" onclick="javascript:$('#queryform').form('reset');">清除</a>
-           					<a id="tb-more" href="javascript:void(0);" class="easyui-linkbutton"><span id="showHideLabel">更多</span></a>
            				</td>
            			</tr>
            		</table>
@@ -79,17 +78,5 @@
 				$('#tt').datagrid('fixDetailRowHeight',rowIndex);
 			}
 		});
-		
-		$("form table tr").next("tr").hide();
-		$('#tb-more').bind('click', function(){
-	       	var showHideLabel_value = $('#showHideLabel').text();
-	    	$('form table tr').next('tr').toggle();
-	     	if (showHideLabel_value == '收缩'){
-	     		$('#showHideLabel').text('更多');
-	    	}else{
-	    		$('#showHideLabel').text('收缩');
-	    	}
-	    	$('#tt').datagrid('resize');
-	    });		
 	});
 </script>

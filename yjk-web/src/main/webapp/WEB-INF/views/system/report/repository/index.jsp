@@ -20,7 +20,7 @@
 			<a class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-remove',toggle:true" onclick="$.ewcms.remove({title:'删除'});" href="javascript:void(0);">删除</a>
 			<a id="tb-publish" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-publish',toggle:true" href="javascript:void(0);">发布</a>
 		</div>
-        <div  style="padding-left:5px;">
+        <div>
         	<form id="queryform" style="padding:0;margin:0;">
         		<table class="formtable">
               		<tr>

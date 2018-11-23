@@ -27,7 +27,7 @@
 			<a id="tb-gencss" class="easyui-linkbutton" data-options="iconCls:'icon-gen-css',plain:true" href="javascript:void(0);">重新生成</a>
 			<a class="easyui-linkbutton" data-options="iconCls:'icon-remove',plain:true" onclick="$.ewcms.remove({title:'删除'});" href="javascript:void(0);">删除</a>
 		</div>
-		<div style="padding-left:5px;">
+		<div>
         	<form id="queryform" style="padding:0;margin:0;">
         		<table class="formtable">
               		<tr>

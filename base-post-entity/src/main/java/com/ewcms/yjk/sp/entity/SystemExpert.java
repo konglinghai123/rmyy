@@ -1,4 +1,4 @@
-package com.ewcms.yjk.re.entity;
+package com.ewcms.yjk.sp.entity;
 
 import java.util.List;
 import java.util.Set;
@@ -32,39 +32,20 @@ import com.ewcms.security.user.entity.User;
 import com.google.common.collect.Sets;
 
 /**
- * 评审专家
- * 
- * <ul>
- * <li>weight:排序</li>
- * <li>director:科主任</li>
- * <li>secondDirector:科副主任</li>
- * <li>pharmacy:药事会成员</li>
- * <li>science:院学术委员会成员</li>
- * <li>antibiosis:抗菌药物遴选小组成员</li>
- * <li>organizations:科室对象集合</li>
- * <li>departmentAttributes:科室属性对象集合</li>
- * <li>professions:执业类别对象集合</li>
- * <li>technicalTitle:技术职称(资格)对象集合</li>
- * <li>appointment:聘任对象集合</li>
- * <li>percent:百分比</li>
- * <li>totalNumber:人数</li>
- * <li>departmentNumber:部门人数</li>
- * <li>enabled:是否启用</li>
- * </ul>
  * 
  * @author wuzhijun
  *
  */
 @Entity
-@Table(name = "re_review_expert")
-@SequenceGenerator(name = "seq", sequenceName = "seq_re_review_expert_id", allocationSize = 1)
-public class ReviewExpert extends BaseSequenceEntity<Long> implements Movable {
+@Table(name = "sp_system_expert")
+@SequenceGenerator(name = "seq", sequenceName = "seq_sp_system_expert_id", allocationSize = 1)
+public class SystemExpert extends BaseSequenceEntity<Long> implements Movable{
 
-	private static final long serialVersionUID = 8561279047766937192L;
+	private static final long serialVersionUID = 8663691075247631494L;
 
 	@ManyToOne(optional = true, fetch = FetchType.EAGER)
     @Fetch(FetchMode.SELECT)
-	private ReviewMain reviewMain;
+	private SystemParameter systemParameter;
 	@Column(name = "weight")
 	private Integer weight;
 	@Column(name = "is_director")
@@ -78,34 +59,34 @@ public class ReviewExpert extends BaseSequenceEntity<Long> implements Movable {
 	@Column(name = "is_antibiosis")
 	private Boolean antibiosis = Boolean.FALSE;
 	@ManyToMany(cascade = { CascadeType.ALL })
-	@JoinTable(name = "re_review_expert_organization", joinColumns = {
-			@JoinColumn(name = "review_expert_id", referencedColumnName = "id") }, inverseJoinColumns = {
+	@JoinTable(name = "sp_system_expert_organization", joinColumns = {
+			@JoinColumn(name = "system_expert_id", referencedColumnName = "id") }, inverseJoinColumns = {
 					@JoinColumn(name = "organization_id", referencedColumnName = "id") }, uniqueConstraints = {@UniqueConstraint(columnNames = {
-							"review_expert_id", "organization_id" })})
+							"system_expert_id", "organization_id" })})
 	private List<Organization> organizations;
 	@ManyToMany(cascade = { CascadeType.ALL })
-	@JoinTable(name = "re_review_expert_department_attribute", joinColumns = {
-			@JoinColumn(name = "review_expert_id", referencedColumnName = "id") }, inverseJoinColumns = {
+	@JoinTable(name = "sp_system_expert_department_attribute", joinColumns = {
+			@JoinColumn(name = "system_expert_id", referencedColumnName = "id") }, inverseJoinColumns = {
 					@JoinColumn(name = "department_attribute_id", referencedColumnName = "id") }, uniqueConstraints = {@UniqueConstraint(columnNames = {
-							"review_expert_id", "department_attribute_id" })})
+							"system_expert_id", "department_attribute_id" })})
 	private List<DepartmentAttribute> departmentAttributes;
 	@ManyToMany(cascade = { CascadeType.ALL })
-	@JoinTable(name = "re_review_expert_profession", joinColumns = {
-			@JoinColumn(name = "review_expert_id", referencedColumnName = "id") }, inverseJoinColumns = {
+	@JoinTable(name = "sp_system_expert_profession", joinColumns = {
+			@JoinColumn(name = "system_expert_id", referencedColumnName = "id") }, inverseJoinColumns = {
 					@JoinColumn(name = "profession_id", referencedColumnName = "id") }, uniqueConstraints = {@UniqueConstraint(columnNames = {
-							"review_expert_id", "profession_id" })})
+							"system_expert_id", "profession_id" })})
 	private List<Profession> professions;
 	@ManyToMany(cascade = { CascadeType.ALL })
-	@JoinTable(name = "re_review_expert_technical_title", joinColumns = {
-			@JoinColumn(name = "review_expert_id", referencedColumnName = "id") }, inverseJoinColumns = {
+	@JoinTable(name = "sp_system_expert_technical_title", joinColumns = {
+			@JoinColumn(name = "system_expert_id", referencedColumnName = "id") }, inverseJoinColumns = {
 					@JoinColumn(name = "technical_title_id", referencedColumnName = "id") }, uniqueConstraints = {@UniqueConstraint(columnNames = {
-							"review_expert_id", "technical_title_id" })})
+							"system_expert_id", "technical_title_id" })})
 	private List<TechnicalTitle> technicalTitles;
 	@ManyToMany(cascade = { CascadeType.ALL })
-	@JoinTable(name = "re_review_expert_appointment", joinColumns = {
-			@JoinColumn(name = "review_expert_id", referencedColumnName = "id") }, inverseJoinColumns = {
+	@JoinTable(name = "sp_system_expert_appointment", joinColumns = {
+			@JoinColumn(name = "system_expert_id", referencedColumnName = "id") }, inverseJoinColumns = {
 					@JoinColumn(name = "appointment_id", referencedColumnName = "id") }, uniqueConstraints = {@UniqueConstraint(columnNames = {
-							"review_expert_id", "appointment_id" })})
+							"system_expert_id", "appointment_id" })})
 	private List<Appointment> appointments;
 	@Column(name = "percent")
 	private Long percent = 100L;
@@ -116,19 +97,19 @@ public class ReviewExpert extends BaseSequenceEntity<Long> implements Movable {
 	@Column(name = "is_enabled")
 	private Boolean enabled = Boolean.TRUE;
 	@ManyToMany(cascade = { CascadeType.ALL })
-	@JoinTable(name = "re_review_expert_user", joinColumns = {
-			@JoinColumn(name = "review_expert_id", referencedColumnName = "id") }, inverseJoinColumns = {
+	@JoinTable(name = "sp_system_expert_user", joinColumns = {
+			@JoinColumn(name = "system_expert_id", referencedColumnName = "id") }, inverseJoinColumns = {
 					@JoinColumn(name = "user_id", referencedColumnName = "id") }, uniqueConstraints = {@UniqueConstraint(columnNames = {
-							"user_id", "review_expert_id" })})
+							"user_id", "system_expert_id" })})
 	private List<User> users;
-	
+
 	@JSONField(serialize = false)
-	public ReviewMain getReviewMain() {
-		return reviewMain;
+	public SystemParameter getSystemParameter() {
+		return systemParameter;
 	}
 
-	public void setReviewMain(ReviewMain reviewMain) {
-		this.reviewMain = reviewMain;
+	public void setSystemParameter(SystemParameter systemParameter) {
+		this.systemParameter = systemParameter;
 	}
 
 	public Boolean getDirector() {
@@ -339,4 +320,5 @@ public class ReviewExpert extends BaseSequenceEntity<Long> implements Movable {
 	public void setWeight(Integer weight) {
 		this.weight = weight;
 	}
+
 }

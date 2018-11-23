@@ -57,7 +57,7 @@
 					<a id="tb-canceldeclare" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-cancel',toggle:true" onclick="$.ewcms.openWindow({windowId:'#edit-window',width:750,height:450,title:'申报撤销',src:'${ctx}/yjk/sb/drugform/declarecancel'});">申报撤销</a>
 					<font color=red>${declareRule}</font>
 				</div>
-		        <div  style="padding-left:5px;">
+		        <div>
 		        	<form id="queryform" style="padding:0;margin:0;" >
 		        		<table class="formtable">
 		              		<tr>
@@ -76,10 +76,10 @@
 		              			<td width="20%" colspan="2">
 		            				<a id="tb-query" href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="$.ewcms.query();">查询</a>
 		           					<a id="tb-clear" href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-clear'" onclick="javascript:$('#queryform').form('reset');">清除</a>
-		           					<a id="tb-more" href="javascript:void(0);" class="easyui-linkbutton"><span id="showHideLabel">更多</span></a>
+		           					<a id="tb-more" href="javascript:void(0);" class="easyui-linkbutton" onclick="$.ewcms.moreQuery();"><span id="showHideLabel">更多</span></a>
 		           				</td>
 		           			</tr>
-		           			<tr>
+		           			<tr style="display: none;">
 		            			<td width="5%">剂型</td>
 		              			<td width="15%"><input type="text" name="LIKE_commonNameContents.pill" style="width:140px;"/></td>
 		            			<td width="7%">规格</td>
@@ -115,19 +115,6 @@
 					}
 				});
 			});				
-			
-			$("form table tr").next("tr").hide();
-			$('#tb-more').bind('click', function(){
-		       	var showHideLabel_value = $('#showHideLabel').text();
-		    	$('form table tr').next('tr').toggle();
-		     	if (showHideLabel_value == '收缩'){
-		     		$('#showHideLabel').text('更多');
-		    	}else{
-		    		$('#showHideLabel').text('收缩');
-		    	}
-		    	$('#tt').datagrid('resize');
-		    });	
-			
 			
 			function formatOperation(val, row){
 				return val ?  '是' : '否&nbsp;|&nbsp;<a class="removeCls" onclick="deleteDeclare(' + row.id + ')" style="height:24px;" href="javascript:void(0);">删除</a>';

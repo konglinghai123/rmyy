@@ -2,36 +2,21 @@
 	pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/jspf/taglibs.jspf"%>
 
-<ewcms:head title="审批-系统参数设置" />
+<ewcms:head title="申报 - 系统参数设置" />
 <table id="tt">
-		 <thead frozen="true">    
-			<tr>    
-				<th data-options="field:'ck',checkbox:true"/>
-				<th data-options="field:'enabled',width:140,formatter:formatOperation">操作</th>
-			</tr>    
-		</thead>  
 		<thead > 	
 			<tr>	
+				<th data-options="field:'ck',checkbox:true"/>
 				<th data-options="field:'id',hidden:true">编号</th>
 				<th data-options="field:'applyStartDate',width:150">申请开始时间</th>
 				<th data-options="field:'applyEndDate',width:150">申请结束时间</th>
 				<th data-options="field:'repeatDeclared',width:120,
 						formatter:function(val,row){
 							return val?'是':'否';
-						}">是否可以重复申报</th>				
-				<th data-options="field:'declarationLimt',width:60">院用限数</th>
-				<th data-options="field:'declareTotalLimt',width:60">总报限数</th>
-				<th data-options="field:'organizationNames',width:200">科室/病区</th>
-				<th data-options="field:'departmentAttributeNames',width:200">科室属性</th>
-				<th data-options="field:'professionNames',width:100">执业类别</th>
-				<th data-options="field:'technicalTitleNames',width:200">技术职称(资格)</th>
-				<th data-options="field:'appointmentNames',width:200">聘任</th>
-				<th data-options="field:'percent',width:60,
-						formatter:function(val,row){
-							return val != null ? val + '%' : '';
-						}">百分比</th>
-				<th data-options="field:'randomNumber',width:60">随机人数</th>
-				<th data-options="field:'departmentNumber',width:60">科室人数</th>
+						}">可否重复申报</th>				
+				<th data-options="field:'declarationLimt',width:80">院用限数</th>
+				<th data-options="field:'declareTotalLimt',width:80">总报限数</th>
+				<th data-options="field:'enabled',width:500,formatter:formatOperation">操作</th>
 			</tr>
 		</thread>
 </table>
@@ -44,7 +29,7 @@
 			data-options="plain:true,iconCls:'icon-edit',toggle:true"
 			onclick="updateSystemParameter();">修改</a>
 	</div>
-	<div style="padding-left: 5px;">
+	<div>
 		<form id="queryform" style="padding: 0; margin: 0;">
 			<table class="formtable">
 				<tr>
@@ -72,7 +57,7 @@
 <script type="text/javascript">
 	$(function() {
 		$('#tt').datagrid({
-			url : '${ctx}/yjk/sp/systemparamter/query',
+			url : '${ctx}/yjk/sp/systemparameter/query',
 			toolbar : '#tb',
 			fit : true,
 			nowrap : false,
@@ -91,21 +76,21 @@
 				return '<div id="ddv-' + rowIndex + '" style="padding:2px"></div>';
 			},
 			onExpandRow: function(rowIndex, rowData){
-				if (rowData.enabled){
-					$('#ddv-' + rowIndex).panel({
-						border:false,
-						cache:false,
-						content: '<iframe src="${ctx}/yjk/sp/systemparamter/' + rowData.id + '/indexUser" frameborder="0" width="100%" height="450px" scrolling="auto"></iframe>',
-						onLoad:function(){
-							$('#tt').datagrid('fixDetailRowHeight',rowIndex);
-						}
-					});
-					$('#tt').datagrid('fixDetailRowHeight',rowIndex);
-				}
+				$('#ddv-' + rowIndex).panel({
+					border:false,
+					cache:false,
+					content: '<iframe src="${ctx}/yjk/sp/systemexpert/' + rowData.id + '/index" frameborder="0" width="100%" height="450px" scrolling="auto"></iframe>',
+					onLoad:function(){
+						$('#tt').datagrid('fixDetailRowHeight',rowIndex);
+					}
+				});
+				$('#tt').datagrid('fixDetailRowHeight',rowIndex);
 		},
 		onLoadSuccess:function(row){
 			$('.openCls').linkbutton({text:'启动申报',plain:true,iconCls:'icon-operate'});
 			$('.closeCls').linkbutton({text:'关闭申报',plain:true,iconCls:'icon-exit'});
+			$('.verifyCls').linkbutton({text:'筛选用户',plain:true,iconCls:'icon-verify'});
+			$('.previewCls').linkbutton({text:'查看用户',plain:true,iconCls:'icon-preview'});
 		}
 		});
 	});
@@ -114,29 +99,24 @@
 		currentTimestamp = new Date().getTime();
 		applyEndDateTimestamp = new Date(Date.parse(row.applyEndDate.replace(/-/g, "/"))).getTime();
 		applyStartDatetamp = new Date(Date.parse(row.applyStartDate.replace(/-/g, "/"))).getTime();
+		var htmlOperation = '<a class="verifyCls" onclick="filter(' + row.id + ');" href="javascript:void(0);" style="height:24px;">筛选用户</a> | ';
+		htmlOperation = htmlOperation + '<a class="previewCls" onclick="preview(' + row.id + ');" href="javascript:void(0);" style="height:24px;">查看用户</a> | '
 		if (val) {
-			return '启用&nbsp;&nbsp;<a class="closeCls" onclick="closeDeclare(' + row.id
-					+ ')" href="javascript:void(0);">关闭申报</a> ';
+			htmlOperation = htmlOperation + '<a class="closeCls" onclick="closeDeclare(' + row.id + ')" href="javascript:void(0);">关闭申报</a> ';
 		} else {
-			if (applyStartDatetamp <= currentTimestamp
-					&& currentTimestamp <= applyEndDateTimestamp) {
-				return '关闭&nbsp&nbsp<a class="openCls" onclick="openDeclare(' + row.id
-						+ ')" href="javascript:void(0);">启动申报</a> ';
-			} else {
-				return '';
-			}
+			htmlOperation = htmlOperation +  '<a class="openCls" onclick="openDeclare(' + row.id + ')" href="javascript:void(0);">启动申报</a> ';
 		}
+		return htmlOperation;
 	}
-
+	
 	function closeDeclare(id) {
 		$.messager.confirm('提示', '确定要关闭申报吗?<br/><font color="red">关闭后所有人员将无法进行新药申报!</font>', function(r) {
 			if (r) {
-				loadingEnable();
-				$.post('${ctx}/yjk/sp/systemparamter/' + id + '/closedeclare',{}, function(result) {
+				$.ewcms.addLoading();
+				$.post('${ctx}/yjk/sp/systemparameter/' + id + '/closedeclare',{}, function(result) {
 					if (result.success) {
 						$('#tt').datagrid('reload');
-						$('.datagrid-mask').remove();
-						$('.datagrid-mask-msg').remove();
+						$.ewcms.removeLoading();
 					}
 					$.messager.alert('提示', result.message, 'info');
 				});
@@ -146,25 +126,20 @@
 	}
 
 	function openDeclare(id) {
-		$.messager.confirm('提示', '确定要启动申报吗?<br/><font color="red">启动后将根据所选条件进行人员重新筛选!</font>', function(r) {
+		$.messager.confirm('提示', '确定要启动申报吗?<br/><font color="red">启动后筛选用户可进行申报新药!</font>', function(r) {
 			if (r) {
-				loadingEnable();
-				$.post('${ctx}/yjk/sp/systemparamter/' + id + '/opendeclare',{}, function(result) {
+				$.ewcms.addLoading();
+				$.post('${ctx}/yjk/sp/systemparameter/' + id + '/opendeclare',{}, function(result) {
 					if (result.success) {
 						$('#tt').datagrid('reload');
-						$('.datagrid-mask').remove();
-						$('.datagrid-mask-msg').remove();
+						$.ewcms.removeLoading();
 					}
 					$.messager.alert('提示', result.message, 'info');
 				});
 			}
 		});
-		
 	}
-	function loadingEnable(){
-		$('<div class="datagrid-mask"></div>').css({display:'block',width:'100%',height:$(window).height()}).appendTo('body');
-		$('<div class="datagrid-mask-msg" style="height:40px"></div>').html('正在处理，请稍候。。。').appendTo('body').css({display:'block',left:(($(document.body).outerWidth(true) - 190) / 2),top:(($(window).height() - 45) / 2)}); 
-	}
+	
 	
 	function updateSystemParameter(){
 		var rows = $('#tt').datagrid('getSelections');
@@ -178,5 +153,24 @@
 	        return;
     	}
     	$.ewcms.edit({title:'修改',width:600,height:500});
+	}
+	
+	function filter(id){
+		$.messager.confirm('提示', '确定要生成申报人员吗?', function(r) {
+			if (r) {
+				$.ewcms.addLoading();
+				$.post('${ctx}/yjk/sp/systemparameter/' + id + '/filter', {}, function(result){
+					if (result.success){
+						$('#tt').datagrid('reload');
+						$.ewcms.removeLoading();
+					}
+					$.messager.alert('提示', result.message, 'info');
+				});
+			}
+		});
+	}
+	
+	function preview(id){
+		$.ewcms.openWindow({src:'${ctx}/yjk/sp/systemparameter/' + id + '/indexUser',title:'查看用户 - 有权限申报新药用户'});
 	}
 </script>

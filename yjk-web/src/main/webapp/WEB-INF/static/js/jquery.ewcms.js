@@ -491,7 +491,36 @@
 		    			foucus : opts.focus,
 		    			select : opts.select
 		    		}).data('ui-autocomplete')._renderItem = opts.renderItem;
-		    }
+		    },
+			addLoading :function(){
+				$('<div class="datagrid-mask"></div>').css({display:'block',width:'100%',height:$(window).height()}).appendTo('body');
+				$('<div class="datagrid-mask-msg" style="height:40px"></div>').html('正在处理，请稍候。。。').appendTo('body').css({display:'block',left:(($(document.body).outerWidth(true) - 190) / 2),top:(($(window).height() - 45) / 2)}); 
+			},
+			removeLoading : function(){
+				$('.datagrid-mask').remove();
+				$('.datagrid-mask-msg').remove();
+			},
+			moreQuery:function(options){
+				var defaults = {
+						grid:'datagrid',
+						gridId:'#tt'
+				};
+				var opts = $.extend({}, defaults, options);  
+				
+			    var showHideLabel_value = $('#showHideLabel').text();
+			    $('form table tr').next('tr').toggle();
+			    if (showHideLabel_value == '收缩'){
+			    	$('#showHideLabel').text('更多...');
+			    }else{
+			    	$('#showHideLabel').text('收缩');
+			    }
+			    
+				if (opts.grid == 'datagrid'){
+					$(opts.gridId).datagrid('resize');
+				} else if (opts.grid == 'treegrid'){
+					$(opts.gridId).treegrid('resize');
+				}
+			}
 		}
 	});
 })(jQuery);

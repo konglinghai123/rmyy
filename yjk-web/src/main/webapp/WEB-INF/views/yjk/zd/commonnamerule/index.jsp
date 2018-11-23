@@ -17,7 +17,7 @@
         <div class="toolbar" style="margin-bottom:2px">
 			<a id="tb-exchange" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-status-hide',toggle:true">互换</a>
 		</div>
-        <div  style="padding-left:5px;">
+        <div>
         	<form id="queryform" style="padding:0;margin:0;">
         		<table class="formtable">
               		<tr>

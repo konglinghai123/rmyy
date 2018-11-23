@@ -15,8 +15,8 @@
 				</c:forEach>
 			  	<table class="formtable">
 		        	<tr>
-				  		<td width="20%"><form:label path="username">用户名：</form:label></td>
-				  		<td width="80%"><form:input path="username" cssClass="validate[required,custom[username],ajax[ajaxCall]]" placeholder="5到20个汉字、字母、数字或下划线" size="30"/></td>
+				  		<td width="30%"><form:label path="username">用户名：</form:label></td>
+				  		<td width="70%"><form:input path="username" cssClass="validate[required,ajax[ajaxCall]]" placeholder="5到20个汉字、字母、数字或下划线" size="30"/></td>
 			    	</tr>
 			    	<tr>
 	             		<td><form:label path="email">邮箱：</form:label></td>
@@ -49,6 +49,47 @@
 			        	<td><form:label path="admin">是否管理员：</form:label></td>
 			        	<td><form:radiobuttons path="admin" items="${booleanList}" itemLabel="info" itemValue="value" cssClass="validate[required]" delimiter="&nbsp;"/></td>
 			        </tr>
+			        <tr>
+			        	<td><form:label path="sex">性别：</form:label></td>
+			        	<td><form:radiobuttons path="sex" items="${sexList}" itemLabel="description" delimiter="&nbsp;"/>
+			        </tr>
+					<tr>
+						<td><form:label path="departmentAttribute">科室属性：</form:label></td>
+						<td><form:input path="departmentAttribute" cssClass="easyui-combobox" data-options="url:'${ctx}/security/dictionary/departmentAttribute/canUse',valueField:'id',textField:'name',editable:false,width:200,onLoadSuccess:function(){$(this).combobox('setValue',${m.departmentAttribute.id})}"/></td>
+					</tr>
+					<tr>
+						<td><form:label path="profession">执业类别：</form:label></td>
+						<td><form:input path="profession" cssClass="easyui-combobox" data-options="url:'${ctx}/security/dictionary/profession/canUse',valueField:'id',textField:'name',editable:false,width:200,onLoadSuccess:function(){$(this).combobox('setValue',${m.profession.id})}"/></td>
+					</tr>
+					<tr>
+						<td><form:label path="technicalTitle">技术职称(资格)：</form:label></td>
+						<td><form:input path="technicalTitle" cssClass="easyui-combobox" data-options="url:'${ctx}/security/dictionary/technicalTitle/canUse',valueField:'id',textField:'name',editable:false,width:200,onLoadSuccess:function(){$(this).combobox('setValue',${m.technicalTitle.id})}"/></td>
+					</tr>
+					<tr>
+						<td><form:label path="appointment">聘任：</form:label></td>
+						<td><form:input path="appointment" cssClass="easyui-combobox" data-options="url:'${ctx}/security/dictionary/appointment/canUse',valueField:'id',textField:'name',editable:false,width:200,onLoadSuccess:function(){$(this).combobox('setValue',${m.appointment.id})}"/></td>
+					</tr>
+			        <tr>
+						<td><form:label path="director">是否科主任：</form:label></td>
+						<td><form:radiobuttons path="director" items="${booleanList}" itemLabel="info" itemValue="value" cssClass="validate[required]"/></td>
+					</tr>
+		        	<tr>
+						<td><form:label path="secondDirector">是否科副主任：</form:label></td>
+						<td><form:radiobuttons path="secondDirector" items="${booleanList}" itemLabel="info" itemValue="value" cssClass="validate[required]"/></td>
+					</tr>					
+		        	<tr>
+						<td><form:label path="pharmacy">是否药事会成员：</form:label></td>
+						<td><form:radiobuttons path="pharmacy" items="${booleanList}" itemLabel="info" itemValue="value" cssClass="validate[required]"/></td>
+					</tr>					
+		        	<tr>
+						<td><form:label path="science">是否院学术委员会成员：</form:label></td>
+						<td><form:radiobuttons path="science" items="${booleanList}" itemLabel="info" itemValue="value" cssClass="validate[required]"/></td>
+					</tr>					
+		        	<tr>
+						<td><form:label path="antibiosis">是否院抗菌药物遴选小组成员：</form:label></td>
+						<td><form:radiobuttons path="antibiosis" items="${booleanList}" itemLabel="info" itemValue="value" cssClass="validate[required]"/></td>
+					</tr>					
+
 			  	</table>
 			</form:form>
 		</div>
@@ -71,16 +112,6 @@
 	        	<ewcms:showFieldError commandName="m"/>
 	    	</c:otherwise>
     	</c:choose>
-    	$('#archive').combobox({
-			width:150,
-			panelWidth:150,
-			panelHeight:130,
-			url:'${ctx}/personnel/archive/canUse',
-			method:'get',
-			valueField:'id',
-			textField:'name',
-			editable:false
-		});
 	});
 	$.ewcms.refresh({operate : '${operate}', data : '${lastM}'});
 </script>

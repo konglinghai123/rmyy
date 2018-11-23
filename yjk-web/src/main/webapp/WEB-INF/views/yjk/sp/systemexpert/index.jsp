@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/views/jspf/taglibs.jspf" %>
 
-<ewcms:head title="评审-评审专家"/>
+<ewcms:head title="申报 - 申报专家"/>
 	<table id="tt">
 		<thead>
 			<tr>
@@ -48,7 +48,7 @@
 	<div id="tb" style="padding:5px;height:auto;">
         <div class="toolbar" style="margin-bottom:2px">
         	<c:if test="${isOperation}">
-			<a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true" onclick="$.ewcms.add({src:'${ctx}/yjk/re/reviewexpert/${reviewMainId}/save',title:'新增',width:750,height:350});">新增</a>
+			<a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true" onclick="$.ewcms.add({src:'${ctx}/yjk/sp/systemexpert/${systemParameterId}/save',title:'新增',width:750,height:350});">新增</a>
 			<a id="tb-exchange" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-status-hide',toggle:true">互换</a>
 			<a id="tb-status" href="javascript:void(0);" class="easyui-menubutton" data-options="menu:'#menu-status',iconCls:'icon-status'">状态</a>
 			</c:if>
@@ -71,7 +71,7 @@
 <script type="text/javascript">
 	$(function(){
 		$('#tt').datagrid({
-			url:'${ctx}/yjk/re/reviewexpert/${reviewMainId}/query',
+			url:'${ctx}/yjk/sp/systemexpert/${systemParameterId}/query',
 			toolbar:'#tb',
 			fit:true,
 			nowrap:true,
@@ -99,7 +99,7 @@
 		    $.messager.confirm('提示', '确定要互换所选记录吗?', function(r){
 				if (r){
 					if(rows[0].weight<rows[1].weight){
-						$.post('${ctx}/yjk/re/reviewexpert/' + rows[1].id + '/' + rows[0].id + '/down', {}, function(result) {
+						$.post('${ctx}/yjk/sp/systemexpert/' + rows[1].id + '/' + rows[0].id + '/down', {}, function(result) {
 							if (result.success){
 								$('#tt').datagrid('clearSelections');
 								$('#tt').datagrid('reload');
@@ -107,7 +107,7 @@
 							$.messager.alert('提示', result.message, 'info');
 						});
 					}else{
-						$.post('${ctx}/yjk/re/reviewexpert/' + rows[0].id + '/' + rows[1].id + '/down', {}, function(result) {
+						$.post('${ctx}/yjk/sp/systemexpert/' + rows[0].id + '/' + rows[1].id + '/down', {}, function(result) {
 							if (result.success){
 								$('#tt').datagrid('clearSelections');
 								$('#tt').datagrid('reload');

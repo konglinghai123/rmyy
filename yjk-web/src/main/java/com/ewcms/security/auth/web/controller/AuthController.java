@@ -88,6 +88,46 @@ public class AuthController extends BaseCRUDController<Auth, Long> {
 	}
 
 	@Override
+	public String showSaveForm(Model model, @RequestParam(required = false) List<Long> selections) {
+        setCommonData(model);
+
+        if (!model.containsAttribute("close")){
+	        if (selections == null || selections.isEmpty()) {
+		        if (permissionList != null) {
+		            this.permissionList.assertHasCreatePermission();
+		        }
+	        	model.addAttribute("operate", "add");
+		        
+		        if (!model.containsAttribute("m")) {
+		            model.addAttribute("m", newModel());
+		        }
+		        
+//				model.addAttribute("selections", (EmptyUtil.isNull(selections)) ? Lists.<ID>newArrayList() : selections);
+			} else {
+				if (permissionList != null) {
+		            this.permissionList.assertHasUpdatePermission();
+		        }
+				model.addAttribute("operate", "update");
+				
+				Auth m = baseService.findOne(selections.get(0));
+				if (m.getType() == AuthType.user_group) {
+					model.addAttribute("groupIds", m.getGroupId());
+				}else if (m.getType() == AuthType.user){
+					model.addAttribute("userIds", m.getUserId());
+				}else if (m.getType() == AuthType.organization_job) {
+					model.addAttribute("organizationIds", m.getOrganizationId());
+					model.addAttribute("jobIds", m.getJobId());
+				}
+				model.addAttribute("m", m);
+				model.addAttribute("selections", selections);
+			}
+        }
+        
+		return viewName("edit");
+	}
+
+	
+	@Override
 	@RequestMapping(value = "save/discarded", method = RequestMethod.POST)
 	public String save(Model model, Auth m, BindingResult result, List<Long> selections) {
 		throw new RuntimeException("discard method");

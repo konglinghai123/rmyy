@@ -25,7 +25,7 @@
 		</thead>
 	</table>
 	<div id="tb" style="padding:5px;height:auto;">
-        <div style="margin-bottom:2px">
+        <div>
         	<form id="queryform">
         		<table class="formtable">
               		<tr>
@@ -37,10 +37,10 @@
 						<td width="16%" colspan="2">
             				<a id="tb-query" href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="$.ewcms.query();">查询</a>
            					<a id="tb-clear" href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-clear'" onclick="javascript:$('#queryform').form('reset');">清除</a>
-           					<a id="tb-more" href="javascript:void(0);" class="easyui-linkbutton"><span id="showHideLabel">更多...</span></a>
+           					<a id="tb-more" href="javascript:void(0);" class="easyui-linkbutton"  onclick="$.ewcms.moreQuery();"><span id="showHideLabel">更多...</span></a>
            				</td>
            			</tr>
-           			<tr>
+           			<tr style="display: none;">
     					<td>操作时间</td>
     					<td colspan="2"><input type="text" id="createDate" name="GTE_opDate" class="easyui-datetimebox" style="width:145px" data-options="editable:false"/> 至 <input type="text" id="createDate" name="LTE_opDate" class="easyui-datetimebox" style="width:145px" data-options="editable:false"/></td>
            			</tr>
@@ -50,17 +50,4 @@
 	</div>
 <ewcms:footer/>
 <script type="text/javascript">
-	$(function(){
-		$("form table tr").next("tr").hide();
-		$('#tb-more').bind('click', function(){
-	       	var showHideLabel_value = $('#showHideLabel').text();
-	    	$('form table tr').next('tr').toggle();
-	     	if (showHideLabel_value == '收缩'){
-	     		$('#showHideLabel').text('更多...');
-	    	}else{
-	    		$('#showHideLabel').text('收缩');
-	    	}
-	    	$('#tt').datagrid('resize');
-	    });
-	});
 </script>

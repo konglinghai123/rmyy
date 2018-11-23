@@ -38,7 +38,7 @@
             <div id="menu-add-directory" data-options="iconCls:'icon-folder'">目录</div>
             <div id="menu-add-file" data-options="iconCls:'icon-file'">文件</div>
         </div>
-		<div style="padding-left:5px;">
+		<div>
         </div>
 	</div>
     <ewcms:editWindow/>

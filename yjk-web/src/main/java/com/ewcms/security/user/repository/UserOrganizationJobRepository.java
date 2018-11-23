@@ -36,7 +36,7 @@ public interface UserOrganizationJobRepository extends BaseRepository<UserOrgani
 	List<Long> findDeclareUsers(Set<Long> organizationIds, Set<Long> departmentAttributeIds, Set<Long> professionIds,
 			Set<Long> technicalTitleIds, Set<Long> appointmentIds);
 
-	public List<Long> findReviewUsers(Boolean director, Boolean secondDirector, Boolean pharmacy, Boolean science,
+	public List<Long> findExpertUsers(Boolean director, Boolean secondDirector, Boolean pharmacy, Boolean science,
 			Boolean antibiosis, Set<Long> organizationIds, Set<Long> departmentAttributeIds, Set<Long> professionIds,
 			Set<Long> technicalTitleIds, Set<Long> appointmentIds, List<Long> userIds);
 }

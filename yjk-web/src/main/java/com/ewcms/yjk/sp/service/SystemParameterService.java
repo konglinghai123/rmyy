@@ -11,11 +11,13 @@ import org.springframework.stereotype.Service;
 import com.ewcms.common.service.BaseService;
 import com.ewcms.common.utils.Collections3;
 import com.ewcms.common.utils.EmptyUtil;
+import com.ewcms.security.auth.service.AutomaticAuthService;
 import com.ewcms.security.organization.service.OrganizationService;
 import com.ewcms.security.user.entity.User;
 import com.ewcms.security.user.entity.UserStatus;
 import com.ewcms.security.user.service.UserOrganizationJobService;
 import com.ewcms.security.user.service.UserService;
+import com.ewcms.yjk.sp.entity.SystemExpert;
 import com.ewcms.yjk.sp.entity.SystemParameter;
 import com.ewcms.yjk.sp.repository.SystemParameterRepository;
 import com.google.common.collect.Lists;
@@ -29,6 +31,10 @@ import com.google.common.collect.Sets;
 @Service
 public class SystemParameterService extends BaseService<SystemParameter, Long> {
 
+	private static final String ROLE_NAME = "新药申报";
+	private static final String ROLE_IDENTIFICATION = "role_drugform";
+	private static final String GROUP_NAME = "新药申报用户组";
+	
 	private SystemParameterRepository getSystemParameterRepository() {
 		return (SystemParameterRepository) baseRepository;
 	}
@@ -39,24 +45,134 @@ public class SystemParameterService extends BaseService<SystemParameter, Long> {
 	private UserOrganizationJobService userOrganizationJobService;
 	@Autowired
 	private OrganizationService organizationService;
+	@Autowired
+	private SystemExpertService systemExpertService;
+	@Autowired
+	private AutomaticAuthService automaticAuthService;
 
 	@Override
-	public SystemParameter update(SystemParameter m) {
-		SystemParameter dbSystemParameter = findOne(m.getId());
-		m.setOrganizations(dbSystemParameter.getOrganizations());
-		m.setDepartmentAttributes(dbSystemParameter.getDepartmentAttributes());
-		m.setProfessions(dbSystemParameter.getProfessions());
-		m.setTechnicalTitles(dbSystemParameter.getTechnicalTitles());
-		m.setAppointments(dbSystemParameter.getAppointments());
+	public SystemParameter update(SystemParameter systemParameter) {
+		SystemParameter dbSystemParameter = findOne(systemParameter.getId());
+		systemParameter.setSystemExperts(dbSystemParameter.getSystemExperts());
+		systemParameter.setUsers(dbSystemParameter.getUsers());
 
-		return super.update(m);
+		return super.update(systemParameter);
 	}
 	
 	public SystemParameter findByEnabledTrue() {
 		return getSystemParameterRepository().findByEnabledTrue();
 	}
-
+	
 	@SuppressWarnings("unchecked")
+	public void filter(Long id) {
+		SystemParameter systemParameter = findOne(id);
+		if (EmptyUtil.isNotNull(systemParameter)) {
+			List<Long> userIdSelected = Lists.newArrayList();//被选中的用户ID号
+			List<SystemExpert> systemExperts = systemParameter.getSystemExperts();
+			if (EmptyUtil.isCollectionNotEmpty(systemExperts)) {
+				for (SystemExpert systemExpert : systemExperts) {
+					if (!systemExpert.getEnabled()) continue;
+					Set<Long> systemExpertUserIds = Sets.newHashSet();
+					List<Long> userIds = null;
+					if (EmptyUtil.isCollectionNotEmpty(userIdSelected)) {
+						userIds = userService.findUserIdOffscale(userIdSelected);
+					} else {
+						userIds = userService.findUserIds();
+					}
+
+					if (EmptyUtil.isCollectionEmpty(userIds))
+						break;// 无用户，退出筛选
+
+					Long useNumber = 0L;// 已使用的人数
+
+					Long departmentNumber = systemExpert.getDepartmentNumber();// 选定科室/病区确保人数
+					if (departmentNumber > 0L) {// 从每个科室/病区里随机选择确保的人数
+						Set<Long> organizationIds = systemExpert.getOrganizationIds();
+						if (EmptyUtil.isCollectionEmpty(organizationIds)) {// 未选择科室/病区，就是所有科室/病区
+							organizationIds = Collections3.extractToSet(organizationService.findAll(), "id");
+						}
+						for (Long organizationId : organizationIds) {
+							List<Long> matchUserIds = userOrganizationJobService.findExpertUsers(
+									systemExpert.getDirector(), systemExpert.getSecondDirector(),
+									systemExpert.getPharmacy(), systemExpert.getScience(), systemExpert.getAntibiosis(),
+									Sets.newHashSet(organizationId), systemExpert.getDepartmentAttributeIds(),
+									systemExpert.getProfessionIds(), systemExpert.getTechnicalTitleIds(),
+									systemExpert.getAppointmentIds(), userIds);
+							if (EmptyUtil.isCollectionNotEmpty(matchUserIds)) {
+								useNumber += ((departmentNumber >= matchUserIds.size()) ? matchUserIds.size() : departmentNumber);
+
+								if (departmentNumber >= matchUserIds.size()) {// 当选定科室人数大于选定科室人数时，选定科室所有人可以访问
+									systemExpertUserIds.addAll(matchUserIds);
+								} else {
+									Set<Long> selectIds = Sets.newHashSet();
+									Random random = new Random();
+									int i = 0;
+									while (true) {
+										i = random.nextInt(matchUserIds.size());
+										selectIds.add(matchUserIds.get(i));
+										if (selectIds.size() >= departmentNumber) {
+											break;
+										}
+									}
+									systemExpertUserIds.addAll(selectIds);
+								}
+							}
+						}
+					}
+
+					List<Long> matchUserIds = userOrganizationJobService.findExpertUsers(systemExpert.getDirector(),
+							systemExpert.getSecondDirector(), systemExpert.getPharmacy(), systemExpert.getScience(),
+							systemExpert.getAntibiosis(), systemExpert.getOrganizationIds(),
+							systemExpert.getDepartmentAttributeIds(), systemExpert.getProfessionIds(),
+							systemExpert.getTechnicalTitleIds(), systemExpert.getAppointmentIds(), userIds);
+
+					if (EmptyUtil.isCollectionNotEmpty(matchUserIds)) {
+						int matchSize = matchUserIds.size();// 匹配到的人数
+
+						Long percentNumber = Long.valueOf((systemExpert.getPercent() * matchSize) / 100);// 百分比人数
+						Long randomNumber = systemExpert.getRandomNumber();// 随机人数
+
+						if (randomNumber > 0L) {
+							percentNumber = Math.min(percentNumber, randomNumber);
+						}
+
+						Long overplusNumber = percentNumber - useNumber;// 剩余人数
+
+						if (overplusNumber > 0) {
+							if (overplusNumber >= matchSize) {//当匹配到人数小于剩余人数时，让所有匹配人数全部可以访问
+								systemExpertUserIds.addAll(matchUserIds);
+							} else {
+								Set<Long> selectIds = Sets.newHashSet();
+								Random random = new Random();
+								int i = 0;
+								while (true) {
+									i = random.nextInt(matchSize);
+									selectIds.add(matchUserIds.get(i));
+									if (selectIds.size() >= percentNumber) {
+										break;
+									}
+								}
+								systemExpertUserIds.addAll(selectIds);
+							}
+						}
+					}
+					
+					userIdSelected.addAll(systemExpertUserIds);
+					
+					List<User> users = Lists.newArrayList(userService.findUserDisplay(systemExpertUserIds));
+					systemExpert.setUsers(users);
+					
+					systemExpertService.update(systemExpert);
+				}
+				
+				if (systemParameter.getEnabled()) {
+					automaticAuthService.automaticAddAuth(ROLE_NAME, ROLE_IDENTIFICATION, GROUP_NAME, userIdSelected, Boolean.TRUE);
+				}
+			}
+			update(systemParameter);
+		}
+	}
+
 	public SystemParameter openDeclare(User opUser, Long systemParameterId) {
 		try {
 			SystemParameter vo = findOne(systemParameterId);
@@ -66,78 +182,18 @@ public class SystemParameterService extends BaseService<SystemParameter, Long> {
 					enabledvo.setEnabled(Boolean.FALSE);
 					update(enabledvo);
 				}
-	
 				vo.setEnabled(Boolean.TRUE);
-	
-				//String interval = String.format("在 %tF %tT 到 %tF %tT 之间,", vo.getApplyStartDate(), vo.getApplyStartDate(), vo.getApplyEndDate(), vo.getApplyEndDate());
-	
-				List<Long> allUserIds = userService.findUserIds();
-				userService.changeStatus(opUser, allUserIds, UserStatus.blocked, "您本次未被系统抽取到申报新药!");
-	
-				Long useNumber = 0L;// 已使用的人数
-	
-				Long departmentNumber = vo.getDepartmentNumber();// 选定科室/病区确保人数
-				if (departmentNumber > 0L) {//从每个科室/病区里随机选择确保的人数
-					Set<Long> organizationIds = vo.getOrganizationIds();
-					if (EmptyUtil.isCollectionEmpty(organizationIds)) {//未选择科室/病区，就是所有科室/病区
-						organizationIds = Collections3.extractToSet(organizationService.findAll(), "id");
+			
+				List<Long> userIds = Lists.newArrayList();
+				List<SystemExpert> systemExperts = vo.getSystemExperts();
+				if (EmptyUtil.isCollectionNotEmpty(systemExperts)) {
+					for (SystemExpert systemExpert : systemExperts) {
+						Set<Long> selectUserIds = systemExpert.getUserIds();
+						if (EmptyUtil.isCollectionNotEmpty(selectUserIds)) userIds.addAll(selectUserIds);
 					}
-					for (Long organizationId : organizationIds) {
-						List<Long> userIds = userOrganizationJobService.findDeclareUsers(Sets.newHashSet(organizationId), vo.getDepartmentAttributeIds(), vo.getProfessionIds(), vo.getTechnicalTitleIds(), vo.getAppointmentIds());
-						if (EmptyUtil.isCollectionNotEmpty(userIds)) {
-							useNumber += ((departmentNumber >= userIds.size()) ? userIds.size() : departmentNumber);
-	
-							if (departmentNumber >= userIds.size()) {//当选定科室人数大于选定科室人数时，选定科室所有人可以访问
-								userService.changeStatus(opUser, Lists.newArrayList(userIds), UserStatus.normal, "新药申报 启动后 根据规则允许申报人员");
-							} else {
-								Set<Long> selectIds = Sets.newHashSet();
-								Random random = new Random();
-								int i = 0;
-								while (true) {
-									i = random.nextInt(userIds.size());
-									selectIds.add(userIds.get(i));
-									if (selectIds.size() >= departmentNumber) {
-										break;
-									}
-								}
-								userService.changeStatus(opUser, Lists.newArrayList(selectIds), UserStatus.normal, "新药申报 启动后 根据规则允许申报人员");
-							}
-						}
-					}
+					automaticAuthService.automaticAddAuth(ROLE_NAME, ROLE_IDENTIFICATION, GROUP_NAME, userIds, Boolean.TRUE);
 				}
-	
-				List<Long> matchUsers = userOrganizationJobService.findDeclareUsers(vo.getOrganizationIds(), vo.getDepartmentAttributeIds(), vo.getProfessionIds(), vo.getTechnicalTitleIds(), vo.getAppointmentIds());
-				if (EmptyUtil.isCollectionNotEmpty(matchUsers)) {
-					int matchSize = matchUsers.size();//匹配到的人数
-					
-					Long percentNumber = Long.valueOf((vo.getPercent() * matchSize) / 100);//百分比人数
-					Long randomNumber = vo.getRandomNumber();//随机人数
-	
-					if (randomNumber > 0L) {
-						percentNumber = Math.min(percentNumber, randomNumber);
-					}
-	
-					Long overplusNumber = percentNumber - useNumber;//剩余人数
-					
-					if (overplusNumber > 0) {
-						if (overplusNumber >= matchSize) {//当匹配到人数小于剩余人数时，让所有匹配人数全部可以访问
-							userService.changeStatus(opUser, matchUsers, UserStatus.normal, "新药申报 启动后 根据规则允许申报人员");
-						} else {
-							Set<Long> selectIds = Sets.newHashSet();
-							Random random = new Random();
-							int i = 0;
-							while (true) {
-								i = random.nextInt(matchSize);
-								selectIds.add(matchUsers.get(i));
-								if (selectIds.size() >= percentNumber) {
-									break;
-								}
-							}
-							userService.changeStatus(opUser, Lists.newArrayList(selectIds), UserStatus.normal, "新药申报 启动后 根据规则允许申报人员");
-						}
-						
-					}
-				}
+				
 				return update(vo);
 			}else{
 				return vo;
@@ -153,10 +209,7 @@ public class SystemParameterService extends BaseService<SystemParameter, Long> {
 		SystemParameter vo = findOne(systemParameterId);
 		vo.setEnabled(Boolean.FALSE);
 		
-		String interval = String.format("在 %tF %tT 到 %tF %tT 之间,", vo.getApplyStartDate(), vo.getApplyStartDate(), vo.getApplyEndDate(), vo.getApplyEndDate());
-		
-		List<Long> allUserIds = userService.findUserIds();
-		userService.changeStatus(opUser, allUserIds, UserStatus.blocked, interval + "新药申报 关闭后 封禁所有非管理员用户");
+		automaticAuthService.automaticRemoveAllUser("新药申报用户组");
 		
 		return update(vo);
 	}
@@ -186,4 +239,52 @@ public class SystemParameterService extends BaseService<SystemParameter, Long> {
 			return "请大家在 " + systemParameter.getApplyStartDate() + " 至 " + systemParameter.getApplyEndDate() + " 之间申报新药！！！";
 		}
 	}
+	
+	public void removeUser(SystemParameter systemParameter, List<Long> userIds) {
+		Set<User> removeUsers = userService.findUserDisplay(Sets.newHashSet(userIds));
+		
+		List<User> systemParameterUsers = systemParameter.getUsers();
+		if (EmptyUtil.isCollectionNotEmpty(systemParameterUsers)) {
+			systemParameterUsers.removeAll(removeUsers);
+			systemParameter.setUsers(systemParameterUsers);
+		}
+		
+		List<SystemExpert> systemExperts = systemParameter.getSystemExperts();
+		if (EmptyUtil.isCollectionNotEmpty(systemExperts)) {
+			for (SystemExpert systemExpert : systemExperts) {
+				List<User> users = systemExpert.getUsers();
+				users.removeAll(removeUsers);
+				systemExpert.setUsers(users);
+			}
+			systemParameter.setSystemExperts(systemExperts);
+		}
+		
+		if (systemParameter.getEnabled()) {
+			automaticAuthService.automaticRemoveUser(GROUP_NAME, Sets.newHashSet(userIds));
+		}
+		
+		super.update(systemParameter);
+	}
+	
+	public void addUser(SystemParameter systemParameter, List<Long> userIds) {
+		Set<User> addUsers = userService.findUserDisplay(Sets.newHashSet(userIds));
+		addUsers.addAll(systemParameter.getUsers());
+		
+		List<User> existUsers = Lists.newArrayList();
+		List<SystemExpert> systemExperts = systemParameter.getSystemExperts();
+		for (SystemExpert systemExpert : systemExperts) {
+			existUsers.addAll(systemExpert.getUsers());
+		}
+		
+		addUsers.removeAll(existUsers);
+		
+		systemParameter.setUsers(Lists.newArrayList(addUsers));
+		
+		if (systemParameter.getEnabled()) {
+			automaticAuthService.automaticAddAuth(ROLE_NAME, ROLE_IDENTIFICATION, GROUP_NAME, userIds, Boolean.FALSE);
+		}
+		
+		super.update(systemParameter);
+	}
+
 }

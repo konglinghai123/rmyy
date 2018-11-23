@@ -95,6 +95,10 @@ public class RoleService extends BaseService<Role, Long> {
     	return getRoleRepository().findByName(name);
     }
     
+    public Role findByNameAndRole(String name, String role) {
+    	return getRoleRepository().findByNameAndRole(name, role);
+    }
+    
     public List<RoleResourcePermission> findRoleResourcePermissionFullNames(Searchable searchable, String separator){
     	List<RoleResourcePermission> roleResourcePermissions = roleResourcePermissionService.findAllWithSort(searchable);
     	

@@ -1,14 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/views/jspf/taglibs.jspf" %>
 
-<ewcms:head title="申报-用户"/>
+<ewcms:head title="申报 - 用户"/>
 	<table id="tt">
 		<thead>
 			<tr>
 			    <th data-options="field:'ck',checkbox:true"/>
 			    <th data-options="field:'id',hidden:true">编号</th>
 			    <th data-options="field:'username',width:80,sortable:true">用户名</th>
-				<th data-options="field:'realname',width:150,sortable:true">实名</th>
+				<th data-options="field:'realname',width:150,sortable:true">姓名</th>
 				<th data-options="field:'sex',width:60,sortable:true,
 						formatter:function(val,row){
 							return row.sexDescription;
@@ -56,12 +56,33 @@
 	</table>
 	<div id="tb" style="padding:5px;height:auto;">
         <div class="toolbar" style="margin-bottom:2px">
-        	<c:if test="${m.enabled}">
-			<a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true" onclick="$.ewcms.add({src:'${ctx}/yjk/sp/systemparamter/${m.id}/saveUser',title:'添加',width:750,height:265});">添加</a>
-			<a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-remove',plain:true" onclick="$.ewcms.remove({src:'${ctx}/yjk/sp/systemparamter/${m.id}/removeUser',title:'移除',width:750,height:265});">移除</a>
-			</c:if>
+			<a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true" onclick="$.ewcms.add({src:'${ctx}/yjk/sp/systemparameter/${m.id}/saveUser',title:'添加',width:750,height:265});">添加</a>
+			<a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-remove',plain:true" onclick="$.ewcms.remove({src:'${ctx}/yjk/sp/systemparameter/${m.id}/removeUser',title:'移除',width:750,height:265});">移除</a>
 		</div>
-        <div  style="padding-left:5px;">
+        <div>
+        	<form id="queryform">
+        		<table class="formtable">
+              		<tr>
+              			<td width="10%">用户名</td>
+              			<td width="23%"><input type="text" name="LIKE_username" style="width:140px"/></td>
+    					<td width="10%">姓名</td>
+    					<td width="23"><input type="text" name="LIKE_realname" style="width:140px"/></td>
+						<td width="35%" colspan="2" align="left">
+            				<a id="tb-query" href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="$.ewcms.query();">查询</a>
+           					<a id="tb-clear" href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-clear'" onclick="javascript:$('#queryform').form('reset');">清除</a>
+           					<a id="tb-more" href="javascript:void(0);" class="easyui-linkbutton" onclick="$.ewcms.moreQuery();"><span id="showHideLabel">更多...</span></a>
+           				</td>
+           			</tr>
+           			<tr style="display:none;">
+           				<td>手机号</td>
+              			<td><input type="text" name="LIKE_mobilePhoneNumber" style="width:140px"/></td>
+    					<td></td>
+    					<td></td>
+    					<td></td>
+    					<td></td>
+           			</tr>
+           		</table>
+          </form>
         </div>
 	</div>
 	<ewcms:editWindow/>
@@ -69,13 +90,15 @@
 <script type="text/javascript">
 	$(function(){
 		$('#tt').datagrid({
-			url:'${ctx}/yjk/sp/systemparamter/${m.id}/queryUser',
+			url:'${ctx}/yjk/sp/systemparameter/${m.id}/queryUser',
 			toolbar:'#tb',
 			fit:true,
 			nowrap:true,
 			rownumbers:true,
+			pagination:true,
 			striped:true,
-			pagination:true
+			border:false,
+			pageSize:10
 		});
 	});
 </script>

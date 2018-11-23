@@ -22,7 +22,6 @@ public class AuthService extends BaseService<Auth, Long> {
 
 	@Autowired
 	private UserService userService;
-
 	@Autowired
 	private GroupService groupService;
 
@@ -78,6 +77,10 @@ public class AuthService extends BaseService<Auth, Long> {
 			save(auth);
 		}
 	}
+	
+	public Auth findByGroupId(Long groupId) {
+		return getAuthRepository().findByGroupId(groupId);
+	}
 
 	public void addOrganizationJobAuth(Long[] organizationIds, Long[] jobIds, Auth m) {
 		if (EmptyUtil.isArrayEmpty(organizationIds)) {
@@ -121,9 +124,12 @@ public class AuthService extends BaseService<Auth, Long> {
 	}
 
 	/**
-	 * 根据用户信息获取 角色 1.1、用户 根据用户绝对匹配 1.2、组织机构 根据组织机构绝对匹配 此处需要注意 祖先需要自己获取 1.3、工作职务
-	 * 根据工作职务绝对匹配 此处需要注意 祖先需要自己获取 1.4、组织机构和工作职务 根据组织机构和工作职务绝对匹配 此处不匹配祖先 1.5、组
-	 * 根据组绝对匹配
+	 * 根据用户信息获取 角色 
+	 * 1.1、用户 根据用户绝对匹配 
+	 * 1.2、组织机构 根据组织机构绝对匹配 此处需要注意 祖先需要自己获取 
+	 * 1.3、工作职务 根据工作职务绝对匹配 此处需要注意 祖先需要自己获取 
+	 * 1.4、组织机构和工作职务 根据组织机构和工作职务绝对匹配 此处不匹配祖先 
+	 * 1.5、组 根据组绝对匹配
 	 *
 	 * @param userId
 	 *            必须有

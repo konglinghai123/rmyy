@@ -19,4 +19,6 @@ public interface RoleRepository extends BaseRepository<Role, Long> {
     
     @Query("from Role where id in ?1 and show=true")
     Set<Role> findShowRoles(Set<Long> roleIds);
+    
+    Role findByNameAndRole(String name, String role);
 }

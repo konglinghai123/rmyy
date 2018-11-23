@@ -24,7 +24,7 @@
 		<div class="toolbar" style="margin-bottom:2px">
 			<a id="tb-forcelogout" href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-force-logout',plain:true">强制退出</a>
 		</div>
-        <div style="padding-left:5px;">
+        <div>
         	<form id="queryform" style="padding:0;margin:0;">
         		<table class="formtable">
               		<tr>

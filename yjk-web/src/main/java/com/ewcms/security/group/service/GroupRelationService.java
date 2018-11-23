@@ -105,4 +105,12 @@ public class GroupRelationService extends BaseService<GroupRelation, Long> {
 			}
 		}
 	}
+	
+	public List<Long> findGroupRelationIds(Long groupId) {
+		return getGroupRelationRepository().findGroupRelationIds(groupId);
+	}
+	
+	public List<Long> findGroupRelationIds(Long groupId, Set<Long> userIds){
+		return getGroupRelationRepository().findGroupRelationIds(groupId, userIds);
+	}
 }

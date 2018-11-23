@@ -19,7 +19,7 @@
 		</thead>
 	</table>
 	<div id="tb" style="padding:5px;height:auto;">
-        <div style="padding-left:5px;">
+        <div>
         	<form id="queryform" style="padding:0;margin:0;">
         		<table class="formtable">
               		<tr>

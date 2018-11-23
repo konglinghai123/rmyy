@@ -69,8 +69,8 @@
 	</table>
 	<div id="tb" style="padding:5px;height:auto;">
 		<div style="margin-bottom:2px">
-			<a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true" onclick="$.ewcms.add({title:'新增',width:750,height:265});">新增</a>
-			<a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-edit',plain:true" onclick="$.ewcms.edit({title:'修改',width:750,height:265});">修改</a>
+			<a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true" onclick="$.ewcms.add({title:'新增',width:750,height:565});">新增</a>
+			<a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-edit',plain:true" onclick="$.ewcms.edit({title:'修改',width:750,height:565});">修改</a>
 			<a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-remove',plain:true" onclick="$.ewcms.remove({title:'删除'});">删除</a>
 			<a id="tb-password" href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-password',plain:true">修改密码</a>
 			<a id="tb-recycle" href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-recycle',plain:true">还原删除用户</a>
@@ -81,7 +81,7 @@
 			<div id="menu-status-show" data-options="iconCls:'icon-status-show'" onclick="$.ewcms.status({status:'normal',info:'解封用户',prompt:true});">解封用户</div>
 			<div id="menu-status-hide" data-options="iconCls:'icon-status-hide'" onclick="$.ewcms.status({status:'blocked',info:'封禁用户',prompt:true});">封禁用户</div>
 		</div>
-        <div style="margin-bottom:2px">
+        <div>
         	<form id="queryform">
         		<table class="formtable">
               		<tr>
@@ -94,10 +94,10 @@
 						<td width="16%" colspan="2">
             				<a id="tb-query" href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="$.ewcms.query();">查询</a>
            					<a id="tb-clear" href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-clear'" onclick="javascript:$('#queryform').form('reset');">清除</a>
-           					<a id="tb-more" href="javascript:void(0);" class="easyui-linkbutton"><span id="showHideLabel">更多...</span></a>
+           					<a id="tb-more" href="javascript:void(0);" class="easyui-linkbutton" onclick="$.ewcms.moreQuery();"><span id="showHideLabel">更多...</span></a>
            				</td>
            			</tr>
-           			<tr>
+           			<tr style="display: none;">
            				<td>状态</td>
     					<td>
     						<form:select id="status" name="EQ_status" path="statusList" cssClass="easyui-combobox" cssStyle="width:140px;" data-options="panelHeight:'auto',editable:false">
@@ -153,18 +153,6 @@
 				param['parameters']=$('#queryform').serializeObject();
 			}
 		});
-		
-		$("form table tr").next("tr").hide();
-		$('#tb-more').bind('click', function(){
-	       	var showHideLabel_value = $('#showHideLabel').text();
-	    	$('form table tr').next('tr').toggle();
-	     	if (showHideLabel_value == '收缩'){
-	     		$('#showHideLabel').text('更多...');
-	    	}else{
-	    		$('#showHideLabel').text('收缩');
-	    	}
-	    	$('#tt').datagrid('resize');
-	    });
 		
 		$('#tb-recycle').bind('click', function(){
 			var rows = $('#tt').datagrid('getSelections');

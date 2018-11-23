@@ -6,6 +6,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,6 +25,10 @@ import com.ewcms.common.entity.search.Searchable;
 import com.ewcms.common.web.controller.BaseCRUDController;
 import com.ewcms.common.web.validate.AjaxResponse;
 import com.ewcms.common.web.validate.ValidateResponse;
+import com.ewcms.security.dictionary.service.AppointmentService;
+import com.ewcms.security.dictionary.service.DepartmentAttributeService;
+import com.ewcms.security.dictionary.service.ProfessionService;
+import com.ewcms.security.dictionary.service.TechnicalTitleService;
 import com.ewcms.security.user.entity.User;
 import com.ewcms.security.user.entity.UserStatus;
 import com.ewcms.security.user.service.UserService;
@@ -39,6 +44,15 @@ import com.google.common.collect.Maps;
 @RequestMapping(value = "/security/user/user")
 public class UserController extends BaseCRUDController<User, Long> {
 
+	@Autowired
+	private ProfessionService professionService;
+	@Autowired
+	private TechnicalTitleService technicalTitleService;
+	@Autowired
+	private AppointmentService appointmentService;
+	@Autowired
+	private DepartmentAttributeService departmentAttributeService;
+	
 	private UserService getUserService() {
 		return (UserService) baseService;
 	}
@@ -53,6 +67,11 @@ public class UserController extends BaseCRUDController<User, Long> {
 		super.setCommonData(model);
 		model.addAttribute("statusList", UserStatus.values());
 		model.addAttribute("booleanList", BooleanEnum.values());
+		model.addAttribute("sexList", User.Sex.values());
+		model.addAttribute("professionList", professionService.findAll());
+		model.addAttribute("technicalTitleList", technicalTitleService.findAll());
+		model.addAttribute("appointmentList", appointmentService.findAll());
+		model.addAttribute("departmentAttributeList", departmentAttributeService.findAll());
 	}
 	
 	@Override

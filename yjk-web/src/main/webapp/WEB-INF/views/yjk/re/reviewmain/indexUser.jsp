@@ -58,7 +58,7 @@
 			<a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true" onclick="$.ewcms.add({src:'${ctx}/yjk/re/reviewmain/${reviewMainId}/saveUser',title:'添加',width:750,height:265,left:200});">添加</a>
 			<a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-remove',plain:true" onclick="$.ewcms.remove({src:'${ctx}/yjk/re/reviewmain/${reviewMainId}/removeUser',title:'移除',width:750,height:265});">移除</a>
 		</div>
-        <div  style="padding-left:5px;">
+        <div>
         </div>
 	</div>
 	<ewcms:editWindow/>

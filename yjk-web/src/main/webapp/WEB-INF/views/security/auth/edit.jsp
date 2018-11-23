@@ -126,7 +126,10 @@
 				method:'get',
 				valueField:'id',
 				textField:'usernameAndRealname',
-				editable:false
+				editable:false,
+				onLoadSuccess:function(){
+					$(this).combobox('setValue',${userIds})
+				}
 			});
 		} else if (value == 'user_group' || value == 'organization_group'){
 			var groupType = (value == 'user_group') ? 'user' : 'organization';
@@ -139,7 +142,10 @@
 				valueField:'id',
 				textField:'name',
 				editable:false,
-				multiple:true
+				multiple:true,
+				onLoadSuccess:function(){
+					$(this).combobox('setValue',${groupIds})
+				}
 			});
 		} else if (value == 'organization_job'){
 			$('#organizationIds, #jobIds').combotree({
@@ -151,6 +157,10 @@
 		    	onlyLeafCheck:true,
 				onBeforeSelect : function(node){
 					return false;
+				},
+				onLoadSuccess:function(){
+					$('#organizationIds').combobox('setValue',${organizationIds});
+					$('#jobIds').combobox('setValue',${jobIds});
 				}
 			});
 		}

@@ -41,22 +41,18 @@
 				$.messager.confirm('提示', '确定要作废以前数据再导入吗？ <br/><font color="red">该操作会删除数据库院用目录所有数据，请慎重操作！！！</font>', function(r) {
 					if (r) {
 						document.forms[0].submit();
-						loadingEnable();
+						$.ewcms.addLoading();
 					}
 				});			 
 		 	}else{
 				$.messager.confirm('提示', '确定要增量导入新数据吗？<br/><font color="red">按照提取通用名，给药途径，编号，药品类型，院用目录通用名，生产企业，剂型,规格，包装数量查重，重复记录的不保存</font>', function(r) {
 					if (r) {
 						document.forms[0].submit();
-						loadingEnable();
+						$.ewcms.addLoading();
 					}
 				});		 		
 		 	}
 		});
 	});
-	function loadingEnable(){
-		$("<div class=\"datagrid-mask\"></div>").css({display:"block",width:"100%",height:$(window).height()}).appendTo("body");
-		$("<div class=\"datagrid-mask-msg\"></div>").html("<font size='9'>正在处理，请稍候。。。</font>").appendTo("body").css({display:"block",left:($(document.body).outerWidth(true) - 190) / 2,top:($(window).height() - 45) / 2}); 
-	}
 </script>
 	

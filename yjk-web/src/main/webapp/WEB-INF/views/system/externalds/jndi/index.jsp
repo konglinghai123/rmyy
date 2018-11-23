@@ -21,7 +21,7 @@
 			<a class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-edit',toggle:true"  href="javascript:void(0);">修改</a>
  			<a id="tb-remove" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-remove',toggle:true">删除</a>
 		</div>
-        <div  style="padding-left:5px;">
+        <div>
         	<form id="queryform" style="padding:0;margin:0;">
         		<table class="formtable">
               		<tr>

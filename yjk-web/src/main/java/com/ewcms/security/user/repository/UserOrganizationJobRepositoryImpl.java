@@ -73,7 +73,7 @@ public class UserOrganizationJobRepositoryImpl {
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<Long> findReviewUsers(Boolean director, Boolean secondDirector, Boolean pharmacy, Boolean science,
+	public List<Long> findExpertUsers(Boolean director, Boolean secondDirector, Boolean pharmacy, Boolean science,
 			Boolean antibiosis, Set<Long> organizationIds, Set<Long> departmentAttributeIds, Set<Long> professionIds,
 			Set<Long> technicalTitleIds, Set<Long> appointmentIds, List<Long> userIds) {
 		boolean hasOrganizationIds = organizationIds.size() > 0;

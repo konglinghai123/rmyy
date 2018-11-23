@@ -39,7 +39,7 @@
 			<div id="menu-status-show" data-options="iconCls:'icon-status-show'" onclick="$.ewcms.status({status:true,info:'有效'});">有效</div>
 			<div id="menu-status-hide" data-options="iconCls:'icon-status-hide'" onclick="$.ewcms.status({status:false,info:'无效'});">无效</div>
 		</div>
-		<div style="padding-left:5px;">
+		<div>
         	<form id="queryform" style="padding:0;margin:0;">
         		<table class="formtable">
               		<tr>

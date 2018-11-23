@@ -8,7 +8,7 @@
 			    <th data-options="field:'ck',checkbox:true"></th>
 			    <th data-options="field:'id',hidden:true">编号</th>
 			    <c:if test="${group.type eq 'user'}">
-			    	<th data-options="field:'userId',width:100">用户编号</th>
+			    	<th data-options="field:'userId',hidden:true">用户编号</th>
 			    	<th data-options="field:'username',width:200">用户名</th>
 			    	<th data-options="field:'realname',width:200">实名</th>
 			    </c:if>
