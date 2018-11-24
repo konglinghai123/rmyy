@@ -23,31 +23,31 @@
 						formatter:function(val,row){
 							return row.profession != null ? row.profession.name : '';
 						}">执业类别</th>
-				<th data-options="field:'technicalTitle',width:100,sortable:true,
+				<th data-options="field:'technicalTitle',width:120,sortable:true,
 						formatter:function(val,row){
 							return row.technicalTitle != null ? row.technicalTitle.name : '';
-						}">技术职称（资格）</th>
+						}">技术职称(资格)</th>
 				<th data-options="field:'appointment',width:100,sortable:true,
 						formatter:function(val,row){
 							return row.appointment != null ? row.appointment.name : '';
 						}">是否聘任</th>
-				<th data-options="field:'director',width:100,sortable:true,
+				<th data-options="field:'director',width:120,sortable:true,
 						formatter:function(val,row){
 							return val ? '是' : '';
 						}">是否科主任</th>
-				<th data-options="field:'secondDirector',width:100,sortable:true,
+				<th data-options="field:'secondDirector',width:120,sortable:true,
 						formatter:function(val,row){
 							return val ? '是' : '';
 						}">是否科副主任</th>
-				<th data-options="field:'pharmacy',width:120,sortable:true,
+				<th data-options="field:'pharmacy',width:140,sortable:true,
 						formatter:function(val,row){
 							return val ? '是' : '';
 						}">是否药事会成员</th>
-				<th data-options="field:'science',width:150,sortable:true,
+				<th data-options="field:'science',width:170,sortable:true,
 						formatter:function(val,row){
 							return val ? '是' : '';
 						}">是否院学术委员会成员</th>
-				<th data-options="field:'antibiosis',width:170,sortable:true,
+				<th data-options="field:'antibiosis',width:200,sortable:true,
 						formatter:function(val,row){
 							return val ? '是' : '';
 						}">是否抗菌药物遴选小组成员</th>
@@ -56,11 +56,11 @@
 						formatter:function(val,row){
 							return val ? '是' : '否';
 						}">管理员</th>
-				<th data-options="field:'status',width:150,sortable:true,
+				<th data-options="field:'status',width:120,sortable:true,
 						formatter:function(val,row){
 							return row.statusInfo;
 						}">状态</th>
-				<th data-options="field:'deleted',width:100,sortable:true,
+				<th data-options="field:'deleted',width:80,sortable:true,
 						formatter:function(val,row){
 							return val ? '是' : '否';
 						}">删除</th>
@@ -87,8 +87,8 @@
               		<tr>
               			<td width="5%">登录名</td>
               			<td width="23%"><input type="text" name="LIKE_username" style="width:140px"/></td>
-    					<td width="5%">邮箱</td>
-    					<td width="23%"><input type="text" name="LIKE_email" style="width:140px"/></td>
+    					<td width="5%">姓名</td>
+    					<td width="23%"><input type="text" name="LIKE_realname" style="width:140px"/></td>
     					<td width="5%">手机号</td>
     					<td width="23"><input type="text" name="LIKE_mobilePhoneNumber" style="width:140px"/></td>
 						<td width="16%" colspan="2">
@@ -114,6 +114,75 @@
            				</td>
            				<td>注册日期</td>
            				<td colspan="2"><input type="text" id="createDate" name="GTE_createDate" class="easyui-datetimebox" style="width:145px" data-options="editable:false"/> 至 <input type="text" id="createDate" name="LTE_createDate" class="easyui-datetimebox" style="width:145px" data-options="editable:false"/></td>
+           			</tr>
+           			<tr style="display: none;">
+           				<td>是否科主任</td>
+    					<td>
+    						<form:select id="director" name="EQ_director" path="booleanList" cssClass="easyui-combobox" cssStyle="width:140px;" data-options="panelHeight:'auto',editable:false">
+					  			<form:option value="" label="------请选择------"/>
+					  			<form:options items="${booleanList}" itemLabel="info"/>
+							</form:select>
+						</td>
+           				<td>是否科副主任</td>
+           				<td>
+           					<form:select id="secondDirector" name="EQ_secondDirector" path="booleanList" cssClass="easyui-combobox"  cssStyle="width:140px;" data-options="panelHeight:'auto',editable:false">
+					  			<form:option value="" label="------请选择------"/>
+					  			<form:options items="${booleanList}" itemLabel="info"/>
+							</form:select>
+           				</td>
+           				<td>是否药事会成员</td>
+           				<td colspan="2">
+           					<form:select id="pharmacy" name="EQ_pharmacy" path="booleanList" cssClass="easyui-combobox"  cssStyle="width:140px;" data-options="panelHeight:'auto',editable:false">
+					  			<form:option value="" label="------请选择------"/>
+					  			<form:options items="${booleanList}" itemLabel="info"/>
+							</form:select>
+						</td>
+           			</tr>
+           			<tr style="display: none;">
+           				<td>是否院学术委员会成员</td>
+    					<td>
+    						<form:select id="science" name="EQ_science" path="booleanList" cssClass="easyui-combobox" cssStyle="width:140px;" data-options="panelHeight:'auto',editable:false">
+					  			<form:option value="" label="------请选择------"/>
+					  			<form:options items="${booleanList}" itemLabel="info"/>
+							</form:select>
+						</td>
+           				<td>是否抗菌药物遴选小组成员</td>
+           				<td>
+           					<form:select id="antibiosis" name="EQ_antibiosis" path="booleanList" cssClass="easyui-combobox"  cssStyle="width:140px;" data-options="panelHeight:'auto',editable:false">
+					  			<form:option value="" label="------请选择------"/>
+					  			<form:options items="${booleanList}" itemLabel="info"/>
+							</form:select>
+           				</td>
+           				<td>执业类别</td>
+           				<td colspan="2">
+           					<form:select id="profession" name="EQ_profession" path="professionList" cssClass="easyui-combobox"  cssStyle="width:140px;" data-options="panelHeight:'auto',editable:false">
+					  			<form:option value="" label="------请选择------"/>
+					  			<form:options items="${professionList}" itemValue="id" itemLabel="name"/>
+							</form:select>
+						</td>
+           			</tr>
+           			<tr style="display: none;">
+           				<td>技术职称(资格)</td>
+    					<td>
+    						<form:select id="technicalTitle" name="EQ_technicalTitle" path="technicalTitleList" cssClass="easyui-combobox" cssStyle="width:140px;" data-options="panelHeight:'auto',editable:false">
+					  			<form:option value="" label="------请选择------"/>
+					  			<form:options items="${technicalTitleList}" itemValue="id" itemLabel="name"/>
+							</form:select>
+						</td>
+           				<td>聘任</td>
+           				<td>
+           					<form:select id="appointment" name="EQ_appointment" path="appointmentList" cssClass="easyui-combobox"  cssStyle="width:140px;" data-options="panelHeight:'auto',editable:false">
+					  			<form:option value="" label="------请选择------"/>
+					  			<form:options items="${appointmentList}" itemValue="id" itemLabel="name"/>
+							</form:select>
+           				</td>
+           				<td>科室属性</td>
+           				<td colspan="2">
+           					<form:select id="departmentAttribute" name="EQ_departmentAttribute" path="departmentAttributeList" cssClass="easyui-combobox"  cssStyle="width:140px;" data-options="panelHeight:'auto',editable:false">
+					  			<form:option value="" label="------请选择------"/>
+					  			<form:options items="${departmentAttributeList}" itemValue="id" itemLabel="name"/>
+							</form:select>
+						</td>
            			</tr>
            		</table>
           </form>

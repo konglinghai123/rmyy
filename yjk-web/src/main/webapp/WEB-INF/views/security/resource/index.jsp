@@ -32,7 +32,7 @@
 			<a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-edit',plain:true" onclick="$.ewcms.edit({grid:'treegrid', title:'修改',src:'${ctx}/security/resource/table/save',width:490,height:259});">修改</a>
 			<a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-remove',plain:true" onclick="$.ewcms.remove({grid:'treegrid'})">删除</a>
 			<a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-reload',plain:true" onclick="$('#tt').treegrid('reload');">刷新</a>
-			<a id="tb-weight" class="easyui-linkbutton" data-options="iconCls:'icon-weight',plain:true">优化排序</a>
+			<a href="javascript:void(0);" id="tb-weight" class="easyui-linkbutton" data-options="iconCls:'icon-weight',plain:true">优化排序</a>
 			<a href="javascript:void(0);" class="easyui-menubutton" data-options="menu:'#menu-status',iconCls:'icon-status'">状态</a>
 		</div>
 		<div id="menu-status" style="width:150px">

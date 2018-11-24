@@ -247,14 +247,14 @@ public class DrugFormController extends BaseCRUDController<DrugForm, Long> {
         response.setHeader("Pragma", "no-cache");
         
         try {
-	        if (drugForm.getAuditStatus() == AuditStatusEnum.passed) {
+	        if (drugForm.getAuditStatus() == AuditStatusEnum.init || drugForm.getAuditStatus() == AuditStatusEnum.passed) {
 		        ParameterBuilder parameterBuilder = new ParameterBuilder();
 		        parameterBuilder.getParamMap().put("drugFormId", String.valueOf(drugForm.getId()));
 		        parameterBuilder.setTextType(TextReport.Type.PDF);
 		        
 				textReportService.buildText(parameterBuilder.getParamMap(), reportId, parameterBuilder.getTextType(), response);
 	        } else {
-	        	String str = "未初审通过的新药申报是不能打印的！";
+	        	String str = "未提交申报或初审未通过的新药申报是不能打印的！";
 	        	response.setHeader("content-type", "text/html;charset=UTF-8");
 	        	OutputStream os = null;
 	        	try {

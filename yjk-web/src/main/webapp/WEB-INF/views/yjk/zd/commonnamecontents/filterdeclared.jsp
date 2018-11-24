@@ -35,7 +35,6 @@
 <script type="text/javascript">
 	$(function(){
 		 $("#tb-import").bind('click', function(){
-
 				$.messager.confirm('提示', '确定要按所选项目过滤允许申报的大目录', function(r) {
 					if (r) {
 						document.forms[0].submit();

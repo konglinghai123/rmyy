@@ -3,7 +3,7 @@
 <%@ page import="com.ewcms.common.web.controller.entity.TreeIconCls"%>
 
 <ewcms:head title="类设置"/>
-	<table id="tt" class="easyui-datagrid" data-options="toolbar:'#tb',fit:true,url:'${ctx}/system/scheduling/jobclass/query',nowrap:true,pagination:true,rownumbers:true,pageSize:30">
+	<table id="tt" class="easyui-datagrid" data-options="toolbar:'#tb',fit:true,url:'${ctx}/system/scheduling/jobclass/query',nowrap:true,pagination:true,rownumbers:true,pageSize:20">
 		<thead>
 			<tr>
 			    <th data-options="field:'ck',checkbox:true"></th>

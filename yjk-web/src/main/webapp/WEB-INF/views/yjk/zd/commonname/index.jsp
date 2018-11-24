@@ -1,8 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/views/jspf/taglibs.jspf" %>
 
-<ewcms:head title="字典-通用名"/>
-	<table id="tt">
+<ewcms:head title="字典 - 通用名"/>
+	<table id="tt" class="easyui-datagrid" data-options="url:'${ctx}/yjk/zd/commonname/query',toolbar:'#tb',fit:true,nowrap:true,pagination:true,rownumbers:true,striped:true,border:false,pageSize:20">
 		<thead>
 			<tr>
 			    <th data-options="field:'ck',checkbox:true"/>
@@ -55,7 +55,7 @@
            					<a id="tb-more" href="javascript:void(0);" class="easyui-linkbutton" onclick="$.ewcms.moreQuery();"><span id="showHideLabel">更多</span></a>
            				</td>
            			</tr>
-           			<tr style="">
+           			<tr style="display: none;">
            				<td>是否启用</td>
            				<td>
            					<form:select id="enabled" name="EQ_enabled" path="booleanList" cssClass="easyui-combobox"  cssStyle="width:140px;" data-options="panelHeight:'auto',editable:false">
@@ -81,18 +81,3 @@
 	</div>
 	<ewcms:editWindow/>
 <ewcms:footer/>
-<script type="text/javascript">
-	$(function(){
-		$('#tt').datagrid({
-			url:'${ctx}/yjk/zd/commonname/query',
-			toolbar:'#tb',
-			fit:true,
-			nowrap:true,
-			pagination:true,
-			rownumbers:true,
-			striped:true,
-			pageSize:20,
-			border:false
-		});
-	});
-</script>

@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/views/jspf/taglibs.jspf" %>
 
 <ewcms:head title="字典-执业类别"/>
-	<table id="tt">
+	<table id="tt" class="easyui-datagrid" data-options="url:'${ctx}/security/dictionary/profession/query',toolbar:'#tb',fit:true,nowrap:true,pagination:true,rownumbers:true,striped:true,border:false,pageSize:20">
 		<thead>
 			<tr>
 			    <th data-options="field:'ck',checkbox:true"/>
@@ -35,18 +35,3 @@
 	</div>
 	<ewcms:editWindow/>
 <ewcms:footer/>
-<script type="text/javascript">
-	$(function(){
-		$('#tt').datagrid({
-			url:'${ctx}/security/dictionary/profession/query',
-			toolbar:'#tb',
-			fit:true,
-			nowrap:true,
-			pagination:true,
-			rownumbers:true,
-			striped:true,
-			pageSize:20,
-			border:false
-		});
-	});
-</script>

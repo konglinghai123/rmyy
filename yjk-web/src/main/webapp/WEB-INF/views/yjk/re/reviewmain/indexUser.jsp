@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/views/jspf/taglibs.jspf" %>
 
 <ewcms:head title="评审-评审主表"/>
-	<table id="tt">
+	<table id="tt" class="easyui-datagrid" data-options="url:'${ctx}/yjk/re/reviewmain/${reviewMainId}/queryUser',toolbar:'#tb',fit:true,nowrap:true,rownumbers:true,striped:true,pagination:true,border:false">
 		<thead>
 			<tr>
 			    <th data-options="field:'ck',checkbox:true"/>
@@ -63,16 +63,3 @@
 	</div>
 	<ewcms:editWindow/>
 <ewcms:footer/>
-<script type="text/javascript">
-	$(function(){
-		$('#tt').datagrid({
-			url:'${ctx}/yjk/re/reviewmain/${reviewMainId}/queryUser',
-			toolbar:'#tb',
-			fit:true,
-			nowrap:true,
-			rownumbers:true,
-			striped:true,
-			pagination:true
-		});
-	});
-</script>

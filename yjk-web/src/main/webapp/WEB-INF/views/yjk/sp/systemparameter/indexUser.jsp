@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/views/jspf/taglibs.jspf" %>
 
 <ewcms:head title="申报 - 用户"/>
-	<table id="tt">
+	<table id="tt" class="easyui-datagrid" data-options="url:'${ctx}/yjk/sp/systemparameter/${m.id}/queryUser',toolbar:'#tb',fit:true,nowrap:true,rownumbers:true,pagination:true,striped:true,border:false,pageSize:10">
 		<thead>
 			<tr>
 			    <th data-options="field:'ck',checkbox:true"/>
@@ -87,18 +87,3 @@
 	</div>
 	<ewcms:editWindow/>
 <ewcms:footer/>
-<script type="text/javascript">
-	$(function(){
-		$('#tt').datagrid({
-			url:'${ctx}/yjk/sp/systemparameter/${m.id}/queryUser',
-			toolbar:'#tb',
-			fit:true,
-			nowrap:true,
-			rownumbers:true,
-			pagination:true,
-			striped:true,
-			border:false,
-			pageSize:10
-		});
-	});
-</script>

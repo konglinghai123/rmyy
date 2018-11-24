@@ -45,9 +45,4 @@
 	</div>
 <ewcms:footer/>
 <script type="text/javascript">
-	$(function(){
-		$('#tb-clear').bind('click', function(){
-			
-		})
-	});
 </script>

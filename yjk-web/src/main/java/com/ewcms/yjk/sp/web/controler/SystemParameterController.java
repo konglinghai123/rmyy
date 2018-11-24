@@ -134,6 +134,8 @@ public class SystemParameterController extends BaseCRUDController<SystemParamete
 		searchable.addSort(Direction.ASC, "id");
 		if (EmptyUtil.isCollectionNotEmpty(allUserIds)) {
 			searchable.addSearchFilter("id", SearchOperator.IN, allUserIds);
+		} else {
+			searchable.addSearchFilter("id", SearchOperator.EQ, -1L);
 		}
 		
 		Page<User> users = userService.findAll(searchable);

@@ -8,7 +8,7 @@
 				    <thead frozen="true">    
 				        <tr>    
 					    <th data-options="field:'ck',checkbox:true"/>
-					    <th data-options="field:'declared',width:100,sortable:true,formatter:formatOperation">是否已经申报</th> 
+					    <th data-options="field:'declared',width:200,sortable:true,formatter:formatOperation">是否已经申报</th> 
 				        </tr>    
 				    </thead>  
 				    <thead >  				
@@ -121,7 +121,7 @@
 			}
 			
 			function formatAudit(val, row){
-				if (row.auditStatus == 'passed'){
+				if (row.auditStatus == 'passed' || row.auditStatus == 'init'){
 					return val + '&nbsp;|<a class="printCls" onclick="print(' + row.id + ')" style="height:24px;" href="javascript:void(0);"></a>'
 				}else{
 					return val;
