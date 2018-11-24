@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/views/jspf/taglibs.jspf" %>
 
 <ewcms:head title="修改 - 文字报表"/>
-	<div id="edit-form" class="easyui-layout" data-options="fit:true,border:false">
+	<div id="edit-from" class="easyui-layout" data-options="fit:true,border:false">
 		<ewcms:showMessage/>
 		<div data-options="region:'center',border:false">	
 			<form:form id="editForm" action="${ctx}/system/report/text/save" method="post" modelAttribute="m" enctype="multipart/form-data" class="form-horizontal">
@@ -22,7 +22,7 @@
 					</tr>
 					<tr>
 						<td>数据源类型：</td>
-						<td><form:select path="baseDs.id" items="${baseDsList}" itemLabel="name" itemValue="id" cssClass="easyui-combobox"/></td>
+						<td><form:select path="baseDs.id" items="${baseDsList}" itemLabel="name" itemValue="id" cssClass="easyui-combobox" cssStyle="width:150px;" data-options="editable:false"/></td>
 					</tr>
 					<tr>
 						<td><form:label path="hidden">是否隐藏：</form:label></td>
@@ -30,7 +30,7 @@
 					</tr>
 					<tr>
 						<td><form:label path="remarks">备注：</form:label></td>
-		  				<td><form:textarea path="remarks" cols="46" cssStyle="resize:none" placeholder="简要说明"/></td>
+		  				<td><form:textarea path="remarks" cssStyle="width:300px;height:30px" placeholder="简要说明"/></td>
 					</tr>
 				</table>
 			</form:form>

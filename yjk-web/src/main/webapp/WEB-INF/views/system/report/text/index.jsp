@@ -80,15 +80,15 @@
 			},
 			onLoadSuccess:function(row){
 				$('.previewCls').linkbutton({text:'预览',plain:true,iconCls:'icon-preview'});
-				$('.schedulingCls').linkbutton({text:'定时设置',plain:true,iconCls:'icon-scheduling'});
+				//$('.schedulingCls').linkbutton({text:'定时设置',plain:true,iconCls:'icon-scheduling'});
 				$('.downloadCls').linkbutton({text:'下载',plain:true,iconCls:'icon-download'});
 			}
 		});
 	});
 	function formatOperation(val, row){
-		var operation = '<a class="previewCls" onclick="preview(' + row.id + ')" href="javascript:void(0);">预览</a>|';
-		operation += '<a class="schedulingCls" onclick="scheduling(' + row.id + ')" href="javascript:void(0);">定时设置</a>|';
-		operation += '<a class="downloadCls" onclick="download(' + row.id + ');" href="javascript:void(0);">下载</a>';
+		var operation = '<a class="previewCls" onclick="preview(' + row.id + ')" href="javascript:void(0);">预览</a> | ';
+		//operation += '<a class="schedulingCls" onclick="scheduling(' + row.id + ')" href="javascript:void(0);">定时设置</a> | ';
+		operation += '<a class="downloadCls" onclick="downloadJrxml(' + row.id + ')" href="javascript:void(0);">下载</a>';
 		return operation;
 	}
 	function preview(id){
@@ -101,6 +101,9 @@
 			title:'参数选择'
 		});
 	}
+	function downloadJrxml(id){
+		window.open('${ctx}/system/report/text/' + id + '/download','popup','width=1280,height=700,resizable=yes,toolbar=no,directories=no,location=no,menubar=no,status=no,scrollbars=yes,left=' + (window.screen.width - 1280)/ 2 + ',top=' + (window.screen.height - 700) / 2);
+	}
 	function scheduling(id){
 		$.ewcms.openWindow({
 			windowId:'#edit-window',
@@ -110,8 +113,5 @@
 			height : 560,
 			title : '文字报表定时器设置'
 		});
-	}
-	function download(id){
-		window.open('${ctx}/system/report/text/' + id + '/download','popup','width=1280,height=700,resizable=yes,toolbar=no,directories=no,location=no,menubar=no,status=no,scrollbars=yes,left=' + (window.screen.width - 1280)/ 2 + ',top=' + (window.screen.height - 700) / 2);
 	}
 </script>

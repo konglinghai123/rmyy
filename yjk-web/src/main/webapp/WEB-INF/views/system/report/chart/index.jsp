@@ -26,8 +26,8 @@
 	</table>
 	<div id="tb" style="padding:5px;height:auto;">
 		<div class="toolbar" style="margin-bottom:2px">
-			<a class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-add',toggle:true" onclick="$.ewcms.add({title:'新增',width:740,height:510});" href="javascript:void(0);">新增</a>
-			<a class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-edit',toggle:true" onclick="$.ewcms.edit({title:'修改',width:740,height:510});" href="javascript:void(0);">修改</a>
+			<a class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-add',toggle:true" onclick="$.ewcms.add({title:'新增',width:840,height:510});" href="javascript:void(0);">新增</a>
+			<a class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-edit',toggle:true" onclick="$.ewcms.edit({title:'修改',width:840,height:510});" href="javascript:void(0);">修改</a>
 			<a class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-remove',toggle:true" onclick="$.ewcms.remove({title:'删除'});" href="javascript:void(0);">删除</a>
 		</div>
         <div>
@@ -81,13 +81,13 @@
 			},
 			onLoadSuccess:function(row){
 				$('.previewCls').linkbutton({test:'预览',plain:true,iconCls:'icon-preview'});
-				$('.schedulingCls').linkbutton({test:'定时设置',plain:true,iconCls:'icon-scheduling'});
+				//$('.schedulingCls').linkbutton({test:'定时设置',plain:true,iconCls:'icon-scheduling'});
 			}
 		});
 	});
 	function formatOperation(val, row){
 		var operation = '<a class="previewCls" onclick="preview(' + row.id + ')" href="javascript:void(0);">预览</a>|';
-		operation += '<a class="schedulingCls" onclick="scheduling(' + row.id + ')" href="javascript:void(0);">定时设置</a>';
+		//operation += '<a class="schedulingCls" onclick="scheduling(' + row.id + ')" href="javascript:void(0);">定时设置</a>';
 		return operation;
 	}
 	function preview(id){

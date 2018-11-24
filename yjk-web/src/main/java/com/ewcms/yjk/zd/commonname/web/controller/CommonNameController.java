@@ -125,12 +125,12 @@ public class CommonNameController extends BaseCRUDController<CommonName, Long> {
         return response.result();
     }
     
-    @RequestMapping(value = "/import")
+    @RequestMapping(value = "import")
 	public String importStudent() {
 		return viewName("import");
 	}
     
-    @RequestMapping(value = "/saveimport", method = RequestMethod.POST)
+    @RequestMapping(value = "saveimport", method = RequestMethod.POST)
     @ResponseBody
 	public String saveImportStudent(@RequestParam(value = "excelFile", required = false) MultipartFile excelFile, HttpServletRequest request) {
 		List<Integer> noSave = Lists.newArrayList();
@@ -150,7 +150,7 @@ public class CommonNameController extends BaseCRUDController<CommonName, Long> {
 		return message;
 	}
     
-	@RequestMapping(value = "/export")
+	@RequestMapping(value = "export")
 	public void saveExportStudent(HttpServletResponse response) {
 		OutputStream os = null;
 		try {

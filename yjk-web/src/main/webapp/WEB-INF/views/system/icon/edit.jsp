@@ -14,7 +14,7 @@
 			  	<table class="formtable">
 		        	<tr>
 				  		<td width="20%"><form:label path="identity">标识符：</form:label></td>
-				  		<td width="80%"><form:input path="identity" cssClass="validate[required,custom[identity],ajax[ajaxIdentityCall]]" size="50" placeholder="用于表示图标的唯一标识"/></td>
+				  		<td width="80%"><form:input path="identity" cssClass="validate[required,custom[identity],ajax[ajaxIdentityCall]]" placeholder="用于表示图标的唯一标识"/></td>
 			    	</tr>
 			    	<tr>
 			    		<td><form:label path="iconType"></form:label>类型：</td>
@@ -22,7 +22,7 @@
 			    	</tr>
 				    <tr id="tr-cssclass">
 				    	<td><form:label path="cssClass">css类：</form:label></td>
-				    	<td><form:input path="cssClass" cssClass="validate[required]" placeholder="图标css类" size="50" /></td>
+				    	<td><form:input path="cssClass" cssClass="validate[required]" placeholder="图标css类"/></td>
 				    </tr>
 				    <tr id="tr-uploadfile-1" style="display:none;">
 				    	<c:if test="${not empty m.imgSrc}">
@@ -43,7 +43,7 @@
 				    </tr>
 				    <tr id="tr-csssprite-2" style="display:none;">
 				    	<td><form:label path="spriteSrc">图标文件：</form:label></td>
-				    	<td><form:input path="spriteSrc" placeholder="绝对路径：如http://www.ewcms.com，相对路径不要加上下文" size="60" /></td>
+				    	<td><form:input path="spriteSrc" placeholder="绝对路径：如http://www.ewcms.com，相对路径不要加上下文" /></td>
 				    </tr>
 				    <tr id="tr-csssprite-3" style="display:none;">
 				    	<td>位置：</td>
@@ -65,17 +65,17 @@
 				    </tr>
 				    <tr id="tr-upload-sprite-2" style="display:none;">
 				    	<td><form:label path="style">其他css属性：</form:label></td>
-				    	<td><form:input path="style" size="50"/></td>
+				    	<td><form:input path="style" /></td>
 				    </tr>
 			    	<tr>
 			    		<td><form:label path="description">描述：</form:label></td>
-			    		<td><form:input path="description" placeholder="此图标的简介" size="50" /></td>
+			    		<td><form:input path="description" placeholder="此图标的简介" /></td>
 			    	</tr>
 			  		</table>
 		  	</form:form>
     	</div>
 		<div data-options="region:'south'" style="text-align:center;height:30px;border:0">
-	  		<a class="easyui-linkbutton" data-options="iconCls:'icon-save'" href="javascript:void(0);" onclick="javascript:$('#editForm').submit();">提交</a>
+	  		<a class="easyui-linkbutton" data-options="iconCls:'icon-save'" href="javascript:void(0);" onclick="javascript:$('#editForm').submit();$.ewcms.addLoading();">提交</a>
 	  		<a class="easyui-linkbutton" data-options="iconCls:'icon-undo'" href="javascript:void(0);" onclick="javascript:$('#editForm').form('reset');">重置</a>
 	  		<a class="easyui-linkbutton" data-options="iconCls:'icon-cancel'" href="javascript:void(0);" onclick="javascript:parent.$('#edit-window').window('close');">关闭</a>
 		</div>

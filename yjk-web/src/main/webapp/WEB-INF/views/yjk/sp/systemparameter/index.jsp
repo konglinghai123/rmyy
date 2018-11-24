@@ -3,7 +3,7 @@
 <%@ include file="/WEB-INF/views/jspf/taglibs.jspf"%>
 
 <ewcms:head title="申报 - 系统参数设置" />
-<table id="tt">
+	<table id="tt">
 		<thead > 	
 			<tr>	
 				<th data-options="field:'ck',checkbox:true"/>
@@ -19,39 +19,32 @@
 				<th data-options="field:'enabled',width:400,halign:'center',formatter:formatOperation">操作</th>
 			</tr>
 		</thread>
-</table>
-<div id="tb" style="padding: 5px; height: auto;">
-	<div class="toolbar" style="margin-bottom: 2px">
-		<a id="tb-add" href="javascript:void(0);" class="easyui-linkbutton"
-			data-options="plain:true,iconCls:'icon-add',toggle:true"
-			onclick="$.ewcms.add({title:'新增',width:600,height:500});">新增</a> <a
-			id="tb-edit" href="javascript:void(0);" class="easyui-linkbutton"
-			data-options="plain:true,iconCls:'icon-edit',toggle:true"
-			onclick="updateSystemParameter();">修改</a>
+	</table>
+	<div id="tb" style="padding: 5px; height: auto;">
+		<div class="toolbar" style="margin-bottom: 2px">
+			<a id="tb-add" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-add',toggle:true" onclick="$.ewcms.add({title:'新增',width:600,height:500});">新增</a>
+			<a id="tb-edit" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-edit',toggle:true" onclick="updateSystemParameter();">修改</a>
+		</div>
+		<div>
+			<form id="queryform" style="padding: 0; margin: 0;">
+				<table class="formtable">
+					<tr>
+						<td width="10%">申请开始时间从</td>
+						<td colspan="2">
+							<input type="text" id="applyStartDate" name="GTE_applyStartDate" class="easyui-datetimebox" style="width: 145px" data-options="editable:false" />
+							 至 
+							<input type="text" id="applyStartDate1" name="LTE_applyStartDate" class="easyui-datetimebox" style="width: 145px" data-options="editable:false" />
+						</td>
+						<td width="16%" colspan="2">
+							<a id="tb-query" href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="$.ewcms.query();">查询</a>
+							<a id="tb-clear" href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-clear'" onclick="javascript:$('#queryform').form('reset');">清除</a>
+						</td>
+					</tr>
+				</table>
+			</form>
+		</div>
 	</div>
-	<div>
-		<form id="queryform" style="padding: 0; margin: 0;">
-			<table class="formtable">
-				<tr>
-					<td width="10%">申请开始时间从</td>
-					<td colspan="2"><input type="text" id="applyStartDate"
-						name="GTE_applyStartDate" class="easyui-datetimebox"
-						style="width: 145px" data-options="editable:false" /> 至 <input
-						type="text" id="applyStartDate1" name="LTE_applyStartDate"
-						class="easyui-datetimebox" style="width: 145px"
-						data-options="editable:false" /></td>
-					<td width="16%" colspan="2"><a id="tb-query"
-						href="javascript:void(0);" class="easyui-linkbutton"
-						data-options="iconCls:'icon-search'" onclick="$.ewcms.query();">查询</a>
-						<a id="tb-clear" href="javascript:void(0);"
-						class="easyui-linkbutton" data-options="iconCls:'icon-clear'"
-						onclick="javascript:$('#queryform').form('reset');">清除</a></td>
-				</tr>
-			</table>
-		</form>
-	</div>
-</div>
-<ewcms:editWindow />
+	<ewcms:editWindow />
 <ewcms:footer />
 <script type="text/javascript" src="${ctx}/static/easyui/ext/datagrid-detailview.js"></script>
 <script type="text/javascript">

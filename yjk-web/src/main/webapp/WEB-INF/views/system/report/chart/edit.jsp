@@ -20,7 +20,7 @@
 						<td width="15%"><form:label path="name">报表名：</form:label></td>
 						<td width="35%"><form:input path="name" cssClass="validate[required, max[20]]" placeholder="报表名称"/></td>
 						<td width="15%">数据源类型：</td>
-						<td width="35%"><form:select path="baseDs.id" items="${baseDsList}" itemLabel="name" itemValue="id" cssClass="easyui-combobox" data-options="editable:false"/></td>
+						<td width="35%"><form:select path="baseDs.id" items="${baseDsList}" itemLabel="name" itemValue="id" cssClass="easyui-combobox" data-options="editable:false" cssStyle="width:150px;"/></td>
 					</tr>
 					<tr>
 						<td><form:label path="chartSql">SQL表达式：</form:label><a id="regexHelp" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-help'" onclick="sqlhelp();"></a></td>
@@ -28,7 +28,7 @@
 					</tr>
 					<tr>
 						<td><form:label path="type">图表类型：</form:label></td>
-						<td><form:select path="type" items="${typeMap}" itemLabel="description" cssClass="easyui-combobox" data-options="editable:false"/></td>
+						<td><form:select path="type" items="${typeMap}" itemLabel="description" cssClass="easyui-combobox" data-options="editable:false" cssStyle="width:170px;"/></td>
 						<td><form:label path="showTooltips">工具提示：</form:label></td>
 						<td><form:checkbox path="showTooltips"/></td>
 					</tr>
@@ -38,8 +38,8 @@
 						<td>图表标题字体：</td>
 		  				<td>
 							<form:select path="fontName" items="${fontNameMap}" cssClass="easyui-combobox" data-options="editable:false"/>&nbsp;
-							<form:select path="fontStyle" items="${fontStyleMap}" cssClass="easyui-combobox" data-options="editable:false"/>&nbsp;
-							<form:select path="fontSize" items="${fontSizeMap}" cssClass="easyui-combobox" data-options="editable:false"/>
+							<form:select path="fontStyle" items="${fontStyleMap}" cssClass="easyui-combobox" data-options="editable:false" cssStyle="width:80px;"/>&nbsp;
+							<form:select path="fontSize" items="${fontSizeMap}" cssClass="easyui-combobox" data-options="editable:false" cssStyle="width:60px;"/>
 		  				</td>
 					</tr>
 					<tr>
@@ -52,38 +52,38 @@
 		  				<td>数据字体：</td>
 		  				<td>
 		  					<form:select path="dataFontName" items="${fontNameMap}" cssClass="easyui-combobox" data-options="editable:false"/>&nbsp;
-		  					<form:select path="dataFontStyle" items="${fontStyleMap}" cssClass="easyui-combobox" data-options="editable:false"/>&nbsp;
-		  					<form:select path="dataFontSize" items="${fontSizeMap}" cssClass="easyui-combobox" data-options="editable:false"/>
+		  					<form:select path="dataFontStyle" items="${fontStyleMap}" cssClass="easyui-combobox" data-options="editable:false" cssStyle="width:80px;"/>&nbsp;
+		  					<form:select path="dataFontSize" items="${fontSizeMap}" cssClass="easyui-combobox" data-options="editable:false" cssStyle="width:60px;"/>
 		  				</td>
 		  				<td>坐标轴字体：</td>
 		  				<td>
 		  					<form:select path="axisFontName" items="${fontNameMap}" cssClass="easyui-combobox" data-options="editable:false"/>&nbsp;
-		  					<form:select path="axisFontStyle" items="${fontStyleMap}" cssClass="easyui-combobox" data-options="editable:false"/>&nbsp;
-		  					<form:select path="axisFontSize" items="${fontSizeMap}" cssClass="easyui-combobox" data-options="editable:false"/>
+		  					<form:select path="axisFontStyle" items="${fontStyleMap}" cssClass="easyui-combobox" data-options="editable:false" cssStyle="width:80px;"/>&nbsp;
+		  					<form:select path="axisFontSize" items="${fontSizeMap}" cssClass="easyui-combobox" data-options="editable:false" cssStyle="width:60px;"/>
 		  				</td>
 					</tr>
 					<tr>
 		  				<td>坐标轴尺值字体：</td>
 		  				<td>
 							<form:select path="axisTickFontName" items="${fontNameMap}" cssClass="easyui-combobox" data-options="editable:false"/>&nbsp;
-							<form:select path="axisTickFontStyle" items="${fontStyleMap}" cssClass="easyui-combobox" data-options="editable:false"/>&nbsp;
-							<form:select path="axisTickFontSize" items="${fontSizeMap}" cssClass="easyui-combobox" data-options="editable:false"/>
+							<form:select path="axisTickFontStyle" items="${fontStyleMap}" cssClass="easyui-combobox" data-options="editable:false" cssStyle="width:80px;"/>&nbsp;
+							<form:select path="axisTickFontSize" items="${fontSizeMap}" cssClass="easyui-combobox" data-options="editable:false" cssStyle="width:60px;"/>
 		  				</td>
 		  				<td><form:label path="tickLabelRotate">数据轴标签角度：</form:label></td>
-		  				<td><form:select path="tickLabelRotate" items="${rotateMap}" cssClass="easyui-combobox" data-options="editable:false"/></td>
+		  				<td><form:select path="tickLabelRotate" items="${rotateMap}" cssClass="easyui-combobox" data-options="editable:false" cssStyle="width:80px;"/></td>
 					</tr>
 					<tr>
 		  				<td><form:label path="showLegend">图示说明：</form:label></td>
 		  				<td><form:checkbox path="showLegend" /></td>
 		  				<td><form:label path="legendPosition">图示位置：</form:label></td>
-		  				<td><form:select path="legendPosition" items="${positionMap}" cssClass="easyui-combobox" data-options="editable:false"/></td>
+		  				<td><form:select path="legendPosition" items="${positionMap}" cssClass="easyui-combobox" data-options="editable:false" cssStyle="width:100px;"/></td>
 					</tr>
 					<tr>
 		  				<td>图示字体：</td>
 		  				<td>
 		    				<form:select path="legendFontName" items="${fontNameMap}" cssClass="easyui-combobox" data-options="editable:false"/>&nbsp;
-		    				<form:select path="legendFontStyle" items="${fontStyleMap}" cssClass="easyui-combobox" data-options="editable:false"/>&nbsp;
-		    				<form:select path="legendFontSize" items="${fontSizeMap}" cssClass="easyui-combobox" data-options="editable:false"/>
+		    				<form:select path="legendFontStyle" items="${fontStyleMap}" cssClass="easyui-combobox" data-options="editable:false" cssStyle="width:80px;"/>&nbsp;
+		    				<form:select path="legendFontSize" items="${fontSizeMap}" cssClass="easyui-combobox" data-options="editable:false" cssStyle="width:60px;"/>
 		  				</td>
 		  				<td><form:label path="chartHeight">图表高度：</form:label></td>
 		  				<td><form:input path="chartHeight" cssClass="validate[custom[integer]"/></td>
@@ -100,7 +100,7 @@
 					</tr>
 					<tr>
 		  				<td><form:label path="remarks">备注：</form:label></td>
-		  				<td colspan="3"><form:textarea path="remarks" cols="46" cssStyle="resize:none" placeholder="简要说明"/></td>
+		  				<td colspan="3"><form:textarea path="remarks" cssStyle="width:300px;height:30px" placeholder="简要说明"/></td>
 					</tr>
 	  			</table>
 			</form:form>
