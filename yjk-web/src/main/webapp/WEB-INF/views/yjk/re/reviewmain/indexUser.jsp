@@ -7,7 +7,7 @@
 			<tr>
 			    <th data-options="field:'ck',checkbox:true"/>
 			    <th data-options="field:'id',hidden:true">编号</th>
-				<th data-options="field:'realname',width:150,sortable:true">实名</th>
+				<th data-options="field:'realname',width:150,sortable:true">姓名</th>
 				<th data-options="field:'sex',width:60,sortable:true,
 						formatter:function(val,row){
 							return row.sexDescription;
@@ -59,6 +59,29 @@
 			<a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-remove',plain:true" onclick="$.ewcms.remove({src:'${ctx}/yjk/re/reviewmain/${reviewMainId}/removeUser',title:'移除',width:750,height:265});">移除</a>
 		</div>
         <div>
+        	<form id="queryform">
+        		<table class="formtable">
+              		<tr>
+              			<td width="10%">用户名</td>
+              			<td width="23%"><input type="text" name="LIKE_username" style="width:140px"/></td>
+    					<td width="10%">姓名</td>
+    					<td width="23"><input type="text" name="LIKE_realname" style="width:140px"/></td>
+						<td width="35%" colspan="2" align="left">
+            				<a id="tb-query" href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="$.ewcms.query();">查询</a>
+           					<a id="tb-clear" href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-clear'" onclick="javascript:$('#queryform').form('reset');">清除</a>
+           					<a id="tb-more" href="javascript:void(0);" class="easyui-linkbutton" onclick="$.ewcms.moreQuery();"><span id="showHideLabel">更多...</span></a>
+           				</td>
+           			</tr>
+           			<tr style="display:none;">
+           				<td>手机号</td>
+              			<td><input type="text" name="LIKE_mobilePhoneNumber" style="width:140px"/></td>
+    					<td></td>
+    					<td></td>
+    					<td></td>
+    					<td></td>
+           			</tr>
+           		</table>
+          </form>
         </div>
 	</div>
 	<ewcms:editWindow/>

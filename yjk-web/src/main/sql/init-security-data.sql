@@ -141,7 +141,7 @@ insert into sec_resource(id, icon, identity, name, parent_id, parent_ids, is_sho
 ,(105,'empi-yjk-zd-commonnamecontents-tree','commonnamecontents','大总目录',102,'0/1/102/','true',null,'/yjk/zd/commonnamecontents/index',2)
 ,(106,'empi-yjk-zd-hospitalcontents-tree','hospitalcontents','院用目录',102,'0/1/102/','true',null,'/yjk/zd/hospitalcontents/index',3)
 ,(107,'empi-yjk-zd-administration-tree','administration','用药途径',102,'0/1/102/','true',null,'/yjk/zd/administration/index',4)
-,(108,'empi-yjk-zd-systemparameter-tree','systemparameter','系统参数',102,'0/1/102/','true',null,'/yjk/sp/systemparamter/index',5)
+,(108,'empi-yjk-zd-systemparameter-tree','systemparameter','系统参数',102,'0/1/102/','true',null,'/yjk/sp/systemparameter/index',5)
 ,(109,'empi-personal-medicine-tree','sb:drugform','新药申报',62,'0/1/62/','true',null,'/yjk/sb/drugform/index',3)
 ,(110,'empi-yjk-zd-commonnamerule-tree','commonnamerule','匹配条件',102,'0/1/102/','true',null,'/yjk/zd/commonnamerule/index',6)
 ,(111,'empi-yjk-zd-specialrule-tree','specialrule','特殊规则',102,'0/1/102/','true',null,'/yjk/zd/specialrule/index',7)
@@ -185,7 +185,7 @@ select setval('seq_sec_role_id', 1);
  */
 delete from sec_role_resource_permission;
 insert into sec_role_resource_permission(id, role_id, resource_id, permission_ids) values
-(1, 1, 2, '1')
+(1, 1, 1, '1')
 ;
 select setval('seq_sec_role_resource_permission_id', 1);
 

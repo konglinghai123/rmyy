@@ -16,7 +16,7 @@
 						}">可否重复申报</th>				
 				<th data-options="field:'declarationLimt',width:80">院用限数</th>
 				<th data-options="field:'declareTotalLimt',width:80">总报限数</th>
-				<th data-options="field:'enabled',width:500,formatter:formatOperation">操作</th>
+				<th data-options="field:'enabled',width:400,halign:'center',formatter:formatOperation">操作</th>
 			</tr>
 		</thread>
 </table>

@@ -175,28 +175,28 @@ public class SystemParameterService extends BaseService<SystemParameter, Long> {
 
 	public SystemParameter openDeclare(User opUser, Long systemParameterId) {
 		try {
-			SystemParameter vo = findOne(systemParameterId);
-			if (vo.getApplyEndDate().after(new Date()) && vo.getApplyStartDate().before(new Date())) {
-				SystemParameter enabledvo = findByEnabledTrue();
-				if (enabledvo != null) {
-					enabledvo.setEnabled(Boolean.FALSE);
-					update(enabledvo);
+			SystemParameter systemParameter = findOne(systemParameterId);
+			if (systemParameter.getApplyEndDate().after(new Date()) && systemParameter.getApplyStartDate().before(new Date())) {
+				SystemParameter dbSystemParameter = findByEnabledTrue();
+				if (dbSystemParameter != null) {
+					dbSystemParameter.setEnabled(Boolean.FALSE);
+					update(dbSystemParameter);
 				}
-				vo.setEnabled(Boolean.TRUE);
+				systemParameter.setEnabled(Boolean.TRUE);
 			
-				List<Long> userIds = Lists.newArrayList();
-				List<SystemExpert> systemExperts = vo.getSystemExperts();
+				List<Long> userIds = Lists.newArrayList(systemParameter.getUserIds());
+				List<SystemExpert> systemExperts = systemParameter.getSystemExperts();
 				if (EmptyUtil.isCollectionNotEmpty(systemExperts)) {
 					for (SystemExpert systemExpert : systemExperts) {
 						Set<Long> selectUserIds = systemExpert.getUserIds();
 						if (EmptyUtil.isCollectionNotEmpty(selectUserIds)) userIds.addAll(selectUserIds);
 					}
-					automaticAuthService.automaticAddAuth(ROLE_NAME, ROLE_IDENTIFICATION, GROUP_NAME, userIds, Boolean.TRUE);
 				}
+				automaticAuthService.automaticAddAuth(ROLE_NAME, ROLE_IDENTIFICATION, GROUP_NAME, userIds, Boolean.TRUE);
 				
-				return update(vo);
+				return update(systemParameter);
 			}else{
-				return vo;
+				return systemParameter;
 			}
 		} catch (Exception e) {
 			System.out.println(e.toString());
@@ -206,12 +206,12 @@ public class SystemParameterService extends BaseService<SystemParameter, Long> {
 	}
 	
 	public SystemParameter closeDeclare(User opUser, Long systemParameterId) {
-		SystemParameter vo = findOne(systemParameterId);
-		vo.setEnabled(Boolean.FALSE);
+		SystemParameter systemParameter = findOne(systemParameterId);
+		systemParameter.setEnabled(Boolean.FALSE);
 		
-		automaticAuthService.automaticRemoveAllUser("新药申报用户组");
+		automaticAuthService.automaticRemoveAllUser(GROUP_NAME);
 		
-		return update(vo);
+		return update(systemParameter);
 	}
 
 	public boolean isOpenDrugDeclare() {

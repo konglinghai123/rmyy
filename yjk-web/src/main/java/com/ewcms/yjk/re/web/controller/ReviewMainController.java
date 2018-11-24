@@ -23,15 +23,19 @@ import com.ewcms.common.entity.search.SearchOperator;
 import com.ewcms.common.entity.search.SearchParameter;
 import com.ewcms.common.entity.search.Searchable;
 import com.ewcms.common.entity.search.filter.SearchFilterHelper;
+import com.ewcms.common.utils.Collections3;
 import com.ewcms.common.utils.EmptyUtil;
 import com.ewcms.common.web.controller.BaseCRUDController;
 import com.ewcms.common.web.validate.AjaxResponse;
 import com.ewcms.common.web.validate.ValidateResponse;
 import com.ewcms.security.user.entity.User;
 import com.ewcms.security.user.service.UserService;
+import com.ewcms.security.user.web.bind.annotation.CurrentUser;
 import com.ewcms.yjk.re.entity.ReviewExpert;
 import com.ewcms.yjk.re.entity.ReviewMain;
 import com.ewcms.yjk.re.service.ReviewMainService;
+import com.ewcms.yjk.sp.entity.SystemParameter;
+import com.ewcms.yjk.sp.service.SystemParameterService;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
@@ -45,11 +49,49 @@ public class ReviewMainController extends BaseCRUDController<ReviewMain, Long> {
 
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private SystemParameterService systemParameterService;
 	
 	public ReviewMainController() {
 		setResourceIdentity("yjk:reviewmain");
 	}
 
+	@Override
+	public Map<String, Object> query(SearchParameter<Long> searchParameter, Model model) {
+		searchParameter.getSorts().put("id", Direction.DESC);
+		return super.query(searchParameter, model);
+	}
+
+	@RequestMapping(value = "{reviewMainId}/closedeclare")
+	@ResponseBody
+	public AjaxResponse closeDeclare(@CurrentUser User user, @PathVariable(value = "reviewMainId") Long reviewMainId) {
+		AjaxResponse ajaxResponse = new AjaxResponse("关闭评审成功");
+		try {
+			getReviewMainService().closeDeclare(user, reviewMainId);
+		} catch (Exception e) {
+			ajaxResponse.setSuccess(Boolean.FALSE);
+			ajaxResponse.setMessage("关闭评审失败");
+		}
+		return ajaxResponse;
+	}
+	
+	@RequestMapping(value = "{reviewMainId}/opendeclare")
+	@ResponseBody
+	public AjaxResponse openDeclare(@CurrentUser User user, @PathVariable(value = "reviewMainId") Long reviewMainId) {
+		AjaxResponse ajaxResponse = new AjaxResponse("启动评审成功");
+		try {
+			ReviewMain reviewMain = getReviewMainService().openDeclare(user, reviewMainId);
+
+			if (reviewMain == null) {
+				ajaxResponse.setMessage("数据启动异常");
+			}
+		} catch (Exception e) {
+			ajaxResponse.setSuccess(Boolean.FALSE);
+			ajaxResponse.setMessage("启动评审失败");
+		}
+		return ajaxResponse;
+	}
+	
 	@Override
 	public String save(Model model, @Valid @ModelAttribute("m") ReviewMain m, BindingResult result,
 			@RequestParam(required = false) List<Long> selections) {
@@ -95,30 +137,44 @@ public class ReviewMainController extends BaseCRUDController<ReviewMain, Long> {
 
 	@RequestMapping(value = "{reviewMainId}/indexUser")
 	public String indexUser(@PathVariable("reviewMainId") Long reviewMainId) {
+		if (permissionList != null) {
+            this.permissionList.assertHasViewPermission();
+        }
 		return viewName("indexUser");
 	}
 
+	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "{reviewMainId}/queryUser")
 	@ResponseBody
-	public Map<String, Object> queryUser(@PathVariable("reviewMainId") ReviewMain reviewMain) {
+	public Map<String, Object> queryUser(@PathVariable("reviewMainId") ReviewMain reviewMain, @ModelAttribute SearchParameter<Long> searchParameter) {
 		Map<String, Object> map = Maps.newHashMap();
 		
-		List<User> allUsers = Lists.newArrayList();
+		List<Long> allUserIds = Lists.newArrayList();
 		
 		List<User> reviewMainUsers = reviewMain.getUsers();
 		if (EmptyUtil.isCollectionNotEmpty(reviewMainUsers)) {
-			allUsers.addAll(reviewMainUsers);
+			allUserIds.addAll(Collections3.extractToList(reviewMainUsers, "id"));
 		}
 		
 		List<ReviewExpert> reviewExperts = reviewMain.getReviewExperts();
 		if (EmptyUtil.isCollectionNotEmpty(reviewExperts)) {
 			for (ReviewExpert reviewExpert : reviewExperts) {
-				allUsers.addAll(reviewExpert.getUsers());
+				allUserIds.addAll(Collections3.extractToList(reviewExpert.getUsers(), "id"));
 			}
 		}
 		
-		map.put("total", allUsers.size());
-		map.put("rows", allUsers);
+		Searchable searchable = SearchHelper.parameterConverSearchable(searchParameter, User.class);
+		searchable.addSort(Direction.ASC, "id");
+		if (EmptyUtil.isCollectionNotEmpty(allUserIds)) {
+			searchable.addSearchFilter("id", SearchOperator.IN, allUserIds);
+		} else {
+			searchable.addSearchFilter("id", SearchOperator.EQ, -1L);
+		}
+		
+		Page<User> users = userService.findAll(searchable);
+		
+		map.put("total", users.getTotalElements());
+		map.put("rows", users.getContent());
 		return map;
 	}
 
@@ -183,6 +239,42 @@ public class ReviewMainController extends BaseCRUDController<ReviewMain, Long> {
 		map.put("rows", users.getContent());
 		
 		return map;
+	}
+	
+	@RequestMapping(value = "{reviewMainId}/indexSystemParameter")
+	public String indexSystemParameter(@PathVariable("reviewMainId") Long reviewMainId) {
+		if (permissionList != null) {
+            this.permissionList.assertHasViewPermission();
+        }
+		return viewName("indexSystemParameter");
+	}
+
+	@RequestMapping(value = "canUseSystemParameter")
+	@ResponseBody
+	public Map<String, Object> canUseSystemParameter(@ModelAttribute SearchParameter<Long> searchParameter) {
+		Searchable searchable = SearchHelper.parameterConverSearchable(searchParameter, SystemParameter.class);
+		searchable.addSort(Direction.DESC, "id");
+		Page<SystemParameter> systemParameters = systemParameterService.findAll(searchable);
+		Map<String, Object> map = Maps.newHashMap();
+		
+		map.put("total", systemParameters.getTotalElements());
+		map.put("rows", systemParameters.getContent());
+		
+		return map;
+	}
+
+	@RequestMapping(value = "{reviewMainId}/saveSelect")
+	@ResponseBody
+	public AjaxResponse saveSelect(@PathVariable("reviewMainId") Long reviewMainId, @RequestParam("systemParameterId") Long systemParameterId) {
+		AjaxResponse ajaxResponse = new AjaxResponse("选择评审范围成功！");
+
+		try {
+			getReviewMainService().updSystemParameter(reviewMainId, systemParameterId);
+		} catch (IllegalStateException e) {
+			ajaxResponse.setSuccess(Boolean.FALSE);
+			ajaxResponse.setMessage("选择评审范围失败了！");
+		}
+		return ajaxResponse;
 	}
 
 }

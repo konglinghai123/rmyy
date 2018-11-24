@@ -39,7 +39,7 @@ public class SpecialRule extends BaseSequenceEntity<Long> {
 
 	@Column(name = "name", nullable = false)
 	private String name;
-	@Column(name = "limit_number", nullable = false, columnDefinition="long")
+	@Column(name = "limit_number", nullable = false)
 	private Long limitNumber = 0L;
 	@ManyToMany(cascade = { CascadeType.ALL })
 	@JoinTable(name = "zd_special_rule_common_name", joinColumns = {

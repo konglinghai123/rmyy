@@ -1,5 +1,6 @@
 package com.ewcms.yjk.re.entity;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -12,6 +13,7 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.SequenceGenerator;
@@ -29,6 +31,7 @@ import com.ewcms.common.entity.BaseSequenceEntity;
 import com.ewcms.common.utils.Collections3;
 import com.ewcms.common.utils.EmptyUtil;
 import com.ewcms.security.user.entity.User;
+import com.ewcms.yjk.sp.entity.SystemParameter;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
@@ -69,6 +72,11 @@ public class ReviewMain extends BaseSequenceEntity<Long> {
 					@JoinColumn(name = "user_id", referencedColumnName = "id") }, uniqueConstraints = {@UniqueConstraint(columnNames = {
 							"user_id", "review_main_id" })})
 	private List<User> users;
+	@Column(name = "is_enabled")
+	private Boolean enabled = Boolean.FALSE;
+	@ManyToOne(optional = true, fetch = FetchType.EAGER)
+    @Fetch(FetchMode.SELECT)
+	private SystemParameter systemParameter;
 
 	public String getName() {
 		return name;
@@ -137,5 +145,31 @@ public class ReviewMain extends BaseSequenceEntity<Long> {
 
 	public void setExtractDate(Date extractDate) {
 		this.extractDate = extractDate;
+	}
+
+	public Boolean getEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(Boolean enabled) {
+		this.enabled = enabled;
+	}
+
+	@JSONField(serialize = false)
+	public SystemParameter getSystemParameter() {
+		return systemParameter;
+	}
+
+	public void setSystemParameter(SystemParameter systemParameter) {
+		this.systemParameter = systemParameter;
+	}
+	
+	public String getSystemParameterRange() {
+		try {
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			return (systemParameter != null) ? sdf.format(systemParameter.getApplyStartDate()) + " 至 " + sdf.format(systemParameter.getApplyEndDate()) : "";
+		} catch (Exception e) {
+			return "";
+		}
 	}
 }

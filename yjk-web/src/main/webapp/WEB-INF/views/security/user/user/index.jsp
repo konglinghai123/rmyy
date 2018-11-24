@@ -8,7 +8,7 @@
 			    <th data-options="field:'ck',checkbox:true"/>
 			    <th data-options="field:'id',hidden:true">编号</th>
 				<th data-options="field:'username',width:150,sortable:true">登录名</th>
-				<th data-options="field:'realname',width:150,sortable:true">实名</th>
+				<th data-options="field:'realname',width:150,sortable:true">姓名</th>
 				<th data-options="field:'sex',width:60,sortable:true,
 						formatter:function(val,row){
 							return row.sexDescription;

@@ -76,7 +76,7 @@ public class AutomaticAuthService {
 		groupService.save(group);
 		
 		if (isClear) automaticRemoveAllUser(groupName);
-		groupRelationService.addUserGroupRelation(group.getId(), userIds.toArray(new Long[0]), false);
+		if (EmptyUtil.isCollectionNotEmpty(userIds)) groupRelationService.addUserGroupRelation(group.getId(), userIds.toArray(new Long[0]), false);
 		
 		Auth auth = authService.findByGroupId(group.getId());
 		if (EmptyUtil.isNull(auth)) auth = new Auth();

@@ -50,7 +50,6 @@ public class SystemParameterController extends BaseCRUDController<SystemParamete
 	private UserService userService;
 
 	public SystemParameterController() {
-		setListAlsoSetCommonData(true);
 		setResourceIdentity("yjk:systemparameter");
 	}
 
