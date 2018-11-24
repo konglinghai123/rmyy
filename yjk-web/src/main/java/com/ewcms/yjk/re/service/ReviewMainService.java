@@ -12,6 +12,7 @@ import com.ewcms.common.service.BaseService;
 import com.ewcms.common.utils.Collections3;
 import com.ewcms.common.utils.EmptyUtil;
 import com.ewcms.security.auth.service.AutomaticAuthService;
+import com.ewcms.security.auth.util.AutomaticAuthUtil;
 import com.ewcms.security.organization.service.OrganizationService;
 import com.ewcms.security.user.entity.User;
 import com.ewcms.security.user.entity.UserStatus;
@@ -29,8 +30,9 @@ import com.google.common.collect.Sets;
 public class ReviewMainService extends BaseService<ReviewMain, Long> {
 
 	private static final String ROLE_NAME = "专家评审";
-	private static final String ROLE_IDENTIFICATION = "role_reviewmain";
+	private static final String ROLE_IDENTIFICATION = "role_reviewform";
 	private static final String GROUP_NAME = "专家评审用户组";
+	private static final Long RESOURCE_ID = AutomaticAuthUtil.RE_RESOURCE_ID;
 
 	private ReviewMainRepository getReviewMainRepository() {
 		return (ReviewMainRepository) baseRepository;
@@ -171,8 +173,7 @@ public class ReviewMainService extends BaseService<ReviewMain, Long> {
 				}
 
 				if (reviewMain.getEnabled()) {
-					automaticAuthService.automaticAddAuth(ROLE_NAME, ROLE_IDENTIFICATION, GROUP_NAME, userIdSelected,
-							Boolean.TRUE);
+					automaticAuthService.automaticAddAuth(ROLE_NAME, ROLE_IDENTIFICATION, GROUP_NAME, userIdSelected, Boolean.TRUE, RESOURCE_ID);
 				}
 
 			}
@@ -201,7 +202,7 @@ public class ReviewMainService extends BaseService<ReviewMain, Long> {
 						userIds.addAll(selectUserIds);
 				}
 			}
-			automaticAuthService.automaticAddAuth(ROLE_NAME, ROLE_IDENTIFICATION, GROUP_NAME, userIds, Boolean.TRUE);
+			automaticAuthService.automaticAddAuth(ROLE_NAME, ROLE_IDENTIFICATION, GROUP_NAME, userIds, Boolean.TRUE, RESOURCE_ID);
 
 			return update(reviewMain);
 		} catch (Exception e) {
@@ -275,7 +276,7 @@ public class ReviewMainService extends BaseService<ReviewMain, Long> {
 		reviewMain.setUsers(Lists.newArrayList(addUsers));
 		
 		if (reviewMain.getEnabled()) {
-			automaticAuthService.automaticAddAuth(ROLE_NAME, ROLE_IDENTIFICATION, GROUP_NAME, userIds, Boolean.FALSE);
+			automaticAuthService.automaticAddAuth(ROLE_NAME, ROLE_IDENTIFICATION, GROUP_NAME, userIds, Boolean.FALSE, RESOURCE_ID);
 		}
 
 		super.update(reviewMain);

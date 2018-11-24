@@ -80,10 +80,10 @@
 		           				</td>
 		           			</tr>
 		           			<tr style="display: none;">
-		            			<td width="5%">剂型</td>
-		              			<td width="15%"><input type="text" name="LIKE_commonNameContents.pill" style="width:140px;"/></td>
-		            			<td width="7%">规格</td>
-		              			<td width="15%"><input type="text" name="LIKE_commonNameContents.specifications" style="width:140px;"/></td>     				
+		            			<td>剂型</td>
+		              			<td><input type="text" name="LIKE_commonNameContents.pill" style="width:140px;"/></td>
+		            			<td>规格</td>
+		              			<td><input type="text" name="LIKE_commonNameContents.specifications" style="width:140px;"/></td>     				
 		           			</tr>            			
 		           		</table>
 		          </form>

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.ewcms.common.utils.EmptyUtil;
 import com.ewcms.security.auth.entity.Auth;
 import com.ewcms.security.auth.entity.AuthType;
+import com.ewcms.security.auth.util.AutomaticAuthUtil;
 import com.ewcms.security.group.entity.Group;
 import com.ewcms.security.group.entity.GroupType;
 import com.ewcms.security.group.service.GroupRelationService;
@@ -21,10 +22,6 @@ import com.google.common.collect.Sets;
 
 @Service
 public class AutomaticAuthService {
-	
-	private static final Long PERMISSION_BEGIN = 2L;
-	private static final Long PERMISSION_END = 5L;
-	private static final Long RESOURCE_ID = 109L;
 	
 	@Autowired
 	private RoleService roleService;
@@ -46,7 +43,7 @@ public class AutomaticAuthService {
 	 * @param userIds 用户编号集合
 	 * @param isclear 是否清除原数据
 	 */
-	public void automaticAddAuth(String roleName, String roleIdentification, String groupName, List<Long> userIds, Boolean isClear) {
+	public void automaticAddAuth(String roleName, String roleIdentification, String groupName, List<Long> userIds, Boolean isClear, Long resourceId) {
 		Role role = roleService.findByNameAndRole(roleName, roleIdentification);
 		if (EmptyUtil.isNull(role)) role = new Role();
 		role.setName(roleName);
@@ -57,10 +54,10 @@ public class AutomaticAuthService {
 		
 		RoleResourcePermission roleResourcePermission = new RoleResourcePermission();
 		
-		roleResourcePermission.setResourceId(RESOURCE_ID);
+		roleResourcePermission.setResourceId(resourceId);
 		
 		Set<Long> permissionIds = Sets.newHashSet();
-		for (long i = PERMISSION_BEGIN; i <= PERMISSION_END; i++) {
+		for (long i = AutomaticAuthUtil.PERMISSION_BEGIN; i <= AutomaticAuthUtil.PERMISSION_END; i++) {
 			permissionIds.add(i);
 		}
 		
