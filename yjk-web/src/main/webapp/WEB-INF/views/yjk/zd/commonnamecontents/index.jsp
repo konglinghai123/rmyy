@@ -72,8 +72,8 @@
            			<tr style="display: none;">
               			<td>生产企业</td>
               			<td><input type="text" name="LIKE_manufacturer" style="width:140px;"/></td>
-              			<td>商品名</td>
-              			<td><input type="text" name="LIKE_productName" style="width:140px;"/></td>
+              			<td>项目名称</td>
+              			<td><input type="text" name="LIKE_projectName" style="width:140px;"/></td>
             			<td>规格</td>
               			<td><input type="text" name="LIKE_specifications" style="width:140px;"/></td>
             			<td>数量</td>

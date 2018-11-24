@@ -75,7 +75,7 @@
 	        if (r){
 	            $.post('${ctx}/yjk/sb/drugform/savedeclaresubmit', parameter ,function(data){
 	            	if(data.success){
-	            		alert(data.message);
+	            		alert(data.message+'\n请及时打印申报好的新药纸质申请表，并签字、盖章送至药学部（住培楼5楼）初审!');
 	            		parent.$('#edit-window').window('close');
 	            	}
 	            	$.messager.alert('提示', data.message, 'info');

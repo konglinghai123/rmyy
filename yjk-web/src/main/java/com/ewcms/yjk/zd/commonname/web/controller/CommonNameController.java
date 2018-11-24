@@ -1,11 +1,10 @@
 package com.ewcms.yjk.zd.commonname.web.controller;
 
-import com.alibaba.fastjson.util.IOUtils;
+import com.ewcms.common.Constants;
 import com.ewcms.common.entity.search.SearchParameter;
 import com.ewcms.common.entity.search.Searchable;
 import com.ewcms.common.utils.EmptyUtil;
 import com.ewcms.common.web.controller.BaseCRUDController;
-import com.ewcms.common.web.validate.ValidateResponse;
 import com.ewcms.yjk.zd.commonname.entity.CommonName;
 import com.ewcms.yjk.zd.commonname.entity.DrugCategoryEnum;
 import com.ewcms.yjk.zd.commonname.service.AdministrationService;
@@ -20,13 +19,12 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.io.OutputStream;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 /**
@@ -73,58 +71,37 @@ public class CommonNameController extends BaseCRUDController<CommonName, Long> {
 	}
 	
 
-    @Override
+	@RequestMapping(value = "save/discard")
+	@Override
 	public String save(Model model, @Valid @ModelAttribute("m")CommonName m, BindingResult result,@RequestParam(required = false) List<Long> selections) {
-    	List<CommonName> commonNames = getCommonNameService().findByCommonNameAndNumberAndAdministrationIdAndDrugCategory(m.getCommonName(),m.getNumber(), m.getAdministration().getId(),m.getDrugCategory());
+		throw new RuntimeException("discarded method");
+	}
+	
+	@RequestMapping(value = "save", method = RequestMethod.POST)
+	public String save(Model model, @Valid @ModelAttribute("m")CommonName m, BindingResult result,@RequestParam(required = false) List<Long> selections,RedirectAttributes redirectAttributes) {
+    	List<CommonName> commonNames = getCommonNameService().findByCommonNameAndNumberAndAdministrationIdAndDrugCategoryAndDeletedFalse(m.getCommonName(),m.getNumber(), m.getAdministration().getId(),m.getDrugCategory());
 		if (EmptyUtil.isNull(m.getId())) {
 			if (EmptyUtil.isCollectionEmpty(commonNames)) {
 				return super.save(model, m, result, selections);
+			}else{
+				redirectAttributes.addFlashAttribute(Constants.MESSAGE, "通用名已存在，不能保存入库！");
+				return redirectToUrl(viewName("save"));
 			}
 		} else {
 			if (EmptyUtil.isCollectionNotEmpty(commonNames)) {
 				CommonName commonName = commonNames.get(0);
 				if (m.getId().longValue() == commonName.getId().longValue()) {
 					return super.save(model, m, result, selections);
+				}else{
+					redirectAttributes.addFlashAttribute(Constants.MESSAGE, "通用名已存在，不能保存入库！");
+					return redirectToUrl(viewName("save"));
 				}
 			} else {
 				return super.save(model, m, result, selections);
 			}
-			
 		}
-		return showSaveForm(model, selections);
-	}
-
-	@RequestMapping(value = "validate", method = RequestMethod.GET)
-    @ResponseBody
-    public Object validate(
-            @RequestParam("fieldId") String fieldId, @RequestParam("fieldValue") String fieldValue,
-            @RequestParam(value = "id", required = false) Long id) {
-
-        ValidateResponse response = ValidateResponse.newInstance();
-
-       if ("commonName".equals(fieldId)) {
-    	   List<CommonName> commonNameList =  getCommonNameService().findByCommonName(fieldValue);
-    	   Boolean exist = Boolean.TRUE;
-	   		if(EmptyUtil.isCollectionNotEmpty(commonNameList)){
-	   			for(CommonName commonName:commonNameList){
-	   				if(commonName.getId().equals(id) && commonName.getCommonName().equals(fieldValue)){
-	   					exist = Boolean.FALSE;
-	   				}
-	   			}
-			}else{
-				exist = Boolean.FALSE;
-			}
-	   		
-            if (exist) {
-                response.validateFail(fieldId, "通用名已存在");
-            } else {
-                //如果msg 不为空 将弹出提示框
-                response.validateSuccess(fieldId, "");
-            }
-        }
-        return response.result();
-    }
-    
+	}    
+	
     @RequestMapping(value = "import")
 	public String importStudent() {
 		return viewName("import");
@@ -150,22 +127,22 @@ public class CommonNameController extends BaseCRUDController<CommonName, Long> {
 		return message;
 	}
     
-	@RequestMapping(value = "export")
-	public void saveExportStudent(HttpServletResponse response) {
-		OutputStream os = null;
-		try {
-			os = response.getOutputStream();
-			response.reset();
-			response.setHeader("Content-disposition", "attachment; filename=" + (new Date()) + "_通用名.xls");
-			response.setContentType("application/msexcel");
-
-			getCommonNameService().writeExcel(os);
-			
-			os.close(); // 关闭流
-		} catch (Exception e) {
-			System.out.println(e.toString());
-		} finally {
-			IOUtils.close(os);
-		}
-	}
+//	@RequestMapping(value = "export")
+//	public void saveExportStudent(HttpServletResponse response) {
+//		OutputStream os = null;
+//		try {
+//			os = response.getOutputStream();
+//			response.reset();
+//			response.setHeader("Content-disposition", "attachment; filename=" + (new Date()) + "_通用名.xls");
+//			response.setContentType("application/msexcel");
+//
+//			getCommonNameService().writeExcel(os);
+//			
+//			os.close(); // 关闭流
+//		} catch (Exception e) {
+//			System.out.println(e.toString());
+//		} finally {
+//			IOUtils.close(os);
+//		}
+//	}
 }

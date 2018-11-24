@@ -14,7 +14,7 @@ import com.ewcms.yjk.sb.entity.DrugForm;
  */
 public interface DrugFormRepository extends BaseRepository<DrugForm, Long> {
 																	
-	@Query("select count(*) from DrugForm c where c.userId=?1 and c.systemParameterId=?2")
+	@Query("select count(*) from DrugForm c where c.userId=?1 and c.systemParameterId=?2 and c.auditStatus !='nodeclare'")
 	Long findDeclareTotalByUserId(Long userId,Long systemParameterId);
 	
 	List<DrugForm> findByUserIdAndDeclaredFalseAndSystemParameterId(Long userId, Long systemParameterId);

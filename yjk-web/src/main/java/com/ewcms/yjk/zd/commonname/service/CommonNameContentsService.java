@@ -260,8 +260,7 @@ public class CommonNameContentsService extends BaseService<CommonNameContents, L
 						}
 					}
 					
-					List<CommonName> commonNameList = commonNameService
-							.findByCommonNameAndNumberAndAdministrationIdAndDrugCategory(extactCommonName, number,administrationId, drugCategory);
+					List<CommonName> commonNameList = commonNameService.findByCommonNameAndNumberAndAdministrationIdAndDrugCategoryAndDeletedFalse(extactCommonName, number,administrationId, drugCategory);
 					CommonName commonName = null;
 					if (EmptyUtil.isCollectionEmpty(commonNameList)) {
 						Administration administration = administrationService.findOne(administrationId);

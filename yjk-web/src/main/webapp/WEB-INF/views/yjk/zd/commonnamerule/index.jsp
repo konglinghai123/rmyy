@@ -9,7 +9,7 @@
 			    <th data-options="field:'id',hidden:true">编号</th>
 				<th data-options="field:'ruleCnName',width:100">规则字段</th>
 				<th data-options="field:'weight',width:100">排序号</th>
-				<th data-options="field:'enabled',width:100,formatter:formatOperation">是否启用</th>
+				<th data-options="field:'enabled',width:130,formatter:formatOperation">是否启用</th>
 			</tr>
 		</thead>
 	</table>

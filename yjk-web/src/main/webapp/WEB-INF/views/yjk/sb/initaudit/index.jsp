@@ -74,10 +74,12 @@
 		           			<tr style="display: none;">
 		              			<td>通用名</td>
 		              			<td><input type="text" name="LIKE_commonNameContents.common.commonName" style="width:140px;"/></td>		           			
-		            			<td>剂型</td>
-		              			<td><input type="text" name="LIKE_commonNameContents.pill" style="width:140px;"/></td>
-		            			<td>规格</td>
-		              			<td><input type="text" name="LIKE_commonNameContents.specifications" style="width:140px;"/></td>      				
+								<td width="10%">填报时间时间从</td>
+								<td colspan="2">
+									<input type="text" id="fillInDate1" name="GTE_fillInDate" class="easyui-datetimebox" style="width: 145px" data-options="editable:false" />
+									 至 
+									<input type="text" id="fillInDate2" name="LTE_fillInDate" class="easyui-datetimebox" style="width: 145px" data-options="editable:false" />
+								</td>    				
 		           			</tr>            			
 		           		</table>
 		          </form>

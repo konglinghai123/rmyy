@@ -101,7 +101,7 @@ public class DrugFormService extends BaseService<DrugForm, Long> {
 	
 	
 	/**
-	 * 批量对填写新药进行申报，同时要满足一品量规和申报上限的才可入库
+	 * 批量对填写新药进行申报，同时要满足一品两规和申报上限的才可入库
 	 * 
 	 */
 	public String saveDeclareSubmit(List<Long> selections) {
@@ -110,20 +110,30 @@ public class DrugFormService extends BaseService<DrugForm, Long> {
 			for (Long id : selections) {
 				DrugForm drugForm = findOne(id);
 				if(!drugForm.getDeclared()){
-					if (isDeclareUpperLimt(drugForm.getCommonNameContents().getId()).equals("false")
-							&& !isDeclareTotalUpperLimt(drugForm.getUserId()) && !isRepeatDeclare(drugForm.getCommonNameContents().getId())) {
-						drugForm.setDeclared(Boolean.TRUE);
-						drugForm.setAuditStatus(AuditStatusEnum.init);
-						drugForm.setDeclareDate(new Date(Calendar.getInstance().getTime().getTime()));
-						super.save(drugForm);
+					String isDeclareUpperLimt = isDeclareUpperLimt(drugForm.getCommonNameContents().getId());
+					if (isDeclareUpperLimt.equals("false")){
+						if(!isDeclareTotalUpperLimt(drugForm.getUserId())){
+							if(!isRepeatDeclare(drugForm.getCommonNameContents().getId())){
+								drugForm.setDeclared(Boolean.TRUE);
+								drugForm.setAuditStatus(AuditStatusEnum.init);
+								drugForm.setDeclareDate(new Date(Calendar.getInstance().getTime().getTime()));
+								super.save(drugForm);
+							}else{
+								noDeclareCommonName.append(drugForm.getCommonNameContents().getCommon().getCommonName() + "申报重复|");
+							}
+						}
+						else{
+							noDeclareCommonName.append(drugForm.getCommonNameContents().getCommon().getCommonName() + "超出申报数|");	
+						}
 					} else {
-						noDeclareCommonName.append(drugForm.getCommonNameContents().getCommon().getCommonName() + "|");
+						noDeclareCommonName.append(drugForm.getCommonNameContents().getCommon().getCommonName() + isDeclareUpperLimt+ "|");
 					}
 				}
 			}
 		}
 		return noDeclareCommonName.toString();
 	}
+	
 	/**
 	 * 批量撤销还未初审的申报药品
 	 * 
@@ -190,8 +200,7 @@ public class DrugFormService extends BaseService<DrugForm, Long> {
 		if(EmptyUtil.isNotNull(systemParameter)){
 			if(!systemParameter.getRepeatDeclared()){
 				Searchable searchable = Searchable.newSearchable();
-				searchable.addSearchFilter("fillInDate", SearchOperator.GTE, systemParameter.getApplyStartDate());
-				searchable.addSearchFilter("fillInDate", SearchOperator.LTE, systemParameter.getApplyEndDate());
+				searchable.addSearchFilter("systemParameterId", SearchOperator.EQ, systemParameter.getId());
 				searchable.addSearchFilter("auditStatus", SearchOperator.EQ, AuditStatusEnum.passed);
 				List<CommonNameRule> cnRuleList = commonNameRuleService.findByDeletedFalseAndEnabledTrueOrderByWeightAsc();
 				CommonNameContents commonNameContents = commonNameContentsService.findOne(commonNameContentsId);

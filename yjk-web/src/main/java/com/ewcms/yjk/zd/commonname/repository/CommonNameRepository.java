@@ -21,5 +21,5 @@ public interface CommonNameRepository extends BaseRepository<CommonName, Long> {
 	
 	List<CommonName> findByNumberAndAdministrationIdAndDrugCategory(String number, Long administrationId, DrugCategoryEnum drugCategory);
 	
-	List<CommonName> findByCommonNameAndNumberAndAdministrationIdAndDrugCategory(String commonName,String number, Long administrationId, DrugCategoryEnum drugCategory);
+	List<CommonName> findByCommonNameAndNumberAndAdministrationIdAndDrugCategoryAndDeletedFalse(String commonName,String number, Long administrationId, DrugCategoryEnum drugCategory);
 }

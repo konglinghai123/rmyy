@@ -85,8 +85,7 @@ public class DrugFormController extends BaseCRUDController<DrugForm, Long> {
 		searchParameter.getParameters().put("EQ_userId", user.getId());
 		SystemParameter systemParameter = systemParameterService.findByEnabledTrue();
 		if(EmptyUtil.isNotNull(systemParameter)){
-			searchParameter.getParameters().put("GTE_fillInDate", systemParameter.getApplyStartDate());
-			searchParameter.getParameters().put("LTE_fillInDate", systemParameter.getApplyEndDate());
+			searchParameter.getParameters().put("GTE_systemParameterId", systemParameter.getId());
 		}
 		Map<String, Object> queryObj = super.query(searchParameter, model);
 		return queryObj;
@@ -163,7 +162,7 @@ public class DrugFormController extends BaseCRUDController<DrugForm, Long> {
 			if (selections != null && !selections.isEmpty()) {
 				String noDeclareCommonName = getDrugFormService().saveDeclareSubmit(selections);
 				if (noDeclareCommonName != null && noDeclareCommonName.length() > 0) {
-					ajaxResponse.setMessage("以下药品:" + noDeclareCommonName + "因超过申报限数、总数或已经被申报，不能继续申报！");
+					ajaxResponse.setMessage("以下药品因为:" + noDeclareCommonName + "，不能继续申报！");
 				}
 			}
 		} catch (IllegalStateException e) {

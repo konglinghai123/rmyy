@@ -3,7 +3,7 @@
 
 <ewcms:head title="编辑 - 通用名"/>
 	<div id="edit-from" class="easyui-layout" data-options="fit:true" style="border:0;">
-		<ewcms:showMessage/>
+		<ewcms:showAlertMessage/>
 		<div data-options="region:'center',border:false">	
 		 	<form:form id="editForm" method="post" action="${ctx}/yjk/zd/commonname/save" commandName="m"  class="form-horizontal">
 		    	<ewcms:showGlobalError commandName="m"/>
@@ -76,12 +76,6 @@
 	    		parent.$('#edit-window').window('close');
 	    	</c:when>
 	    	<c:otherwise>
-				$.validationEngineLanguage.allRules.ajaxNameCall= {
-	                "url": "${ctx}/yjk/zd/commonname/validate",
-	                extraDataDynamic : ['#id'],
-	                "alertTextLoad": "* 正在验证，请稍等。。。"
-	            };
-				
 	    		var validationEngine = $("#editForm").validationEngine({
 	    			promptPosition:'bottomLeft',
 	    			showOneMessage: true

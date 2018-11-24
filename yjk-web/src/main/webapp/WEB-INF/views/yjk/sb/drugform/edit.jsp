@@ -10,9 +10,6 @@
 		    	<form:hidden path="id"/>
 		    	<form:hidden id="commonNameContentsId" path="commonNameContents.id"/>
 		    	<input type="hidden" id="isDeclareCondition" value="true">
-		    	<c:forEach var="selection" items="${selections}">
-	  				<input type="hidden" name="selections" value="${selection}" />
-				</c:forEach>
         		<table class="formtable">
               		<c:forEach items="${commonNameRuleList}" var="commonNameRule" varStatus="status">
 						<c:choose>

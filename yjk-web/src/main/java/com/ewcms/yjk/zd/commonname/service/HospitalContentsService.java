@@ -227,8 +227,7 @@ public class HospitalContentsService extends BaseService<HospitalContents, Long>
 							continue;
 						}
 					}
-					List<CommonName> commonNameList = commonNameService
-							.findByCommonNameAndNumberAndAdministrationIdAndDrugCategory(extactCommonName, number,
+					List<CommonName> commonNameList = commonNameService.findByCommonNameAndNumberAndAdministrationIdAndDrugCategoryAndDeletedFalse(extactCommonName, number,
 									administrationId, drugCategory);
 					CommonName commonName = null;
 					if (EmptyUtil.isCollectionEmpty(commonNameList)) {
