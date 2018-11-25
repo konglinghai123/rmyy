@@ -1,0 +1,7 @@
+select u.id,u.realname,u.mobile_phone_number, string_agg(o.name,',')
+from sec_user u left join sec_user_organization_job uoj on u.id=uoj.user_id left join sec_organization o on uoj.organization_id = o.id 
+where u.id in (select spu.user_id from sp_system_parameter_user spu where spu.system_parameter_id=1) or u.id in (select seu.user_id
+from sp_system_parameter sp left join sp_system_expert se on sp.id=se.systemparameter_id inner join sp_system_expert_user seu on se.id=seu.system_expert_id
+where sp.id=1)
+group by u.id,u.realname, u.mobile_phone_number 
+order by u.id,u.realname, u.mobile_phone_number 

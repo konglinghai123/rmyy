@@ -19,7 +19,7 @@
 	<div id="tb" style="padding:5px;height:auto;">
         <div class="toolbar" style="margin-bottom:2px">
 			<a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true" onclick="$.ewcms.add({title:'新增',width:750,height:265});">新增</a>
-			<a id="tb-edit" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-edit',toggle:true"	onclick="updateReviewMain();">修改</a>
+			<a id="tb-edit" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-edit'"	onclick="updateReviewMain();">修改</a>
 		</div>
         <div>
         	<form id="queryform" style="padding:0;margin:0;">
@@ -167,6 +167,6 @@
 	}
 	
 	function selectSystemParameter(id){
-		$.ewcms.openWindow({src:'${ctx}/yjk/re/reviewmain/' + id + '/indexSystemParameter',title:'查看用户 - 有权限评审用户'});
+		$.ewcms.openWindow({src:'${ctx}/yjk/re/reviewmain/' + id + '/indexSystemParameter',title:'查看用户 - 有权限评审用户',width:850,height:550});
 	}
 </script>

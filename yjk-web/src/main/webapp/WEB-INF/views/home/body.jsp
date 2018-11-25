@@ -23,10 +23,10 @@
 											<tr>
 											    <th data-options="field:'organizationId',hidden:true">部门编号</th>
 											    <th data-options="field:'organizationName',width:160">部门名称</th>
-											    <th data-options="field:'noDeclareNumber',width:70">填报</th>
-											    <th data-options="field:'initNumber',width:90">提交初审</th>
-											    <th data-options="field:'passedNumber',width:90">已通过初审</th>
-											    <th data-options="field:'unPassedNumber',width:90">未通过初审</th>
+											    <th data-options="field:'noDeclareNumber',width:90">未提交初审</th>
+											    <th data-options="field:'initNumber',width:90">已提交初审</th>
+											    <th data-options="field:'passedNumber',width:100">初审核已通过</th>
+											    <th data-options="field:'unPassedNumber',width:100">初审核未通过</th>
 											</tr>
 										</thead>
 									</table>
@@ -80,17 +80,22 @@
 		                 				<table style="width:100%;">
 		                 					<tr>	
 			                 					<td>
-			                 						<span style="font-size:14px">1、已提交初审新药数：<span id="initAudit"></span>条</span>
+			                 						<span id="drugForm_nodeclare"></span>
 			                 					</td>
 		                 					</tr>
 		                 					<tr>	
 			                 					<td>
-			                 						<span style="font-size:14px">2、已通过初审新药数：<span id="passedAudit"></span>条</span>
+			                 						<span id="drugForm_init"></span>
 			                 					</td>
 		                 					</tr>
 		                 					<tr>	
 			                 					<td>
-			                 						<span style="font-size:14px">3、未通过初审新药数：<span id="unPassedAudit"></span>条</span>
+			                 						<span id="drugForm_passed"></span>
+			                 					</td>
+		                 					</tr>
+		                 					<tr>	
+			                 					<td>
+			                 						<span id="drugForm_unPassed"></span>
 			                 					</td>
 		                 					</tr>
 		                 				</table>
@@ -120,7 +125,6 @@
 		           	</td>
 		           	<td width="1%"></td>
 		           	<td class="portal-column-td" width="48%">
-		            	
 					</td>
 		           	<td width="1%"></td>
 				</tr>

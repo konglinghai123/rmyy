@@ -17,8 +17,8 @@
 	</table>
 	<div id="tb" style="padding:5px;height:auto;">
         <div class="toolbar" style="margin-bottom:2px">
-			<a class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-remove',toggle:true" onclick="$.ewcms.remove({title:'删除'});" href="javascript:void(0);">删除</a>
-			<a id="tb-publish" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-publish',toggle:true" href="javascript:void(0);">发布</a>
+			<a class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-remove'" onclick="$.ewcms.remove({title:'删除'});" href="javascript:void(0);">删除</a>
+			<a id="tb-publish" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-publish'" href="javascript:void(0);">发布</a>
 		</div>
         <div>
         	<form id="queryform" style="padding:0;margin:0;">

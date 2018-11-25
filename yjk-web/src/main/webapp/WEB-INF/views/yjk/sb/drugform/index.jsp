@@ -8,12 +8,12 @@
 				    <thead frozen="true">    
 				        <tr>    
 					    <th data-options="field:'ck',checkbox:true"/>
-					    <th data-options="field:'declared',width:200,sortable:true,formatter:formatOperation">是否已经申报</th> 
+					    <th data-options="field:'declared',width:120,formatter:formatOperation">是否已经申报</th> 
 				        </tr>    
 				    </thead>  
 				    <thead >  				
 					<tr>
-					    <th data-options="field:'id',hidden:true">编号</th>
+					    <th data-options="field:'id',hidden:true">id</th>
 					    <th data-options="field:'formatId',width:100">编号</th>
 						<th data-options="field:'auditStatusInfo',width:140,formatter:formatAudit">审核状态</th>	
 						<c:forEach items="${commonNameRuleList}" var="commonNameRule">
@@ -52,9 +52,9 @@
 			</table>
 			<div id="tb" style="padding:5px;height:auto;">
 		        <div class="toolbar" style="margin-bottom:2px">
-					<a id="tb-add" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-add',toggle:true" onclick="$.ewcms.add({title:'新增',width:600,height:450});">填写新药</a>
-					<a id="tb-declare" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-save',toggle:true" onclick="$.ewcms.openWindow({windowId:'#edit-window',width:750,height:450,title:'申报提交',src:'${ctx}/yjk/sb/drugform/declaresubmit'});">申报提交</a>
-					<a id="tb-canceldeclare" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-cancel',toggle:true" onclick="$.ewcms.openWindow({windowId:'#edit-window',width:750,height:450,title:'申报撤销',src:'${ctx}/yjk/sb/drugform/declarecancel'});">申报撤销</a>
+					<a id="tb-add" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-add'" onclick="$.ewcms.add({title:'新增',width:600,height:450});">填写新药</a>
+					<a id="tb-declare" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-save'" onclick="$.ewcms.openWindow({windowId:'#edit-window',width:750,height:450,title:'申报提交',src:'${ctx}/yjk/sb/drugform/declaresubmit'});">申报提交</a>
+					<a id="tb-canceldeclare" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-cancel'" onclick="$.ewcms.openWindow({windowId:'#edit-window',width:750,height:450,title:'申报撤销',src:'${ctx}/yjk/sb/drugform/declarecancel'});">申报撤销</a>
 					<font color=red>${declareRule}</font>
 				</div>
 		        <div>

@@ -49,7 +49,7 @@
         <div class="toolbar" style="margin-bottom:2px">
         	<c:if test="${isOperation}">
 			<a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true" onclick="$.ewcms.add({src:'${ctx}/yjk/sp/systemexpert/${systemParameterId}/save',title:'新增',width:750,height:350});">新增</a>
-			<a id="tb-exchange" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-status-hide',toggle:true">互换</a>
+			<a id="tb-exchange" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-status-hide'">互换</a>
 			<a id="tb-status" href="javascript:void(0);" class="easyui-menubutton" data-options="menu:'#menu-status',iconCls:'icon-status'">状态</a>
 			</c:if>
 		</div>

@@ -271,7 +271,7 @@ public class UserService extends BaseService<User, Long> {
 				rows = sheet.getRow(i);
 				try {
 					Long organizationId = null;
-					Long jobId = null;
+					Long jobId = 2L;
 					for (int j = 0; j <= cols; j++) {
 						if (columnNames[j].equals("科室属性")) {
 							String name = rows.getCell(j).getStringCellValue().trim();
@@ -292,13 +292,13 @@ public class UserService extends BaseService<User, Long> {
 									Organization organization = new Organization();
 									organization.setName(name);
 									organization.setParentId(1L);
-									organizationService.saveAndFlush(organization);
+									organization.setParentIds("0/1/");
+									organizationService.save(organization);
 									
 									organizationId = organization.getId();
 								} else {
 									organizationId = organizations.get(0).getId();
 								}
-
 							}
 					    } else if (columnNames[j].equals("工号")) {
 							try {
@@ -415,14 +415,11 @@ public class UserService extends BaseService<User, Long> {
 						userOrganizationJobService.saveAndFlush(userOrganizationJob);
 					}
 				} catch (Exception e) {
-					System.out.println(e.toString());
 					noSave.add(i + 1);
 				}
 			}
 		} catch (Exception e) {
-			System.out.println(e.toString());
 		} finally {
-
 		}
 		return noSave;
 	}

@@ -75,7 +75,7 @@
 			<a id="tb-password" href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-password',plain:true">修改密码</a>
 			<a id="tb-recycle" href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-recycle',plain:true">还原删除用户</a>
 			<a id="tb-status" href="javascript:void(0);" class="easyui-menubutton" data-options="menu:'#menu-status',iconCls:'icon-status'">状态</a>
- 			<a id="tb-import" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-import',toggle:true" onclick="$.ewcms.openWindow({windowId:'#edit-window',width:500,height:350,title:'导入用户信息',src:'${ctx}/security/user/user/import'});">导入</a>
+ 			<a id="tb-import" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-import'" onclick="$.ewcms.openWindow({windowId:'#edit-window',width:500,height:350,title:'导入用户信息',src:'${ctx}/security/user/user/import'});">导入</a>
 		</div>
 		<div id="menu-status" style="width:150px">
 			<div id="menu-status-show" data-options="iconCls:'icon-status-show'" onclick="$.ewcms.status({status:'normal',info:'解封用户',prompt:true});">解封用户</div>

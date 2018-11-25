@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="drugform" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
 	<property name="ireport.zoom" value="2.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="576"/>
+	<property name="ireport.y" value="48"/>
 	<parameter name="drugFormId" class="java.lang.Long">
 		<defaultValueExpression><![CDATA[10]]></defaultValueExpression>
 	</parameter>
@@ -53,6 +53,45 @@ where sdf.id = $P{drugFormId}]]>
 	</columnHeader>
 	<detail>
 		<band height="585" splitType="Stretch">
+			<staticText>
+				<reportElement x="438" y="33" width="117" height="20"/>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="文鼎ＰＬ简报宋" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="438" y="53" width="117" height="20"/>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="文鼎ＰＬ简报宋" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="65" y="368" width="490" height="54"/>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="文鼎ＰＬ简报宋" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[]]></text>
+			</staticText>
 			<staticText>
 				<reportElement x="65" y="93" width="490" height="91"/>
 				<box>
@@ -138,7 +177,7 @@ where sdf.id = $P{drugFormId}]]>
 				</textElement>
 				<text><![CDATA[申请科室:]]></text>
 			</staticText>
-			<textField pattern="###0.00">
+			<textField pattern="###0.00" isBlankWhenNull="true">
 				<reportElement x="74" y="8" width="131" height="20"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="文鼎ＰＬ简报宋" size="12"/>
@@ -152,14 +191,14 @@ where sdf.id = $P{drugFormId}]]>
 				</textElement>
 				<text><![CDATA[申请医生:]]></text>
 			</staticText>
-			<textField pattern="###0.00">
+			<textField pattern="###0.00" isBlankWhenNull="true">
 				<reportElement x="289" y="8" width="84" height="20"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="文鼎ＰＬ简报宋" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{realname}]]></textFieldExpression>
 			</textField>
-			<textField pattern="###0.00">
+			<textField pattern="###0.00" isBlankWhenNull="true">
 				<reportElement x="461" y="8" width="84" height="20"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="文鼎ＰＬ简报宋" size="12"/>
@@ -186,7 +225,7 @@ where sdf.id = $P{drugFormId}]]>
 				</textElement>
 				<text><![CDATA[通用名]]></text>
 			</staticText>
-			<textField pattern="###0.00">
+			<textField pattern="###0.00" isBlankWhenNull="true">
 				<reportElement x="67" y="33" width="303" height="20"/>
 				<box>
 					<topPen lineWidth="0.0"/>
@@ -212,7 +251,7 @@ where sdf.id = $P{drugFormId}]]>
 				</textElement>
 				<text><![CDATA[给药途径]]></text>
 			</staticText>
-			<textField pattern="###0.00">
+			<textField pattern="###0.00" isBlankWhenNull="true">
 				<reportElement x="440" y="33" width="112" height="20"/>
 				<box>
 					<topPen lineWidth="0.0"/>
@@ -238,7 +277,7 @@ where sdf.id = $P{drugFormId}]]>
 				</textElement>
 				<text><![CDATA[剂型]]></text>
 			</staticText>
-			<textField pattern="###0.00">
+			<textField pattern="###0.00" isBlankWhenNull="true">
 				<reportElement x="67" y="53" width="302" height="20"/>
 				<box>
 					<topPen lineWidth="0.0"/>
@@ -264,7 +303,7 @@ where sdf.id = $P{drugFormId}]]>
 				</textElement>
 				<text><![CDATA[规格]]></text>
 			</staticText>
-			<textField pattern="###0.00">
+			<textField pattern="###0.00" isBlankWhenNull="true">
 				<reportElement x="440" y="53" width="112" height="20"/>
 				<box>
 					<topPen lineWidth="0.0"/>
@@ -711,7 +750,7 @@ where sdf.id = $P{drugFormId}]]>
 				</textElement>
 				<text><![CDATA[用法用量]]></text>
 			</staticText>
-			<textField pattern="###0.00">
+			<textField pattern="###0.00" isBlankWhenNull="true">
 				<reportElement x="68" y="314" width="484" height="54"/>
 				<box>
 					<topPen lineWidth="0.0"/>
@@ -724,7 +763,7 @@ where sdf.id = $P{drugFormId}]]>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{dosage}]]></textFieldExpression>
 			</textField>
-			<textField pattern="###0.00">
+			<textField pattern="###0.00" isBlankWhenNull="true">
 				<reportElement x="68" y="368" width="484" height="54"/>
 				<box>
 					<topPen lineWidth="0.5"/>
@@ -777,7 +816,7 @@ where sdf.id = $P{drugFormId}]]>
 				</textElement>
 				<text><![CDATA[申请理由（请说明该药国内外使用情况、优势及特点、与本学科的关系等）]]></text>
 			</staticText>
-			<textField pattern="###0.00">
+			<textField pattern="###0.00" isBlankWhenNull="true">
 				<reportElement x="7" y="438" width="535" height="66"/>
 				<box>
 					<topPen lineWidth="0.0"/>
@@ -829,46 +868,7 @@ where sdf.id = $P{drugFormId}]]>
 				</textElement>
 				<text><![CDATA[]]></text>
 			</staticText>
-			<staticText>
-				<reportElement x="65" y="368" width="490" height="54"/>
-				<box>
-					<topPen lineWidth="0.5" lineStyle="Solid"/>
-					<leftPen lineWidth="0.5"/>
-					<bottomPen lineWidth="0.5"/>
-					<rightPen lineWidth="0.5"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="文鼎ＰＬ简报宋" size="12" isBold="true"/>
-				</textElement>
-				<text><![CDATA[]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="438" y="33" width="117" height="20"/>
-				<box>
-					<topPen lineWidth="0.5" lineStyle="Solid"/>
-					<leftPen lineWidth="0.5"/>
-					<bottomPen lineWidth="0.5"/>
-					<rightPen lineWidth="0.5"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="文鼎ＰＬ简报宋" size="12" isBold="true"/>
-				</textElement>
-				<text><![CDATA[]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="438" y="53" width="117" height="20"/>
-				<box>
-					<topPen lineWidth="0.5" lineStyle="Solid"/>
-					<leftPen lineWidth="0.5"/>
-					<bottomPen lineWidth="0.5"/>
-					<rightPen lineWidth="0.5"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="文鼎ＰＬ简报宋" size="12" isBold="true"/>
-				</textElement>
-				<text><![CDATA[]]></text>
-			</staticText>
-			<textField pattern="###0.00">
+			<textField pattern="###0.00" isBlankWhenNull="true">
 				<reportElement x="67" y="73" width="303" height="20"/>
 				<box>
 					<topPen lineWidth="0.0"/>

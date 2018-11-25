@@ -22,6 +22,7 @@ import javax.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.Formula;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.alibaba.fastjson.annotation.JSONField;
@@ -95,6 +96,14 @@ public class SystemParameter extends BaseSequenceEntity<Long> implements LogicDe
 					@JoinColumn(name = "user_id", referencedColumnName = "id") }, uniqueConstraints = {@UniqueConstraint(columnNames = {
 							"user_id", "system_parameter_id" })})
 	private List<User> users;
+	@Formula(value = "(select count(sb.id) from sb_drug_form sb where sb.system_parameter_id=id and sb.auditstatus = 'nodeclare')")
+	private Long nodeclareNumber = 0L;
+	@Formula(value = "(select count(sb.id) from sb_drug_form sb where sb.system_parameter_id=id and sb.auditstatus = 'init')")
+	private Long initNumber = 0L;
+	@Formula(value = "(select count(sb.id) from sb_drug_form sb where sb.system_parameter_id=id and sb.auditstatus = 'passed')")
+	private Long passedNumber = 0L;
+	@Formula(value = "(select count(sb.id) from sb_drug_form sb where sb.system_parameter_id=id and sb.auditstatus = 'un_passed')")
+	private Long unPassedNumber = 0L;
 
 	@JSONField(format = "yyyy-MM-dd HH:mm:ss")
 	public Date getApplyStartDate() {
@@ -194,5 +203,21 @@ public class SystemParameter extends BaseSequenceEntity<Long> implements LogicDe
 	public Set<Long> getUserIds() {
 		return (EmptyUtil.isCollectionNotEmpty(users)) ? Collections3.extractToSet(users, "id")
 				: Sets.newHashSet();
+	}
+
+	public Long getNodeclareNumber() {
+		return nodeclareNumber;
+	}
+
+	public Long getInitNumber() {
+		return initNumber;
+	}
+
+	public Long getPassedNumber() {
+		return passedNumber;
+	}
+
+	public Long getUnPassedNumber() {
+		return unPassedNumber;
 	}
 }

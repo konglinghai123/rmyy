@@ -21,7 +21,7 @@ public interface DrugFormRepository extends BaseRepository<DrugForm, Long> {
 	
 	List<DrugForm> findByUserIdAndAuditStatusAndSystemParameterId(Long userId,AuditStatusEnum auditStatus, Long systemParameterId);
 	
-	Long countByAuditStatusAndSystemParameterId(AuditStatusEnum auditStatus, Long systemParameterId);
+//	Long countByAuditStatusAndSystemParameterId(AuditStatusEnum auditStatus, Long systemParameterId);
 	
 	Long countByUserIdInAndAuditStatusAndSystemParameterId(Set<Long> userIds, AuditStatusEnum auditStatus, Long systemParameterId);
 	

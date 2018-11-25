@@ -9,7 +9,8 @@
 				<thead>
 					<tr>
 					    <th data-options="field:'ck',checkbox:true"/>
-					    <th data-options="field:'id',hidden:true">编号</th>
+					    <th data-options="field:'id',hidden:true">id</th>
+					    <th data-options="field:'formatId',width:100">编号</th>
 						<c:forEach items="${commonNameRuleList}" var="commonNameRule">
 							<c:choose>
 								<c:when test="${commonNameRule.ruleName == 'common.administration.id'}">

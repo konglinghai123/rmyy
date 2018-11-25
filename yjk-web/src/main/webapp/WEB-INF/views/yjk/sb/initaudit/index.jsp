@@ -43,7 +43,7 @@
 			</table>
 			<div id="tb" style="padding:5px;height:auto;">
 		        <div class="toolbar" style="margin-bottom:2px">
-		        	<a id="tb-audit" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-edit',toggle:true" onclick="initAudit();">新药初审</a>
+		        	<a id="tb-audit" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-edit'" onclick="initAudit();">新药初审</a>
 				</div>
 		        <div>
 		        	<form id="queryform" style="padding:0;margin:0;" >

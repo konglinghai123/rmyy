@@ -33,32 +33,37 @@ function Poll() {
 			function(data) {
 				if (data) {
 					$('#sysNotice').empty();
-					if (data.notice) {
-						var html = '<span id="sysNotice" style="font-size:18px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'
-								+ data.notice + '</span>';
-						$(html).appendTo('#sysNotice');
+					if (data.drugForm_notice) {
+						$('<span style="font-size:18px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + data.drugForm_notice + '</span>').appendTo('#sysNotice');
 					}
 					
-					$('#initAudit').empty();
-					var initAudit = 0;
-					if (data.initAudit) {
-						initAudit = data.initAudit;
+					var nodeclare = 0;
+					if (data.drugForm_nodeclare) {
+						nodeclare = data.drugForm_nodeclare;
 					}
-					$('<span id="initAudit" style="font-size:14px">' + initAudit + '</span>').appendTo('#initAudit');
 					
-					$('#passedAudit').empty();
-					var passedAudit = 0;
-					if (data.passedAudit) {
-						passedAudit = data.passedAudit;
+					var init = 0;
+					if (data.drugForm_init) {
+						init = data.drugForm_init;
 					}
-					$('<span id="passedAudit" style="font-size:14px">' + passedAudit + '</span>').appendTo('#passedAudit');
 					
-					$('#unPassedAudit').empty();
-					var unPassedAudit = 0;
-					if (data.unPassedAudit) {
-						unPassedAudit = data.unPassedAudit;
+					var passed = 0;
+					if (data.drugForm_passed) {
+						passed = data.drugForm_passed;
 					}
-					$('<span id="unPassedAudit" style="font-size:14px">' + unPassedAudit + '</span>').appendTo('#unPassedAudit');
+					
+					var unPassed = 0;
+					if (data.drugForm_unPassed) {
+						unPassed = data.drugForm_unPassed;
+					}
+					$('#drugForm_nodeclare').empty();
+					$('<span style="font-size:14px">1、未提交初审数：' + nodeclare + '&nbsp;条</span>').appendTo('#drugForm_nodeclare');
+					$('#drugForm_init').empty();
+					$('<span style="font-size:14px">2、已提交初审数：' + init + '&nbsp;条</span>').appendTo('#drugForm_init');
+					$('#drugForm_passed').empty();
+					$('<span style="font-size:14px">3、初审核已通过数：' + passed + '&nbsp;条</span>').appendTo('#drugForm_passed');
+					$('#drugForm_unPassed').empty();
+					$('<span style="font-size:14px">4、初审核未通过数：' + unPassed + '&nbsp;条</span>').appendTo('#drugForm_unPassed');
 				}
 			});
-}
+};

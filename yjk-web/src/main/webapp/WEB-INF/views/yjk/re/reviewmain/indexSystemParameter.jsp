@@ -18,6 +18,10 @@
 								}">可否重复申报</th>				
 						<th data-options="field:'declarationLimt',width:80">院用限数</th>
 						<th data-options="field:'declareTotalLimt',width:80">总报限数</th>
+						<th data-options="field:'nodeclareNumber',width:100">未提交初审数</th>
+						<th data-options="field:'initNumber',width:100">已提交初审数</th>
+						<th data-options="field:'passedNumber',width:110">初审核已通过数</th>
+						<th data-options="field:'unPassedNumber',width:110">初审核未通过数</th>
 					</tr>
 				</thead>
 			</table>

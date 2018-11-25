@@ -17,13 +17,17 @@
 				<th data-options="field:'declarationLimt',width:80">院用限数</th>
 				<th data-options="field:'declareTotalLimt',width:80">总报限数</th>
 				<th data-options="field:'enabled',width:400,halign:'center',formatter:formatOperation">操作</th>
+				<th data-options="field:'nodeclareNumber',width:100">未提交初审数</th>
+				<th data-options="field:'initNumber',width:100">已提交初审数</th>
+				<th data-options="field:'passedNumber',width:110">初审核已通过数</th>
+				<th data-options="field:'unPassedNumber',width:110">初审核未通过数</th>
 			</tr>
 		</thread>
 	</table>
 	<div id="tb" style="padding: 5px; height: auto;">
 		<div class="toolbar" style="margin-bottom: 2px">
-			<a id="tb-add" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-add',toggle:true" onclick="$.ewcms.add({title:'新增',width:600,height:500});">新增</a>
-			<a id="tb-edit" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-edit',toggle:true" onclick="updateSystemParameter();">修改</a>
+			<a id="tb-add" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-add'" onclick="$.ewcms.add({title:'新增',width:600,height:500});">新增</a>
+			<a id="tb-edit" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-edit'" onclick="updateSystemParameter();">修改</a>
 		</div>
 		<div>
 			<form id="queryform" style="padding: 0; margin: 0;">
@@ -164,6 +168,6 @@
 	}
 	
 	function preview(id){
-		$.ewcms.openWindow({src:'${ctx}/yjk/sp/systemparameter/' + id + '/indexUser',title:'查看用户 - 有权限申报新药用户'});
+		$.ewcms.openWindow({src:'${ctx}/yjk/sp/systemparameter/' + id + '/indexUser',title:'查看用户 - 有权限申报新药用户',width:850,height:550});
 	}
 </script>

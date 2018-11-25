@@ -5,7 +5,7 @@
 	<table id="tt"></table>
 	<div id="tb" style="padding:5px;height:auto;">
         <div class="toolbar" style="margin-bottom:2px">
-			<a class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-add',toggle:true" onclick="$.ewcms.add({title:'重设',width:700,height:200});" href="javascript:void(0);">重设</a>
+			<a class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-add'" onclick="$.ewcms.add({title:'重设',width:700,height:200});" href="javascript:void(0);">重设</a>
 		</div>
         <div>
         	<form id="queryform" style="padding:0;margin:0;">

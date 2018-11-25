@@ -313,11 +313,11 @@ public class DrugFormService extends BaseService<DrugForm, Long> {
 		}
 	}
 	
-	public Long countByAuditStatusAndFillInDateBetween(AuditStatusEnum auditStatus) {
-		SystemParameter systemParameter = systemParameterService.findByEnabledTrue();
-		if (systemParameter == null) return 0L;
-		else return getDrugFormRepository().countByAuditStatusAndSystemParameterId(auditStatus, systemParameter.getId());
-	}
+//	public Long countByAuditStatusAndFillInDateBetween(AuditStatusEnum auditStatus) {
+//		SystemParameter systemParameter = systemParameterService.findByEnabledTrue();
+//		if (systemParameter == null) return 0L;
+//		else return getDrugFormRepository().countByAuditStatusAndSystemParameterId(auditStatus, systemParameter.getId());
+//	}
 	
 	public Map<String, Object> findDrugFormCount(User user, SearchParameter<Long> searchParameter) {
 		Map<String, Object> map = Maps.newHashMap();
@@ -361,7 +361,7 @@ public class DrugFormService extends BaseService<DrugForm, Long> {
 		SystemParameter systemParameter = systemParameterService.findByEnabledTrue();
 		if (systemParameter == null) return map;
 		
-		map.put("未申报", count(Searchable.newSearchable().addSearchFilter("auditStatus", SearchOperator.EQ, AuditStatusEnum.nodeclare).addSearchFilter("fillInDate", SearchOperator.GTE, systemParameter.getApplyStartDate()).addSearchFilter("fillInDate", SearchOperator.LTE, systemParameter.getApplyEndDate())));
+		map.put("未提交初审", count(Searchable.newSearchable().addSearchFilter("auditStatus", SearchOperator.EQ, AuditStatusEnum.nodeclare).addSearchFilter("fillInDate", SearchOperator.GTE, systemParameter.getApplyStartDate()).addSearchFilter("fillInDate", SearchOperator.LTE, systemParameter.getApplyEndDate())));
 		map.put("已提交初审", count(Searchable.newSearchable().addSearchFilter("auditStatus", SearchOperator.EQ, AuditStatusEnum.init).addSearchFilter("fillInDate", SearchOperator.GTE, systemParameter.getApplyStartDate()).addSearchFilter("fillInDate", SearchOperator.LTE, systemParameter.getApplyEndDate())));
 		map.put("初审核已通过", count(Searchable.newSearchable().addSearchFilter("auditStatus", SearchOperator.EQ, AuditStatusEnum.passed).addSearchFilter("fillInDate", SearchOperator.GTE, systemParameter.getApplyStartDate()).addSearchFilter("fillInDate", SearchOperator.LTE, systemParameter.getApplyEndDate())));
 		map.put("初审核未通过", count(Searchable.newSearchable().addSearchFilter("auditStatus", SearchOperator.EQ, AuditStatusEnum.un_passed).addSearchFilter("fillInDate", SearchOperator.GTE, systemParameter.getApplyStartDate()).addSearchFilter("fillInDate", SearchOperator.LTE, systemParameter.getApplyEndDate())));
