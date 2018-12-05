@@ -11,28 +11,42 @@
 						formatter:function(val,row){
 							return row.common==null?'':row.common.commonName;
 						}">通用名</th>
-				<th data-options="field:'number',width:50,
+				<th data-options="field:'matchNumber',width:50,
 						formatter:function(val,row){
-							return row.common==null?'':row.common.number;
-						}">编号</th>
+							return row.common==null?'':row.common.matchNumber;
+						}">匹配编号</th>
 				<th data-options="field:'administration',width:80,
 						formatter:function(val,row){
-							return row.common==null?'':row.common.administration.name;
+							return row.administration==null?'':row.administration.name;
 						}">给药途径</th>
 				<th data-options="field:'drugCategoryInfo',width:80,
 						formatter:function(val,row){
 							return row.common==null?'':row.common.drugCategoryInfo;
 						}">药品种类</th>							
-				<th data-options="field:'commonName',width:100">院目录通用名</th>			    
+				<th data-options="field:'commonName',width:100">院目录通用名</th>	
+				<th data-options="field:'bidCommonName',width:50,
+						formatter:function(val,row){
+							return row.common==null?'':row.common.bidCommonName;
+						}">省招标通用名</th>							    
 			    <th data-options="field:'drugCode',width:120">药品代码</th>
-				<th data-options="field:'pill',width:100">剂型</th>					
+				<th data-options="field:'pill',width:100">剂型</th>	
+				<th data-options="field:'productName',width:100">商品名</th>				
 				<th data-options="field:'specifications',width:120">规格</th>
 				<th data-options="field:'amount',width:70">包装数量</th>
-				<th data-options="field:'drugMajor',width:150">药品分类大类</th>
-				<th data-options="field:'drugCategory',width:120">药品分类</th>
-				<th data-options="field:'discom',width:80">配送公司</th>
-				<th data-options="field:'medical',width:80">医保</th>
 				<th data-options="field:'manufacturer',width:300">生产企业</th>
+				<th data-options="field:'importEnterprise',width:300">进口企业</th>	
+				<th data-options="field:'bidPrice',width:80">中标价</th>		
+				<th data-options="field:'medical',width:80">医保</th>	
+				<th data-options="field:'limitRange',width:100">限制范围</th>
+				<th data-options="field:'chemicalBigCategory',width:50,
+						formatter:function(val,row){
+							return row.common==null?'':row.common.chemicalBigCategory;
+						}">大类</th>	
+				<th data-options="field:'chemicalSubCategory',width:50,
+						formatter:function(val,row){
+							return row.common==null?'':row.common.chemicalSubCategory;
+						}">小类</th>
+				<th data-options="field:'remark',width:100">备注</th>
 				<th data-options="field:'createDate',width:100">创建时间</th>
 				<th data-options="field:'updateDate',width:100">修改时间</th>
 				<!-- <th data-options="field:'deleted',width:100,

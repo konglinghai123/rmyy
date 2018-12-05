@@ -11,8 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ewcms.common.service.BaseService;
+import com.ewcms.common.utils.EmptyUtil;
 import com.ewcms.util.PinYin;
-import com.ewcms.yjk.zd.commonname.entity.Administration;
 import com.ewcms.yjk.zd.commonname.entity.CommonName;
 import com.ewcms.yjk.zd.commonname.entity.DrugCategoryEnum;
 import com.ewcms.yjk.zd.commonname.repository.CommonNameRepository;
@@ -35,22 +35,25 @@ public class CommonNameService extends BaseService<CommonName, Long> {
     	return getCommonNameRepository().findCommonNameBySpell(spell);
     }
     
+    public CommonName findByMatchNumber(String matchNumber){
+    	return getCommonNameRepository().findByMatchNumber(matchNumber);
+    }
 
-    public List<CommonName> findByCommonName(String commonName){
-    	return getCommonNameRepository().findByCommonName(commonName);
-    }
-    
-    public List<CommonName> findByCommonNameAndAdministrationIdAndEnabledTrueAndDeletedFalse(String commonName, Long administrationId){
-    	return getCommonNameRepository().findByCommonNameAndAdministrationIdAndEnabledTrueAndDeletedFalse(commonName, administrationId);
-    }
-    
-    public List<CommonName> findByNumberAndAdministrationIdAndDrugCategory(String number, Long administrationId, DrugCategoryEnum drugCategory){
-    	return getCommonNameRepository().findByNumberAndAdministrationIdAndDrugCategory(number, administrationId, drugCategory);
-    }
-    
-    public List<CommonName> findByCommonNameAndNumberAndAdministrationIdAndDrugCategoryAndDeletedFalse(String commonName,String number, Long administrationId, DrugCategoryEnum drugCategory){
-    	return getCommonNameRepository().findByCommonNameAndNumberAndAdministrationIdAndDrugCategoryAndDeletedFalse(commonName, number, administrationId, drugCategory);
-    }
+//    public List<CommonName> findByCommonName(String commonName){
+//    	return getCommonNameRepository().findByCommonName(commonName);
+//    }
+//    
+//    public List<CommonName> findByCommonNameAndAdministrationIdAndEnabledTrueAndDeletedFalse(String commonName, Long administrationId){
+//    	return getCommonNameRepository().findByCommonNameAndAdministrationIdAndEnabledTrueAndDeletedFalse(commonName, administrationId);
+//    }
+//    
+//    public List<CommonName> findByNumberAndAdministrationIdAndDrugCategory(String number, Long administrationId, DrugCategoryEnum drugCategory){
+//    	return getCommonNameRepository().findByNumberAndAdministrationIdAndDrugCategory(number, administrationId, drugCategory);
+//    }
+//    
+//    public List<CommonName> findByCommonNameAndNumberAndAdministrationIdAndDrugCategoryAndDeletedFalse(String commonName,String number, Long administrationId, DrugCategoryEnum drugCategory){
+//    	return getCommonNameRepository().findByCommonNameAndNumberAndAdministrationIdAndDrugCategoryAndDeletedFalse(commonName, number, administrationId, drugCategory);
+//    }
 
 	@Override
 	public CommonName save(CommonName m) {
@@ -72,13 +75,6 @@ public class CommonNameService extends BaseService<CommonName, Long> {
 		}
 		return super.update(m);
 	}
-
-
-//	public CommonName restore(Long commonNameId){
-//		CommonName m = baseRepository.findOne(commonNameId);
-//		m.setDeleted(Boolean.FALSE);
-//		return super.update(m);
-//	}
 	
 	public List<Integer> importExcel(InputStream in){
 		List<Integer> noSave = Lists.newArrayList();
@@ -104,127 +100,66 @@ public class CommonNameService extends BaseService<CommonName, Long> {
 				rows = sheet.getRow(i);
 				try {
 					for (int j = 0; j <= cols; j++) {
-							if (columnNames[j].equals("提取通用名")) {
+							if (columnNames[j].equals("软件通用名")) {
 								commonName.setCommonName(rows.getCell(j).getStringCellValue().trim());
 								PinYin.initSpell(commonName);
-							} else if (columnNames[j].equals("给药途径")) {
+							} else if (columnNames[j].equals("软件ID")) {
 								try {
-									Double administrationId = rows.getCell(j).getNumericCellValue();
-									if (administrationId == 0L) {
-										commonName.setAdministration(null);
-									} else {
-										Administration administration = administrationService.findOne(administrationId.longValue());
-										commonName.setAdministration(administration);
-									}
-								}catch (Exception e) {
-									commonName.setAdministration(null);
-								}
-							} else if (columnNames[j].equals("编号")) {
-								try {
-									commonName.setNumber(rows.getCell(j).getStringCellValue().trim());
+									commonName.setMatchNumber(rows.getCell(j).getStringCellValue().trim());
 								} catch (Exception e) {
 									Double number = rows.getCell(j).getNumericCellValue();
-									commonName.setNumber(String.valueOf(number.longValue()));
+									commonName.setMatchNumber(String.valueOf(number.longValue()));
 								}								
 								
-							} else if (columnNames[j].equals("匹配编号")) {
-								commonName.setDrugCategory(DrugCategoryEnum.valueOf(rows.getCell(j).getStringCellValue().trim().substring(0, 1)));
-							}else if (columnNames[j].equals("全拼")) {
-								commonName.setSpell(rows.getCell(j).getStringCellValue().trim());
-							} else if (columnNames[j].equals("简拼")) {
-								commonName.setSpellSimplify(rows.getCell(j).getStringCellValue().trim());
+							} else if (columnNames[j].equals("省招标通用名")) {
+								commonName.setBidCommonName(rows.getCell(j).getStringCellValue().trim());
+							} else if (columnNames[j].equals("类别")) {
+								String dc = rows.getCell(j).getStringCellValue().trim();
+								if(EmptyUtil.isStringEmpty(dc)){
+									commonName.setDrugCategory(DrugCategoryEnum.Q);
+								}else{
+									if(dc.equals("西药")){
+										commonName.setDrugCategory(DrugCategoryEnum.H);
+									}else if(dc.equals("中成药")){
+										commonName.setDrugCategory(DrugCategoryEnum.Z);
+									}else{
+										commonName.setDrugCategory(DrugCategoryEnum.Q);
+									}
+								}
+								
+							}else if (columnNames[j].equals("化药大类")) {
+								commonName.setChemicalBigCategory(rows.getCell(j).getStringCellValue().trim());
+							}else if (columnNames[j].equals("化药小类")) {
+								commonName.setChemicalSubCategory(rows.getCell(j).getStringCellValue().trim());
+							} else if (columnNames[j].equals("是否抗菌药物")) {
+								String anti = rows.getCell(j).getStringCellValue().trim();
+								if(EmptyUtil.isStringNotEmpty(anti)&&anti.equals("是")){
+									commonName.setAntibacterialsed(Boolean.TRUE);
+								}
+							}else if (columnNames[j].equals("抗菌药物类别")) {
+								commonName.setAntibacterialseCategory(rows.getCell(j).getStringCellValue().trim());
+							}else if (columnNames[j].equals("抗菌药物编号")) {
+								try {
+									commonName.setAntibacterialseNumber(rows.getCell(j).getStringCellValue().trim());
+								} catch (Exception e) {
+									Double number = rows.getCell(j).getNumericCellValue();
+									commonName.setAntibacterialseNumber(String.valueOf(number.longValue()));
+								}								
 							}
 					}
-					if (findByCommonNameAndNumberAndAdministrationIdAndDrugCategoryAndDeletedFalse(commonName.getCommonName(),commonName.getNumber(), commonName.getAdministration().getId(),commonName.getDrugCategory()).size() == 0) {
+					
+					if (EmptyUtil.isNull(findByMatchNumber(commonName.getMatchNumber()))) {
 						super.saveAndFlush(commonName);
 					}else{
 						noSave.add(i + 1);
 					}
 				}catch(Exception e) {
-					System.out.print(e.toString());
 					noSave.add(i + 1);
 				}
 			}
 		} catch (Exception e) {
-			System.out.println(e.toString());
 		} finally {
-			
 		}
 		return noSave;
 	}
-//    	
-//	public void writeExcel(OutputStream out) {
-//		try {
-//			WritableWorkbook wbook = Workbook.createWorkbook(out);
-//			String tmptitle = "通用名信息";
-//			WritableSheet wsheet = wbook.createSheet(tmptitle, 0);
-//			
-//			List<CommonName> commonNames = findAll();
-//			
-//			Map<String, String> map = getCorrespond();
-//			
-//			Collection<String> values = map.values();
-//			int row = 0;
-//			int i = 0;
-//			for (String value : values) {
-//				wsheet.addCell(new Label(i, row, value));
-//				i++;
-//			}
-//			
-//			Set<String> keys = map.keySet();
-//			for (CommonName commonName : commonNames) {
-//				row = row + 1;
-//				int j = 0;
-//				for (String key : keys) {
-//					String value = "";
-//					Object object = Reflections.invokeGetter(commonName, key);
-//					if (object instanceof Long) {
-//						if (object != null) {
-//							value = Long.toString((Long) object);
-//						}
-//					} else if (object instanceof Double){
-//						if (object != null){
-//							value = Double.toString((Double) object);
-//						}
-//					} else if (object instanceof Boolean) {
-//						if (object != null) {
-//							if ((Boolean) object) {
-//								value = (String)"是";
-//							}
-//						}
-//					} else if (object instanceof Administration) {
-//						if (object != null) {
-//							value = ((Administration)object).getName();
-//						}
-//					}else if (object instanceof DrugCategoryEnum) {
-//						if (object != null) {
-//							value = ((DrugCategoryEnum)object).getInfo();
-//						}
-//					} else {
-//						value = (String) object;
-//					}
-//					wsheet.addCell(new Label(j, row, value));
-//					j++;
-//				}
-//			}
-//			// 主体内容生成结束
-//			wbook.write(); // 写入文件
-//			wbook.close();
-//		} catch (Exception e) {
-//		}
-//	}
-//	
-//	private Map<String, String> getCorrespond(){
-//		Map<String, String> map = Maps.newLinkedHashMap();
-//		
-//		map.put("commonName", "通用名");
-//		map.put("administration", "给药途径");
-//		map.put("number", "编号");
-//		map.put("spell", "全拼");
-//		map.put("spellSimplify", "简拼");
-//		map.put("enabled", "是否启用");
-//		map.put("deleted", "删除标志");
-//		map.put("drugCategory", "药品种类");
-//		return map;
-//	}
 }

@@ -19,6 +19,37 @@
 						<td width="20%"><form:label path="commonName">院用目录通用名：</form:label></td>
 						<td width="30%"><form:input path="commonName" cssClass="validate[required]"/></td>			  	
 					</tr>
+					<tr>			
+						<td width="20%"><form:label path="projectName">项目名称：</form:label></td>
+						<td width="30%"><form:select path="projectName">
+								<form:option value="直接挂网">直接挂网</form:option>
+								<form:option value="增补待谈价">未议价</form:option>
+								<form:option value="双信封中标项目">双信封</form:option>
+								<form:option value="国家谈判项目">联合体议价</form:option>
+								<form:option value="联合体议价/36种国家谈判">联合体议价/36种国家谈判</form:option>					
+							</form:select></td>		
+						<td><form:label path="administration">给药途径：</form:label></td>
+						<td><form:input path="administration" class="easyui-combobox" data-options="
+							width:150,
+							panelWidth:150,
+							panelHeight:130,
+							url:'${ctx}/yjk/zd/administration/canUse',
+							method:'get',
+							valueField:'id',
+							textField:'name',
+							editable:false,
+							onLoadSuccess:function(){
+								$(this).combobox('setValue', ${m.administration.id});
+							}
+							"/>
+						</td>		
+					</tr>
+					<tr>						
+						<td width="20%"><form:label path="productName">商品名：</form:label></td>
+						<td width="30%"><form:input path="productName" /></td>
+						<td width="20%"><form:label path="bidPrice">中标价：</form:label></td>
+						<td width="30%"><form:input path="bidPrice" cssClass="validate[custom[number]]" /></td>						
+					</tr>					
 		        	<tr>
 						<td width="20%"><form:label path="specifications">规格：</form:label></td>
 						<td width="30%"><form:input path="specifications"/></td>
@@ -26,44 +57,14 @@
 						<td width="30%"><form:input path="amount"/></td>
 					</tr>					
 		        	<tr>
+						<td width="20%"><form:label path="drugCode">药品代码：</form:label></td>
+						<td width="30%"><form:input path="drugCode"/></td>		        	
 						<td width="20%"><form:label path="pill">剂型：</form:label></td>
 						<td width="30%"><form:input path="pill"/></td>
-						<td width="20%"><form:label path="productName">商品名：</form:label></td>
-						<td width="30%"><form:input path="productName" /></td>						
-					</tr>
-					<tr>
-						<td width="20%"><form:label path="contentCategory">目录分类：</form:label></td>
-						<td width="30%"><form:input path="contentCategory"/></td>
-						<td width="20%"><form:label path="bidPrice">中标价：</form:label></td>
-						<td width="30%"><form:input path="bidPrice" cssClass="validate[custom[number]]" /></td>						
 					</tr>					
 		        	<tr>
-						<td width="20%"><form:label path="drugMajor">药品分类大类：</form:label></td>
-						<td width="30%"><form:input path="drugMajor"/></td>
-						<td width="20%"><form:label path="drugCategory">药品分类：</form:label></td>
-						<td width="30%"><form:input path="drugCategory"/></td>
-					</tr>
-		        	<tr>
-						<td width="20%"><form:label path="remark">备注：</form:label></td>
-						<td width="30%"><form:input path="remark"/></td>
-						<td width="20%"><form:label path="oldRemark">原备注：</form:label></td>
-						<td width="30%"><form:input path="oldRemark"/></td>
-					</tr>
-					<tr>
 						<td width="20%"><form:label path="manufacturer">生产企业：</form:label></td>
 						<td width="30%"><form:textarea path="manufacturer" style="height:50px"/></td>
-						<td width="20%"><form:label path="discom">配送公司：</form:label></td>
-						<td width="30%"><form:textarea path="discom" style="height:50px"/></td>
-					</tr>	
-		        	<tr>
-						<td width="20%"><form:label path="originalCategory">原类别：</form:label></td>
-						<td width="30%"><form:input path="originalCategory"/></td>
-						<td width="20%"><form:label path="medicalInfo">医保等信息：</form:label></td>
-						<td width="30%"><form:input path="medicalInfo"/></td>
-					</tr>
-					<tr>
-						<td width="20%"><form:label path="qualityLevel">原质量层次：</form:label></td>
-						<td width="30%"><form:input path="qualityLevel" /></td>						
 						<td width="20%"><form:label path="importEnterprise">进口企业：</form:label></td>
 						<td width="30%"><form:textarea path="importEnterprise"	style="height:50px" /></td>
 					</tr>	
@@ -74,16 +75,17 @@
 						<td width="30%"><form:input path="limitRange" /></td>
 					</tr>											
 					<tr>
+						<td width="20%"><form:label path="remark">备注：</form:label></td>
+						<td width="30%"><form:input path="remark"/></td>					
 						<td width="20%"><form:label path="remark1">备注1：</form:label></td>
 						<td width="30%"><form:input path="remark1" /></td>
-						<td width="20%"><form:label path="remark2">备注2：</form:label></td>
-						<td width="30%"><form:input path="remark2" /></td>
+
 					</tr>
 					<tr>
+						<td width="20%"><form:label path="remark2">备注2：</form:label></td>
+						<td width="30%"><form:input path="remark2" /></td>					
 						<td width="20%"><form:label path="remark3">备注3：</form:label></td>
-						<td width="30%"><form:input path="remark3" /></td>
-						<td width="20%"></td>
-						<td width="30%"></td>						
+						<td width="30%"><form:input path="remark3" /></td>					
 					</tr>						
 
 																																																													
@@ -110,13 +112,8 @@
             columns: [[
                 {field:'id',title:'序号',width:80},
                 {field:'commonName',title:'通用名',width:120},
-                {field:'administration',title:'给药途径',width:80,
-                	formatter:function(val,row){
-						return (row.administration==null) ? '' : row.administration.name;
-					}
-				},
-                {field:'number',title:'编号',width:80},
-                {field:'drugCategoryInfo',title:'药品种类',width:200},
+                {field:'matchNumber',title:'匹配编号',width:80},
+                {field:'drugCategoryInfo',title:'药品种类',width:80},
                 {field:'spell',title:'全拼',width:100},
                 {field:'spellSimplify',title:'简拼',width:100}
             ]],

@@ -45,7 +45,6 @@ public class HospitalContentsController extends BaseCRUDController<HospitalConte
     @Override
     protected void setCommonData(Model model) {
         super.setCommonData(model);
-        //model.addAttribute("booleanList", BooleanEnum.values());
     }
     
 	@Override

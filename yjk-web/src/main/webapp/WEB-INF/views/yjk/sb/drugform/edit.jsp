@@ -47,7 +47,7 @@
      							</td>
 							</tr>
 							</c:when>
-							<c:when test="${commonNameRule.ruleName == 'common.administration.id'}">
+							<c:when test="${commonNameRule.ruleName == 'administration.id'}">
 				        	<tr>
 								<td width="30%">${commonNameRule.ruleCnName}：</td>
 								<td width="70%">							
@@ -61,7 +61,7 @@
 									onSelect:function(rec){
 										$('#objIndex').val(${status.index+1});
 										$('#commonNameContentsId').val(rec.id);
-										$('#queryCNRule${status.index}').val(rec.common.administration.id);
+										$('#queryCNRule${status.index}').val(rec.administration.id);
 										<c:forEach items="${commonNameRuleList}" var="commonNameRule" varStatus="status1">
 												if(${status1.index} > ${status.index}){
 													$('#CNRule${status1.index}').combobox('setValue','');

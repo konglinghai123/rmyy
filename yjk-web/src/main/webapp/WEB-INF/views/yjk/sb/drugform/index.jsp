@@ -18,10 +18,10 @@
 						<th data-options="field:'auditStatusInfo',width:140,formatter:formatAudit">审核状态</th>	
 						<c:forEach items="${commonNameRuleList}" var="commonNameRule">
 							<c:choose>
-								<c:when test="${commonNameRule.ruleName == 'common.administration.id'}">
+								<c:when test="${commonNameRule.ruleName == 'administration.id'}">
 									<th data-options="field:'name',width:120,
 											formatter:function(val,row){
-												return row.commonNameContents==null ?'':row.commonNameContents.common.administration.name;
+												return row.commonNameContents==null ?'':row.commonNameContents.administration.name;
 											}">${commonNameRule.ruleCnName}</th>
 								</c:when>
 								<c:when test="${commonNameRule.ruleName == 'common.drugCategory'}">
@@ -69,7 +69,7 @@
 									</form:select>
 		           				</td>
 		              		   
-              					<td width="7%">通用名拼音</td>
+              					<td width="7%">简拼</td>
               					<td width="23%"><input type="text" name="LIKE_commonNameContents.common.spellSimplify" style="width:140px;"/></td>
 		              			<td width="5%">通用名</td>
 		              			<td width="15%"><input type="text" name="LIKE_commonNameContents.common.commonName" style="width:140px;"/></td>

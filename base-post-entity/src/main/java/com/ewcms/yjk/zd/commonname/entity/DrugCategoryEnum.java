@@ -4,9 +4,9 @@ package com.ewcms.yjk.zd.commonname.entity;
  *@author zhoudongchu
  */
 public enum DrugCategoryEnum {
-	Z("中药"),
+	Z("中成药"),
 	H("西药"),
-	Q("其它");
+	Q("其他");
 	
 	private final String info;
 	

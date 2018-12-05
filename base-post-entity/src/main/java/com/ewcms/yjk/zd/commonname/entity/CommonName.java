@@ -4,15 +4,11 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.Index;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import com.ewcms.common.entity.BaseSequenceEntity;
@@ -22,14 +18,19 @@ import com.ewcms.common.plugin.entity.LogicDeleteable;
  * 通用名字典库
  * 
  * <ul>
- * <li>commonName:药品通用名称</li>
- * <li>number:编号</li>
- * <li>administration:给药途径</li>
- * <li>drugCategory:药品种类</li>
- * <li>spell:通用名称拼音</li>
- * <li>spellSimplify:通用名称拼音简写</li>
+ * <li>commonName:药品通用名</li>
+ * <li>matchNumber:匹配编号（软件ID）</li>
+ * <li>drugCategory:类别</li>
+ * <li>spell:通用名拼音</li>
+ * <li>spellSimplify:通用名简拼</li>
  * <li>enabled:是否启用</li>
  * <li>deleted:是否删除</li>
+ * <li>bidCommonName:省招标通用名</li>
+ * <li>chemicalBigCategory:化药大类</li>
+ * <li>chemicalSubCategory:化药小类</li>
+ * <li>antibacterialsed:是否抗菌药物</li>
+ * <li>antibacterialseCategory:抗菌药物类别</li>
+ * <li>antibacterialseNumber:抗菌药物编号</li>
  * </ul>
  * 
  * @author zhoudongchu
@@ -39,6 +40,9 @@ import com.ewcms.common.plugin.entity.LogicDeleteable;
 	indexes = {
 		@Index(name = "idx_zd_common_name_spell", columnList = "spell"),
 		@Index(name = "idx_zd_common_name_spell_simplify", columnList = "spell_simplify")
+	}, 
+	uniqueConstraints = {
+		@UniqueConstraint(name = "unique_zd_common_name", columnNames = {"common_name", "match_number"}) 
 	}
 )
 @SequenceGenerator(name="seq", sequenceName="seq_zd_common_name_id", allocationSize = 1)
@@ -50,13 +54,8 @@ public class CommonName extends BaseSequenceEntity<Long> implements LogicDeletea
 	private String commonName;
 	
 	@NotEmpty(message = "{not.null}")
-	@Column(name = "number", nullable = false)
-	private String number;
-	
-	@ManyToOne(optional = true, fetch = FetchType.EAGER)
-    @Fetch(FetchMode.SELECT)
-	@JoinColumn(name = "administration_id")
-	private Administration administration;
+	@Column(name = "match_number", nullable = false)
+	private String matchNumber;
 	
 	@Enumerated(EnumType.STRING)
 	private DrugCategoryEnum drugCategory = DrugCategoryEnum.H;
@@ -73,6 +72,24 @@ public class CommonName extends BaseSequenceEntity<Long> implements LogicDeletea
     @Column(name = "is_deleted")
     private Boolean deleted = Boolean.FALSE;
     
+	@Column(name = "bid_common_name")
+	private String bidCommonName;
+	
+	@Column(name = "chemical_big_category")
+	private String chemicalBigCategory;	
+	
+	@Column(name = "chemical_sub_category")
+	private String chemicalSubCategory;	
+	
+	@Column(name = "is_antibacterialsed")
+	private Boolean antibacterialsed = Boolean.FALSE;
+
+	@Column(name = "antibacterialse_category")
+	private String antibacterialseCategory;	
+	
+	@Column(name = "antibacterialse_number")
+	private String antibacterialseNumber;	
+	
     public String getCommonName() {
 		return commonName;
 	}
@@ -81,22 +98,30 @@ public class CommonName extends BaseSequenceEntity<Long> implements LogicDeletea
 		this.commonName = commonName;
 	}
 
-	public String getNumber() {
-		return number;
+	public String getBidCommonName() {
+		return bidCommonName;
 	}
 
-	public void setNumber(String number) {
-		this.number = number;
+	public void setBidCommonName(String bidCommonName) {
+		this.bidCommonName = bidCommonName;
 	}
 
-	public Administration getAdministration() {
-		return administration;
+	public String getAntibacterialseCategory() {
+		return antibacterialseCategory;
 	}
 
-	public void setAdministration(Administration administration) {
-		this.administration = administration;
+	public void setAntibacterialseCategory(String antibacterialseCategory) {
+		this.antibacterialseCategory = antibacterialseCategory;
 	}
-	
+
+	public String getAntibacterialseNumber() {
+		return antibacterialseNumber;
+	}
+
+	public void setAntibacterialseNumber(String antibacterialseNumber) {
+		this.antibacterialseNumber = antibacterialseNumber;
+	}
+
 	public String getDrugCategoryInfo() {
 		return drugCategory == null ? "" : drugCategory.getInfo();
 	}
@@ -133,6 +158,38 @@ public class CommonName extends BaseSequenceEntity<Long> implements LogicDeletea
 		this.enabled = enabled;
 	}
 
+	public String getMatchNumber() {
+		return matchNumber;
+	}
+
+	public void setMatchNumber(String matchNumber) {
+		this.matchNumber = matchNumber;
+	}
+
+	public String getChemicalBigCategory() {
+		return chemicalBigCategory;
+	}
+
+	public void setChemicalBigCategory(String chemicalBigCategory) {
+		this.chemicalBigCategory = chemicalBigCategory;
+	}
+
+	public String getChemicalSubCategory() {
+		return chemicalSubCategory;
+	}
+
+	public void setChemicalSubCategory(String chemicalSubCategory) {
+		this.chemicalSubCategory = chemicalSubCategory;
+	}
+
+	public Boolean getAntibacterialsed() {
+		return antibacterialsed;
+	}
+
+	public void setAntibacterialsed(Boolean antibacterialsed) {
+		this.antibacterialsed = antibacterialsed;
+	}
+
 	@Override
     public Boolean getDeleted() {
         return deleted;
@@ -147,4 +204,6 @@ public class CommonName extends BaseSequenceEntity<Long> implements LogicDeletea
     public void markDeleted() {
         this.deleted = Boolean.TRUE;
     }
+    
+    
 }

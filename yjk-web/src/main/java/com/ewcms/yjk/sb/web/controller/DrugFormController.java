@@ -68,12 +68,10 @@ public class DrugFormController extends BaseCRUDController<DrugForm, Long> {
 		model.addAttribute("isOpenDeclare", systemParameterService.isOpenDrugDeclare());
 		if (systemParameterService.isOpenDrugDeclare()) {
 			SystemParameter systemParameter = systemParameterService.findByEnabledTrue();
-			model.addAttribute("declareRule", "申报规则：一品两规限数为" + systemParameter.getDeclarationLimt() + "，最大药品申报数量为"
-					+ systemParameter.getDeclareTotalLimt());
+			model.addAttribute("declareRule", "申报规则：一品两规限数为" + systemParameter.getDeclarationLimt() + "，最大药品申报数量为" + systemParameter.getDeclareTotalLimt());
 		}
 		model.addAttribute("stateList", AuditStatusEnum.values());
-		model.addAttribute("commonNameRuleList",
-				commonNameRuleService.findByDeletedFalseAndEnabledTrueOrderByWeightAsc());
+		model.addAttribute("commonNameRuleList",commonNameRuleService.findByDeletedFalseAndEnabledTrueOrderByWeightAsc());
 	}
 
 	@RequestMapping(value = "querybyuser")
