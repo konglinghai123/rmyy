@@ -19,6 +19,23 @@
 					<tr>
 						<td><form:label path="limitNumber">限制数量：</form:label></td>
 						<td><form:input path="limitNumber" cssClass="validate[required]"/></td>
+					</tr>
+					<tr>
+						<td><form:label path="administration">给药途径：</form:label></td>
+						<td><form:input path="administration" class="easyui-combobox" data-options="
+						width:150,
+						panelWidth:150,
+						panelHeight:130,
+						url:'${ctx}/yjk/zd/administration/canUse',
+						method:'get',
+						valueField:'id',
+						textField:'name',
+						editable:false,
+						onLoadSuccess:function(){
+							$(this).combobox('setValue', ${m.administration.id});
+						}
+						"/>
+						</td>
 					</tr>					
 					<tr>
 						<td><form:label path="remark">说明：</form:label></td>

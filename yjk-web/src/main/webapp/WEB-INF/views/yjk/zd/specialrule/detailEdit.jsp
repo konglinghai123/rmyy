@@ -34,11 +34,6 @@
 	        columns: [[
 	            {field:'id',title:'序号',width:80},
 	            {field:'commonName',title:'通用名',width:120},
-	            {field:'administration',title:'给药途径',width:80,
-	            	formatter:function(val,row){
-						return (row.administration==null) ? '' : row.administration.name;
-					}
-				},
 	            {field:'number',title:'编号',width:80},
 	            {field:'drugCategoryInfo',title:'药品种类',width:200}
 	        ]]

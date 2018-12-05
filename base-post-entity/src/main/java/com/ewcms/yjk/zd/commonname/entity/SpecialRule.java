@@ -5,12 +5,17 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.ewcms.common.entity.BaseSequenceEntity;
@@ -47,8 +52,13 @@ public class SpecialRule extends BaseSequenceEntity<Long> {
 					@JoinColumn(name = "common_name_id", referencedColumnName = "id") }, uniqueConstraints = {
 							@UniqueConstraint(columnNames = { "special_rule_id", "common_name_id" }) })
 	private List<CommonName> commonNames;
+	@ManyToOne(optional = true, fetch = FetchType.EAGER)
+    @Fetch(FetchMode.SELECT)
+	@JoinColumn(name = "administration_id")
+	private Administration administration;
 	@Column(name = "is_enabled", nullable = false)
 	private Boolean enabled = Boolean.TRUE;
+	
 	@Column(name = "remark")
 	private String remark;
 
@@ -77,6 +87,14 @@ public class SpecialRule extends BaseSequenceEntity<Long> {
 		this.commonNames = commonNames;
 	}
 	
+	public Administration getAdministration() {
+		return administration;
+	}
+
+	public void setAdministration(Administration administration) {
+		this.administration = administration;
+	}
+
 	public Boolean getEnabled() {
 		return enabled;
 	}

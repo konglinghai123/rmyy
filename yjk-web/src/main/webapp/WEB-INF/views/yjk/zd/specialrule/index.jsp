@@ -9,6 +9,10 @@
 			    <th data-options="field:'id',hidden:true">编号</th>
 				<th data-options="field:'name',sortable:true,width:200">名称</th>
 				<th data-options="field:'limitNumber',sortable:true,width:100">限制数量</th>
+				<th data-options="field:'administration',sortable:true,width:100,
+						formatter:function(val,row){
+							return (row.administration==null) ? '' : row.administration.name;
+						}">给药途径</th>
 				<th data-options="field:'remark',width:600">说明</th>
 				<th data-options="field:'enabled',width:100,
 						formatter:function(val,row){

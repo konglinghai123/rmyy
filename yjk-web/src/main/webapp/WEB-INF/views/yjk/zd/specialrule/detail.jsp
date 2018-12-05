@@ -8,10 +8,6 @@
 			    <th data-options="field:'ck',checkbox:true"/>
 			    <th data-options="field:'id',width:80">序号</th>
 				<th data-options="field:'commonName',sortable:true,width:200">通用名</th>
-				<th data-options="field:'administration',sortable:true,width:100,
-						formatter:function(val,row){
-							return (row.administration==null) ? '' : row.administration.name;
-						}">给药途径</th>
 				<th data-options="field:'number',sortable:true,width:100">编号</th>
 				<th data-options="field:'drugCategoryInfo',width:100">药品种类</th>
 				<th data-options="field:'spell',sortable:true,width:200">全拼</th>
