@@ -235,6 +235,7 @@
 			$.messager.alert('提示',$('#isDeclareCondition').val(),'info');
 			return;	
 		}
+		
 		$('#editForm').submit();
 	}
 </script>

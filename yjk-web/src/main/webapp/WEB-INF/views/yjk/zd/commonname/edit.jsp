@@ -17,11 +17,11 @@
 			  	<table class="formtable">
 		        	<tr>
 						<td width="30%"><form:label path="commonName">通用名：</form:label></td>
-						<td width="70%"><form:input path="commonName" cssClass="validate[required]"/></td>
+						<td width="70%"><form:input path="commonName" cssStyle="width:200px;"  cssClass="validate[required,ajax[ajaxNameCall]]"/></td>
 					</tr>
 					<tr>
 						<td><form:label path="bidCommonName">省招标通用名：</form:label></td>
-						<td><form:input path="bidCommonName"/></td>
+						<td><form:input path="bidCommonName" cssStyle="width:200px;" /></td>
 					</tr>					
 					<tr>
 						<td><form:label path="drugCategory">药品种类：</form:label></td>
@@ -37,11 +37,11 @@
 					</tr>
 					<tr>
 						<td><form:label path="chemicalBigCategory">化药大类：</form:label></td>
-						<td><form:input path="chemicalBigCategory"/></td>
+						<td><form:input path="chemicalBigCategory" cssStyle="width:200px;" /></td>
 					</tr>
 					<tr>
 						<td><form:label path="chemicalSubCategory">化药小类：</form:label></td>
-						<td><form:input path="chemicalSubCategory"/></td>
+						<td><form:input path="chemicalSubCategory" cssStyle="width:200px;" /></td>
 					</tr>
 		        	<tr>
 						<td width="20%"><form:label path="enabled">是否启用：</form:label></td>
@@ -50,7 +50,7 @@
 					<c:if test="${!empty(m.id)}">
 					<tr>
 						<td><form:label path="spell">全拼：</form:label></td>
-						<td><form:input path="spell" cssClass="validate[required]"/></td>
+						<td><form:input path="spell" cssClass="validate[required]" cssStyle="width:200px;" /></td>
 					</tr>
 					<tr>
 						<td><form:label path="spellSimplify">简拼：</form:label></td>
@@ -76,7 +76,7 @@
 	    	<c:otherwise>
 				$.validationEngineLanguage.allRules.ajaxNameCall= {
 	                "url": "${ctx}/yjk/zd/commonname/validate",
-	                extraDataDynamic : ['#id'],
+	                extraDataDynamic : ['#id','#commonName','#matchNumber'],
 	                "alertTextLoad": "* 正在验证，请稍等。。。"
 	            };
 	    		var validationEngine = $("#editForm").validationEngine({

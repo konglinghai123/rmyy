@@ -16,7 +16,10 @@ public interface CommonNameRepository extends BaseRepository<CommonName, Long> {
 	
 //	List<CommonName> findByCommonName(String commonName);
 	
-	CommonName findByMatchNumber(String matchNumber);
+	//根据匹配编号和通用名查是否有唯一性记录
+	CommonName findByMatchNumberAndCommonName(String matchNumber,String commonName);
+	//查归为一类匹配编号的通用名集合
+	List<CommonName> findByMatchNumber(String matchNumber);
 	
 //	List<CommonName> findByCommonNameAndAdministrationIdAndEnabledTrueAndDeletedFalse(String commonName, Long administrationId);
 //	

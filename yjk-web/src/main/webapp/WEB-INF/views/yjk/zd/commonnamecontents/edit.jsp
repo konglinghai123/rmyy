@@ -180,11 +180,11 @@
             queryParams:{spell:'${m.common.spell}'},
             columns: [[
                 {field:'id',title:'序号',width:80},
-                {field:'commonName',title:'通用名',width:120},
+                {field:'commonName',title:'通用名',width:200},
                 {field:'matchNumber',title:'匹配编号',width:80},
                 {field:'drugCategoryInfo',title:'药品种类',width:80},
                 {field:'spell',title:'全拼',width:100},
-                {field:'spellSimplify',title:'简拼',width:100}
+                {field:'spellSimplify',title:'简拼',width:80}
             ]],
             onLoadSuccess:function(){
             	if ($('#id').val() != '' && $('#isSetValue').val() == 'true'){

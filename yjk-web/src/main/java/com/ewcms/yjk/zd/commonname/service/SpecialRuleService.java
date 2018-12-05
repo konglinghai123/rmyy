@@ -47,17 +47,17 @@ public class SpecialRuleService extends BaseService<SpecialRule, Long> {
 		}
 	}
 
-	public List<BigInteger> findSpecialRules(Set<Long> commonNameIds){
-		return getSpecialRuleRepository().findSpecialRules(commonNameIds);
+	public List<BigInteger> findSpecialRules(Set<Long> commonNameIds,Long administrationId){
+		return getSpecialRuleRepository().findSpecialRules(commonNameIds,administrationId);
 	}
 	
-	public Map<Long, SpecialRule> findMaxLimitNumber(Long commonNameId) {
+	public Map<Long, SpecialRule> findMaxLimitNumber(Long commonNameId,Long administrationId) {
 		Map<Long, SpecialRule> map = Maps.newHashMap();
 		
 		Set<Long> sets = Sets.newHashSet();
 		sets.add(commonNameId);
 		
-		List<BigInteger> specialRuleIds = findSpecialRules(sets);
+		List<BigInteger> specialRuleIds = findSpecialRules(sets,administrationId);
 		
 		Long maxNumber = 0L;
 		SpecialRule specialRule = null;

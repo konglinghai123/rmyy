@@ -16,6 +16,6 @@ public interface SpecialRuleRepository extends BaseRepository<SpecialRule, Long>
 	@Query(value = "select count(sc.special_rule_id) from zd_special_rule_common_name sc left join zd_special_rule r on sc.special_rule_id=r.id where sc.special_rule_id=?1 and sc.common_name_id=?2 and r.is_enabled=true", nativeQuery = true)
 	Long findExist(Long id, Long commonNameId);
 	
-	@Query(value = "select sc.special_rule_id from zd_special_rule_common_name sc left join zd_special_rule r on sc.special_rule_id=r.id where common_name_id in (?1) and r.is_enabled=true", nativeQuery = true)
-	List<BigInteger> findSpecialRules(Set<Long> commonNameIds);
+	@Query(value = "select sc.special_rule_id from zd_special_rule_common_name sc left join zd_special_rule r on sc.special_rule_id=r.id where sc.common_name_id in (?1) and r.administration_id=?2 and r.is_enabled=true", nativeQuery = true)
+	List<BigInteger> findSpecialRules(Set<Long> commonNameIds,Long administrationId);
 }

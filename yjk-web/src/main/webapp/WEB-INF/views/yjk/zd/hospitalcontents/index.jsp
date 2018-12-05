@@ -7,11 +7,11 @@
 			<tr>
 			    <th data-options="field:'ck',checkbox:true"/>
 			    <th data-options="field:'id',hidden:true">编号</th>	
-				<th data-options="field:'common',width:150,sortable:true,
+				<th data-options="field:'common',width:200,sortable:true,
 						formatter:function(val,row){
 							return row.common==null?'':row.common.commonName;
 						}">通用名</th>
-				<th data-options="field:'matchNumber',width:50,
+				<th data-options="field:'matchNumber',width:80,
 						formatter:function(val,row){
 							return row.common==null?'':row.common.matchNumber;
 						}">匹配编号</th>
@@ -23,12 +23,13 @@
 						formatter:function(val,row){
 							return row.common==null?'':row.common.drugCategoryInfo;
 						}">药品种类</th>							
-				<th data-options="field:'commonName',width:100">院目录通用名</th>	
-				<th data-options="field:'bidCommonName',width:50,
+				<th data-options="field:'commonName',width:200">院用目录通用名</th>	
+				<th data-options="field:'bidCommonName',width:200,
 						formatter:function(val,row){
 							return row.common==null?'':row.common.bidCommonName;
-						}">省招标通用名</th>							    
-			    <th data-options="field:'drugCode',width:120">药品代码</th>
+						}">省招标通用名</th>		
+				<th data-options="field:'projectName',width:150,sortable:true">项目名称</th>					    
+			    <th data-options="field:'drugCode',width:100">药品代码</th>
 				<th data-options="field:'pill',width:100">剂型</th>	
 				<th data-options="field:'productName',width:100">商品名</th>				
 				<th data-options="field:'specifications',width:120">规格</th>
@@ -38,11 +39,11 @@
 				<th data-options="field:'bidPrice',width:80">中标价</th>		
 				<th data-options="field:'medical',width:80">医保</th>	
 				<th data-options="field:'limitRange',width:100">限制范围</th>
-				<th data-options="field:'chemicalBigCategory',width:50,
+				<th data-options="field:'chemicalBigCategory',width:200,
 						formatter:function(val,row){
 							return row.common==null?'':row.common.chemicalBigCategory;
 						}">大类</th>	
-				<th data-options="field:'chemicalSubCategory',width:50,
+				<th data-options="field:'chemicalSubCategory',width:200,
 						formatter:function(val,row){
 							return row.common==null?'':row.common.chemicalSubCategory;
 						}">小类</th>
@@ -72,7 +73,7 @@
               			<td width="15%"><input type="text" name="LIKE_common.commonName" style="width:140px;"/></td>
             			<td width="5%">剂型</td>
               			<td width="15%"><input type="text" name="LIKE_pill" style="width:140px;"/></td>
-              			<td width="5%">通用名拼音简写</td>
+              			<td width="5%">简拼</td>
               			<td width="23%"><input type="text" name="LIKE_spellSimplify" style="width:140px;"/></td>
 						<td width="16%" colspan="2">
             				<a id="tb-query" href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="$.ewcms.query();">查询</a>

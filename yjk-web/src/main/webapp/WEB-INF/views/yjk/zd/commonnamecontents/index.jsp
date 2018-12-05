@@ -7,19 +7,19 @@
 			<tr>
 			    <th data-options="field:'ck',checkbox:true"/>
 			    <th data-options="field:'id',hidden:true">编号</th>
-				<th data-options="field:'extractCommonName',width:150,sortable:true">通用名</th>
-				<th data-options="field:'matchNumber',width:50,
+				<th data-options="field:'extractCommonName',width:150">通用名</th>
+				<th data-options="field:'matchNumber',width:80,
 						formatter:function(val,row){
 							return row.common==null?'':row.common.matchNumber;
 						}">匹配编号</th>
 				<th data-options="field:'administrationName',width:80">给药途径</th>
 				<th data-options="field:'drugCategoryInfo',width:80">药品种类</th>												
 				<th data-options="field:'commonName',width:150">大目录通用名</th>
-				<th data-options="field:'bidCommonName',width:50,
+				<th data-options="field:'bidCommonName',width:150,
 						formatter:function(val,row){
 							return row.common==null?'':row.common.bidCommonName;
 						}">省招标通用名</th>							
-				<th data-options="field:'projectName',width:100,sortable:true">项目名称</th>
+				<th data-options="field:'projectName',width:150,sortable:true">项目名称</th>
 				<th data-options="field:'batch',width:80">批次</th>
 				<th data-options="field:'pill',width:100">剂型</th>				
 				<th data-options="field:'bidDrugId',width:150">省招标药品ID</th>
@@ -29,7 +29,7 @@
 				<th data-options="field:'productName',width:100">商品名</th>
 				<th data-options="field:'packageUnit',width:80">包装单位</th>
 				<th data-options="field:'manufacturer',width:300">生产企业</th>
-				<th data-options="field:'importEnterprise',width:300">进口企业</th>
+				<th data-options="field:'importEnterprise',width:300,sortable:true">进口企业</th>
 				<th data-options="field:'purchasePrice',width:50">采购价</th>
 				<th data-options="field:'medicalDirNo',width:80">医保目录编号</th>
 				<th data-options="field:'medicalCategory',width:120">医保类别</th>
@@ -42,11 +42,11 @@
 				<th data-options="field:'basicInfusion',width:100">基础输液</th>
 				<th data-options="field:'cheapShortage',width:80">廉价短缺</th>
 				<th data-options="field:'negotiationVariety',width:80">国家谈判品种</th>
-				<th data-options="field:'chemicalBigCategory',width:50,
+				<th data-options="field:'chemicalBigCategory',width:200,
 						formatter:function(val,row){
 							return row.common==null?'':row.common.chemicalBigCategory;
 						}">大类</th>	
-				<th data-options="field:'chemicalSubCategory',width:50,
+				<th data-options="field:'chemicalSubCategory',width:200,
 						formatter:function(val,row){
 							return row.common==null?'':row.common.chemicalSubCategory;
 						}">小类/功效</th>	
@@ -78,6 +78,7 @@
 			<a id="tb-edit" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-edit'" onclick="$.ewcms.edit({title:'修改',width:750,height:450});">修改</a>
  			<a id="tb-remove" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-remove'" onclick="$.ewcms.remove({title:'删除'});">删除</a>
  			<a id="tb-import" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-import'" onclick="$.ewcms.openWindow({windowId:'#edit-window',width:400,height:300,title:'导入大目录信息',src:'${ctx}/yjk/zd/commonnamecontents/import'});">导入</a>
+ 			<a id="tb-export" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-export'" onclick="$.ewcms.openWindow({windowId:'#edit-window',width:500,height:350,title:'导出通用名信息',src:'${ctx}/system/report/show/text/4/paraset?textType=XLS'});">导出</a>
  			<a id="tb-declare" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-save'" onclick="$.ewcms.openWindow({windowId:'#edit-window',width:600,height:300,title:'过滤大目录',src:'${ctx}/yjk/zd/commonnamecontents/filterdeclared'});">过滤</a>
 		</div>
         <div>

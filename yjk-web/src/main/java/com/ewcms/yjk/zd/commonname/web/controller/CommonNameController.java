@@ -93,19 +93,37 @@ public class CommonNameController extends BaseCRUDController<CommonName, Long> {
     @ResponseBody
     public Object validate(
             @RequestParam("fieldId") String fieldId, @RequestParam("fieldValue") String fieldValue,
-            @RequestParam(value = "id", required = false) Long id) {
+            @RequestParam(value = "id", required = false) Long id,
+            @RequestParam(value = "commonName", required = false) String commonName,
+            @RequestParam(value = "matchNumber", required = false) String matchNumber) {
 
         ValidateResponse response = ValidateResponse.newInstance();
 
        if ("matchNumber".equals(fieldId)) {
-    	   CommonName vo =  getCommonNameService().findByMatchNumber(fieldValue);
-    	   if(vo == null || (vo.getId().equals(id) && vo.getMatchNumber().equals(fieldValue))){
+    	   if(EmptyUtil.isStringNotEmpty(commonName)){
+	    	   CommonName vo =  getCommonNameService().findByMatchNumberAndCommonName(fieldValue,commonName);
+	    	   if(vo == null || (vo.getId().equals(id) && vo.getMatchNumber().equals(fieldValue) && vo.getCommonName().equals(commonName))){
+	    		   response.validateSuccess(fieldId, "");
+	   			}else{
+	   			 response.validateFail(fieldId, "所填写的匹配编号与通用名已存在！");
+	   			}
+    	   }else{
     		   response.validateSuccess(fieldId, "");
-   			}else{
-   			 response.validateFail(fieldId, "匹配编号已存在！");
-   			}
+    	   }
         }
-
+       
+       if ("commonName".equals(fieldId)) {
+    	   if(EmptyUtil.isStringNotEmpty(matchNumber)){
+	    	   CommonName vo =  getCommonNameService().findByMatchNumberAndCommonName(matchNumber,fieldValue);
+	    	   if(vo == null || (vo.getId().equals(id) && vo.getMatchNumber().equals(matchNumber) && vo.getCommonName().equals(fieldValue))){
+	    		   response.validateSuccess(fieldId, "");
+	   			}else{
+	   			 response.validateFail(fieldId, "所填写的匹配编号与通用名已存在！");
+	   			}
+    	   }else{
+    		   response.validateSuccess(fieldId, "");
+    	   }
+        }
         return response.result();
     }
 

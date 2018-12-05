@@ -82,7 +82,10 @@ public class CommonNameContentsService extends BaseService<CommonNameContents, L
 	@SuppressWarnings("unchecked")
 	public Page<CommonNameContents> matchByCommonNameContentsId(Long commonNameContentsId, Pageable pageable) {
 		CommonNameContents commonNameContentsvo = findOne(commonNameContentsId);
-		return getCommonNameContentsRepository().findByCommonIdAndDeletedFalseAndDeclaredTrue(commonNameContentsvo.getCommon().getId(), pageable);
+		List<CommonName> commonNames = commonNameService.findByMatchNumber(commonNameContentsvo.getCommon().getMatchNumber());
+
+		List<Long> commonNameIds = Collections3.extractToList(commonNames, "id");
+		return getCommonNameContentsRepository().findByCommonIdInAndAdministrationIdAndDeletedFalseAndDeclaredTrue(commonNameIds,commonNameContentsvo.getAdministration().getId(), pageable);
 	}
 
 	public void filterDeclaredByProjectName(List<String> projectDeclareds){
@@ -248,15 +251,25 @@ public class CommonNameContentsService extends BaseService<CommonNameContents, L
 						}   else if (columnNames[j].equals("儿科")) {
 							commonNameContents.setPediatric(rows.getCell(j).getStringCellValue().trim());
 						}   else if (columnNames[j].equals("急救")) {
-							commonNameContents.setFirstAid(rows.getCell(j).getStringCellValue().trim());
+							try {
+								commonNameContents.setFirstAid(rows.getCell(j).getStringCellValue().trim());
+							} catch (Exception e) {
+								Double firstAid = rows.getCell(j).getNumericCellValue();
+								commonNameContents.setFirstAid(String.valueOf(firstAid.longValue()));
+							}							
 						}   else if (columnNames[j].equals("基础输液")) {
-							commonNameContents.setBasicInfusion(rows.getCell(j).getStringCellValue().trim());
+							try {
+								commonNameContents.setBasicInfusion(rows.getCell(j).getStringCellValue().trim());
+							} catch (Exception e) {
+								Double basicInfusion = rows.getCell(j).getNumericCellValue();
+								commonNameContents.setBasicInfusion(String.valueOf(basicInfusion.longValue()));
+							}							
 						}   else if (columnNames[j].equals("廉价短缺")) {
 							try {
 								commonNameContents.setCheapShortage(rows.getCell(j).getStringCellValue().trim());
 							} catch (Exception e) {
-								Double medicalDirNoTemp = rows.getCell(j).getNumericCellValue();
-								commonNameContents.setCheapShortage(String.valueOf(medicalDirNoTemp.longValue()));
+								Double cheapShortage = rows.getCell(j).getNumericCellValue();
+								commonNameContents.setCheapShortage(String.valueOf(cheapShortage.longValue()));
 							}
 						}   else if (columnNames[j].equals("国家谈判品种")) {
 							commonNameContents.setNegotiationVariety(rows.getCell(j).getStringCellValue().trim());
@@ -284,15 +297,15 @@ public class CommonNameContentsService extends BaseService<CommonNameContents, L
 							commonNameContents.setRemark3(rows.getCell(j).getStringCellValue().trim());
 						}
 					}
-					if(!isDisabledOriginalData){//增量导入，需要按照提取通用名，给药途径，编号，药品类型，大目录通用名，生产企业，剂型,规格，包装数量,省招标通用名查重，重复记录的不保存
-						List<CommonNameContents> repeatList = getCommonNameContentsRepository().findByCommonCommonNameAndAdministrationIdAndCommonDrugCategoryAndCommonMatchNumberAndPillAndManufacturerAndCommonNameAndSpecificationsAndAmountAndCommonBidCommonNameAndDeletedFalse(extractCommonName, commonNameContents.getAdministration().getId(), dcEnum, matchNumber, commonNameContents.getPill(), commonNameContents.getManufacturer(), commonNameContents.getCommonName(),commonNameContents.getSpecifications(),commonNameContents.getAmount(),bidCommonName);
+					if(!isDisabledOriginalData){//增量导入，需要按照提取通用名，给药途径，编号，药品类型，大目录通用名，生产企业，剂型,规格，包装数量,省招标通用名,省招标药品ID，国家ID，项目名称查重，重复记录的不保存
+						List<CommonNameContents> repeatList = getCommonNameContentsRepository().findByCommonCommonNameAndAdministrationIdAndCommonDrugCategoryAndCommonMatchNumberAndPillAndManufacturerAndCommonNameAndSpecificationsAndAmountAndCommonBidCommonNameAndBidDrugIdAndCountryIdAndProjectNameAndDeletedFalse(extractCommonName, commonNameContents.getAdministration().getId(), dcEnum, matchNumber, commonNameContents.getPill(), commonNameContents.getManufacturer(), commonNameContents.getCommonName(),commonNameContents.getSpecifications(),commonNameContents.getAmount(),bidCommonName, commonNameContents.getBidDrugId(), commonNameContents.getCountryId(), commonNameContents.getProjectName());
 						if(EmptyUtil.isCollectionNotEmpty(repeatList)){
 							noSave.add(i + 1);
 							continue;
 						}
 					}
 					
-					CommonName commonName = commonNameService.findByMatchNumber(matchNumber);
+					CommonName commonName = commonNameService.findByMatchNumberAndCommonName(matchNumber,extractCommonName);
 					if (EmptyUtil.isNull(commonName)) {
 							commonName = new CommonName();
 							commonName.setCommonName(extractCommonName);
@@ -314,10 +327,12 @@ public class CommonNameContentsService extends BaseService<CommonNameContents, L
 						super.saveAndFlush(commonNameContents);
 					}
 				} catch (Exception e) {
+					System.out.print(e.toString());
 					noSave.add(i + 1);
 				}
 			}
 		} catch (Exception e) {
+			System.out.print(e.toString());
 		} finally {
 		}
 		return noSave;

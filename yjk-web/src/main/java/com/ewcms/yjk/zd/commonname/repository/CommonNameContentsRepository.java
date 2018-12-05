@@ -17,7 +17,7 @@ public interface CommonNameContentsRepository extends BaseRepository<CommonNameC
 	
 //	List<CommonNameContents> findByCommonIdAndDeletedFalse(Long commonId);
 //	
-	Page<CommonNameContents> findByCommonIdAndDeletedFalseAndDeclaredTrue(Long commonId, Pageable pageable);
+	Page<CommonNameContents> findByCommonIdInAndAdministrationIdAndDeletedFalseAndDeclaredTrue(List<Long> commonIds, Long administrationId, Pageable pageable);
 	
 //	List<CommonNameContents> findByCommonCommonNameAndCommonAdministrationIdAndDeletedFalseAndDeclaredTrueOrderByUpdateDateDesc(String commonName, Long administrationId);
 	
@@ -33,5 +33,5 @@ public interface CommonNameContentsRepository extends BaseRepository<CommonNameC
 	@Query("update CommonNameContents  set declared = true where deleted is false and declared is false and projectName in (?1)")
 	void setDeclaredTrueByProjectName(List<String> projectDeclareds);
 	
-	List<CommonNameContents> findByCommonCommonNameAndAdministrationIdAndCommonDrugCategoryAndCommonMatchNumberAndPillAndManufacturerAndCommonNameAndSpecificationsAndAmountAndCommonBidCommonNameAndDeletedFalse(String extractCommonName, Long administrationId,DrugCategoryEnum drugCategory,String number,String pill,String manufacturer,String commonName,String specifications,String amount,String bidCommonName);
+	List<CommonNameContents> findByCommonCommonNameAndAdministrationIdAndCommonDrugCategoryAndCommonMatchNumberAndPillAndManufacturerAndCommonNameAndSpecificationsAndAmountAndCommonBidCommonNameAndBidDrugIdAndCountryIdAndProjectNameAndDeletedFalse(String extractCommonName, Long administrationId,DrugCategoryEnum drugCategory,String number,String pill,String manufacturer,String commonName,String specifications,String amount,String bidCommonName, String bidDrugId, String countryId, String projectName);
 }

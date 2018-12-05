@@ -35,10 +35,13 @@ public class CommonNameService extends BaseService<CommonName, Long> {
     	return getCommonNameRepository().findCommonNameBySpell(spell);
     }
     
-    public CommonName findByMatchNumber(String matchNumber){
-    	return getCommonNameRepository().findByMatchNumber(matchNumber);
+    public CommonName findByMatchNumberAndCommonName(String matchNumber,String commonName){
+    	return getCommonNameRepository().findByMatchNumberAndCommonName(matchNumber,commonName);
     }
 
+    public List<CommonName> findByMatchNumber(String matchNumber){
+    	return getCommonNameRepository().findByMatchNumber(matchNumber);
+    }
 //    public List<CommonName> findByCommonName(String commonName){
 //    	return getCommonNameRepository().findByCommonName(commonName);
 //    }
@@ -148,7 +151,7 @@ public class CommonNameService extends BaseService<CommonName, Long> {
 							}
 					}
 					
-					if (EmptyUtil.isNull(findByMatchNumber(commonName.getMatchNumber()))) {
+					if (EmptyUtil.isNull(findByMatchNumberAndCommonName(commonName.getMatchNumber(),commonName.getCommonName()))) {
 						super.saveAndFlush(commonName);
 					}else{
 						noSave.add(i + 1);

@@ -22,11 +22,25 @@
 					<tr>			
 						<td width="20%"><form:label path="projectName">项目名称：</form:label></td>
 						<td width="30%"><form:select path="projectName">
+								<form:option value="省直联合体项目">省直联合体项目</form:option>
+								<form:option value="省直增补">省直增补</form:option>
+								<form:option value="省级谈判">省级谈判</form:option>
+								<form:option value="省直联合体">省直联合体</form:option>
+								<form:option value="直接挂网（无配送企业）">直接挂网（无配送企业）</form:option>
+								<form:option value="双信封">双信封</form:option>
+								<form:option value="国家谈判">国家谈判</form:option>
 								<form:option value="直接挂网">直接挂网</form:option>
-								<form:option value="增补待谈价">未议价</form:option>
-								<form:option value="双信封中标项目">双信封</form:option>
-								<form:option value="国家谈判项目">联合体议价</form:option>
-								<form:option value="联合体议价/36种国家谈判">联合体议价/36种国家谈判</form:option>					
+								<form:option value="联合体议价/36种国家谈判">联合体议价/36种国家谈判</form:option>
+								<form:option value="毒性药品">毒性药品</form:option>
+								<form:option value="联合体议价/双信封限价">联合体议价/双信封限价</form:option>
+								<form:option value="联合体议价">联合体议价</form:option>
+								<form:option value="麻醉药品">麻醉药品</form:option>
+								<form:option value="撮合品种">撮合品种</form:option>
+								<form:option value="备选目录">备选目录</form:option>
+								<form:option value="定点生产">定点生产</form:option>
+								<form:option value="一类精神">一类精神</form:option>
+								<form:option value="二类精神">二类精神</form:option>
+								<form:option value="未议价">未议价</form:option>					
 							</form:select></td>		
 						<td><form:label path="administration">给药途径：</form:label></td>
 						<td><form:input path="administration" class="easyui-combobox" data-options="
@@ -111,11 +125,11 @@
             queryParams:{spell:'${m.common.spell}'},
             columns: [[
                 {field:'id',title:'序号',width:80},
-                {field:'commonName',title:'通用名',width:120},
+                {field:'commonName',title:'通用名',width:200},
                 {field:'matchNumber',title:'匹配编号',width:80},
                 {field:'drugCategoryInfo',title:'药品种类',width:80},
                 {field:'spell',title:'全拼',width:100},
-                {field:'spellSimplify',title:'简拼',width:100}
+                {field:'spellSimplify',title:'简拼',width:80}
             ]],
             onLoadSuccess:function(){
             	if ($('#id').val() != '' && $('#isSetValue').val() == 'true'){
@@ -155,6 +169,10 @@
 	function pageSubmit() {
 		if ($('#cc_common').val() == '') {
 			 $.messager.alert('提示','通用名不能为空','info');
+			return;
+		}
+		if ($('#administration').val() == '') {
+			$.messager.alert('提示','给药途径不能为空','info');
 			return;
 		}
 		$('#editForm').submit();

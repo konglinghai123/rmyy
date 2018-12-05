@@ -42,8 +42,8 @@ public class HospitalContentsService extends BaseService<HospitalContents, Long>
 		return (HospitalContentsRepository) baseRepository;
 	}
 
-	public List<HospitalContents> findByCommonIdAndDeletedFalse(Long commonId) {
-		return getHospitalContentsRepository().findByCommonIdAndDeletedFalse(commonId);
+	public List<HospitalContents> findByCommonIdInInAndAdministrationIdAndDeletedFalse(List<Long> commonIds, Long administrationId){
+		return getHospitalContentsRepository().findByCommonIdInInAndAdministrationIdAndDeletedFalse(commonIds, administrationId);
 	}
 	
 	public void deleteAllHospitalContents(){
@@ -60,7 +60,10 @@ public class HospitalContentsService extends BaseService<HospitalContents, Long>
 	@SuppressWarnings("unchecked")
 	public Page<HospitalContents> matchByCommonNameContentsId(Long commonNameContentsId, Pageable pageable) {
 		CommonNameContents commonNameContentsvo = commonNameContentsService.findOne(commonNameContentsId);
-		return getHospitalContentsRepository().findByCommonIdAndDeletedFalse(commonNameContentsvo.getCommon().getId(), pageable);
+		List<CommonName> commonNames = commonNameService.findByMatchNumber(commonNameContentsvo.getCommon().getMatchNumber());
+
+		List<Long> commonNameIds = Collections3.extractToList(commonNames, "id");
+		return getHospitalContentsRepository().findByCommonIdInInAndAdministrationIdAndDeletedFalse(commonNameIds,commonNameContentsvo.getAdministration().getId(), pageable);
 	}
 
 	@Override
@@ -214,7 +217,7 @@ public class HospitalContentsService extends BaseService<HospitalContents, Long>
 						}
 					}
 					
-					CommonName commonName = commonNameService.findByMatchNumber(matchNumber);
+					CommonName commonName = commonNameService.findByMatchNumberAndCommonName(matchNumber,extractCommonName);
 					if (EmptyUtil.isNull(commonName)) {
 							commonName = new CommonName();
 							commonName.setCommonName(extractCommonName);

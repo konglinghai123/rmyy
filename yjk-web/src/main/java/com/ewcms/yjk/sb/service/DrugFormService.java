@@ -228,7 +228,7 @@ public class DrugFormService extends BaseService<DrugForm, Long> {
 	}
 	
 	/**
-	 * 判断当前申报新药是否超过上限
+	 * 判断当前申报新药是否满足一品两规的上限
 	 * 
 	 * @param commonNameContentsId
 	 * @return
@@ -238,6 +238,9 @@ public class DrugFormService extends BaseService<DrugForm, Long> {
 		if (commonNameContentsId != null) {// 申报目录编号存在
 			// 获取新药申报的大目录对象
 			CommonNameContents vo = commonNameContentsService.findOne(commonNameContentsId);
+			// 根据匹配编号归为一品的通用名集
+			List<CommonName> commonNameList = commonNameService.findByMatchNumber(vo.getCommon().getMatchNumber());
+			List<Long> commonNameIds = Collections3.extractToList(commonNameList, "id");
 			
 			//查询系统参数的限数
 			Long maxNumber = 0L;
@@ -248,14 +251,14 @@ public class DrugFormService extends BaseService<DrugForm, Long> {
 			
 			//根据通用名编号找院目录在该通用名中的记录集，看是否满足一品两规的限制
 			int existNumber = 0;
-			List<HospitalContents> hospitalContentsList = hospitalContentsService.findByCommonIdAndDeletedFalse(vo.getCommon().getId());
+			List<HospitalContents> hospitalContentsList = hospitalContentsService.findByCommonIdInInAndAdministrationIdAndDeletedFalse(commonNameIds, vo.getAdministration().getId());
 			if(EmptyUtil.isCollectionNotEmpty(hospitalContentsList)){
 				existNumber = hospitalContentsList.size();
 			}
 			
 			if (existNumber < maxNumber) {//满足一品两规，再判断是否满足特殊规则
 				//查询特殊规则中的随数与特殊规则对象
-				Map<Long, SpecialRule> map = specialRuleService.findMaxLimitNumber(vo.getCommon().getId());
+				Map<Long, SpecialRule> map = specialRuleService.findMaxLimitNumber(vo.getCommon().getId(),vo.getAdministration().getId());
 				
 				SpecialRule specialRule = null;
 				
@@ -265,13 +268,14 @@ public class DrugFormService extends BaseService<DrugForm, Long> {
 				}
 				
 				if (EmptyUtil.isNotNull(specialRule)) {
-					List<CommonName> commonNameList = specialRule.getCommonNames();
+					commonNameList.clear();
+					commonNameList = specialRule.getCommonNames();
+					commonNameIds = Collections3.extractToList(commonNameList, "id");
+					hospitalContentsList = hospitalContentsService.findByCommonIdInInAndAdministrationIdAndDeletedFalse(commonNameIds,specialRule.getAdministration().getId());
 					existNumber = 0;
-					for (CommonName commonName : commonNameList) {
-						hospitalContentsList = hospitalContentsService.findByCommonIdAndDeletedFalse(commonName.getId());
-						if (hospitalContentsList != null && hospitalContentsList.size() > 0)
-							existNumber += hospitalContentsList.size();
-					}
+					if (hospitalContentsList != null && hospitalContentsList.size() > 0)
+						existNumber += hospitalContentsList.size();
+					
 					
 					if (existNumber >= maxNumber) {
 						isDeclareLimt = "申报药品达到特殊药品最高" + maxNumber +"的限制，不能申报";
