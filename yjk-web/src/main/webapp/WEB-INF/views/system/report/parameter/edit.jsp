@@ -13,10 +13,10 @@
 				</c:forEach>
 			  	<table class="formtable">
 					<tr>
-		  				<td width="15%">参数编号：</td>
-		  				<td width="35%"><form:input path="id" readonly="true"/></td>
-		  				<td width="15%">参数名：</td>
-		  				<td width="35%"><form:input path="enName" readonly="true"/></td>
+		  				<td width="20%">参数编号：</td>
+		  				<td width="30%"><form:input path="id" readonly="true"/></td>
+		  				<td width="20%">参数名：</td>
+		  				<td width="30%"><form:input path="enName" readonly="true"/></td>
 					</tr>
 					<tr>
           				<td><form:label path="cnName">中文名：</form:label></td>

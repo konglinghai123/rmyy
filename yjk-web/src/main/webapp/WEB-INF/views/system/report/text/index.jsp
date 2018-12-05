@@ -19,7 +19,7 @@
 				<th data-options="field:'createDate',width:145">创建时间</th>
 				<th data-options="field:'updateDate',width:145">更新时间</th>
 				<th data-options="field:'remarks',width:300">说明</th>
-				<th data-options="field:'operation',width:200,align:'center',formatter:formatOperation">操作</th>
+				<th data-options="field:'operation',width:260,align:'center',formatter:formatOperation">操作</th>
 			</tr>
 		</thead>
 	</table>
@@ -80,14 +80,14 @@
 			},
 			onLoadSuccess:function(row){
 				$('.previewCls').linkbutton({text:'预览',plain:true,iconCls:'icon-preview'});
-				//$('.schedulingCls').linkbutton({text:'定时设置',plain:true,iconCls:'icon-scheduling'});
+				$('.schedulingCls').linkbutton({text:'定时设置',plain:true,iconCls:'icon-scheduling'});
 				$('.downloadCls').linkbutton({text:'下载',plain:true,iconCls:'icon-download'});
 			}
 		});
 	});
 	function formatOperation(val, row){
 		var operation = '<a class="previewCls" onclick="preview(' + row.id + ')" href="javascript:void(0);">预览</a> | ';
-		//operation += '<a class="schedulingCls" onclick="scheduling(' + row.id + ')" href="javascript:void(0);">定时设置</a> | ';
+		operation += '<a class="schedulingCls" onclick="scheduling(' + row.id + ')" href="javascript:void(0);">定时设置</a> | ';
 		operation += '<a class="downloadCls" onclick="downloadJrxml(' + row.id + ')" href="javascript:void(0);">下载</a>';
 		return operation;
 	}

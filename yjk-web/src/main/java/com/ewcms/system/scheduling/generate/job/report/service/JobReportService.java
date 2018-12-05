@@ -66,10 +66,10 @@ public class JobReportService extends BaseService<JobReport, Long>{
 		Set<JobReportParameter> ewcmsJobParameters = Sets.newLinkedHashSet();
 		if (reportType.equals("text")) {
 			textReport = textReportService.findOne(reportId);
-			SchedulingConversionUtil.pageToJob(ewcmsJobParameters, textReport.getParameters(), request);
+			ewcmsJobParameters = SchedulingConversionUtil.pageToJob(textReport.getParameters(), request);
 		} else if (reportType.equals("chart")) {
 			chartReport = chartReportService.findOne(reportId);
-			SchedulingConversionUtil.pageToJob(ewcmsJobParameters, chartReport.getParameters(), request);
+			ewcmsJobParameters = SchedulingConversionUtil.pageToJob(chartReport.getParameters(), request);
 		}
 		
 		if (EmptyUtil.isNotNull(textReport) || EmptyUtil.isNotNull(chartReport)){

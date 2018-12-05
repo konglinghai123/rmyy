@@ -1,0 +1,448 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="drugform_1" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="2.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="1031"/>
+	<parameter name="drugFormId" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[10]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select to_char(sdf.id,'00000000') as id, su.realname, so.name as organization_name, zcn.common_name,
+za.name as administration_name, zcnc.pill, zcnc.specifications,
+case when zcn.drugcategory = 'H' then '西药' else '中药' end as drugcategory,
+sdf.dosage, sdf.indications_effect, sdf.declare_reason
+from sb_drug_form sdf
+left join sec_user su on sdf.user_id = su.id
+left join sec_user_organization_job suoj on su.id = suoj.user_id
+left join sec_organization so on suoj.organization_id = so.id
+left join zd_common_name_contents zcnc on sdf.commonnamecontents_id = zcnc.id
+left join zd_common_name zcn on zcnc.common_name_id = zcn.id
+left join zd_administration za on zcn.administration_id = za.id
+where sdf.id = $P{drugFormId}]]>
+	</queryString>
+	<field name="id" class="java.lang.String"/>
+	<field name="realname" class="java.lang.String"/>
+	<field name="organization_name" class="java.lang.String"/>
+	<field name="common_name" class="java.lang.String"/>
+	<field name="administration_name" class="java.lang.String"/>
+	<field name="pill" class="java.lang.String"/>
+	<field name="specifications" class="java.lang.String"/>
+	<field name="drugcategory" class="java.lang.String"/>
+	<field name="dosage" class="java.lang.String"/>
+	<field name="indications_effect" class="java.lang.String"/>
+	<field name="declare_reason" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="16" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="35"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="文鼎ＰＬ简报宋" size="24" isBold="true"/>
+				</textElement>
+				<text><![CDATA[江西省人民医院新药申报表]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="585" splitType="Stretch">
+			<staticText>
+				<reportElement x="438" y="33" width="117" height="20"/>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="文鼎ＰＬ简报宋" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="438" y="53" width="117" height="20"/>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="文鼎ＰＬ简报宋" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="65" y="93" width="490" height="55"/>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="文鼎ＰＬ简报宋" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="65" y="33" width="308" height="20"/>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="文鼎ＰＬ简报宋" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="65" y="148" width="490" height="166"/>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="文鼎ＰＬ简报宋" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="65" y="73" width="490" height="20"/>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="文鼎ＰＬ简报宋" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="8" width="65" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="文鼎ＰＬ简报宋" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[申请科室:]]></text>
+			</staticText>
+			<textField pattern="###0.00" isBlankWhenNull="true">
+				<reportElement x="74" y="8" width="131" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="文鼎ＰＬ简报宋" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{organization_name}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="225" y="8" width="65" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="文鼎ＰＬ简报宋" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[申请医生:]]></text>
+			</staticText>
+			<textField pattern="###0.00" isBlankWhenNull="true">
+				<reportElement x="289" y="8" width="84" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="文鼎ＰＬ简报宋" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{realname}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.00" isBlankWhenNull="true">
+				<reportElement x="461" y="8" width="84" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="文鼎ＰＬ简报宋" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{id}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="397" y="8" width="65" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="文鼎ＰＬ简报宋" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[编号:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="33" width="65" height="20"/>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="文鼎ＰＬ简报宋" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[通用名]]></text>
+			</staticText>
+			<textField pattern="###0.00" isBlankWhenNull="true">
+				<reportElement x="67" y="33" width="303" height="20"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="文鼎ＰＬ简报宋" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{common_name}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="373" y="33" width="65" height="20"/>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="文鼎ＰＬ简报宋" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[给药途径]]></text>
+			</staticText>
+			<textField pattern="###0.00" isBlankWhenNull="true">
+				<reportElement x="440" y="33" width="112" height="20"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="文鼎ＰＬ简报宋" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{administration_name}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="53" width="65" height="20"/>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="文鼎ＰＬ简报宋" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[剂型]]></text>
+			</staticText>
+			<textField pattern="###0.00" isBlankWhenNull="true">
+				<reportElement x="67" y="53" width="302" height="20"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="文鼎ＰＬ简报宋" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{pill}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="373" y="53" width="65" height="20"/>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="文鼎ＰＬ简报宋" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[规格]]></text>
+			</staticText>
+			<textField pattern="###0.00" isBlankWhenNull="true">
+				<reportElement x="440" y="53" width="112" height="20"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="文鼎ＰＬ简报宋" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{specifications}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="73" width="65" height="20"/>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="文鼎ＰＬ简报宋" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[药品类别]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="93" width="65" height="55"/>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="文鼎ＰＬ简报宋" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[用法用量]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="148" width="65" height="166"/>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="文鼎ＰＬ简报宋" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[适应症及药理作用
+(功能主治)]]></text>
+			</staticText>
+			<textField pattern="###0.00" isBlankWhenNull="true">
+				<reportElement x="68" y="93" width="484" height="55"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="文鼎ＰＬ简报宋" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{dosage}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.00" isBlankWhenNull="true">
+				<reportElement x="68" y="148" width="484" height="166"/>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="文鼎ＰＬ简报宋" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{indications_effect}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="314" width="555" height="204"/>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="文鼎ＰＬ简报宋" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="7" y="316" width="426" height="17"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="文鼎ＰＬ简报宋" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[申请理由（请说明该药国内外使用情况、优势及特点、与本学科的关系等）]]></text>
+			</staticText>
+			<textField pattern="###0.00" isBlankWhenNull="true">
+				<reportElement x="4" y="336" width="547" height="182"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="文鼎ＰＬ简报宋" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{declare_reason}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="78" y="553" width="90" height="17"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="文鼎ＰＬ简报宋" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[申请医生签章：]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="403" y="568" width="102" height="17"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="文鼎ＰＬ简报宋" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[年    月    日]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="518" width="555" height="67"/>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="文鼎ＰＬ简报宋" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<textField pattern="###0.00" isBlankWhenNull="true">
+				<reportElement x="67" y="73" width="303" height="20"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="文鼎ＰＬ简报宋" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{drugcategory}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="47" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

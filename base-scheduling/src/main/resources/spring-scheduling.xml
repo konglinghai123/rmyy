@@ -58,11 +58,10 @@
 		</property>
 	</bean>
 	
-	<!-- TODO 先不运行定时任务 
 	<bean id="quartzSchedulerControl" class="com.ewcms.system.scheduling.generate.quartz.QuartzSchedulerControl" depends-on="schedulingProxyFactoryBean" init-method="start">
 		<property name="scheduler" ref="quartzScheduler" />
 	</bean>
- 	-->
+	
 	<!-- 
 	<bean id="nullTaskExecutor" class="com.ewcms.system.scheduling.generate.quartz.NullTaskExecutor"/>
 

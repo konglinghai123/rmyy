@@ -23,7 +23,7 @@
 					</c:otherwise>
 				</c:choose>
 				
-				<input type="hidden" id="className" name="className" value="${m.className}"/>
+				<input type="hidden" id="className" name="className" value="${className}"/>
 				<input type="hidden" id="objectId" name="objectId" value="${objectId}"/>
 		    	<c:forEach var="selection" items="${selections}">
 	  				<input type="hidden" name="selections" value="${selection}" />
@@ -86,7 +86,7 @@
 						<tr>
 			  				<td width="10%">开始时间：</td>
 			  				<td colspan="3">
-			  					<form:input path="startDate" cssClass="easyui-datetimebox" data-options="width:135,showSeconds:false,editable:false"/>
+			  					<form:input path="startDate" cssClass="easyui-datetimebox" data-options="width:150,showSeconds:false,editable:false"/>
 			  				</td>
 						</tr>
 						<tr>
@@ -106,7 +106,7 @@
 										<td colspan="3">
 					  						<form:radiobutton path="occur" value="1" label=" 无限制" style="vertical-align: middle;"/>&nbsp;&nbsp;&nbsp;
 					  						<form:radiobutton path="occur" value="2" label=" 结束时间" style="vertical-align: middle;"/>
-					  						<label for="occur2"><form:input path="endDateSimple" cssClass="easyui-datetimebox" data-options="width:135,showSeconds:false,editable:false"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+					  						<label for="occur2"><form:input path="endDateSimple" cssClass="easyui-datetimebox" data-options="width:150,showSeconds:false,editable:false"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
 					  						<form:radiobutton path="occur" value="3" label=" " cssStyle="vertical-align: middle;"/>
 					  						<form:input path="occurrenceCount" size="4" cssClass="validate[custom[integer]]"/>&nbsp;<form:label path="occurrenceCount">次数</form:label>
 				  						</td>
@@ -114,7 +114,7 @@
 				  					<tr>
 										<td>每隔：</td>
 										<td colspan="3">
-					  						<form:input path="recurrenceInterval" cssClass="validate[required,custom[integer]]"/>
+					  						<form:input path="recurrenceInterval" size="4" cssClass="validate[required,custom[integer]]"/>
 					  						<form:select path="recurrenceIntervalUnit">
 					    						<form:option value="1" label="分钟"/>
 					    						<form:option value="2" label="小时"/>
@@ -260,7 +260,7 @@
 		<c:if test="${empty className}">$("#jobClassId").combobox({disabled:true,panelHeight:'auto'});</c:if>
 
 		$("#recurrenceIntervalUnit").combobox({
-			width:60,
+			width:80,
 			editable:false,
 			panelHeight:'auto'
 		});

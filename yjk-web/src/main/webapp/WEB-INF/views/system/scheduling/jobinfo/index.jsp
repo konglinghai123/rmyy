@@ -25,7 +25,7 @@
 		<div class="toolbar" style="margin-bottom:2px">
 			<a class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true" onclick="$.ewcms.add({src:'${ctx}/system/scheduling/jobinfo/false/edit',title:'新增',width:1040,height:510});" href="javascript:void(0);">新增</a>
 			<a class="easyui-linkbutton" data-options="iconCls:'icon-edit',plain:true" onclick="$.ewcms.edit({src:'${ctx}/system/scheduling/jobinfo/true/edit',title:'修改',width:1040,height:560});" href="javascript:void(0);">修改</a>
-			<a class="easyui-linkbutton" data-options="iconCls:'icon-remove',plain:true" onclick="$.ewcms.remove({title:'删除'});" href="javascript:void(0);">删除</a>
+			<a class="easyui-linkbutton" data-options="iconCls:'icon-remove',plain:true" onclick="$.ewcms.remove({src:'${ctx}/system/scheduling/jobinfo/delete',title:'删除'});" href="javascript:void(0);">删除</a>
 		</div>
         <div>
         	<form id="queryform" style="padding:0;margin:0;">

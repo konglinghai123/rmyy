@@ -434,6 +434,7 @@ public class SchedulingConversionUtil {
 			String enName = pageShowParam.getEnName();
 			String pageValue = pageShowParam.getDefaultValue();
 			for (JobReportParameter ewcmsJobParameter : ewcmsJobParameters) {
+				if (EmptyUtil.isNull(ewcmsJobParameter)) continue;
 				if (paramId.intValue() == ewcmsJobParameter.getParameter().getId().intValue() && enName.equals(ewcmsJobParameter.getParameter().getEnName())) {
 					String value = ewcmsJobParameter.getParameterValue();
 					if (value != null && !value.equals(pageValue)) {
@@ -452,47 +453,65 @@ public class SchedulingConversionUtil {
 	 * @param parameters
 	 * @return
 	 */
-	public static void pageToJob(Set<JobReportParameter> ewcmsJobParameters,Set<Parameter> parameters,HttpServletRequest request){
-		JobReportParameter jobParameter = null;
-		if (!parameters.isEmpty()) {
-			if (ewcmsJobParameters.isEmpty()){
-				ewcmsJobParameters = Sets.newLinkedHashSet();
-				for (Parameter parameter : parameters) {
-					String value = (String) request.getParameter(parameter.getEnName());
 	
-					jobParameter = new JobReportParameter();
-	
-					jobParameter.setParameter(parameter);
-					jobParameter.setParameterValue(value);
-	
-					ewcmsJobParameters.add(jobParameter);
-				}
-			}else{
-				for (Parameter parameter : parameters){
-					String enName = parameter.getEnName();
-					String value = (String) request.getParameter(parameter.getEnName());
-					Boolean mate = false;
-					for (JobReportParameter ewcmsJobParameter : ewcmsJobParameters){
-						String jobEnName = ewcmsJobParameter.getParameter().getEnName();
-						if (enName.equals(jobEnName)){
-							ewcmsJobParameter.setParameterValue(value);
-							mate = true;
-							break;
-						}
-					}
-					if (!mate){
-						jobParameter = new JobReportParameter();
-						
-						jobParameter.setParameter(parameter);
-						jobParameter.setParameterValue(value);
+	public static Set<JobReportParameter> pageToJob(Set<Parameter> parameters, HttpServletRequest request){
+		Set<JobReportParameter> ewcmsJobParameters = Sets.newLinkedHashSet();
 		
-						ewcmsJobParameters.add(jobParameter);
-					}
-				}
-			}
-		}else{
-			ewcmsJobParameters = Sets.newLinkedHashSet();
+		JobReportParameter jobParameter = null;
+		for (Parameter parameter : parameters) {
+			String value = (String) request.getParameter(parameter.getEnName());
+
+			jobParameter = new JobReportParameter();
+
+			jobParameter.setParameter(parameter);
+			jobParameter.setParameterValue(value);
+
+			ewcmsJobParameters.add(jobParameter);
 		}
+		
+		return ewcmsJobParameters;
 	}
+//	public static void pageToJob(Set<JobReportParameter> ewcmsJobParameters, Set<Parameter> parameters, HttpServletRequest request){
+//		JobReportParameter jobParameter = null;
+//		if (!parameters.isEmpty()) {
+//			if (ewcmsJobParameters.isEmpty()){
+//				ewcmsJobParameters = Sets.newLinkedHashSet();
+//				for (Parameter parameter : parameters) {
+//					String value = (String) request.getParameter(parameter.getEnName());
+//	
+//					jobParameter = new JobReportParameter();
+//	
+//					jobParameter.setParameter(parameter);
+//					jobParameter.setParameterValue(value);
+//	
+//					ewcmsJobParameters.add(jobParameter);
+//				}
+//			}else{
+//				for (Parameter parameter : parameters){
+//					String enName = parameter.getEnName();
+//					String value = (String) request.getParameter(parameter.getEnName());
+//					Boolean mate = false;
+//					for (JobReportParameter ewcmsJobParameter : ewcmsJobParameters){
+//						String jobEnName = ewcmsJobParameter.getParameter().getEnName();
+//						if (enName.equals(jobEnName)){
+//							ewcmsJobParameter.setParameterValue(value);
+//							mate = true;
+//							break;
+//						}
+//					}
+//					if (!mate){
+//						jobParameter = new JobReportParameter();
+//						
+//						jobParameter.setParameter(parameter);
+//						jobParameter.setParameterValue(value);
+//		
+//						ewcmsJobParameters.add(jobParameter);
+//					}
+//				}
+//			}
+//		}else{
+//			ewcmsJobParameters = Sets.newLinkedHashSet();
+//		}
+//	}
 
 }
