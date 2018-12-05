@@ -11,10 +11,10 @@
 						<th data-options="field:'userName',width:120,sortable:true">申报医生</th>
 						<c:forEach items="${commonNameRuleList}" var="commonNameRule">
 							<c:choose>
-								<c:when test="${commonNameRule.ruleName == 'common.administration.id'}">
+								<c:when test="${commonNameRule.ruleName == 'administration.id'}">
 									<th data-options="field:'name',width:120,
 											formatter:function(val,row){
-												return row.commonNameContents==null ?'':row.commonNameContents.common.administration.name;
+												return row.commonNameContents==null ?'':row.commonNameContents.administration.name;
 											}">${commonNameRule.ruleCnName}</th>
 								</c:when>
 								<c:when test="${commonNameRule.ruleName == 'common.drugCategory'}">
@@ -63,7 +63,7 @@
 								  			<form:options items="${userList}" itemLabel="username" itemValue="id"/>
 										</form:select>
 			           			</td>		              		   
-              					<td width="7%">通用名拼音</td>
+              					<td width="7%">简拼</td>
               					<td width="23%"><input type="text" name="LIKE_commonNameContents.common.spellSimplify" style="width:140px;"/></td>
 		              			<td width="20%" colspan="2">
 		            				<a id="tb-query" href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="$.ewcms.query();">查询</a>

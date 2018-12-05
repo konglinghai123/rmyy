@@ -209,8 +209,8 @@ public class DrugFormService extends BaseService<DrugForm, Long> {
 					columnName = commonNameRule.getRuleName();
 					if(columnName.equals("common.commonName")){
 						searchable.addSearchFilter("commonNameContents."+columnName, SearchOperator.EQ, commonNameContents.getCommon().getCommonName());
-					}else if(columnName.equals("common.administration.id")){
-						searchable.addSearchFilter("commonNameContents."+columnName, SearchOperator.EQ, commonNameContents.getCommon().getAdministration().getId());
+					}else if(columnName.equals("administration.id")){
+						searchable.addSearchFilter("commonNameContents."+columnName, SearchOperator.EQ, commonNameContents.getAdministration().getId());
 					}else if(columnName.equals("common.drugCategory")){
 						searchable.addSearchFilter("commonNameContents."+columnName, SearchOperator.EQ, commonNameContents.getCommon().getDrugCategory());
 					}else{
@@ -236,10 +236,8 @@ public class DrugFormService extends BaseService<DrugForm, Long> {
 	private String isDeclareUpperLimt(Long commonNameContentsId) {
 		String isDeclareLimt = "false";
 		if (commonNameContentsId != null) {// 申报目录编号存在
-			// 获取新药申报的通用名对象
+			// 获取新药申报的大目录对象
 			CommonNameContents vo = commonNameContentsService.findOne(commonNameContentsId);
-			// 根据编号、用药途径、药品种类反查所有该匹配的通用名集,一品两规
-			List<CommonName> commonNameList = commonNameService.findByNumberAndAdministrationIdAndDrugCategory(vo.getCommon().getNumber(), vo.getCommon().getAdministration().getId(), vo.getCommon().getDrugCategory());
 			
 			//查询系统参数的限数
 			Long maxNumber = 0L;
@@ -248,16 +246,14 @@ public class DrugFormService extends BaseService<DrugForm, Long> {
 				maxNumber = systemParameter.getDeclarationLimt();
 			}
 			
-			// 根据通用名集找院目录在该通用名集中的记录集
+			//根据通用名编号找院目录在该通用名中的记录集，看是否满足一品两规的限制
 			int existNumber = 0;
-			List<HospitalContents> hospitalContentsList;
-			for (CommonName commonName : commonNameList) {
-				hospitalContentsList = hospitalContentsService.findByCommonIdAndDeletedFalse(commonName.getId());
-				if (hospitalContentsList != null && hospitalContentsList.size() > 0)
-					existNumber += hospitalContentsList.size();
+			List<HospitalContents> hospitalContentsList = hospitalContentsService.findByCommonIdAndDeletedFalse(vo.getCommon().getId());
+			if(EmptyUtil.isCollectionNotEmpty(hospitalContentsList)){
+				existNumber = hospitalContentsList.size();
 			}
 			
-			if (existNumber < maxNumber) {
+			if (existNumber < maxNumber) {//满足一品两规，再判断是否满足特殊规则
 				//查询特殊规则中的随数与特殊规则对象
 				Map<Long, SpecialRule> map = specialRuleService.findMaxLimitNumber(vo.getCommon().getId());
 				
@@ -269,9 +265,7 @@ public class DrugFormService extends BaseService<DrugForm, Long> {
 				}
 				
 				if (EmptyUtil.isNotNull(specialRule)) {
-					commonNameList.clear();
-					commonNameList = specialRule.getCommonNames();
-					
+					List<CommonName> commonNameList = specialRule.getCommonNames();
 					existNumber = 0;
 					for (CommonName commonName : commonNameList) {
 						hospitalContentsList = hospitalContentsService.findByCommonIdAndDeletedFalse(commonName.getId());

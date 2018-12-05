@@ -16,8 +16,8 @@ import com.ewcms.yjk.zd.commonname.entity.HospitalContents;
  */
 public interface HospitalContentsRepository extends BaseRepository<HospitalContents, Long> {
 	List<HospitalContents> findByCommonIdAndDeletedFalse(Long commonId);
-	Page<HospitalContents> findByCommonIdInAndDeletedFalse(List<Long> commonIds, Pageable pageable);
-	List<HospitalContents> findByCommonCommonNameAndCommonAdministrationIdAndCommonDrugCategoryAndCommonNumberAndPillAndManufacturerAndCommonNameAndSpecificationsAndAmountAndDeletedFalse(String extractCommonName, Long administrationId,DrugCategoryEnum drugCategory,String number,String pill,String manufacturer,String commonName,String specifications,String amount);
+	Page<HospitalContents> findByCommonIdAndDeletedFalse(Long commonId, Pageable pageable);
+	List<HospitalContents> findByCommonCommonNameAndAdministrationIdAndCommonDrugCategoryAndCommonMatchNumberAndPillAndManufacturerAndCommonNameAndSpecificationsAndAmountAndCommonBidCommonNameAndDeletedFalse(String extractCommonName, Long administrationId,DrugCategoryEnum drugCategory,String matchNumber,String pill,String manufacturer,String commonName,String specifications,String amount,String bidCommonName);
 	@Modifying
 	@Query("update HospitalContents  set deleted = true where deleted is false")
 	void deleteAllHospitalContents();

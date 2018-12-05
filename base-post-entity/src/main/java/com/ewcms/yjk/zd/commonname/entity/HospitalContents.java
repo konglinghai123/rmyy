@@ -25,34 +25,29 @@ import com.ewcms.common.plugin.entity.LogicDeleteable;
  * 医院在用药品总目录
  * 
  * <ul>
- * <li>commonName:药品通用名</li>
+ * <li>projectName:项目名称</li>
  * <li>drugCode:药品代码</li>
- * <li>common:通用名对象(CommonName)</li>
+ * <li>commonName:药品通用名</li>
+ * <li>administration:给药途径</li>
  * <li>pill:剂型</li>
  * <li>productName:商品名</li>
  * <li>specifications:规格</li>
  * <li>amount:包装数量</li>
  * <li>manufacturer:生产企业</li>
  * <li>importEnterprise:进口企业</li>
- * <li>contentCategory:目录分类</li>
- * <li>drugMajor:药品分类大类</li>
- * <li>drugCategory:药品分类</li>
- * <li>discom:配送公司</li>
+ * <li>bidPrice:中标价</li>
+ * <li>medical:医保</li>
+ * <li>limitRange:限制范围</li>
  * <li>remark:备注</li>
- * <li>oldRemark:原备注</li>
+ * <li>common:通用名对象(CommonName)</li>
  * <li>createDate:创建时间</li>
  * <li>updateDate:更新时间</li>
  * <li>deleted:是否删除</li>
  * <li>remark1:备注1</li>
  * <li>remark2:备注2</li>
  * <li>remark3:备注3</li>
- * <li>spell:通用名称拼音</li>
- * <li>spellSimplify:通用名称拼音简写</li>
- * <li>originalCategory:原类别</li>
- * <li>limitRange:限制范围</li>
- * <li>medical:医保</li>
- * <li>medicalInfo:医保等信息</li>
- * <li>qualityLevel:原质量层次</li>
+ * <li>spell:通用名拼音</li>
+ * <li>spellSimplify:通用名简拼</li>
  * </ul>
  * 
  * @author zhoudongchu
@@ -64,19 +59,25 @@ import com.ewcms.common.plugin.entity.LogicDeleteable;
 public class HospitalContents extends BaseSequenceEntity<Long> implements LogicDeleteable {
 	private static final long serialVersionUID = -1099925594474353241L;
 	
-	@Column(name = "common_name", nullable = false)
-	private String commonName;	
-	
-	@ManyToOne(cascade = {CascadeType.REFRESH},fetch = FetchType.EAGER)
-    @Fetch(FetchMode.SELECT)
-    @JoinColumn(name = "common_name_id")
-    private CommonName common;
+	@Column(name = "project_name")
+	private String projectName;	
 	
 	@Column(name = "drug_code")
 	private String drugCode;	
-
+	
+	@Column(name = "common_name", nullable = false)
+	private String commonName;
+	
+	@ManyToOne(optional = true, fetch = FetchType.EAGER)
+    @Fetch(FetchMode.SELECT)
+	@JoinColumn(name = "administration_id")
+	private Administration administration;
+	
 	@Column(name = "pill")
 	private String pill;
+	
+	@Column(name = "product_name")
+	private String productName; 
 	
 	@Column(name = "amount")
 	private String amount;
@@ -86,28 +87,26 @@ public class HospitalContents extends BaseSequenceEntity<Long> implements LogicD
 	
 	@Column(name = "manufacturer")
 	private String manufacturer;
+	
 	@Column(name = "import_enterprise")
 	private String importEnterprise;
-	@Column(name = "content_category")
-	private String contentCategory;
 	
-	@Column(name = "drug_major")
-	private String drugMajor;
+	@Column(name = "bid_price")
+	private Double bidPrice;
 	
-	@Column(name = "drug_category")
-	private String drugCategory;
+	@Column(name = "medical")
+	private String medical;	
 	
-	@Column(name = "discomp")
-	private String discom;
-	
-	@Column(name = "product_name")
-	private String productName; 
+	@Column(name = "limit_range")
+	private String limitRange;	
 	
 	@Column(name = "remark")
 	private String remark;
 	
-	@Column(name = "old_remark")
-	private String oldRemark;
+	@ManyToOne(cascade = {CascadeType.REFRESH},fetch = FetchType.EAGER)
+    @Fetch(FetchMode.SELECT)
+    @JoinColumn(name = "common_name_id")
+    private CommonName common;	
 	
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Column(name = "create_date",  updatable = false)
@@ -136,24 +135,7 @@ public class HospitalContents extends BaseSequenceEntity<Long> implements LogicD
 	
 	@Column(name = "spell_simplify")
 	private String spellSimplify;
-	
-	@Column(name = "original_category")
-	private String originalCategory;	
-	
-	@Column(name = "medical_info")
-	private String medicalInfo;	
-	
-	@Column(name = "quality_level")
-	private String qualityLevel;
-	
-	@Column(name = "bid_price")
-	private Double bidPrice;
-	
-	@Column(name = "medical")
-	private String medical;	
-	
-	@Column(name = "limit_range")
-	private String limitRange;	
+
 	
 	public Double getBidPrice() {
 		return bidPrice;
@@ -187,37 +169,7 @@ public class HospitalContents extends BaseSequenceEntity<Long> implements LogicD
 		this.manufacturer = manufacturer;
 	}
 
-	public String getContentCategory() {
-		return contentCategory;
-	}
 
-	public void setContentCategory(String contentCategory) {
-		this.contentCategory = contentCategory;
-	}
-
-	public String getDrugMajor() {
-		return drugMajor;
-	}
-
-	public void setDrugMajor(String drugMajor) {
-		this.drugMajor = drugMajor;
-	}
-
-	public String getDrugCategory() {
-		return drugCategory;
-	}
-
-	public void setDrugCategory(String drugCategory) {
-		this.drugCategory = drugCategory;
-	}
-
-	public String getDiscom() {
-		return discom;
-	}
-
-	public void setDiscom(String discom) {
-		this.discom = discom;
-	}
 
 	public String getRemark() {
 		return remark;
@@ -227,13 +179,6 @@ public class HospitalContents extends BaseSequenceEntity<Long> implements LogicD
 		this.remark = remark;
 	}
 
-	public String getOldRemark() {
-		return oldRemark;
-	}
-
-	public void setOldRemark(String oldRemark) {
-		this.oldRemark = oldRemark;
-	}
 	@JSONField(format = "yyyy-MM-dd HH:mm:ss")
 	public Date getCreateDate() {
 		return createDate;
@@ -323,29 +268,6 @@ public class HospitalContents extends BaseSequenceEntity<Long> implements LogicD
 		this.spellSimplify = spellSimplify;
 	}
 
-	public String getOriginalCategory() {
-		return originalCategory;
-	}
-
-	public void setOriginalCategory(String originalCategory) {
-		this.originalCategory = originalCategory;
-	}
-
-	public String getMedicalInfo() {
-		return medicalInfo;
-	}
-
-	public void setMedicalInfo(String medicalInfo) {
-		this.medicalInfo = medicalInfo;
-	}
-
-	public String getQualityLevel() {
-		return qualityLevel;
-	}
-
-	public void setQualityLevel(String qualityLevel) {
-		this.qualityLevel = qualityLevel;
-	}
 
 	public String getProductName() {
 		return productName;
@@ -377,6 +299,22 @@ public class HospitalContents extends BaseSequenceEntity<Long> implements LogicD
 
 	public void setLimitRange(String limitRange) {
 		this.limitRange = limitRange;
+	}
+
+	public String getProjectName() {
+		return projectName;
+	}
+
+	public void setProjectName(String projectName) {
+		this.projectName = projectName;
+	}
+
+	public Administration getAdministration() {
+		return administration;
+	}
+
+	public void setAdministration(Administration administration) {
+		this.administration = administration;
 	}
 
 	@Override

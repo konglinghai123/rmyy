@@ -12,17 +12,14 @@ import com.ewcms.yjk.zd.commonname.entity.CommonNameContents;
 import com.ewcms.yjk.zd.commonname.entity.DrugCategoryEnum;
 
 public interface CommonNameContentsRepository extends BaseRepository<CommonNameContents, Long> {
-//	@Query("select distinct c.common.administration from CommonNameContents c where c.common.commonName=?1 and c.deleted is false and c.declared is true")
-//	List<Administration> findAdministrationByCommonName(String commonName);
-	
 	@Query("from CommonNameContents c where (c.common.spell like %?1% or c.common.spellSimplify like %?1%) and c.deleted is false and c.declared is true")
 	List<CommonNameContents> findCommonNameContentsBySpell(String spell);
 	
-	List<CommonNameContents> findByCommonIdAndDeletedFalse(Long commonId);
+//	List<CommonNameContents> findByCommonIdAndDeletedFalse(Long commonId);
+//	
+	Page<CommonNameContents> findByCommonIdAndDeletedFalseAndDeclaredTrue(Long commonId, Pageable pageable);
 	
-	Page<CommonNameContents> findByCommonIdInAndDeletedFalseAndDeclaredTrue(List<Long> commonIds, Pageable pageable);
-	
-	List<CommonNameContents> findByCommonCommonNameAndCommonAdministrationIdAndDeletedFalseAndDeclaredTrueOrderByUpdateDateDesc(String commonName, Long administrationId);
+//	List<CommonNameContents> findByCommonCommonNameAndCommonAdministrationIdAndDeletedFalseAndDeclaredTrueOrderByUpdateDateDesc(String commonName, Long administrationId);
 	
 	@Modifying
 	@Query("update CommonNameContents  set deleted = true where deleted is false")
@@ -36,5 +33,5 @@ public interface CommonNameContentsRepository extends BaseRepository<CommonNameC
 	@Query("update CommonNameContents  set declared = true where deleted is false and declared is false and projectName in (?1)")
 	void setDeclaredTrueByProjectName(List<String> projectDeclareds);
 	
-	List<CommonNameContents> findByCommonCommonNameAndCommonAdministrationIdAndCommonDrugCategoryAndCommonNumberAndPillAndManufacturerAndCommonNameAndSpecificationsAndAmountAndDeletedFalse(String extractCommonName, Long administrationId,DrugCategoryEnum drugCategory,String number,String pill,String manufacturer,String commonName,String specifications,String amount);
+	List<CommonNameContents> findByCommonCommonNameAndAdministrationIdAndCommonDrugCategoryAndCommonMatchNumberAndPillAndManufacturerAndCommonNameAndSpecificationsAndAmountAndCommonBidCommonNameAndDeletedFalse(String extractCommonName, Long administrationId,DrugCategoryEnum drugCategory,String number,String pill,String manufacturer,String commonName,String specifications,String amount,String bidCommonName);
 }

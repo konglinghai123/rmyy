@@ -1,10 +1,9 @@
 package com.ewcms.yjk.zd.commonname.web.controller;
 
-import com.ewcms.common.Constants;
 import com.ewcms.common.entity.search.SearchParameter;
-import com.ewcms.common.entity.search.Searchable;
 import com.ewcms.common.utils.EmptyUtil;
 import com.ewcms.common.web.controller.BaseCRUDController;
+import com.ewcms.common.web.validate.ValidateResponse;
 import com.ewcms.yjk.zd.commonname.entity.CommonName;
 import com.ewcms.yjk.zd.commonname.entity.DrugCategoryEnum;
 import com.ewcms.yjk.zd.commonname.service.AdministrationService;
@@ -16,16 +15,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
 
 /**
  * @author zhoudongchu
@@ -48,9 +44,6 @@ public class CommonNameController extends BaseCRUDController<CommonName, Long> {
 	@Override
 	protected void setCommonData(Model model) {
 		super.setCommonData(model);
-		Searchable searchable = Searchable.newSearchable();
-		searchable.addSort(Direction.ASC, "id");
-		model.addAttribute("administrationList", administrationService.findAllWithSort(searchable));
 		model.addAttribute("drugCategoryList", DrugCategoryEnum.values());
 		model.addAttribute("booleanList", BooleanEnum.values());
 	}
@@ -70,38 +63,7 @@ public class CommonNameController extends BaseCRUDController<CommonName, Long> {
 		return getCommonNameService().findCommonNameBySpell(spell);
 	}
 	
-
-	@RequestMapping(value = "save/discard")
-	@Override
-	public String save(Model model, @Valid @ModelAttribute("m")CommonName m, BindingResult result,@RequestParam(required = false) List<Long> selections) {
-		throw new RuntimeException("discarded method");
-	}
-	
-	@RequestMapping(value = "save", method = RequestMethod.POST)
-	public String save(Model model, @Valid @ModelAttribute("m")CommonName m, BindingResult result,@RequestParam(required = false) List<Long> selections,RedirectAttributes redirectAttributes) {
-    	List<CommonName> commonNames = getCommonNameService().findByCommonNameAndNumberAndAdministrationIdAndDrugCategoryAndDeletedFalse(m.getCommonName(),m.getNumber(), m.getAdministration().getId(),m.getDrugCategory());
-		if (EmptyUtil.isNull(m.getId())) {
-			if (EmptyUtil.isCollectionEmpty(commonNames)) {
-				return super.save(model, m, result, selections);
-			}else{
-				redirectAttributes.addFlashAttribute(Constants.MESSAGE, "通用名已存在，不能保存入库！");
-				return redirectToUrl(viewName("save"));
-			}
-		} else {
-			if (EmptyUtil.isCollectionNotEmpty(commonNames)) {
-				CommonName commonName = commonNames.get(0);
-				if (m.getId().longValue() == commonName.getId().longValue()) {
-					return super.save(model, m, result, selections);
-				}else{
-					redirectAttributes.addFlashAttribute(Constants.MESSAGE, "通用名已存在，不能保存入库！");
-					return redirectToUrl(viewName("save"));
-				}
-			} else {
-				return super.save(model, m, result, selections);
-			}
-		}
-	}    
-	
+ 
     @RequestMapping(value = "import")
 	public String importStudent() {
 		return viewName("import");
@@ -127,22 +89,24 @@ public class CommonNameController extends BaseCRUDController<CommonName, Long> {
 		return message;
 	}
     
-//	@RequestMapping(value = "export")
-//	public void saveExportStudent(HttpServletResponse response) {
-//		OutputStream os = null;
-//		try {
-//			os = response.getOutputStream();
-//			response.reset();
-//			response.setHeader("Content-disposition", "attachment; filename=" + (new Date()) + "_通用名.xls");
-//			response.setContentType("application/msexcel");
-//
-//			getCommonNameService().writeExcel(os);
-//			
-//			os.close(); // 关闭流
-//		} catch (Exception e) {
-//			System.out.println(e.toString());
-//		} finally {
-//			IOUtils.close(os);
-//		}
-//	}
+    @RequestMapping(value = "validate", method = RequestMethod.GET)
+    @ResponseBody
+    public Object validate(
+            @RequestParam("fieldId") String fieldId, @RequestParam("fieldValue") String fieldValue,
+            @RequestParam(value = "id", required = false) Long id) {
+
+        ValidateResponse response = ValidateResponse.newInstance();
+
+       if ("matchNumber".equals(fieldId)) {
+    	   CommonName vo =  getCommonNameService().findByMatchNumber(fieldValue);
+    	   if(vo == null || (vo.getId().equals(id) && vo.getMatchNumber().equals(fieldValue))){
+    		   response.validateSuccess(fieldId, "");
+   			}else{
+   			 response.validateFail(fieldId, "匹配编号已存在！");
+   			}
+        }
+
+        return response.result();
+    }
+
 }

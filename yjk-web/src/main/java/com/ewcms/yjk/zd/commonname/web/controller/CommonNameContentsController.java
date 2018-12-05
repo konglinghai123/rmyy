@@ -54,7 +54,6 @@ public class CommonNameContentsController extends BaseCRUDController<CommonNameC
 	@Override
 	protected void setCommonData(Model model) {
 		super.setCommonData(model);
-		// model.addAttribute("booleanList", BooleanEnum.values());
 	}
 	
 	/**
@@ -75,7 +74,7 @@ public class CommonNameContentsController extends BaseCRUDController<CommonNameC
 				.getRuleName();
 		if(duplicateColumn.equals("common.drugCategory")){
 			return removeDrugCategoryDuplicateOrder((List<CommonNameContents>) map.get("rows"));
-		}else if(duplicateColumn.equals("common.administration.id")){
+		}else if(duplicateColumn.equals("administration.id")){
 			return removeAdministrationDuplicateOrder((List<CommonNameContents>) map.get("rows"));
 			
 		}else{
@@ -86,7 +85,7 @@ public class CommonNameContentsController extends BaseCRUDController<CommonNameC
 	@RequestMapping(value = "/querydeclarebyspell")
 	@ResponseBody
 	public List<CommonNameContents> queryDeclareBySpell(@RequestParam(value="spell") String spell) {
-		if(spell==null||spell.length()==0) return Lists.newArrayList();;
+		if(spell==null||spell.length()==0) return Lists.newArrayList();
 		spell = spell.toLowerCase();
 		List<CommonNameContents> commonNameContentsList = getCommonNameContentsService().findCommonNameContentsBySpell(spell);
 		if(commonNameContentsList!=null&&commonNameContentsList.size()>1){
@@ -147,13 +146,14 @@ public class CommonNameContentsController extends BaseCRUDController<CommonNameC
             @Override
             public int compare(CommonNameContents a, CommonNameContents b) {
                 // 字符串则按照asicc码升序排列
-                return a.getCommon().getAdministration().getId().compareTo(b.getCommon().getAdministration().getId());
+                return a.getAdministration().getId().compareTo(b.getAdministration().getId());
             }
         });
         
         set.addAll(orderList);
         return new ArrayList<CommonNameContents>(set);
-    }        
+    }  
+    
 	@Override
 	public Map<String, Object> query(SearchParameter<Long> searchParameter, Model model) {
 		searchParameter.getSorts().put("id", Direction.DESC);
@@ -175,13 +175,7 @@ public class CommonNameContentsController extends BaseCRUDController<CommonNameC
 		
 		return queryMap;
 	}  
-	
-//	@RequestMapping(value = "queryadministration")
-//	@ResponseBody
-//	public List<Administration> queryAdministration(@RequestParam(value = "commonName") String commonName, Model model) {
-//		List<Administration> admList = getCommonNameContentsService().findAdministrationByCommonName(commonName);
-//		return admList;
-//	}
+
 
 	@RequestMapping(value = "/import")
 	public String importStudent() {

@@ -13,10 +13,10 @@
 								
 						<c:forEach items="${commonNameRuleList}" var="commonNameRule">
 							<c:choose>
-								<c:when test="${commonNameRule.ruleName == 'common.administration.id'}">
+								<c:when test="${commonNameRule.ruleName == 'administration.id'}">
 									<th data-options="field:'name',width:120,
 											formatter:function(val,row){
-												return row.commonNameContents==null ?'':row.commonNameContents.common.administration.name;
+												return row.commonNameContents==null ?'':row.commonNameContents.administration.name;
 											}">${commonNameRule.ruleCnName}</th>
 								</c:when>
 								<c:when test="${commonNameRule.ruleName == 'common.drugCategory'}">
