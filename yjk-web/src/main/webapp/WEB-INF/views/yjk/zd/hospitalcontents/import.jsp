@@ -14,7 +14,7 @@
 		        	<tr>
 						<td width="20%">导入方式：</td>
 						<td width="80%">
-						<select id="isDisabledOriginalData" name="isDisabledOriginalData">
+						<select id="isDisabledOriginalData" name="isDisabledOriginalData" class="easyui-combobox" data-options="panelHeight:'auto',panelWidth:'auto',editable:false,width:150">
 							<option value="">--选择导入方式--</option>
 							<option value="false">增量导入</option>
 							<option value="true">作废以前数据再导入</option>

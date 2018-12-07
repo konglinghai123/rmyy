@@ -220,13 +220,14 @@ public class UserController extends BaseCRUDController<User, Long> {
 			if (excelFile != null && !excelFile.isEmpty()) {
 				noSave = getUserService().importExcel(excelFile.getInputStream());
 			}
+			if (noSave.isEmpty())
+				message += "成功";
+			else
+				message += "部分成功，不成功的所在的Excel行数为：\r\n" + noSave;
+			
 		} catch (Exception e) {
 			message += "失败";
 		}
-		if (noSave.isEmpty())
-			message += "成功";
-		else
-			message += "部分成功，不成功的所在的Excel行数为：\r\n" + noSave;
 		return message;
 	}
 

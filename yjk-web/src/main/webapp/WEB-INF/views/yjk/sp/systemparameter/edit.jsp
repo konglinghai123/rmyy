@@ -14,7 +14,7 @@
 			  	<table class="formtable">
 		        	<tr>
 						<td width="30%"><form:label path="applyStartDate">申请开始时间：</form:label></td>
-						<td width="70%"><form:input path="applyStartDate"  class="easyui-datetimebox" style="width:145px" data-options="
+						<td width="70%"><form:input path="applyStartDate"  class="easyui-datetimebox" style="width:200px" data-options="
 							editable:false,
 							required: true,
 							onSelect:function(d){
@@ -34,7 +34,7 @@
 					</tr>
 		        	<tr>
 						<td><form:label path="applyEndDate">申请结束时间：</form:label></td>
-						<td><form:input path="applyEndDate"  class="easyui-datetimebox"  style="width:145px" data-options="
+						<td><form:input path="applyEndDate"  class="easyui-datetimebox"  style="width:200px" data-options="
 							editable:false,
 							required: true,
 							onSelect:function(d){

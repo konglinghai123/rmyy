@@ -14,8 +14,8 @@
 				<th data-options="field:'chemicalBigCategory',width:200">化药大类</th>
 				<th data-options="field:'chemicalSubCategory',width:200">化药小类</th>
 				<th data-options="field:'spell',sortable:true,width:200">全拼</th>
-				<th data-options="field:'spellSimplify',sortable:true,width:80">简拼</th>
-				<th data-options="field:'enabled',width:100,
+				<th data-options="field:'spellSimplify',sortable:true,width:100">简拼</th>
+				<th data-options="field:'enabled',width:80,
 						formatter:function(val,row){
 							return val ? '是' : '否';
 						}">是否启用</th>

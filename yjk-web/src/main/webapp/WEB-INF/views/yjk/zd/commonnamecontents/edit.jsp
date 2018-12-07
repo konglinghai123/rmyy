@@ -44,7 +44,7 @@
 				</tr>
 				<tr>			
 					<td width="20%"><form:label path="projectName">项目名称：</form:label></td>
-					<td width="30%"><form:select path="projectName">
+					<td width="30%"><form:select path="projectName" cssClass="easyui-combobox">
 							<form:option value="省直联合体项目">省直联合体项目</form:option>
 							<form:option value="增补待谈价">增补待谈价</form:option>
 							<form:option value="双信封中标项目">双信封中标项目</form:option>

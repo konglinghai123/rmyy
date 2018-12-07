@@ -302,14 +302,14 @@ public class UserService extends BaseService<User, Long> {
 							}
 					    } else if (columnNames[j].equals("工号")) {
 							try {
+								String userName = rows.getCell(j).getStringCellValue().trim();
+								if (EmptyUtil.isStringNotEmpty(userName)) {
+									user.setUsername(userName);
+								}
+							} catch (Exception e) {
 								Double userName = rows.getCell(j).getNumericCellValue();
 								if (EmptyUtil.isNotNull(userName)) {
 									user.setUsername(String.valueOf(userName.longValue()));
-								}
-							} catch (Exception e) {
-								String userName = rows.getCell(j).getStringCellValue().trim();
-								if (EmptyUtil.isNotNull(userName)) {
-									user.setUsername(userName);
 								}
 							}
 						} else if (columnNames[j].equals("姓名")) {
@@ -397,14 +397,27 @@ public class UserService extends BaseService<User, Long> {
 									user.setAntibiosis(Boolean.TRUE);
 								}
 							}
-						} 
+						} else if (columnNames[j].equals("手机")) {
+							try {
+								String mobilePhoneNumber = rows.getCell(j).getStringCellValue().trim();
+								if (EmptyUtil.isStringNotEmpty(mobilePhoneNumber)) {
+									user.setMobilePhoneNumber(mobilePhoneNumber);
+								}
+							} catch (Exception e) {
+								Double mobilePhoneNumber = rows.getCell(j).getNumericCellValue();
+								if (EmptyUtil.isNotNull(mobilePhoneNumber)) {
+									user.setMobilePhoneNumber(String.valueOf(mobilePhoneNumber.longValue()));
+								}
+							}
+						}
 					}
 					if (findByUsername(user.getUsername()) == null) {
 						user.setPassword("123456");
-						user.randomSalt();
-						user.setPassword(passwordService.encryptPassword(user.getUsername(), user.getPassword(), user.getSalt()));
-
-						super.save(user);
+						save(user);
+//						user.randomSalt();
+//						user.setPassword(passwordService.encryptPassword(user.getUsername(), user.getPassword(), user.getSalt()));
+//
+//						super.saveAndFlush(user);
 
 						UserOrganizationJob userOrganizationJob = new UserOrganizationJob();
 
