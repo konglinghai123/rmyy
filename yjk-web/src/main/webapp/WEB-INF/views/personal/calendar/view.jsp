@@ -38,7 +38,7 @@
 			    	<td>备注：</td>
 			    	<td>
 			    		<div style="float: left;">
-            				<textarea>${calendar.details}</textarea>
+            				<textarea readonly="readonly">${calendar.details}</textarea>
 						</div>
 					</td>
 			    </tr>

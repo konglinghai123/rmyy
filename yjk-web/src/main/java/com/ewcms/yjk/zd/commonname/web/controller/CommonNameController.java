@@ -6,12 +6,10 @@ import com.ewcms.common.web.controller.BaseCRUDController;
 import com.ewcms.common.web.validate.ValidateResponse;
 import com.ewcms.yjk.zd.commonname.entity.CommonName;
 import com.ewcms.yjk.zd.commonname.entity.DrugCategoryEnum;
-import com.ewcms.yjk.zd.commonname.service.AdministrationService;
 import com.ewcms.yjk.zd.commonname.service.CommonNameService;
 import com.google.common.collect.Lists;
 import com.ewcms.common.entity.enums.BooleanEnum;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,8 +27,6 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 @RequestMapping(value = "/yjk/zd/commonname")
 public class CommonNameController extends BaseCRUDController<CommonName, Long> {
-	@Autowired
-	private AdministrationService administrationService;
 	
 	private CommonNameService getCommonNameService() {
 		return (CommonNameService) baseService;

@@ -1,18 +1,14 @@
 package com.ewcms.yjk.zd.commonname.web.controller;
 
 import java.util.List;
-import java.util.Map;
 
-import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.ewcms.common.entity.search.SearchParameter;
 import com.ewcms.common.plugin.web.controller.BaseSequenceMovableController;
 import com.ewcms.common.utils.EmptyUtil;
 import com.ewcms.common.web.validate.AjaxResponse;
@@ -31,12 +27,6 @@ public class CommonNameRuleController extends BaseSequenceMovableController<Comm
         setResourceIdentity("yjk:commonnamerule");
     }
     
-	@Override
-	public Map<String, Object> query(SearchParameter<Long> searchParameter,	Model model) {
-		searchParameter.getSorts().put("id", Direction.DESC);
-		return super.query(searchParameter, model);
-	}  
-	
 	@RequestMapping(value = "{commonNameRuleId}/close")
 	@ResponseBody
 	public AjaxResponse close(@PathVariable(value = "commonNameRuleId") Long commonNameRuleId) {

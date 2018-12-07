@@ -80,7 +80,7 @@
                 end = $.fullCalendar.formatDate(end, "yyyy-MM-dd HH:mm:ss");
                 url = url + "?start=" + start + "&end=" + end;
             }
-            $.ewcms.add({src:url,title:'新增提醒事项',width:370,height:430});
+            $.ewcms.add({src:url,title:'新增提醒事项',width:530,height:480});
         }
         function moveCalendar(event) {
             var url = "${ctx}/personal/calendar/move";
@@ -96,7 +96,7 @@
         function viewCalendar(event) {
         	calendar.fullCalendar('unselect');
             var url = "${ctx}/personal/calendar/view/" + event.id;
-            $.ewcms.openWindow({src:url,title:'查看提醒事项',width:370,height:430});
+            $.ewcms.openWindow({src:url,title:'查看提醒事项',width:500,height:400});
         }
 	});
 </script>

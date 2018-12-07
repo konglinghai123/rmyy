@@ -9,7 +9,7 @@
 			  	<table class="formtable">
 		        	<tr>
 						<td width="20%">通用名文件：</td>
-						<td width="80%"><input type="file" id="excelFile" name="excelFile" size="50"/></td>
+						<td width="80%"><input id="excelFile" name="excelFile" class="easyui-filebox" data-options="buttonText:'选择文件...',prompt:'选择文件...',accept:'application/vnd.ms-excel'"/></td>
 					</tr>
 				</table>
 			</form:form>

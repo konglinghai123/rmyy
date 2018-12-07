@@ -36,11 +36,7 @@
 			        <tr>
 			        	<td><form:label path="backgroundColor">背景颜色：</form:label></td>
 			        	<td>
-			        		<select id="backgroundColor" name="backgroundColor" style="background: ${backgroundColorList[0]}">
-                			<c:forEach items="${backgroundColorList}" var="c">
-                    			<option style="background: ${c}" value="${c}">&nbsp;</option>
-                			</c:forEach>
-							</select>
+			        		<input class="easyui-color" id="backgroundColor" name="backgroundColor">
 						</td>
 			        </tr>
 			  	</table>
@@ -53,6 +49,7 @@
 		</div>
 	</div>
 <ewcms:footer/>
+<script type="text/javascript" src="${ctx}/static/easyui/ext/jquery.color.js"></script>
 <script type="text/javascript">
 	$(function(){
 		$('#startDate').datebox({});
