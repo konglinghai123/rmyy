@@ -134,7 +134,7 @@ public class CommonNameService extends BaseService<CommonName, Long> {
 								commonName.setChemicalBigCategory(rows.getCell(j).getStringCellValue().trim());
 							}else if (columnNames[j].equals("化药小类")) {
 								commonName.setChemicalSubCategory(rows.getCell(j).getStringCellValue().trim());
-							} else if (columnNames[j].equals("是否抗菌药物")) {
+							} else if (columnNames[j].equals("抗菌药物")) {
 								String anti = rows.getCell(j).getStringCellValue().trim();
 								if(EmptyUtil.isStringNotEmpty(anti)&&anti.equals("是")){
 									commonName.setAntibacterialsed(Boolean.TRUE);

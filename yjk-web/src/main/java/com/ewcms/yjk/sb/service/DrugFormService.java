@@ -238,7 +238,7 @@ public class DrugFormService extends BaseService<DrugForm, Long> {
 		if (commonNameContentsId != null) {// 申报目录编号存在
 			// 获取新药申报的大目录对象
 			CommonNameContents vo = commonNameContentsService.findOne(commonNameContentsId);
-			// 根据匹配编号归为一品的通用名集
+			// 根据匹配编号查询归为一品的通用名集
 			List<CommonName> commonNameList = commonNameService.findByMatchNumber(vo.getCommon().getMatchNumber());
 			List<Long> commonNameIds = Collections3.extractToList(commonNameList, "id");
 			

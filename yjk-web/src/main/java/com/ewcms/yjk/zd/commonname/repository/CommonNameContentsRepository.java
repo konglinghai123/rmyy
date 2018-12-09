@@ -16,7 +16,8 @@ public interface CommonNameContentsRepository extends BaseRepository<CommonNameC
 	List<CommonNameContents> findCommonNameContentsBySpell(String spell);
 	
 //	List<CommonNameContents> findByCommonIdAndDeletedFalse(Long commonId);
-//	
+    
+	//查询归为一品的大目录集合
 	Page<CommonNameContents> findByCommonIdInAndAdministrationIdAndDeletedFalseAndDeclaredTrue(List<Long> commonIds, Long administrationId, Pageable pageable);
 	
 //	List<CommonNameContents> findByCommonCommonNameAndCommonAdministrationIdAndDeletedFalseAndDeclaredTrueOrderByUpdateDateDesc(String commonName, Long administrationId);
@@ -32,6 +33,6 @@ public interface CommonNameContentsRepository extends BaseRepository<CommonNameC
 	@Modifying
 	@Query("update CommonNameContents  set declared = true where deleted is false and declared is false and projectName in (?1)")
 	void setDeclaredTrueByProjectName(List<String> projectDeclareds);
-	
+	//增量导入，需要按照提取通用名，给药途径，编号，药品类型，大目录通用名，生产企业，剂型,规格，包装数量,省招标通用名,省招标药品ID，国家ID，项目名称查重，重复记录的不保存
 	List<CommonNameContents> findByCommonCommonNameAndAdministrationIdAndCommonDrugCategoryAndCommonMatchNumberAndPillAndManufacturerAndCommonNameAndSpecificationsAndAmountAndCommonBidCommonNameAndBidDrugIdAndCountryIdAndProjectNameAndDeletedFalse(String extractCommonName, Long administrationId,DrugCategoryEnum drugCategory,String number,String pill,String manufacturer,String commonName,String specifications,String amount,String bidCommonName, String bidDrugId, String countryId, String projectName);
 }
