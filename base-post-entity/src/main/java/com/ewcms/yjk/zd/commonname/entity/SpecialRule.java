@@ -54,7 +54,7 @@ public class SpecialRule extends BaseSequenceEntity<Long> {
 	private List<CommonName> commonNames;
 	@ManyToOne(optional = true, fetch = FetchType.EAGER)
     @Fetch(FetchMode.SELECT)
-	@JoinColumn(name = "administration_id")
+	@JoinColumn(name = "administration_id", nullable = false)
 	private Administration administration;
 	@Column(name = "is_enabled", nullable = false)
 	private Boolean enabled = Boolean.TRUE;

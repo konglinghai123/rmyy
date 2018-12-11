@@ -6,12 +6,12 @@
 		<thead>
 			<tr>
 			    <th data-options="field:'ck',checkbox:true"/>
-			    <th data-options="field:'id',width:80">序号</th>
-				<th data-options="field:'commonName',sortable:true,width:200">通用名</th>
-				<th data-options="field:'number',sortable:true,width:100">编号</th>
+			    <th data-options="field:'id',hidden:true">序号</th>
+				<th data-options="field:'commonName',width:200">通用名</th>
+				<th data-options="field:'matchNumber',width:100">区配编号</th>
 				<th data-options="field:'drugCategoryInfo',width:100">药品种类</th>
-				<th data-options="field:'spell',sortable:true,width:200">全拼</th>
-				<th data-options="field:'spellSimplify',sortable:true,width:150">简拼</th>
+				<th data-options="field:'spell',width:200">全拼</th>
+				<th data-options="field:'spellSimplify',width:150">简拼</th>
 				<th data-options="field:'enabled',width:100,
 						formatter:function(val,row){
 							return val ? '是' : '否';
