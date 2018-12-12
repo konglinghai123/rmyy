@@ -22,7 +22,7 @@
 					</tr>
 					<tr>
 						<td><form:label path="administration">给药途径：</form:label></td>
-						<td><form:input path="administration" class="easyui-combobox" data-options="
+						<td><form:input path="administration" cssClass="easyui-combobox" data-options="
 						width:150,
 						panelWidth:150,
 						panelHeight:130,

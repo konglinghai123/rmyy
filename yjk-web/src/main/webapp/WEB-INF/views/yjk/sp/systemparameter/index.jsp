@@ -7,7 +7,7 @@
 		<thead > 	
 			<tr>	
 				<th data-options="field:'ck',checkbox:true"/>
-				<th data-options="field:'id',width:100">编号</th>
+				<th data-options="field:'id',width:80">编号</th>
 				<th data-options="field:'applyStartDate',width:150">申请开始时间</th>
 				<th data-options="field:'applyEndDate',width:150">申请结束时间</th>
 				<th data-options="field:'repeatDeclared',width:120,

@@ -19,7 +19,7 @@
 			        	<tr>
 							<td width="25%">初审是否通过：</td>
 							<td width="75%">
-								<select id="isAuditPassed" name="isAuditPassed" cssClass="validate[required]">
+								<select id="isAuditPassed" name="isAuditPassed" class="validate[required]">
 									<option value="">--选择初审结果--</option>
 									<option value="false">初审不通过</option>
 									<option value="true">初审通过</option>

@@ -6,7 +6,7 @@
 		<thead>
 			<tr>
 			    <th data-options="field:'ck',checkbox:true"/>
-			    <th data-options="field:'id',width:100">编号</th>
+			    <th data-options="field:'id',width:80">编号</th>
 				<th data-options="field:'name',width:300">名称</th>
 				<th data-options="field:'createDate',width:150">创建时间</th>
 				<th data-options="field:'extractDate',width:150">筛选时间</th>

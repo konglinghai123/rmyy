@@ -1,10 +1,14 @@
 package com.ewcms.yjk.re.web.controller;
 
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort.Direction;
@@ -31,6 +35,9 @@ import com.ewcms.common.web.validate.ValidateResponse;
 import com.ewcms.security.user.entity.User;
 import com.ewcms.security.user.service.UserService;
 import com.ewcms.security.user.web.bind.annotation.CurrentUser;
+import com.ewcms.system.report.entity.TextReport;
+import com.ewcms.system.report.generate.entity.ParameterBuilder;
+import com.ewcms.system.report.service.TextReportService;
 import com.ewcms.yjk.re.entity.ReviewExpert;
 import com.ewcms.yjk.re.entity.ReviewMain;
 import com.ewcms.yjk.re.service.ReviewMainService;
@@ -51,6 +58,8 @@ public class ReviewMainController extends BaseCRUDController<ReviewMain, Long> {
 	private UserService userService;
 	@Autowired
 	private SystemParameterService systemParameterService;
+	@Autowired
+	private TextReportService textReportService;
 	
 	public ReviewMainController() {
 		setResourceIdentity("yjk:reviewmain");
@@ -164,7 +173,6 @@ public class ReviewMainController extends BaseCRUDController<ReviewMain, Long> {
 		}
 		
 		Searchable searchable = SearchHelper.parameterConverSearchable(searchParameter, User.class);
-		searchable.addSort(Direction.ASC, "id");
 		if (EmptyUtil.isCollectionNotEmpty(allUserIds)) {
 			searchable.addSearchFilter("id", SearchOperator.IN, allUserIds);
 		} else {
@@ -277,4 +285,33 @@ public class ReviewMainController extends BaseCRUDController<ReviewMain, Long> {
 		return ajaxResponse;
 	}
 
+	@RequestMapping(value = "{reviewMainId}/build")
+	public void build(@RequestParam(value = "reportId", defaultValue = "6") Long reportId,
+			@PathVariable(value = "reviewMainId") Long reviewMainId, HttpServletResponse response) {
+		response.setDateHeader("Expires", 0L);
+		response.setHeader("Cache-Control", "no-store, no-cache, must-revalidate");
+		response.addHeader("Cache-Control", "post-check=0, pre-check=0");
+		response.setHeader("Pragma", "no-cache");
+		try {
+			ParameterBuilder parameterBuilder = new ParameterBuilder();
+			parameterBuilder.getParamMap().put("reviewMainId", String.valueOf(reviewMainId));
+			parameterBuilder.setTextType(TextReport.Type.PDF);
+
+			textReportService.buildText(parameterBuilder.getParamMap(), reportId, parameterBuilder.getTextType(),
+					response);
+		} catch (Exception e) {
+			String str = "评审专家人员打印错误，请联系管理员！";
+			response.setHeader("content-type", "text/html;charset=UTF-8");
+			OutputStream os = null;
+			try {
+				os = response.getOutputStream();
+				byte[] b = str.getBytes("utf-8");
+				os.write(b);
+				os.flush();
+			} catch (IOException ex) {
+			} finally {
+				IOUtils.closeQuietly(os);
+			}
+		}
+	}
 }

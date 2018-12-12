@@ -58,6 +58,7 @@
         <div class="toolbar" style="margin-bottom:2px">
 			<a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true" onclick="$.ewcms.add({src:'${ctx}/yjk/sp/systemparameter/${m.id}/saveUser',title:'添加',width:750,height:265});">添加</a>
 			<a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-remove',plain:true" onclick="$.ewcms.remove({src:'${ctx}/yjk/sp/systemparameter/${m.id}/removeUser',title:'移除',width:750,height:265});">移除</a>
+			<a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-print',plain:true" onclick="$.ewcms.openTopWindow({src:'${ctx}/yjk/sp/systemparameter/${m.id}/build',title:'申报新药人员打印',isRefresh:false,maximizable:true});">打印</a>
 		</div>
         <div>
         	<form id="queryform">

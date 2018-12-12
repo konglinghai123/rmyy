@@ -1,8 +1,13 @@
 package com.ewcms.yjk.sp.web.controler;
 
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort.Direction;
@@ -27,6 +32,9 @@ import com.ewcms.common.web.validate.AjaxResponse;
 import com.ewcms.security.user.entity.User;
 import com.ewcms.security.user.service.UserService;
 import com.ewcms.security.user.web.bind.annotation.CurrentUser;
+import com.ewcms.system.report.entity.TextReport;
+import com.ewcms.system.report.generate.entity.ParameterBuilder;
+import com.ewcms.system.report.service.TextReportService;
 import com.ewcms.yjk.sp.entity.SystemExpert;
 import com.ewcms.yjk.sp.entity.SystemParameter;
 import com.ewcms.yjk.sp.service.SystemParameterService;
@@ -48,6 +56,8 @@ public class SystemParameterController extends BaseCRUDController<SystemParamete
 
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private TextReportService textReportService;
 
 	public SystemParameterController() {
 		setResourceIdentity("yjk:systemparameter");
@@ -112,7 +122,8 @@ public class SystemParameterController extends BaseCRUDController<SystemParamete
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "{systemParameterId}/queryUser")
 	@ResponseBody
-	public Map<String, Object> queryUser(@PathVariable(value = "systemParameterId") SystemParameter systemParameter, @ModelAttribute SearchParameter<Long> searchParameter) {
+	public Map<String, Object> queryUser(@PathVariable(value = "systemParameterId") SystemParameter systemParameter,
+			@ModelAttribute SearchParameter<Long> searchParameter) {
 		Map<String, Object> map = Maps.newHashMap();
 
 		List<Long> allUserIds = Lists.newArrayList();
@@ -128,20 +139,19 @@ public class SystemParameterController extends BaseCRUDController<SystemParamete
 				allUserIds.addAll(Collections3.extractToList(systemExpert.getUsers(), "id"));
 			}
 		}
-		
+
 		Searchable searchable = SearchHelper.parameterConverSearchable(searchParameter, User.class);
-		searchable.addSort(Direction.ASC, "id");
 		if (EmptyUtil.isCollectionNotEmpty(allUserIds)) {
 			searchable.addSearchFilter("id", SearchOperator.IN, allUserIds);
 		} else {
 			searchable.addSearchFilter("id", SearchOperator.EQ, -1L);
 		}
-		
+
 		Page<User> users = userService.findAll(searchable);
-		
+
 		map.put("total", users.getTotalElements());
 		map.put("rows", users.getContent());
-		
+
 		return map;
 	}
 
@@ -154,18 +164,22 @@ public class SystemParameterController extends BaseCRUDController<SystemParamete
 	}
 
 	@RequestMapping(value = "{systemParameterId}/saveUser", method = RequestMethod.POST)
-	public String saveUser(@CurrentUser User user, @PathVariable(value = "systemParameterId") SystemParameter systemParameter, @RequestParam(required = false) List<Long> userIds) {
+	public String saveUser(@CurrentUser User user,
+			@PathVariable(value = "systemParameterId") SystemParameter systemParameter,
+			@RequestParam(required = false) List<Long> userIds) {
 		if (permissionList != null) {
 			this.permissionList.assertHasCreatePermission();
 		}
 		getSystemParameterService().addUser(systemParameter, userIds);
-		
+
 		return redirectToUrl(viewName(systemParameter.getId() + "/saveUser"));
 	}
 
 	@RequestMapping(value = "{systemParameterId}/removeUser")
 	@ResponseBody
-	public AjaxResponse removeUser(@CurrentUser User user, @PathVariable(value = "systemParameterId") SystemParameter systemParameter, @RequestParam(required = false) List<Long> selections) {
+	public AjaxResponse removeUser(@CurrentUser User user,
+			@PathVariable(value = "systemParameterId") SystemParameter systemParameter,
+			@RequestParam(required = false) List<Long> selections) {
 		AjaxResponse ajaxResponse = new AjaxResponse("除移成功！");
 
 		try {
@@ -181,25 +195,57 @@ public class SystemParameterController extends BaseCRUDController<SystemParamete
 
 	@RequestMapping(value = "canUseUser")
 	@ResponseBody
-	public Map<String, Object> canUseUser(@RequestParam(value = "name", required = false) String name, @ModelAttribute SearchParameter<Long> searchParameter) {
+	public Map<String, Object> canUseUser(@RequestParam(value = "name", required = false) String name,
+			@ModelAttribute SearchParameter<Long> searchParameter) {
 		Searchable searchable = SearchHelper.parameterConverSearchable(searchParameter, User.class);
-		
+
 		if (EmptyUtil.isStringNotEmpty(name)) {
-			searchable.or(SearchFilterHelper.newCondition("username", SearchOperator.LIKE, name), SearchFilterHelper.newCondition("realname", SearchOperator.LIKE, name));
+			searchable.or(SearchFilterHelper.newCondition("username", SearchOperator.LIKE, name),
+					SearchFilterHelper.newCondition("realname", SearchOperator.LIKE, name));
 		}
 
-		searchable.and(SearchFilterHelper.newCondition("admin", SearchOperator.EQ, Boolean.FALSE), SearchFilterHelper.newCondition("deleted", SearchOperator.EQ, Boolean.FALSE));
-		
+		searchable.and(SearchFilterHelper.newCondition("admin", SearchOperator.EQ, Boolean.FALSE),
+				SearchFilterHelper.newCondition("deleted", SearchOperator.EQ, Boolean.FALSE));
+
 		searchable.addSort(Direction.ASC, "id");
 
 		Page<User> users = userService.findAll(searchable);
-		
+
 		Map<String, Object> map = Maps.newHashMap();
-		
+
 		map.put("total", users.getTotalElements());
 		map.put("rows", users.getContent());
-		
+
 		return map;
 	}
 
+	@RequestMapping(value = "{systemParameterId}/build")
+	public void build(@RequestParam(value = "reportId", defaultValue = "5") Long reportId,
+			@PathVariable(value = "systemParameterId") Long systemParameterId, HttpServletResponse response) {
+		response.setDateHeader("Expires", 0L);
+		response.setHeader("Cache-Control", "no-store, no-cache, must-revalidate");
+		response.addHeader("Cache-Control", "post-check=0, pre-check=0");
+		response.setHeader("Pragma", "no-cache");
+		try {
+			ParameterBuilder parameterBuilder = new ParameterBuilder();
+			parameterBuilder.getParamMap().put("systemParameterId", String.valueOf(systemParameterId));
+			parameterBuilder.setTextType(TextReport.Type.PDF);
+
+			textReportService.buildText(parameterBuilder.getParamMap(), reportId, parameterBuilder.getTextType(),
+					response);
+		} catch (Exception e) {
+			String str = "可申报新药人员打印错误，请联系管理员！";
+			response.setHeader("content-type", "text/html;charset=UTF-8");
+			OutputStream os = null;
+			try {
+				os = response.getOutputStream();
+				byte[] b = str.getBytes("utf-8");
+				os.write(b);
+				os.flush();
+			} catch (IOException ex) {
+			} finally {
+				IOUtils.closeQuietly(os);
+			}
+		}
+	}
 }

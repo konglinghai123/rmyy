@@ -72,12 +72,19 @@ public class ReviewMainService extends BaseService<ReviewMain, Long> {
 	public void filter(Long id) {
 		ReviewMain reviewMain = findOne(id);
 		if (EmptyUtil.isNotNull(reviewMain)) {
+			
+			automaticAuthService.automaticRemoveAllUser(GROUP_NAME);
+			
+			List<Long> userIdSelected = Lists.newArrayList();//被选中的用户ID号
+			
 			List<ReviewExpert> reviewExperts = reviewMain.getReviewExperts();
 			if (EmptyUtil.isCollectionNotEmpty(reviewExperts)) {
-				List<Long> userIdSelected = Lists.newArrayList();
 				for (ReviewExpert reviewExpert : reviewExperts) {
-					if (!reviewExpert.getEnabled())
+					if (!reviewExpert.getEnabled()) {
+						reviewExpert.setUsers(null);
+						reviewExpertService.update(reviewExpert);
 						continue;
+					}
 					Set<Long> reviewExpertUserIds = Sets.newHashSet();
 					List<Long> userIds = null;
 					if (EmptyUtil.isCollectionNotEmpty(userIdSelected)) {
@@ -177,9 +184,9 @@ public class ReviewMainService extends BaseService<ReviewMain, Long> {
 				}
 
 			}
-
+			reviewMain.setUsers(null);
 			reviewMain.setExtractDate(new Date());
-			update(reviewMain);
+			super.update(reviewMain);
 		}
 	}
 
@@ -189,7 +196,7 @@ public class ReviewMainService extends BaseService<ReviewMain, Long> {
 			ReviewMain dbReviewMain = findByEnabledTrue();
 			if (dbReviewMain != null) {
 				dbReviewMain.setEnabled(Boolean.FALSE);
-				update(dbReviewMain);
+				super.update(dbReviewMain);
 			}
 			reviewMain.setEnabled(Boolean.TRUE);
 
@@ -204,7 +211,7 @@ public class ReviewMainService extends BaseService<ReviewMain, Long> {
 			}
 			automaticAuthService.automaticAddAuth(ROLE_NAME, ROLE_IDENTIFICATION, GROUP_NAME, userIds, Boolean.TRUE, RESOURCE_ID);
 
-			return update(reviewMain);
+			return super.update(reviewMain);
 		} catch (Exception e) {
 			return null;
 		}

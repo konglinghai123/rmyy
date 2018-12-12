@@ -69,11 +69,19 @@ public class SystemParameterService extends BaseService<SystemParameter, Long> {
 	public void filter(Long id) {
 		SystemParameter systemParameter = findOne(id);
 		if (EmptyUtil.isNotNull(systemParameter)) {
+			
+			automaticAuthService.automaticRemoveAllUser(GROUP_NAME);
+			
 			List<Long> userIdSelected = Lists.newArrayList();//被选中的用户ID号
+			
 			List<SystemExpert> systemExperts = systemParameter.getSystemExperts();
 			if (EmptyUtil.isCollectionNotEmpty(systemExperts)) {
 				for (SystemExpert systemExpert : systemExperts) {
-					if (!systemExpert.getEnabled()) continue;
+					if (!systemExpert.getEnabled()) {
+						systemExpert.setUsers(null);
+						systemExpertService.update(systemExpert);
+						continue;
+					}
 					Set<Long> systemExpertUserIds = Sets.newHashSet();
 					List<Long> userIds = null;
 					if (EmptyUtil.isCollectionNotEmpty(userIdSelected)) {
@@ -171,7 +179,8 @@ public class SystemParameterService extends BaseService<SystemParameter, Long> {
 					automaticAuthService.automaticAddAuth(ROLE_NAME, ROLE_IDENTIFICATION, GROUP_NAME, userIdSelected, Boolean.TRUE, RESOURCE_ID);
 				}
 			}
-			update(systemParameter);
+			systemParameter.setUsers(null);
+			super.update(systemParameter);
 		}
 	}
 
@@ -182,7 +191,7 @@ public class SystemParameterService extends BaseService<SystemParameter, Long> {
 				SystemParameter dbSystemParameter = findByEnabledTrue();
 				if (dbSystemParameter != null) {
 					dbSystemParameter.setEnabled(Boolean.FALSE);
-					update(dbSystemParameter);
+					super.update(dbSystemParameter);
 				}
 				systemParameter.setEnabled(Boolean.TRUE);
 			
@@ -196,7 +205,7 @@ public class SystemParameterService extends BaseService<SystemParameter, Long> {
 				}
 				automaticAuthService.automaticAddAuth(ROLE_NAME, ROLE_IDENTIFICATION, GROUP_NAME, userIds, Boolean.TRUE, RESOURCE_ID);
 				
-				return update(systemParameter);
+				return super.update(systemParameter);
 			}else{
 				return systemParameter;
 			}
@@ -213,7 +222,7 @@ public class SystemParameterService extends BaseService<SystemParameter, Long> {
 		
 		automaticAuthService.automaticRemoveAllUser(GROUP_NAME);
 		
-		return update(systemParameter);
+		return super.update(systemParameter);
 	}
 
 	public boolean isOpenDrugDeclare() {
