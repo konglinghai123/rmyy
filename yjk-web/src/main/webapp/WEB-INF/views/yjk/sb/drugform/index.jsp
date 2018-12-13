@@ -147,6 +147,12 @@
 		</script>
 	</c:when>
 	<c:otherwise>
-		新药申报未开启
+		<ewcms:head title="申报 - 新药申报未开启"/>
+			<div id="edit-from" class="easyui-layout" data-options="fit:true" style="border:0;">
+				<div data-options="region:'center',fit:true" style="border:0;">	
+					<h1 class="title">新药申报还未开启，请等待药学部的通知，谢谢！</h1>
+				</div>
+			</div>
+		<ewcms:footer/>
 	</c:otherwise>
 </c:choose>

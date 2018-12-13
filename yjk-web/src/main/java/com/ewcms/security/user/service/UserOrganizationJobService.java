@@ -112,16 +112,10 @@ public class UserOrganizationJobService extends BaseService<UserOrganizationJob,
 		return getUserOrganizationJobRepository().findUsersByOrganization(organizationId);
 	}
 
-	public List<Long> findDeclareUsers(Set<Long> organizationIds, Set<Long> departmentAttributeIds,
-			Set<Long> prefessionIds, Set<Long> technicalTitleIds, Set<Long> appointmentIds) {
-		return getUserOrganizationJobRepository().findDeclareUsers(organizationIds, departmentAttributeIds,
-				prefessionIds, technicalTitleIds, appointmentIds);
-	}
-
-	public List<Long> findExpertUsers(Boolean director, Boolean secondDirector, Boolean pharmacy, Boolean science,
+	public List<Long> findFilterUsers(Boolean director, Boolean secondDirector, Boolean pharmacy, Boolean science,
 			Boolean antibiosis, Set<Long> organizationIds, Set<Long> departmentAttributeIds, Set<Long> prefessionIds,
 			Set<Long> technicalTitleIds, Set<Long> appointmentIds, List<Long> userIds) {
-		return getUserOrganizationJobRepository().findExpertUsers(director, secondDirector, pharmacy, science,
+		return getUserOrganizationJobRepository().findFilterUsers(director, secondDirector, pharmacy, science,
 				antibiosis, organizationIds, departmentAttributeIds, prefessionIds, technicalTitleIds, appointmentIds, userIds);
 	}
 }

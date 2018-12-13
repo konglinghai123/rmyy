@@ -15,23 +15,28 @@
 				<th data-options="field:'departmentNumber',width:80">科室人数</th>
 				<th data-options="field:'director',width:100,
 						formatter:function(val,row){
-							return val ? '是' : '/';
+							if (typeof(val)=='undefined') return '/';
+							else return val ? '是' : '否';
 						}">是否科主任</th>
 				<th data-options="field:'secondDirector',width:100,
 						formatter:function(val,row){
-							return val ? '是' : '/';
+							if (typeof(val)=='undefined') return '/';
+							else return val ? '是' : '否';
 						}">是否科副主任</th>
 				<th data-options="field:'pharmacy',width:120,
 						formatter:function(val,row){
-							return val ? '是' : '/';
+							if (typeof(val)=='undefined') return '/';
+							return val ? '是' : '否';
 						}">是否药事会成员</th>
 				<th data-options="field:'science',width:150,
 						formatter:function(val,row){
-							return val ? '是' : '/';
+							if (typeof(val)=='undefined') return '/';
+							else return val ? '是' : '否';
 						}">是否院学术委员会成员</th>
 				<th data-options="field:'antibiosis',width:180,
 						formatter:function(val,row){
-							return val ? '是' : '/';
+							if (typeof(val)=='undefined') return '/';
+							else return val ? '是' : '否';
 						}">是否抗菌药物遴选小组成员</th>
 				<th data-options="field:'organizationNames',width:200">科室/病区</th>
 				<th data-options="field:'departmentAttributeNames',width:200">科室属性</th>

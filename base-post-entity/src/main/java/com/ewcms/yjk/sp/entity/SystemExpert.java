@@ -49,15 +49,15 @@ public class SystemExpert extends BaseSequenceEntity<Long> implements Movable{
 	@Column(name = "weight")
 	private Integer weight;
 	@Column(name = "is_director")
-	private Boolean director = Boolean.FALSE;
+	private Boolean director;
 	@Column(name = "is_second_director")
-	private Boolean secondDirector = Boolean.FALSE;
+	private Boolean secondDirector;
 	@Column(name = "is_pharmacy")
-	private Boolean pharmacy = Boolean.FALSE;
+	private Boolean pharmacy;
 	@Column(name = "is_science")
-	private Boolean science = Boolean.FALSE;
+	private Boolean science;
 	@Column(name = "is_antibiosis")
-	private Boolean antibiosis = Boolean.FALSE;
+	private Boolean antibiosis;
 	@ManyToMany(cascade = { CascadeType.ALL })
 	@JoinTable(name = "sp_system_expert_organization", joinColumns = {
 			@JoinColumn(name = "system_expert_id", referencedColumnName = "id") }, inverseJoinColumns = {

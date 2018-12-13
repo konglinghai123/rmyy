@@ -105,7 +105,7 @@ public class ReviewMainService extends BaseService<ReviewMain, Long> {
 							organizationIds = Collections3.extractToSet(organizationService.findAll(), "id");
 						}
 						for (Long organizationId : organizationIds) {
-							List<Long> matchUserIds = userOrganizationJobService.findExpertUsers(
+							List<Long> matchUserIds = userOrganizationJobService.findFilterUsers(
 									reviewExpert.getDirector(), reviewExpert.getSecondDirector(),
 									reviewExpert.getPharmacy(), reviewExpert.getScience(), reviewExpert.getAntibiosis(),
 									Sets.newHashSet(organizationId), reviewExpert.getDepartmentAttributeIds(),
@@ -134,7 +134,7 @@ public class ReviewMainService extends BaseService<ReviewMain, Long> {
 						}
 					}
 
-					List<Long> matchUserIds = userOrganizationJobService.findExpertUsers(reviewExpert.getDirector(),
+					List<Long> matchUserIds = userOrganizationJobService.findFilterUsers(reviewExpert.getDirector(),
 							reviewExpert.getSecondDirector(), reviewExpert.getPharmacy(), reviewExpert.getScience(),
 							reviewExpert.getAntibiosis(), reviewExpert.getOrganizationIds(),
 							reviewExpert.getDepartmentAttributeIds(), reviewExpert.getProfessionIds(),

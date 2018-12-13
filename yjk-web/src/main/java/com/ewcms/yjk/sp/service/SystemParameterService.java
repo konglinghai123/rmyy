@@ -102,7 +102,7 @@ public class SystemParameterService extends BaseService<SystemParameter, Long> {
 							organizationIds = Collections3.extractToSet(organizationService.findAll(), "id");
 						}
 						for (Long organizationId : organizationIds) {
-							List<Long> matchUserIds = userOrganizationJobService.findExpertUsers(
+							List<Long> matchUserIds = userOrganizationJobService.findFilterUsers(
 									systemExpert.getDirector(), systemExpert.getSecondDirector(),
 									systemExpert.getPharmacy(), systemExpert.getScience(), systemExpert.getAntibiosis(),
 									Sets.newHashSet(organizationId), systemExpert.getDepartmentAttributeIds(),
@@ -130,7 +130,7 @@ public class SystemParameterService extends BaseService<SystemParameter, Long> {
 						}
 					}
 
-					List<Long> matchUserIds = userOrganizationJobService.findExpertUsers(systemExpert.getDirector(),
+					List<Long> matchUserIds = userOrganizationJobService.findFilterUsers(systemExpert.getDirector(),
 							systemExpert.getSecondDirector(), systemExpert.getPharmacy(), systemExpert.getScience(),
 							systemExpert.getAntibiosis(), systemExpert.getOrganizationIds(),
 							systemExpert.getDepartmentAttributeIds(), systemExpert.getProfessionIds(),

@@ -8,29 +8,55 @@
 		 	<form:form id="editForm" method="post" action="${ctx}/yjk/re/reviewexpert/${reviewMainId}/save" commandName="m"  class="form-horizontal">
 		    	<ewcms:showGlobalError commandName="m"/>
 		    	<form:hidden path="id"/>
+		    	<form:hidden path="weight"/>
 		    	<c:forEach var="selection" items="${selections}">
 	  				<input type="hidden" name="selections" value="${selection}" />
 				</c:forEach>
 			  	<table class="formtable">
 		        	<tr>
 						<td width="30%"><form:label path="director">是否科主任：</form:label></td>
-						<td width="70%"><form:radiobuttons path="director" items="${booleanList}" itemLabel="info" itemValue="value" cssClass="validate[required]"/></td>
+						<td width="70%">
+							<form:select path="director" cssClass="easyui-combobox" cssStyle="width:140px;" data-options="panelHeight:'auto',editable:false">
+					  			<form:option value="" label="------请选择------"/>
+					  			<form:options items="${booleanList}" itemLabel="info"/>
+							</form:select>
+						</td>
 					</tr>
 		        	<tr>
 						<td><form:label path="secondDirector">是否科副主任：</form:label></td>
-						<td><form:radiobuttons path="secondDirector" items="${booleanList}" itemLabel="info" itemValue="value" cssClass="validate[required]"/></td>
+						<td>
+							<form:select path="secondDirector" cssClass="easyui-combobox" cssStyle="width:140px;" data-options="panelHeight:'auto',editable:false">
+						  		<form:option value="" label="------请选择------"/>
+						  		<form:options items="${booleanList}" itemLabel="info"/>
+							</form:select>
+						</td>
 					</tr>					
 		        	<tr>
 						<td><form:label path="pharmacy">是否药事会成员：</form:label></td>
-						<td><form:radiobuttons path="pharmacy" items="${booleanList}" itemLabel="info" itemValue="value" cssClass="validate[required]"/></td>
+						<td>
+							<form:select path="pharmacy" cssClass="easyui-combobox" cssStyle="width:140px;" data-options="panelHeight:'auto',editable:false">
+						  		<form:option value="" label="------请选择------"/>
+						  		<form:options items="${booleanList}" itemLabel="info"/>
+							</form:select>
+						</td>
 					</tr>					
 		        	<tr>
 						<td><form:label path="science">是否院学术委员会成员：</form:label></td>
-						<td><form:radiobuttons path="science" items="${booleanList}" itemLabel="info" itemValue="value" cssClass="validate[required]"/></td>
+						<td>
+							<form:select path="science" cssClass="easyui-combobox" cssStyle="width:140px;" data-options="panelHeight:'auto',editable:false">
+						  		<form:option value="" label="------请选择------"/>
+						  		<form:options items="${booleanList}" itemLabel="info"/>
+							</form:select>
+						</td>
 					</tr>					
 		        	<tr>
 						<td><form:label path="antibiosis">是否院抗菌药物遴选小组成员：</form:label></td>
-						<td><form:radiobuttons path="antibiosis" items="${booleanList}" itemLabel="info" itemValue="value" cssClass="validate[required]"/></td>
+						<td>
+							<form:select path="antibiosis" cssClass="easyui-combobox" cssStyle="width:140px;" data-options="panelHeight:'auto',editable:false">
+						  		<form:option value="" label="------请选择------"/>
+						  		<form:options items="${booleanList}" itemLabel="info"/>
+							</form:select>
+						</td>
 					</tr>					
 					<tr>
 						<td><form:label path="organizations">科室/病区：</form:label></td>
@@ -69,7 +95,7 @@
 		</div>
 		<div data-options="region:'south'" style="text-align:center;height:30px;border:0">
 	  		<a class="easyui-linkbutton" data-options="iconCls:'icon-save'" href="javascript:void(0);" onclick="javascript:$('#editForm').submit();">提交</a>
-	  		<a class="easyui-linkbutton" data-options="iconCls:'icon-undo'" href="javascript:void(0);" onclick="javascript:$('#editForm').form('reset');">重置</a>
+	  		<a class="easyui-linkbutton" data-options="iconCls:'icon-undo'" href="javascript:void(0);" onclick="javascript:resetForm();">重置</a>
 	  		<a class="easyui-linkbutton" data-options="iconCls:'icon-cancel'" href="javascript:void(0);" onclick="javascript:parent.$('#edit-window').window('close');">关闭</a>
 		</div>
 	</div>
@@ -95,6 +121,17 @@
 	    $('#professions').combobox('setValues', ${m.professionIds});
 	    $('#appointments').combobox('setValues', ${m.appointmentIds});
 	});
+	
 	$.ewcms.refresh({operate : '${operate}', data : '${lastM}'});
+	
+	function resetForm(){
+		$('#editForm').form('reset');
+	    $('#organizations').combotree('setValues', ${m.organizationIds});
+	    $('#departmentAttributes').combobox('setValues', ${m.departmentAttributeIds});
+	    $('#technicalTitles').combobox('setValues', ${m.technicalTitleIds});
+	    $('#professions').combobox('setValues', ${m.professionIds});
+	    $('#appointments').combobox('setValues', ${m.appointmentIds});
+	}
+
 </script>
 	

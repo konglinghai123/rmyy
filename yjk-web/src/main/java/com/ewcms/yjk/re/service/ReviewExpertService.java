@@ -16,18 +16,12 @@ public class ReviewExpertService extends BaseSequenceMovableService<ReviewExpert
 		return (ReviewExpertRepository) baseRepository;
 	}
 	
-	public ReviewExpertService() {
-		super(1);
-	}
-	
 	@Override
 	public ReviewExpert save(ReviewExpert m) {
 		ReviewExpert dbReviewExpert = findByReviewMainAndId(m.getReviewMain(), m.getId());
 		if (dbReviewExpert != null) {
 			m.setId(dbReviewExpert.getId());
 		}
-		//setupReviewExpert(m);
-		
 		return super.save(m);
 	}
 	
@@ -41,7 +35,6 @@ public class ReviewExpertService extends BaseSequenceMovableService<ReviewExpert
 		if (dbReviewExpert != null) {
 			m.setId(dbReviewExpert.getId());
 		}
-		//setupReviewExpert(m);
 		return super.update(m);
 	}
 	

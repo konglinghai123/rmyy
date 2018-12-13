@@ -16,18 +16,12 @@ public class SystemExpertService extends BaseSequenceMovableService<SystemExpert
 		return (SystemExpertRepository) baseRepository;
 	}
 	
-	public SystemExpertService() {
-		super(1);
-	}
-	
 	@Override
 	public SystemExpert save(SystemExpert m) {
 		SystemExpert dbSystemExpert = findBySystemParameterAndId(m.getSystemParameter(), m.getId());
 		if (dbSystemExpert != null) {
 			m.setId(dbSystemExpert.getId());
 		}
-		//setupSystemExpert(m);
-		
 		return super.save(m);
 	}
 	
@@ -41,7 +35,6 @@ public class SystemExpertService extends BaseSequenceMovableService<SystemExpert
 		if (dbSystemExpert != null) {
 			m.setId(dbSystemExpert.getId());
 		}
-		//setupSystemExpert(m);
 		return super.update(m);
 	}
 	
