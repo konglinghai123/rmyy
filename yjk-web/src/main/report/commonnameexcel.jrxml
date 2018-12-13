@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="commonname" language="groovy" pageWidth="600" pageHeight="842" columnWidth="560" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="commonname" language="groovy" pageWidth="600" pageHeight="842" columnWidth="600" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
@@ -42,7 +42,7 @@ and common_name like '%'||$P{commonName}||'%' and drugcategory like '%'||$P{drug
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="文鼎ＰＬ简报宋" size="10"/>
+					<font fontName="文鼎ＰＬ简报宋" size="8"/>
 				</textElement>
 				<text><![CDATA[软件通用名]]></text>
 			</staticText>
@@ -55,7 +55,7 @@ and common_name like '%'||$P{commonName}||'%' and drugcategory like '%'||$P{drug
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="文鼎ＰＬ简报宋" size="10"/>
+					<font fontName="文鼎ＰＬ简报宋" size="8"/>
 				</textElement>
 				<text><![CDATA[软件ID]]></text>
 			</staticText>
@@ -68,7 +68,7 @@ and common_name like '%'||$P{commonName}||'%' and drugcategory like '%'||$P{drug
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="文鼎ＰＬ简报宋" size="10"/>
+					<font fontName="文鼎ＰＬ简报宋" size="8"/>
 				</textElement>
 				<text><![CDATA[省招标通用名]]></text>
 			</staticText>
@@ -81,7 +81,7 @@ and common_name like '%'||$P{commonName}||'%' and drugcategory like '%'||$P{drug
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="文鼎ＰＬ简报宋" size="10"/>
+					<font fontName="文鼎ＰＬ简报宋" size="8"/>
 				</textElement>
 				<text><![CDATA[类别]]></text>
 			</staticText>
@@ -94,7 +94,7 @@ and common_name like '%'||$P{commonName}||'%' and drugcategory like '%'||$P{drug
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="文鼎ＰＬ简报宋" size="10"/>
+					<font fontName="文鼎ＰＬ简报宋" size="8"/>
 				</textElement>
 				<text><![CDATA[抗菌药物]]></text>
 			</staticText>
@@ -107,7 +107,7 @@ and common_name like '%'||$P{commonName}||'%' and drugcategory like '%'||$P{drug
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="文鼎ＰＬ简报宋" size="10"/>
+					<font fontName="文鼎ＰＬ简报宋" size="8"/>
 				</textElement>
 				<text><![CDATA[抗菌药物类别]]></text>
 			</staticText>
@@ -120,12 +120,12 @@ and common_name like '%'||$P{commonName}||'%' and drugcategory like '%'||$P{drug
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="文鼎ＰＬ简报宋" size="10"/>
+					<font fontName="文鼎ＰＬ简报宋" size="8"/>
 				</textElement>
 				<text><![CDATA[抗菌药物编号]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="438" y="0" width="61" height="29"/>
+				<reportElement x="438" y="0" width="73" height="29"/>
 				<box>
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
@@ -133,12 +133,12 @@ and common_name like '%'||$P{commonName}||'%' and drugcategory like '%'||$P{drug
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="文鼎ＰＬ简报宋" size="10"/>
+					<font fontName="文鼎ＰＬ简报宋" size="8"/>
 				</textElement>
 				<text><![CDATA[化药大类]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="499" y="0" width="61" height="29"/>
+				<reportElement x="511" y="0" width="89" height="29"/>
 				<box>
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
@@ -146,7 +146,7 @@ and common_name like '%'||$P{commonName}||'%' and drugcategory like '%'||$P{drug
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="文鼎ＰＬ简报宋" size="10"/>
+					<font fontName="文鼎ＰＬ简报宋" size="8"/>
 				</textElement>
 				<text><![CDATA[化药小类]]></text>
 			</staticText>
@@ -169,7 +169,7 @@ and common_name like '%'||$P{commonName}||'%' and drugcategory like '%'||$P{drug
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="文鼎ＰＬ简报宋"/>
+					<font fontName="文鼎ＰＬ简报宋" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{commonname}]]></textFieldExpression>
 			</textField>
@@ -182,7 +182,7 @@ and common_name like '%'||$P{commonName}||'%' and drugcategory like '%'||$P{drug
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="文鼎ＰＬ简报宋"/>
+					<font fontName="文鼎ＰＬ简报宋" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{matchnumber}]]></textFieldExpression>
 			</textField>
@@ -195,7 +195,7 @@ and common_name like '%'||$P{commonName}||'%' and drugcategory like '%'||$P{drug
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="文鼎ＰＬ简报宋"/>
+					<font fontName="文鼎ＰＬ简报宋" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{bidcommonname}]]></textFieldExpression>
 			</textField>
@@ -208,7 +208,7 @@ and common_name like '%'||$P{commonName}||'%' and drugcategory like '%'||$P{drug
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="文鼎ＰＬ简报宋"/>
+					<font fontName="文鼎ＰＬ简报宋" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{drugcategory}]]></textFieldExpression>
 			</textField>
@@ -221,7 +221,7 @@ and common_name like '%'||$P{commonName}||'%' and drugcategory like '%'||$P{drug
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="文鼎ＰＬ简报宋"/>
+					<font fontName="文鼎ＰＬ简报宋" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{antibacterialsed}]]></textFieldExpression>
 			</textField>
@@ -234,7 +234,7 @@ and common_name like '%'||$P{commonName}||'%' and drugcategory like '%'||$P{drug
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="文鼎ＰＬ简报宋"/>
+					<font fontName="文鼎ＰＬ简报宋" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{antibacterialsecategory}]]></textFieldExpression>
 			</textField>
@@ -247,12 +247,12 @@ and common_name like '%'||$P{commonName}||'%' and drugcategory like '%'||$P{drug
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="文鼎ＰＬ简报宋"/>
+					<font fontName="文鼎ＰＬ简报宋" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{antibacterialsenumber}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="438" y="0" width="61" height="29"/>
+				<reportElement x="438" y="0" width="73" height="29"/>
 				<box>
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
@@ -260,12 +260,12 @@ and common_name like '%'||$P{commonName}||'%' and drugcategory like '%'||$P{drug
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="文鼎ＰＬ简报宋"/>
+					<font fontName="文鼎ＰＬ简报宋" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{chemicalbigcategory}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="499" y="0" width="61" height="29"/>
+				<reportElement x="511" y="0" width="89" height="29"/>
 				<box>
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
@@ -273,7 +273,7 @@ and common_name like '%'||$P{commonName}||'%' and drugcategory like '%'||$P{drug
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="文鼎ＰＬ简报宋"/>
+					<font fontName="文鼎ＰＬ简报宋" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{chemicalsubcategory}]]></textFieldExpression>
 			</textField>
