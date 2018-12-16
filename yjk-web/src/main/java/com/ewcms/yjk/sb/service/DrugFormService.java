@@ -1,5 +1,6 @@
 package com.ewcms.yjk.sb.service;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -74,12 +75,12 @@ public class DrugFormService extends BaseService<DrugForm, Long> {
 	 */
 	public String drugDeclare(User user, DrugForm drugForm) {
 		CommonNameContents vo = drugForm.getCommonNameContents();
-		if(isRepeatDeclare(vo.getId())){//判断是否重复申报，如果新药是重复的申报，则终止申报
+		if(isRepeatDeclare(vo.getId())){//判断新药是否重复申报，如果新药是重复的申报，则终止申报
 			return "该药已经被申报，不能重复申报";
 		}
 		
 		String isDeclareLimt = isDeclareUpperLimt(vo.getId());
-		if (isDeclareLimt.equals("false")) {
+		if (isDeclareLimt.equals("false")) {//判断新药是否满足一品两规和特殊药，满足才可以申报
 			SystemParameter systemParameter = systemParameterService.findByEnabledTrue();
 			drugForm.setUserId(user.getId());
 			drugForm.setSystemParameterId(systemParameter.getId());
@@ -101,7 +102,7 @@ public class DrugFormService extends BaseService<DrugForm, Long> {
 	
 	
 	/**
-	 * 批量对填写新药进行申报，同时要满足一品两规和申报上限的才可入库
+	 * 批量对填写新药进行申报，同时要满足一品两规和申报上限、特殊药规则以及不重复的才可申报入库
 	 * 
 	 */
 	public String saveDeclareSubmit(List<Long> selections) {
@@ -134,23 +135,23 @@ public class DrugFormService extends BaseService<DrugForm, Long> {
 		return noDeclareCommonName.toString();
 	}
 	
-	/**
-	 * 批量撤销还未初审的申报药品
-	 * 
-	 */
-	public void saveDeclareCancel(List<Long> selections) {
-		if (selections != null && !selections.isEmpty()) {
-			for (Long id : selections) {
-				DrugForm drugForm = findOne(id);
-				if (drugForm.getAuditStatus() == AuditStatusEnum.init) {
-					drugForm.setDeclared(Boolean.FALSE);
-					drugForm.setAuditStatus(AuditStatusEnum.nodeclare);
-					drugForm.setDeclareDate(null);
-					super.save(drugForm);
-				}
-			}
-		}
-	}
+//	/**
+//	 * 批量撤销还未初审的申报药品
+//	 * 
+//	 */
+//	public void saveDeclareCancel(List<Long> selections) {
+//		if (selections != null && !selections.isEmpty()) {
+//			for (Long id : selections) {
+//				DrugForm drugForm = findOne(id);
+//				if (drugForm.getAuditStatus() == AuditStatusEnum.init) {
+//					drugForm.setDeclared(Boolean.FALSE);
+//					drugForm.setAuditStatus(AuditStatusEnum.nodeclare);
+//					drugForm.setDeclareDate(null);
+//					super.save(drugForm);
+//				}
+//			}
+//		}
+//	}
 	
 	/**
 	 * 查询未申报的新药
@@ -167,13 +168,13 @@ public class DrugFormService extends BaseService<DrugForm, Long> {
 	 * 查询未审核的申报的新药
 	 * 
 	 */
-	public List<DrugForm> findByUserIdAndAuditStatus(Long userId, AuditStatusEnum auditStatus) {
-		SystemParameter systemParameter = systemParameterService.findByEnabledTrue();
-		if (EmptyUtil.isNotNull(systemParameter)) {
-			return getDrugFormRepository().findByUserIdAndAuditStatusAndSystemParameterId(userId, auditStatus, systemParameter.getId());
-		}
-		return Lists.newArrayList();
-	}
+//	public List<DrugForm> findByUserIdAndAuditStatus(Long userId, AuditStatusEnum auditStatus) {
+//		SystemParameter systemParameter = systemParameterService.findByEnabledTrue();
+//		if (EmptyUtil.isNotNull(systemParameter)) {
+//			return getDrugFormRepository().findByUserIdAndAuditStatusAndSystemParameterId(userId, auditStatus, systemParameter.getId());
+//		}
+//		return Lists.newArrayList();
+//	}
 
 	/**
 	 * 新药初审
@@ -201,7 +202,10 @@ public class DrugFormService extends BaseService<DrugForm, Long> {
 			if(!systemParameter.getRepeatDeclared()){
 				Searchable searchable = Searchable.newSearchable();
 				searchable.addSearchFilter("systemParameterId", SearchOperator.EQ, systemParameter.getId());
-				searchable.addSearchFilter("auditStatus", SearchOperator.EQ, AuditStatusEnum.passed);
+				List<AuditStatusEnum> auditstatus = new ArrayList<AuditStatusEnum>();
+				auditstatus.add(AuditStatusEnum.passed);
+				auditstatus.add(AuditStatusEnum.init);
+				searchable.addSearchFilter("auditStatus", SearchOperator.IN, auditstatus);
 				List<CommonNameRule> cnRuleList = commonNameRuleService.findByDeletedFalseAndEnabledTrueOrderByWeightAsc();
 				CommonNameContents commonNameContents = commonNameContentsService.findOne(commonNameContentsId);
 				String columnName;
@@ -278,7 +282,7 @@ public class DrugFormService extends BaseService<DrugForm, Long> {
 					
 					
 					if (existNumber >= maxNumber) {
-						isDeclareLimt = "申报药品达到特殊药品最高" + maxNumber +"的限制，不能申报";
+						isDeclareLimt = "申报药品达到特殊药品："+ specialRule.getName() +"的最高" + maxNumber +"的限制，不能申报";
 					}
 				}
 			}else{

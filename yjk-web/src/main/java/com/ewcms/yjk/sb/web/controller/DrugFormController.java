@@ -185,31 +185,31 @@ public class DrugFormController extends BaseCRUDController<DrugForm, Long> {
 		return queryMap;
 	}
 
-	@RequestMapping(value = "/declarecancel")
-	public String declareCancel(Model model) {
-		model.addAttribute("commonNameRuleList",
-				commonNameRuleService.findByDeletedFalseAndEnabledTrueOrderByWeightAsc());
-		return viewName("cancel");
-	}
+//	@RequestMapping(value = "/declarecancel")
+//	public String declareCancel(Model model) {
+//		model.addAttribute("commonNameRuleList",
+//				commonNameRuleService.findByDeletedFalseAndEnabledTrueOrderByWeightAsc());
+//		return viewName("cancel");
+//	}
 	/**
 	 * 批量撤销还未初审的申报药品
 	 * 
 	 */
-	@RequestMapping(value = "savedeclarecancel")
-	@ResponseBody
-	public AjaxResponse saveDeclareCancel(@RequestParam(required = false) List<Long> selections) {
-		AjaxResponse ajaxResponse = new AjaxResponse("申报撤销成功！");
-
-		try {
-			if (selections != null && !selections.isEmpty()) {
-				getDrugFormService().saveDeclareCancel(selections);
-			}
-		} catch (IllegalStateException e) {
-			ajaxResponse.setSuccess(Boolean.FALSE);
-			ajaxResponse.setMessage("申报撤销失败了！");
-		}
-		return ajaxResponse;
-	}
+//	@RequestMapping(value = "savedeclarecancel")
+//	@ResponseBody
+//	public AjaxResponse saveDeclareCancel(@RequestParam(required = false) List<Long> selections) {
+//		AjaxResponse ajaxResponse = new AjaxResponse("申报撤销成功！");
+//
+//		try {
+//			if (selections != null && !selections.isEmpty()) {
+//				getDrugFormService().saveDeclareCancel(selections);
+//			}
+//		} catch (IllegalStateException e) {
+//			ajaxResponse.setSuccess(Boolean.FALSE);
+//			ajaxResponse.setMessage("申报撤销失败了！");
+//		}
+//		return ajaxResponse;
+//	}
 	/**
 	 * 批量撤销还未初审的申报药品
 	 * 
@@ -224,17 +224,17 @@ public class DrugFormController extends BaseCRUDController<DrugForm, Long> {
 	 * 查询当前登录系统医生未初审了的所有申报药品
 	 * 
 	 */
-	@RequestMapping(value = "/querydeclarecancel")
-	@ResponseBody
-	public Map<String, Object> queryDeclareCancel(@CurrentUser User user, Model model) {
-		List<DrugForm> drugFormList = getDrugFormService().findByUserIdAndAuditStatus(user.getId(),AuditStatusEnum.init);
-		Map<String, Object> queryMap = new HashMap<String, Object>();
-		if (drugFormList != null) {
-			queryMap.put("total", drugFormList.size());
-			queryMap.put("rows", drugFormList);
-		}
-		return queryMap;
-	}
+//	@RequestMapping(value = "/querydeclarecancel")
+//	@ResponseBody
+//	public Map<String, Object> queryDeclareCancel(@CurrentUser User user, Model model) {
+//		List<DrugForm> drugFormList = getDrugFormService().findByUserIdAndAuditStatus(user.getId(),AuditStatusEnum.init);
+//		Map<String, Object> queryMap = new HashMap<String, Object>();
+//		if (drugFormList != null) {
+//			queryMap.put("total", drugFormList.size());
+//			queryMap.put("rows", drugFormList);
+//		}
+//		return queryMap;
+//	}
 
 	@RequestMapping(value = "build")
 	public void build(@RequestParam(value = "reportId", defaultValue = "1") Long reportId, @RequestParam(value = "drugFormId") DrugForm drugForm, HttpServletResponse response) {

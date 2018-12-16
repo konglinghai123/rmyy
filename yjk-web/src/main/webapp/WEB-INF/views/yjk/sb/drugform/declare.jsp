@@ -72,7 +72,7 @@
 	    	parameter += 'selections=' + row.id +'&';
 	    });
 	    
-	    $.messager.confirm('提示', '确定要申报所选记录吗', function(r){
+	    $.messager.confirm('提示', '新药提交后不能修改，确定要申报所选新药吗', function(r){
 	        if (r){
 	            $.post('${ctx}/yjk/sb/drugform/savedeclaresubmit', parameter ,function(data){
 	            	if(data.success){
