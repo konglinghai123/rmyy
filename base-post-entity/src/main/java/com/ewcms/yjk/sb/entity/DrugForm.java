@@ -30,7 +30,8 @@ import com.ewcms.yjk.zd.commonname.entity.CommonNameContents;
  * <ul>
  * <li>userId:申报医生ID</li>
  * <li>systemParameterId:启动的系统参数申报ID</li>
- * <li>userName:申报医生姓名</li>
+ * <li>realName:申报医生姓名</li>
+ * <li>departName:科室名称</li>
  * <li>createDate:申报日期</li>
  * <li>commonNameContents:申请大通用名药品</li>
  * <li>declared:是否申报</li>
@@ -42,6 +43,9 @@ import com.ewcms.yjk.zd.commonname.entity.CommonNameContents;
  * <li>dosage:用法用量</li>
  * <li>indicationsEffect:适应症及药理作用</li>
  * <li>declareReason:申请理由</li>
+ * <li>constituent:成分</li>
+ * <li>preparationed:是否复方制剂</li>
+ * <li>declareCategory:申报类型</li>
  * </ul>
  * 
  * @author zhoudongchu
@@ -57,9 +61,12 @@ public class DrugForm extends BaseSequenceEntity<Long> {
 	@Column(name = "system_parameter_id", nullable = false)
 	private Long systemParameterId;
 	
-	@Formula(value = "(select s_o.username  from sec_user s_o where s_o.id=user_id)")
-	private String userName;
-
+	@Formula(value = "(select s_o.realname  from sec_user s_o where s_o.id=user_id)")
+	private String realName;
+	
+	@Formula(value = "(select t2.name  from sec_user t1,sec_department_attribute t2 where t1.id=user_id and t1.department_attribute_id=t2.id)")
+	private String departName;
+	
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	@Column(name = "fill_in_date", updatable = false)
 	@Temporal(TemporalType.TIMESTAMP)
@@ -98,7 +105,23 @@ public class DrugForm extends BaseSequenceEntity<Long> {
 	@Column(name = "declare_reason", nullable = false, columnDefinition = "text")
 	private String declareReason;
 	
+	@Column(name = "constituent")
+	private String constituent;
 
+	@Column(name = "declareCategory")
+	private String declareCategory;
+	
+	@Column(name = "is_preparationed")
+	private Boolean preparationed = Boolean.FALSE;
+
+
+	public String getRealName() {
+		return realName;
+	}
+
+	public String getDepartName() {
+		return departName;
+	}
 
 	public Long getSystemParameterId() {
 		return systemParameterId;
@@ -120,9 +143,7 @@ public class DrugForm extends BaseSequenceEntity<Long> {
 		this.userId = userId;
 	}
 
-	public String getUserName() {
-		return userName;
-	}
+
 	@JSONField(format = "yyyy-MM-dd HH:mm:ss")
 	public Date getFillInDate() {
 		return fillInDate;
@@ -176,6 +197,10 @@ public class DrugForm extends BaseSequenceEntity<Long> {
     	return auditStatus == null ? "" : auditStatus.getInfo();
     }
 
+	public String getDrugCategoryInfo(){
+		return commonNameContents == null ? "" : commonNameContents.getDrugCategoryInfo();
+	}
+	
 	public String getDosage() {
 		return dosage;
 	}
@@ -207,4 +232,30 @@ public class DrugForm extends BaseSequenceEntity<Long> {
 	public void setAuditDate(Date auditDate) {
 		this.auditDate = auditDate;
 	}
+
+	public String getConstituent() {
+		return constituent;
+	}
+
+	public void setConstituent(String constituent) {
+		this.constituent = constituent;
+	}
+
+	public Boolean getPreparationed() {
+		return preparationed;
+	}
+
+	public void setPreparationed(Boolean preparationed) {
+		this.preparationed = preparationed;
+	}
+
+	public String getDeclareCategory() {
+		return declareCategory;
+	}
+
+	public void setDeclareCategory(String declareCategory) {
+		this.declareCategory = declareCategory;
+	}
+	
+	
 }

@@ -3,6 +3,7 @@ package com.ewcms.yjk.sb.service;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -79,7 +80,7 @@ public class DrugFormService extends BaseService<DrugForm, Long> {
 			return "该药已经被申报，不能重复申报";
 		}
 		
-		String isDeclareLimt = isDeclareUpperLimt(vo.getId());
+		String isDeclareLimt = isDeclareUpperLimt(vo.getId()).get("isDeclareLimt");
 		if (isDeclareLimt.equals("false")) {//判断新药是否满足一品两规和特殊药，满足才可以申报
 			SystemParameter systemParameter = systemParameterService.findByEnabledTrue();
 			drugForm.setUserId(user.getId());
@@ -97,7 +98,7 @@ public class DrugFormService extends BaseService<DrugForm, Long> {
 		if(isRepeatDeclare(commonNameContentsId)){//判断是否重复申报，如果新药是重复的申报，则终止申报
 			return "该药已经被申报，不能重复申报";
 		}
-		return isDeclareUpperLimt(commonNameContentsId);
+		return isDeclareUpperLimt(commonNameContentsId).get("isDeclareLimt");
 	}
 	
 	
@@ -111,13 +112,15 @@ public class DrugFormService extends BaseService<DrugForm, Long> {
 			for (Long id : selections) {
 				DrugForm drugForm = findOne(id);
 				if(!drugForm.getDeclared()){
-					String isDeclareUpperLimt = isDeclareUpperLimt(drugForm.getCommonNameContents().getId());
-					if (isDeclareUpperLimt.equals("false")){
+					Map<String,String> resulstMap = isDeclareUpperLimt(drugForm.getCommonNameContents().getId());
+					String isDeclareLimt = resulstMap.get("isDeclareLimt");
+					if (isDeclareLimt.equals("false")){
 						if(!isDeclareTotalUpperLimt(drugForm.getUserId())){
 							if(!isRepeatDeclare(drugForm.getCommonNameContents().getId())){
 								drugForm.setDeclared(Boolean.TRUE);
 								drugForm.setAuditStatus(AuditStatusEnum.init);
 								drugForm.setDeclareDate(new Date(Calendar.getInstance().getTime().getTime()));
+								drugForm.setDeclareCategory(resulstMap.get("declareCategory"));
 								super.save(drugForm);
 							}else{
 								noDeclareCommonName.append(drugForm.getCommonNameContents().getCommon().getCommonName() + "申报重复|");
@@ -127,7 +130,7 @@ public class DrugFormService extends BaseService<DrugForm, Long> {
 							noDeclareCommonName.append(drugForm.getCommonNameContents().getCommon().getCommonName() + "超出申报数|");	
 						}
 					} else {
-						noDeclareCommonName.append(drugForm.getCommonNameContents().getCommon().getCommonName() + isDeclareUpperLimt+ "|");
+						noDeclareCommonName.append(drugForm.getCommonNameContents().getCommon().getCommonName() + isDeclareLimt+ "|");
 					}
 				}
 			}
@@ -237,7 +240,8 @@ public class DrugFormService extends BaseService<DrugForm, Long> {
 	 * @param commonNameContentsId
 	 * @return
 	 */
-	private String isDeclareUpperLimt(Long commonNameContentsId) {
+	private Map<String,String> isDeclareUpperLimt(Long commonNameContentsId) {
+		Map<String,String> resulstMap = new HashMap<String,String>();
 		String isDeclareLimt = "false";
 		if (commonNameContentsId != null) {// 申报目录编号存在
 			// 获取新药申报的大目录对象
@@ -259,8 +263,13 @@ public class DrugFormService extends BaseService<DrugForm, Long> {
 			if(EmptyUtil.isCollectionNotEmpty(hospitalContentsList)){
 				existNumber = hospitalContentsList.size();
 			}
-			
+
 			if (existNumber < maxNumber) {//满足一品两规，再判断是否满足特殊规则
+				if(existNumber==0){
+					resulstMap.put("declareCategory", "新增通用名");
+				}else{
+					resulstMap.put("declareCategory", "新增规格");
+				}
 				//查询特殊规则中的随数与特殊规则对象
 				Map<Long, SpecialRule> map = specialRuleService.findMaxLimitNumber(vo.getCommon().getId(),vo.getAdministration().getId());
 				
@@ -291,8 +300,8 @@ public class DrugFormService extends BaseService<DrugForm, Long> {
 		}else{
 			isDeclareLimt = "申报药品不在大目录范围，不能申报";
 		}
-		
-		return isDeclareLimt;
+		resulstMap.put("isDeclareLimt", isDeclareLimt);
+		return resulstMap;
 	}
 
 	/**

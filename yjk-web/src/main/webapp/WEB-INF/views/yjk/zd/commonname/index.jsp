@@ -2,14 +2,19 @@
 <%@ include file="/WEB-INF/views/jspf/taglibs.jspf" %>
 
 <ewcms:head title="字典 - 通用名"/>
-	<table id="tt" class="easyui-datagrid" data-options="url:'${ctx}/yjk/zd/commonname/query',toolbar:'#tb',fit:true,nowrap:true,pagination:true,rownumbers:true,striped:true,border:false,pageSize:20">
+	<table id="tt" class="easyui-datagrid" data-options="url:'${ctx}/yjk/zd/commonname/query',toolbar:'#tb',fit:true,nowrap:true,pagination:true,rownumbers:true,striped:true,border:false,pageSize:20,
+	        rowStyler: function(index,row){
+	        	if (!row.enabled){
+	    			return 'background-color:#FF0000;color:#FFFFFF;';
+	        	}
+	    	}">
 		<thead>
 			<tr>
 			    <th data-options="field:'ck',checkbox:true"/>
 			    <th data-options="field:'id',hidden:true">编号</th>
 				<th data-options="field:'commonName',sortable:true,width:200">通用名</th>
-				<th data-options="field:'bidCommonName',width:200">省招标通用名</th>
-				<th data-options="field:'matchNumber',width:80">匹配编号</th>
+				<th data-options="field:'bidCommonName',width:200,sortable:true">省招标通用名</th>
+				<th data-options="field:'matchNumber',width:80,sortable:true">匹配编号</th>
 				<th data-options="field:'drugCategoryInfo',width:80">药品种类</th>
 				<th data-options="field:'chemicalBigCategory',width:200">化药大类</th>
 				<th data-options="field:'chemicalSubCategory',width:200">化药小类</th>
@@ -36,17 +41,24 @@
         		<table class="formtable">
               		<tr>
               			<td width="5%">通用名</td>
-              			<td width="23%"><input type="text" name="LIKE_commonName" style="width:140px;"/></td>
+              			<td width="15%"><input type="text" name="LIKE_commonName" /></td>
             			<td width="5%">简拼</td>
-              			<td width="23%"><input type="text" name="LIKE_spellSimplify" style="width:140px;"/></td>
+              			<td width="15%"><input type="text" name="LIKE_spellSimplify" /></td>
+              			<td width="5%">药品种类</td>
+    					<td width="15%">
+           					<form:select id="drugCategory" name="EQ_drugCategory" path="drugCategoryList" cssClass="easyui-combobox"  data-options="panelHeight:'auto',editable:false">
+					  			<form:option value="" label="---请选择---"/>
+					  			<form:options items="${drugCategoryList}" itemLabel="info"/>
+							</form:select>
+						</td> 
            				<td width="5%">是否启用</td>
-    					<td width="23%">
-           					<form:select id="enabled" name="EQ_enabled" path="booleanList" cssClass="easyui-combobox"  cssStyle="width:140px;" data-options="panelHeight:'auto',editable:false">
-					  			<form:option value="" label="------请选择------"/>
+    					<td width="15%">
+           					<form:select id="enabled" name="EQ_enabled" path="booleanList" cssClass="easyui-combobox"   data-options="panelHeight:'auto',editable:false">
+					  			<form:option value="" label="---请选择---"/>
 					  			<form:options items="${booleanList}" itemLabel="info"/>
 							</form:select>
 						</td>              			
-              			<td width="25%" colspan="2">
+              			<td width="30%" colspan="2">
             				<a id="tb-query" href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="$.ewcms.query();">查询</a>
            					<a id="tb-clear" href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-clear'" onclick="javascript:$('#queryform').form('reset');">清除</a>
            				</td>

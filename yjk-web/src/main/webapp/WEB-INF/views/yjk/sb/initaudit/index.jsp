@@ -8,7 +8,9 @@
 					    <th data-options="field:'id',hidden:true">编号</th>
 					    <th data-options="field:'formatId',width:100">编号</th>
 						<th data-options="field:'auditStatusInfo',width:100">审核状态</th>	
-						<th data-options="field:'userName',width:100,sortable:true">申报医生</th>
+						<th data-options="field:'realName',width:100,sortable:true">申报医生</th>
+						<th data-options="field:'departName',width:100,sortable:true">科室</th>
+						<th data-options="field:'declareCategory',width:100,sortable:true">申报类型</th>
 						<c:forEach items="${commonNameRuleList}" var="commonNameRule">
 							<c:choose>
 								<c:when test="${commonNameRule.ruleName == 'administration.id'}">
@@ -16,12 +18,8 @@
 											formatter:function(val,row){
 												return row.commonNameContents==null ?'':row.commonNameContents.administration.name;
 											}">${commonNameRule.ruleCnName}</th>
-								</c:when>
+								</c:when>	
 								<c:when test="${commonNameRule.ruleName == 'common.drugCategory'}">
-									<th data-options="field:'drugCategory',width:120,
-											formatter:function(val,row){
-												return row.commonNameContents==null ?'':row.commonNameContents.common.drugCategoryInfo;
-											}">${commonNameRule.ruleCnName}</th>
 								</c:when>								
 								<c:otherwise>
 									<th data-options="field:'${commonNameRule.ruleName}',width:120,
@@ -31,13 +29,19 @@
 								</c:otherwise>
 							</c:choose>			
 						</c:forEach>
+						<th data-options="field:'drugCategoryInfo',width:100">药品种类</th>
 						<th data-options="field:'dosage',width:150">用法用量</th>
 						<th data-options="field:'indicationsEffect',width:300">适应症及药理作用</th>
 						<th data-options="field:'declareReason',width:300">申请理由</th>
 						<th data-options="field:'remark',width:150">初审说明</th>
-						<th data-options="field:'fillInDate',width:150">填报时间</th>
-						<th data-options="field:'declareDate',width:150">申报时间</th>
-						<th data-options="field:'auditDate',width:150">初审时间</th>	
+						<th data-options="field:'constituent',width:150">成分</th>
+						<th data-options="field:'preparationed',width:100,
+						formatter:function(val,row){
+							return val ? '是' : '否';
+						}">是否复方制剂</th>
+						<th data-options="field:'fillInDate',width:150,sortable:true">填报时间</th>
+						<th data-options="field:'declareDate',width:150,sortable:true">申报时间</th>
+						<th data-options="field:'auditDate',width:150,sortable:true">初审时间</th>	
 					</tr>
 				</thead>
 			</table>
@@ -64,8 +68,8 @@
 								  			<form:options items="${userList}" itemLabel="username" itemValue="id"/>
 										</form:select>
 			           			</td>		              		   
-              					<td width="7%">简拼</td>
-              					<td width="23%"><input type="text" name="LIKE_commonNameContents.common.spellSimplify" style="width:140px;"/></td>
+              					<td>简拼</td>
+              					<td><input type="text" name="LIKE_commonNameContents.common.spellSimplify" style="width:140px;"/></td>
 		              			<td width="20%" colspan="2">
 		            				<a id="tb-query" href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="$.ewcms.query();">查询</a>
 		           					<a id="tb-clear" href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-clear'" onclick="javascript:$('#queryform').form('reset');">清除</a>
@@ -74,8 +78,10 @@
 		           			</tr>
 		           			<tr style="display: none;">
 		              			<td>通用名</td>
-		              			<td><input type="text" name="LIKE_commonNameContents.common.commonName" style="width:140px;"/></td>		           			
-								<td width="10%">填报时间时间从</td>
+		              			<td><input type="text" name="LIKE_commonNameContents.common.commonName" style="width:140px;"/></td>	
+		              			<td>申报类型</td>
+		              			<td><input type="text" name="LIKE_declareCategory"/></td>	           			
+								<td width="10%">填报时间从</td>
 								<td colspan="2">
 									<input type="text" id="fillInDate1" name="GTE_fillInDate" class="easyui-datetimebox" style="width: 145px" data-options="editable:false" />
 									 至 

@@ -184,6 +184,14 @@
 						<td width="30%"><form:label path="declareReason">申请理由（可附页）（请说明该药国内外使用情况、指南推荐情况、优势及特点、与本学科的关系等）：</form:label></td>
 						<td width="70%"><form:textarea path="declareReason" style="width:400px;height:50px" cssClass="validate[required]"/></td>
 					</tr>
+					<tr>
+						<td width="30%"><form:label path="constituent">成分：</form:label></td>
+						<td width="70%"><form:textarea path="constituent" style="width:400px;height:50px" cssClass="validate[required]"/></td>
+					</tr>
+		        	<tr>
+						<td width="30%"><form:label path="preparationed">是否复方制剂：</form:label></td>
+						<td width="70%"><form:checkbox path="preparationed"/></td>
+					</tr>										
            		</table>
           	</form:form>
 		 	<form id="queryform">
