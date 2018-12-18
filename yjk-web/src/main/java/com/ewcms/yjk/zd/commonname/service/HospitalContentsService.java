@@ -78,7 +78,9 @@ public class HospitalContentsService extends BaseService<HospitalContents, Long>
 		m.setUpdateDate(new Date(Calendar.getInstance().getTime().getTime()));
 		return super.update(m);
 	}
-
+	public List<String> findDistinctProjectName(){
+		return getHospitalContentsRepository().findDistinctProjectName();
+	}
 	public List<Integer> importExcel(InputStream in,Boolean isDisabledOriginalData) {
 		List<Integer> noSave = Lists.newArrayList();
 
@@ -207,6 +209,13 @@ public class HospitalContentsService extends BaseService<HospitalContents, Long>
 							hospitalContents.setRemark2(rows.getCell(j).getStringCellValue().trim());
 						}else if (columnNames[j].equals("备注3")) {
 							hospitalContents.setRemark3(rows.getCell(j).getStringCellValue().trim());
+						}else if (columnNames[j].equals("省招标药品ID")) {
+							try {
+								hospitalContents.setBidDrugId(rows.getCell(j).getStringCellValue().trim());
+							} catch (Exception e) {
+								Double drugCode = rows.getCell(j).getNumericCellValue();
+								hospitalContents.setBidDrugId(String.valueOf(drugCode.longValue()));
+							}
 						}
 					}
 					if(!isDisabledOriginalData){//增量导入，需要按照提取通用名，给药途径，编号，药品类型，院用目录通用名，生产企业，剂型,规格，包装数量,省招标通用名查重，重复记录的不保存

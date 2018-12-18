@@ -5,25 +5,18 @@
 	<div id="edit-from" class="easyui-layout" data-options="fit:true" style="border:0;">
 		<ewcms:showMessage/>
 		<div data-options="region:'center',border:false">	
-		 	<form:form id="importForm" method="post" action="${ctx}/yjk/zd/commonnamecontents/savefilterdeclared" class="form-horizontal">
+		 	<form method="post" action="${ctx}/yjk/zd/commonnamecontents/savefilterdeclared" class="form-horizontal">
 			  	<table class="formtable">
 					<tr>
 						<td width="40%">选择允许申报的项目：</td>
 						<td width="60%">
-							<select  name="projectDeclareds" class="easyui-combobox" data-options="editable:false,multiple:true,width:400">
-								<option value="省直联合体项目">省直联合体项目</option>
-								<option value="增补待谈价">增补待谈价</option>
-								<option value="双信封中标项目">双信封中标项目</option>
-								<option value="国家谈判项目">国家谈判项目</option>
-								<option value="定点生产项目">定点生产项目</option>
-								<option value="省级谈判项目">省级谈判项目</option>		
-								<option value="市场撮合项目">市场撮合项目</option>								
-							</select>
-						
+							<form:select  name="projectDeclareds" path="projectNameList" cssClass="easyui-combobox" data-options="panelHeight:'auto',editable:false,multiple:true,width:400">
+								<form:options items="${projectNameList}"/>							
+							</form:select>
 						</td>
 					</tr>				
 				</table>
-			</form:form>
+			</form>
 		</div>
 		<div data-options="region:'south'" style="text-align:center;height:30px;border:0">
 	  		<a id="tb-import" class="easyui-linkbutton" data-options="iconCls:'icon-save'" href="javascript:void(0);">提交</a>

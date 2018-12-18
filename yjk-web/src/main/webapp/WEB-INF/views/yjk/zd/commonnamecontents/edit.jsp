@@ -44,15 +44,12 @@
 				</tr>
 				<tr>			
 					<td width="20%"><form:label path="projectName">项目名称：</form:label></td>
-					<td width="30%"><form:select path="projectName" cssClass="easyui-combobox">
-							<form:option value="省直联合体项目">省直联合体项目</form:option>
-							<form:option value="增补待谈价">增补待谈价</form:option>
-							<form:option value="双信封中标项目">双信封中标项目</form:option>
-							<form:option value="国家谈判项目">国家谈判项目</form:option>
-							<form:option value="定点生产项目">定点生产项目</form:option>
-							<form:option value="省级谈判项目">省级谈判项目</form:option>		
-							<form:option value="市场撮合项目">市场撮合项目</form:option>						
-						</form:select></td>				
+					<td width="30%">
+						<form:select path="projectName" cssClass="easyui-combobox" data-options="editable:true">
+							<form:option value="" label="---请选择---"/>
+					  		<form:options items="${projectNameList}"/>					
+						</form:select>
+					</td>			
 					<td width="20%"><form:label path="productName">商品名：</form:label></td>
 					<td width="30%"><form:input path="productName" /></td>
 				</tr>

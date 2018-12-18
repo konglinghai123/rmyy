@@ -73,6 +73,9 @@ public class CommonNameContentsService extends BaseService<CommonNameContents, L
 		return getCommonNameContentsRepository().findCommonNameContentsBySpell(spell);
 	}
 
+	public List<String> findDistinctProjectName(){
+		return getCommonNameContentsRepository().findDistinctProjectName();
+	}
 	/**
 	 * 根据申报药品查找当前大目录匹配数据集合
 	 * 

@@ -63,10 +63,7 @@
 		           				</td>
 			              		<td>申报医生</td>
 			           			<td>
-			           					<form:select id="userId" name="EQ_userId" path="userList" cssClass="easyui-combobox"  cssStyle="width:140px;" data-options="panelHeight:'auto',editable:false">
-								  			<form:option value="" label="------请选择------"/>
-								  			<form:options items="${userList}" itemLabel="username" itemValue="id"/>
-										</form:select>
+			           				<input id="userId" name="EQ_userId" />
 			           			</td>		              		   
               					<td>简拼</td>
               					<td><input type="text" name="LIKE_commonNameContents.common.spellSimplify" style="width:140px;"/></td>
@@ -123,6 +120,37 @@
 								$('#tt').datagrid('fixDetailRowHeight',rowIndex);
 							}
 						});
+						
+						var transTool = $('#userId').combogrid({
+							panelWidth: 500,
+					        idField: 'id',
+					        textField: 'realname',
+					        fitColumns: true,
+					        multiple:true,
+					        url:'${ctx}/security/user/user/findbyrealname',
+					        columns: [[
+					        	{field:'id',hidden:true},
+			                    {field:'username',title:'登录名',width:80},
+			                    {field:'realname',title:'姓名',width:130},
+			                    {field:'sex',title:'性别',width:60,
+			                    	formatter:function(val,row){
+										return row.sexDescription;
+									}		
+			                    },
+			                    {field:'mobilePhoneNumber',title:'手机号',width:120},
+			                    {field:'organizationNames',title:'科室名称',width:150}
+					        ]]
+						});
+						
+						transTool.combogrid('textbox').keyup(function(event) {
+							if (event.keyCode == 38){
+							} else if (event.keyCode == 40){
+							} else {
+								$('#userId').combogrid('grid').datagrid('reload', {
+									realname : $('#userId').combogrid("getText")
+								});
+					 		}
+					   	});						
 					});
 			
 					function initAudit(){
