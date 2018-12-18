@@ -73,8 +73,6 @@ public class ReviewMainService extends BaseService<ReviewMain, Long> {
 		ReviewMain reviewMain = findOne(id);
 		if (EmptyUtil.isNotNull(reviewMain)) {
 			
-			automaticAuthService.automaticRemoveAllUser(GROUP_NAME);
-			
 			List<Long> userIdSelected = Lists.newArrayList();//被选中的用户ID号
 			
 			List<ReviewExpert> reviewExperts = reviewMain.getReviewExperts();
@@ -180,6 +178,7 @@ public class ReviewMainService extends BaseService<ReviewMain, Long> {
 				}
 
 				if (reviewMain.getEnabled()) {
+					automaticAuthService.automaticRemoveAllUser(GROUP_NAME);
 					automaticAuthService.automaticAddAuth(ROLE_NAME, ROLE_IDENTIFICATION, GROUP_NAME, userIdSelected, Boolean.TRUE, RESOURCE_ID);
 				}
 

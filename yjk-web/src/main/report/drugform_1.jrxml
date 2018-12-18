@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="drugform_1" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
 	<property name="ireport.zoom" value="2.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.y" value="432"/>
 	<parameter name="drugFormId" class="java.lang.Long">
 		<defaultValueExpression><![CDATA[10]]></defaultValueExpression>
 	</parameter>
@@ -357,7 +357,7 @@ where sdf.id = $P{drugFormId}]]>
 				<text><![CDATA[]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="7" y="316" width="426" height="17"/>
+				<reportElement x="7" y="316" width="544" height="17"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid"/>
 					<leftPen lineWidth="0.0"/>
@@ -367,7 +367,7 @@ where sdf.id = $P{drugFormId}]]>
 				<textElement verticalAlignment="Middle">
 					<font fontName="文鼎ＰＬ简报宋" size="12" isBold="true"/>
 				</textElement>
-				<text><![CDATA[申请理由（请说明该药国内外使用情况、优势及特点、与本学科的关系等）]]></text>
+				<text><![CDATA[申请理由（可附页）（请说明该药国内外使用情况、优势及特点、与本学科的关系等）]]></text>
 			</staticText>
 			<textField pattern="###0.00" isBlankWhenNull="true">
 				<reportElement x="4" y="336" width="547" height="182"/>

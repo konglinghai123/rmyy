@@ -285,9 +285,11 @@ public class ReviewMainController extends BaseCRUDController<ReviewMain, Long> {
 		return ajaxResponse;
 	}
 
-	@RequestMapping(value = "{reviewMainId}/build")
+	@RequestMapping(value = "{reviewMainId}/print/{type}")
 	public void build(@RequestParam(value = "reportId", defaultValue = "6") Long reportId,
-			@PathVariable(value = "reviewMainId") Long reviewMainId, HttpServletResponse response) {
+			@PathVariable(value = "reviewMainId") Long reviewMainId, 
+			@PathVariable(value = "type") String type,
+			HttpServletResponse response) {
 		response.setDateHeader("Expires", 0L);
 		response.setHeader("Cache-Control", "no-store, no-cache, must-revalidate");
 		response.addHeader("Cache-Control", "post-check=0, pre-check=0");
@@ -295,7 +297,10 @@ public class ReviewMainController extends BaseCRUDController<ReviewMain, Long> {
 		try {
 			ParameterBuilder parameterBuilder = new ParameterBuilder();
 			parameterBuilder.getParamMap().put("reviewMainId", String.valueOf(reviewMainId));
-			parameterBuilder.setTextType(TextReport.Type.PDF);
+			if (type.equals("xls")) 
+				parameterBuilder.setTextType(TextReport.Type.XLS);
+			else
+				parameterBuilder.setTextType(TextReport.Type.PDF);
 
 			textReportService.buildText(parameterBuilder.getParamMap(), reportId, parameterBuilder.getTextType(),
 					response);

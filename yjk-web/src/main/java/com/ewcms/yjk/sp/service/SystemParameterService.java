@@ -70,8 +70,6 @@ public class SystemParameterService extends BaseService<SystemParameter, Long> {
 		SystemParameter systemParameter = findOne(id);
 		if (EmptyUtil.isNotNull(systemParameter)) {
 			
-			automaticAuthService.automaticRemoveAllUser(GROUP_NAME);
-			
 			List<Long> userIdSelected = Lists.newArrayList();//被选中的用户ID号
 			
 			List<SystemExpert> systemExperts = systemParameter.getSystemExperts();
@@ -176,6 +174,7 @@ public class SystemParameterService extends BaseService<SystemParameter, Long> {
 				}
 				
 				if (systemParameter.getEnabled()) {
+					automaticAuthService.automaticRemoveAllUser(GROUP_NAME);
 					automaticAuthService.automaticAddAuth(ROLE_NAME, ROLE_IDENTIFICATION, GROUP_NAME, userIdSelected, Boolean.TRUE, RESOURCE_ID);
 				}
 			}

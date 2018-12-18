@@ -448,4 +448,8 @@ public class UserService extends BaseService<User, Long> {
 	public List<Long> findUserIdOffscale(List<Long> userIds){
 		return getUserRepository().findUserIdOffscale(userIds);
 	}
+	
+	public List<User> findByRealnameContaining(String realname){
+		return getUserRepository().findByRealnameContaining(realname);
+	}
 }

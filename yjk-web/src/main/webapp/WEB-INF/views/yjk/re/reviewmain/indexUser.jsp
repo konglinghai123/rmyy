@@ -14,6 +14,7 @@
 						}">性别</th>
 				<th data-options="field:'email',width:200,sortable:true">邮箱</th>
 				<th data-options="field:'mobilePhoneNumber',width:100,sortable:true">手机号</th>
+				<th data-options="field:'organizationNames',width:150">科室名称</th>
 				<th data-options="field:'departmentAttribute',width:100,sortable:true,
 						formatter:function(val,row){
 							return row.departmentAttribute != null ? row.departmentAttribute.name : '';
@@ -57,7 +58,8 @@
         <div class="toolbar" style="margin-bottom:2px">
 			<a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true" onclick="$.ewcms.add({src:'${ctx}/yjk/re/reviewmain/${reviewMainId}/saveUser',title:'添加',width:750,height:265,left:200});">添加</a>
 			<a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-remove',plain:true" onclick="$.ewcms.remove({src:'${ctx}/yjk/re/reviewmain/${reviewMainId}/removeUser',title:'移除',width:750,height:265});">移除</a>
-			<a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-print',plain:true" onclick="$.ewcms.openTopWindow({src:'${ctx}/yjk/re/reviewmain/${reviewMainId}/build',title:'申报新药人员打印',isRefresh:false,maximizable:true});">打印</a>
+			<a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-print',plain:true" onclick="$.ewcms.openTopWindow({src:'${ctx}/yjk/re/reviewmain/${reviewMainId}/print/pdf',title:'申报新药人员打印',isRefresh:false,maximizable:true});">打印</a>
+			<a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-export',plain:true" onclick="$.ewcms.openWindow({windowId:'#edit-window',width:500,height:350,title:'导出通用名信息',src:'${ctx}/yjk/re/reviewmain/${reviewMainId}/print/xls'});">导出</a>
 		</div>
         <div>
         	<form id="queryform">

@@ -219,9 +219,11 @@ public class SystemParameterController extends BaseCRUDController<SystemParamete
 		return map;
 	}
 
-	@RequestMapping(value = "{systemParameterId}/build")
-	public void build(@RequestParam(value = "reportId", defaultValue = "5") Long reportId,
-			@PathVariable(value = "systemParameterId") Long systemParameterId, HttpServletResponse response) {
+	@RequestMapping(value = "{systemParameterId}/print/{type}")
+	public void print(@RequestParam(value = "reportId", defaultValue = "5") Long reportId,
+			@PathVariable(value = "systemParameterId") Long systemParameterId, 
+			@PathVariable(value = "type") String type, 
+			HttpServletResponse response) {
 		response.setDateHeader("Expires", 0L);
 		response.setHeader("Cache-Control", "no-store, no-cache, must-revalidate");
 		response.addHeader("Cache-Control", "post-check=0, pre-check=0");
@@ -229,8 +231,11 @@ public class SystemParameterController extends BaseCRUDController<SystemParamete
 		try {
 			ParameterBuilder parameterBuilder = new ParameterBuilder();
 			parameterBuilder.getParamMap().put("systemParameterId", String.valueOf(systemParameterId));
-			parameterBuilder.setTextType(TextReport.Type.PDF);
-
+			if (type.equals("xls"))
+				parameterBuilder.setTextType(TextReport.Type.XLS);
+			else 
+				parameterBuilder.setTextType(TextReport.Type.PDF);
+			
 			textReportService.buildText(parameterBuilder.getParamMap(), reportId, parameterBuilder.getTextType(),
 					response);
 		} catch (Exception e) {

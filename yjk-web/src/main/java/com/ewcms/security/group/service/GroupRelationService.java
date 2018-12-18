@@ -1,6 +1,7 @@
 package com.ewcms.security.group.service;
 
 import com.ewcms.common.service.BaseService;
+import com.ewcms.common.utils.EmptyUtil;
 import com.ewcms.security.group.entity.Group;
 import com.ewcms.security.group.entity.GroupRelation;
 import com.ewcms.security.group.entity.GroupType;
@@ -63,6 +64,7 @@ public class GroupRelationService extends BaseService<GroupRelation, Long> {
 			if (checkAll) {
 				organizations = organizationService.findAll();
 			} else {
+				if (EmptyUtil.isArrayEmpty(organizationIds)) return;
 				organizations = organizationService.findByIdIn(organizationIds);
 			}
 			
@@ -89,6 +91,7 @@ public class GroupRelationService extends BaseService<GroupRelation, Long> {
 			if (checkAll) {
 				users = userService.findAll();
 			} else {
+				if (EmptyUtil.isArrayEmpty(userIds)) return;
 				users = Lists.newArrayList(userService.findUserDisplay(Sets.newHashSet(userIds)));
 			}
 			

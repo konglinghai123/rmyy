@@ -4,6 +4,7 @@ import com.alibaba.fastjson.annotation.JSONField;
 import com.ewcms.common.entity.BaseSequenceEntity;
 import com.ewcms.common.plugin.entity.LogicDeleteable;
 import com.ewcms.common.repository.support.annotation.EnableQueryCache;
+import com.ewcms.common.utils.Collections3;
 import com.ewcms.common.utils.EmptyUtil;
 import com.ewcms.common.utils.PatternUtils;
 import com.ewcms.security.dictionary.entity.Appointment;
@@ -173,6 +174,10 @@ public class User extends BaseSequenceEntity<Long> implements LogicDeleteable {
 
     public void setOrganizationJobs(List<UserOrganizationJob> organizationJobs) {
         this.organizationJobs = organizationJobs;
+    }
+    
+    public String getOrganizationNames() {
+    	return (organizationJobs == null) ? "" : Collections3.extractToString(organizationJobs, "organizationName", "/"); 
     }
 
     public String getUsername() {

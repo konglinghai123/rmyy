@@ -320,7 +320,11 @@ public class DrugFormService extends BaseService<DrugForm, Long> {
 	public Map<String, Object> findDrugFormCount(User user, SearchParameter<Long> searchParameter) {
 		Map<String, Object> map = Maps.newHashMap();
 		SystemParameter systemParameter = systemParameterService.findByEnabledTrue();
-		if (systemParameter == null) return map;
+		if (systemParameter == null) {
+			map.put("total", 0);
+			map.put("rows", Lists.newArrayList());
+			return map;
+		}
 		
 		Searchable searchable = SearchHelper.parameterConverSearchable(searchParameter, Organization.class);
 		searchable.addSort(Direction.ASC, "weight");

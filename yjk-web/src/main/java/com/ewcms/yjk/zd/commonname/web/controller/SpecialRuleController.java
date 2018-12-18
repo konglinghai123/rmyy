@@ -3,6 +3,7 @@ package com.ewcms.yjk.zd.commonname.web.controller;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -22,6 +23,7 @@ import com.ewcms.common.web.validate.AjaxResponse;
 import com.ewcms.common.web.validate.ValidateResponse;
 import com.ewcms.yjk.zd.commonname.entity.CommonName;
 import com.ewcms.yjk.zd.commonname.entity.SpecialRule;
+import com.ewcms.yjk.zd.commonname.service.CommonNameService;
 import com.ewcms.yjk.zd.commonname.service.SpecialRuleService;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -33,6 +35,9 @@ public class SpecialRuleController extends BaseCRUDController<SpecialRule, Long>
 	private SpecialRuleService getSpecialRuleService() {
 		return (SpecialRuleService) baseService;
 	}
+	
+	@Autowired
+	private CommonNameService commonNameService;
 
 	public SpecialRuleController() {
 		setResourceIdentity("yjk:specialrule");
@@ -115,18 +120,15 @@ public class SpecialRuleController extends BaseCRUDController<SpecialRule, Long>
 
 	@RequestMapping(value = "{specialRuleId}/save", method = RequestMethod.POST)
 	public String detailSave(@PathVariable(value = "specialRuleId") Long specialRuleId,
-			@RequestParam(value = "commonNameId") CommonName commonName, Model model, RedirectAttributes redirectAttributes) {
+			@RequestParam(value = "commonNameIds", required = false) Long[] commonNameIds, Model model, RedirectAttributes redirectAttributes) {
 		if (permissionList != null) {
             this.permissionList.assertHasDeletePermission();
         }
 		
-		Long count = getSpecialRuleService().findExist(specialRuleId, commonName.getId());
-		
-		if (count > 0) {
-			redirectAttributes.addFlashAttribute(Constants.MESSAGE, "通用名已存在，请重新选择");
+		if (EmptyUtil.isArrayEmpty(commonNameIds)) {
+			redirectAttributes.addFlashAttribute(Constants.MESSAGE, "通用名不能为空，请重新选择");
 			return redirectToUrl(viewName(specialRuleId + "/save"));
 		}
-
 		
 		SpecialRule specialRule = getSpecialRuleService().findOne(specialRuleId);
 
@@ -134,7 +136,15 @@ public class SpecialRuleController extends BaseCRUDController<SpecialRule, Long>
 		if (commonNames == null)
 			commonNames = Lists.newArrayList();
 
-		commonNames.add(commonName);
+		CommonName commonName = null;
+		for (Long commonNameId : commonNameIds) {
+			Long count = getSpecialRuleService().findExist(specialRuleId, commonNameId);
+			if (count == 0) {
+				commonName = commonNameService.findOne(commonNameId);
+				commonNames.add(commonName);
+			}
+		}
+		
 		specialRule.setCommonNames(commonNames);
 
 		getSpecialRuleService().save(specialRule);

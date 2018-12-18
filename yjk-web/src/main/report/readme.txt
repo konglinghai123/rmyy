@@ -5,5 +5,5 @@
 4、commonnamecontents.jrxml 大目录excel导出，在数据库中的报表编号为4，否则不能导出
 5、systemparameteruser.jrxml 申报新药人员打印，在数据库中的报表编号为5,否则不能打印
 6、reviewmain.jrxml 评审专家人员打印，在数据库中的报表编号为6,否则不能打印
-7、commonname.jrxml 药品通用名pdf打印
-7 drugdeclaretongji.jrxml  新药申报统计 ，在数据库中的报表编号为7,否则不能打印
+7、drugdeclaretongji.jrxml  新药申报统计 ，在数据库中的报表编号为7,否则不能打印
+8、commonname.jrxml 药品通用名pdf打印

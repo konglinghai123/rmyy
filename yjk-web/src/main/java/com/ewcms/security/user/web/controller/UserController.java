@@ -22,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.ewcms.common.entity.enums.BooleanEnum;
 import com.ewcms.common.entity.search.SearchOperator;
 import com.ewcms.common.entity.search.Searchable;
+import com.ewcms.common.utils.EmptyUtil;
 import com.ewcms.common.web.controller.BaseCRUDController;
 import com.ewcms.common.web.validate.AjaxResponse;
 import com.ewcms.common.web.validate.ValidateResponse;
@@ -229,6 +230,13 @@ public class UserController extends BaseCRUDController<User, Long> {
 			message += "失败";
 		}
 		return message;
+	}
+
+	@RequestMapping(value = "findbyrealname")
+	@ResponseBody
+	public List<User> findBySpell(@RequestParam(value="realname", required = false) String realname) {
+		if(EmptyUtil.isStringEmpty(realname)) return Lists.newArrayList();
+		return getUserService().findByRealnameContaining(realname);
 	}
 
 }

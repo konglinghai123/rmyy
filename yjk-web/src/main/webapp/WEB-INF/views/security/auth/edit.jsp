@@ -118,19 +118,36 @@
 		}
 		
 		if (value == 'user'){
-			$('#userIds').combobox({
-				width:150,
-				panelWidth:150,
-				panelHeight:130,
-				url:'${ctx}/security/user/user/canUse',
-				method:'get',
-				valueField:'id',
-				textField:'usernameAndRealname',
-				editable:false,
-				onLoadSuccess:function(){
-					$(this).combobox('setValue',${userIds})
-				}
+			var transTool = $('#userIds').combogrid({
+				panelWidth: 500,
+		        idField: 'id',
+		        textField: 'realname',
+		        fitColumns: true,
+		        multiple:true,
+		        url:'${ctx}/security/user/user/findbyrealname',
+		        columns: [[
+		        	{field:'id',hidden:true},
+                    {field:'username',title:'登录名',width:80},
+                    {field:'realname',title:'姓名',width:130},
+                    {field:'sex',title:'性别',width:60,
+                    	formatter:function(val,row){
+							return row.sexDescription;
+						}		
+                    },
+                    {field:'mobilePhoneNumber',title:'手机号',width:120},
+                    {field:'organizationNames',title:'科室名称',width:150}
+		        ]]
 			});
+			
+			transTool.combogrid('textbox').keyup(function(event) {
+				if (event.keyCode == 38){
+				} else if (event.keyCode == 40){
+				} else {
+					$('#userIds').combogrid('grid').datagrid('reload', {
+						realname : $('#userIds').combogrid("getText")
+					});
+		 		}
+		   	});
 		} else if (value == 'user_group' || value == 'organization_group'){
 			var groupType = (value == 'user_group') ? 'user' : 'organization';
 			$('#groupIds').combobox({
@@ -144,7 +161,7 @@
 				editable:false,
 				multiple:true,
 				onLoadSuccess:function(){
-					$(this).combobox('setValue',${groupIds})
+					$(this).combobox('setValue',${groupIds});
 				}
 			});
 		} else if (value == 'organization_job'){

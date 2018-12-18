@@ -9,7 +9,7 @@
 			  	<table class="formtable">
 		        	<tr>
 						<td width="20%">通用名(拼音)：</td>
-						<td width="80%"><input id="cc_common" name="commonNameId" class="validate[required]"/></td>
+						<td width="80%"><input id="cc_common" name="commonNameIds" class="validate[required]"/></td>
 					</tr>
 				</table>
 			</form:form>
@@ -28,7 +28,7 @@
 	        idField: 'id',
 	        textField: 'commonName',
 	        fitColumns: true,
-	        singleSelect:true,
+	        multiple:true,
 	        url:'${ctx}/yjk/zd/commonname/findbyspell',
 	        queryParams:{spell:'${m.common.spell}'},
 	        columns: [[

@@ -30,4 +30,6 @@ public interface UserRepository extends BaseRepository<User, Long> {
 	
 	@Query("select id from User where admin = false and deleted = false and id not in (?1)")
 	List<Long> findUserIdOffscale(List<Long> userIds);
+	
+	List<User> findByRealnameContaining(String realname);
 }
