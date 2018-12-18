@@ -173,17 +173,25 @@
 						</c:choose>		
 					</c:forEach>
 					<tr>
-						<td width="30%"><form:label path="dosage">用法用量：</form:label></td>
-						<td width="70%"><form:textarea path="dosage" style="width:300px;height:30px" cssClass="validate[required]"/></td>
+						<td width="30%"><form:label path="dosage">用法用量（严格按说明书填写）：</form:label></td>
+						<td width="70%"><form:textarea path="dosage" style="width:400px;height:50px" cssClass="validate[required]"/></td>
 					</tr>
 					<tr>
 						<td width="30%"><form:label path="indicationsEffect">适应症及药理作用：</form:label></td>
-						<td width="70%"><form:textarea path="indicationsEffect"	style="width:300px;height:30px" cssClass="validate[required]"/></td>
+						<td width="70%"><form:textarea path="indicationsEffect"	style="width:400px;height:50px" cssClass="validate[required]"/></td>
 					</tr>
 					<tr>
-						<td width="30%"><form:label path="declareReason">申请理由：</form:label></td>
-						<td width="70%"><form:textarea path="declareReason" style="width:300px;height:30px" cssClass="validate[required]"/></td>
+						<td width="30%"><form:label path="declareReason">申请理由（可附页）（请说明该药国内外使用情况、指南推荐情况、优势及特点、与本学科的关系等）：</form:label></td>
+						<td width="70%"><form:textarea path="declareReason" style="width:400px;height:50px" cssClass="validate[required]"/></td>
 					</tr>
+					<tr>
+						<td width="30%"><form:label path="constituent">成分：</form:label></td>
+						<td width="70%"><form:textarea path="constituent" style="width:400px;height:50px" cssClass="validate[required]"/></td>
+					</tr>
+		        	<tr>
+						<td width="30%"><form:label path="preparationed">是否复方制剂：</form:label></td>
+						<td width="70%"><form:checkbox path="preparationed"/></td>
+					</tr>										
            		</table>
           	</form:form>
 		 	<form id="queryform">
@@ -194,7 +202,7 @@
 			</form>
 		</div>
 		<div data-options="region:'south'" style="text-align:center;height:30px;border:0">
-	  		<a class="easyui-linkbutton" data-options="iconCls:'icon-save'" href="javascript:void(0);" onclick="javascript:pageSubmit();">提交</a>
+	  		<a class="easyui-linkbutton" data-options="iconCls:'icon-save'" href="javascript:void(0);" onclick="javascript:pageSubmit();">保存</a>
 	  		<a class="easyui-linkbutton" data-options="iconCls:'icon-undo'" href="javascript:void(0);" onclick="javascript:$('#editForm').form('reset');">重置</a>
 	  		<a class="easyui-linkbutton" data-options="iconCls:'icon-cancel'" href="javascript:void(0);" onclick="javascript:parent.$('#edit-window').window('close');">关闭</a>
 		</div>

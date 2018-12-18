@@ -67,7 +67,7 @@
 				      						<input type="text" id="jcaptchaCode" name="jcaptchaCode" class="txtvalidatecodecssclass validate[required,ajax[ajaxJcaptchaCall]] span2"/>
 				        				</li>
 				        				<li>
-	                            			<img id="id_checkcode" width="65" height="20" src="${ctx}/jcaptcha.jpg" title="点击更换验证码" style="padding-left: 5px;"/>
+	                            			<img id="id_checkcode" width="100" height="50" src="${ctx}/jcaptcha.jpg" title="点击更换验证码" style="padding-left: 5px;"/>
 	                            		</li>
 				        			</ul>
 				        			</c:if>
