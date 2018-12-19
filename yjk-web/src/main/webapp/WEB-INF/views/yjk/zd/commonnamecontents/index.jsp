@@ -7,21 +7,21 @@
 			<tr>
 			    <th data-options="field:'ck',checkbox:true"/>
 			    <th data-options="field:'id',hidden:true">编号</th>
-				<th data-options="field:'common',width:200,sortable:true,
+				<th data-options="field:'common.commonName',width:200,sortable:true,
 						formatter:function(val,row){
 							return row.common==null?'':row.common.commonName;
 						}">通用名</th>
-				<th data-options="field:'matchNumber',sortable:true,width:80,
+				<th data-options="field:'common.matchNumber',sortable:true,width:80,
 						formatter:function(val,row){
 							return row.common==null?'':row.common.matchNumber;
 						}">匹配编号</th>
-				<th data-options="field:'administration',sortable:true,width:80,
+				<th data-options="field:'administration.name',sortable:true,width:80,
 						formatter:function(val,row){
 							return row.administration==null?'':row.administration.name;
 						}">给药途径</th>
 				<th data-options="field:'drugCategoryInfo',width:80">药品种类</th>												
 				<th data-options="field:'commonName',width:150,sortable:true">大目录通用名</th>
-				<th data-options="field:'bidCommonName',width:150,
+				<th data-options="field:'common.bidCommonName',width:150,sortable:true,
 						formatter:function(val,row){
 							return row.common==null?'':row.common.bidCommonName;
 						}">省招标通用名</th>							
@@ -48,11 +48,11 @@
 				<th data-options="field:'basicInfusion',width:100">基础输液</th>
 				<th data-options="field:'cheapShortage',width:80">廉价短缺</th>
 				<th data-options="field:'negotiationVariety',width:80">国家谈判品种</th>
-				<th data-options="field:'chemicalBigCategory',width:200,
+				<th data-options="field:'common.chemicalBigCategory',width:200,sortable:true,
 						formatter:function(val,row){
 							return row.common==null?'':row.common.chemicalBigCategory;
 						}">大类</th>	
-				<th data-options="field:'chemicalSubCategory',width:200,
+				<th data-options="field:'common.chemicalSubCategory',width:200,sortable:true,
 						formatter:function(val,row){
 							return row.common==null?'':row.common.chemicalSubCategory;
 						}">小类/功效</th>	
