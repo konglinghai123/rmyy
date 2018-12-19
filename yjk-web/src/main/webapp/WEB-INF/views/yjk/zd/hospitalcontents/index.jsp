@@ -7,24 +7,24 @@
 			<tr>
 			    <th data-options="field:'ck',checkbox:true"/>
 			    <th data-options="field:'id',hidden:true">编号</th>	
-				<th data-options="field:'common',width:200,sortable:true,
+				<th data-options="field:'common.commonName',width:200,sortable:true,
 						formatter:function(val,row){
 							return row.common==null?'':row.common.commonName;
 						}">通用名</th>
-				<th data-options="field:'matchNumber',sortable:true,width:80,
+				<th data-options="field:'common.matchNumber',sortable:true,width:80,
 						formatter:function(val,row){
 							return row.common==null?'':row.common.matchNumber;
 						}">匹配编号</th>
-				<th data-options="field:'administration',sortable:true,width:80,
+				<th data-options="field:'administration.name',sortable:true,width:80,
 						formatter:function(val,row){
 							return row.administration==null?'':row.administration.name;
 						}">给药途径</th>
-				<th data-options="field:'drugCategoryInfo',width:80,
+				<th data-options="field:'common.drugCategoryInfo',width:80,sortable:true,
 						formatter:function(val,row){
 							return row.common==null?'':row.common.drugCategoryInfo;
 						}">药品种类</th>							
 				<th data-options="field:'commonName',width:200">院用目录通用名</th>	
-				<th data-options="field:'bidCommonName',width:200,
+				<th data-options="field:'common.bidCommonName',width:200,sortable:true,
 						formatter:function(val,row){
 							return row.common==null?'':row.common.bidCommonName;
 						}">省招标通用名</th>		

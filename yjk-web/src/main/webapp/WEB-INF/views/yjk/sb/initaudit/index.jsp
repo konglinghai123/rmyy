@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/views/jspf/taglibs.jspf" %>
 		<ewcms:head title="申报-新药初审"/>
 			<table id="tt">
-				<thead>
+				<thead>            
 					<tr>
 					    <th data-options="field:'ck',checkbox:true"/>
 					    <th data-options="field:'id',hidden:true">编号</th>
