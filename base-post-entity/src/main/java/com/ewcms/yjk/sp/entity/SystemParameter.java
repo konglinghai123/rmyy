@@ -52,6 +52,7 @@ import com.google.common.collect.Sets;
  * <li>departmentNumber:部门人数</li>
  * <li>enabled:是否启用</li>
  * <li>repeatDeclared:是否重复申报</li>
+ * <li>projectRemark:项目说明</li>
  * <li>deleted:是否删除</li>
  * </ul>
  * 
@@ -104,10 +105,21 @@ public class SystemParameter extends BaseSequenceEntity<Long> implements LogicDe
 	private Long passedNumber = 0L;
 	@Formula(value = "(select count(sb.id) from sb_drug_form sb where sb.system_parameter_id=id and sb.auditstatus = 'un_passed')")
 	private Long unPassedNumber = 0L;
-
+	
+	@Column(name = "project_remark")
+	private String projectRemark;
+	
 	@JSONField(format = "yyyy-MM-dd HH:mm:ss")
 	public Date getApplyStartDate() {
 		return applyStartDate;
+	}
+
+	public String getProjectRemark() {
+		return projectRemark;
+	}
+
+	public void setProjectRemark(String projectRemark) {
+		this.projectRemark = projectRemark;
 	}
 
 	public void setApplyStartDate(Date applyStartDate) {

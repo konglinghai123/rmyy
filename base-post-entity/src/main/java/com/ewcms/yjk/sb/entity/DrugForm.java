@@ -64,7 +64,7 @@ public class DrugForm extends BaseSequenceEntity<Long> {
 	@Formula(value = "(select s_o.realname  from sec_user s_o where s_o.id=user_id)")
 	private String realName;
 	
-	@Formula(value = "(select t2.name  from sec_user t1,sec_department_attribute t2 where t1.id=user_id and t1.department_attribute_id=t2.id)")
+	@Formula(value = "(select string_agg(t2.name,',') from sec_organization t2  where t2.id in (select t1.organization_id from sec_user_organization_job t1 where t1.user_id=user_id))")
 	private String departName;
 	
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
