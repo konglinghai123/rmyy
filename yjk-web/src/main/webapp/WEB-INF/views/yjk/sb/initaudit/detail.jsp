@@ -38,7 +38,17 @@
 
 		</thead>
 	</table>
-	<table id="tt1" class="easyui-datagrid" data-options="url:'${ctx}/yjk/zd/commonnamecontents/${commonNameContentsId}/query',nowrap:true,pagination:true,rownumbers:true,striped:true,pageSize:10">
+	<table id="tt1" class="easyui-datagrid" data-options="url:'${ctx}/yjk/zd/commonnamecontents/${commonNameContentsId}/query',nowrap:true,pagination:true,rownumbers:true,striped:true,pageSize:10,
+		        rowStyler: function(index,row){
+		        	var rows = $('#tt2').datagrid('getRows')//获取当前页的数据行
+		        	var bidDrugId='';
+					for (var i = 0; i < rows.length; i++) {
+				    	bidDrugId = rows[i]['bidDrugId']; //获取指定列
+				    	if(bidDrugId!='' && row.bidDrugId==bidDrugId){
+	    					return 'background-color:#FF0000;color:#FFFFFF;';
+	        			}
+					}	
+	    	}">
 		<thead>
 				<th data-options="field:'commonName',width:150">大目录通用名</th>
 				<th data-options="field:'drugCategoryInfo',width:80">药品种类</th>												

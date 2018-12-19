@@ -63,7 +63,11 @@
 		        	<tr>
 						<td><form:label path="declareTotalLimt">总报限数：</form:label></td>
 						<td><form:input path="declareTotalLimt" cssClass="validate[required,custom[integer]]" maxlength="4" size="10"/></td>
-					</tr>					
+					</tr>	
+					<tr>
+						<td><form:label path="projectRemark">项目说明：</form:label></td>
+						<td><form:input path="projectRemark" cssStyle="width:200px;" /></td>
+					</tr>									
 				</table>
 			</form:form>
 		</div>

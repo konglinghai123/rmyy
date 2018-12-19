@@ -9,7 +9,7 @@
 					    <th data-options="field:'formatId',width:100">编号</th>
 						<th data-options="field:'auditStatusInfo',width:100">审核状态</th>	
 						<th data-options="field:'realName',width:100,sortable:true">申报医生</th>
-						<th data-options="field:'departName',width:100,sortable:true">科室</th>
+						<th data-options="field:'departName',width:150,sortable:true">科室名称</th>
 						<th data-options="field:'declareCategory',width:100,sortable:true">申报类型</th>
 						<c:forEach items="${commonNameRuleList}" var="commonNameRule">
 							<c:choose>
