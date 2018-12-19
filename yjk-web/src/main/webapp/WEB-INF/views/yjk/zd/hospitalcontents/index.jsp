@@ -11,11 +11,11 @@
 						formatter:function(val,row){
 							return row.common==null?'':row.common.commonName;
 						}">通用名</th>
-				<th data-options="field:'matchNumber',width:80,
+				<th data-options="field:'matchNumber',sortable:true,width:80,
 						formatter:function(val,row){
 							return row.common==null?'':row.common.matchNumber;
 						}">匹配编号</th>
-				<th data-options="field:'administration',width:80,
+				<th data-options="field:'administration',sortable:true,width:80,
 						formatter:function(val,row){
 							return row.administration==null?'':row.administration.name;
 						}">给药途径</th>
@@ -28,15 +28,16 @@
 						formatter:function(val,row){
 							return row.common==null?'':row.common.bidCommonName;
 						}">省招标通用名</th>		
+				<th data-options="field:'bidDrugId',width:150,sortable:true">省招标药品ID</th>
 				<th data-options="field:'projectName',width:150,sortable:true">项目名称</th>					    
-			    <th data-options="field:'drugCode',width:100">药品代码</th>
-				<th data-options="field:'pill',width:100">剂型</th>	
+			    <th data-options="field:'drugCode',width:100,sortable:true">药品代码</th>
+				<th data-options="field:'pill',width:100,sortable:true">剂型</th>	
 				<th data-options="field:'productName',width:100">商品名</th>				
-				<th data-options="field:'specifications',width:120">规格</th>
-				<th data-options="field:'amount',width:70">包装数量</th>
-				<th data-options="field:'manufacturer',width:300">生产企业</th>
+				<th data-options="field:'specifications',width:120,sortable:true">规格</th>
+				<th data-options="field:'amount',width:70,sortable:true">包装数量</th>
+				<th data-options="field:'manufacturer',width:300,sortable:true">生产企业</th>
 				<th data-options="field:'importEnterprise',width:300">进口企业</th>	
-				<th data-options="field:'bidPrice',width:80">中标价</th>		
+				<th data-options="field:'bidPrice',width:80,sortable:true">中标价</th>		
 				<th data-options="field:'medical',width:80">医保</th>	
 				<th data-options="field:'limitRange',width:100">限制范围</th>
 				<th data-options="field:'chemicalBigCategory',width:200,
@@ -48,12 +49,8 @@
 							return row.common==null?'':row.common.chemicalSubCategory;
 						}">小类</th>
 				<th data-options="field:'remark',width:100">备注</th>
-				<th data-options="field:'createDate',width:150">创建时间</th>
-				<th data-options="field:'updateDate',width:150">修改时间</th>
-				<!-- <th data-options="field:'deleted',width:100,
-						formatter:function(val,row){
-							return val ? '<font color=red>已删除</font>' : '';
-						}">是否删除</th>-->
+				<th data-options="field:'createDate',width:150,sortable:true">创建时间</th>
+				<th data-options="field:'updateDate',width:150,sortable:true">修改时间</th>
 			</tr>
 		</thead>
 	</table>
@@ -69,27 +66,35 @@
         	<form id="queryform">
         		<table class="formtable">
               		<tr>
-              			<td width="5%">通用名</td>
-              			<td width="15%"><input type="text" name="LIKE_common.commonName" style="width:140px;"/></td>
-            			<td width="5%">剂型</td>
-              			<td width="15%"><input type="text" name="LIKE_pill" style="width:140px;"/></td>
-              			<td width="5%">简拼</td>
-              			<td width="23%"><input type="text" name="LIKE_spellSimplify" style="width:140px;"/></td>
-						<td width="16%" colspan="2">
+              			<td>通用名</td>
+              			<td><input type="text" name="LIKE_common.commonName" style="width:140px;"/></td>
+            			<td>匹配编号</td>
+              			<td><input type="text" name="Like_common.matchNumber" style="width:140px;"/></td>
+              			<td>简拼</td>
+              			<td><input type="text" name="LIKE_common.spellSimplify" style="width:140px;"/></td>
+              			<td>药品种类</td>
+    					<td>
+           					<form:select  name="EQ_common.drugCategory" path="drugCategoryList" cssClass="easyui-combobox"  data-options="panelHeight:'auto',editable:false">
+					  			<form:option value="" label="---请选择---"/>
+					  			<form:options items="${drugCategoryList}" itemLabel="info"/>
+							</form:select>
+						</td>              			
+              			<td>
             				<a id="tb-query" href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="$.ewcms.query();">查询</a>
            					<a id="tb-clear" href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-clear'" onclick="javascript:$('#queryform').form('reset');">清除</a>
            					<a id="tb-more" href="javascript:void(0);" class="easyui-linkbutton" onclick="$.ewcms.moreQuery();"><span id="showHideLabel">更多</span></a>
            				</td>
            			</tr>
            			<tr style="display: none;">
-            			<td>规格</td>
-              			<td><input type="text" name="LIKE_specifications" style="width:140px;"/></td>
-            			<td>数量</td>
-              			<td><input type="text" name="LIKE_amount" style="width:140px;"/></td>
               			<td>生产企业</td>
               			<td><input type="text" name="LIKE_manufacturer" style="width:140px;"/></td>
-              			<td colspan="2"></td>
-              		</tr>
+              			<td>项目名称</td>
+              			<td><input type="text" name="LIKE_projectName" style="width:140px;"/></td>
+            			<td>规格</td>
+              			<td><input type="text" name="LIKE_specifications" style="width:140px;"/></td>
+            			<td>批次</td>
+              			<td><input type="text" name="LIKE_batch" style="width:140px;"/></td>                  			   				
+           			</tr>
            		</table>
           </form>          
         </div>

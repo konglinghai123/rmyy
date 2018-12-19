@@ -19,29 +19,14 @@
 						<td width="20%"><form:label path="commonName">院用目录通用名：</form:label></td>
 						<td width="30%"><form:input path="commonName" cssClass="validate[required]"/></td>			  	
 					</tr>
-					<tr>			
-						<td width="20%"><form:label path="projectName">项目名称：</form:label></td>
-						<td width="30%"><form:select path="projectName" cssClass="easyui-combobox">
-								<form:option value="省直联合体项目">省直联合体项目</form:option>
-								<form:option value="省直增补">省直增补</form:option>
-								<form:option value="省级谈判">省级谈判</form:option>
-								<form:option value="省直联合体">省直联合体</form:option>
-								<form:option value="直接挂网（无配送企业）">直接挂网（无配送企业）</form:option>
-								<form:option value="双信封">双信封</form:option>
-								<form:option value="国家谈判">国家谈判</form:option>
-								<form:option value="直接挂网">直接挂网</form:option>
-								<form:option value="联合体议价/36种国家谈判">联合体议价/36种国家谈判</form:option>
-								<form:option value="毒性药品">毒性药品</form:option>
-								<form:option value="联合体议价/双信封限价">联合体议价/双信封限价</form:option>
-								<form:option value="联合体议价">联合体议价</form:option>
-								<form:option value="麻醉药品">麻醉药品</form:option>
-								<form:option value="撮合品种">撮合品种</form:option>
-								<form:option value="备选目录">备选目录</form:option>
-								<form:option value="定点生产">定点生产</form:option>
-								<form:option value="一类精神">一类精神</form:option>
-								<form:option value="二类精神">二类精神</form:option>
-								<form:option value="未议价">未议价</form:option>					
-							</form:select></td>		
+					<tr>	
+						<td width="20%"><form:label path="projectName">项目名称：</form:label></td>		
+						<td width="30%">
+							<form:select path="projectName" cssClass="easyui-combobox" data-options="editable:true">
+								<form:option value="" label="---请选择---"/>
+					  			<form:options items="${projectNameList}"/>					
+							</form:select>
+						</td>
 						<td><form:label path="administration">给药途径：</form:label></td>
 						<td><form:input path="administration" class="easyui-combobox" data-options="
 							width:150,
@@ -89,17 +74,22 @@
 						<td width="30%"><form:input path="limitRange" /></td>
 					</tr>											
 					<tr>
+						<td width="20%"><form:label path="bidDrugId">省招标药品ID：</form:label></td>
+						<td width="30%"><form:input path="bidDrugId" cssClass="validate[required]" /></td>	
 						<td width="20%"><form:label path="remark">备注：</form:label></td>
 						<td width="30%"><form:input path="remark"/></td>					
-						<td width="20%"><form:label path="remark1">备注1：</form:label></td>
-						<td width="30%"><form:input path="remark1" /></td>
-
 					</tr>
 					<tr>
+						<td width="20%"><form:label path="remark1">备注1：</form:label></td>
+						<td width="30%"><form:input path="remark1" /></td>					
 						<td width="20%"><form:label path="remark2">备注2：</form:label></td>
-						<td width="30%"><form:input path="remark2" /></td>					
+						<td width="30%"><form:input path="remark2" /></td>		
+					</tr>
+					<tr>									
 						<td width="20%"><form:label path="remark3">备注3：</form:label></td>
-						<td width="30%"><form:input path="remark3" /></td>					
+						<td width="30%"><form:input path="remark3" /></td>		
+						<td width="20%"></td>
+						<td width="30%"></td>				
 					</tr>						
 
 																																																													

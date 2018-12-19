@@ -46,6 +46,7 @@ import com.ewcms.common.plugin.entity.LogicDeleteable;
  * <li>remark1:备注1</li>
  * <li>remark2:备注2</li>
  * <li>remark3:备注3</li>
+ * <li>bidDrugId:省招标药品ID</li>
  * <li>spell:通用名拼音</li>
  * <li>spellSimplify:通用名简拼</li>
  * </ul>
@@ -136,7 +137,17 @@ public class HospitalContents extends BaseSequenceEntity<Long> implements LogicD
 	@Column(name = "spell_simplify")
 	private String spellSimplify;
 
+	@Column(name = "bid_drug_id")
+	private String bidDrugId;
 	
+	public String getBidDrugId() {
+		return bidDrugId;
+	}
+
+	public void setBidDrugId(String bidDrugId) {
+		this.bidDrugId = bidDrugId;
+	}
+
 	public Double getBidPrice() {
 		return bidPrice;
 	}

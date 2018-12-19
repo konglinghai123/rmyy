@@ -25,9 +25,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.ewcms.common.entity.enums.BooleanEnum;
 import com.ewcms.common.entity.search.SearchParameter;
 import com.ewcms.common.web.controller.BaseCRUDController;
 import com.ewcms.yjk.zd.commonname.entity.CommonNameContents;
+import com.ewcms.yjk.zd.commonname.entity.DrugCategoryEnum;
 import com.ewcms.yjk.zd.commonname.service.CommonNameContentsService;
 import com.ewcms.yjk.zd.commonname.service.CommonNameRuleService;
 import com.ewcms.yjk.zd.commonname.util.DuplicateRemovalUtil;
@@ -54,6 +56,9 @@ public class CommonNameContentsController extends BaseCRUDController<CommonNameC
 	@Override
 	protected void setCommonData(Model model) {
 		super.setCommonData(model);
+		model.addAttribute("projectNameList", getCommonNameContentsService().findDistinctProjectName());
+		model.addAttribute("drugCategoryList", DrugCategoryEnum.values());
+		model.addAttribute("booleanList", BooleanEnum.values());
 	}
 	
 	/**
@@ -205,7 +210,8 @@ public class CommonNameContentsController extends BaseCRUDController<CommonNameC
 	}
 	
 	@RequestMapping(value = "/filterdeclared")
-	public String filterDeclared() {
+	public String filterDeclared(Model model) {
+		model.addAttribute("projectNameList", getCommonNameContentsService().findDistinctProjectName());
 		return viewName("filterdeclared");
 	}
 

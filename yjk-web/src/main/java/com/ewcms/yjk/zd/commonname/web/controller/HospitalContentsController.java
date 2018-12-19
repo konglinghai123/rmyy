@@ -22,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.ewcms.common.entity.search.SearchParameter;
 import com.ewcms.common.web.controller.BaseCRUDController;
+import com.ewcms.yjk.zd.commonname.entity.DrugCategoryEnum;
 import com.ewcms.yjk.zd.commonname.entity.HospitalContents;
 import com.ewcms.yjk.zd.commonname.service.HospitalContentsService;
 import com.google.common.collect.Lists;
@@ -39,11 +40,14 @@ public class HospitalContentsController extends BaseCRUDController<HospitalConte
 	}
 	
     public HospitalContentsController() {
+    	setListAlsoSetCommonData(true);
         setResourceIdentity("yjk:hospitalcontents");
     }
     
     @Override
     protected void setCommonData(Model model) {
+    	model.addAttribute("projectNameList", getHospitalContentsService().findDistinctProjectName());
+    	model.addAttribute("drugCategoryList", DrugCategoryEnum.values());
         super.setCommonData(model);
     }
     

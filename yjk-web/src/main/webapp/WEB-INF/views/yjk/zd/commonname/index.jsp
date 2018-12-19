@@ -40,25 +40,27 @@
         	<form id="queryform" style="padding:0;margin:0;">
         		<table class="formtable">
               		<tr>
-              			<td width="5%">通用名</td>
-              			<td width="15%"><input type="text" name="LIKE_commonName" /></td>
-            			<td width="5%">简拼</td>
-              			<td width="15%"><input type="text" name="LIKE_spellSimplify" /></td>
-              			<td width="5%">药品种类</td>
-    					<td width="15%">
+              			<td >通用名</td>
+              			<td ><input type="text" name="LIKE_commonName" /></td>
+            			<td>匹配编号</td>
+              			<td><input type="text" name="LIKE_matchNumber" style="width:120px;"/></td>              			
+            			<td>简拼</td>
+              			<td><input type="text" name="LIKE_spellSimplify" style="width:80px;"/></td>
+              			<td>药品种类</td>
+    					<td>
            					<form:select id="drugCategory" name="EQ_drugCategory" path="drugCategoryList" cssClass="easyui-combobox"  data-options="panelHeight:'auto',editable:false">
 					  			<form:option value="" label="---请选择---"/>
 					  			<form:options items="${drugCategoryList}" itemLabel="info"/>
 							</form:select>
 						</td> 
-           				<td width="5%">是否启用</td>
-    					<td width="15%">
+           				<td>是否启用</td>
+    					<td>
            					<form:select id="enabled" name="EQ_enabled" path="booleanList" cssClass="easyui-combobox"   data-options="panelHeight:'auto',editable:false">
 					  			<form:option value="" label="---请选择---"/>
 					  			<form:options items="${booleanList}" itemLabel="info"/>
 							</form:select>
 						</td>              			
-              			<td width="30%" colspan="2">
+              			<td>
             				<a id="tb-query" href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="$.ewcms.query();">查询</a>
            					<a id="tb-clear" href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-clear'" onclick="javascript:$('#queryform').form('reset');">清除</a>
            				</td>
