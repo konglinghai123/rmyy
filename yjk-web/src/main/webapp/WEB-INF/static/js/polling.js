@@ -34,7 +34,7 @@ function Poll() {
 				if (data) {
 					$('#sysNotice').empty();
 					if (data.drugForm_notice) {
-						$('<span style="font-size:18px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + data.drugForm_notice + '</span>').appendTo('#sysNotice');
+						$('<span style="font-size:18px">2、' + data.drugForm_notice + '</span>').appendTo('#sysNotice');
 					}
 					
 					var nodeclare = 0;

@@ -18,18 +18,40 @@
 		                 	</div>
 		                 	<div style="height:410px; padding: 5px;" title="" id="tip" class="portal-p panel-body" data-options="closable:true,collapsible:false">
 		                 		<div class="t-list">
-									<table class="easyui-datagrid" data-options="height:400,url:'${ctx}/drugFormCountReport',nowrap:true,pagination:true,rownumbers:true,striped:true,pageSize:10">
+									<table id="tt" data-options="height:400,url:'${ctx}/drugFormCountReport',nowrap:true,pagination:true,rownumbers:true,striped:true,pageSize:10">
 										<thead>
 											<tr>
 											    <th data-options="field:'organizationId',hidden:true">部门编号</th>
-											    <th data-options="field:'organizationName',width:160">部门名称</th>
-											    <th data-options="field:'noDeclareNumber',width:90">未提交初审</th>
-											    <th data-options="field:'initNumber',width:90">已提交初审</th>
-											    <th data-options="field:'passedNumber',width:100">初审核已通过</th>
-											    <th data-options="field:'unPassedNumber',width:100">初审核未通过</th>
+											    <th data-options="field:'organizationName',width:150">部门名称</th>
+											    <th data-options="field:'noDeclareNumber',width:80">未提交初审</th>
+											    <th data-options="field:'initNumber',width:80">已提交初审</th>
+											    <th data-options="field:'passedNumber',width:90">初审核已通过</th>
+											    <th data-options="field:'unPassedNumber',width:90">初审核未通过</th>
 											</tr>
 										</thead>
 									</table>
+									<script type="text/javascript">
+										$(function(){
+											var pager = $('#tt').datagrid().datagrid('getPager');
+											<c:if test="${user.admin}">
+											pager.pagination({
+												buttons:[{
+													iconCls:'icon-print',
+													handler:function(){
+														$.ewcms.openWindow({
+															windowId:'#edit-window',
+															iframeId : '#editifr', 
+															src:'${ctx}/system/report/show/text/8/paraset', 
+															width:550,
+															height:200,
+															title:'参数选择'
+														});
+													}
+												}]
+											});
+											</c:if>
+										})
+									</script>
 		                 		</div>
 		                 	</div>
 		               	</div>
@@ -54,6 +76,11 @@
 		                 		<div style="height: 190px; padding: 5px;" title="" id="notice" class="portal-p panel-body" data-options="closable:true,collapsible:false">
 		                 			<div class="t-list">
 		                 				<table style="width:100%;">
+		                 					<tr>	
+			                 					<td>
+			                 						<span style="font-size:18px"><a href="">1、关于新药申报流程的说明</a></span>
+			                 					</td>
+		                 					</tr>
 		                 					<tr>	
 			                 					<td>
 			                 						<span id="sysNotice"></span>

@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="departmentalstatistics " language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.7715610000000013"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString>
+		<![CDATA[select o.name,sp.apply_start_date, sp.apply_end_date,
+(select count(df.id)
+from sb_drug_form df left join sp_system_parameter sp on df.system_parameter_id=sp.id
+left join sec_user_organization_job uoj on df.user_id=uoj.user_id
+where sp.is_enabled=true and o.id=uoj.organization_id and df.auditstatus = 'nodeclare'
+) as nodeclare,
+(select count(df.id)
+from sb_drug_form df left join sp_system_parameter sp on df.system_parameter_id=sp.id
+left join sec_user_organization_job uoj on df.user_id=uoj.user_id
+where sp.is_enabled=true and o.id=uoj.organization_id and df.auditstatus = 'init'
+) as init,
+(select count(df.id)
+from sb_drug_form df left join sp_system_parameter sp on df.system_parameter_id=sp.id
+left join sec_user_organization_job uoj on df.user_id=uoj.user_id
+where sp.is_enabled=true and o.id=uoj.organization_id and df.auditstatus = 'passed'
+) as passed,
+(select count(df.id)
+from sb_drug_form df left join sp_system_parameter sp on df.system_parameter_id=sp.id
+left join sec_user_organization_job uoj on df.user_id=uoj.user_id
+where sp.is_enabled=true and o.id=uoj.organization_id and df.auditstatus = 'un_passed'
+) as un_passed
+from sec_organization o , sp_system_parameter sp
+where o.parent_id != 0 and sp.is_enabled=true
+order by o.weight asc]]>
+	</queryString>
+	<field name="name" class="java.lang.String"/>
+	<field name="apply_start_date" class="java.sql.Timestamp"/>
+	<field name="apply_end_date" class="java.sql.Timestamp"/>
+	<field name="nodeclare" class="java.lang.Long"/>
+	<field name="init" class="java.lang.Long"/>
+	<field name="passed" class="java.lang.Long"/>
+	<field name="un_passed" class="java.lang.Long"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="35"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="文鼎ＰＬ简报宋" size="24" isBold="true"/>
+				</textElement>
+				<text><![CDATA[江西省人民医院各部门填报情况统计表]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="55" splitType="Stretch">
+			<textField>
+				<reportElement x="436" y="0" width="119" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="文鼎ＰＬ简报宋" size="10" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[(new SimpleDateFormat("yyyy年MM月dd日")).format(new Date())]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="50" y="0" width="309" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="文鼎ＰＬ简报宋" size="10" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H"/>
+				</textElement>
+				<textFieldExpression><![CDATA[(new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss")).format($F{apply_start_date})+ "—" + (new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss")).format($F{apply_end_date})]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="1" y="0" width="49" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="文鼎ＰＬ简报宋" size="10" isBold="false"/>
+				</textElement>
+				<text><![CDATA[申报时间:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="380" y="0" width="56" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="文鼎ＰＬ简报宋" size="10" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+				</textElement>
+				<text><![CDATA[制表日期：　　]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="171" y="32" width="96" height="23"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="文鼎ＰＬ简报宋" size="10" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H"/>
+				</textElement>
+				<text><![CDATA[未提交初审]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="32" width="170" height="23"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="文鼎ＰＬ简报宋" size="10" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H"/>
+				</textElement>
+				<text><![CDATA[部门名称]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="267" y="32" width="96" height="23"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="文鼎ＰＬ简报宋" size="10" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H"/>
+				</textElement>
+				<text><![CDATA[已提交初审]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="363" y="32" width="96" height="23"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="文鼎ＰＬ简报宋" size="10" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H"/>
+				</textElement>
+				<text><![CDATA[初审核已通过]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="459" y="32" width="96" height="23"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="文鼎ＰＬ简报宋" size="10" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H"/>
+				</textElement>
+				<text><![CDATA[初审核未通过]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement x="1" y="0" width="170" height="20"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="文鼎ＰＬ简报宋" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $F{name}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="171" y="0" width="96" height="20"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="文鼎ＰＬ简报宋" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nodeclare}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="267" y="0" width="96" height="20"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="文鼎ＰＬ简报宋" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{init}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="363" y="0" width="96" height="20"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="文鼎ＰＬ简报宋" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{passed}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="459" y="0" width="96" height="20"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="文鼎ＰＬ简报宋" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{un_passed}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="33" splitType="Stretch">
+			<staticText>
+				<reportElement x="239" y="7" width="16" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="文鼎ＰＬ简报宋" size="10" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+				</textElement>
+				<text><![CDATA[页]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="355" y="7" width="14" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="文鼎ＰＬ简报宋" size="10" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+				</textElement>
+				<text><![CDATA[页]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="298" y="7" width="15" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="文鼎ＰＬ简报宋" size="10" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+				</textElement>
+				<text><![CDATA[共]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="182" y="7" width="15" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="文鼎ＰＬ简报宋" size="10" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+				</textElement>
+				<text><![CDATA[第]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="207" y="7" width="22" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="文鼎ＰＬ简报宋" size="10" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="266" y="7" width="16" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="文鼎ＰＬ简报宋" size="10" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+				</textElement>
+				<text><![CDATA[/]]></text>
+			</staticText>
+			<textField evaluationTime="Report">
+				<reportElement x="323" y="7" width="22" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="文鼎ＰＬ简报宋" size="10" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

@@ -197,7 +197,7 @@
 		 	<form id="queryform">
 				<c:forEach items="${commonNameRuleList}" var="commonNameRule" varStatus="status">
 					<input type="hidden" id="queryCNRule${status.index}" name="EQ_${commonNameRule.ruleName}"/>
-				</c:forEach>'
+				</c:forEach>
 				<input type="hidden" id="objIndex" name="objIndex"/>
 			</form>
 		</div>
