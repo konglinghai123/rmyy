@@ -284,7 +284,7 @@ public class UserService extends BaseService<User, Long> {
 								}
 								user.setDepartmentAttribute(departmentAttribute);
 							}
-						} else if (columnNames[j].equals("科室/病区")) {
+						} else if (columnNames[j].equals("科室名称")) {
 							String name = rows.getCell(j).getStringCellValue().trim();
 							if (EmptyUtil.isStringNotEmpty(name)) {
 								List<Organization> organizations = organizationService.findByName(name);
