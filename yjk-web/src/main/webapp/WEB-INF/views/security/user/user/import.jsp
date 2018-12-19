@@ -1,15 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/jspf/taglibs.jspf" %>
 
-<ewcms:head title="导入 - 通用名"/>
+<ewcms:head title="导入 - 用户"/>
 	<div id="edit-from" class="easyui-layout" data-options="fit:true" style="border:0;">
 		<ewcms:showMessage/>
 		<div data-options="region:'center',border:false">	
 		 	<form:form id="importForm" method="post" action="${ctx}/security/user/user/saveimport" enctype="multipart/form-data" class="form-horizontal">
 			  	<table class="formtable">
 		        	<tr>
-						<td width="20%">通用名文件：</td>
-						<td width="80%"><input type="file" id="excelFile" name="excelFile" size="50"/></td>
+						<td width="20%">文件：</td>
+						<td width="80%"><input id="excelFile" name="excelFile" class="easyui-filebox" data-options="buttonText:'选择文件...',prompt:'选择文件...',accept:'application/vnd.ms-excel'"/></td>
 					</tr>
 				</table>
 			</form:form>
