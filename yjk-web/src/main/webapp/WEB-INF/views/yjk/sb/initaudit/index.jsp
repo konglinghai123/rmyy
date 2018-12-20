@@ -14,15 +14,21 @@
 						<c:forEach items="${commonNameRuleList}" var="commonNameRule">
 							<c:choose>
 								<c:when test="${commonNameRule.ruleName == 'administration.id'}">
-									<th data-options="field:'name',width:120,
+									<th data-options="field:'commonNameContents.administration.name',width:120,sortable:true,
 											formatter:function(val,row){
 												return row.commonNameContents==null ?'':row.commonNameContents.administration.name;
 											}">${commonNameRule.ruleCnName}</th>
 								</c:when>	
+								<c:when test="${commonNameRule.ruleName == 'common.commonName'}">
+									<th data-options="field:'commonNameContents.${commonNameRule.ruleName}',width:120,sortable:true,
+											formatter:function(val,row){
+												return row.commonNameContents==null ?'':row.commonNameContents.${commonNameRule.ruleName};
+											}">${commonNameRule.ruleCnName}</th>
+								</c:when>
 								<c:when test="${commonNameRule.ruleName == 'common.drugCategory'}">
 								</c:when>								
 								<c:otherwise>
-									<th data-options="field:'${commonNameRule.ruleName}',width:120,
+									<th data-options="field:'${commonNameRule.ruleName}',width:120,sortable:true,
 											formatter:function(val,row){
 												return row.commonNameContents==null ?'':row.commonNameContents.${commonNameRule.ruleName};
 											}">${commonNameRule.ruleCnName}</th>

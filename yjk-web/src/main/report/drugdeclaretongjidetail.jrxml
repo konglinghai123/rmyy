@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="commonname" language="groovy" pageWidth="3000" pageHeight="842" columnWidth="3000" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
 	<property name="ireport.zoom" value="1.0"/>
-	<property name="ireport.x" value="1722"/>
+	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="systemParameterId" class="java.lang.Integer">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
@@ -22,7 +22,7 @@
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<queryString>
-		<![CDATA[SELECT declare_date, declare_reason, dosage, indications_effect, remark,declarecategory,
+		<![CDATA[SELECT t4.id, declare_date, declare_reason, dosage, indications_effect, remark,declarecategory,
 case when is_preparationed then '是' else '否' end as preparationed,constituent,t2.realname,
 t4.common_name,t4.administration_id,t4.pill,t4.specifications,t4.medical_category,
 t5.common_name as extract_common_name,t5.match_number,t5.chemical_big_category,t5.chemical_sub_category,
@@ -39,6 +39,7 @@ and t5.drugcategory like  '%'||$P{drugcategory}||'%' and (t1.declarecategory lik
 and ((select string_agg(t7.name,',') from sec_organization t7 where t7.id in (select t6.organization_id from sec_user_organization_job t6 where t6.user_id=t1.user_id)) like '%'||$P{departname}||'%' or $P{departname} = '')
 order by t1.auditstatus]]>
 	</queryString>
+	<field name="id" class="java.lang.Long"/>
 	<field name="declare_date" class="java.sql.Timestamp"/>
 	<field name="declare_reason" class="java.lang.String"/>
 	<field name="dosage" class="java.lang.String"/>
@@ -365,7 +366,7 @@ order by t1.auditstatus]]>
 		<band splitType="Stretch"/>
 	</columnHeader>
 	<detail>
-		<band height="29" splitType="Stretch">
+		<band height="232" splitType="Stretch">
 			<textField>
 				<reportElement x="110" y="0" width="142" height="29"/>
 				<box>
@@ -653,6 +654,20 @@ order by t1.auditstatus]]>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{auditstatus}]]></textFieldExpression>
 			</textField>
+			<subreport>
+				<reportElement x="0" y="29" width="252" height="100"/>
+				<subreportParameter name="commonNameContentsId">
+					<subreportParameterExpression><![CDATA[$F{id}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["E:\\rmyy_work\\doc\\yjk\\hospitalcontentssub.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement x="0" y="129" width="252" height="100"/>
+				<subreportParameter name="commonNameContentsId"/>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["E:\\rmyy_work\\doc\\yjk\\commonnamecontentssub.jasper"]]></subreportExpression>
+			</subreport>
 		</band>
 	</detail>
 	<columnFooter>
