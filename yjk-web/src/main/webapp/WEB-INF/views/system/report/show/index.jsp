@@ -59,8 +59,8 @@
 			windowId:"#edit-window",
 			iframeId:'#editifr',
 			src:'${ctx}/system/report/show/' + type + '/' + id + '/paraset',
-			width:400,
-			height:213,
+			width:500,
+			height:400,
 			title:"参数选择"
 		});
 	}

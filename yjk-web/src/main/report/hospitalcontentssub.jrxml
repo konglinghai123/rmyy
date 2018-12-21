@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="hospitalcontents1" language="groovy" pageWidth="1750" pageHeight="595" orientation="Landscape" columnWidth="1750" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
 	<property name="ireport.zoom" value="1.0"/>
-	<property name="ireport.x" value="430"/>
+	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="commonNameContentsId" class="java.lang.Long">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
@@ -56,10 +56,11 @@ WHERE t1.common_name_id = t2.id  and t1.id=$P{commonNameContentsId}))]]>
 			<staticText>
 				<reportElement x="200" y="0" width="71" height="25"/>
 				<box>
-					<topPen lineWidth="0.0"/>
-					<leftPen lineWidth="0.0"/>
-					<bottomPen lineWidth="0.0"/>
-					<rightPen lineWidth="0.0"/>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
@@ -69,10 +70,11 @@ WHERE t1.common_name_id = t2.id  and t1.id=$P{commonNameContentsId}))]]>
 			<staticText>
 				<reportElement x="0" y="0" width="60" height="25"/>
 				<box>
-					<topPen lineWidth="0.0"/>
-					<leftPen lineWidth="0.0"/>
-					<bottomPen lineWidth="0.0"/>
-					<rightPen lineWidth="0.0"/>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
@@ -82,10 +84,11 @@ WHERE t1.common_name_id = t2.id  and t1.id=$P{commonNameContentsId}))]]>
 			<staticText>
 				<reportElement x="449" y="0" width="60" height="25"/>
 				<box>
-					<topPen lineWidth="0.0"/>
-					<leftPen lineWidth="0.0"/>
-					<bottomPen lineWidth="0.0"/>
-					<rightPen lineWidth="0.0"/>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
@@ -95,10 +98,11 @@ WHERE t1.common_name_id = t2.id  and t1.id=$P{commonNameContentsId}))]]>
 			<staticText>
 				<reportElement x="356" y="0" width="44" height="25"/>
 				<box>
-					<topPen lineWidth="0.0"/>
-					<leftPen lineWidth="0.0"/>
-					<bottomPen lineWidth="0.0"/>
-					<rightPen lineWidth="0.0"/>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
@@ -108,10 +112,11 @@ WHERE t1.common_name_id = t2.id  and t1.id=$P{commonNameContentsId}))]]>
 			<staticText>
 				<reportElement x="121" y="0" width="79" height="25"/>
 				<box>
-					<topPen lineWidth="0.0"/>
-					<leftPen lineWidth="0.0"/>
-					<bottomPen lineWidth="0.0"/>
-					<rightPen lineWidth="0.0"/>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
@@ -121,10 +126,11 @@ WHERE t1.common_name_id = t2.id  and t1.id=$P{commonNameContentsId}))]]>
 			<staticText>
 				<reportElement x="616" y="0" width="42" height="25"/>
 				<box>
-					<topPen lineWidth="0.0"/>
-					<leftPen lineWidth="0.0"/>
-					<bottomPen lineWidth="0.0"/>
-					<rightPen lineWidth="0.0"/>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
@@ -134,10 +140,11 @@ WHERE t1.common_name_id = t2.id  and t1.id=$P{commonNameContentsId}))]]>
 			<staticText>
 				<reportElement x="658" y="0" width="68" height="25"/>
 				<box>
-					<topPen lineWidth="0.0"/>
-					<leftPen lineWidth="0.0"/>
-					<bottomPen lineWidth="0.0"/>
-					<rightPen lineWidth="0.0"/>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
@@ -147,10 +154,11 @@ WHERE t1.common_name_id = t2.id  and t1.id=$P{commonNameContentsId}))]]>
 			<staticText>
 				<reportElement x="562" y="0" width="54" height="25"/>
 				<box>
-					<topPen lineWidth="0.0"/>
-					<leftPen lineWidth="0.0"/>
-					<bottomPen lineWidth="0.0"/>
-					<rightPen lineWidth="0.0"/>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
@@ -160,10 +168,11 @@ WHERE t1.common_name_id = t2.id  and t1.id=$P{commonNameContentsId}))]]>
 			<staticText>
 				<reportElement x="509" y="0" width="53" height="25"/>
 				<box>
-					<topPen lineWidth="0.0"/>
-					<leftPen lineWidth="0.0"/>
-					<bottomPen lineWidth="0.0"/>
-					<rightPen lineWidth="0.0"/>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
@@ -173,10 +182,11 @@ WHERE t1.common_name_id = t2.id  and t1.id=$P{commonNameContentsId}))]]>
 			<staticText>
 				<reportElement x="726" y="0" width="116" height="25"/>
 				<box>
-					<topPen lineWidth="0.0"/>
-					<leftPen lineWidth="0.0"/>
-					<bottomPen lineWidth="0.0"/>
-					<rightPen lineWidth="0.0"/>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
@@ -186,10 +196,11 @@ WHERE t1.common_name_id = t2.id  and t1.id=$P{commonNameContentsId}))]]>
 			<staticText>
 				<reportElement x="842" y="0" width="79" height="25"/>
 				<box>
-					<topPen lineWidth="0.0"/>
-					<leftPen lineWidth="0.0"/>
-					<bottomPen lineWidth="0.0"/>
-					<rightPen lineWidth="0.0"/>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
@@ -199,10 +210,11 @@ WHERE t1.common_name_id = t2.id  and t1.id=$P{commonNameContentsId}))]]>
 			<staticText>
 				<reportElement x="1156" y="0" width="35" height="25"/>
 				<box>
-					<topPen lineWidth="0.0"/>
-					<leftPen lineWidth="0.0"/>
-					<bottomPen lineWidth="0.0"/>
-					<rightPen lineWidth="0.0"/>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
@@ -212,10 +224,11 @@ WHERE t1.common_name_id = t2.id  and t1.id=$P{commonNameContentsId}))]]>
 			<staticText>
 				<reportElement x="1191" y="0" width="66" height="25"/>
 				<box>
-					<topPen lineWidth="0.0"/>
-					<leftPen lineWidth="0.0"/>
-					<bottomPen lineWidth="0.0"/>
-					<rightPen lineWidth="0.0"/>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
@@ -225,10 +238,11 @@ WHERE t1.common_name_id = t2.id  and t1.id=$P{commonNameContentsId}))]]>
 			<staticText>
 				<reportElement x="1552" y="0" width="39" height="25"/>
 				<box>
-					<topPen lineWidth="0.0"/>
-					<leftPen lineWidth="0.0"/>
-					<bottomPen lineWidth="0.0"/>
-					<rightPen lineWidth="0.0"/>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
@@ -238,10 +252,11 @@ WHERE t1.common_name_id = t2.id  and t1.id=$P{commonNameContentsId}))]]>
 			<staticText>
 				<reportElement x="1257" y="0" width="43" height="25"/>
 				<box>
-					<topPen lineWidth="0.0"/>
-					<leftPen lineWidth="0.0"/>
-					<bottomPen lineWidth="0.0"/>
-					<rightPen lineWidth="0.0"/>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
@@ -251,10 +266,11 @@ WHERE t1.common_name_id = t2.id  and t1.id=$P{commonNameContentsId}))]]>
 			<staticText>
 				<reportElement x="921" y="0" width="52" height="25"/>
 				<box>
-					<topPen lineWidth="0.0"/>
-					<leftPen lineWidth="0.0"/>
-					<bottomPen lineWidth="0.0"/>
-					<rightPen lineWidth="0.0"/>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
@@ -264,10 +280,11 @@ WHERE t1.common_name_id = t2.id  and t1.id=$P{commonNameContentsId}))]]>
 			<staticText>
 				<reportElement x="1591" y="0" width="61" height="25"/>
 				<box>
-					<topPen lineWidth="0.0"/>
-					<leftPen lineWidth="0.0"/>
-					<bottomPen lineWidth="0.0"/>
-					<rightPen lineWidth="0.0"/>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
@@ -277,10 +294,11 @@ WHERE t1.common_name_id = t2.id  and t1.id=$P{commonNameContentsId}))]]>
 			<staticText>
 				<reportElement x="1652" y="0" width="50" height="25"/>
 				<box>
-					<topPen lineWidth="0.0"/>
-					<leftPen lineWidth="0.0"/>
-					<bottomPen lineWidth="0.0"/>
-					<rightPen lineWidth="0.0"/>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
@@ -290,10 +308,11 @@ WHERE t1.common_name_id = t2.id  and t1.id=$P{commonNameContentsId}))]]>
 			<staticText>
 				<reportElement x="1702" y="0" width="49" height="25"/>
 				<box>
-					<topPen lineWidth="0.0"/>
-					<leftPen lineWidth="0.0"/>
-					<bottomPen lineWidth="0.0"/>
-					<rightPen lineWidth="0.0"/>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
@@ -303,10 +322,11 @@ WHERE t1.common_name_id = t2.id  and t1.id=$P{commonNameContentsId}))]]>
 			<staticText>
 				<reportElement x="61" y="0" width="60" height="25"/>
 				<box>
-					<topPen lineWidth="0.0"/>
-					<leftPen lineWidth="0.0"/>
-					<bottomPen lineWidth="0.0"/>
-					<rightPen lineWidth="0.0"/>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
@@ -316,10 +336,11 @@ WHERE t1.common_name_id = t2.id  and t1.id=$P{commonNameContentsId}))]]>
 			<staticText>
 				<reportElement x="271" y="0" width="85" height="25"/>
 				<box>
-					<topPen lineWidth="0.0"/>
-					<leftPen lineWidth="0.0"/>
-					<bottomPen lineWidth="0.0"/>
-					<rightPen lineWidth="0.0"/>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
@@ -329,10 +350,11 @@ WHERE t1.common_name_id = t2.id  and t1.id=$P{commonNameContentsId}))]]>
 			<staticText>
 				<reportElement x="973" y="0" width="56" height="25"/>
 				<box>
-					<topPen lineWidth="0.0"/>
-					<leftPen lineWidth="0.0"/>
-					<bottomPen lineWidth="0.0"/>
-					<rightPen lineWidth="0.0"/>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
@@ -342,10 +364,11 @@ WHERE t1.common_name_id = t2.id  and t1.id=$P{commonNameContentsId}))]]>
 			<staticText>
 				<reportElement x="1029" y="0" width="75" height="25"/>
 				<box>
-					<topPen lineWidth="0.0"/>
-					<leftPen lineWidth="0.0"/>
-					<bottomPen lineWidth="0.0"/>
-					<rightPen lineWidth="0.0"/>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
@@ -355,10 +378,11 @@ WHERE t1.common_name_id = t2.id  and t1.id=$P{commonNameContentsId}))]]>
 			<staticText>
 				<reportElement x="1300" y="0" width="99" height="25"/>
 				<box>
-					<topPen lineWidth="0.0"/>
-					<leftPen lineWidth="0.0"/>
-					<bottomPen lineWidth="0.0"/>
-					<rightPen lineWidth="0.0"/>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
@@ -368,10 +392,11 @@ WHERE t1.common_name_id = t2.id  and t1.id=$P{commonNameContentsId}))]]>
 			<staticText>
 				<reportElement x="1104" y="0" width="52" height="25"/>
 				<box>
-					<topPen lineWidth="0.0"/>
-					<leftPen lineWidth="0.0"/>
-					<bottomPen lineWidth="0.0"/>
-					<rightPen lineWidth="0.0"/>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
@@ -381,10 +406,11 @@ WHERE t1.common_name_id = t2.id  and t1.id=$P{commonNameContentsId}))]]>
 			<staticText>
 				<reportElement x="1399" y="0" width="153" height="25"/>
 				<box>
-					<topPen lineWidth="0.0"/>
-					<leftPen lineWidth="0.0"/>
-					<bottomPen lineWidth="0.0"/>
-					<rightPen lineWidth="0.0"/>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
@@ -394,10 +420,11 @@ WHERE t1.common_name_id = t2.id  and t1.id=$P{commonNameContentsId}))]]>
 			<staticText>
 				<reportElement x="400" y="0" width="49" height="25"/>
 				<box>
-					<topPen lineWidth="0.0"/>
-					<leftPen lineWidth="0.0"/>
-					<bottomPen lineWidth="0.0"/>
-					<rightPen lineWidth="0.0"/>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
@@ -416,6 +443,13 @@ WHERE t1.common_name_id = t2.id  and t1.id=$P{commonNameContentsId}))]]>
 		<band height="25" splitType="Stretch">
 			<textField>
 				<reportElement x="61" y="0" width="60" height="25"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
 				<textElement>
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
 				</textElement>
@@ -423,6 +457,13 @@ WHERE t1.common_name_id = t2.id  and t1.id=$P{commonNameContentsId}))]]>
 			</textField>
 			<textField>
 				<reportElement x="121" y="0" width="79" height="25"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
 				<textElement>
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
 				</textElement>
@@ -430,6 +471,13 @@ WHERE t1.common_name_id = t2.id  and t1.id=$P{commonNameContentsId}))]]>
 			</textField>
 			<textField>
 				<reportElement x="200" y="0" width="71" height="25"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
 				<textElement>
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
 				</textElement>
@@ -437,6 +485,13 @@ WHERE t1.common_name_id = t2.id  and t1.id=$P{commonNameContentsId}))]]>
 			</textField>
 			<textField>
 				<reportElement x="449" y="0" width="60" height="25"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
 				<textElement>
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
 				</textElement>
@@ -444,6 +499,13 @@ WHERE t1.common_name_id = t2.id  and t1.id=$P{commonNameContentsId}))]]>
 			</textField>
 			<textField>
 				<reportElement x="356" y="0" width="44" height="25"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
 				<textElement>
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
 				</textElement>
@@ -451,6 +513,13 @@ WHERE t1.common_name_id = t2.id  and t1.id=$P{commonNameContentsId}))]]>
 			</textField>
 			<textField>
 				<reportElement x="0" y="0" width="60" height="25"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
 				<textElement>
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
 				</textElement>
@@ -458,6 +527,13 @@ WHERE t1.common_name_id = t2.id  and t1.id=$P{commonNameContentsId}))]]>
 			</textField>
 			<textField>
 				<reportElement x="509" y="0" width="53" height="25"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
 				<textElement>
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
 				</textElement>
@@ -465,6 +541,13 @@ WHERE t1.common_name_id = t2.id  and t1.id=$P{commonNameContentsId}))]]>
 			</textField>
 			<textField>
 				<reportElement x="562" y="0" width="54" height="25"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
 				<textElement>
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
 				</textElement>
@@ -472,6 +555,13 @@ WHERE t1.common_name_id = t2.id  and t1.id=$P{commonNameContentsId}))]]>
 			</textField>
 			<textField>
 				<reportElement x="616" y="0" width="42" height="25"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
 				<textElement>
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
 				</textElement>
@@ -479,6 +569,13 @@ WHERE t1.common_name_id = t2.id  and t1.id=$P{commonNameContentsId}))]]>
 			</textField>
 			<textField>
 				<reportElement x="658" y="0" width="68" height="25"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
 				<textElement>
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
 				</textElement>
@@ -486,6 +583,13 @@ WHERE t1.common_name_id = t2.id  and t1.id=$P{commonNameContentsId}))]]>
 			</textField>
 			<textField>
 				<reportElement x="726" y="0" width="116" height="25"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
 				<textElement>
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
 				</textElement>
@@ -493,6 +597,13 @@ WHERE t1.common_name_id = t2.id  and t1.id=$P{commonNameContentsId}))]]>
 			</textField>
 			<textField>
 				<reportElement x="842" y="0" width="79" height="25"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
 				<textElement>
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
 				</textElement>
@@ -500,6 +611,13 @@ WHERE t1.common_name_id = t2.id  and t1.id=$P{commonNameContentsId}))]]>
 			</textField>
 			<textField>
 				<reportElement x="1156" y="0" width="35" height="25"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
 				<textElement>
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
 				</textElement>
@@ -507,6 +625,13 @@ WHERE t1.common_name_id = t2.id  and t1.id=$P{commonNameContentsId}))]]>
 			</textField>
 			<textField>
 				<reportElement x="921" y="0" width="52" height="25"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
 				<textElement>
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
 				</textElement>
@@ -514,6 +639,13 @@ WHERE t1.common_name_id = t2.id  and t1.id=$P{commonNameContentsId}))]]>
 			</textField>
 			<textField>
 				<reportElement x="1191" y="0" width="66" height="25"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
 				<textElement>
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
 				</textElement>
@@ -521,6 +653,13 @@ WHERE t1.common_name_id = t2.id  and t1.id=$P{commonNameContentsId}))]]>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement x="1552" y="0" width="39" height="25"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
 				<textElement>
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
 				</textElement>
@@ -528,6 +667,13 @@ WHERE t1.common_name_id = t2.id  and t1.id=$P{commonNameContentsId}))]]>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement x="1591" y="0" width="61" height="25"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
 				<textElement>
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
 				</textElement>
@@ -535,6 +681,13 @@ WHERE t1.common_name_id = t2.id  and t1.id=$P{commonNameContentsId}))]]>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement x="1652" y="0" width="50" height="25"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
 				<textElement>
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
 				</textElement>
@@ -542,6 +695,13 @@ WHERE t1.common_name_id = t2.id  and t1.id=$P{commonNameContentsId}))]]>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement x="1702" y="0" width="49" height="25"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
 				<textElement>
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
 				</textElement>
@@ -549,6 +709,13 @@ WHERE t1.common_name_id = t2.id  and t1.id=$P{commonNameContentsId}))]]>
 			</textField>
 			<textField>
 				<reportElement x="271" y="0" width="85" height="25"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
 				<textElement>
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
 				</textElement>
@@ -556,6 +723,13 @@ WHERE t1.common_name_id = t2.id  and t1.id=$P{commonNameContentsId}))]]>
 			</textField>
 			<textField>
 				<reportElement x="1257" y="0" width="43" height="25"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
 				<textElement>
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
 				</textElement>
@@ -563,6 +737,13 @@ WHERE t1.common_name_id = t2.id  and t1.id=$P{commonNameContentsId}))]]>
 			</textField>
 			<textField>
 				<reportElement x="973" y="0" width="56" height="25"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
 				<textElement>
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
 				</textElement>
@@ -570,6 +751,13 @@ WHERE t1.common_name_id = t2.id  and t1.id=$P{commonNameContentsId}))]]>
 			</textField>
 			<textField>
 				<reportElement x="1029" y="0" width="75" height="25"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
 				<textElement>
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
 				</textElement>
@@ -577,6 +765,13 @@ WHERE t1.common_name_id = t2.id  and t1.id=$P{commonNameContentsId}))]]>
 			</textField>
 			<textField>
 				<reportElement x="1104" y="0" width="52" height="25"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
 				<textElement>
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
 				</textElement>
@@ -584,6 +779,13 @@ WHERE t1.common_name_id = t2.id  and t1.id=$P{commonNameContentsId}))]]>
 			</textField>
 			<textField>
 				<reportElement x="1300" y="0" width="99" height="25"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
 				<textElement>
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
 				</textElement>
@@ -591,6 +793,13 @@ WHERE t1.common_name_id = t2.id  and t1.id=$P{commonNameContentsId}))]]>
 			</textField>
 			<textField>
 				<reportElement x="1399" y="0" width="153" height="25"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
 				<textElement>
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
 				</textElement>
@@ -598,6 +807,13 @@ WHERE t1.common_name_id = t2.id  and t1.id=$P{commonNameContentsId}))]]>
 			</textField>
 			<textField>
 				<reportElement x="400" y="0" width="49" height="25"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
 				<textElement>
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
 				</textElement>

@@ -21,6 +21,9 @@
 	<parameter name="departname" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["E:\\rmyy_work\\doc\\yjk\\"]]></defaultValueExpression>
+	</parameter>
 	<queryString>
 		<![CDATA[SELECT t4.id, declare_date, declare_reason, dosage, indications_effect, remark,declarecategory,
 case when is_preparationed then '是' else '否' end as preparationed,constituent,t2.realname,
@@ -366,7 +369,7 @@ order by t1.auditstatus]]>
 		<band splitType="Stretch"/>
 	</columnHeader>
 	<detail>
-		<band height="232" splitType="Stretch">
+		<band height="136" splitType="Stretch">
 			<textField>
 				<reportElement x="110" y="0" width="142" height="29"/>
 				<box>
@@ -655,18 +658,20 @@ order by t1.auditstatus]]>
 				<textFieldExpression><![CDATA[$F{auditstatus}]]></textFieldExpression>
 			</textField>
 			<subreport>
-				<reportElement x="0" y="29" width="252" height="100"/>
+				<reportElement x="0" y="40" width="180" height="25"/>
 				<subreportParameter name="commonNameContentsId">
 					<subreportParameterExpression><![CDATA[$F{id}]]></subreportParameterExpression>
 				</subreportParameter>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-				<subreportExpression><![CDATA["E:\\rmyy_work\\doc\\yjk\\hospitalcontentssub.jasper"]]></subreportExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "hospitalcontentssub.jasper"]]></subreportExpression>
 			</subreport>
 			<subreport>
-				<reportElement x="0" y="129" width="252" height="100"/>
-				<subreportParameter name="commonNameContentsId"/>
+				<reportElement x="0" y="111" width="180" height="25"/>
+				<subreportParameter name="commonNameContentsId">
+					<subreportParameterExpression><![CDATA[$F{id}]]></subreportParameterExpression>
+				</subreportParameter>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-				<subreportExpression><![CDATA["E:\\rmyy_work\\doc\\yjk\\commonnamecontentssub.jasper"]]></subreportExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "commonnamecontentssub.jasper"]]></subreportExpression>
 			</subreport>
 		</band>
 	</detail>
