@@ -141,7 +141,6 @@ insert into sec_resource(id, icon, identity, name, parent_id, parent_ids, is_sho
 ,(104,'rmyy-yjk-commonname-tree','commonname','通用名',102,'0/1/102/','true',null,'/yjk/zd/commonname/index',1)
 ,(105,'rmyy-yjk-commonnamecontents-tree','commonnamecontents','大总目录',102,'0/1/102/','true',null,'/yjk/zd/commonnamecontents/index',2)
 ,(106,'rmyy-yjk-hospitalcontents-tree','hospitalcontents','院用目录',102,'0/1/102/','true',null,'/yjk/zd/hospitalcontents/index',3)
-,(107,'rmyy-yjk-administration-tree','administration','用药途径',102,'0/1/102/','true',null,'/yjk/zd/administration/index',4)
 ,(108,'rmyy-yjk-systemparameter-tree','systemparameter','系统参数',102,'0/1/102/','true',null,'/yjk/sp/systemparameter/index',5)
 ,(109,'rmyy-personal-medicine-tree','sb:drugform','新药申报',62,'0/1/62/','true',null,'/yjk/sb/drugform/index',3)
 ,(110,'rmyy-yjk-commonnamerule-tree','commonnamerule','匹配条件',102,'0/1/102/','true',null,'/yjk/zd/commonnamerule/index',6)

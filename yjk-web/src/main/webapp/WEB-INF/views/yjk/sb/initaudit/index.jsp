@@ -5,7 +5,7 @@
 				<thead>            
 					<tr>
 					    <th data-options="field:'ck',checkbox:true"/>
-					    <th data-options="field:'id',hidden:true">编号</th>
+					    <th data-options="field:'id',sortable:true">序号</th>
 					    <th data-options="field:'formatId',width:100">编号</th>
 						<th data-options="field:'auditStatusInfo',width:100">审核状态</th>	
 						<th data-options="field:'realName',width:100,sortable:true">申报医生</th>
@@ -62,15 +62,15 @@
 		              		<tr>
 		           				<td>审核状态</td>
 		           				<td>
-		           					<form:select id="enabled" name="EQ_auditStatus" path="stateList" cssClass="easyui-combobox"  cssStyle="width:140px;" data-options="panelHeight:'auto',editable:false">
+		           					<form:select  name="EQ_auditStatus" path="stateList" cssClass="easyui-combobox"  cssStyle="width:140px;" data-options="panelHeight:'auto',editable:false">
 							  			<form:option value="" label="------请选择------"/>
 							  			<form:options items="${stateList}" itemLabel="info"/>
 									</form:select>
 		           				</td>
 			              		<td>申报医生</td>
-			           			<td>
-			           				<input id="userId" name="EQ_userId" />
-			           			</td>		              		   
+			           			<td><input  name="EQ_userId" /></td>	
+			              		<td>序号</td>
+			           			<td><input name="EQ_id" /></td>					           				              		   
               					<td>简拼</td>
               					<td><input type="text" name="LIKE_commonNameContents.common.spellSimplify" style="width:140px;"/></td>
 		              			<td width="20%" colspan="2">
@@ -84,8 +84,8 @@
 		              			<td><input type="text" name="LIKE_commonNameContents.common.commonName" style="width:140px;"/></td>	
 		              			<td>申报类型</td>
 		              			<td><input type="text" name="LIKE_declareCategory"/></td>	           			
-								<td width="10%">填报时间从</td>
-								<td colspan="2">
+								<td >填报时间从</td>
+								<td colspan="4">
 									<input type="text" id="fillInDate1" name="GTE_fillInDate" class="easyui-datetimebox" style="width: 145px" data-options="editable:false" />
 									 至 
 									<input type="text" id="fillInDate2" name="LTE_fillInDate" class="easyui-datetimebox" style="width: 145px" data-options="editable:false" />

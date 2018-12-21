@@ -13,7 +13,7 @@
 				</c:forEach>
 			  	<table class="formtable">
 		        	<tr>
-						<td width="30%"><form:label path="applyStartDate">申请开始时间：</form:label></td>
+						<td width="30%"><form:label path="applyStartDate">申请开始时间<font color="red">*</font>：</form:label></td>
 						<td width="70%"><form:input path="applyStartDate"  class="easyui-datetimebox" style="width:200px" data-options="
 							editable:false,
 							required: true,
@@ -33,7 +33,7 @@
 						</td>
 					</tr>
 		        	<tr>
-						<td><form:label path="applyEndDate">申请结束时间：</form:label></td>
+						<td><form:label path="applyEndDate">申请结束时间<font color="red">*</font>：</form:label></td>
 						<td><form:input path="applyEndDate"  class="easyui-datetimebox"  style="width:200px" data-options="
 							editable:false,
 							required: true,
@@ -57,12 +57,20 @@
 						<td><form:checkbox path="repeatDeclared"/></td>
 					</tr>					
 		        	<tr>
-						<td><form:label path="declarationLimt">院用限数：</form:label></td>
-						<td><form:input path="declarationLimt" cssClass="validate[required,custom[integer]]" maxlength="4" size="10"/></td>
+						<td><form:label path="injectDeclarationLimt">注射两规限数<font color="red">*</font>：</form:label></td>
+						<td><form:input path="injectDeclarationLimt" cssClass="validate[required,custom[integer]]" maxlength="4" size="10"/><font color="red">0代表不限</font></td>
 					</tr>
 		        	<tr>
-						<td><form:label path="declareTotalLimt">总报限数：</form:label></td>
-						<td><form:input path="declareTotalLimt" cssClass="validate[required,custom[integer]]" maxlength="4" size="10"/></td>
+						<td><form:label path="oralDeclarationLimt">口服两规限数<font color="red">*</font>：</form:label></td>
+						<td><form:input path="oralDeclarationLimt" cssClass="validate[required,custom[integer]]" maxlength="4" size="10"/><font color="red">0代表不限</font></td>
+					</tr>
+		        	<tr>
+						<td><form:label path="otherDeclarationLimt">外用及其他两规限数<font color="red">*</font>：</form:label></td>
+						<td><form:input path="otherDeclarationLimt" cssClass="validate[required,custom[integer]]" maxlength="4" size="10"/><font color="red">0代表不限</font></td>
+					</tr>										
+		        	<tr>
+						<td><form:label path="declareTotalLimt">每个人总报限数<font color="red">*</font>：</form:label></td>
+						<td><form:input path="declareTotalLimt" cssClass="validate[required,custom[integer]]" maxlength="4" size="10"/><font color="red">0代表不限</font></td>
 					</tr>	
 					<tr>
 						<td><form:label path="projectRemark">项目说明：</form:label></td>
@@ -97,11 +105,11 @@
 	
 	function pageSubmit(){
 		if($('#applyStartDate').val() == ''){
-			alert('申请开始时间不能为空')
+			$.messager.alert('提示','申请开始时间不能为空','info');
 			return;
 		}
 		if($('#applyEndDate').val() == ''){
-			alert('申请结束时间不能为空')
+			$.messager.alert('提示','申请结束时间不能为空','info');
 			return;
 		}
 		$('#editForm').submit();

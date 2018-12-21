@@ -14,9 +14,23 @@
 						formatter:function(val,row){
 							return val?'是':'否';
 						}">可否重复申报</th>				
-				<th data-options="field:'declarationLimt',width:120">两规限数</th>
-				<th data-options="field:'declareTotalLimt',width:80">总报限数</th>
-				<th data-options="field:'projectRemark',width:80">项目说明</th>
+				<th data-options="field:'injectDeclarationLimt',width:120,
+						formatter:function(val,row){
+							return val==0?'不限数':val;
+						}">注射两规限数</th>
+				<th data-options="field:'oralDeclarationLimt',width:120,
+						formatter:function(val,row){
+							return val==0?'不限数':val;
+						}">口服两规限数</th>
+				<th data-options="field:'otherDeclarationLimt',width:160,
+						formatter:function(val,row){
+							return val==0?'不限数':val;
+						}">外用及其他两规限数</th>
+				<th data-options="field:'declareTotalLimt',width:140,
+						formatter:function(val,row){
+							return val==0?'不限数':val;
+						}">每个人总报限数</th>
+				<th data-options="field:'projectRemark',width:120">项目说明</th>
 				<th data-options="field:'enabled',width:400,halign:'center',formatter:formatOperation">操作</th>
 				<th data-options="field:'nodeclareNumber',width:100">未提交初审数</th>
 				<th data-options="field:'initNumber',width:100">已提交初审数</th>
@@ -27,7 +41,7 @@
 	</table>
 	<div id="tb" style="padding: 5px; height: auto;">
 		<div class="toolbar" style="margin-bottom: 2px">
-			<a id="tb-add" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-add'" onclick="$.ewcms.add({title:'新增',width:600,height:500});">新增</a>
+			<a id="tb-add" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-add'" onclick="$.ewcms.add({title:'新增',width:600,height:450});">新增</a>
 			<a id="tb-edit" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-edit'" onclick="updateSystemParameter();">修改</a>
 		</div>
 		<div>
@@ -150,7 +164,7 @@
 	        $.messager.alert('提示','启动记录不能修改，关闭以后才可修改','info');
 	        return;
     	}
-    	$.ewcms.edit({title:'修改',width:600,height:500});
+    	$.ewcms.edit({title:'修改',width:600,height:450});
 	}
 	
 	function filter(id){

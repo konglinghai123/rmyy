@@ -254,7 +254,13 @@ public class DrugFormService extends BaseService<DrugForm, Long> {
 			Long maxNumber = 0L;
 			SystemParameter systemParameter = systemParameterService.findByEnabledTrue();
 			if (EmptyUtil.isNotNull(systemParameter)) {
-				maxNumber = systemParameter.getDeclarationLimt();
+				if(vo.getAdministration().getId()==1){
+					maxNumber = systemParameter.getOralDeclarationLimt();
+				}else if(vo.getAdministration().getId()==2){
+					maxNumber = systemParameter.getInjectDeclarationLimt();
+				}else if(vo.getAdministration().getId()==3){
+					maxNumber = systemParameter.getOtherDeclarationLimt();
+				}
 			}
 			
 			//根据通用名编号找院目录在该通用名中的记录集，看是否满足一品两规的限制
@@ -264,12 +270,13 @@ public class DrugFormService extends BaseService<DrugForm, Long> {
 				existNumber = hospitalContentsList.size();
 			}
 
-			if (existNumber < maxNumber) {//满足一品两规，再判断是否满足特殊规则
+			if (maxNumber==0 || existNumber < maxNumber) {//不限或满足一品两规，再判断是否满足特殊规则
 				if(existNumber==0){
 					resulstMap.put("declareCategory", "新增通用名");
 				}else{
 					resulstMap.put("declareCategory", "新增规格");
 				}
+				
 				//查询特殊规则中的随数与特殊规则对象
 				Map<Long, SpecialRule> map = specialRuleService.findMaxLimitNumber(vo.getCommon().getId(),vo.getAdministration().getId());
 				
@@ -317,7 +324,7 @@ public class DrugFormService extends BaseService<DrugForm, Long> {
 		}
 		Long declareTotal = getDrugFormRepository().findDeclareTotalByUserId(userId,systemParameter.getId());
 
-		if (declareTotal < systemParameter.getDeclareTotalLimt()) {
+		if (systemParameter.getDeclareTotalLimt() ==0||declareTotal < systemParameter.getDeclareTotalLimt()) {//不受限制或总数没达到上限
 			return Boolean.FALSE;
 		} else {
 			return Boolean.TRUE;

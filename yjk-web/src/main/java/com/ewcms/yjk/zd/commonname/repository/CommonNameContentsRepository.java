@@ -15,6 +15,9 @@ public interface CommonNameContentsRepository extends BaseRepository<CommonNameC
 	@Query("from CommonNameContents c where (c.common.spell like %?1% or c.common.spellSimplify like %?1%) and c.deleted is false and c.declared is true")
 	List<CommonNameContents> findCommonNameContentsBySpell(String spell);
 	
+	@Query("from CommonNameContents c where c.manufacturer like ?1% ")
+	List<CommonNameContents> findCommonNameContentsByManufacturer(String manufacturer);	
+	
 	@Query("select distinct projectName from CommonNameContents")
 	List<String> findDistinctProjectName();
 //	List<CommonNameContents> findByCommonIdAndDeletedFalse(Long commonId);

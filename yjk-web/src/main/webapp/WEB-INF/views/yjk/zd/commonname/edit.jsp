@@ -16,7 +16,7 @@
 				</c:forEach>
 			  	<table class="formtable">
 		        	<tr>
-						<td width="30%"><form:label path="commonName">通用名：</form:label></td>
+						<td width="30%"><form:label path="commonName">通用名<font color="red">*</font>：</form:label></td>
 						<td width="70%"><form:input path="commonName" cssStyle="width:200px;"  cssClass="validate[required,ajax[ajaxNameCall]]"/></td>
 					</tr>
 					<tr>
@@ -24,7 +24,7 @@
 						<td><form:input path="bidCommonName" cssStyle="width:200px;" /></td>
 					</tr>					
 					<tr>
-						<td><form:label path="drugCategory">药品种类：</form:label></td>
+						<td><form:label path="drugCategory">药品种类<font color="red">*</font>：</form:label></td>
 						<td>		           					
 							<form:select path="drugCategory" cssClass="easyui-combobox"  cssStyle="width:140px;" data-options="panelHeight:'auto',editable:false">
 							  	<form:options items="${drugCategoryList}" itemLabel="info"/>
@@ -32,7 +32,7 @@
 						</td>
 					</tr>
 					<tr>
-						<td><form:label path="matchNumber">匹配编号：</form:label></td>
+						<td><form:label path="matchNumber">匹配编号<font color="red">*</font>：</form:label></td>
 						<td><form:input path="matchNumber" cssClass="validate[required,ajax[ajaxNameCall]]"/></td>
 					</tr>
 					<tr>

@@ -15,7 +15,7 @@
 						<c:choose>
 							<c:when test="${commonNameRule.ruleName == 'common.commonName'}">
 				        	<tr>
-								<td width="30%">${commonNameRule.ruleCnName}(拼音)：</td>
+								<td width="30%">${commonNameRule.ruleCnName}(拼音)<font color="red">*</font>：</td>
 								<td width="70%">							
 								<input type="text" id="CNRule${status.index}" name="extractCommonName" class="easyui-combobox" data-options="
 									valueField:'id',
@@ -49,7 +49,7 @@
 							</c:when>
 							<c:when test="${commonNameRule.ruleName == 'administration.id'}">
 				        	<tr>
-								<td width="30%">${commonNameRule.ruleCnName}：</td>
+								<td width="30%">${commonNameRule.ruleCnName}<font color="red">*</font>：</td>
 								<td width="70%">							
 								<input type="text" id="CNRule${status.index}" name="administrationName" class="easyui-combobox" data-options="
 									valueField:'id',
@@ -90,7 +90,7 @@
 							</c:when>
 							<c:when test="${commonNameRule.ruleName == 'common.drugCategory'}">
 				        	<tr>
-								<td width="30%">${commonNameRule.ruleCnName}：</td>
+								<td width="30%">${commonNameRule.ruleCnName}<font color="red">*</font>：</td>
 								<td width="70%">							
 								<input type="text" id="CNRule${status.index}" name="drugCategoryInfo" class="easyui-combobox" data-options="
 									valueField:'id',
@@ -131,7 +131,7 @@
 							</c:when>							
 							<c:otherwise>
 					        	<tr>
-									<td width="20%">${commonNameRule.ruleCnName}：</td>
+									<td width="20%">${commonNameRule.ruleCnName}<font color="red">*</font>：</td>
 									<td width="70%">
 										<input type="text" id="CNRule${status.index}" name="commonNameContents.${commonNameRule.ruleName}" class="easyui-combobox"  data-options="
 										valueField:'id',
@@ -173,19 +173,19 @@
 						</c:choose>		
 					</c:forEach>
 					<tr>
-						<td width="30%"><form:label path="dosage">用法用量（严格按说明书填写）：</form:label></td>
+						<td width="30%"><form:label path="dosage">用法用量（严格按说明书填写）<font color="red">*</font>：</form:label></td>
 						<td width="70%"><form:textarea path="dosage" style="width:400px;height:50px" cssClass="validate[required]"/></td>
 					</tr>
 					<tr>
-						<td width="30%"><form:label path="indicationsEffect">适应症及药理作用：</form:label></td>
+						<td width="30%"><form:label path="indicationsEffect">适应症及药理作用<font color="red">*</font>：</form:label></td>
 						<td width="70%"><form:textarea path="indicationsEffect"	style="width:400px;height:50px" cssClass="validate[required]"/></td>
 					</tr>
 					<tr>
-						<td width="30%"><form:label path="declareReason">申请理由（可附页）（请说明该药国内外使用情况、指南推荐情况、优势及特点、与本学科的关系等）：</form:label></td>
+						<td width="30%"><form:label path="declareReason">申请理由（可附页）（请说明该药国内外使用情况、指南推荐情况、优势及特点、与本学科的关系等）<font color="red">*</font>：</form:label></td>
 						<td width="70%"><form:textarea path="declareReason" style="width:400px;height:50px" cssClass="validate[required]"/></td>
 					</tr>
 					<tr>
-						<td width="30%"><form:label path="constituent">成分：</form:label></td>
+						<td width="30%"><form:label path="constituent">成分<font color="red">*</font>：</form:label></td>
 						<td width="70%"><form:textarea path="constituent" style="width:400px;height:50px" cssClass="validate[required]"/></td>
 					</tr>
 		        	<tr>

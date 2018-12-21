@@ -90,7 +90,7 @@
               			<td>通用名</td>
               			<td><input type="text" name="LIKE_common.commonName" style="width:140px;"/></td>
             			<td>匹配编号</td>
-              			<td><input type="text" name="EQ_common.matchNumber" style="width:120px;"/></td>
+              			<td><input type="text" name="Like_common.matchNumber" style="width:120px;"/></td>
               			<td >简拼</td>
               			<td><input type="text" name="LIKE_common.spellSimplify" style="width:80px;"/></td>
               			<td>药品种类</td>
@@ -122,7 +122,17 @@
 					  			<form:options items="${booleanList}" itemLabel="info"/>
 							</form:select>
 						</td>               			   				
-           			</tr>            			
+           			</tr>  
+           			<tr style="display: none;">
+              			<td>国家谈判品种</td>
+              			<td><input type="text" name="LIKE_negotiationVariety" style="width:140px;"/></td>
+              			<td>一致性评价</td>
+              			<td><input type="text" name="LIKE_consistencyEvaluation" style="width:140px;"/></td>
+            			<td>化药大类</td>
+              			<td><input type="text" name="LIKE_common.chemicalBigCategory" style="width:140px;"/></td>
+            			<td>化药小类</td>
+              			<td><input type="text" name="LIKE_common.chemicalSubCategory" style="width:140px;"/></td>                			   				
+           			</tr>            			          			
            		</table>
           </form>
         </div>

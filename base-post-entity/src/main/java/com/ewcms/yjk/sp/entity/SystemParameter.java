@@ -39,7 +39,9 @@ import com.google.common.collect.Sets;
  * <ul>
  * <li>applyStartDate:申请开始时间</li>
  * <li>applyEndDate:申请结束时间</li>
- * <li>declarationLimt:申报限数（院目录在用数量）</li>
+ * <li>injectDeclarationLimt:注射两规限数（院目录在用数量）</li>
+ * <li>oralDeclarationLimt:口服两规限数（院目录在用数量）</li>
+ * <li>otherDeclarationLimt:外用及其他两规限数（院目录在用数量）</li>
  * <li>declareTotalLimt:申报总数限制（单个医生）</li>
  * <li>enabled:是否启用（系统中只能有1或0条设置启用）</li>
  * <li>organizations:科室对象集合
@@ -71,41 +73,83 @@ public class SystemParameter extends BaseSequenceEntity<Long> implements LogicDe
 	@Column(name = "apply_start_date", nullable = false, unique = true)
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date applyStartDate;
+	
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	@Column(name = "apply_end_date", nullable = false, unique = true)
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date applyEndDate;
-	@Column(name = "declaration_limt", nullable = false)
-	private Long declarationLimt = Long.valueOf(2);
+	
+	@Column(name = "inject_declaration_limt", nullable = false)
+	private Long injectDeclarationLimt = Long.valueOf(2);
+	
+	@Column(name = "oral_declaration_limt", nullable = false)
+	private Long oralDeclarationLimt = Long.valueOf(2);
+	
+	@Column(name = "other_declaration_limt", nullable = false)
+	private Long otherDeclarationLimt = Long.valueOf(0);
+	
 	@Column(name = "declare_total_limt", nullable = false)
-	private Long declareTotalLimt = Long.valueOf(999);
+	private Long declareTotalLimt = Long.valueOf(0);
+	
 	@Column(name = "is_enabled")
 	private Boolean enabled = Boolean.FALSE;
+	
 	@Column(name = "is_deleted")
 	private Boolean deleted = Boolean.FALSE;
+	
 	@Column(name = "is_repeat_declared")
 	private Boolean repeatDeclared = Boolean.FALSE;
+	
 	@OneToMany(cascade = { CascadeType.MERGE,
 			CascadeType.REFRESH }, fetch = FetchType.EAGER, targetEntity = SystemExpert.class, mappedBy = "systemParameter", orphanRemoval = true)
 	@Fetch(FetchMode.SELECT)
 	@Basic(optional = true, fetch = FetchType.EAGER)
 	@OrderBy("weight")
 	private List<SystemExpert> systemExperts;
+	
 	@ManyToMany(cascade = { CascadeType.ALL })
 	@JoinTable(name = "sp_system_parameter_user", joinColumns = {
 			@JoinColumn(name = "system_parameter_id", referencedColumnName = "id") }, inverseJoinColumns = {
 					@JoinColumn(name = "user_id", referencedColumnName = "id") }, uniqueConstraints = {@UniqueConstraint(columnNames = {
 							"user_id", "system_parameter_id" })})
 	private List<User> users;
+	
 	@Formula(value = "(select count(sb.id) from sb_drug_form sb where sb.system_parameter_id=id and sb.auditstatus = 'nodeclare')")
 	private Long nodeclareNumber = 0L;
+	
 	@Formula(value = "(select count(sb.id) from sb_drug_form sb where sb.system_parameter_id=id and sb.auditstatus = 'init')")
 	private Long initNumber = 0L;
+	
 	@Formula(value = "(select count(sb.id) from sb_drug_form sb where sb.system_parameter_id=id and sb.auditstatus = 'passed')")
 	private Long passedNumber = 0L;
+	
 	@Formula(value = "(select count(sb.id) from sb_drug_form sb where sb.system_parameter_id=id and sb.auditstatus = 'un_passed')")
 	private Long unPassedNumber = 0L;
 	
+	public Long getInjectDeclarationLimt() {
+		return injectDeclarationLimt;
+	}
+
+	public void setInjectDeclarationLimt(Long injectDeclarationLimt) {
+		this.injectDeclarationLimt = injectDeclarationLimt;
+	}
+
+	public Long getOralDeclarationLimt() {
+		return oralDeclarationLimt;
+	}
+
+	public void setOralDeclarationLimt(Long oralDeclarationLimt) {
+		this.oralDeclarationLimt = oralDeclarationLimt;
+	}
+
+	public Long getOtherDeclarationLimt() {
+		return otherDeclarationLimt;
+	}
+
+	public void setOtherDeclarationLimt(Long otherDeclarationLimt) {
+		this.otherDeclarationLimt = otherDeclarationLimt;
+	}
+
 	@Column(name = "project_remark")
 	private String projectRemark;
 	
@@ -133,14 +177,6 @@ public class SystemParameter extends BaseSequenceEntity<Long> implements LogicDe
 
 	public void setApplyEndDate(Date applyEndDate) {
 		this.applyEndDate = applyEndDate;
-	}
-
-	public Long getDeclarationLimt() {
-		return declarationLimt;
-	}
-
-	public void setDeclarationLimt(Long declarationLimt) {
-		this.declarationLimt = declarationLimt;
 	}
 
 	public Long getDeclareTotalLimt() {

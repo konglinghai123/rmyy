@@ -68,7 +68,11 @@ public class DrugFormController extends BaseCRUDController<DrugForm, Long> {
 		model.addAttribute("isOpenDeclare", systemParameterService.isOpenDrugDeclare());
 		if (systemParameterService.isOpenDrugDeclare()) {
 			SystemParameter systemParameter = systemParameterService.findByEnabledTrue();
-			model.addAttribute("declareRule", "申报规则：一品两规限数为" + systemParameter.getDeclarationLimt() + "，最大药品申报数量为" + systemParameter.getDeclareTotalLimt());
+			String injectDeclarationLimt =systemParameter.getInjectDeclarationLimt()==0?"不限":String.valueOf(systemParameter.getInjectDeclarationLimt());
+			String oralDeclarationLimt =systemParameter.getOralDeclarationLimt()==0?"不限":String.valueOf(systemParameter.getOralDeclarationLimt());
+			String otherDeclarationLimt =systemParameter.getOtherDeclarationLimt()==0?"不限":String.valueOf(systemParameter.getOtherDeclarationLimt());
+			String declareTotalLimt = systemParameter.getDeclareTotalLimt()==0?"不限":String.valueOf(systemParameter.getDeclareTotalLimt());
+			model.addAttribute("declareRule", "申报规则：注射两规限数为" + injectDeclarationLimt + ";口服两规限数为"+oralDeclarationLimt+";外用及其他两规限数为"+otherDeclarationLimt+";最大药品申报数量为" + declareTotalLimt);
 		}
 		model.addAttribute("stateList", AuditStatusEnum.values());
 		model.addAttribute("commonNameRuleList",commonNameRuleService.findByDeletedFalseAndEnabledTrueOrderByWeightAsc());
@@ -160,7 +164,7 @@ public class DrugFormController extends BaseCRUDController<DrugForm, Long> {
 			if (selections != null && !selections.isEmpty()) {
 				String noDeclareCommonName = getDrugFormService().saveDeclareSubmit(selections);
 				if (noDeclareCommonName != null && noDeclareCommonName.length() > 0) {
-					ajaxResponse.setMessage("以下药品因为:" + noDeclareCommonName + "，不能继续申报！");
+					ajaxResponse.setMessage("以下药品因为:" + noDeclareCommonName + "，不能申报！");
 				}
 			}
 		} catch (IllegalStateException e) {

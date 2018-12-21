@@ -87,6 +87,16 @@ public class CommonNameContentsController extends BaseCRUDController<CommonNameC
 		}
 	}
 	
+	@RequestMapping(value = "/querymanufacturer")
+	@ResponseBody
+	public List<CommonNameContents> queryManufacturer(@RequestParam(value="manufacturervalue") String manufacturervalue) {
+		if(manufacturervalue==null||manufacturervalue.length()==0) return Lists.newArrayList();
+		List<CommonNameContents> commonNameContentsList = getCommonNameContentsService().findCommonNameContentsByManufacturer(manufacturervalue);
+		DuplicateRemovalUtil.removeDuplicateOrder(commonNameContentsList, "manufacturer");
+		return commonNameContentsList;
+	}
+
+    
 	@RequestMapping(value = "/querydeclarebyspell")
 	@ResponseBody
 	public List<CommonNameContents> queryDeclareBySpell(@RequestParam(value="spell") String spell) {
@@ -98,7 +108,6 @@ public class CommonNameContentsController extends BaseCRUDController<CommonNameC
 		}
 		return commonNameContentsList;
 	}
-
 
     /**
      * 去重 药品类别
@@ -118,7 +127,8 @@ public class CommonNameContentsController extends BaseCRUDController<CommonNameC
         
         set.addAll(orderList);
         return new ArrayList<CommonNameContents>(set);
-    } 
+    }
+    
     /**
      * 去重 提取通用名
      * 

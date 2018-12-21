@@ -18,15 +18,15 @@
 			</c:forEach>
 			<table class="formtable">
 				<tr>
-					<td width="20%"><form:label path="common">通用名(拼音)：</form:label></td>
+					<td width="20%"><form:label path="common">通用名(拼音)<font color="red">*</font>：</form:label></td>
 					<td width="30%"><from:input id="cc_common" name="common" cssClass="validate[required]"/>
-					<td width="20%"><form:label path="commonName">大目录通用名：</form:label></td>
+					<td width="20%"><form:label path="commonName">大目录通用名<font color="red">*</font>：</form:label></td>
 					<td width="30%"><form:input path="commonName" cssClass="validate[required]" /></td>
 				</tr>
 				<tr>
-					<td width="20%"><form:label path="bidDrugId">省招标药品ID：</form:label></td>
+					<td width="20%"><form:label path="bidDrugId">省招标药品ID<font color="red">*</font>：</form:label></td>
 					<td width="30%"><form:input path="bidDrugId" cssClass="validate[required]" /></td>				
-					<td><form:label path="administration">给药途径：</form:label></td>
+					<td><form:label path="administration">给药途径<font color="red">*</font>：</form:label></td>
 					<td><form:input path="administration" class="easyui-combobox" data-options="
 						width:150,
 						panelWidth:150,
@@ -81,11 +81,9 @@
 
 				<tr>
 					<td width="20%"><form:label path="importEnterprise">进口企业：</form:label></td>
-					<td width="30%"><form:textarea path="importEnterprise"
-							style="height:50px" /></td>
-					<td width="20%"><form:label path="manufacturer">生产企业：</form:label></td>
-					<td width="30%"><form:textarea path="manufacturer"
-							style="height:50px" /></td>
+					<td width="30%"><form:textarea path="importEnterprise"	style="height:50px" /></td>
+					<td width="20%"><form:label path="manufacturer">生产企业<font color="red">*</font>：</form:label></td>
+					<td width="30%"><form:textarea path="manufacturer"	style="height:50px" cssClass="validate[required]"/></td>
 				</tr>
 				<tr>
 					<td width="20%"><form:label path="declared">是否允许申报：</form:label></td>
