@@ -10,7 +10,7 @@
 					<tr>
 						<td width="40%">选择允许申报的项目：</td>
 						<td width="60%">
-							<form:select  name="projectDeclareds" path="projectNameList" cssClass="easyui-combobox" data-options="panelHeight:'auto',editable:false,multiple:true,width:400">
+							<form:select  name="projectDeclareds" path="projectNameList" cssClass="easyui-combobox" data-options="editable:false,multiple:true,width:400">
 								<form:options items="${projectNameList}"/>							
 							</form:select>
 						</td>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="hospitalcontents1" language="groovy" pageWidth="1750" pageHeight="595" orientation="Landscape" columnWidth="1750" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="hospitalcontents1" language="groovy" pageWidth="2000" pageHeight="595" orientation="Landscape" columnWidth="2000" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
@@ -124,7 +124,7 @@ WHERE t1.common_name_id = t2.id  and t1.id=$P{commonNameContentsId}))]]>
 				<text><![CDATA[药品通用名]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="616" y="0" width="42" height="25"/>
+				<reportElement x="616" y="0" width="118" height="25"/>
 				<box>
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -138,7 +138,7 @@ WHERE t1.common_name_id = t2.id  and t1.id=$P{commonNameContentsId}))]]>
 				<text><![CDATA[规格]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="658" y="0" width="68" height="25"/>
+				<reportElement x="734" y="0" width="68" height="25"/>
 				<box>
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -180,7 +180,7 @@ WHERE t1.common_name_id = t2.id  and t1.id=$P{commonNameContentsId}))]]>
 				<text><![CDATA[剂型]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="726" y="0" width="116" height="25"/>
+				<reportElement x="802" y="0" width="116" height="25"/>
 				<box>
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -194,7 +194,7 @@ WHERE t1.common_name_id = t2.id  and t1.id=$P{commonNameContentsId}))]]>
 				<text><![CDATA[生产企业]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="842" y="0" width="79" height="25"/>
+				<reportElement x="918" y="0" width="79" height="25"/>
 				<box>
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -208,7 +208,7 @@ WHERE t1.common_name_id = t2.id  and t1.id=$P{commonNameContentsId}))]]>
 				<text><![CDATA[进口企业]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="1156" y="0" width="35" height="25"/>
+				<reportElement x="1232" y="0" width="35" height="25"/>
 				<box>
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -222,7 +222,7 @@ WHERE t1.common_name_id = t2.id  and t1.id=$P{commonNameContentsId}))]]>
 				<text><![CDATA[医保]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="1191" y="0" width="66" height="25"/>
+				<reportElement x="1267" y="0" width="144" height="25"/>
 				<box>
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -236,7 +236,7 @@ WHERE t1.common_name_id = t2.id  and t1.id=$P{commonNameContentsId}))]]>
 				<text><![CDATA[限制范围]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="1552" y="0" width="39" height="25"/>
+				<reportElement x="1799" y="0" width="39" height="25"/>
 				<box>
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -250,7 +250,7 @@ WHERE t1.common_name_id = t2.id  and t1.id=$P{commonNameContentsId}))]]>
 				<text><![CDATA[备注]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="1257" y="0" width="43" height="25"/>
+				<reportElement x="1411" y="0" width="43" height="25"/>
 				<box>
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -264,7 +264,7 @@ WHERE t1.common_name_id = t2.id  and t1.id=$P{commonNameContentsId}))]]>
 				<text><![CDATA[类别]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="921" y="0" width="52" height="25"/>
+				<reportElement x="997" y="0" width="52" height="25"/>
 				<box>
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -278,7 +278,7 @@ WHERE t1.common_name_id = t2.id  and t1.id=$P{commonNameContentsId}))]]>
 				<text><![CDATA[中标价]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="1591" y="0" width="61" height="25"/>
+				<reportElement x="1838" y="0" width="61" height="25"/>
 				<box>
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -292,7 +292,7 @@ WHERE t1.common_name_id = t2.id  and t1.id=$P{commonNameContentsId}))]]>
 				<text><![CDATA[备注1]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="1652" y="0" width="50" height="25"/>
+				<reportElement x="1899" y="0" width="50" height="25"/>
 				<box>
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -306,7 +306,7 @@ WHERE t1.common_name_id = t2.id  and t1.id=$P{commonNameContentsId}))]]>
 				<text><![CDATA[备注2]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="1702" y="0" width="49" height="25"/>
+				<reportElement x="1949" y="0" width="51" height="25"/>
 				<box>
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -348,7 +348,7 @@ WHERE t1.common_name_id = t2.id  and t1.id=$P{commonNameContentsId}))]]>
 				<text><![CDATA[省招标通用名]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="973" y="0" width="56" height="25"/>
+				<reportElement x="1049" y="0" width="56" height="25"/>
 				<box>
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -362,7 +362,7 @@ WHERE t1.common_name_id = t2.id  and t1.id=$P{commonNameContentsId}))]]>
 				<text><![CDATA[抗菌药物]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="1029" y="0" width="75" height="25"/>
+				<reportElement x="1105" y="0" width="75" height="25"/>
 				<box>
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -376,7 +376,7 @@ WHERE t1.common_name_id = t2.id  and t1.id=$P{commonNameContentsId}))]]>
 				<text><![CDATA[抗菌药物类别]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="1300" y="0" width="99" height="25"/>
+				<reportElement x="1454" y="0" width="140" height="25"/>
 				<box>
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -390,7 +390,7 @@ WHERE t1.common_name_id = t2.id  and t1.id=$P{commonNameContentsId}))]]>
 				<text><![CDATA[大类]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="1104" y="0" width="52" height="25"/>
+				<reportElement x="1180" y="0" width="52" height="25"/>
 				<box>
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -404,7 +404,7 @@ WHERE t1.common_name_id = t2.id  and t1.id=$P{commonNameContentsId}))]]>
 				<text><![CDATA[抗菌药物编号]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="1399" y="0" width="153" height="25"/>
+				<reportElement x="1594" y="0" width="205" height="25"/>
 				<box>
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -554,7 +554,7 @@ WHERE t1.common_name_id = t2.id  and t1.id=$P{commonNameContentsId}))]]>
 				<textFieldExpression><![CDATA[$F{product_name}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="616" y="0" width="42" height="25"/>
+				<reportElement x="616" y="0" width="118" height="25"/>
 				<box>
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -568,7 +568,7 @@ WHERE t1.common_name_id = t2.id  and t1.id=$P{commonNameContentsId}))]]>
 				<textFieldExpression><![CDATA[$F{specifications}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="658" y="0" width="68" height="25"/>
+				<reportElement x="734" y="0" width="68" height="25"/>
 				<box>
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -582,7 +582,7 @@ WHERE t1.common_name_id = t2.id  and t1.id=$P{commonNameContentsId}))]]>
 				<textFieldExpression><![CDATA[$F{amount}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="726" y="0" width="116" height="25"/>
+				<reportElement x="802" y="0" width="116" height="25"/>
 				<box>
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -596,7 +596,7 @@ WHERE t1.common_name_id = t2.id  and t1.id=$P{commonNameContentsId}))]]>
 				<textFieldExpression><![CDATA[$F{manufacturer}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="842" y="0" width="79" height="25"/>
+				<reportElement x="918" y="0" width="79" height="25"/>
 				<box>
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -610,7 +610,7 @@ WHERE t1.common_name_id = t2.id  and t1.id=$P{commonNameContentsId}))]]>
 				<textFieldExpression><![CDATA[$F{import_enterprise}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="1156" y="0" width="35" height="25"/>
+				<reportElement x="1232" y="0" width="35" height="25"/>
 				<box>
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -624,7 +624,7 @@ WHERE t1.common_name_id = t2.id  and t1.id=$P{commonNameContentsId}))]]>
 				<textFieldExpression><![CDATA[$F{medical}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="921" y="0" width="52" height="25"/>
+				<reportElement x="997" y="0" width="52" height="25"/>
 				<box>
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -638,7 +638,7 @@ WHERE t1.common_name_id = t2.id  and t1.id=$P{commonNameContentsId}))]]>
 				<textFieldExpression><![CDATA[$F{bidprice}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="1191" y="0" width="66" height="25"/>
+				<reportElement x="1267" y="0" width="144" height="25"/>
 				<box>
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -652,7 +652,7 @@ WHERE t1.common_name_id = t2.id  and t1.id=$P{commonNameContentsId}))]]>
 				<textFieldExpression><![CDATA[$F{limit_range}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="1552" y="0" width="39" height="25"/>
+				<reportElement x="1799" y="0" width="39" height="25"/>
 				<box>
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -666,7 +666,7 @@ WHERE t1.common_name_id = t2.id  and t1.id=$P{commonNameContentsId}))]]>
 				<textFieldExpression><![CDATA[$F{remark}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="1591" y="0" width="61" height="25"/>
+				<reportElement x="1838" y="0" width="61" height="25"/>
 				<box>
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -680,7 +680,7 @@ WHERE t1.common_name_id = t2.id  and t1.id=$P{commonNameContentsId}))]]>
 				<textFieldExpression><![CDATA[$F{remark1}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="1652" y="0" width="50" height="25"/>
+				<reportElement x="1899" y="0" width="50" height="25"/>
 				<box>
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -694,7 +694,7 @@ WHERE t1.common_name_id = t2.id  and t1.id=$P{commonNameContentsId}))]]>
 				<textFieldExpression><![CDATA[$F{remark2}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="1702" y="0" width="49" height="25"/>
+				<reportElement x="1949" y="0" width="51" height="25"/>
 				<box>
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -722,7 +722,7 @@ WHERE t1.common_name_id = t2.id  and t1.id=$P{commonNameContentsId}))]]>
 				<textFieldExpression><![CDATA[$F{bidcommonname}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="1257" y="0" width="43" height="25"/>
+				<reportElement x="1411" y="0" width="43" height="25"/>
 				<box>
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -736,7 +736,7 @@ WHERE t1.common_name_id = t2.id  and t1.id=$P{commonNameContentsId}))]]>
 				<textFieldExpression><![CDATA[$F{drugcategory}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="973" y="0" width="56" height="25"/>
+				<reportElement x="1049" y="0" width="56" height="25"/>
 				<box>
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -750,7 +750,7 @@ WHERE t1.common_name_id = t2.id  and t1.id=$P{commonNameContentsId}))]]>
 				<textFieldExpression><![CDATA[$F{antibacterialsed}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="1029" y="0" width="75" height="25"/>
+				<reportElement x="1105" y="0" width="75" height="25"/>
 				<box>
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -764,7 +764,7 @@ WHERE t1.common_name_id = t2.id  and t1.id=$P{commonNameContentsId}))]]>
 				<textFieldExpression><![CDATA[$F{antibacterialsecategory}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="1104" y="0" width="52" height="25"/>
+				<reportElement x="1180" y="0" width="52" height="25"/>
 				<box>
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -778,7 +778,7 @@ WHERE t1.common_name_id = t2.id  and t1.id=$P{commonNameContentsId}))]]>
 				<textFieldExpression><![CDATA[$F{antibacterialsenumber}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="1300" y="0" width="99" height="25"/>
+				<reportElement x="1454" y="0" width="140" height="25"/>
 				<box>
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>
@@ -792,7 +792,7 @@ WHERE t1.common_name_id = t2.id  and t1.id=$P{commonNameContentsId}))]]>
 				<textFieldExpression><![CDATA[$F{chemicalbigcategory}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="1399" y="0" width="153" height="25"/>
+				<reportElement x="1594" y="0" width="205" height="25"/>
 				<box>
 					<pen lineWidth="0.5"/>
 					<topPen lineWidth="0.5"/>

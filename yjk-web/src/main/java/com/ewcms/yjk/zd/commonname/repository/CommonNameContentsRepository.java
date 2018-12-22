@@ -12,8 +12,8 @@ import com.ewcms.yjk.zd.commonname.entity.CommonNameContents;
 import com.ewcms.yjk.zd.commonname.entity.DrugCategoryEnum;
 
 public interface CommonNameContentsRepository extends BaseRepository<CommonNameContents, Long> {
-	@Query("from CommonNameContents c where (c.common.spell like %?1% or c.common.spellSimplify like %?1%) and c.deleted is false and c.declared is true")
-	List<CommonNameContents> findCommonNameContentsBySpell(String spell);
+	@Query("from CommonNameContents c where (c.common.spell like ?1% or c.common.spellSimplify like %?2%) and c.deleted is false and c.declared is true")
+	List<CommonNameContents> findCommonNameContentsBySpell(String spell,String spellSimplify);
 	
 	@Query("from CommonNameContents c where c.manufacturer like ?1% ")
 	List<CommonNameContents> findCommonNameContentsByManufacturer(String manufacturer);	

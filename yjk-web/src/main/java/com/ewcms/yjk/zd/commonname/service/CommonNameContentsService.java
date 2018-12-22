@@ -70,7 +70,7 @@ public class CommonNameContentsService extends BaseService<CommonNameContents, L
 
 
 	public List<CommonNameContents> findCommonNameContentsBySpell(String spell){
-		return getCommonNameContentsRepository().findCommonNameContentsBySpell(spell);
+		return getCommonNameContentsRepository().findCommonNameContentsBySpell(spell,spell);
 	}
 
 	public List<String> findDistinctProjectName(){

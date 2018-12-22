@@ -22,7 +22,7 @@
 					<tr>	
 						<td width="20%"><form:label path="projectName">项目名称：</form:label></td>		
 						<td width="30%">
-							<form:select path="projectName" cssClass="easyui-combobox" data-options="editable:true">
+							<form:select path="projectName" cssClass="easyui-combobox" data-options="editable:true,width:250,panelWidth:250">
 								<form:option value="" label="---请选择---"/>
 					  			<form:options items="${projectNameList}"/>					
 							</form:select>
@@ -63,7 +63,19 @@
 					</tr>					
 		        	<tr>
 						<td width="20%"><form:label path="manufacturer">生产企业<font color="red">*</font>：</form:label></td>
-						<td width="30%"><form:textarea path="manufacturer" style="height:50px" cssClass="validate[required]" /></td>
+						<td width="30%"><form:input path="manufacturer" class="easyui-combobox" data-options="
+									valueField:'manufacturer',
+									textField:'manufacturer',
+									width:300,
+									panelHeight:200,
+									editable:true,
+									keyHandler:{
+										enter: function() {
+											manufacturervalue = $('#manufacturer').combobox('getText');
+											$('#manufacturer').combobox('reload','${ctx}/yjk/zd/commonnamecontents/querymanufacturer?manufacturervalue='+manufacturervalue.replace(/%/, '%25'));
+											$('#manufacturer').combobox('setValue',manufacturervalue)
+										}
+									}"/></td>
 						<td width="20%"><form:label path="importEnterprise">进口企业：</form:label></td>
 						<td width="30%"><form:textarea path="importEnterprise"	style="height:50px" /></td>
 					</tr>	
@@ -108,6 +120,7 @@
 		var transTool = $('#cc_common').combogrid({
 			panelWidth: 500,
             idField: 'id',
+            width:250,
             textField: 'commonName',
             fitColumns: true,
             singleSelect:true,
@@ -165,6 +178,12 @@
 			$.messager.alert('提示','给药途径不能为空','info');
 			return;
 		}
+		if ($('#manufacturer').combobox('getText') == '') {
+			$.messager.alert('提示','生产企业不能为空','info');
+			return;
+		}else{
+			$('#manufacturer').combobox('setValue',$('#manufacturer').combobox('getText')) 
+		}		
 		$('#editForm').submit();
 	}
 </script>

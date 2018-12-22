@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="hospitalcontents1" language="groovy" pageWidth="2900" pageHeight="595" orientation="Landscape" columnWidth="2900" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="hospitalcontents1" language="groovy" pageWidth="3100" pageHeight="595" orientation="Landscape" columnWidth="3100" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
 	<property name="ireport.zoom" value="1.0"/>
-	<property name="ireport.x" value="1128"/>
+	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="commonName" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
@@ -13,6 +13,9 @@
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<parameter name="projectName" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="isDeclared" class="java.lang.Boolean">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<queryString>
@@ -30,7 +33,7 @@ antibacterialse_number as antibacterialsenumber,case when is_antibacterialsed th
 case when drugcategory = 'H' then '西药' when drugcategory = 'Z' then '中成药' else '其他' end as drugcategory,match_number matchnumber
 FROM zd_common_name_contents t1,zd_common_name t2,zd_administration t3
 WHERE t1.common_name_id = t2.id and t1.administration_id= t3.id and t1.is_deleted is false
-and t2.common_name like '%'||$P{commonName}||'%' and t2.drugcategory like '%'||$P{drugCategory}||'%' and t3.name  like '%'||$P{administrationName}||'%' and project_name like '%'||$P{projectName}||'%']]>
+and t2.common_name like '%'||$P{commonName}||'%' and t2.drugcategory like '%'||$P{drugCategory}||'%' and t3.name  like '%'||$P{administrationName}||'%' and project_name like '%'||$P{projectName}||'%' and (t1.is_declared = $P{isDeclared} or $P{isDeclared} is null)]]>
 	</queryString>
 	<field name="amount" class="java.lang.String"/>
 	<field name="basic_infusion" class="java.lang.String"/>
@@ -76,18 +79,23 @@ and t2.common_name like '%'||$P{commonName}||'%' and t2.drugcategory like '%'||$
 	<field name="antibacterialsed" class="java.lang.String"/>
 	<field name="drugcategory" class="java.lang.String"/>
 	<field name="matchnumber" class="java.lang.String"/>
+	<variable name="index" class="java.lang.Integer" calculation="Count">
+		<variableExpression><![CDATA[$V{index}.valueOf(1)]]></variableExpression>
+		<initialValueExpression><![CDATA[1]]></initialValueExpression>
+	</variable>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
 		<band height="25" splitType="Stretch">
 			<staticText>
-				<reportElement x="226" y="0" width="71" height="25"/>
+				<reportElement x="306" y="0" width="88" height="25"/>
 				<box>
-					<topPen lineWidth="0.0"/>
-					<leftPen lineWidth="0.0"/>
-					<bottomPen lineWidth="0.0"/>
-					<rightPen lineWidth="0.0"/>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
@@ -95,12 +103,13 @@ and t2.common_name like '%'||$P{commonName}||'%' and t2.drugcategory like '%'||$
 				<text><![CDATA[软件通用名]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="43" y="0" width="60" height="25"/>
+				<reportElement x="92" y="0" width="60" height="25"/>
 				<box>
-					<topPen lineWidth="0.0"/>
-					<leftPen lineWidth="0.0"/>
-					<bottomPen lineWidth="0.0"/>
-					<rightPen lineWidth="0.0"/>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
@@ -108,12 +117,13 @@ and t2.common_name like '%'||$P{commonName}||'%' and t2.drugcategory like '%'||$
 				<text><![CDATA[项目名称]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="573" y="0" width="41" height="25"/>
+				<reportElement x="651" y="0" width="41" height="25"/>
 				<box>
-					<topPen lineWidth="0.0"/>
-					<leftPen lineWidth="0.0"/>
-					<bottomPen lineWidth="0.0"/>
-					<rightPen lineWidth="0.0"/>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
@@ -121,12 +131,13 @@ and t2.common_name like '%'||$P{commonName}||'%' and t2.drugcategory like '%'||$
 				<text><![CDATA[给药途径]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="382" y="0" width="44" height="25"/>
+				<reportElement x="479" y="0" width="45" height="25"/>
 				<box>
-					<topPen lineWidth="0.0"/>
-					<leftPen lineWidth="0.0"/>
-					<bottomPen lineWidth="0.0"/>
-					<rightPen lineWidth="0.0"/>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
@@ -134,12 +145,13 @@ and t2.common_name like '%'||$P{commonName}||'%' and t2.drugcategory like '%'||$
 				<text><![CDATA[软件ID]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="147" y="0" width="79" height="25"/>
+				<reportElement x="196" y="0" width="110" height="25"/>
 				<box>
-					<topPen lineWidth="0.0"/>
-					<leftPen lineWidth="0.0"/>
-					<bottomPen lineWidth="0.0"/>
-					<rightPen lineWidth="0.0"/>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
@@ -147,12 +159,13 @@ and t2.common_name like '%'||$P{commonName}||'%' and t2.drugcategory like '%'||$
 				<text><![CDATA[通用名]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="667" y="0" width="42" height="25"/>
+				<reportElement x="748" y="0" width="110" height="25"/>
 				<box>
-					<topPen lineWidth="0.0"/>
-					<leftPen lineWidth="0.0"/>
-					<bottomPen lineWidth="0.0"/>
-					<rightPen lineWidth="0.0"/>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
@@ -160,12 +173,13 @@ and t2.common_name like '%'||$P{commonName}||'%' and t2.drugcategory like '%'||$
 				<text><![CDATA[规格]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="709" y="0" width="68" height="25"/>
+				<reportElement x="858" y="0" width="68" height="25"/>
 				<box>
-					<topPen lineWidth="0.0"/>
-					<leftPen lineWidth="0.0"/>
-					<bottomPen lineWidth="0.0"/>
-					<rightPen lineWidth="0.0"/>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
@@ -173,12 +187,13 @@ and t2.common_name like '%'||$P{commonName}||'%' and t2.drugcategory like '%'||$
 				<text><![CDATA[包装数量]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="777" y="0" width="54" height="25"/>
+				<reportElement x="926" y="0" width="54" height="25"/>
 				<box>
-					<topPen lineWidth="0.0"/>
-					<leftPen lineWidth="0.0"/>
-					<bottomPen lineWidth="0.0"/>
-					<rightPen lineWidth="0.0"/>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
@@ -186,12 +201,13 @@ and t2.common_name like '%'||$P{commonName}||'%' and t2.drugcategory like '%'||$
 				<text><![CDATA[商品名]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="614" y="0" width="53" height="25"/>
+				<reportElement x="692" y="0" width="56" height="25"/>
 				<box>
-					<topPen lineWidth="0.0"/>
-					<leftPen lineWidth="0.0"/>
-					<bottomPen lineWidth="0.0"/>
-					<rightPen lineWidth="0.0"/>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
@@ -199,12 +215,13 @@ and t2.common_name like '%'||$P{commonName}||'%' and t2.drugcategory like '%'||$
 				<text><![CDATA[剂型]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="879" y="0" width="105" height="25"/>
+				<reportElement x="1028" y="0" width="105" height="25"/>
 				<box>
-					<topPen lineWidth="0.0"/>
-					<leftPen lineWidth="0.0"/>
-					<bottomPen lineWidth="0.0"/>
-					<rightPen lineWidth="0.0"/>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
@@ -212,12 +229,13 @@ and t2.common_name like '%'||$P{commonName}||'%' and t2.drugcategory like '%'||$
 				<text><![CDATA[生产企业]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="984" y="0" width="99" height="25"/>
+				<reportElement x="1133" y="0" width="99" height="25"/>
 				<box>
-					<topPen lineWidth="0.0"/>
-					<leftPen lineWidth="0.0"/>
-					<bottomPen lineWidth="0.0"/>
-					<rightPen lineWidth="0.0"/>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
@@ -225,12 +243,13 @@ and t2.common_name like '%'||$P{commonName}||'%' and t2.drugcategory like '%'||$
 				<text><![CDATA[进口企业]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="1371" y="0" width="84" height="25"/>
+				<reportElement x="1520" y="0" width="84" height="25"/>
 				<box>
-					<topPen lineWidth="0.0"/>
-					<leftPen lineWidth="0.0"/>
-					<bottomPen lineWidth="0.0"/>
-					<rightPen lineWidth="0.0"/>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
@@ -238,12 +257,13 @@ and t2.common_name like '%'||$P{commonName}||'%' and t2.drugcategory like '%'||$
 				<text><![CDATA[医保目录编号]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="1455" y="0" width="66" height="25"/>
+				<reportElement x="1604" y="0" width="66" height="25"/>
 				<box>
-					<topPen lineWidth="0.0"/>
-					<leftPen lineWidth="0.0"/>
-					<bottomPen lineWidth="0.0"/>
-					<rightPen lineWidth="0.0"/>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
@@ -251,12 +271,13 @@ and t2.common_name like '%'||$P{commonName}||'%' and t2.drugcategory like '%'||$
 				<text><![CDATA[医保类别]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="0" width="43" height="25"/>
+				<reportElement x="49" y="0" width="43" height="25"/>
 				<box>
-					<topPen lineWidth="0.0"/>
-					<leftPen lineWidth="0.0"/>
-					<bottomPen lineWidth="0.0"/>
-					<rightPen lineWidth="0.0"/>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
@@ -264,12 +285,13 @@ and t2.common_name like '%'||$P{commonName}||'%' and t2.drugcategory like '%'||$
 				<text><![CDATA[类别]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="1083" y="0" width="61" height="25"/>
+				<reportElement x="1232" y="0" width="61" height="25"/>
 				<box>
-					<topPen lineWidth="0.0"/>
-					<leftPen lineWidth="0.0"/>
-					<bottomPen lineWidth="0.0"/>
-					<rightPen lineWidth="0.0"/>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
@@ -277,12 +299,13 @@ and t2.common_name like '%'||$P{commonName}||'%' and t2.drugcategory like '%'||$
 				<text><![CDATA[采购价（元）]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="2710" y="0" width="70" height="25"/>
+				<reportElement x="2859" y="0" width="70" height="25"/>
 				<box>
-					<topPen lineWidth="0.0"/>
-					<leftPen lineWidth="0.0"/>
-					<bottomPen lineWidth="0.0"/>
-					<rightPen lineWidth="0.0"/>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
@@ -290,12 +313,13 @@ and t2.common_name like '%'||$P{commonName}||'%' and t2.drugcategory like '%'||$
 				<text><![CDATA[备注1]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="2780" y="0" width="60" height="25"/>
+				<reportElement x="2929" y="0" width="60" height="25"/>
 				<box>
-					<topPen lineWidth="0.0"/>
-					<leftPen lineWidth="0.0"/>
-					<bottomPen lineWidth="0.0"/>
-					<rightPen lineWidth="0.0"/>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
@@ -303,12 +327,13 @@ and t2.common_name like '%'||$P{commonName}||'%' and t2.drugcategory like '%'||$
 				<text><![CDATA[备注2]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="2840" y="0" width="60" height="25"/>
+				<reportElement x="2989" y="0" width="60" height="25"/>
 				<box>
-					<topPen lineWidth="0.0"/>
-					<leftPen lineWidth="0.0"/>
-					<bottomPen lineWidth="0.0"/>
-					<rightPen lineWidth="0.0"/>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
@@ -316,12 +341,13 @@ and t2.common_name like '%'||$P{commonName}||'%' and t2.drugcategory like '%'||$
 				<text><![CDATA[备注3]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="103" y="0" width="44" height="25"/>
+				<reportElement x="152" y="0" width="44" height="25"/>
 				<box>
-					<topPen lineWidth="0.0"/>
-					<leftPen lineWidth="0.0"/>
-					<bottomPen lineWidth="0.0"/>
-					<rightPen lineWidth="0.0"/>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
@@ -329,12 +355,13 @@ and t2.common_name like '%'||$P{commonName}||'%' and t2.drugcategory like '%'||$
 				<text><![CDATA[批次]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="297" y="0" width="85" height="25"/>
+				<reportElement x="394" y="0" width="85" height="25"/>
 				<box>
-					<topPen lineWidth="0.0"/>
-					<leftPen lineWidth="0.0"/>
-					<bottomPen lineWidth="0.0"/>
-					<rightPen lineWidth="0.0"/>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
@@ -342,12 +369,13 @@ and t2.common_name like '%'||$P{commonName}||'%' and t2.drugcategory like '%'||$
 				<text><![CDATA[省招标通用名]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="1144" y="0" width="56" height="25"/>
+				<reportElement x="1293" y="0" width="56" height="25"/>
 				<box>
-					<topPen lineWidth="0.0"/>
-					<leftPen lineWidth="0.0"/>
-					<bottomPen lineWidth="0.0"/>
-					<rightPen lineWidth="0.0"/>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
@@ -355,12 +383,13 @@ and t2.common_name like '%'||$P{commonName}||'%' and t2.drugcategory like '%'||$
 				<text><![CDATA[抗菌药物]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="1200" y="0" width="86" height="25"/>
+				<reportElement x="1349" y="0" width="86" height="25"/>
 				<box>
-					<topPen lineWidth="0.0"/>
-					<leftPen lineWidth="0.0"/>
-					<bottomPen lineWidth="0.0"/>
-					<rightPen lineWidth="0.0"/>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
@@ -368,12 +397,13 @@ and t2.common_name like '%'||$P{commonName}||'%' and t2.drugcategory like '%'||$
 				<text><![CDATA[抗菌药物类别]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="2156" y="0" width="93" height="25"/>
+				<reportElement x="2305" y="0" width="93" height="25"/>
 				<box>
-					<topPen lineWidth="0.0"/>
-					<leftPen lineWidth="0.0"/>
-					<bottomPen lineWidth="0.0"/>
-					<rightPen lineWidth="0.0"/>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
@@ -381,12 +411,13 @@ and t2.common_name like '%'||$P{commonName}||'%' and t2.drugcategory like '%'||$
 				<text><![CDATA[大类]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="1286" y="0" width="85" height="25"/>
+				<reportElement x="1435" y="0" width="85" height="25"/>
 				<box>
-					<topPen lineWidth="0.0"/>
-					<leftPen lineWidth="0.0"/>
-					<bottomPen lineWidth="0.0"/>
-					<rightPen lineWidth="0.0"/>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
@@ -394,12 +425,13 @@ and t2.common_name like '%'||$P{commonName}||'%' and t2.drugcategory like '%'||$
 				<text><![CDATA[抗菌药物编号]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="2249" y="0" width="137" height="25"/>
+				<reportElement x="2398" y="0" width="137" height="25"/>
 				<box>
-					<topPen lineWidth="0.0"/>
-					<leftPen lineWidth="0.0"/>
-					<bottomPen lineWidth="0.0"/>
-					<rightPen lineWidth="0.0"/>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
@@ -407,12 +439,13 @@ and t2.common_name like '%'||$P{commonName}||'%' and t2.drugcategory like '%'||$
 				<text><![CDATA[小类/功效]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="426" y="0" width="88" height="25"/>
+				<reportElement x="524" y="0" width="68" height="25"/>
 				<box>
-					<topPen lineWidth="0.0"/>
-					<leftPen lineWidth="0.0"/>
-					<bottomPen lineWidth="0.0"/>
-					<rightPen lineWidth="0.0"/>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
@@ -420,12 +453,13 @@ and t2.common_name like '%'||$P{commonName}||'%' and t2.drugcategory like '%'||$
 				<text><![CDATA[省招标药品ID]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="514" y="0" width="59" height="25"/>
+				<reportElement x="592" y="0" width="59" height="25"/>
 				<box>
-					<topPen lineWidth="0.0"/>
-					<leftPen lineWidth="0.0"/>
-					<bottomPen lineWidth="0.0"/>
-					<rightPen lineWidth="0.0"/>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
@@ -433,12 +467,13 @@ and t2.common_name like '%'||$P{commonName}||'%' and t2.drugcategory like '%'||$
 				<text><![CDATA[国家ID]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="831" y="0" width="48" height="25"/>
+				<reportElement x="980" y="0" width="48" height="25"/>
 				<box>
-					<topPen lineWidth="0.0"/>
-					<leftPen lineWidth="0.0"/>
-					<bottomPen lineWidth="0.0"/>
-					<rightPen lineWidth="0.0"/>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
@@ -446,12 +481,13 @@ and t2.common_name like '%'||$P{commonName}||'%' and t2.drugcategory like '%'||$
 				<text><![CDATA[包装单位]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="1521" y="0" width="150" height="25"/>
+				<reportElement x="1670" y="0" width="150" height="25"/>
 				<box>
-					<topPen lineWidth="0.0"/>
-					<leftPen lineWidth="0.0"/>
-					<bottomPen lineWidth="0.0"/>
-					<rightPen lineWidth="0.0"/>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
@@ -459,12 +495,13 @@ and t2.common_name like '%'||$P{commonName}||'%' and t2.drugcategory like '%'||$
 				<text><![CDATA[医保备注]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="1671" y="0" width="94" height="25"/>
+				<reportElement x="1820" y="0" width="94" height="25"/>
 				<box>
-					<topPen lineWidth="0.0"/>
-					<leftPen lineWidth="0.0"/>
-					<bottomPen lineWidth="0.0"/>
-					<rightPen lineWidth="0.0"/>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
@@ -472,12 +509,13 @@ and t2.common_name like '%'||$P{commonName}||'%' and t2.drugcategory like '%'||$
 				<text><![CDATA[一致性评价]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="1765" y="0" width="45" height="25"/>
+				<reportElement x="1914" y="0" width="45" height="25"/>
 				<box>
-					<topPen lineWidth="0.0"/>
-					<leftPen lineWidth="0.0"/>
-					<bottomPen lineWidth="0.0"/>
-					<rightPen lineWidth="0.0"/>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
@@ -485,12 +523,13 @@ and t2.common_name like '%'||$P{commonName}||'%' and t2.drugcategory like '%'||$
 				<text><![CDATA[基药]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="1810" y="0" width="40" height="25"/>
+				<reportElement x="1959" y="0" width="40" height="25"/>
 				<box>
-					<topPen lineWidth="0.0"/>
-					<leftPen lineWidth="0.0"/>
-					<bottomPen lineWidth="0.0"/>
-					<rightPen lineWidth="0.0"/>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
@@ -498,12 +537,13 @@ and t2.common_name like '%'||$P{commonName}||'%' and t2.drugcategory like '%'||$
 				<text><![CDATA[妇科]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="1850" y="0" width="40" height="25"/>
+				<reportElement x="1999" y="0" width="40" height="25"/>
 				<box>
-					<topPen lineWidth="0.0"/>
-					<leftPen lineWidth="0.0"/>
-					<bottomPen lineWidth="0.0"/>
-					<rightPen lineWidth="0.0"/>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
@@ -511,12 +551,13 @@ and t2.common_name like '%'||$P{commonName}||'%' and t2.drugcategory like '%'||$
 				<text><![CDATA[儿科]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="1890" y="0" width="40" height="25"/>
+				<reportElement x="2039" y="0" width="40" height="25"/>
 				<box>
-					<topPen lineWidth="0.0"/>
-					<leftPen lineWidth="0.0"/>
-					<bottomPen lineWidth="0.0"/>
-					<rightPen lineWidth="0.0"/>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
@@ -524,12 +565,13 @@ and t2.common_name like '%'||$P{commonName}||'%' and t2.drugcategory like '%'||$
 				<text><![CDATA[急救]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="1930" y="0" width="66" height="25"/>
+				<reportElement x="2079" y="0" width="66" height="25"/>
 				<box>
-					<topPen lineWidth="0.0"/>
-					<leftPen lineWidth="0.0"/>
-					<bottomPen lineWidth="0.0"/>
-					<rightPen lineWidth="0.0"/>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
@@ -537,12 +579,13 @@ and t2.common_name like '%'||$P{commonName}||'%' and t2.drugcategory like '%'||$
 				<text><![CDATA[基础输液]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="1996" y="0" width="67" height="25"/>
+				<reportElement x="2145" y="0" width="67" height="25"/>
 				<box>
-					<topPen lineWidth="0.0"/>
-					<leftPen lineWidth="0.0"/>
-					<bottomPen lineWidth="0.0"/>
-					<rightPen lineWidth="0.0"/>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
@@ -550,12 +593,13 @@ and t2.common_name like '%'||$P{commonName}||'%' and t2.drugcategory like '%'||$
 				<text><![CDATA[廉价短缺]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="2063" y="0" width="93" height="25"/>
+				<reportElement x="2212" y="0" width="93" height="25"/>
 				<box>
-					<topPen lineWidth="0.0"/>
-					<leftPen lineWidth="0.0"/>
-					<bottomPen lineWidth="0.0"/>
-					<rightPen lineWidth="0.0"/>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
@@ -563,12 +607,13 @@ and t2.common_name like '%'||$P{commonName}||'%' and t2.drugcategory like '%'||$
 				<text><![CDATA[国家谈判品种]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="2386" y="0" width="57" height="25"/>
+				<reportElement x="2535" y="0" width="57" height="25"/>
 				<box>
-					<topPen lineWidth="0.0"/>
-					<leftPen lineWidth="0.0"/>
-					<bottomPen lineWidth="0.0"/>
-					<rightPen lineWidth="0.0"/>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
@@ -576,12 +621,13 @@ and t2.common_name like '%'||$P{commonName}||'%' and t2.drugcategory like '%'||$
 				<text><![CDATA[批准文号]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="2443" y="0" width="57" height="25"/>
+				<reportElement x="2592" y="0" width="57" height="25"/>
 				<box>
-					<topPen lineWidth="0.0"/>
-					<leftPen lineWidth="0.0"/>
-					<bottomPen lineWidth="0.0"/>
-					<rightPen lineWidth="0.0"/>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
@@ -589,12 +635,13 @@ and t2.common_name like '%'||$P{commonName}||'%' and t2.drugcategory like '%'||$
 				<text><![CDATA[招标剂型]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="2500" y="0" width="57" height="25"/>
+				<reportElement x="2649" y="0" width="57" height="25"/>
 				<box>
-					<topPen lineWidth="0.0"/>
-					<leftPen lineWidth="0.0"/>
-					<bottomPen lineWidth="0.0"/>
-					<rightPen lineWidth="0.0"/>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
@@ -602,12 +649,13 @@ and t2.common_name like '%'||$P{commonName}||'%' and t2.drugcategory like '%'||$
 				<text><![CDATA[招标规格]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="2557" y="0" width="56" height="25"/>
+				<reportElement x="2706" y="0" width="56" height="25"/>
 				<box>
-					<topPen lineWidth="0.0"/>
-					<leftPen lineWidth="0.0"/>
-					<bottomPen lineWidth="0.0"/>
-					<rightPen lineWidth="0.0"/>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
@@ -615,12 +663,13 @@ and t2.common_name like '%'||$P{commonName}||'%' and t2.drugcategory like '%'||$
 				<text><![CDATA[招标单位]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="2613" y="0" width="42" height="25"/>
+				<reportElement x="2762" y="0" width="42" height="25"/>
 				<box>
-					<topPen lineWidth="0.0"/>
-					<leftPen lineWidth="0.0"/>
-					<bottomPen lineWidth="0.0"/>
-					<rightPen lineWidth="0.0"/>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
@@ -628,17 +677,46 @@ and t2.common_name like '%'||$P{commonName}||'%' and t2.drugcategory like '%'||$
 				<text><![CDATA[包材]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="2655" y="0" width="55" height="25"/>
+				<reportElement x="2804" y="0" width="55" height="25"/>
 				<box>
-					<topPen lineWidth="0.0"/>
-					<leftPen lineWidth="0.0"/>
-					<bottomPen lineWidth="0.0"/>
-					<rightPen lineWidth="0.0"/>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
 				</textElement>
 				<text><![CDATA[最小制剂单位]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="3049" y="0" width="50" height="25"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="文鼎ＰＬ简报宋" size="8"/>
+				</textElement>
+				<text><![CDATA[是否允许申报]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="0" width="49" height="25"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="文鼎ＰＬ简报宋" size="8"/>
+				</textElement>
+				<text><![CDATA[序号]]></text>
 			</staticText>
 		</band>
 	</title>
@@ -651,305 +729,632 @@ and t2.common_name like '%'||$P{commonName}||'%' and t2.drugcategory like '%'||$
 	<detail>
 		<band height="25" splitType="Stretch">
 			<textField>
-				<reportElement x="103" y="0" width="44" height="25"/>
+				<reportElement x="152" y="0" width="44" height="25"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
 				<textElement>
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{batch}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="147" y="0" width="79" height="25"/>
+				<reportElement x="196" y="0" width="110" height="25"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
 				<textElement>
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{common_name}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="226" y="0" width="71" height="25"/>
+				<reportElement x="306" y="0" width="88" height="25"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
 				<textElement>
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{extractcommonname}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="573" y="0" width="41" height="25"/>
+				<reportElement x="651" y="0" width="41" height="25"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
 				<textElement>
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{administration_id}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="382" y="0" width="44" height="25"/>
+				<reportElement x="479" y="0" width="45" height="25"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
 				<textElement>
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{matchnumber}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="43" y="0" width="60" height="25"/>
+				<reportElement x="92" y="0" width="60" height="25"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
 				<textElement>
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{project_name}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="614" y="0" width="53" height="25"/>
+				<reportElement x="692" y="0" width="56" height="25"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
 				<textElement>
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{pill}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="777" y="0" width="54" height="25"/>
+				<reportElement x="926" y="0" width="54" height="25"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
 				<textElement>
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{product_name}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="667" y="0" width="42" height="25"/>
+				<reportElement x="748" y="0" width="110" height="25"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
 				<textElement>
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{specifications}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="709" y="0" width="68" height="25"/>
+				<reportElement x="858" y="0" width="68" height="25"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
 				<textElement>
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{amount}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="879" y="0" width="105" height="25"/>
+				<reportElement x="1028" y="0" width="105" height="25"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
 				<textElement>
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{manufacturer}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="984" y="0" width="99" height="25"/>
+				<reportElement x="1133" y="0" width="99" height="25"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
 				<textElement>
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{import_enterprise}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="1371" y="0" width="84" height="25"/>
+				<reportElement x="1520" y="0" width="84" height="25"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
 				<textElement>
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{medical_dir_no}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="1083" y="0" width="61" height="25"/>
+				<reportElement x="1232" y="0" width="61" height="25"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
 				<textElement>
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{purchase_price}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="1455" y="0" width="66" height="25"/>
+				<reportElement x="1604" y="0" width="66" height="25"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
 				<textElement>
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{medical_category}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="2710" y="0" width="70" height="25"/>
+				<reportElement x="2859" y="0" width="70" height="25"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
 				<textElement>
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{remark1}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="2780" y="0" width="60" height="25"/>
+				<reportElement x="2929" y="0" width="60" height="25"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
 				<textElement>
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{remark2}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="2840" y="0" width="60" height="25"/>
+				<reportElement x="2989" y="0" width="60" height="25"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
 				<textElement>
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{remark3}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="297" y="0" width="85" height="25"/>
+				<reportElement x="394" y="0" width="85" height="25"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
 				<textElement>
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{bidcommonname}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="0" y="0" width="43" height="25"/>
+				<reportElement x="49" y="0" width="43" height="25"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
 				<textElement>
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{drugcategory}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="1144" y="0" width="56" height="25"/>
+				<reportElement x="1293" y="0" width="56" height="25"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
 				<textElement>
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{antibacterialsed}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="1200" y="0" width="86" height="25"/>
+				<reportElement x="1349" y="0" width="86" height="25"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
 				<textElement>
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{antibacterialsecategory}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="1286" y="0" width="85" height="25"/>
+				<reportElement x="1435" y="0" width="85" height="25"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
 				<textElement>
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{antibacterialsenumber}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="2156" y="0" width="93" height="25"/>
+				<reportElement x="2305" y="0" width="93" height="25"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
 				<textElement>
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{chemicalbigcategory}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="2249" y="0" width="137" height="25"/>
+				<reportElement x="2398" y="0" width="137" height="25"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
 				<textElement>
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{chemicalsubcategory}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="426" y="0" width="88" height="25"/>
+				<reportElement x="524" y="0" width="68" height="25"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
 				<textElement>
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{bid_drug_id}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="514" y="0" width="59" height="25"/>
+				<reportElement x="592" y="0" width="59" height="25"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
 				<textElement>
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{country_id}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="831" y="0" width="48" height="25"/>
+				<reportElement x="980" y="0" width="48" height="25"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
 				<textElement>
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{package_unit}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="1521" y="0" width="150" height="25"/>
+				<reportElement x="1670" y="0" width="150" height="25"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
 				<textElement>
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{medical_remark}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="1671" y="0" width="94" height="25"/>
+				<reportElement x="1820" y="0" width="94" height="25"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
 				<textElement>
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{consistency_evaluation}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="1765" y="0" width="45" height="25"/>
+				<reportElement x="1914" y="0" width="45" height="25"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
 				<textElement>
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{heds}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="1810" y="0" width="40" height="25"/>
+				<reportElement x="1959" y="0" width="40" height="25"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
 				<textElement>
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{gynaecology}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="1850" y="0" width="40" height="25"/>
+				<reportElement x="1999" y="0" width="40" height="25"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
 				<textElement>
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{pediatric}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="1890" y="0" width="40" height="25"/>
+				<reportElement x="2039" y="0" width="40" height="25"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
 				<textElement>
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{first_aid}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="1930" y="0" width="66" height="25"/>
+				<reportElement x="2079" y="0" width="66" height="25"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
 				<textElement>
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{basic_infusion}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="1996" y="0" width="67" height="25"/>
+				<reportElement x="2145" y="0" width="67" height="25"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
 				<textElement>
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{cheap_shortage}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="2063" y="0" width="93" height="25"/>
+				<reportElement x="2212" y="0" width="93" height="25"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
 				<textElement>
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{negotiation_variety}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="2386" y="0" width="57" height="25"/>
+				<reportElement x="2535" y="0" width="57" height="25"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
 				<textElement>
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{license_number}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="2443" y="0" width="57" height="25"/>
+				<reportElement x="2592" y="0" width="57" height="25"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
 				<textElement>
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{bid_pill}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="2500" y="0" width="57" height="25"/>
+				<reportElement x="2649" y="0" width="57" height="25"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
 				<textElement>
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{bid_specifications}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="2557" y="0" width="56" height="25"/>
+				<reportElement x="2706" y="0" width="56" height="25"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
 				<textElement>
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{bid_unit}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="2613" y="0" width="42" height="25"/>
+				<reportElement x="2762" y="0" width="42" height="25"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
 				<textElement>
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{package_materials}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="2655" y="0" width="55" height="25"/>
+				<reportElement x="2804" y="0" width="55" height="25"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
 				<textElement>
 					<font fontName="文鼎ＰＬ简报宋" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{minimal_unit}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="3049" y="0" width="50" height="25"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement>
+					<font fontName="文鼎ＰＬ简报宋" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{declared}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="0" width="49" height="25"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement/>
+				<textFieldExpression><![CDATA[$V{index}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

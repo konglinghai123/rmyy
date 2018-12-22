@@ -32,7 +32,7 @@ public class CommonNameService extends BaseService<CommonName, Long> {
     private AdministrationService administrationService;
     
     public List<CommonName> findCommonNameBySpell(String spell){
-    	return getCommonNameRepository().findCommonNameBySpell(spell);
+    	return getCommonNameRepository().findCommonNameBySpell(spell,spell);
     }
     
     public CommonName findByMatchNumberAndCommonName(String matchNumber,String commonName){

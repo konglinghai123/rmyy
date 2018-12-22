@@ -92,8 +92,7 @@ public class CommonNameContentsController extends BaseCRUDController<CommonNameC
 	public List<CommonNameContents> queryManufacturer(@RequestParam(value="manufacturervalue") String manufacturervalue) {
 		if(manufacturervalue==null||manufacturervalue.length()==0) return Lists.newArrayList();
 		List<CommonNameContents> commonNameContentsList = getCommonNameContentsService().findCommonNameContentsByManufacturer(manufacturervalue);
-		DuplicateRemovalUtil.removeDuplicateOrder(commonNameContentsList, "manufacturer");
-		return commonNameContentsList;
+		return DuplicateRemovalUtil.removeDuplicateOrder(commonNameContentsList, "manufacturer");
 	}
 
     
