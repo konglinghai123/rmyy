@@ -186,7 +186,7 @@
 					</tr>
 					<tr>
 						<td width="30%"><form:label path="constituent">成分<font color="red">*</font>：</form:label></td>
-						<td width="70%"><form:textarea path="constituent" style="width:400px;height:60px" cssClass="validate[required]"/></td>
+						<td width="70%"><form:textarea path="constituent" style="width:400px;height:30px" cssClass="validate[required]"/></td>
 					</tr>
 		        	<tr>
 						<td width="30%"><form:label path="preparationed">是否复方制剂：</form:label></td>

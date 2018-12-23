@@ -56,7 +56,7 @@
 			</table>
 			<div id="tb" style="padding:5px;height:auto;">
 		        <div class="toolbar" style="margin-bottom:2px">
-					<a id="tb-add" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-add'" onclick="$.ewcms.add({title:'新增',width:700,height:450});">填写新药</a>
+					<a id="tb-add" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-add'" onclick="$.ewcms.add({title:'新增',width:700,height:500});">填写新药</a>
 					<a id="tb-declare" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-save'" onclick="$.ewcms.openWindow({windowId:'#edit-window',width:750,height:450,title:'申报提交',src:'${ctx}/yjk/sb/drugform/declaresubmit'});">申报提交</a>
 					<font color=red>${declareRule}</font>
 				</div>
