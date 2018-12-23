@@ -37,7 +37,7 @@
 						textField:'name',
 						editable:false,
 						onLoadSuccess:function(){
-							$(this).combobox('setValue', ${m.administration.id});
+							$(this).combobox('setValue', '${m.administration.id}');
 						}
 						"/>
 					</td>	
@@ -196,7 +196,7 @@
             ]],
             onLoadSuccess:function(){
             	if ($('#id').val() != '' && $('#isSetValue').val() == 'true'){
-            		$('#cc_common').combogrid('setValue',${m.common.id});
+            		$('#cc_common').combogrid('setValue','${m.common.id}');
             	}
             }
 		});
