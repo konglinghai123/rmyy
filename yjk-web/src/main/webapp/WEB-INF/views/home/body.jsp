@@ -78,7 +78,7 @@
 		                 				<table style="width:100%;">
 		                 					<tr>	
 			                 					<td>
-			                 						<span style="font-size:18px"><a href="">1、关于新药申报流程的说明</a></span>
+			                 						<span style="font-size:18px"><a href="${ctx}/declare.docx">1、关于新药申报流程的说明</a></span>
 			                 					</td>
 		                 					</tr>
 		                 					<tr>	
