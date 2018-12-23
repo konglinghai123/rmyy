@@ -105,7 +105,7 @@ public class DrugForm extends BaseSequenceEntity<Long> {
 	@Column(name = "declare_reason", nullable = false, columnDefinition = "text")
 	private String declareReason;
 	
-	@Column(name = "constituent", nullable = false, columnDefinition = "text")
+	@Column(name = "constituent", columnDefinition = "text")
 	private String constituent;
 
 	@Column(name = "declareCategory")
