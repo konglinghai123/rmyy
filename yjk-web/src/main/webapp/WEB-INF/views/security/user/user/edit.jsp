@@ -55,19 +55,19 @@
 			        </tr>
 					<tr>
 						<td><form:label path="departmentAttribute">科室属性：</form:label></td>
-						<td><form:input path="departmentAttribute" cssClass="easyui-combobox" data-options="url:'${ctx}/security/dictionary/departmentAttribute/canUse',valueField:'id',textField:'name',editable:false,width:200,onLoadSuccess:function(){$(this).combobox('setValue',${m.departmentAttribute.id})}"/></td>
+						<td><form:input path="departmentAttribute" cssClass="easyui-combobox" data-options="url:'${ctx}/security/dictionary/departmentAttribute/canUse',valueField:'id',textField:'name',editable:false,width:200,onLoadSuccess:function(){$(this).combobox('setValue','${m.departmentAttribute.id}')}"/></td>
 					</tr>
 					<tr>
 						<td><form:label path="profession">执业类别：</form:label></td>
-						<td><form:input path="profession" cssClass="easyui-combobox" data-options="url:'${ctx}/security/dictionary/profession/canUse',valueField:'id',textField:'name',editable:false,width:200,onLoadSuccess:function(){$(this).combobox('setValue',${m.profession.id})}"/></td>
+						<td><form:input path="profession" cssClass="easyui-combobox" data-options="url:'${ctx}/security/dictionary/profession/canUse',valueField:'id',textField:'name',editable:false,width:200,onLoadSuccess:function(){$(this).combobox('setValue','${m.profession.id}')}"/></td>
 					</tr>
 					<tr>
 						<td><form:label path="technicalTitle">技术职称(资格)：</form:label></td>
-						<td><form:input path="technicalTitle" cssClass="easyui-combobox" data-options="url:'${ctx}/security/dictionary/technicalTitle/canUse',valueField:'id',textField:'name',editable:false,width:200,onLoadSuccess:function(){$(this).combobox('setValue',${m.technicalTitle.id})}"/></td>
+						<td><form:input path="technicalTitle" cssClass="easyui-combobox" data-options="url:'${ctx}/security/dictionary/technicalTitle/canUse',valueField:'id',textField:'name',editable:false,width:200,onLoadSuccess:function(){$(this).combobox('setValue','${m.technicalTitle.id}')}"/></td>
 					</tr>
 					<tr>
 						<td><form:label path="appointment">聘任：</form:label></td>
-						<td><form:input path="appointment" cssClass="easyui-combobox" data-options="url:'${ctx}/security/dictionary/appointment/canUse',valueField:'id',textField:'name',editable:false,width:200,onLoadSuccess:function(){$(this).combobox('setValue',${m.appointment.id})}"/></td>
+						<td><form:input path="appointment" cssClass="easyui-combobox" data-options="url:'${ctx}/security/dictionary/appointment/canUse',valueField:'id',textField:'name',editable:false,width:200,onLoadSuccess:function(){$(this).combobox('setValue','${m.appointment.id}')}"/></td>
 					</tr>
 			        <tr>
 						<td><form:label path="director">科主任：</form:label></td>
