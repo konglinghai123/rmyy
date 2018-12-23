@@ -32,7 +32,7 @@
 						textField:'name',
 						editable:false,
 						onLoadSuccess:function(){
-							$(this).combobox('setValue', ${m.administration.id});
+							$(this).combobox('setValue', '${m.administration.id}');
 						}
 						"/>
 						</td>

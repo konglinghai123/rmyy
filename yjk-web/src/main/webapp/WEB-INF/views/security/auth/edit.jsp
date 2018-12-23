@@ -161,7 +161,7 @@
 				editable:false,
 				multiple:true,
 				onLoadSuccess:function(){
-					$(this).combobox('setValue',${groupIds});
+					$(this).combobox('setValue','${groupIds}');
 				}
 			});
 		} else if (value == 'organization_job'){
@@ -176,8 +176,8 @@
 					return false;
 				},
 				onLoadSuccess:function(){
-					$('#organizationIds').combobox('setValue',${organizationIds});
-					$('#jobIds').combobox('setValue',${jobIds});
+					$('#organizationIds').combobox('setValue','${organizationIds}');
+					$('#jobIds').combobox('setValue','${jobIds}');
 				}
 			});
 		}
