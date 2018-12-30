@@ -8,3 +8,5 @@
 7、drugdeclaretongji.jrxml  新药申报统计 ，在数据库中的报表编号为7,否则不能打印
 8、departmentalstatistics.jrxml 各部门统计表，在数据库中的报表编号为8,否则不能打印
 9、commonname.jrxml 药品通用名pdf打印
+10、commonnamecontentsdeclare.jrxml 申报新药匹配的大目录明细
+11、hospitalcontentsdeclare.jrxml 申报新药匹配的院用目录明细

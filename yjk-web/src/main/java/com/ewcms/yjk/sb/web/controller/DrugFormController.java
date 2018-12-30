@@ -134,10 +134,14 @@ public class DrugFormController extends BaseCRUDController<DrugForm, Long> {
 
 	@RequestMapping(value = "{drugFormId}/deletedeclare")
 	@ResponseBody
-	public AjaxResponse restoreCommonName(@PathVariable(value = "drugFormId") Long drugFormId) {
+	public AjaxResponse deleteDeclare(@CurrentUser User user,@PathVariable(value = "drugFormId") Long drugFormId) {
 		AjaxResponse ajaxResponse = new AjaxResponse("删除成功");
 		try {
-			getDrugFormService().delete(drugFormId);
+			DrugForm vo = getDrugFormService().findOne(drugFormId);
+			if(user.getId().equals(vo.getUserId()) && !vo.getDeclared()){
+				getDrugFormService().delete(drugFormId);
+			}
+			
 		} catch (IllegalStateException e) {
 			ajaxResponse.setSuccess(Boolean.FALSE);
 			ajaxResponse.setMessage("删除失败");
@@ -215,7 +219,7 @@ public class DrugFormController extends BaseCRUDController<DrugForm, Long> {
 //		return ajaxResponse;
 //	}
 	/**
-	 * 批量撤销还未初审的申报药品
+	 * 申报药品限制条件查询
 	 * 
 	 */
 	@RequestMapping(value = "{commonNameContentsId}/declarecondition")

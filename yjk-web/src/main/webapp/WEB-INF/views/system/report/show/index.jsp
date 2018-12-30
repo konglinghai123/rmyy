@@ -60,7 +60,7 @@
 			iframeId:'#editifr',
 			src:'${ctx}/system/report/show/' + type + '/' + id + '/paraset',
 			width:500,
-			height:400,
+			height:500,
 			title:"参数选择"
 		});
 	}

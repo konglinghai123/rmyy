@@ -111,7 +111,7 @@ public class DrugFormService extends BaseService<DrugForm, Long> {
 		if (selections != null && !selections.isEmpty()) {
 			for (Long id : selections) {
 				DrugForm drugForm = findOne(id);
-				if(drugForm.getUserId().equals(opUser.getId())) {
+				if(drugForm.getUserId().equals(opUser.getId()) && !drugForm.getDeclared()) {
 					if(!drugForm.getDeclared()){
 						Map<String,String> resulstMap = isDeclareUpperLimt(drugForm.getCommonNameContents().getId());
 						String isDeclareLimt = resulstMap.get("isDeclareLimt");
