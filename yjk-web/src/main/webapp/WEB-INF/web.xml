@@ -97,6 +97,10 @@
 			<param-value>/static/*,*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*</param-value>
 		</init-param>
 		<init-param>
+			<param-name>sessionStatEnable</param-name>
+			<param-value>false</param-value>
+		</init-param>
+		<init-param>
 			<param-name>principalSessionName</param-name>
 			<param-value>username</param-value>
 		</init-param>

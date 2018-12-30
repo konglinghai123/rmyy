@@ -30,4 +30,10 @@ public interface HospitalContentsRepository extends BaseRepository<HospitalConte
 	@Modifying
 	@Query("update HospitalContents  set deleted = true where deleted is false")
 	void deleteAllHospitalContents();
+	
+	//分页查询一品的院用集合
+	Page<HospitalContents> findByCommonIdInInAndDeletedFalse(List<Long> commonIds, Pageable pageable);
+	
+	@Query("select count(*) from HospitalContents c where c.common.id in (?1) and deleted is false")
+	Long countHospitalContents(List<Long> commonIds);
 }

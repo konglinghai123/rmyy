@@ -63,18 +63,18 @@ public class MessageApiImpl implements MessageApi{
 			//发送或接收的信息
 			case store_box:
 			case trash_box:
-				//发送
-				SearchFilter senderFilter = SearchFilterHelper.newCondition("senderId", SearchOperator.EQ, userId);
-				SearchFilter senderStateFilter = SearchFilterHelper.newCondition("senderState", SearchOperator.EQ, state);
-				SearchFilter andSender = SearchFilterHelper.and(senderFilter, senderStateFilter);
-				
-				//接收
-				SearchFilter receiverFilter = SearchFilterHelper.newCondition("receiverId", SearchOperator.EQ, userId);
-				SearchFilter receiverStateFilter = SearchFilterHelper.newCondition("receiverState", SearchOperator.EQ, state);
-				SearchFilter andReceiver = SearchFilterHelper.and(receiverFilter, receiverStateFilter);
-				
-				searchable.or(andSender, andReceiver);
-				break;
+//				//发送
+//				SearchFilter senderFilter = SearchFilterHelper.newCondition("senderId", SearchOperator.EQ, userId);
+//				SearchFilter senderStateFilter = SearchFilterHelper.newCondition("senderState", SearchOperator.EQ, state);
+//				SearchFilter andSender = SearchFilterHelper.and(senderFilter, senderStateFilter);
+//				
+//				//接收
+//				SearchFilter receiverFilter = SearchFilterHelper.newCondition("receiverId", SearchOperator.EQ, userId);
+//				SearchFilter receiverStateFilter = SearchFilterHelper.newCondition("receiverState", SearchOperator.EQ, state);
+//				SearchFilter andReceiver = SearchFilterHelper.and(receiverFilter, receiverStateFilter);
+//				
+//				searchable.or(andSender, andReceiver);
+				return messageService.findStoreOrTrash(userId, state, pageable);
 			default:
 				break;
 		}

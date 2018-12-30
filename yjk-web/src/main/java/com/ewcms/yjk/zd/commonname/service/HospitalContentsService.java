@@ -50,6 +50,15 @@ public class HospitalContentsService extends BaseService<HospitalContents, Long>
 		getHospitalContentsRepository().deleteAllHospitalContents();
 	}
 	
+	/**
+	 * 查询申报类型,0为新增通用名,其他为新增规格/剂型
+	 * 
+	 * @param commonIds 通用名编号集合
+	 * @return
+	 */
+	public Long countHospitalContents(List<Long> commonIds) {
+		return getHospitalContentsRepository().countHospitalContents(commonIds);
+	}
 
 	/**
 	 * 根据申报药品查找当前院药品目录在用医院药品集合
@@ -63,7 +72,8 @@ public class HospitalContentsService extends BaseService<HospitalContents, Long>
 		List<CommonName> commonNames = commonNameService.findByMatchNumber(commonNameContentsvo.getCommon().getMatchNumber());
 
 		List<Long> commonNameIds = Collections3.extractToList(commonNames, "id");
-		return getHospitalContentsRepository().findByCommonIdInInAndAdministrationIdAndDeletedFalse(commonNameIds,commonNameContentsvo.getAdministration().getId(), pageable);
+		//return getHospitalContentsRepository().findByCommonIdInInAndAdministrationIdAndDeletedFalse(commonNameIds,commonNameContentsvo.getAdministration().getId(), pageable);
+		return getHospitalContentsRepository().findByCommonIdInInAndDeletedFalse(commonNameIds, pageable);
 	}
 
 	@Override

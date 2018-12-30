@@ -58,10 +58,12 @@ public class InitAuditController extends BaseCRUDController<DrugForm, Long> {
 
 	@Override
 	public Map<String, Object> query(SearchParameter<Long> searchParameter,	Model model) {
-		if(searchParameter.getParameters().size()==0){
+		if(searchParameter.getParameters().size() == 0){
 			searchParameter.getParameters().put("EQ_auditStatus",AuditStatusEnum.init);
 		}
-		searchParameter.getParameters().put("EQ_declared", Boolean.TRUE);
+		if (searchParameter.getParameters().get("EQ_auditStatus").equals(AuditStatusEnum.nodeclare)) {
+			searchParameter.getParameters().put("EQ_declared", Boolean.TRUE);
+		}
 		searchParameter.getSorts().put("userId", Direction.DESC);
 		searchParameter.getSorts().put("auditStatus", Direction.ASC);
 		return super.query(searchParameter, model);

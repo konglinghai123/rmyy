@@ -106,31 +106,33 @@ public class DrugFormService extends BaseService<DrugForm, Long> {
 	 * 批量对填写新药进行申报，同时要满足一品两规和申报上限、特殊药规则以及不重复的才可申报入库
 	 * 
 	 */
-	public String saveDeclareSubmit(List<Long> selections) {
+	public String saveDeclareSubmit(User opUser, List<Long> selections) {
 		StringBuffer noDeclareCommonName = new StringBuffer();
 		if (selections != null && !selections.isEmpty()) {
 			for (Long id : selections) {
 				DrugForm drugForm = findOne(id);
-				if(!drugForm.getDeclared()){
-					Map<String,String> resulstMap = isDeclareUpperLimt(drugForm.getCommonNameContents().getId());
-					String isDeclareLimt = resulstMap.get("isDeclareLimt");
-					if (isDeclareLimt.equals("false")){
-						if(!isDeclareTotalUpperLimt(drugForm.getUserId())){
-							if(!isRepeatDeclare(drugForm.getCommonNameContents().getId())){
-								drugForm.setDeclared(Boolean.TRUE);
-								drugForm.setAuditStatus(AuditStatusEnum.init);
-								drugForm.setDeclareDate(new Date(Calendar.getInstance().getTime().getTime()));
-								drugForm.setDeclareCategory(resulstMap.get("declareCategory"));
-								super.save(drugForm);
-							}else{
-								noDeclareCommonName.append(drugForm.getCommonNameContents().getCommon().getCommonName() + "申报重复|");
+				if(drugForm.getUserId().equals(opUser.getId())) {
+					if(!drugForm.getDeclared()){
+						Map<String,String> resulstMap = isDeclareUpperLimt(drugForm.getCommonNameContents().getId());
+						String isDeclareLimt = resulstMap.get("isDeclareLimt");
+						if (isDeclareLimt.equals("false")){
+							if(!isDeclareTotalUpperLimt(drugForm.getUserId())){
+								if(!isRepeatDeclare(drugForm.getCommonNameContents().getId())){
+									drugForm.setDeclared(Boolean.TRUE);
+									drugForm.setAuditStatus(AuditStatusEnum.init);
+									drugForm.setDeclareDate(new Date(Calendar.getInstance().getTime().getTime()));
+									drugForm.setDeclareCategory(resulstMap.get("declareCategory"));
+									super.save(drugForm);
+								}else{
+									noDeclareCommonName.append(drugForm.getCommonNameContents().getCommon().getCommonName() + "申报重复|");
+								}
 							}
+							else{
+								noDeclareCommonName.append(drugForm.getCommonNameContents().getCommon().getCommonName() + "超出申报数|");	
+							}
+						} else {
+							noDeclareCommonName.append(drugForm.getCommonNameContents().getCommon().getCommonName() + isDeclareLimt+ "|");
 						}
-						else{
-							noDeclareCommonName.append(drugForm.getCommonNameContents().getCommon().getCommonName() + "超出申报数|");	
-						}
-					} else {
-						noDeclareCommonName.append(drugForm.getCommonNameContents().getCommon().getCommonName() + isDeclareLimt+ "|");
 					}
 				}
 			}
@@ -271,10 +273,10 @@ public class DrugFormService extends BaseService<DrugForm, Long> {
 			}
 
 			if (maxNumber==0 || existNumber < maxNumber) {//0表示不限一品两规或满足一品两规，再判断是否满足特殊规则
-				if(existNumber==0){
+				if(hospitalContentsService.countHospitalContents(commonNameIds) == 0){
 					resulstMap.put("declareCategory", "新增通用名");
 				}else{
-					resulstMap.put("declareCategory", "新增规格");
+					resulstMap.put("declareCategory", "新增规格/剂型");
 				}
 				
 				//查询特殊规则中的随数与特殊规则对象

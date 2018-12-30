@@ -28,7 +28,7 @@
 								<c:when test="${commonNameRule.ruleName == 'common.drugCategory'}">
 								</c:when>								
 								<c:otherwise>
-									<th data-options="field:'${commonNameRule.ruleName}',width:120,sortable:true,
+									<th data-options="field:'${commonNameRule.ruleName}',width:150,sortable:true,
 											formatter:function(val,row){
 												return row.commonNameContents==null ?'':row.commonNameContents.${commonNameRule.ruleName};
 											}">${commonNameRule.ruleCnName}</th>
@@ -36,11 +36,11 @@
 							</c:choose>			
 						</c:forEach>
 						<th data-options="field:'drugCategoryInfo',width:100">药品种类</th>
-						<th data-options="field:'dosage',width:150">用法用量</th>
-						<th data-options="field:'indicationsEffect',width:300">适应症及药理作用</th>
-						<th data-options="field:'declareReason',width:300">申请理由</th>
-						<th data-options="field:'remark',width:150">初审说明</th>
-						<th data-options="field:'constituent',width:150">成分</th>
+						<th data-options="field:'dosage',width:150,formatter:formatTooltip">用法用量</th>
+						<th data-options="field:'indicationsEffect',width:300,formatter:formatTooltip">适应症及药理作用</th>
+						<th data-options="field:'declareReason',width:300,formatter:formatTooltip">申请理由</th>
+						<th data-options="field:'remark',width:150,formatter:formatTooltip">初审说明</th>
+						<th data-options="field:'constituent',width:150,formatter:formatTooltip">成分</th>
 						<th data-options="field:'preparationed',width:100,
 						formatter:function(val,row){
 							return val ? '是' : '否';
@@ -173,5 +173,9 @@
 					    	}
 					    }
 					    $.ewcms.edit({title:'新药初审',width:400,height:265});
+					}
+					
+					function formatTooltip(val, row){
+						return val != null ? '<span title="' + val + '" class="easyui-tooltip">' + val + '</span>' : '';
 					}
 		</script>

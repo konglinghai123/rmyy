@@ -12,7 +12,7 @@
 			    	<th data-options="field:'senderUsername',width:100">发件人</th>
 			    </c:if>
 			    <c:if test="${state ne 'in_box'}">
-			    	<th data-options="field:'receiverUsername',width:100">收件人</th>
+			    	<th data-options="field:'receiverUsername',width:300">收件人</th>
 			    </c:if>
 			    <th data-options="field:'sendDate',width:145">发送时间</th>
 			</tr>

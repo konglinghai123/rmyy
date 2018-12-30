@@ -5,12 +5,19 @@
 	<table id="tt2" class="easyui-datagrid" data-options="url:'${ctx}/yjk/zd/hospitalcontents/${commonNameContentsId}/query',nowrap:true,pagination:true,rownumbers:true,striped:true,pageSize:10">
 		<thead>
 			    <th data-options="field:'id',hidden:true">编号</th>	
+			    <th data-options="field:'common.commonName',width:200,sortable:true,
+						formatter:function(val,row){
+							return row.common==null?'':row.common.commonName;
+						}">通用名</th>
 			    <th data-options="field:'commonName',width:200">院用目录通用名</th>
+			    <th data-options="field:'administration.name',sortable:true,width:80,
+						formatter:function(val,row){
+							return row.administration==null?'':row.administration.name;
+						}">给药途径</th>
 				<th data-options="field:'drugCategoryInfo',width:80,
 						formatter:function(val,row){
 							return row.common==null?'':row.common.drugCategoryInfo;
 						}">药品种类</th>							
-					
 				<th data-options="field:'bidCommonName',width:200,
 						formatter:function(val,row){
 							return row.common==null?'':row.common.bidCommonName;
@@ -50,7 +57,15 @@
 					}	
 	    	}">
 		<thead>
+				<th data-options="field:'common.commonName',width:200,sortable:true,
+						formatter:function(val,row){
+							return row.common==null?'':row.common.commonName;
+						}">通用名</th>
 				<th data-options="field:'commonName',width:150">大目录通用名</th>
+				<th data-options="field:'administration.name',sortable:true,width:80,
+						formatter:function(val,row){
+							return row.administration==null?'':row.administration.name;
+						}">给药途径</th>
 				<th data-options="field:'drugCategoryInfo',width:80">药品种类</th>												
 				
 				<th data-options="field:'bidCommonName',width:150,

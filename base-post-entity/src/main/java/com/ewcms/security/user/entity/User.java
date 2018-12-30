@@ -4,7 +4,6 @@ import com.alibaba.fastjson.annotation.JSONField;
 import com.ewcms.common.entity.BaseSequenceEntity;
 import com.ewcms.common.plugin.entity.LogicDeleteable;
 import com.ewcms.common.repository.support.annotation.EnableQueryCache;
-import com.ewcms.common.utils.Collections3;
 import com.ewcms.common.utils.EmptyUtil;
 import com.ewcms.common.utils.PatternUtils;
 import com.ewcms.security.dictionary.entity.Appointment;
@@ -17,6 +16,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.Formula;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -154,6 +154,8 @@ public class User extends BaseSequenceEntity<Long> implements LogicDeleteable {
 	private Boolean science = Boolean.FALSE;
 	@Column(name = "is_antibiosis")
 	private Boolean antibiosis = Boolean.FALSE;
+	@Formula(value = "(select string_agg(t2.name,',') from sec_organization t2  where t2.id in (select t1.organization_id from sec_user_organization_job t1 where t1.user_id=id))")
+	private String organizationNames;
 
 	public User() {
     }
@@ -176,9 +178,9 @@ public class User extends BaseSequenceEntity<Long> implements LogicDeleteable {
         this.organizationJobs = organizationJobs;
     }
     
-    public String getOrganizationNames() {
-    	return (organizationJobs == null) ? "" : Collections3.extractToString(organizationJobs, "organizationName", "/"); 
-    }
+//    public String getOrganizationNames() {
+//    	return (organizationJobs == null) ? "" : Collections3.extractToString(organizationJobs, "organizationName", "/"); 
+//    }
 
     public String getUsername() {
         return username;
@@ -369,4 +371,7 @@ public class User extends BaseSequenceEntity<Long> implements LogicDeleteable {
 		this.science = science;
 	}
 
+	public String getOrganizationNames() {
+		return organizationNames;
+	}
 }

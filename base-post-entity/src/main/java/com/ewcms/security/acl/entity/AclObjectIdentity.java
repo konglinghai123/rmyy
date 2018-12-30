@@ -55,8 +55,6 @@ public class AclObjectIdentity extends BaseSequenceEntity<Long> {
 	private AclSid ownerSid;
 	@Column(name = "entries_inheriting", nullable = false)
 	private Boolean entriesInheriting = Boolean.TRUE;
-	@Column(name = "site_id", nullable = false)
-	private Long siteId;
 
 	public AclClass getAclClass() {
 		return aclClass;
@@ -106,14 +104,6 @@ public class AclObjectIdentity extends BaseSequenceEntity<Long> {
 		this.entriesInheriting = entriesInheriting;
 	}
 	
-    public Long getSiteId() {
-		return siteId;
-	}
-
-	public void setSiteId(Long siteId) {
-		this.siteId = siteId;
-	}
-
     public String getSeparator() {
         return "/";
     }

@@ -3,6 +3,8 @@ package com.ewcms.personal.message.repository;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
@@ -42,4 +44,7 @@ public interface MessageRepository extends BaseRepository<Message, Long>{
 	@Modifying
 	@Query("update Message set read=true where receiverId=?1 and id in (?2)")
 	void markRead(Long userId, List<Long> ids);
+	
+	@Query("from Message o where (o.senderId=?1 and o.senderState=?2) or (o.receiverId=?1 and o.receiverState=?2)")
+	Page<Message> findStoreOrTrash(Long userId, MessageState state, Pageable pageable);
 }

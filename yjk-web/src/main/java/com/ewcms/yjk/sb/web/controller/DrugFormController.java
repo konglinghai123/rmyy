@@ -157,12 +157,12 @@ public class DrugFormController extends BaseCRUDController<DrugForm, Long> {
 	 */
 	@RequestMapping(value = "savedeclaresubmit")
 	@ResponseBody
-	public AjaxResponse saveDeclareSubmit(@RequestParam(required = false) List<Long> selections) {
+	public AjaxResponse saveDeclareSubmit(@CurrentUser User user, @RequestParam(required = false) List<Long> selections) {
 		AjaxResponse ajaxResponse = new AjaxResponse("申报提交成功！");
 
 		try {
 			if (selections != null && !selections.isEmpty()) {
-				String noDeclareCommonName = getDrugFormService().saveDeclareSubmit(selections);
+				String noDeclareCommonName = getDrugFormService().saveDeclareSubmit(user, selections);
 				if (noDeclareCommonName != null && noDeclareCommonName.length() > 0) {
 					ajaxResponse.setMessage("以下药品因为:" + noDeclareCommonName + "，不能申报！");
 				}

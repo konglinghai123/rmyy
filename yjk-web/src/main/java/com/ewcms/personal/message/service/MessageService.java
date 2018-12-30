@@ -6,6 +6,8 @@ import java.util.List;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.time.DateUtils;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.ewcms.common.service.BaseService;
@@ -82,5 +84,9 @@ public class MessageService extends BaseService<Message, Long>{
 	public void markRead(final Long userId, final Long[] ids){
 		if (ArrayUtils.isEmpty(ids)) return;
 		getMessageRepository().markRead(userId, Arrays.asList(ids));
+	}
+	
+	public Page<Message> findStoreOrTrash(Long userId, MessageState state, Pageable pageable){
+		return getMessageRepository().findStoreOrTrash(userId, state, pageable);
 	}
 }

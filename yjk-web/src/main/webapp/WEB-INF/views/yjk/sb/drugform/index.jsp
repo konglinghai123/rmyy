@@ -37,10 +37,10 @@
 								</c:otherwise>
 							</c:choose>			
 						</c:forEach>
-						<th data-options="field:'dosage',width:150">用法用量</th>
-						<th data-options="field:'indicationsEffect',width:300">适应症及药理作用</th>
-						<th data-options="field:'declareReason',width:300">申请理由</th>
-						<th data-options="field:'constituent',width:150">成分</th>
+						<th data-options="field:'dosage',width:150,formatter:formatTooltip">用法用量</th>
+						<th data-options="field:'indicationsEffect',width:300,formatter:formatTooltip">适应症及药理作用</th>
+						<th data-options="field:'declareReason',width:300,formatter:formatTooltip">申请理由</th>
+						<th data-options="field:'constituent',width:150,formatter:formatTooltip">成分</th>
 						<th data-options="field:'preparationed',width:100,
 						formatter:function(val,row){
 							return val ? '是' : '否';
@@ -139,6 +139,9 @@
 			
 			function print(id){
 				$.ewcms.openTopWindow({src:'${ctx}/yjk/sb/drugform/build?drugFormId=' + id,title:'打印新药申报表',isRefresh:false,maximizable:true});
+			}
+			function formatTooltip(val, row){
+				return val != null ? '<span title="' + val + '" class="easyui-tooltip">' + val + '</span>' : '';
 			}
 		</script>
 	</c:when>

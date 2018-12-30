@@ -78,12 +78,17 @@
 		                 				<table style="width:100%;">
 		                 					<tr>	
 			                 					<td>
-			                 						<span style="font-size:18px"><a href="${ctx}/declare.docx">1、关于新药申报流程的说明</a></span>
+			                 						<span style="font-size:23px"><a href="${ctx}/declare.docx">1、关于新药申报流程的说明</a></span>
 			                 					</td>
 		                 					</tr>
 		                 					<tr>	
 			                 					<td>
 			                 						<span id="sysNotice"></span>
+			                 					</td>
+		                 					</tr>
+		                 					<tr>	
+			                 					<td>
+			                 						<span style="color:red;font-size:23px">3、申请理由需附相关印证材料！</span>
 			                 					</td>
 		                 					</tr>
 		                 				</table>

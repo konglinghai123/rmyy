@@ -29,7 +29,7 @@
 							<td><form:label path="receiverId">收件人：</form:label></td>
 							<td>
 								<c:set var="receiver" value="${not empty receiver ? receiver : param.receiver}"/>
-								<input type="text" id="receiverId_msg" name="receiver" value="${receiver}" placeholder="输入收件人用户名">
+								<input id="receiverId_msg" name="receiver" value="${receiver}" placeholder="输入收件人用户名">
 								<form:hidden path="receiverId"/>
 							</td>
 						</tr>
@@ -60,6 +60,36 @@
         var validationEngine = form.validationEngine({prettySelect:true, useSuffix : '_msg'});
         <ewcms:showFieldError commandName='m'/>
         
+        var transTool = $('#receiverId_msg').combogrid({
+			panelWidth: 500,
+		    idField: 'username',
+		    textField: 'realname',
+		    fitColumns: true,
+		    multiple:true,
+		    url:'${ctx}/security/user/user/findbyrealname',
+		    columns: [[
+		    	{field:'id',hidden:true},
+                {field:'username',hidden:true},
+                {field:'realname',title:'姓名',width:130},
+                {field:'sex',title:'性别',width:60,
+                	formatter:function(val,row){
+						return row.sexDescription;
+					}		
+                },
+                {field:'mobilePhoneNumber',title:'手机号',width:120},
+                {field:'organizationNames',title:'科室名称',width:150}
+		    ]]
+		});
+			
+		transTool.combogrid('textbox').keyup(function(event) {
+			if (event.keyCode == 38){
+			} else if (event.keyCode == 40){
+			} else {
+				$('#receiverId_msg').combogrid('grid').datagrid('reload', {
+					realname : $('#receiverId_msg').combogrid("getText")
+				});
+		 	}
+		});
         //var $username = $('#receiverId_msg');
         //if($username[0]){
         //	$.ewcms.autoComplete({
