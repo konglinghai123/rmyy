@@ -49,5 +49,3 @@
         </div>
 	</div>
 <ewcms:footer/>
-<script type="text/javascript">
-</script>

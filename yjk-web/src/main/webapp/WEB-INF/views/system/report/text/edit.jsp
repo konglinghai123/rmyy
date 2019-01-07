@@ -30,7 +30,7 @@
 					</tr>
 					<tr>
 						<td><form:label path="remarks">备注：</form:label></td>
-		  				<td><form:textarea path="remarks" cssStyle="width:300px;height:30px" placeholder="简要说明"/></td>
+		  				<td><form:textarea path="remarks" cssStyle="width:100%;height:50px" placeholder="简要说明"/></td>
 					</tr>
 				</table>
 			</form:form>

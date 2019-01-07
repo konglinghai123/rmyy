@@ -7,7 +7,6 @@ import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ewcms.common.service.BaseService;
@@ -28,9 +27,6 @@ public class CommonNameService extends BaseService<CommonName, Long> {
         return (CommonNameRepository) baseRepository;
     }
 
-    @Autowired
-    private AdministrationService administrationService;
-    
     public List<CommonName> findCommonNameBySpell(String spell){
     	return getCommonNameRepository().findCommonNameBySpell(spell,spell);
     }

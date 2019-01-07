@@ -242,6 +242,7 @@ public class DrugFormService extends BaseService<DrugForm, Long> {
 	 * @param commonNameContentsId
 	 * @return
 	 */
+	@SuppressWarnings("unchecked")
 	private Map<String,String> isDeclareUpperLimt(Long commonNameContentsId) {
 		Map<String,String> resulstMap = new HashMap<String,String>();
 		String isDeclareLimt = "false";

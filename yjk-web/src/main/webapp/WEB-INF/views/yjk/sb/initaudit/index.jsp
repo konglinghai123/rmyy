@@ -44,7 +44,7 @@
 						<th data-options="field:'preparationed',width:100,
 						formatter:function(val,row){
 							return val ? '是' : '否';
-						}">是否复方制剂</th>
+						}">复方制剂</th>
 						<th data-options="field:'fillInDate',width:150,sortable:true">填报时间</th>
 						<th data-options="field:'declareDate',width:150,sortable:true">申报时间</th>
 						<th data-options="field:'auditDate',width:150,sortable:true">初审时间</th>	
@@ -68,9 +68,9 @@
 									</form:select>
 		           				</td>
 			              		<td>医生姓名</td>
-			           			<td><input  id="userId" name="EQ_userId" /></td>	
+			           			<td><input  id="userId" name="EQ_userId" style="width:140px;"/></td>	
 			              		<td>序号</td>
-			           			<td><input name="EQ_id" /></td>					           				              		   
+			           			<td><input name="EQ_id" style="width:140px;"/></td>					           				              		   
               					<td>简拼</td>
               					<td><input type="text" name="LIKE_commonNameContents.common.spellSimplify" style="width:140px;"/></td>
 		              			<td width="20%" colspan="2">
@@ -83,7 +83,7 @@
 		              			<td>通用名</td>
 		              			<td><input type="text" name="LIKE_commonNameContents.common.commonName" style="width:140px;"/></td>	
 		              			<td>申报类型</td>
-		              			<td><input type="text" name="LIKE_declareCategory"/></td>	           			
+		              			<td><input type="text" name="LIKE_declareCategory" style="width:140px;"/></td>	           			
 								<td >填报时间从</td>
 								<td colspan="4">
 									<input type="text" id="fillInDate1" name="GTE_fillInDate" class="easyui-datetimebox" style="width: 145px" data-options="editable:false" />

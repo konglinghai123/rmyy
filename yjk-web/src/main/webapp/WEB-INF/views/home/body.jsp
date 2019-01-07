@@ -65,37 +65,14 @@
 		    	<tr>
 		    		<td width="1%"></td>
 		           	<td class="portal-column-td" width="48%">
-		            	<div style="overflow:hidden;padding:0 0 0 0">
-		               		<div class="panel" style="margin-bottom:2px;">
-		                 		<div class="panel-header">
-		                   			<div class="panel-title">公告栏</div>
-		                   			<div class="panel-tool">
-		                     			<a href="javascript:void(0);" style="display:inline;"></a>
-		                   			</div>
-		                 		</div>
-		                 		<div style="height: 190px; padding: 5px;" title="" id="notice" class="portal-p panel-body" data-options="closable:true,collapsible:false">
-		                 			<div class="t-list">
-		                 				<table style="width:100%;">
-		                 					<tr>	
-			                 					<td>
-			                 						<span style="font-size:23px"><a href="${ctx}/declare.docx">1、关于新药申报流程的说明</a></span>
-			                 					</td>
-		                 					</tr>
-		                 					<tr>	
-			                 					<td>
-			                 						<span id="sysNotice"></span>
-			                 					</td>
-		                 					</tr>
-		                 					<tr>	
-			                 					<td>
-			                 						<span style="color:red;font-size:23px">3、申请理由需附相关印证材料！</span>
-			                 					</td>
-		                 					</tr>
-		                 				</table>
-		                 			</div>
-		                 		</div>
-		               		</div>
-		             	</div>
+			             <div style="overflow:hidden;padding:0 0 0 0">
+			               <div class="panel" style="margin-bottom:2px;">
+			                 <div class="panel-header">
+			                   <div class="panel-title">公告栏</div>
+			                 </div>
+			                 <div style="height: 190px; padding: 5px;" title="" id="notice" class="portal-p panel-body" data-options="closable:true,collapsible:false"></div>
+			               </div>
+			             </div>
 		           	</td>
 		           	<td width="1%"></td>
 		           	<td class="portal-column-td" width="48%">

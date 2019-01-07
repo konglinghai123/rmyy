@@ -88,14 +88,14 @@
         		<table class="formtable">
               		<tr>
               			<td>通用名</td>
-              			<td><input type="text" name="LIKE_common.commonName" style="width:140px;"/></td>
+              			<td><input type="text" name="LIKE_common.commonName" style="width:120px;"/></td>
             			<td>匹配编号</td>
               			<td><input type="text" name="Like_common.matchNumber" style="width:120px;"/></td>
               			<td >简拼</td>
-              			<td><input type="text" name="LIKE_common.spellSimplify" style="width:80px;"/></td>
+              			<td><input type="text" name="LIKE_common.spellSimplify" style="width:120px;"/></td>
               			<td>药品种类</td>
     					<td>
-           					<form:select  name="EQ_common.drugCategory" path="drugCategoryList" cssClass="easyui-combobox"  data-options="panelHeight:'auto',editable:false">
+           					<form:select  name="EQ_common.drugCategory" path="drugCategoryList" cssClass="easyui-combobox" cssStyle="width:120px;" data-options="panelHeight:'auto',editable:false">
 					  			<form:option value="" label="---请选择---"/>
 					  			<form:options items="${drugCategoryList}" itemLabel="info"/>
 							</form:select>
@@ -108,16 +108,16 @@
            			</tr>
            			<tr style="display: none;">
               			<td>生产企业</td>
-              			<td><input type="text" name="LIKE_manufacturer" style="width:140px;"/></td>
+              			<td><input type="text" name="LIKE_manufacturer" style="width:120px;"/></td>
               			<td>项目名称</td>
-              			<td><input type="text" name="LIKE_projectName" style="width:140px;"/></td>
+              			<td><input type="text" name="LIKE_projectName" style="width:120px;"/></td>
             			<td>规格</td>
-              			<td><input type="text" name="LIKE_specifications" style="width:140px;"/></td>
+              			<td><input type="text" name="LIKE_specifications" style="width:120px;"/></td>
             			<td>批次</td>
-              			<td><input type="text" name="LIKE_batch" style="width:140px;"/></td>   
+              			<td><input type="text" name="LIKE_batch" style="width:120px;"/></td>   
            				<td>是否允许申报</td>
     					<td>
-           					<form:select id="declared" name="EQ_declared" path="booleanList" cssClass="easyui-combobox"   data-options="panelHeight:'auto',editable:false">
+           					<form:select id="declared" name="EQ_declared" path="booleanList" cssClass="easyui-combobox"  cssStyle="width:120px;" data-options="panelHeight:'auto',editable:false">
 					  			<form:option value="" label="---请选择---"/>
 					  			<form:options items="${booleanList}" itemLabel="info"/>
 							</form:select>
@@ -125,13 +125,13 @@
            			</tr>  
            			<tr style="display: none;">
               			<td>国家谈判品种</td>
-              			<td><input type="text" name="LIKE_negotiationVariety" style="width:140px;"/></td>
+              			<td><input type="text" name="LIKE_negotiationVariety" style="width:120px;"/></td>
               			<td>一致性评价</td>
-              			<td><input type="text" name="LIKE_consistencyEvaluation" style="width:140px;"/></td>
+              			<td><input type="text" name="LIKE_consistencyEvaluation" style="width:120px;"/></td>
             			<td>化药大类</td>
-              			<td><input type="text" name="LIKE_common.chemicalBigCategory" style="width:140px;"/></td>
+              			<td><input type="text" name="LIKE_common.chemicalBigCategory" style="width:120px;"/></td>
             			<td>化药小类</td>
-              			<td><input type="text" name="LIKE_common.chemicalSubCategory" style="width:140px;"/></td>                			   				
+              			<td><input type="text" name="LIKE_common.chemicalSubCategory" style="width:120px;"/></td>                			   				
            			</tr>            			          			
            		</table>
           </form>

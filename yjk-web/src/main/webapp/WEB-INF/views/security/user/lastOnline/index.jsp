@@ -23,13 +23,8 @@
         	<form id="queryform" style="padding:0;margin:0;">
         		<table class="formtable">
               		<tr>
-              			<td width="6%">用户名</td>
-              			<td width="19%">
-							<form:select id="userId" name="EQ_userId" path="userList" cssClass="easyui-combobox" cssStyle="width:140px;" data-options="panelHeight:'auto',editable:false">
-					  			<form:option value="" label="------请选择------"/>
-					  			<form:options items="${userList}" itemValue="id" itemLabel="usernameAndRealname"/>
-							</form:select>
-						</td>
+              			<td width="6%">医生姓名</td>
+              			<td width="19%"><input  id="userId" name="EQ_userId" style="width:140px;"/></td>
     					<td width="6%">退出时间</td>
     					<td width="44%"><input type="text" id="lastStopTimestamp" name="GTE_lastStopTimestamp" class="easyui-datetimebox" style="width:145px" data-options="editable:false"/> 至 <input type="text" id="lastStopTimestamp" name="LTE_lastStopTimestamp" class="easyui-datetimebox" style="width:145px" data-options="editable:false"/></td>
 						<td width="25%" colspan="2">
@@ -42,3 +37,36 @@
         </div>
 	</div>
 <ewcms:footer/>
+<script type="text/javascript">
+	$(function(){
+		var transTool = $('#userId').combogrid({
+			panelWidth: 500,
+	        idField: 'id',
+	        textField: 'realname',
+	        fitColumns: true,
+	        url:'${ctx}/security/user/user/findbyrealname',
+	        columns: [[
+	        	{field:'id',hidden:true},
+                {field:'username',title:'登录名',width:80},
+                {field:'realname',title:'姓名',width:130},
+                {field:'sex',title:'性别',width:60,
+                	formatter:function(val,row){
+						return row.sexDescription;
+					}		
+                },
+                {field:'mobilePhoneNumber',title:'手机号',width:120},
+                {field:'organizationNames',title:'科室名称',width:150}
+	        ]]
+		});
+		
+		transTool.combogrid('textbox').keyup(function(event) {
+			if (event.keyCode == 38){
+			} else if (event.keyCode == 40){
+			} else {
+				$('#userId').combogrid('grid').datagrid('reload', {
+					realname : $('#userId').combogrid("getText")
+				});
+	 		}
+	   	});
+	});
+</script>

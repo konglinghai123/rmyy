@@ -16,7 +16,7 @@
 	</table>
 	<div id="tb" style="padding:5px;height:auto;">
         <div class="toolbar" style="margin-bottom:2px">
-			<a class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-edit'" onclick="$.ewcms.edit({title:'修改',width:700,height:240});" href="javascript:void(0);">修改</a>
+			<a class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-edit'" onclick="$.ewcms.edit({title:'修改',width:850,height:300});" href="javascript:void(0);">修改</a>
 		</div>
         <div>
         	<form id="queryform" style="padding:0;margin:0;">

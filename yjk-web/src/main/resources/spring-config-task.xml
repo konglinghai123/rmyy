@@ -14,8 +14,7 @@
 		<task:scheduled ref="relationClearTask" method="autoClearRelation" cron="0 0 2 * * ?" />
 		<task:scheduled ref="declareCloseTask" method="autoCloseDeclare" cron="0 0/1 * * * ?" />
 		<!--自动清理删除的关系 每天2点30执行 -->
-		<!-- <task:scheduled ref="messageClearTask" method="autoClearExpiredOrDeletedmMessage" 
-			cron="0 30 2 * * ?"/> -->
+		<!-- <task:scheduled ref="messageClearTask" method="autoClearExpiredOrDeletedmMessage" cron="0 30 2 * * ?"/> -->
 	</task:scheduled-tasks>
 
 

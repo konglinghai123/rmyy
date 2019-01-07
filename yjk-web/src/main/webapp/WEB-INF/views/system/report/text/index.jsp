@@ -71,7 +71,7 @@
 				$('#ddv-' + rowIndex).panel({
 					border:false,
 					cache:false,
-					content: '<iframe src="${ctx}/system/report/parameter/text/' + rowData.id + '/index" frameborder="0" width="100%" height="315px" scrolling="auto"></iframe>',
+					content: '<iframe src="${ctx}/system/report/parameter/text/' + rowData.id + '/index" frameborder="0" width="100%" height="400px" scrolling="auto"></iframe>',
 					onLoad:function(){
 						$('#tt').datagrid('fixDetailRowHeight',rowIndex);
 					}
@@ -97,7 +97,7 @@
 			iframeId : '#editifr', 
 			src:'${ctx}/system/report/show/text/' + id + '/paraset', 
 			width:550,
-			height:200,
+			height:400,
 			title:'参数选择'
 		});
 	}

@@ -14,7 +14,7 @@
 			  	<table class="formtable">
 					<tr>
 		  				<td width="20%">参数编号：</td>
-		  				<td width="30%"><form:input path="id" readonly="true"/></td>
+		  				<td width="30%"><form:input path="id" readonly="true" /></td>
 		  				<td width="20%">参数名：</td>
 		  				<td width="30%"><form:input path="enName" readonly="true"/></td>
 					</tr>
@@ -29,9 +29,13 @@
 					</tr>
 					<tr>
 		  				<td><form:label path="type">数据输入方式：</form:label></td>
-		  				<td><form:select path="type" items="${typeMap}" itemLabel="description"/></td>
-		  				<td><form:label path="value">辅助数据设置：</form:label></td>
-		  				<td><form:input path="value"/></td>
+		  				<td><form:select path="type" items="${typeMap}" itemLabel="description" cssClass="easyui-combobox" cssStyle="width:140px;" data-options="panelHeight:'auto',editable:false"/></td>
+		  				<td></td>
+		  				<td></td>
+					</tr>
+					<tr>
+						<td><form:label path="value">辅助数据设置：</form:label></td>
+		  				<td colspan="3"><form:textarea path="value" style="width:100%;height:100px"/></td>
 					</tr>
 	  			</table>
 			</form:form>

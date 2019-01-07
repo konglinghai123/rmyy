@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ewcms.security.auth.task.AuthRelationClearTask;
-//import com.ewcms.security.auth.task.AuthRelationClearTask;
 import com.ewcms.security.group.task.GroupClearRelationTask;
 import com.ewcms.security.permission.task.RoleClearRelationTask;
 import com.ewcms.security.user.task.UserClearRelationTask;

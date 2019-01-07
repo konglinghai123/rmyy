@@ -22,7 +22,6 @@ import java.util.Map;
  */
 public abstract class BaseSequenceMovableService<M extends BaseSequenceEntity<ID> & Movable, ID extends Serializable> extends BaseService<M, ID> {
 
-
     //权重的步长
     private final Integer stepLength;
 
@@ -31,7 +30,6 @@ public abstract class BaseSequenceMovableService<M extends BaseSequenceEntity<ID
      */
     protected BaseSequenceMovableService() {
         this(1000);
-
     }
 
     protected BaseSequenceMovableService(Integer stepLength) {

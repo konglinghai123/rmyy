@@ -26,7 +26,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ewcms.common.entity.enums.BooleanEnum;
+import com.ewcms.common.entity.search.SearchHelper;
 import com.ewcms.common.entity.search.SearchParameter;
+import com.ewcms.common.entity.search.Searchable;
 import com.ewcms.common.web.controller.BaseCRUDController;
 import com.ewcms.yjk.zd.commonname.entity.CommonNameContents;
 import com.ewcms.yjk.zd.commonname.entity.DrugCategoryEnum;
@@ -65,7 +67,6 @@ public class CommonNameContentsController extends BaseCRUDController<CommonNameC
 	 * 新药填写时根据填写信息匹配大目录的相应记录
 	 * 
 	 */
-	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/querydeclare")
 	@ResponseBody
 	public List<CommonNameContents> queryDeclare(@ModelAttribute SearchParameter<Long> searchParameter, Model model) {
@@ -73,17 +74,20 @@ public class CommonNameContentsController extends BaseCRUDController<CommonNameC
 		searchParameter.getParameters().put("EQ_deleted", Boolean.FALSE);
 		searchParameter.getParameters().put("EQ_declared", Boolean.TRUE);
 		
-		Map<String, Object> map = getCommonNameContentsService().query(searchParameter);
+		Searchable searchable = SearchHelper.parameterConverSearchable(searchParameter, CommonNameContents.class);
+		
+		List<CommonNameContents>  list = getCommonNameContentsService().findAllWithNoPageNoSort(searchable);
+		
 		String duplicateColumn = commonNameRuleService.findByDeletedFalseAndEnabledTrueOrderByWeightAsc()
 				.get(Integer.parseInt(searchParameter.getParameters().get("objIndex").toString()))
 				.getRuleName();
 		if(duplicateColumn.equals("common.drugCategory")){
-			return removeDrugCategoryDuplicateOrder((List<CommonNameContents>) map.get("rows"));
+			return removeDrugCategoryDuplicateOrder(list);
 		}else if(duplicateColumn.equals("administration.id")){
-			return removeAdministrationDuplicateOrder((List<CommonNameContents>) map.get("rows"));
+			return removeAdministrationDuplicateOrder(list);
 			
 		}else{
-			return DuplicateRemovalUtil.removeDuplicateOrder((List<CommonNameContents>) map.get("rows"),duplicateColumn);
+			return DuplicateRemovalUtil.removeDuplicateOrder(list,duplicateColumn);
 		}
 	}
 	

@@ -36,6 +36,7 @@ import com.google.common.collect.Maps;
  * 
  * @author wu_zhijun
  */
+@SuppressWarnings("rawtypes")
 @Controller
 @RequestMapping(value = "/system/staticresource")
 @RequiresPermissions("system:staticResource:*")

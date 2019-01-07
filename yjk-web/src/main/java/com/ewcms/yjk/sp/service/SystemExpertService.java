@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.ewcms.common.plugin.service.BaseSequenceMovableService;
+import com.ewcms.common.utils.EmptyUtil;
 import com.ewcms.yjk.sp.entity.SystemExpert;
 import com.ewcms.yjk.sp.entity.SystemParameter;
 import com.ewcms.yjk.sp.repository.SystemExpertRepository;
@@ -39,6 +40,7 @@ public class SystemExpertService extends BaseSequenceMovableService<SystemExpert
 	}
 	
 	public void changeStatus(List<Long> systemExpertIds, Boolean newStatus) {
+		if (EmptyUtil.isCollectionEmpty(systemExpertIds)) return;
 		getSystemExpertRepository().changeStatus(systemExpertIds, newStatus);
 	}
 	

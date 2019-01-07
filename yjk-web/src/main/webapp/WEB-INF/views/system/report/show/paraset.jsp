@@ -32,7 +32,7 @@
 				  								<form:checkboxes path="paramMap['${parameter.enName}']" items="${parameter.paramMap}" onclick="checkBoxValue('${parameter.enName}')"/>
 				  							</c:if>
 				  							<c:if test="${parameter.type == 'DATE'}">
-				  								<input type="text" name="paramMap['${parameter.enName}']" class="easyui-datebox"/>
+				  								<input type="text" name="paramMap['${parameter.enName}']" class="easyui-datetimebox"/>
 				  							</c:if>
 				  							<c:if test="${parameter.type == 'SESSION'}">
 				  								<input type="text" name="paramMap['${parameter.enName}']" value="<shiro:principal property="username"/>" readonly="readonly"/>
@@ -49,7 +49,7 @@
 					  						<tr>
 												<td class="texttd">报表文件类型：</td>
 												<td class="inputtd">
-						  							<form:select path="textType" items="${textReportTypeMap}" itemLabel="description" cssClass="easyui-combobox"/>
+						  							<form:select path="textType" items="${textReportTypeMap}" itemLabel="description" cssClass="easyui-combobox" cssStyle="width:100px;" data-options="panelHeight:'auto',editable:false"/>
 												</td>
 					  						</tr>
 			  							</c:when>

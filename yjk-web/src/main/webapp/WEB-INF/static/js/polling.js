@@ -32,10 +32,27 @@ function Poll() {
 			pollingUrl,
 			function(data) {
 				if (data) {
-					$('#sysNotice').empty();
-					if (data.drugForm_notice) {
-						$('<span style="font-size:18px">2、' + data.drugForm_notice + '</span>').appendTo('#sysNotice');
-					}
+					 $('#notice .t-list').empty();
+				     if(data.notices) {
+				           var noticesHtml = '<div class="t-list"><table width="100%">';
+				           var pro = [];
+				           $.each(data.notices, function(idx, item){
+				        	   if (idx == 0){
+				        		   pro.push('<tr><td><span style="font-size:18px">' + (idx + 1) + '.' + item.title + '</span></td></tr>');
+				        	   } else {
+					        	   if (item.head){
+					        		   pro.push('<tr><td><span style="' + item.titleStyle + '">' + (idx + 1) + '.' + item.title + '</span></td></tr>');
+					        	   } else if (item.externalLinks != ""){
+					        		   pro.push('<tr><td><a href="' + item.externalLinks + '" alt="' + item.title + '" target="_blank"><span style="' + item.titleStyle + '">'  + (idx + 1) + '.' +  item.title + '</span></a></td></tr>');   
+					        	   } else {
+					        		   pro.push('<tr><td><a href="javascript:void(0);" onclick="showMessageDetail('  +  item.id +  ');" alt="' + item.title + '"><span style="' + item.titleStyle + '">'  + (idx + 1) + '.' +  item.title + '</span></a></td></tr>');
+					        	   }
+				        	   }
+				           });
+				           var html = pro.join("");
+				           noticesHtml += html + '</table></div>';
+				           $(noticesHtml).appendTo('#notice');
+				    }
 					
 					var nodeclare = 0;
 					if (data.drugForm_nodeclare) {
@@ -66,4 +83,8 @@ function Poll() {
 					$('<span style="font-size:14px">4、初审核未通过数：' + unPassed + '&nbsp;条</span>').appendTo('#drugForm_unPassed');
 				}
 			});
+};
+
+var showMessageDetail = function(id){
+	$.ewcms.openWindow({windowId:'#edit-window',iframeId:'#editifr',src:ctx + '/system/notice/' + id + '/detail', width:800,height:500,title:'公告栏 - 内容'});
 };

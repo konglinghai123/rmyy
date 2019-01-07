@@ -71,7 +71,20 @@
     <!--<Connector port="8080" protocol="HTTP/1.1"
                connectionTimeout="20000"
                redirectPort="8443" URIEncoding="UTF-8"/>-->
-     <Connector port="8080" protocol="HTTP/1.1" maxThreads="1000" minSpareThreads="100" acceptCount="1000" maxConnections="1000" connectionTimeout="20000" maxHttpHeaderSize="8192" tcpNoDelay="true" compression="on" compressionMinSize="2048" disableUploadTimeout="true" redirectPort="8443" enableLookups="false" URIEncoding="UTF-8" />
+     <Connector port="8080" protocol="HTTP/1.1" 
+     			maxThreads="1000" 
+     			minSpareThreads="100" 
+     			acceptCount="1000" 
+     			maxConnections="1000" 
+     			connectionTimeout="20000" 
+     			maxHttpHeaderSize="8192" 
+     			tcpNoDelay="true" 
+     			compression="on" 
+     			compressionMinSize="2048" 
+     			disableUploadTimeout="true" 
+     			redirectPort="8443" 
+     			enableLookups="false" 
+     			URIEncoding="UTF-8" />
 
 
     <!-- A "Connector" using the shared thread pool-->
@@ -79,7 +92,7 @@
     <Connector executor="tomcatThreadPool"
                port="8080" protocol="HTTP/1.1"
                connectionTimeout="20000"
-               redirectPort="8443" maxThreads="1000" minSpareThreads="100" acceptCount="1000" maxConnections="1000" maxHttpHeaderSize="8192" tcpNoDelay="true" compression="on" compressionMinSize="2048" disableUploadTimeout="true" enableLookups="false" URIEncoding="UTF-8"/>
+               redirectPort="8443" />
     -->
     <!-- Define a SSL HTTP/1.1 Connector on port 8443
          This connector uses the BIO implementation that requires the JSSE

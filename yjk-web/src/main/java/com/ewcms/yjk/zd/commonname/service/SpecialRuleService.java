@@ -65,7 +65,7 @@ public class SpecialRuleService extends BaseService<SpecialRule, Long> {
 		if (EmptyUtil.isCollectionNotEmpty(specialRuleIds)) {
 			for (BigInteger specialRuleId : specialRuleIds) {
 				SpecialRule tempSpecialRule = findOne(specialRuleId.longValue());
-				if (maxNumber < tempSpecialRule.getLimitNumber()) {
+				if (maxNumber <= tempSpecialRule.getLimitNumber()) {
 					maxNumber = tempSpecialRule.getLimitNumber();
 					specialRule = tempSpecialRule;
 				}

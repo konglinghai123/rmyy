@@ -41,7 +41,7 @@
         		<table class="formtable">
               		<tr>
               			<td >通用名</td>
-              			<td ><input type="text" name="LIKE_commonName" /></td>
+              			<td ><input type="text" name="LIKE_commonName" style="width:140px;"/></td>
             			<td>匹配编号</td>
               			<td><input type="text" name="LIKE_matchNumber" style="width:120px;"/></td>              			
             			<td>简拼</td>

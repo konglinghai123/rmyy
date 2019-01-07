@@ -32,7 +32,6 @@ public interface GroupRelationRepository extends BaseRepository<GroupRelation, L
 	
 	// 无需删除用户 因为用户并不逻辑删除
 	@Modifying
-	@Query("delete from GroupRelation r where " + "not exists (select 1 from Group g where r.groupId = g.id) or "
-			+ "not exists(select 1 from Organization o where r.organizationId = o.id)")
+	@Query("delete from GroupRelation r where not exists (select 1 from Group g where r.groupId = g.id)")
 	void clearDeletedGroupRelation();
 }
