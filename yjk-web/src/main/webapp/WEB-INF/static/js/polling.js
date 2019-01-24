@@ -40,10 +40,10 @@ function Poll() {
 				        	   if (idx == 0){
 				        		   pro.push('<tr><td><span style="font-size:18px">' + (idx + 1) + '.' + item.title + '</span></td></tr>');
 				        	   } else {
-					        	   if (item.head){
-					        		   pro.push('<tr><td><span style="' + item.titleStyle + '">' + (idx + 1) + '.' + item.title + '</span></td></tr>');
-					        	   } else if (item.externalLinks != ""){
+				        		   if (item.externalLinks != ""){
 					        		   pro.push('<tr><td><a href="' + item.externalLinks + '" alt="' + item.title + '" target="_blank"><span style="' + item.titleStyle + '">'  + (idx + 1) + '.' +  item.title + '</span></a></td></tr>');   
+				        		   } else if (item.head){
+					        		   pro.push('<tr><td><span style="' + item.titleStyle + '">' + (idx + 1) + '.' + item.title + '</span></td></tr>');
 					        	   } else {
 					        		   pro.push('<tr><td><a href="javascript:void(0);" onclick="showMessageDetail('  +  item.id +  ');" alt="' + item.title + '"><span style="' + item.titleStyle + '">'  + (idx + 1) + '.' +  item.title + '</span></a></td></tr>');
 					        	   }

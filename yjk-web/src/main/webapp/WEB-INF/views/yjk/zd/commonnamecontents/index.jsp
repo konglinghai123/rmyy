@@ -124,6 +124,8 @@
 						</td>               			   				
            			</tr>  
            			<tr style="display: none;">
+              			<td>省招标药品ID</td>
+              			<td><input type="text" name="LIKE_bidDrugId" style="width:120px;"/></td>           			
               			<td>国家谈判品种</td>
               			<td><input type="text" name="LIKE_negotiationVariety" style="width:120px;"/></td>
               			<td>一致性评价</td>
@@ -132,7 +134,7 @@
               			<td><input type="text" name="LIKE_common.chemicalBigCategory" style="width:120px;"/></td>
             			<td>化药小类</td>
               			<td><input type="text" name="LIKE_common.chemicalSubCategory" style="width:120px;"/></td>                			   				
-           			</tr>            			          			
+           			</tr>    
            		</table>
           </form>
         </div>
