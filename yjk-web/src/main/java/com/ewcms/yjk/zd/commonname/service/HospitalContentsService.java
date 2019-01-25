@@ -228,6 +228,7 @@ public class HospitalContentsService extends BaseService<HospitalContents, Long>
 							}
 						}
 					}
+					
 					if(!isDisabledOriginalData){//增量导入，需要按照提取通用名，给药途径，编号，药品类型，院用目录通用名，生产企业，剂型,规格，包装数量,省招标通用名查重，重复记录的不保存
 						List<HospitalContents> repeatList = getHospitalContentsRepository().findByCommonCommonNameAndAdministrationIdAndCommonDrugCategoryAndCommonMatchNumberAndPillAndManufacturerAndCommonNameAndSpecificationsAndAmountAndCommonBidCommonNameAndDeletedFalse(extractCommonName, hospitalContents.getAdministration().getId(), dcEnum, matchNumber, hospitalContents.getPill(), hospitalContents.getManufacturer(), hospitalContents.getCommonName(),hospitalContents.getSpecifications(),hospitalContents.getAmount(),bidCommonName);
 						if(EmptyUtil.isCollectionNotEmpty(repeatList)){

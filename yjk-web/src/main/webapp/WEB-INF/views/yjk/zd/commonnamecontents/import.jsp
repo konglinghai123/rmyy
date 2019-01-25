@@ -17,7 +17,7 @@
 						<select id="isDisabledOriginalData" name="isDisabledOriginalData" class="easyui-combobox" data-options="panelHeight:'auto',panelWidth:'auto',editable:false,width:150">
 							<option value="">--选择导入方式--</option>
 							<option value="false">增量导入</option>
-							<option value="true">作废以前数据再导入</option>
+							<option value="true">初始或作废以前数据再导入</option>
 						</select>
 					</tr>					
 				</table>
@@ -38,7 +38,7 @@
 				 return;
 			 }
 			 if($('#isDisabledOriginalData').val()=='true'){
-				$.messager.confirm('提示', '确定要作废以前数据再导入吗？ <br/><font color="red">该操作会删除数据库大总目录所有数据，请慎重操作！！！</font>', function(r) {
+				$.messager.confirm('提示', '确定要作废以前数据再导入吗？ <br/><font color="red">该操作会先删除数据库大总目录所有数据再导入新数据，请慎重操作！！！</font>', function(r) {
 					if (r) {
 						document.forms[0].submit();
 						$.ewcms.addLoading();
