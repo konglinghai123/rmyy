@@ -80,6 +80,10 @@ public class CommonNameContentsService extends BaseService<CommonNameContents, L
 	public List<CommonNameContents> findCommonNameContentsByManufacturer(String manufacturer){
 		return getCommonNameContentsRepository().findCommonNameContentsByManufacturer(manufacturer);
 	}
+	
+	public CommonNameContents findByBidDrugIdAndDeletedFalse(String bidDrugId) {
+		return getCommonNameContentsRepository().findByBidDrugIdAndDeletedFalse(bidDrugId);
+	}
 	/**
 	 * 根据申报药品查找当前大目录匹配数据集合
 	 * 
@@ -304,10 +308,21 @@ public class CommonNameContentsService extends BaseService<CommonNameContents, L
 							commonNameContents.setRemark3(rows.getCell(j).getStringCellValue().trim());
 						}
 					}
-					if(!isDisabledOriginalData){//增量导入，需要按照提取通用名，给药途径，编号，药品类型，大目录通用名，生产企业，剂型,规格，包装数量,省招标通用名,省招标药品ID，国家ID，项目名称查重，重复记录的不保存
-						List<CommonNameContents> repeatList = getCommonNameContentsRepository().findByCommonCommonNameAndAdministrationIdAndCommonDrugCategoryAndCommonMatchNumberAndPillAndManufacturerAndCommonNameAndSpecificationsAndAmountAndCommonBidCommonNameAndBidDrugIdAndCountryIdAndProjectNameAndDeletedFalse(extractCommonName, commonNameContents.getAdministration().getId(), dcEnum, matchNumber, commonNameContents.getPill(), commonNameContents.getManufacturer(), commonNameContents.getCommonName(),commonNameContents.getSpecifications(),commonNameContents.getAmount(),bidCommonName, commonNameContents.getBidDrugId(), commonNameContents.getCountryId(), commonNameContents.getProjectName());
-						if(EmptyUtil.isCollectionNotEmpty(repeatList)){
-							noSave.add(i + 1);
+					if(!isDisabledOriginalData){
+						//增量导入，需要按照提取通用名，给药途径，编号，药品类型，大目录通用名，生产企业，剂型,规格，包装数量,省招标通用名,省招标药品ID，国家ID，项目名称查重，重复记录的不保存
+						//查重条件改变
+						//List<CommonNameContents> repeatList = getCommonNameContentsRepository().findByCommonCommonNameAndAdministrationIdAndCommonDrugCategoryAndCommonMatchNumberAndPillAndManufacturerAndCommonNameAndSpecificationsAndAmountAndCommonBidCommonNameAndBidDrugIdAndCountryIdAndProjectNameAndDeletedFalse(extractCommonName, commonNameContents.getAdministration().getId(), dcEnum, matchNumber, commonNameContents.getPill(), commonNameContents.getManufacturer(), commonNameContents.getCommonName(),commonNameContents.getSpecifications(),commonNameContents.getAmount(),bidCommonName, commonNameContents.getBidDrugId(), commonNameContents.getCountryId(), commonNameContents.getProjectName());
+						CommonNameContents repeatVo = getCommonNameContentsRepository().findByCommonMatchNumberAndBidDrugIdAndDeletedFalse(matchNumber, commonNameContents.getBidDrugId());
+						if(EmptyUtil.isNotNull(repeatVo)){
+							if(EmptyUtil.isNotNull(commonNameContents.getBidDrugId())) {
+								commonNameContents.setId(repeatVo.getId());
+								commonNameContents.setDeclared(repeatVo.getDeclared());
+								commonNameContents.setCommon(repeatVo.getCommon());
+								commonNameContents.setUpdateDate(new Date(Calendar.getInstance().getTime().getTime()));
+								super.update(commonNameContents);
+							}else {
+								noSave.add(i + 1);
+							}
 							continue;
 						}
 					}

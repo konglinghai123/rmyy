@@ -24,8 +24,8 @@
 					<td width="30%"><form:input path="commonName" cssClass="validate[required]" /></td>
 				</tr>
 				<tr>
-					<td width="20%"><form:label path="bidDrugId">省招标药品ID<font color="red">*</font>：</form:label></td>
-					<td width="30%"><form:input path="bidDrugId" cssClass="validate[required]" /></td>				
+					<td width="20%"><form:label path="bidDrugId">省招标药品ID：</form:label></td>
+					<td width="30%"><form:input path="bidDrugId" cssClass="validate[ajax[ajaxNameCall]]" /></td>				
 					<td><form:label path="administration">给药途径<font color="red">*</font>：</form:label></td>
 					<td><form:input path="administration" class="easyui-combobox" data-options="
 						width:150,
@@ -220,6 +220,11 @@
 				parent.$('#edit-window').window('close');
 			</c:when>
 			<c:otherwise>
+				$.validationEngineLanguage.allRules.ajaxNameCall= {
+	                "url": "${ctx}/yjk/zd/commonnamecontents/validate",
+	                extraDataDynamic : ['#id'],
+	                "alertTextLoad": "* 正在验证，请稍等。。。"
+	            };
 				var validationEngine = $("#editForm").validationEngine({
 					promptPosition : 'bottomRight',
 					showOneMessage : true

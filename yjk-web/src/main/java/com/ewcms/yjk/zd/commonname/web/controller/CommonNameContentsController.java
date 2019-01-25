@@ -29,7 +29,9 @@ import com.ewcms.common.entity.enums.BooleanEnum;
 import com.ewcms.common.entity.search.SearchHelper;
 import com.ewcms.common.entity.search.SearchParameter;
 import com.ewcms.common.entity.search.Searchable;
+import com.ewcms.common.utils.EmptyUtil;
 import com.ewcms.common.web.controller.BaseCRUDController;
+import com.ewcms.common.web.validate.ValidateResponse;
 import com.ewcms.yjk.zd.commonname.entity.CommonNameContents;
 import com.ewcms.yjk.zd.commonname.entity.DrugCategoryEnum;
 import com.ewcms.yjk.zd.commonname.service.CommonNameContentsService;
@@ -241,4 +243,25 @@ public class CommonNameContentsController extends BaseCRUDController<CommonNameC
 
 		return message;
 	}
+	
+	
+	@RequestMapping(value = "validate", method = RequestMethod.GET)
+    @ResponseBody
+    public Object validate(@RequestParam("fieldId") String fieldId, @RequestParam("fieldValue") String fieldValue,
+            @RequestParam(value = "id", required = false) Long id) {
+        ValidateResponse response = ValidateResponse.newInstance();
+       if ("bidDrugId".equals(fieldId)) {
+    	   if(EmptyUtil.isStringNotEmpty(fieldValue)){
+    		   CommonNameContents existVo =  getCommonNameContentsService().findByBidDrugIdAndDeletedFalse(fieldValue);
+	    	   if(existVo == null || (existVo.getId().equals(id) && existVo.getBidDrugId().equals(fieldValue))){
+	    		   response.validateSuccess(fieldId, "");
+	   			}else{
+	   			 response.validateFail(fieldId, "所填写的省招标药品ID已存在！");
+	   			}
+    	   }else{
+    		   response.validateSuccess(fieldId, "");
+    	   }
+        }
+        return response.result();
+    }	
 }

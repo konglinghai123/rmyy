@@ -45,7 +45,7 @@
 					}
 				});			 
 		 	}else{
-				$.messager.confirm('提示', '确定要增量导入新数据吗？<br/><font color="red">按照提取通用名，给药途径，编号，药品类型，大目录通用名，生产企业，剂型,规格，包装数量,省招标通用名,省招标药品ID，国家ID，项目名称查重，重复记录的不保存</font>', function(r) {
+				$.messager.confirm('提示', '确定要增量导入新数据吗？<br/><font color="red">按照匹配编号 ,省招标药品ID查重，重复记录自动修改，不重复的记录新增，省招标药品ID为空的不导入</font>', function(r) {
 					if (r) {
 						document.forms[0].submit();
 						$.ewcms.addLoading();
