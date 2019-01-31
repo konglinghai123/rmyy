@@ -67,33 +67,35 @@
         		<table class="formtable">
               		<tr>
               			<td>通用名</td>
-              			<td><input type="text" name="LIKE_common.commonName" style="width:140px;"/></td>
+              			<td><input type="text" name="LIKE_common.commonName" style="width:120px;"/></td>
             			<td>匹配编号</td>
-              			<td><input type="text" name="Like_common.matchNumber" style="width:140px;"/></td>
+              			<td><input type="text" name="Like_common.matchNumber" style="width:120px;"/></td>
               			<td>简拼</td>
-              			<td><input type="text" name="LIKE_common.spellSimplify" style="width:140px;"/></td>
+              			<td><input type="text" name="LIKE_common.spellSimplify" style="width:120px;"/></td>
               			<td>药品种类</td>
     					<td>
-           					<form:select  name="EQ_common.drugCategory" path="drugCategoryList" cssClass="easyui-combobox"  data-options="panelHeight:'auto',editable:false">
+           					<form:select  name="EQ_common.drugCategory" path="drugCategoryList" cssClass="easyui-combobox"  cssStyle="width:120px;" data-options="panelHeight:'auto',editable:false">
 					  			<form:option value="" label="---请选择---"/>
 					  			<form:options items="${drugCategoryList}" itemLabel="info"/>
 							</form:select>
 						</td>              			
-              			<td>
+              			<td colspan="2">
             				<a id="tb-query" href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="$.ewcms.query();">查询</a>
            					<a id="tb-clear" href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-clear'" onclick="javascript:$('#queryform').form('reset');">清除</a>
            					<a id="tb-more" href="javascript:void(0);" class="easyui-linkbutton" onclick="$.ewcms.moreQuery();"><span id="showHideLabel">更多</span></a>
            				</td>
            			</tr>
            			<tr style="display: none;">
+           				<td>省招标药品ID</td>
+              			<td><input type="text" name="LIKE_bidDrugId" style="width:120px;"/></td>
               			<td>生产企业</td>
-              			<td><input type="text" name="LIKE_manufacturer" style="width:140px;"/></td>
+              			<td><input type="text" name="LIKE_manufacturer" style="width:120px;"/></td>
               			<td>项目名称</td>
-              			<td><input type="text" name="LIKE_projectName" style="width:140px;"/></td>
+              			<td><input type="text" name="LIKE_projectName" style="width:120px;"/></td>
             			<td>规格</td>
-              			<td><input type="text" name="LIKE_specifications" style="width:140px;"/></td>
+              			<td><input type="text" name="LIKE_specifications" style="width:120px;"/></td>
             			<td>批次</td>
-              			<td><input type="text" name="LIKE_batch" style="width:140px;"/></td>                  			   				
+              			<td><input type="text" name="LIKE_batch" style="width:120px;"/></td>                  			   				
            			</tr>
            		</table>
           </form>          
