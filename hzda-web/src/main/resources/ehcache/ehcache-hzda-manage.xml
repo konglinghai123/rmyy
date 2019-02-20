@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE xml>
-<ehcache updateCheck="false" name="yjk-web">
+<ehcache updateCheck="false" name="hzda-web">
 
-    <diskStore path="java.io.tmpdir/ehcache/yjk-web/manage"/>
+    <diskStore path="java.io.tmpdir/ehcache/hzda-web/manage"/>
 
     <defaultCache
             maxEntriesLocalHeap="1000"
@@ -13,7 +13,7 @@
     </defaultCache>
 
     <!-- 登录记录缓存 锁定10分钟 -->
-    <!-- 在/yjk-web/src/main/java/com/ewcms/security/user/service/PasswordService.java中 -->
+    <!-- 在/src/main/java/com/ewcms/security/user/service/PasswordService.java中 -->
     <cache name="loginRecordCache"
            maxEntriesLocalHeap="2000"
            eternal="false"
@@ -24,7 +24,7 @@
     </cache>
 
     <!-- 系统用户缓存  没必要过期 -->
-    <!-- 在/yjk-web/src/main/java/com/ewcms/extra/aop/UserCacheAspect.java中 -->
+    <!-- 在/src/main/java/com/ewcms/extra/aop/UserCacheAspect.java中 -->
     <cache name="ewcms-userCache"
            maxEntriesLocalHeap="10000"
            overflowToDisk="false"
@@ -35,7 +35,7 @@
            statistics="true"/>
 
     <!-- 系统用户授权缓存  没必要过期 -->
-    <!-- 在/yjk-web/src/main/java/com/ewcms/extra/aop/UserAuthCacheAspect.java中 -->
+    <!-- 在/src/main/java/com/ewcms/extra/aop/UserAuthCacheAspect.java中 -->
     <cache name="ewcms-authCache"
            maxEntriesLocalHeap="10000"
            overflowToDisk="false"
@@ -47,7 +47,7 @@
            statistics="true"/>
 
     <!-- 菜单缓存  没必要过期 -->
-    <!-- 在/yjk-web/src/main/java/com/ewcms/extra/aop/ResourceMenuCacheAspect.java中 -->
+    <!-- 在/src/main/java/com/ewcms/extra/aop/ResourceMenuCacheAspect.java中 -->
     <cache name="ewcms-menuCache"
            maxEntriesLocalHeap="10000"
            overflowToDisk="false"
@@ -68,7 +68,7 @@
            statistics="true"/>
            
     <!-- shiro 会话缓存 不需要序列化到磁盘 此处我们放到db中了 此处cache没必要过期 因为我们存放到db了 -->
-    <!-- 在/yjk-web/src/main/resources/resources.properties中 -->
+    <!-- 在/src/main/resources/resources.properties中 -->
     <cache name="shiro-activeSessionCache"
            maxEntriesLocalHeap="10000"
            overflowToDisk="false"
