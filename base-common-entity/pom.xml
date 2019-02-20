@@ -8,9 +8,9 @@
 		<version>1.0.0</version>
 		<relativePath>../parent/pom.xml</relativePath>
 	</parent>
-  <groupId>com.ewcms</groupId>
+
   <artifactId>base-common-entity</artifactId>
-  <version>1.0.0</version>
+  <packaging>jar</packaging>
   <name>base-common-entity</name>
   <url>https://github.com/ewcmsfree/rmyy/base-common-entity</url>
     <properties>

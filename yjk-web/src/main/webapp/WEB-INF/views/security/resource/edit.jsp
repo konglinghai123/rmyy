@@ -55,7 +55,7 @@
 				    		<c:if test="${fn:length(parentIdList)==2}">
 				    			<tr>
 				    				<td><form:label path="style">菜单风格</form:label></td>
-				    				<td><form:select path="style" items="${styles}" itemLabel="info" cssClass="easyui-combobox" data-options="panelHeight:'auto'"/></td>
+				    				<td><form:select path="style" items="${styles}" itemLabel="info" cssClass="easyui-combobox" data-options="width:120,panelHeight:'auto',editable:false"/></td>
 				    			</tr>
 				    		</c:if>
 					   		<tr>

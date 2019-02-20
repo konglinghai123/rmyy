@@ -2,7 +2,7 @@
 
 -- DROP DATABASE yjk;
 
-CREATE DATABASE fzda
+CREATE DATABASE hzda
   WITH OWNER = postgres
        ENCODING = 'UTF8'
        TABLESPACE = pg_default

@@ -14,7 +14,6 @@
 	<modules>
 		<module>../base-common</module>
 		<!-- <module>../base-entity</module>  -->
-		<module>../base-post-entity</module>
 		<module>../base-externalds</module>
 		<module>../base-report</module>
 		<module>../base-scheduling</module>
@@ -28,7 +27,11 @@
 		<!-- 追溯查询 -->
 		<!-- <module>../trace-web</module> -->
 		<!-- <module>../weixin-web</module> -->
+		<!-- 
+		<module>../base-post-entity</module>
 		<module>../yjk-web</module>
+		-->
+		<module>../base-common-entity</module>
 		<module>../hzda-web</module>
 	</modules>
 

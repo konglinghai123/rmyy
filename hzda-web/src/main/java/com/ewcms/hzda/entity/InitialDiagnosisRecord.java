@@ -34,7 +34,7 @@ import com.ewcms.common.plugin.entity.LogicDeleteable;
  * <li>complained:主诉(对象)</li>
  * <li>presentIllness:现病史(对象)</li>
  * <li>anamnesis:既往史(对象)</li>
- * <li>anamnesis:用药史(对象)</li>
+ * <li>pharmacy:用药史(对象)</li>
  * <li>cataclasis:骨折史(对象)</li>
  * <li>operation:手术史(对象)</li>
  * <li>personal:个人史(对象)</li>
@@ -43,7 +43,7 @@ import com.ewcms.common.plugin.entity.LogicDeleteable;
  * <li>renalTransplant:肾移植患者(对象)</li>
  * <li>examined:查体(对象)</li>
  * <li>diagnosis:诊断(对象)</li>
- * <li>diagnosticMeasures:诊断措施(对象)</li>
+ * <li>diagnosticMeasures:诊疗措施(对象)</li>
  * <li>examinationLaboratoryResults:检查及化验结果(对象)</li>
  * <li>boneDensity:骨密度(对象)</li>
  * <li>fracture:影像学检查:骨折(对象)</li>
@@ -73,75 +73,79 @@ public class InitialDiagnosisRecord extends BaseSequenceEntity<Long> implements 
 	private Date recordingTime;
     @Column(name = "is_deleted")
     private Boolean deleted = Boolean.FALSE;
-	@ManyToOne(cascade = {CascadeType.REFRESH},fetch = FetchType.EAGER)
+	@ManyToOne(cascade = {CascadeType.REFRESH},fetch = FetchType.LAZY)
     @Fetch(FetchMode.SELECT)
     @JoinColumn(name = "general_information_id")
     private GeneralInformation generalInformation;
-	@ManyToOne(cascade = {CascadeType.REFRESH},fetch = FetchType.EAGER)
+	@ManyToOne(cascade = {CascadeType.REFRESH},fetch = FetchType.LAZY)
     @Fetch(FetchMode.SELECT)
     @JoinColumn(name = "complained_id")
 	private Complained complained;
-	@ManyToOne(cascade = {CascadeType.REFRESH},fetch = FetchType.EAGER)
+	@ManyToOne(cascade = {CascadeType.REFRESH},fetch = FetchType.LAZY)
     @Fetch(FetchMode.SELECT)
     @JoinColumn(name = "present_illness_id")
 	private PresentIllness presentIllness;
-	@ManyToOne(cascade = {CascadeType.REFRESH},fetch = FetchType.EAGER)
+	@ManyToOne(cascade = {CascadeType.REFRESH},fetch = FetchType.LAZY)
     @Fetch(FetchMode.SELECT)
     @JoinColumn(name = "anamnesis_id")
 	private Anamnesis anamnesis;
-	@ManyToOne(cascade = {CascadeType.REFRESH},fetch = FetchType.EAGER)
+	@ManyToOne(cascade = {CascadeType.REFRESH},fetch = FetchType.LAZY)
+    @Fetch(FetchMode.SELECT)
+    @JoinColumn(name = "pharmacy_id")
+	private Pharmacy pharmacy;
+	@ManyToOne(cascade = {CascadeType.REFRESH},fetch = FetchType.LAZY)
     @Fetch(FetchMode.SELECT)
     @JoinColumn(name = "cataclasis_id")
 	private Cataclasis cataclasis;
-	@ManyToOne(cascade = {CascadeType.REFRESH},fetch = FetchType.EAGER)
+	@ManyToOne(cascade = {CascadeType.REFRESH},fetch = FetchType.LAZY)
     @Fetch(FetchMode.SELECT)
     @JoinColumn(name = "operation_id")
 	private Operation operation;
-	@ManyToOne(cascade = {CascadeType.REFRESH},fetch = FetchType.EAGER)
+	@ManyToOne(cascade = {CascadeType.REFRESH},fetch = FetchType.LAZY)
     @Fetch(FetchMode.SELECT)
     @JoinColumn(name = "personal_id")
 	private Personal personal;
-	@ManyToOne(cascade = {CascadeType.REFRESH},fetch = FetchType.EAGER)
+	@ManyToOne(cascade = {CascadeType.REFRESH},fetch = FetchType.LAZY)
     @Fetch(FetchMode.SELECT)
     @JoinColumn(name = "marriage_bearing_id")
 	private MarriageBearing marriageBearing;
-	@ManyToOne(cascade = {CascadeType.REFRESH},fetch = FetchType.EAGER)
+	@ManyToOne(cascade = {CascadeType.REFRESH},fetch = FetchType.LAZY)
     @Fetch(FetchMode.SELECT)
     @JoinColumn(name = "family_id")
 	private Family family;
-	@ManyToOne(cascade = {CascadeType.REFRESH},fetch = FetchType.EAGER)
+	@ManyToOne(cascade = {CascadeType.REFRESH},fetch = FetchType.LAZY)
     @Fetch(FetchMode.SELECT)
     @JoinColumn(name = "renal_transplant_id")
 	private RenalTransplant renalTransplant;
-	@ManyToOne(cascade = {CascadeType.REFRESH},fetch = FetchType.EAGER)
+	@ManyToOne(cascade = {CascadeType.REFRESH},fetch = FetchType.LAZY)
     @Fetch(FetchMode.SELECT)
     @JoinColumn(name = "examined_id")
 	private Examined examined;
-	@ManyToOne(cascade = {CascadeType.REFRESH},fetch = FetchType.EAGER)
+	@ManyToOne(cascade = {CascadeType.REFRESH},fetch = FetchType.LAZY)
     @Fetch(FetchMode.SELECT)
     @JoinColumn(name = "diagnosis_id")
 	private Diagnosis diagnosis;
-	@ManyToOne(cascade = {CascadeType.REFRESH},fetch = FetchType.EAGER)
+	@ManyToOne(cascade = {CascadeType.REFRESH},fetch = FetchType.LAZY)
     @Fetch(FetchMode.SELECT)
     @JoinColumn(name = "diagnostic_measures_id")
 	private DiagnosticMeasures diagnosticMeasures;
-	@ManyToOne(cascade = {CascadeType.REFRESH},fetch = FetchType.EAGER)
+	@ManyToOne(cascade = {CascadeType.REFRESH},fetch = FetchType.LAZY)
     @Fetch(FetchMode.SELECT)
     @JoinColumn(name = "examination_laboratory_results_id")
 	private ExaminationLaboratoryResults examinationLaboratoryResults;
-	@ManyToOne(cascade = {CascadeType.REFRESH},fetch = FetchType.EAGER)
+	@ManyToOne(cascade = {CascadeType.REFRESH},fetch = FetchType.LAZY)
     @Fetch(FetchMode.SELECT)
     @JoinColumn(name = "boneDensity_id")
 	private BoneDensity boneDensity;
-	@ManyToOne(cascade = {CascadeType.REFRESH},fetch = FetchType.EAGER)
+	@ManyToOne(cascade = {CascadeType.REFRESH},fetch = FetchType.LAZY)
     @Fetch(FetchMode.SELECT)
     @JoinColumn(name = "fracture_id")
 	private Fracture fracture;
-	@ManyToOne(cascade = {CascadeType.REFRESH},fetch = FetchType.EAGER)
+	@ManyToOne(cascade = {CascadeType.REFRESH},fetch = FetchType.LAZY)
     @Fetch(FetchMode.SELECT)
     @JoinColumn(name = "fracture_other_id")
 	private FractureOther fractureOther;
-	@ManyToOne(cascade = {CascadeType.REFRESH},fetch = FetchType.EAGER)
+	@ManyToOne(cascade = {CascadeType.REFRESH},fetch = FetchType.LAZY)
     @Fetch(FetchMode.SELECT)
     @JoinColumn(name = "medication_record_id")
 	private MedicationRecord medicationRecord;
