@@ -12,8 +12,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.format.support.DefaultFormattingConversionService;
 
-import com.ewcms.common.entity.User;
-import com.ewcms.common.entity.UserStatus;
+import com.ewcms.common.entity.UserStatusTest;
+import com.ewcms.common.entity.UserTest;
 import com.ewcms.common.entity.search.exception.InvlidSearchOperatorException;
 import com.ewcms.common.entity.search.filter.SearchFilterHelper;
 import com.ewcms.common.entity.search.utils.SearchableConvertUtils;
@@ -238,11 +238,11 @@ public class SearchableTest {
 		searchable.addSearchParam("EQ_status", "normal");
 		searchable.addSearchParam("IN_id", new String[]{"1", "2", "3"});
 		
-		searchable.convert(User.class);
+		searchable.convert(UserTest.class);
 		
 		Assert.assertTrue(searchable.isConverted());
 		
-		Assert.assertEquals(UserStatus.normal, searchable.getValue("EQ_status"));
+		Assert.assertEquals(UserStatusTest.normal, searchable.getValue("EQ_status"));
 		
 		Assert.assertEquals(3, ((ArrayList)searchable.getValue("IN_id")).size());
 		
