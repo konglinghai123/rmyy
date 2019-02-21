@@ -11,13 +11,14 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
-import org.hibernate.validator.constraints.NotEmpty;
+import org.hibernate.annotations.Formula;
+import org.springframework.format.annotation.DateTimeFormat;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.ewcms.common.entity.BaseSequenceEntity;
-import com.ewcms.common.utils.PatternUtils;
 import com.ewcms.hzda.zd.entity.CertificateType;
 import com.ewcms.hzda.zd.entity.Nation;
 
@@ -25,6 +26,10 @@ import com.ewcms.hzda.zd.entity.Nation;
  * 一般信息
  * 
  * <ul>
+ * <li>userId:医生编号</li>
+ * <li>realName:医生姓名</li>
+ * <li>organizationNames:医院名称</li>
+ * <li>recordingTime:记录时间</li>
  * <li>totalNumber:总编号</li>
  * <li>transplantNumber:移植编号</li>
  * <li>name:姓名</li>
@@ -54,7 +59,7 @@ import com.ewcms.hzda.zd.entity.Nation;
 public class GeneralInformation extends BaseSequenceEntity<Long> {
 
 	private static final long serialVersionUID = -6771018256614165122L;
-	
+
 	public enum Sex {
 		MALE("男"), FEMALE("女");
 
@@ -69,6 +74,18 @@ public class GeneralInformation extends BaseSequenceEntity<Long> {
 		}
 	}
 
+	@Column(name = "user_id")
+	private Long userId;
+	@Formula(value = "(select s_o.realname  from sec_user s_o where s_o.id=user_id)")
+	private String realName;
+	@Column(name = "organization_id")
+	private Long organizationId;
+	@Formula(value = "(select s_o.name from sec_organization s_o where s_o.id=organization_id)")
+	private String organizationName;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@Column(name = "recording_time", columnDefinition = "Timestamp default CURRENT_DATE", insertable = false, updatable = false)
+	@Temporal(TemporalType.DATE)
+	private Date recordingTime;
 	@Column(name = "total_number")
 	private String totalNumber;
 	@Column(name = "transplant_number")
@@ -82,9 +99,10 @@ public class GeneralInformation extends BaseSequenceEntity<Long> {
 	@Enumerated(EnumType.STRING)
 	@Column(name = "sex")
 	private Sex sex = Sex.MALE;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@Temporal(TemporalType.DATE)
 	@Column(name = "birthday")
 	private Date birthday;
-	@NotNull(message = "{not.null}")
 	@OneToOne(cascade = { CascadeType.REFRESH }, targetEntity = Nation.class)
 	@JoinColumn(name = "nation_id")
 	private Nation nation;
@@ -94,7 +112,6 @@ public class GeneralInformation extends BaseSequenceEntity<Long> {
 	private String occupation;
 	@Column(name = "address")
 	private String address;
-	@NotNull(message = "{not.null}")
 	@OneToOne(cascade = { CascadeType.REFRESH }, targetEntity = CertificateType.class)
 	@JoinColumn(name = "certificate_type_id")
 	private CertificateType certificateType;
@@ -102,13 +119,185 @@ public class GeneralInformation extends BaseSequenceEntity<Long> {
 	private String certificateNumber;
 	@Column(name = "medicalI_insurance_number")
 	private String medicalInsuranceNumber;
-    @NotEmpty(message = "{not.null}")
-    @Pattern(regexp = PatternUtils.MOBILE_PHONE_NUMBER_PATTERN, message = "{user.mobile.phone.number.not.valid}")
-    @Column(name = "mobile_phone_number")
-    private String mobilePhoneNumber;
-    @Column(name = "other_telephone")
-    private String otherTelephone;
-    @Column(name = "remakrs", columnDefinition = "text")
-    private String remakrs;
+	@Column(name = "mobile_phone_number")
+	private String mobilePhoneNumber;
+	@Column(name = "other_telephone")
+	private String otherTelephone;
+	@Column(name = "remakrs", columnDefinition = "text")
+	private String remakrs;
+
+	public Long getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Long userId) {
+		this.userId = userId;
+	}
+
+	public Long getOrganizationId() {
+		return organizationId;
+	}
+
+	public void setOrganizationId(Long organizationId) {
+		this.organizationId = organizationId;
+	}
+
+	@JSONField(format = "yyyy-MM-dd")
+	public Date getRecordingTime() {
+		return recordingTime;
+	}
+
+	public void setRecordingTime(Date recordingTime) {
+		this.recordingTime = recordingTime;
+	}
+
+	public String getTotalNumber() {
+		return totalNumber;
+	}
+
+	public void setTotalNumber(String totalNumber) {
+		this.totalNumber = totalNumber;
+	}
+
+	public String getTransplantNumber() {
+		return transplantNumber;
+	}
+
+	public void setTransplantNumber(String transplantNumber) {
+		this.transplantNumber = transplantNumber;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getHospitalizationNumber() {
+		return hospitalizationNumber;
+	}
+
+	public void setHospitalizationNumber(String hospitalizationNumber) {
+		this.hospitalizationNumber = hospitalizationNumber;
+	}
+
+	public String getMaNumber() {
+		return maNumber;
+	}
+
+	public void setMaNumber(String maNumber) {
+		this.maNumber = maNumber;
+	}
+
+	public Sex getSex() {
+		return sex;
+	}
+
+	public void setSex(Sex sex) {
+		this.sex = sex;
+	}
+
+	public String getSexDescription() {
+		return sex == null ? "" : sex.getDescription();
+	}
+	
+	@JSONField(format = "yyyy-MM-dd")
+	public Date getBirthday() {
+		return birthday;
+	}
+
+	public void setBirthday(Date birthday) {
+		this.birthday = birthday;
+	}
+
+	public Nation getNation() {
+		return nation;
+	}
+
+	public void setNation(Nation nation) {
+		this.nation = nation;
+	}
+
+	public String getDegreeEducation() {
+		return degreeEducation;
+	}
+
+	public void setDegreeEducation(String degreeEducation) {
+		this.degreeEducation = degreeEducation;
+	}
+
+	public String getOccupation() {
+		return occupation;
+	}
+
+	public void setOccupation(String occupation) {
+		this.occupation = occupation;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public CertificateType getCertificateType() {
+		return certificateType;
+	}
+
+	public void setCertificateType(CertificateType certificateType) {
+		this.certificateType = certificateType;
+	}
+
+	public String getCertificateNumber() {
+		return certificateNumber;
+	}
+
+	public void setCertificateNumber(String certificateNumber) {
+		this.certificateNumber = certificateNumber;
+	}
+
+	public String getMedicalInsuranceNumber() {
+		return medicalInsuranceNumber;
+	}
+
+	public void setMedicalInsuranceNumber(String medicalInsuranceNumber) {
+		this.medicalInsuranceNumber = medicalInsuranceNumber;
+	}
+
+	public String getMobilePhoneNumber() {
+		return mobilePhoneNumber;
+	}
+
+	public void setMobilePhoneNumber(String mobilePhoneNumber) {
+		this.mobilePhoneNumber = mobilePhoneNumber;
+	}
+
+	public String getOtherTelephone() {
+		return otherTelephone;
+	}
+
+	public void setOtherTelephone(String otherTelephone) {
+		this.otherTelephone = otherTelephone;
+	}
+
+	public String getRemakrs() {
+		return remakrs;
+	}
+
+	public void setRemakrs(String remakrs) {
+		this.remakrs = remakrs;
+	}
+
+	public String getRealName() {
+		return realName;
+	}
+
+	public String getOrganizationName() {
+		return organizationName;
+	}
 
 }
