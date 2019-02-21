@@ -34,4 +34,6 @@ public class Anamnesis extends BaseSequenceEntity<Long>{
 	private Long organizationId;
 	@Formula(value = "(select s_o.name from sec_organization s_o where s_o.id=organization_id)")
 	private String organizationName;
+	@Column(name = "general_information_id")
+	private Long generalInformationId;
 }
