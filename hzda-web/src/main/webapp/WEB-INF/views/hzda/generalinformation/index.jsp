@@ -69,7 +69,31 @@
 	</div>
 	<ewcms:editWindow/>
 <ewcms:footer/>
+<script type="text/javascript" src="${ctx}/static/easyui/ext/datagrid-detailview.js"></script>
 <script type="text/javascript">
+	$(function(){
+		var pathname = window.location.pathname;
+		alert(pathname);
+		if (pathname != '${ctx}/hzda/generalinformation/index'){
+			$('#tt').datagrid({
+				view : detailview,
+				detailFormatter : function(rowIndex, rowData) {
+					return '<div id="ddv-' + rowIndex + '" style="padding:2px"></div>';
+				},
+				onExpandRow: function(rowIndex, rowData){
+					$('#ddv-' + rowIndex).panel({
+						border:true,
+						cache:false,
+						content: '<iframe src="' + pathname + '/' + rowData.id + '" frameborder="0" width="40%" height="250px" scrolling="auto"></iframe>',
+						onLoad:function(){
+							$('#tt').datagrid('fixDetailRowHeight',rowIndex);
+						}
+					});
+					$('#tt').datagrid('fixDetailRowHeight',rowIndex);
+				}
+			});
+		}
+	});
 	function formatTooltip(val, row){
 		return val != null ? '<span title="' + val + '" class="easyui-tooltip">' + val + '</span>' : '';
 	}
