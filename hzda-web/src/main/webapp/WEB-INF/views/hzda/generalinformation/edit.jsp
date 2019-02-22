@@ -25,8 +25,8 @@
 						<td><form:input path="hospitalizationNumber"/>
 					</tr>
 					<tr>
-						<td><form:label path="maNumber">MA号：</form:label></td>
-						<td><form:input path="maNumber"/></td>
+						<td><form:label path="dxaNumber">DXA号：</form:label></td>
+						<td><form:input path="dxaNumber"/></td>
 						<td><form:label path="sex">性别：</form:label></td>
 						<td><form:radiobuttons path="sex" items="${sexList}" itemLabel="description" delimiter="&nbsp;"/></td>
 					</tr>

@@ -35,7 +35,7 @@ import com.ewcms.hzda.zd.entity.Nation;
  * <li>transplantNumber:移植编号</li>
  * <li>name:姓名</li>
  * <li>hospitalizationNumber:住院号</li>
- * <li>maNumber:MA号</li>
+ * <li>dxaNumber:DXA号</li>
  * <li>sex:性别(枚举)</li>
  * <li>birthday:出生年月</li>
  * <li>nation:民族(对象)</li>
@@ -95,8 +95,8 @@ public class GeneralInformation extends BaseSequenceEntity<Long> {
 	private String name;
 	@Column(name = "hospitalization_number")
 	private String hospitalizationNumber;
-	@Column(name = "ma_number")
-	private String maNumber;
+	@Column(name = "dxa_number")
+	private String dxaNumber;
 	@Enumerated(EnumType.STRING)
 	@Column(name = "sex")
 	private Sex sex = Sex.MALE;
@@ -184,12 +184,12 @@ public class GeneralInformation extends BaseSequenceEntity<Long> {
 		this.hospitalizationNumber = hospitalizationNumber;
 	}
 
-	public String getMaNumber() {
-		return maNumber;
+	public String getDxaNumber() {
+		return dxaNumber;
 	}
 
-	public void setMaNumber(String maNumber) {
-		this.maNumber = maNumber;
+	public void setMaNumber(String dxaNumber) {
+		this.dxaNumber = dxaNumber;
 	}
 
 	public Sex getSex() {

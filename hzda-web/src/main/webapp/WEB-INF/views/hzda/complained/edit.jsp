@@ -8,9 +8,6 @@
 		 	<form:form id="editForm" method="post" action="${ctx}/hzda/complained/save/${generalInformationId}" commandName="m"  class="form-horizontal">
 		    	<ewcms:showGlobalError commandName="m"/>
 		    	<form:hidden path="id"/>
-		    	<form:hidden path="userId"/>
-		    	<form:hidden path="organizationId"/>
-		    	<form:hidden path="generalInformationId"/>
 			  	<table class="formtable">
 		        	<tr>
 						<td width="20%"><form:label path="content">主诉内容：</form:label></td>

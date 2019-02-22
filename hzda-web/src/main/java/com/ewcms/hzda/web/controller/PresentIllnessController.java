@@ -17,50 +17,50 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.ewcms.common.Constants;
 import com.ewcms.common.utils.MessageUtils;
 import com.ewcms.common.web.controller.BaseCRUDController;
-import com.ewcms.hzda.entity.Complained;
 import com.ewcms.hzda.entity.GeneralInformation;
-import com.ewcms.hzda.service.ComplainedService;
+import com.ewcms.hzda.entity.PresentIllness;
+import com.ewcms.hzda.service.PresentIllnessService;
 import com.ewcms.hzda.web.controller.util.HzdaUtil;
 import com.ewcms.security.user.entity.User;
 import com.ewcms.security.user.web.bind.annotation.CurrentUser;
 
 @Controller
-@RequestMapping(value = "/hzda/complained")
-public class ComplainedController extends BaseCRUDController<Complained, Long> {
+@RequestMapping(value = "/hzda/presentillness")
+public class PresentIllnessController extends BaseCRUDController<PresentIllness, Long> {
 
-	private ComplainedService getComplainedService() {
-		return (ComplainedService) baseService;
+	private PresentIllnessService getPresentIllnessService() {
+		return (PresentIllnessService) baseService;
 	}
-
+	
 	@Override
 	public String index(Model model) {
 		return HzdaUtil.HZDA_GENERAL_INFORMATION_INDEX_URL;
 	}
-
+	
 	@RequestMapping(value = "index/{generalInformationId}")
 	public String showSaveForm(@CurrentUser User user,
 			@PathVariable(value = "generalInformationId") GeneralInformation generalInformation, Model model, RedirectAttributes redirectAttributes) {
 		if (!user.getAdmin() && user.getId() != generalInformation.getUserId())
 			throw new UnauthorizedException(MessageUtils.message("no.permission", "no.view.permission"));
 
-		Complained complained = getComplainedService().findByGeneralInformationId(generalInformation.getId());
-		if (complained == null) {
-			complained = new Complained();
+		PresentIllness presentIllness = getPresentIllnessService().findByGeneralInformationId(generalInformation.getId());
+		if (presentIllness == null) {
+			presentIllness = new PresentIllness();
 		}
 		model.addAttribute("generalInformationId", generalInformation.getId());
-		model.addAttribute("m", complained);
+		model.addAttribute("m", presentIllness);
 
 		return viewName("edit");
 	}
 
 	@Override
 	@RequestMapping(value = "save/discard", method = RequestMethod.POST)
-	public String save(Model model, Complained m, BindingResult result, List<Long> selections) {
+	public String save(Model model, PresentIllness m, BindingResult result, List<Long> selections) {
 		throw new RuntimeException("discarded method");
 	}
 
 	@RequestMapping(value = "save/{generalInformationId}", method = RequestMethod.POST)
-	public String save(Model model, @Valid @ModelAttribute("m") Complained m, BindingResult result, @CurrentUser User user, @PathVariable(value = "generalInformationId") GeneralInformation generalInformation, RedirectAttributes redirectAttributes) {
+	public String save(Model model, @Valid @ModelAttribute("m") PresentIllness m, BindingResult result, @CurrentUser User user, @PathVariable(value = "generalInformationId") GeneralInformation generalInformation, RedirectAttributes redirectAttributes) {
 		if (hasError(m, result)) {
 			return showSaveForm(user, generalInformation, model, redirectAttributes);
 		}

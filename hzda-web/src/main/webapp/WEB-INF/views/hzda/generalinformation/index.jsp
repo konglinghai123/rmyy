@@ -13,7 +13,7 @@
 				<th data-options="field:'transplantNumber',sortable:true,width:100">移植编号</th>
 				<th data-options="field:'name',sortable:true,width:120">姓名</th>
 				<th data-options="field:'hospitalizationNumber',sortable:true,width:100">住院号</th>
-				<th data-options="field:'maNumber',sortable:true,width:100">MA号</th>
+				<th data-options="field:'dxaNumber',sortable:true,width:100">DXA号</th>
 				<th data-options="field:'sex',width:60,sortable:true,
 						formatter:function(val,row){
 							return row.sexDescription;

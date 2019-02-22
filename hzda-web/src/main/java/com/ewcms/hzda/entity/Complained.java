@@ -31,7 +31,7 @@ public class Complained extends BaseSequenceEntity<Long>{
 
 	private static final long serialVersionUID = -9150592695635962934L;
 	
-	@Column(name = "user_id")
+	@Column(name = "user_id", nullable = false)
 	private Long userId;
 	@Formula(value = "(select s_o.realname  from sec_user s_o where s_o.id=user_id)")
 	private String realName;
