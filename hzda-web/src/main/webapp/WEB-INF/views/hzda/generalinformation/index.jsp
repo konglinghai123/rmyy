@@ -73,7 +73,6 @@
 <script type="text/javascript">
 	$(function(){
 		var pathname = window.location.pathname;
-		alert(pathname);
 		if (pathname != '${ctx}/hzda/generalinformation/index'){
 			$('#tt').datagrid({
 				view : detailview,
