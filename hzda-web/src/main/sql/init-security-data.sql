@@ -89,9 +89,11 @@ insert into sec_resource(id, icon, identity, name, parent_id, parent_ids, is_sho
 ,(131,'ztree_file','fracture','影像学检查：骨折',114,'0/1/114/','true',null,'/hzda/fracture/index',17)
 ,(132,'ztree_file','fractureother','其它相关检查',114,'0/1/114/','true',null,'/hzda/fractureother/index',18)
 ,(133,'ztree_file','medicationrecord','用药记录',114,'0/1/114/','true',null,'/hzda/medicationrecord/index',19)
-
+,(134,'ztree_file','zd','字典管理',1,'0/1/','true','accordion','',9)
+,(135,'rmyy-system-externalds-tree','nation','民族',134,'0/1/134/','true',null,'/hzda/zd/nation/index',3)
+,(136,'rmyy-system-icon-tree','certificatetype','证件类型',134,'0/1/134/','true',null,'/hzda/zd/certificatetype/index',2)
 ;
-select setval('seq_sec_resource_id', 133);
+select setval('seq_sec_resource_id', 136);
 
 /**
  * 权限初始化
