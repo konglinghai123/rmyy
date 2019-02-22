@@ -24,19 +24,23 @@ import com.ewcms.common.entity.search.SearchParameter;
 import com.ewcms.common.entity.search.Searchable;
 import com.ewcms.common.web.controller.BaseCRUDController;
 import com.ewcms.common.web.validate.AjaxResponse;
-import com.ewcms.hzda.entity.MedicationRecord;
+import com.ewcms.hzda.entity.BoneDensity;
 import com.ewcms.hzda.web.controller.util.HzdaUtil;
 import com.ewcms.security.user.entity.User;
 import com.ewcms.security.user.web.bind.annotation.CurrentUser;
 
 @Controller
-@RequestMapping(value = "/hzda/medicationrecord")
-public class MedicationRecordController extends BaseCRUDController<MedicationRecord, Long> {
-	public MedicationRecordController() {
-		//setListAlsoSetCommonData(true);
-		setResourceIdentity("hzda:medicationrecord");
+@RequestMapping(value = "/hzda/bonedensity")
+public class BoneDensityController extends	BaseCRUDController<BoneDensity, Long> {
+//	private FractureOtherService getFractureOtherService() {
+//		return (FractureOtherService) baseService;
+//	}
+
+	public BoneDensityController() {
+		// setListAlsoSetCommonData(true);
+		setResourceIdentity("hzda:bonedensity");
 	}
-	
+
 	@Override
 	public String index(Model model) {
 		return HzdaUtil.HZDA_GENERAL_INFORMATION_INDEX_URL;
@@ -55,8 +59,8 @@ public class MedicationRecordController extends BaseCRUDController<MedicationRec
 	
 	@RequestMapping(value = "query/{generalInformationId}")
 	@ResponseBody
-	public List<MedicationRecord> query(@ModelAttribute SearchParameter<Long> searchParameter, @PathVariable(value = "generalInformationId")Long generalInformationId){
-		Searchable searchable = SearchHelper.parameterConverSearchable(searchParameter, MedicationRecord.class);
+	public List<BoneDensity> query(@ModelAttribute SearchParameter<Long> searchParameter, @PathVariable(value = "generalInformationId")Long generalInformationId){
+		Searchable searchable = SearchHelper.parameterConverSearchable(searchParameter, BoneDensity.class);
 		searchable.addSearchFilter("generalInformationId", SearchOperator.EQ, generalInformationId);
 		searchable.addSort(Direction.DESC, "id");
 		
@@ -76,12 +80,12 @@ public class MedicationRecordController extends BaseCRUDController<MedicationRec
 	
 	@Override
 	@RequestMapping(value = "save/discard", method = RequestMethod.POST)
-	public String save(Model model, MedicationRecord m, BindingResult result, List<Long> selections) {
+	public String save(Model model, BoneDensity m, BindingResult result, List<Long> selections) {
 		throw new RuntimeException("discarded method");
 	}
 	
 	@RequestMapping(value = "save/{generalInformationId}", method = RequestMethod.POST)
-	public String save(Model model, @Valid @ModelAttribute("m") MedicationRecord m, BindingResult result, @CurrentUser User user, @PathVariable(value = "generalInformationId") Long generalInformationId, @RequestParam(required = false) List<Long> selections, RedirectAttributes redirectAttributes) {
+	public String save(Model model, @Valid @ModelAttribute("m") BoneDensity m, BindingResult result, @CurrentUser User user, @PathVariable(value = "generalInformationId") Long generalInformationId, @RequestParam(required = false) List<Long> selections, RedirectAttributes redirectAttributes) {
 		if (hasError(m, result)) {
 			return showSaveForm(model, selections);
 		}
