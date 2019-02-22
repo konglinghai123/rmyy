@@ -48,14 +48,14 @@
         		<table class="formtable">
               		<tr>
               			<td width="5%">姓名</td>
-              			<td width="23%"><input type="text" name="LIKE_name" style="width:120px;"/></td>
+              			<td width="23%"><input type="text" id="likeName" name="LIKE_name" style="width:120px;"/></td>
               			<td width="5%">手机号码</td>
     					<td width="23"><input type="text" name="LIKE_mobilePhoneNumber" style="width:120px"/></td>
            				<td width="5%">证件号</td>
            				<td width="23%"><input type="text" name="LIKE_certificateNumber" style="width:120px;"/></td>
               			<td width="16%" colspan="2">
-            				<a id="tb-query" href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="$.ewcms.query();">查询</a>
-           					<a id="tb-clear" href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-clear'" onclick="javascript:$('#queryform').form('reset');">清除</a>
+            				<a id="tb-query" href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-search'">查询</a>
+           					<a id="tb-clear" href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-clear'">清除</a>
            					<a id="tb-more" href="javascript:void(0);" class="easyui-linkbutton" onclick="$.ewcms.moreQuery();"><span id="showHideLabel">更多</span></a>
            				</td>
            			</tr>
@@ -71,6 +71,9 @@
 <ewcms:footer/>
 <script type="text/javascript" src="${ctx}/static/easyui/ext/datagrid-detailview.js"></script>
 <script type="text/javascript">
+	function formatTooltip(val, row){
+		return val != null ? '<span title="' + val + '" class="easyui-tooltip">' + val + '</span>' : '';
+	}
 	$(function(){
 		var pathname = window.location.pathname;
 		if (pathname != '${ctx}/hzda/generalinformation/index'){
@@ -83,7 +86,7 @@
 					$('#ddv-' + rowIndex).panel({
 						border:true,
 						cache:false,
-						content: '<iframe src="' + pathname + '/' + rowData.id + '" frameborder="0" width="40%" height="250px" scrolling="auto"></iframe>',
+						content: '<iframe src="' + pathname + '/' + rowData.id + '" frameborder="0" width="60%" height="400px" scrolling="auto"></iframe>',
 						onLoad:function(){
 							$('#tt').datagrid('fixDetailRowHeight',rowIndex);
 						}
@@ -92,8 +95,23 @@
 				}
 			});
 		}
+		$('#tb-query').bind('click', function(){
+			$.cookie('likeName-${user.username}', $('#likeName').val(), {path: '${ctx}/hzda'});
+			$.ewcms.query();
+		});
+		$('#tb-clear').bind('click', function(){
+			$.cookie('likeName-${user.username}', null); 
+			$('#queryform').form('reset');
+		});
+		
+		try{
+			var likeName = $.cookie('likeName-${user.username}');
+			if (likeName != null && likeName != '') {
+				$('#likeName').val(likeName);
+				$.ewcms.query();
+			}
+		}catch(err){
+		}
 	});
-	function formatTooltip(val, row){
-		return val != null ? '<span title="' + val + '" class="easyui-tooltip">' + val + '</span>' : '';
-	}
+	
 </script>

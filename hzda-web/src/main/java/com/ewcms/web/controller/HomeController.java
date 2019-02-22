@@ -1,22 +1,14 @@
 package com.ewcms.web.controller;
 
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
-import org.dom4j.Element;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.ewcms.common.entity.search.SearchParameter;
-import com.ewcms.common.utils.XMLUtil;
 import com.ewcms.extra.push.PushService;
 import com.ewcms.personal.calendar.service.CalendarService;
 import com.ewcms.security.resource.entity.Menu;
@@ -58,4 +50,4 @@ public class HomeController {
 
 		return "home";
 	}
-	}
+}

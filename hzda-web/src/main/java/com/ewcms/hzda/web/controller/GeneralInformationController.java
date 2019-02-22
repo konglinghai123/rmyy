@@ -1,15 +1,11 @@
 package com.ewcms.hzda.web.controller;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -23,7 +19,6 @@ import com.ewcms.common.entity.search.SearchParameter;
 import com.ewcms.common.utils.EmptyUtil;
 import com.ewcms.common.web.controller.BaseCRUDController;
 import com.ewcms.hzda.entity.GeneralInformation;
-import com.ewcms.hzda.service.GeneralInformationService;
 import com.ewcms.hzda.zd.service.NationService;
 import com.ewcms.security.user.entity.User;
 import com.ewcms.security.user.web.bind.annotation.CurrentUser;
@@ -32,10 +27,6 @@ import com.ewcms.security.user.web.bind.annotation.CurrentUser;
 @RequestMapping(value = "/hzda/generalinformation")
 public class GeneralInformationController extends BaseCRUDController<GeneralInformation, Long> {
 
-	private GeneralInformationService getGeneralInformationService() {
-		return (GeneralInformationService) baseService;
-	}
-	
 	@Autowired
 	private NationService nationService;
 	
@@ -60,12 +51,10 @@ public class GeneralInformationController extends BaseCRUDController<GeneralInfo
 	@RequestMapping(value = "query")
 	@ResponseBody
 	public Map<String, Object> query(@CurrentUser User user, @ModelAttribute SearchParameter<Long> searchParameter, Model model) {
-		Pageable pageable = new PageRequest(searchParameter.getPage() - 1, searchParameter.getRows());
-		Page<GeneralInformation> pages = getGeneralInformationService().findByGeneralInformation(user, pageable);
-		Map<String, Object> resultMap = new HashMap<String, Object>(2);
-		resultMap.put("total", pages.getTotalElements());
-		resultMap.put("rows", pages.getContent());
-		return resultMap;
+		if (!user.getAdmin()) {
+			searchParameter.getParameters().put("EQ_userId", user.getId());
+		}
+		return super.query(searchParameter, model);
 	}
 	
 	@Override
