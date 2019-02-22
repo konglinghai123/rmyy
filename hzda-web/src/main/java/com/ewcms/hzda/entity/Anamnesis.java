@@ -28,9 +28,120 @@ import com.ewcms.common.entity.BaseSequenceEntity;
  * <li>primaryDesiccationSyndrome:原发性干燥综合征</li>
  * <li>systemicSclerosis:系统性硬化症</li>
  * <li>polymyositisDermatomyositis:多发性肌炎和皮肌炎</li>
- * <li>rheumatism:风湿系统疾病其他</li>
- * <li>rheumatismDesc:风湿系统疾病其他说明</li>
+ * <li>rheumatismOther:风湿系统疾病其他</li>
+ * <li>rheumatismOtherDesc:风湿系统疾病其他说明</li>
  * <li>hyperparathyroidism:甲状旁腺功能亢进症</li>
+ * <li>hyperthyroidism:甲状腺功能亢进症</li>
+ * <li>hypogonadism:性腺功能减退</li>
+ * <li>diabetes1:1型糖尿病</li>
+ * <li>diabetes2:2型糖尿病</li>
+ * <li>cushingSyndrome:库欣综合征</li>
+ * <li>endocrineOther:内分泌及代谢系统疾病其他</li>
+ * <li>endocrineDesc:内分泌及代谢系统疾病其他说明</li>
+ * <li>hypertension:高血压</li>
+ * <li>cahd:冠状动脉粥样硬化性心脏病</li>
+ * <li>hyperlipidemia:高脂血症</li>
+ * <li>loopOther:循环系统疾病说明</li>
+ * <li>loopOtherDesc:循环系统疾病其他说明</li>
+ * <li>copd:慢性阻塞性肺疾病</li>
+ * <li>bronchialAsthma:支气管哮喘</li>
+ * <li>breathOther:呼吸系统疾病其他</li>
+ * <li>breathOtherDesc:呼吸系统疾病其他说明</li>
+ * <li>anorexiaNervosa:神经性厌食</li>
+ * <li>cerebralVascularDisease:脑血管病</li>
+ * <li>myastheniaGravis:重症肌无力</li>
+ * <li>nerveOther:神经及精神系统疾病其他</li>
+ * <li>nerveOtherDesc:神经及精神系统疾病其他说明</li>
+ * <li>cirrhosis:肝硬化</li>
+ * <li>ibd:炎症性肠病(溃疡性结肠炎、克罗恩病)</li>
+ * <li>celiacDisease:乳糜泻</li>
+ * <li>breadbasketResection:胃部大切除术后</li>
+ * <li>digestionOther:消化系统疾病其他</li>
+ * <li>digestionOtherDesc:消化系统疾病其他说明</li>
+ * <li>crif:慢性肾功能不全或衰竭</li>
+ * <li>renalAmyloidosis:肾淀粉样变性</li>
+ * <li>rtd:肾小管性疾病</li>
+ * <li>pgn:原发性肾小球肾病</li>
+ * <li>urinationOther:泌尿系统疾病其他</li>
+ * <li>urinationOtherDesc:泌尿系统疾病其他说明</li>
+ * <li>mds:骨髓增生异常综合征</li>
+ * <li>leukemia:白血病</li>
+ * <li>bloodOther:血液系统疾病其他</li>
+ * <li>bloodOtherDesc:血液系统疾病其他说明</li>
+ * <li>msf:马凡综合征</li>
+ * <li>bronzeDiabetes:血色病</li>
+ * <li>porphyria:卟啉病</li>
+ * <li>brittleBones:成骨不全</li>
+ * <li>congenitalOther:先天性及遗传性疾病其他</li>
+ * <li>congenitalOtherDesc:先天性及遗传性疾病其他说明</li>
+ * <li>pbt:原发性骨肿瘤</li>
+ * <li>sbt:继发性骨肿瘤</li>
+ * <li>mammaryCancer:乳腺癌</li>
+ * <li>aids:艾滋病</li>
+ * <li>otherOther:其他其他</li>
+ * <li>otherOtherDesc:其他其他说明</li>
+ * <li>refuseAnswer:拒绝回答</li>
+ * <li>osteoporosisUnused:骨质疏松未使用过</li>
+ * <li>calcium:钙剂</li>
+ * <li>calciumLaw:钙剂是否规律用药</li>
+ * <li>calciumDuration:钙剂用药总时间</li>
+ * <li>vitaminD:维生素D及活性维生素D</li>
+ * <li>vitaminDLaw:维生素D及活性维生素D是否规律用药</li>
+ * <li>vitaminDDuration:维生素D及活性维生素D用药总时间</li>
+ * <li>diphosphonate:双磷酸盐</li>
+ * <li>diphosphonateLaw:双磷酸盐是否规律用药</li>
+ * <li>diphosphonateDuration:双磷酸盐用药总时间</li>
+ * <li>calcitonin:降钙素类</li>
+ * <li>calcitoninLaw:降钙素类否规律用药</li>
+ * <li>calcitoninDuration:降钙素类用药总时间</li>
+ * <li>serm:选择性雌激素受体调节剂</li>
+ * <li>sermLaw:选择性雌激素受体调节剂是否规律用药</li>
+ * <li>sermDuration:选择性雌激素受体调节剂用药总时间</li>
+ * <li>glucocorticoidUnused:肾上腺糖皮质激素未使用过</li>
+ * <li>prednisone:泼尼松</li>
+ * <li>prednisoneInitialDose:泼尼松起始剂量</li>
+ * <li>prednisoneCurrentDose:泼尼松目前剂量</li>
+ * <li>prednisoneDuration:泼尼松用药总时间</li>
+ * <li>prednisolone:泼尼松龙</li>
+ * <li>prednisoloneInitialDose:泼尼松龙起始剂量</li>
+ * <li>prednisoloneCurrentDose:泼尼松龙目前剂量</li>
+ * <li>prednisoloneDuration:泼尼松龙用药总时间</li>
+ * <li>mp:甲强龙</li>
+ * <li>mpInitialDose:甲强龙起始剂量</li>
+ * <li>mpCurrentDose:甲强龙目前剂量</li>
+ * <li>mpDuration:甲强龙用药总时间</li>
+ * <li>dxm:地塞米松</li>
+ * <li>dxmInitialDose:地塞米松起始剂量</li>
+ * <li>dxmCurrentDose:地塞米松目前剂量</li>
+ * <li>dxmDuration:地塞米松用药总时间</li>
+ * <li>imuran:硫唑嘌呤</li>
+ * <li>imuranInitialDose:硫唑嘌呤起始剂量</li>
+ * <li>imuranCurrentDose:硫唑嘌呤目前剂量</li>
+ * <li>imuranDuration:硫唑嘌呤用药总时间</li>
+ * <li>ciclosporin:环孢素</li>
+ * <li>ciclosporinInitialDose:环孢素起始剂量</li>
+ * <li>ciclosporinCurrentDose:环孢素目前剂量</li>
+ * <li>ciclosporinDuration:环孢素用药总时间</li>
+ * <li>tacrolimus:他克莫司</li>
+ * <li>tacrolimusInitialDose:他克莫司起始剂量</li>
+ * <li>tacrolimusCurrentDose:他克莫司目前剂量</li>
+ * <li>tacrolimusDuration:他克莫司用药总时间</li>
+ * <li>mmf:吗替麦考酚酯</li>
+ * <li>mmfInitialDose:吗替麦考酚酯起始剂量</li>
+ * <li>mmfCurrentDose:吗替麦考酚酯目前剂量</li>
+ * <li>mmfDuration:吗替麦考酚酯用药总时间</li>
+ * <li>glucocorticoidOther:肾上腺糖皮质激素其他</li>
+ * <li>glucocorticoidOtherInitialDose:肾上腺糖皮质激素其他起始剂量</li>
+ * <li>glucocorticoidOtherCurrentDose:肾上腺糖皮质激素其他目前剂量</li>
+ * <li>glucocorticoidOtherDuration:肾上腺糖皮质激素其他用药总时间</li>
+ * <li>shard:性激素及其相关药物</li>
+ * <li>aeds:抗癫痫药物</li>
+ * <li>aluminumPreparation:铝制剂</li>
+ * <li>lithiumPreparations:锂制剂</li>
+ * <li>heparin:肝素</li>
+ * <li>aromataseInhibitor:芳重化酶抵制剂</li>
+ * <li>lastOther:其他</li>
+ * <li>lastOtherDesc:其他说明</li>
  * </ul>
  * 
  * @author wuzhijun
@@ -39,7 +150,7 @@ import com.ewcms.common.entity.BaseSequenceEntity;
 @Entity
 @Table(name = "hzda_anamnesis")
 @SequenceGenerator(name = "seq", sequenceName = "hzda_anamnesis_id", allocationSize = 1)
-public class Anamnesis extends BaseSequenceEntity<Long>{
+public class Anamnesis extends BaseSequenceEntity<Long> {
 
 	private static final long serialVersionUID = 2951884781694274310L;
 
@@ -74,10 +185,1256 @@ public class Anamnesis extends BaseSequenceEntity<Long>{
 	private Boolean systemicSclerosis;
 	@Column(name = "is_polymyositis_dermatomyositis")
 	private Boolean polymyositisDermatomyositis;
-	@Column(name = "is_rheumatism")
-	private Boolean rheumatism;
-	@Column(name = "rheumatism_desc")
-	private String rheumatismDesc;
+	@Column(name = "is_rheumatism_other")
+	private Boolean rheumatismOther;
+	@Column(name = "rheumatism_other_desc")
+	private String rheumatismOtherDesc;
 	@Column(name = "is_hyperparathyroidism")
 	private Boolean hyperparathyroidism;
+	@Column(name = "is_hyperthyroidism")
+	private Boolean hyperthyroidism;
+	@Column(name = "is_hypogonadism")
+	private Boolean hypogonadism;
+	@Column(name = "is_diabetes1")
+	private Boolean diabetes1;
+	@Column(name = "is_diabetes2")
+	private Boolean diabetes2;
+	@Column(name = "is_cushing_syndrome")
+	private Boolean cushingSyndrome;
+	@Column(name = "is_endocrine_other")
+	private Boolean endocrineOther;
+	@Column(name = "endocrine_desc")
+	private String endocrineDesc;
+	@Column(name = "is_hypertension")
+	private Boolean hypertension;
+	@Column(name = "is_cahd")
+	private Boolean cahd;
+	@Column(name = "is_hyperlipidemia")
+	private Boolean hyperlipidemia;
+	@Column(name = "is_loop_other")
+	private Boolean loopOther;
+	@Column(name = "loop_other_desc")
+	private String loopOtherDesc;
+	@Column(name = "is_copd")
+	private Boolean copd;
+	@Column(name = "is_bronchial_asthma")
+	private Boolean bronchialAsthma;
+	@Column(name = "is_breath_other")
+	private Boolean breathOther;
+	@Column(name = "breath_other_desc")
+	private String breathOtherDesc;
+	@Column(name = "is_anorexia_nervosa")
+	private Boolean anorexiaNervosa;
+	@Column(name = "is_cerebral_vascular_disease")
+	private Boolean cerebralVascularDisease;
+	@Column(name = "is_myasthenia_gravis")
+	private Boolean myastheniaGravis;
+	@Column(name = "is_nerve_other")
+	private Boolean nerveOther;
+	@Column(name = "nerve_other_desc")
+	private String nerveOtherDesc;
+	@Column(name = "is_cirrhosis")
+	private Boolean cirrhosis;
+	@Column(name = "is_ibd")
+	private Boolean ibd;
+	@Column(name = "is_celiac_disease")
+	private Boolean celiacDisease;
+	@Column(name = "is_breadbasket_resection")
+	private Boolean breadbasketResection;
+	@Column(name = "is_digestion_other")
+	private Boolean digestionOther;
+	@Column(name = "digestion_other_desc")
+	private String digestionOtherDesc;
+	@Column(name = "is_crif")
+	private Boolean crif;
+	@Column(name = "is_renal_amyloidosis")
+	private Boolean renalAmyloidosis;
+	@Column(name = "is_rtd")
+	private Boolean rtd;
+	@Column(name = "is_pgn")
+	private Boolean pgn;
+	@Column(name = "is_urination_other")
+	private Boolean urinationOther;
+	@Column(name = "urination_other_desc")
+	private String urinationOtherDesc;
+	@Column(name = "is_mds")
+	private Boolean mds;
+	@Column(name = "is_leukemia")
+	private Boolean leukemia;
+	@Column(name = "is_blood_other")
+	private Boolean bloodOther;
+	@Column(name = "blood_other_desc")
+	private String bloodOtherDesc;
+	@Column(name = "is_msf")
+	private Boolean msf;
+	@Column(name = "is_bronze_diabetes")
+	private Boolean bronzeDiabetes;
+	@Column(name = "is_porphyria")
+	private Boolean porphyria;
+	@Column(name = "is_brittle_bones")
+	private Boolean brittleBones;
+	@Column(name = "is_congenital_other")
+	private Boolean congenitalOther;
+	@Column(name = "congenital_other_desc")
+	private String congenitalOtherDesc;
+	@Column(name = "is_pbt")
+	private Boolean pbt;
+	@Column(name = "is_sbt")
+	private Boolean sbt;
+	@Column(name = "is_mammary_cancer")
+	private Boolean mammaryCancer;
+	@Column(name = "is_aids")
+	private Boolean aids;
+	@Column(name = "is_other_other")
+	private Boolean otherOther;
+	@Column(name = "other_other_desc")
+	private String otherOtherDesc;
+	@Column(name = "is_refuse_answer")
+	private Boolean refuseAnswer;
+	@Column(name = "is_osteoporosis_unused")
+	private Boolean osteoporosisUnused;
+	@Column(name = "is_calcium")
+	private Boolean calcium;
+	@Column(name = "is_calcium_law")
+	private Boolean calciumLaw;
+	@Column(name = "calcium_duration")
+	private String calciumDuration;
+	@Column(name = "is_vitamin_d")
+	private Boolean vitaminD;
+	@Column(name = "is_vitamin_d_law")
+	private Boolean vitaminDLaw;
+	@Column(name = "vitamin_d_duration")
+	private String vitaminDDuration;
+	@Column(name = "is_diphosphonate")
+	private Boolean diphosphonate;
+	@Column(name = "is_diphosphonate_law")
+	private Boolean diphosphonateLaw;
+	@Column(name = "diphosphonate_duration")
+	private String diphosphonateDuration;
+	@Column(name = "is_calcitonin")
+	private Boolean calcitonin;
+	@Column(name = "is_calcitonin_law")
+	private Boolean calcitoninLaw;
+	@Column(name = "calcitonin_duration")
+	private String calcitoninDuration;
+	@Column(name = "is_serm")
+	private Boolean serm;
+	@Column(name = "is_serm_law")
+	private Boolean sermLaw;
+	@Column(name = "serm_duration")
+	private String sermDuration;
+	@Column(name = "is_glucocorticoid_unused")
+	private Boolean glucocorticoidUnused;
+	@Column(name = "is_prednisone")
+	private Boolean prednisone;
+	@Column(name = "prednisone_initial_dose")
+	private Double prednisoneInitialDose;
+	@Column(name = "prednisone_current_dose")
+	private Double prednisoneCurrentDose;
+	@Column(name = "prednisone_duration")
+	private String prednisoneDuration;
+	@Column(name = "is_prednisolone")
+	private Boolean prednisolone;
+	@Column(name = "prednisolone_initial_dose")
+	private Double prednisoloneInitialDose;
+	@Column(name = "prednisolone_current_dose")
+	private Double prednisoloneCurrentDose;
+	@Column(name = "prednisolone_duration")
+	private String prednisoloneDuration;
+	@Column(name = "is_mp")
+	private Boolean mp;
+	@Column(name = "mp_initial_dose")
+	private Double mpInitialDose;
+	@Column(name = "mp_current_dose")
+	private Double mpCurrentDose;
+	@Column(name = "mp_duration")
+	private String mpDuration;
+	@Column(name = "is_dxm")
+	private Boolean dxm;
+	@Column(name = "dxm_initial_dose")
+	private Double dxmInitialDose;
+	@Column(name = "dxm_current_dose")
+	private Double dxmCurrentDose;
+	@Column(name = "dxm_duration")
+	private String dxmDuration;
+	@Column(name = "is_imuran")
+	private Boolean imuran;
+	@Column(name = "imuran_initial_dose")
+	private Double imuranInitialDose;
+	@Column(name = "imuran_current_dose")
+	private Double imuranCurrentDose;
+	@Column(name = "imuran_duration")
+	private String imuranDuration;
+	@Column(name = "is_ciclosporin")
+	private Boolean ciclosporin;
+	@Column(name = "ciclosporin_initial_dose")
+	private Double ciclosporinInitialDose;
+	@Column(name = "ciclosporin_current_dose")
+	private Double ciclosporinCurrentDose;
+	@Column(name = "ciclosporin_duration")
+	private String ciclosporinDuration;
+	@Column(name = "is_tacrolimus")
+	private Boolean tacrolimus;
+	@Column(name = "tacrolimus_initial_dose")
+	private Double tacrolimusInitialDose;
+	@Column(name = "tacrolimus_current_dose")
+	private Double tacrolimusCurrentDose;
+	@Column(name = "tacrolimus_duration")
+	private String tacrolimusDuration;
+	@Column(name = "is_mmf")
+	private Boolean mmf;
+	@Column(name = "mmf_initial_dose")
+	private Double mmfInitialDose;
+	@Column(name = "mmf_current_dose")
+	private Double mmfCurrentDose;
+	@Column(name = "mmf_duration")
+	private String mmfDuration;
+	@Column(name = "is_glucocorticoid_other")
+	private Boolean glucocorticoidOther;
+	@Column(name = "glucocorticoid_other_initial_dose")
+	private Double glucocorticoidOtherInitialDose;
+	@Column(name = "glucocorticoid_other_current_dose")
+	private Double glucocorticoidOtherCurrentDose;
+	@Column(name = "glucocorticoid_other_duration")
+	private String glucocorticoidOtherDuration;
+	@Column(name = "is_shard")
+	private Boolean shard;
+	@Column(name = "is_aeds")
+	private Boolean aeds;
+	@Column(name = "is_aluminum_preparation")
+	private Boolean aluminumPreparation;
+	@Column(name = "is_lithium_preparations")
+	private Boolean lithiumPreparations;
+	@Column(name = "is_heparin")
+	private Boolean heparin;
+	@Column(name = "is_aromatase_inhibitor")
+	private Boolean aromataseInhibitor;
+	@Column(name = "is_last_other")
+	private Boolean lastOther;
+	@Column(name = "last_other_desc")
+	private String lastOtherDesc;
+
+	public Long getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Long userId) {
+		this.userId = userId;
+	}
+
+	public Long getOrganizationId() {
+		return organizationId;
+	}
+
+	public void setOrganizationId(Long organizationId) {
+		this.organizationId = organizationId;
+	}
+
+	public Long getGeneralInformationId() {
+		return generalInformationId;
+	}
+
+	public void setGeneralInformationId(Long generalInformationId) {
+		this.generalInformationId = generalInformationId;
+	}
+
+	public Boolean getPastHealth() {
+		return pastHealth;
+	}
+
+	public void setPastHealth(Boolean pastHealth) {
+		this.pastHealth = pastHealth;
+	}
+
+	public Boolean getRheumatoidArthritis() {
+		return rheumatoidArthritis;
+	}
+
+	public void setRheumatoidArthritis(Boolean rheumatoidArthritis) {
+		this.rheumatoidArthritis = rheumatoidArthritis;
+	}
+
+	public Boolean getOsteoarthritis() {
+		return osteoarthritis;
+	}
+
+	public void setOsteoarthritis(Boolean osteoarthritis) {
+		this.osteoarthritis = osteoarthritis;
+	}
+
+	public Boolean getSle() {
+		return sle;
+	}
+
+	public void setSle(Boolean sle) {
+		this.sle = sle;
+	}
+
+	public Boolean getAnkylosingSpondylitis() {
+		return ankylosingSpondylitis;
+	}
+
+	public void setAnkylosingSpondylitis(Boolean ankylosingSpondylitis) {
+		this.ankylosingSpondylitis = ankylosingSpondylitis;
+	}
+
+	public Boolean getAutoimmuneLiverDisease() {
+		return autoimmuneLiverDisease;
+	}
+
+	public void setAutoimmuneLiverDisease(Boolean autoimmuneLiverDisease) {
+		this.autoimmuneLiverDisease = autoimmuneLiverDisease;
+	}
+
+	public Boolean getVasculitis() {
+		return vasculitis;
+	}
+
+	public void setVasculitis(Boolean vasculitis) {
+		this.vasculitis = vasculitis;
+	}
+
+	public Boolean getPrimaryDesiccationSyndrome() {
+		return primaryDesiccationSyndrome;
+	}
+
+	public void setPrimaryDesiccationSyndrome(Boolean primaryDesiccationSyndrome) {
+		this.primaryDesiccationSyndrome = primaryDesiccationSyndrome;
+	}
+
+	public Boolean getSystemicSclerosis() {
+		return systemicSclerosis;
+	}
+
+	public void setSystemicSclerosis(Boolean systemicSclerosis) {
+		this.systemicSclerosis = systemicSclerosis;
+	}
+
+	public Boolean getPolymyositisDermatomyositis() {
+		return polymyositisDermatomyositis;
+	}
+
+	public void setPolymyositisDermatomyositis(Boolean polymyositisDermatomyositis) {
+		this.polymyositisDermatomyositis = polymyositisDermatomyositis;
+	}
+
+	public Boolean getRheumatismOther() {
+		return rheumatismOther;
+	}
+
+	public void setRheumatismOther(Boolean rheumatismOther) {
+		this.rheumatismOther = rheumatismOther;
+	}
+
+	public String getRheumatismOtherDesc() {
+		return rheumatismOtherDesc;
+	}
+
+	public void setRheumatismOtherDesc(String rheumatismOtherDesc) {
+		this.rheumatismOtherDesc = rheumatismOtherDesc;
+	}
+
+	public Boolean getHyperparathyroidism() {
+		return hyperparathyroidism;
+	}
+
+	public void setHyperparathyroidism(Boolean hyperparathyroidism) {
+		this.hyperparathyroidism = hyperparathyroidism;
+	}
+
+	public Boolean getHyperthyroidism() {
+		return hyperthyroidism;
+	}
+
+	public void setHyperthyroidism(Boolean hyperthyroidism) {
+		this.hyperthyroidism = hyperthyroidism;
+	}
+
+	public Boolean getHypogonadism() {
+		return hypogonadism;
+	}
+
+	public void setHypogonadism(Boolean hypogonadism) {
+		this.hypogonadism = hypogonadism;
+	}
+
+	public Boolean getDiabetes1() {
+		return diabetes1;
+	}
+
+	public void setDiabetes1(Boolean diabetes1) {
+		this.diabetes1 = diabetes1;
+	}
+
+	public Boolean getDiabetes2() {
+		return diabetes2;
+	}
+
+	public void setDiabetes2(Boolean diabetes2) {
+		this.diabetes2 = diabetes2;
+	}
+
+	public Boolean getCushingSyndrome() {
+		return cushingSyndrome;
+	}
+
+	public void setCushingSyndrome(Boolean cushingSyndrome) {
+		this.cushingSyndrome = cushingSyndrome;
+	}
+
+	public Boolean getEndocrineOther() {
+		return endocrineOther;
+	}
+
+	public void setEndocrineOther(Boolean endocrineOther) {
+		this.endocrineOther = endocrineOther;
+	}
+
+	public String getEndocrineDesc() {
+		return endocrineDesc;
+	}
+
+	public void setEndocrineDesc(String endocrineDesc) {
+		this.endocrineDesc = endocrineDesc;
+	}
+
+	public Boolean getHypertension() {
+		return hypertension;
+	}
+
+	public void setHypertension(Boolean hypertension) {
+		this.hypertension = hypertension;
+	}
+
+	public Boolean getCahd() {
+		return cahd;
+	}
+
+	public void setCahd(Boolean cahd) {
+		this.cahd = cahd;
+	}
+
+	public Boolean getHyperlipidemia() {
+		return hyperlipidemia;
+	}
+
+	public void setHyperlipidemia(Boolean hyperlipidemia) {
+		this.hyperlipidemia = hyperlipidemia;
+	}
+
+	public Boolean getLoopOther() {
+		return loopOther;
+	}
+
+	public void setLoopOther(Boolean loopOther) {
+		this.loopOther = loopOther;
+	}
+
+	public String getLoopOtherDesc() {
+		return loopOtherDesc;
+	}
+
+	public void setLoopOtherDesc(String loopOtherDesc) {
+		this.loopOtherDesc = loopOtherDesc;
+	}
+
+	public Boolean getCopd() {
+		return copd;
+	}
+
+	public void setCopd(Boolean copd) {
+		this.copd = copd;
+	}
+
+	public Boolean getBronchialAsthma() {
+		return bronchialAsthma;
+	}
+
+	public void setBronchialAsthma(Boolean bronchialAsthma) {
+		this.bronchialAsthma = bronchialAsthma;
+	}
+
+	public Boolean getBreathOther() {
+		return breathOther;
+	}
+
+	public void setBreathOther(Boolean breathOther) {
+		this.breathOther = breathOther;
+	}
+
+	public String getBreathOtherDesc() {
+		return breathOtherDesc;
+	}
+
+	public void setBreathOtherDesc(String breathOtherDesc) {
+		this.breathOtherDesc = breathOtherDesc;
+	}
+
+	public Boolean getAnorexiaNervosa() {
+		return anorexiaNervosa;
+	}
+
+	public void setAnorexiaNervosa(Boolean anorexiaNervosa) {
+		this.anorexiaNervosa = anorexiaNervosa;
+	}
+
+	public Boolean getCerebralVascularDisease() {
+		return cerebralVascularDisease;
+	}
+
+	public void setCerebralVascularDisease(Boolean cerebralVascularDisease) {
+		this.cerebralVascularDisease = cerebralVascularDisease;
+	}
+
+	public Boolean getMyastheniaGravis() {
+		return myastheniaGravis;
+	}
+
+	public void setMyastheniaGravis(Boolean myastheniaGravis) {
+		this.myastheniaGravis = myastheniaGravis;
+	}
+
+	public Boolean getNerveOther() {
+		return nerveOther;
+	}
+
+	public void setNerveOther(Boolean nerveOther) {
+		this.nerveOther = nerveOther;
+	}
+
+	public String getNerveOtherDesc() {
+		return nerveOtherDesc;
+	}
+
+	public void setNerveOtherDesc(String nerveOtherDesc) {
+		this.nerveOtherDesc = nerveOtherDesc;
+	}
+
+	public Boolean getCirrhosis() {
+		return cirrhosis;
+	}
+
+	public void setCirrhosis(Boolean cirrhosis) {
+		this.cirrhosis = cirrhosis;
+	}
+
+	public Boolean getIbd() {
+		return ibd;
+	}
+
+	public void setIbd(Boolean ibd) {
+		this.ibd = ibd;
+	}
+
+	public Boolean getCeliacDisease() {
+		return celiacDisease;
+	}
+
+	public void setCeliacDisease(Boolean celiacDisease) {
+		this.celiacDisease = celiacDisease;
+	}
+
+	public Boolean getBreadbasketResection() {
+		return breadbasketResection;
+	}
+
+	public void setBreadbasketResection(Boolean breadbasketResection) {
+		this.breadbasketResection = breadbasketResection;
+	}
+
+	public Boolean getDigestionOther() {
+		return digestionOther;
+	}
+
+	public void setDigestionOther(Boolean digestionOther) {
+		this.digestionOther = digestionOther;
+	}
+
+	public String getDigestionOtherDesc() {
+		return digestionOtherDesc;
+	}
+
+	public void setDigestionOtherDesc(String digestionOtherDesc) {
+		this.digestionOtherDesc = digestionOtherDesc;
+	}
+
+	public Boolean getCrif() {
+		return crif;
+	}
+
+	public void setCrif(Boolean crif) {
+		this.crif = crif;
+	}
+
+	public Boolean getRenalAmyloidosis() {
+		return renalAmyloidosis;
+	}
+
+	public void setRenalAmyloidosis(Boolean renalAmyloidosis) {
+		this.renalAmyloidosis = renalAmyloidosis;
+	}
+
+	public Boolean getRtd() {
+		return rtd;
+	}
+
+	public void setRtd(Boolean rtd) {
+		this.rtd = rtd;
+	}
+
+	public Boolean getPgn() {
+		return pgn;
+	}
+
+	public void setPgn(Boolean pgn) {
+		this.pgn = pgn;
+	}
+
+	public Boolean getUrinationOther() {
+		return urinationOther;
+	}
+
+	public void setUrinationOther(Boolean urinationOther) {
+		this.urinationOther = urinationOther;
+	}
+
+	public String getUrinationOtherDesc() {
+		return urinationOtherDesc;
+	}
+
+	public void setUrinationOtherDesc(String urinationOtherDesc) {
+		this.urinationOtherDesc = urinationOtherDesc;
+	}
+
+	public Boolean getMds() {
+		return mds;
+	}
+
+	public void setMds(Boolean mds) {
+		this.mds = mds;
+	}
+
+	public Boolean getLeukemia() {
+		return leukemia;
+	}
+
+	public void setLeukemia(Boolean leukemia) {
+		this.leukemia = leukemia;
+	}
+
+	public Boolean getBloodOther() {
+		return bloodOther;
+	}
+
+	public void setBloodOther(Boolean bloodOther) {
+		this.bloodOther = bloodOther;
+	}
+
+	public String getBloodOtherDesc() {
+		return bloodOtherDesc;
+	}
+
+	public void setBloodOtherDesc(String bloodOtherDesc) {
+		this.bloodOtherDesc = bloodOtherDesc;
+	}
+
+	public Boolean getMsf() {
+		return msf;
+	}
+
+	public void setMsf(Boolean msf) {
+		this.msf = msf;
+	}
+
+	public Boolean getBronzeDiabetes() {
+		return bronzeDiabetes;
+	}
+
+	public void setBronzeDiabetes(Boolean bronzeDiabetes) {
+		this.bronzeDiabetes = bronzeDiabetes;
+	}
+
+	public Boolean getPorphyria() {
+		return porphyria;
+	}
+
+	public void setPorphyria(Boolean porphyria) {
+		this.porphyria = porphyria;
+	}
+
+	public Boolean getBrittleBones() {
+		return brittleBones;
+	}
+
+	public void setBrittleBones(Boolean brittleBones) {
+		this.brittleBones = brittleBones;
+	}
+
+	public Boolean getCongenitalOther() {
+		return congenitalOther;
+	}
+
+	public void setCongenitalOther(Boolean congenitalOther) {
+		this.congenitalOther = congenitalOther;
+	}
+
+	public String getCongenitalOtherDesc() {
+		return congenitalOtherDesc;
+	}
+
+	public void setCongenitalOtherDesc(String congenitalOtherDesc) {
+		this.congenitalOtherDesc = congenitalOtherDesc;
+	}
+
+	public Boolean getPbt() {
+		return pbt;
+	}
+
+	public void setPbt(Boolean pbt) {
+		this.pbt = pbt;
+	}
+
+	public Boolean getSbt() {
+		return sbt;
+	}
+
+	public void setSbt(Boolean sbt) {
+		this.sbt = sbt;
+	}
+
+	public Boolean getMammaryCancer() {
+		return mammaryCancer;
+	}
+
+	public void setMammaryCancer(Boolean mammaryCancer) {
+		this.mammaryCancer = mammaryCancer;
+	}
+
+	public Boolean getAids() {
+		return aids;
+	}
+
+	public void setAids(Boolean aids) {
+		this.aids = aids;
+	}
+
+	public Boolean getOtherOther() {
+		return otherOther;
+	}
+
+	public void setOtherOther(Boolean otherOther) {
+		this.otherOther = otherOther;
+	}
+
+	public String getOtherOtherDesc() {
+		return otherOtherDesc;
+	}
+
+	public void setOtherOtherDesc(String otherOtherDesc) {
+		this.otherOtherDesc = otherOtherDesc;
+	}
+
+	public Boolean getRefuseAnswer() {
+		return refuseAnswer;
+	}
+
+	public void setRefuseAnswer(Boolean refuseAnswer) {
+		this.refuseAnswer = refuseAnswer;
+	}
+
+	public Boolean getOsteoporosisUnused() {
+		return osteoporosisUnused;
+	}
+
+	public void setOsteoporosisUnused(Boolean osteoporosisUnused) {
+		this.osteoporosisUnused = osteoporosisUnused;
+	}
+
+	public Boolean getCalcium() {
+		return calcium;
+	}
+
+	public void setCalcium(Boolean calcium) {
+		this.calcium = calcium;
+	}
+
+	public Boolean getCalciumLaw() {
+		return calciumLaw;
+	}
+
+	public void setCalciumLaw(Boolean calciumLaw) {
+		this.calciumLaw = calciumLaw;
+	}
+
+	public String getCalciumDuration() {
+		return calciumDuration;
+	}
+
+	public void setCalciumDuration(String calciumDuration) {
+		this.calciumDuration = calciumDuration;
+	}
+
+	public Boolean getVitaminD() {
+		return vitaminD;
+	}
+
+	public void setVitaminD(Boolean vitaminD) {
+		this.vitaminD = vitaminD;
+	}
+
+	public Boolean getVitaminDLaw() {
+		return vitaminDLaw;
+	}
+
+	public void setVitaminDLaw(Boolean vitaminDLaw) {
+		this.vitaminDLaw = vitaminDLaw;
+	}
+
+	public String getVitaminDDuration() {
+		return vitaminDDuration;
+	}
+
+	public void setVitaminDDuration(String vitaminDDuration) {
+		this.vitaminDDuration = vitaminDDuration;
+	}
+
+	public Boolean getDiphosphonate() {
+		return diphosphonate;
+	}
+
+	public void setDiphosphonate(Boolean diphosphonate) {
+		this.diphosphonate = diphosphonate;
+	}
+
+	public Boolean getDiphosphonateLaw() {
+		return diphosphonateLaw;
+	}
+
+	public void setDiphosphonateLaw(Boolean diphosphonateLaw) {
+		this.diphosphonateLaw = diphosphonateLaw;
+	}
+
+	public String getDiphosphonateDuration() {
+		return diphosphonateDuration;
+	}
+
+	public void setDiphosphonateDuration(String diphosphonateDuration) {
+		this.diphosphonateDuration = diphosphonateDuration;
+	}
+
+	public Boolean getCalcitonin() {
+		return calcitonin;
+	}
+
+	public void setCalcitonin(Boolean calcitonin) {
+		this.calcitonin = calcitonin;
+	}
+
+	public Boolean getCalcitoninLaw() {
+		return calcitoninLaw;
+	}
+
+	public void setCalcitoninLaw(Boolean calcitoninLaw) {
+		this.calcitoninLaw = calcitoninLaw;
+	}
+
+	public String getCalcitoninDuration() {
+		return calcitoninDuration;
+	}
+
+	public void setCalcitoninDuration(String calcitoninDuration) {
+		this.calcitoninDuration = calcitoninDuration;
+	}
+
+	public Boolean getSerm() {
+		return serm;
+	}
+
+	public void setSerm(Boolean serm) {
+		this.serm = serm;
+	}
+
+	public Boolean getSermLaw() {
+		return sermLaw;
+	}
+
+	public void setSermLaw(Boolean sermLaw) {
+		this.sermLaw = sermLaw;
+	}
+
+	public String getSermDuration() {
+		return sermDuration;
+	}
+
+	public void setSermDuration(String sermDuration) {
+		this.sermDuration = sermDuration;
+	}
+
+	public Boolean getGlucocorticoidUnused() {
+		return glucocorticoidUnused;
+	}
+
+	public void setGlucocorticoidUnused(Boolean glucocorticoidUnused) {
+		this.glucocorticoidUnused = glucocorticoidUnused;
+	}
+
+	public Boolean getPrednisone() {
+		return prednisone;
+	}
+
+	public void setPrednisone(Boolean prednisone) {
+		this.prednisone = prednisone;
+	}
+
+	public Double getPrednisoneInitialDose() {
+		return prednisoneInitialDose;
+	}
+
+	public void setPrednisoneInitialDose(Double prednisoneInitialDose) {
+		this.prednisoneInitialDose = prednisoneInitialDose;
+	}
+
+	public Double getPrednisoneCurrentDose() {
+		return prednisoneCurrentDose;
+	}
+
+	public void setPrednisoneCurrentDose(Double prednisoneCurrentDose) {
+		this.prednisoneCurrentDose = prednisoneCurrentDose;
+	}
+
+	public String getPrednisoneDuration() {
+		return prednisoneDuration;
+	}
+
+	public void setPrednisoneDuration(String prednisoneDuration) {
+		this.prednisoneDuration = prednisoneDuration;
+	}
+
+	public Boolean getPrednisolone() {
+		return prednisolone;
+	}
+
+	public void setPrednisolone(Boolean prednisolone) {
+		this.prednisolone = prednisolone;
+	}
+
+	public Double getPrednisoloneInitialDose() {
+		return prednisoloneInitialDose;
+	}
+
+	public void setPrednisoloneInitialDose(Double prednisoloneInitialDose) {
+		this.prednisoloneInitialDose = prednisoloneInitialDose;
+	}
+
+	public Double getPrednisoloneCurrentDose() {
+		return prednisoloneCurrentDose;
+	}
+
+	public void setPrednisoloneCurrentDose(Double prednisoloneCurrentDose) {
+		this.prednisoloneCurrentDose = prednisoloneCurrentDose;
+	}
+
+	public String getPrednisoloneDuration() {
+		return prednisoloneDuration;
+	}
+
+	public void setPrednisoloneDuration(String prednisoloneDuration) {
+		this.prednisoloneDuration = prednisoloneDuration;
+	}
+
+	public Boolean getMp() {
+		return mp;
+	}
+
+	public void setMp(Boolean mp) {
+		this.mp = mp;
+	}
+
+	public Double getMpInitialDose() {
+		return mpInitialDose;
+	}
+
+	public void setMpInitialDose(Double mpInitialDose) {
+		this.mpInitialDose = mpInitialDose;
+	}
+
+	public Double getMpCurrentDose() {
+		return mpCurrentDose;
+	}
+
+	public void setMpCurrentDose(Double mpCurrentDose) {
+		this.mpCurrentDose = mpCurrentDose;
+	}
+
+	public String getMpDuration() {
+		return mpDuration;
+	}
+
+	public void setMpDuration(String mpDuration) {
+		this.mpDuration = mpDuration;
+	}
+
+	public Boolean getDxm() {
+		return dxm;
+	}
+
+	public void setDxm(Boolean dxm) {
+		this.dxm = dxm;
+	}
+
+	public Double getDxmInitialDose() {
+		return dxmInitialDose;
+	}
+
+	public void setDxmInitialDose(Double dxmInitialDose) {
+		this.dxmInitialDose = dxmInitialDose;
+	}
+
+	public Double getDxmCurrentDose() {
+		return dxmCurrentDose;
+	}
+
+	public void setDxmCurrentDose(Double dxmCurrentDose) {
+		this.dxmCurrentDose = dxmCurrentDose;
+	}
+
+	public String getDxmDuration() {
+		return dxmDuration;
+	}
+
+	public void setDxmDuration(String dxmDuration) {
+		this.dxmDuration = dxmDuration;
+	}
+
+	public Boolean getImuran() {
+		return imuran;
+	}
+
+	public void setImuran(Boolean imuran) {
+		this.imuran = imuran;
+	}
+
+	public Double getImuranInitialDose() {
+		return imuranInitialDose;
+	}
+
+	public void setImuranInitialDose(Double imuranInitialDose) {
+		this.imuranInitialDose = imuranInitialDose;
+	}
+
+	public Double getImuranCurrentDose() {
+		return imuranCurrentDose;
+	}
+
+	public void setImuranCurrentDose(Double imuranCurrentDose) {
+		this.imuranCurrentDose = imuranCurrentDose;
+	}
+
+	public String getImuranDuration() {
+		return imuranDuration;
+	}
+
+	public void setImuranDuration(String imuranDuration) {
+		this.imuranDuration = imuranDuration;
+	}
+
+	public Boolean getCiclosporin() {
+		return ciclosporin;
+	}
+
+	public void setCiclosporin(Boolean ciclosporin) {
+		this.ciclosporin = ciclosporin;
+	}
+
+	public Double getCiclosporinInitialDose() {
+		return ciclosporinInitialDose;
+	}
+
+	public void setCiclosporinInitialDose(Double ciclosporinInitialDose) {
+		this.ciclosporinInitialDose = ciclosporinInitialDose;
+	}
+
+	public Double getCiclosporinCurrentDose() {
+		return ciclosporinCurrentDose;
+	}
+
+	public void setCiclosporinCurrentDose(Double ciclosporinCurrentDose) {
+		this.ciclosporinCurrentDose = ciclosporinCurrentDose;
+	}
+
+	public String getCiclosporinDuration() {
+		return ciclosporinDuration;
+	}
+
+	public void setCiclosporinDuration(String ciclosporinDuration) {
+		this.ciclosporinDuration = ciclosporinDuration;
+	}
+
+	public Boolean getTacrolimus() {
+		return tacrolimus;
+	}
+
+	public void setTacrolimus(Boolean tacrolimus) {
+		this.tacrolimus = tacrolimus;
+	}
+
+	public Double getTacrolimusInitialDose() {
+		return tacrolimusInitialDose;
+	}
+
+	public void setTacrolimusInitialDose(Double tacrolimusInitialDose) {
+		this.tacrolimusInitialDose = tacrolimusInitialDose;
+	}
+
+	public Double getTacrolimusCurrentDose() {
+		return tacrolimusCurrentDose;
+	}
+
+	public void setTacrolimusCurrentDose(Double tacrolimusCurrentDose) {
+		this.tacrolimusCurrentDose = tacrolimusCurrentDose;
+	}
+
+	public String getTacrolimusDuration() {
+		return tacrolimusDuration;
+	}
+
+	public void setTacrolimusDuration(String tacrolimusDuration) {
+		this.tacrolimusDuration = tacrolimusDuration;
+	}
+
+	public Boolean getMmf() {
+		return mmf;
+	}
+
+	public void setMmf(Boolean mmf) {
+		this.mmf = mmf;
+	}
+
+	public Double getMmfInitialDose() {
+		return mmfInitialDose;
+	}
+
+	public void setMmfInitialDose(Double mmfInitialDose) {
+		this.mmfInitialDose = mmfInitialDose;
+	}
+
+	public Double getMmfCurrentDose() {
+		return mmfCurrentDose;
+	}
+
+	public void setMmfCurrentDose(Double mmfCurrentDose) {
+		this.mmfCurrentDose = mmfCurrentDose;
+	}
+
+	public String getMmfDuration() {
+		return mmfDuration;
+	}
+
+	public void setMmfDuration(String mmfDuration) {
+		this.mmfDuration = mmfDuration;
+	}
+
+	public Boolean getGlucocorticoidOther() {
+		return glucocorticoidOther;
+	}
+
+	public void setGlucocorticoidOther(Boolean glucocorticoidOther) {
+		this.glucocorticoidOther = glucocorticoidOther;
+	}
+
+	public Double getGlucocorticoidOtherInitialDose() {
+		return glucocorticoidOtherInitialDose;
+	}
+
+	public void setGlucocorticoidOtherInitialDose(Double glucocorticoidOtherInitialDose) {
+		this.glucocorticoidOtherInitialDose = glucocorticoidOtherInitialDose;
+	}
+
+	public Double getGlucocorticoidOtherCurrentDose() {
+		return glucocorticoidOtherCurrentDose;
+	}
+
+	public void setGlucocorticoidOtherCurrentDose(Double glucocorticoidOtherCurrentDose) {
+		this.glucocorticoidOtherCurrentDose = glucocorticoidOtherCurrentDose;
+	}
+
+	public String getGlucocorticoidOtherDuration() {
+		return glucocorticoidOtherDuration;
+	}
+
+	public void setGlucocorticoidOtherDuration(String glucocorticoidOtherDuration) {
+		this.glucocorticoidOtherDuration = glucocorticoidOtherDuration;
+	}
+
+	public Boolean getShard() {
+		return shard;
+	}
+
+	public void setShard(Boolean shard) {
+		this.shard = shard;
+	}
+
+	public Boolean getAeds() {
+		return aeds;
+	}
+
+	public void setAeds(Boolean aeds) {
+		this.aeds = aeds;
+	}
+
+	public Boolean getAluminumPreparation() {
+		return aluminumPreparation;
+	}
+
+	public void setAluminumPreparation(Boolean aluminumPreparation) {
+		this.aluminumPreparation = aluminumPreparation;
+	}
+
+	public Boolean getLithiumPreparations() {
+		return lithiumPreparations;
+	}
+
+	public void setLithiumPreparations(Boolean lithiumPreparations) {
+		this.lithiumPreparations = lithiumPreparations;
+	}
+
+	public Boolean getHeparin() {
+		return heparin;
+	}
+
+	public void setHeparin(Boolean heparin) {
+		this.heparin = heparin;
+	}
+
+	public Boolean getAromataseInhibitor() {
+		return aromataseInhibitor;
+	}
+
+	public void setAromataseInhibitor(Boolean aromataseInhibitor) {
+		this.aromataseInhibitor = aromataseInhibitor;
+	}
+
+	public Boolean getLastOther() {
+		return lastOther;
+	}
+
+	public void setLastOther(Boolean lastOther) {
+		this.lastOther = lastOther;
+	}
+
+	public String getLastOtherDesc() {
+		return lastOtherDesc;
+	}
+
+	public void setLastOtherDesc(String lastOtherDesc) {
+		this.lastOtherDesc = lastOtherDesc;
+	}
+
+	public String getRealName() {
+		return realName;
+	}
+
+	public String getOrganizationName() {
+		return organizationName;
+	}
 }
