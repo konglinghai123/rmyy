@@ -153,8 +153,9 @@ insert into sec_resource(id, icon, identity, name, parent_id, parent_ids, is_sho
 ,(118,'rmyy-yjk-appointment-tree','appointment','聘任',102,'0/1/102/','true',null,'/security/dictionary/appointment/index',13)
 ,(119,'rmyy-security-permission-auth-tree','initaudit','新药初审',102,'0/1/102/','true',null,'/yjk/sb/initaudit/index',8)
 ,(120,'rmyy-yjk-reviewmain-tree','reviewmain','专家遴选',102,'0/1/102/','true',null,'/yjk/re/reviewmain/index',9)
+,(121,'rmyy-system-notice-tree','notice','公告栏',6,'0/1/6/','true',null,'/system/notice/index',3)
 ;
-select setval('seq_sec_resource_id', 120);
+select setval('seq_sec_resource_id', 121);
 
 /**
  * 权限初始化

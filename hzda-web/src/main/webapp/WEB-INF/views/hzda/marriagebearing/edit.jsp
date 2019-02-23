@@ -7,7 +7,7 @@
 	<div id="edit-from" class="easyui-layout" data-options="fit:true" style="border:0;">
 		<ewcms:showAlertMessage/>
 		<div data-options="region:'center',border:false">	
-		 	<form:form id="editForm" method="post" action="${ctx}/hzda/cataclasis/save/${generalInformationId}" commandName="m"  class="form-horizontal">
+		 	<form:form id="editForm" method="post" action="${ctx}/hzda/marriagebearing/save/${generalInformationId}" commandName="m"  class="form-horizontal">
 		    	<ewcms:showGlobalError commandName="m"/>
 		    	<form:hidden path="id"/>
 			  	<table class="formtable">

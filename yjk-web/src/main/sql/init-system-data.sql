@@ -86,14 +86,16 @@ insert into sys_icon(id,css_class, description, icon_height, icon_type, identity
 ,(79,'','药剂管理-特殊规则',48,'css_sprite','rmyy-yjk-specialrule','',0,'static/image/menu/yjk/specialrule.png','',0,48)
 ,(80,'','药剂管理-特殊规则',18,'css_sprite','rmyy-yjk-specialrule-tree','',0,'static/image/menu/yjk/specialrule.png','background-size:100%;',0,16)
 ,(81,'','药剂管理-专家遴选',48,'css_sprite','rmyy-yjk-reviewmain','',0,'static/image/menu/yjk/reviewmain.png','',0,48)
-,(82,'','药剂管理-专家遴选',18,'css_sprite','rmyy-yjk-reviewmain-tree','',0,'static/image/menu/yjk/reviewmain.png','background-size:100%,',0,16)
+,(82,'','药剂管理-专家遴选',18,'css_sprite','rmyy-yjk-reviewmain-tree','',0,'static/image/menu/yjk/reviewmain.png','background-size:100%;',0,16)
 ,(83,'','药剂管理-科室属性',48,'css_sprite','rmyy-yjk-departmentattribute','',0,'static/image/menu/yjk/departmentattribute.png','',0,48)
-,(84,'','药剂管理-科室属性',18,'css_sprite','rmyy-yjk-departmentattribute-tree','',0,'static/image/menu/yjk/departmentattribute.png','background-size:100%,',0,16)
+,(84,'','药剂管理-科室属性',18,'css_sprite','rmyy-yjk-departmentattribute-tree','',0,'static/image/menu/yjk/departmentattribute.png','background-size:100%;',0,16)
 ,(85,'','药剂管理-执业类别',48,'css_sprite','rmyy-yjk-profession','',0,'static/image/menu/yjk/profession.png','',0,48)
-,(86,'','药剂管理-执业类别',18,'css_sprite','rmyy-yjk-profession-tree','',0,'static/image/menu/yjk/profession.png','background-size:100%,',0,16)
+,(86,'','药剂管理-执业类别',18,'css_sprite','rmyy-yjk-profession-tree','',0,'static/image/menu/yjk/profession.png','background-size:100%;',0,16)
 ,(87,'','药剂管理-技术职称(资格)',48,'css_sprite','rmyy-yjk-technicaltitle','',0,'static/image/menu/yjk/technicaltitle.png','',0,48)
-,(88,'','药剂管理-技术职称(资格)',18,'css_sprite','rmyy-yjk-technicaltitle-tree','',0,'static/image/menu/yjk/technicaltitle.png','background-size:100%,',0,16)
+,(88,'','药剂管理-技术职称(资格)',18,'css_sprite','rmyy-yjk-technicaltitle-tree','',0,'static/image/menu/yjk/technicaltitle.png','background-size:100%;',0,16)
 ,(89,'','药剂管理-聘任',48,'css_sprite','rmyy-yjk-appointment','',0,'static/image/menu/yjk/appointment.png','',0,48)
-,(90,'','药剂管理-聘任',18,'css_sprite','rmyy-yjk-appointment-tree','',0,'static/image/menu/yjk/appointment.png','background-size:100%,',0,16)
+,(90,'','药剂管理-聘任',18,'css_sprite','rmyy-yjk-appointment-tree','',0,'static/image/menu/yjk/appointment.png','background-size:100%;',0,16)
+,(91,'','系统管理-公告栏',48,'css_sprite','rmyy-system-notice','',0,'static/image/menu/system/notice.png','',0,48)
+,(92,'','系统管理-公告栏',18,'css_sprite','rmyy-system-notice-tree','',0,'static/image/menu/system/notice.png','background-size:100%;',0,16)
 ;
-select setval('seq_sys_icon_id', 90);
+select setval('seq_sys_icon_id', 92);
