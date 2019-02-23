@@ -1,11 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/jspf/taglibs.jspf" %>
 
-<ewcms:head title="编辑- 用药记录"/>
+<ewcms:head title="编辑- 骨密度"/>
 	<div id="edit-form" class="easyui-layout" data-options="fit:true" style="border:0;">
 		<ewcms:showMessage/>
 		<div data-options="region:'center',border:false">	
-		 	<form:form id="editForm" action="${ctx}/hzda/medicationrecord/save/${generalInformationId}" method="post" commandName="m" class="form-horizontal">
+		 	<form:form id="editForm" action="${ctx}/hzda/bonedensity/save/${generalInformationId}" method="post" commandName="m" class="form-horizontal">
 		    	<ewcms:showGlobalError commandName="m"/>
 		    	<form:hidden path="id"/>
 		    	<c:forEach var="selection" items="${selections}">
@@ -13,32 +13,38 @@
 				</c:forEach>
 			  	<table class="formtable">
 					<tr>
-						<td width="20%"><form:label path="medicationDate">日期：</form:label></td>
-						<td width="30%"><form:input path="medicationDate"  class="easyui-datebox" style="width:120px"  /></td>
-						<td width="20%"><form:label path="vitd">VitD：</form:label></td>
-						<td width="30%"><form:input path="vitd" /></td>
+						<td width="20%"><form:label path="examinationDate">日期：</form:label></td>
+						<td width="30%"><form:input path="examinationDate"  class="easyui-datebox" style="width:120px"  /></td>
+						<td width="20%"><form:label path="lumbarBMD">腰椎BMD：</form:label></td>
+						<td width="30%"><form:input path="lumbarBMD" /></td>
 					</tr>
 					<tr>
-						<td width="20%"><form:label path="calcium">钙剂：</form:label></td>
-						<td width="30%"><form:input path="calcium"/></td>
-						<td width="20%"><form:label path="diphosphonate">双膦酸盐：</form:label></td>
-						<td width="30%"><form:input path="diphosphonate" /></td>
+						<td width="20%"><form:label path="lumbarT">腰椎T值：</form:label></td>
+						<td width="30%"><form:input path="lumbarT"/></td>
+						<td width="20%"><form:label path="lumbarZ">腰椎Z值：</form:label></td>
+						<td width="30%"><form:input path="lumbarZ" /></td>
 					</tr>
 					<tr>
-						<td width="20%"><form:label path="calcitonin">降钙素：</form:label></td>
-						<td width="30%"><form:input path="calcitonin"/></td>
-						<td width="20%"><form:label path="teriparatide">特立帕肽：</form:label></td>
-						<td width="30%"><form:input path="teriparatide" /></td>
+						<td width="20%"><form:label path="femoralDiameterBMD">股骨颈BMD：</form:label></td>
+						<td width="30%"><form:input path="femoralDiameterBMD"/></td>
+						<td width="20%"><form:label path="femoralDiameterT">股骨颈T值：</form:label></td>
+						<td width="30%"><form:input path="femoralDiameterT" /></td>
 					</tr>
 					<tr>
-						<td width="20%"><form:label path="denosumab">地诺单抗：</form:label></td>
-						<td width="30%"><form:input path="denosumab" /></td>
-						<td width="20%"><form:label path="chineseMedicine">中药：</form:label></td>
-						<td width="30%"><form:input path="chineseMedicine" /></td>
+						<td width="20%"><form:label path="femoralDiameterZ">股骨颈Z值：</form:label></td>
+						<td width="30%"><form:input path="femoralDiameterZ" /></td>
+						<td width="20%"><form:label path="coxaBMD">髋总BMD：</form:label></td>
+						<td width="30%"><form:input path="coxaBMD" /></td>
 					</tr>
 					<tr>
-						<td width="20%"><form:label path="other">其他：</form:label></td>
-						<td width="30%"><form:input path="other"/></td>
+						<td width="20%"><form:label path="coxaT">髋总T值：</form:label></td>
+						<td width="30%"><form:input path="coxaT"/></td>
+						<td width="20%"><form:label path="coxaZ">髋总Z值：</form:label></td>
+						<td width="30%"><form:input path="coxaZ" /></td>
+					</tr>					
+					<tr>
+						<td width="20%"><form:label path="remark">备注：</form:label></td>
+						<td width="30%"><form:input path="remark"/></td>
 						<td width="20%"></td>
 						<td width="30%"></td>
 					</tr>

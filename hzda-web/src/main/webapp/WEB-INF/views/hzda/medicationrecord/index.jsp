@@ -23,7 +23,7 @@
 		<div class="toolbar" style="margin-bottom:2px">
 			<a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true" onclick="$.ewcms.add({src:'${ctx}/hzda/medicationrecord/save/${generalInformationId}',title:'新增',width:500,height:260,left:100});">新增</a>
 			<a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-edit',plain:true" onclick="$.ewcms.edit({src:'${ctx}/hzda/medicationrecord/save/${generalInformationId}',title:'修改',width:500,height:260,left:100});">修改</a>
-			<a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-remove',plain:true" onclick="$.ewcms.remove({title:'删除'});">删除</a>
+			<a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-remove',plain:true" onclick="$.ewcms.remove({src:'${ctx}/hzda/medicationrecord/delete/${generalInformationId}',title:'删除'});">删除</a>
 			<a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-reload',plain:true" onclick="$.ewcms.query();">刷新</a>
 		</div>
 	</div>
