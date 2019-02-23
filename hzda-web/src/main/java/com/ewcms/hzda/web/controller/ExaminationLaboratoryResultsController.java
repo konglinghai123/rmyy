@@ -24,18 +24,18 @@ import com.ewcms.common.entity.search.SearchParameter;
 import com.ewcms.common.entity.search.Searchable;
 import com.ewcms.common.web.controller.BaseCRUDController;
 import com.ewcms.common.web.validate.AjaxResponse;
-import com.ewcms.hzda.entity.BoneDensity;
+import com.ewcms.hzda.entity.ExaminationLaboratoryResults;
 import com.ewcms.hzda.web.controller.util.HzdaUtil;
 import com.ewcms.security.user.entity.User;
 import com.ewcms.security.user.web.bind.annotation.CurrentUser;
 
 @Controller
-@RequestMapping(value = "/hzda/bonedensity")
-public class BoneDensityController extends	BaseCRUDController<BoneDensity, Long> {
+@RequestMapping(value = "/hzda/examinationlaboratoryresults")
+public class ExaminationLaboratoryResultsController extends	BaseCRUDController<ExaminationLaboratoryResults, Long> {
 
-	public BoneDensityController() {
+	public ExaminationLaboratoryResultsController() {
 		// setListAlsoSetCommonData(true);
-		setResourceIdentity("hzda:bonedensity");
+		setResourceIdentity("hzda:examinationlaboratoryresults");
 	}
 
 	@Override
@@ -56,8 +56,8 @@ public class BoneDensityController extends	BaseCRUDController<BoneDensity, Long>
 	
 	@RequestMapping(value = "query/{generalInformationId}")
 	@ResponseBody
-	public List<BoneDensity> query(@ModelAttribute SearchParameter<Long> searchParameter, @PathVariable(value = "generalInformationId")Long generalInformationId){
-		Searchable searchable = SearchHelper.parameterConverSearchable(searchParameter, BoneDensity.class);
+	public List<ExaminationLaboratoryResults> query(@ModelAttribute SearchParameter<Long> searchParameter, @PathVariable(value = "generalInformationId")Long generalInformationId){
+		Searchable searchable = SearchHelper.parameterConverSearchable(searchParameter, ExaminationLaboratoryResults.class);
 		searchable.addSearchFilter("generalInformationId", SearchOperator.EQ, generalInformationId);
 		searchable.addSort(Direction.DESC, "id");
 		
@@ -77,12 +77,12 @@ public class BoneDensityController extends	BaseCRUDController<BoneDensity, Long>
 	
 	@Override
 	@RequestMapping(value = "save/discard", method = RequestMethod.POST)
-	public String save(Model model, BoneDensity m, BindingResult result, List<Long> selections) {
+	public String save(Model model, ExaminationLaboratoryResults m, BindingResult result, List<Long> selections) {
 		throw new RuntimeException("discarded method");
 	}
 	
 	@RequestMapping(value = "save/{generalInformationId}", method = RequestMethod.POST)
-	public String save(Model model, @Valid @ModelAttribute("m") BoneDensity m, BindingResult result, @CurrentUser User user, @PathVariable(value = "generalInformationId") Long generalInformationId, @RequestParam(required = false) List<Long> selections, RedirectAttributes redirectAttributes) {
+	public String save(Model model, @Valid @ModelAttribute("m") ExaminationLaboratoryResults m, BindingResult result, @CurrentUser User user, @PathVariable(value = "generalInformationId") Long generalInformationId, @RequestParam(required = false) List<Long> selections, RedirectAttributes redirectAttributes) {
 		if (hasError(m, result)) {
 			return showSaveForm(model, selections);
 		}
