@@ -6,7 +6,7 @@
 		<thead>
 			<tr>
 			    <th data-options="field:'ck',checkbox:true" rowspan="2"></th>
-			    <th data-options="field:'id',hidden:true">编号</th>
+			    <th data-options="field:'id',hidden:true" rowspan="2">编号</th>
 			    <th data-options="field:'examinationDate',width:120" rowspan="2">日期</th>
 			    <th colspan="3">腰椎(LI-4)</th>
 			    <th colspan="3">股骨颈 </th>

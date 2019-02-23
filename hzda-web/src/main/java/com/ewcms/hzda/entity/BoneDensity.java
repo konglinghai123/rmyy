@@ -12,6 +12,7 @@ import javax.persistence.TemporalType;
 import org.hibernate.annotations.Formula;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.ewcms.common.entity.BaseSequenceEntity;
 
 /**
@@ -110,6 +111,7 @@ public class BoneDensity extends BaseSequenceEntity<Long>{
 	public void setGeneralInformationId(Long generalInformationId) {
 		this.generalInformationId = generalInformationId;
 	}
+	@JSONField(format = "yyyy-MM-dd")
 	public Date getExaminationDate() {
 		return examinationDate;
 	}
