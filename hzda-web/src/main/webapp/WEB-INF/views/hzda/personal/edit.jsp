@@ -43,12 +43,11 @@
 					<tr>
 						<td>饮料饮用</td>
 						<td>
-							(分别注明每周<form:input path="weeklyDrinks" size="3" cssClass="validate[custom[number]]"/>次，每次<form:input path="everyTimeDrinks" size="3" cssClass="validate[custom[number]]"/>毫升)&nbsp;&nbsp;&nbsp;&nbsp;
-							<form:checkbox path="coffee"/>咖啡&nbsp;&nbsp;&nbsp;&nbsp;
-							<form:checkbox path="strongTea"/>浓茶&nbsp;&nbsp;&nbsp;&nbsp;
-							<form:checkbox path="sodas"/>碳酸饮料&nbsp;&nbsp;&nbsp;&nbsp;
-							<form:checkbox path="milk"/>牛奶&nbsp;&nbsp;&nbsp;&nbsp;
-							<form:checkbox path="otherDrink"/>其他<form:input path="otherDrinkDesc" size="3"/>&nbsp;&nbsp;&nbsp;&nbsp;
+							<form:checkbox path="coffee"/>咖啡&nbsp;&nbsp;&nbsp;&nbsp;(每周<form:input path="coffeeWeeklyDrinks" size="3" cssClass="validate[custom[number]]"/>次，每次<form:input path="coffeeEveryTimeDrinks" size="3" cssClass="validate[custom[number]]"/>毫升)<br/>
+							<form:checkbox path="strongTea"/>浓茶&nbsp;&nbsp;&nbsp;&nbsp;(每周<form:input path="strongTeaWeeklyDrinks" size="3" cssClass="validate[custom[number]]"/>次，每次<form:input path="strongTeaEveryTimeDrinks" size="3" cssClass="validate[custom[number]]"/>毫升)<br/>
+							<form:checkbox path="sodas"/>碳酸饮料&nbsp;&nbsp;&nbsp;&nbsp;(每周<form:input path="sodasWeeklyDrinks" size="3" cssClass="validate[custom[number]]"/>次，每次<form:input path="sodasEveryTimeDrinks" size="3" cssClass="validate[custom[number]]"/>毫升)<br/>
+							<form:checkbox path="milk"/>牛奶&nbsp;&nbsp;&nbsp;&nbsp;(每周<form:input path="milkWeeklyDrinks" size="3" cssClass="validate[custom[number]]"/>次，每次<form:input path="milkEveryTimeDrinks" size="3" cssClass="validate[custom[number]]"/>毫升)<br/>
+							<form:checkbox path="otherDrink"/>其他<form:input path="otherDrinkDesc" size="3"/>&nbsp;&nbsp;&nbsp;&nbsp;(每周<form:input path="otherDrinkWeeklyDrinks" size="3" cssClass="validate[custom[number]]"/>次，每次<form:input path="otherDrinkEveryTimeDrinks" size="3" cssClass="validate[custom[number]]"/>毫升)<br/>
 							<form:checkbox path="dadra"/>拒绝回答
 						</td>
 					</tr>

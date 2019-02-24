@@ -103,7 +103,6 @@
 			if (id == 'index'){
 				$('#index').show();
 				$('#center').hide();
-				drugFormCountChart	();
 			}else{
 				$('#index').hide();
 				$('#center').show();

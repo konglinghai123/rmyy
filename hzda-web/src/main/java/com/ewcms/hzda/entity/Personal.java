@@ -42,14 +42,22 @@ import com.ewcms.common.entity.BaseSequenceEntity;
  * <li>lowfatDiet:低脂肪膳食</li>
  * <li>diabeticDiet:糖尿病膳食</li>
  * <li>dietRefuseAnswer:膳食拒绝回答</li>
- * <li>weeklyDrinks:每周几次</li>
- * <li>everyTimeDrinks:每次几ML</li>
  * <li>coffee:咖啡</li>
+ * <li>coffeeWeeklyDrinks:咖啡每周几次</li>
+ * <li>coffeeEveryTimeDrinks:咖啡每次几ML</li>
  * <li>strongTea:浓茶</li>
+ * <li>:浓茶每周几次</li>
+ * <li>strongTeaEveryTimeDrinks:浓茶每次几ML</li>
  * <li>sodas:碳酸饮料</li>
+ * <li>sodasWeeklyDrinks:碳酸饮料每周几次</li>
+ * <li>sodasEveryTimeDrinks:碳酸饮料每次几ML</li>
  * <li>milk:牛奶</li>
+ * <li>milkWeeklyDrinks:牛奶每周几次</li>
+ * <li>milkEveryTimeDrinks:牛奶每次几ML</li>
  * <li>otherDrink:其他饮料</li>
  * <li>otherDrinkDesc:其他饮料说明</li>
+ * <li>otherDrinkWeeklyDrinks:其他饮料每周几次</li>
+ * <li>otherDrinkEveryTimeDrinks:其他饮料每次几ML</li>
  * <li>dadra:饮料饮用拒绝回答</li>
  * <li>sleepLessThanFourHours:小于4小时</li>
  * <li>sleepFourToSixHours:4-6小时</li>
@@ -151,22 +159,38 @@ public class Personal extends BaseSequenceEntity<Long> {
 	private Boolean diabeticDiet;
 	@Column(name = "is_diet_refuse_answer")
 	private Boolean dietRefuseAnswer;
-	@Column(name = "weekly_drinks")
-	private Double weeklyDrinks;
-	@Column(name = "every_time_drinks")
-	private Double everyTimeDrinks;
 	@Column(name = "is_coffeer")
 	private Boolean coffee;
+	@Column(name = "cofee_weekly_drinks")
+	private Double coffeeWeeklyDrinks;
+	@Column(name = "coffee_every_time_drinks")
+	private Double coffeeEveryTimeDrinks;
 	@Column(name = "is_strong_tea")
 	private Boolean strongTea;
+	@Column(name = "strong_tea_weekly_drinks")
+	private Double strongTeaWeeklyDrinks;
+	@Column(name = "strong_tea_every_time_drinks")
+	private Double strongTeaEveryTimeDrinks;
 	@Column(name = "is_sodas")
 	private Boolean sodas;
+	@Column(name = "sodas_weekly_drinks")
+	private Double sodasWeeklyDrinks;
+	@Column(name = "sodas_every_time_drinks")
+	private Double sodasEveryTimeDrinks;
 	@Column(name = "is_milk")
 	private Boolean milk;
+	@Column(name = "milk_weekly_drinks")
+	private Double milkWeeklyDrinks;
+	@Column(name = "milk_every_time_drinks")
+	private Double milkEveryTimeDrinks;
 	@Column(name = "is_other_drink")
 	private Boolean otherDrink;
 	@Column(name = "other_drink_desc", columnDefinition = "text")
 	private String otherDrinkDesc;
+	@Column(name = "other_drink_weekly_drinks")
+	private Double otherDrinkWeeklyDrinks;
+	@Column(name = "other_drink_every_time_drinks")
+	private Double otherDrinkEveryTimeDrinks;
 	@Column(name = "is_dadra")
 	private Boolean dadra;
 	@Column(name = "is_sleep_less_than_four_hours")
@@ -444,28 +468,28 @@ public class Personal extends BaseSequenceEntity<Long> {
 		this.dietRefuseAnswer = dietRefuseAnswer;
 	}
 
-	public Double getWeeklyDrinks() {
-		return weeklyDrinks;
-	}
-
-	public void setWeeklyDrinks(Double weeklyDrinks) {
-		this.weeklyDrinks = weeklyDrinks;
-	}
-
-	public Double getEveryTimeDrinks() {
-		return everyTimeDrinks;
-	}
-
-	public void setEveryTimeDrinks(Double everyTimeDrinks) {
-		this.everyTimeDrinks = everyTimeDrinks;
-	}
-
 	public Boolean getCoffee() {
 		return coffee;
 	}
 
 	public void setCoffee(Boolean coffee) {
 		this.coffee = coffee;
+	}
+
+	public Double getCoffeeWeeklyDrinks() {
+		return coffeeWeeklyDrinks;
+	}
+
+	public void setCoffeeWeeklyDrinks(Double coffeeWeeklyDrinks) {
+		this.coffeeWeeklyDrinks = coffeeWeeklyDrinks;
+	}
+
+	public Double getCoffeeEveryTimeDrinks() {
+		return coffeeEveryTimeDrinks;
+	}
+
+	public void setCoffeeEveryTimeDrinks(Double coffeeEveryTimeDrinks) {
+		this.coffeeEveryTimeDrinks = coffeeEveryTimeDrinks;
 	}
 
 	public Boolean getStrongTea() {
@@ -476,6 +500,22 @@ public class Personal extends BaseSequenceEntity<Long> {
 		this.strongTea = strongTea;
 	}
 
+	public Double getStrongTeaWeeklyDrinks() {
+		return strongTeaWeeklyDrinks;
+	}
+
+	public void setStrongTeaWeeklyDrinks(Double strongTeaWeeklyDrinks) {
+		this.strongTeaWeeklyDrinks = strongTeaWeeklyDrinks;
+	}
+
+	public Double getStrongTeaEveryTimeDrinks() {
+		return strongTeaEveryTimeDrinks;
+	}
+
+	public void setStrongTeaEveryTimeDrinks(Double strongTeaEveryTimeDrinks) {
+		this.strongTeaEveryTimeDrinks = strongTeaEveryTimeDrinks;
+	}
+
 	public Boolean getSodas() {
 		return sodas;
 	}
@@ -484,12 +524,44 @@ public class Personal extends BaseSequenceEntity<Long> {
 		this.sodas = sodas;
 	}
 
+	public Double getSodasWeeklyDrinks() {
+		return sodasWeeklyDrinks;
+	}
+
+	public void setSodasWeeklyDrinks(Double sodasWeeklyDrinks) {
+		this.sodasWeeklyDrinks = sodasWeeklyDrinks;
+	}
+
+	public Double getSodasEveryTimeDrinks() {
+		return sodasEveryTimeDrinks;
+	}
+
+	public void setSodasEveryTimeDrinks(Double sodasEveryTimeDrinks) {
+		this.sodasEveryTimeDrinks = sodasEveryTimeDrinks;
+	}
+
 	public Boolean getMilk() {
 		return milk;
 	}
 
 	public void setMilk(Boolean milk) {
 		this.milk = milk;
+	}
+
+	public Double getMilkWeeklyDrinks() {
+		return milkWeeklyDrinks;
+	}
+
+	public void setMilkWeeklyDrinks(Double milkWeeklyDrinks) {
+		this.milkWeeklyDrinks = milkWeeklyDrinks;
+	}
+
+	public Double getMilkEveryTimeDrinks() {
+		return milkEveryTimeDrinks;
+	}
+
+	public void setMilkEveryTimeDrinks(Double milkEveryTimeDrinks) {
+		this.milkEveryTimeDrinks = milkEveryTimeDrinks;
 	}
 
 	public Boolean getOtherDrink() {
@@ -506,6 +578,22 @@ public class Personal extends BaseSequenceEntity<Long> {
 
 	public void setOtherDrinkDesc(String otherDrinkDesc) {
 		this.otherDrinkDesc = otherDrinkDesc;
+	}
+
+	public Double getOtherDrinkWeeklyDrinks() {
+		return otherDrinkWeeklyDrinks;
+	}
+
+	public void setOtherDrinkWeeklyDrinks(Double otherDrinkWeeklyDrinks) {
+		this.otherDrinkWeeklyDrinks = otherDrinkWeeklyDrinks;
+	}
+
+	public Double getOtherDrinkEveryTimeDrinks() {
+		return otherDrinkEveryTimeDrinks;
+	}
+
+	public void setOtherDrinkEveryTimeDrinks(Double otherDrinkEveryTimeDrinks) {
+		this.otherDrinkEveryTimeDrinks = otherDrinkEveryTimeDrinks;
 	}
 
 	public Boolean getDadra() {

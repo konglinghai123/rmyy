@@ -39,7 +39,7 @@
 		</thead>
 	</table>
 	<div id="tb" style="padding:5px;height:auto;">
-        <div class="toolbar" style="margin-bottom:2px">
+        <div id="toolbar" class="toolbar" style="margin-bottom:2px">
 			<a id="tb-add" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-add'" onclick="$.ewcms.add({title:'新增 - 一般信息',width:850,height:550});">新增</a>
 			<a id="tb-edit" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-edit'" onclick="$.ewcms.edit({title:'修改 - 一般信息',width:850,height:550});">修改</a>
 		</div>
@@ -77,24 +77,27 @@
 	$(function(){
 		var pathname = window.location.pathname;
 		if (pathname != '${ctx}/hzda/generalinformation/index'){
-			$('#tt').datagrid({
-				view : detailview,
-				detailFormatter : function(rowIndex, rowData) {
-					return '<div id="ddv-' + rowIndex + '" style="padding:2px"></div>';
-				},
-				onExpandRow: function(rowIndex, rowData){
-					$('#ddv-' + rowIndex).panel({
-						border:true,
-						cache:false,
-						content: '<iframe src="' + pathname + '/' + rowData.id + '" frameborder="0" width="60%" height="400px" scrolling="auto"></iframe>',
-						onLoad:function(){
-							$('#tt').datagrid('fixDetailRowHeight',rowIndex);
-						}
-					});
-					$('#tt').datagrid('fixDetailRowHeight',rowIndex);
-				}
-			});
+			$('#toolbar').hide();
+		} else {
+			pathname = "${ctx}/hzda/generalinformation/tabs"
 		}
+		$('#tt').datagrid({
+			view : detailview,
+			detailFormatter : function(rowIndex, rowData) {
+				return '<div id="ddv-' + rowIndex + '" style="padding:2px"></div>';
+			},
+			onExpandRow: function(rowIndex, rowData){
+				$('#ddv-' + rowIndex).panel({
+					border:true,
+					cache:false,
+					content: '<iframe src="' + pathname + '/' + rowData.id + '" frameborder="0" width="60%" height="400px" scrolling="auto"></iframe>',
+					onLoad:function(){
+						$('#tt').datagrid('fixDetailRowHeight',rowIndex);
+					}
+				});
+				$('#tt').datagrid('fixDetailRowHeight',rowIndex);
+			}
+		});
 		$('#tb-query').bind('click', function(){
 			$.cookie('likeName-${user.username}', $('#likeName').val(), {path: '${ctx}/hzda'});
 			$.ewcms.query();

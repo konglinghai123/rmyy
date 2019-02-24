@@ -32,10 +32,12 @@ select setval('seq_sec_job_id', 2);
 delete from sec_resource;
 insert into sec_resource(id, icon, identity, name, parent_id, parent_ids, is_show, style, url, weight) values
 (1,'','','资源',0,'0/','true',null,'',1)
-,(62,'ztree_file','','个人中心',1,'0/1/','true','accordion','',1)
-,(5,'ztree_file','security','权限管理',1,'0/1/','true','tree','',3)
-,(6,'ztree_file','system','系统管理',1,'0/1/','true','tree','',4)
-,(95,'ztree_file','monitor','监控管理',1,'0/1/','true',null,'',5)
+,(62,'ztree_file','','个人中心',1,'0/1/','true','tree','',3)
+,(5,'ztree_file','security','权限管理',1,'0/1/','true','tree','',4)
+,(6,'ztree_file','system','系统管理',1,'0/1/','true','tree','',5)
+,(95,'ztree_file','monitor','监控管理',1,'0/1/','true',null,'',6)
+,(114,'ztree_file','hzda','骨质疏松',1,'0/1/','true','tree','',1)
+,(134,'ztree_file','zd','字典管理',1,'0/1/','true','tree','',2)
 ,(9,'rmyy-security-resource-tree','resource','控制列表',5,'0/1/5/','true',null,'/security/resource/index',1)
 ,(49,'rmyy-security-group-tree','group','分组列表',5,'0/1/5/','true',null,'/security/group/group/index',2)
 ,(50,'ztree_file','','用户管理',5,'0/1/5/','true',null,'',4)
@@ -69,7 +71,6 @@ insert into sec_resource(id, icon, identity, name, parent_id, parent_ids, is_sho
 ,(101,'rmyy-monitor-hibernate-tree','hibernate','Hibernate监控',95,'0/1/95/','true',null,'/monitor/hibernate/index',6)
 ,(112,'rmyy-system-onlineeditor-tree','onlineEditor','在线编辑',6,'0/1/6/','true',null,'/system/editor/index',7)
 ,(113,'rmyy-system-staticresource-tree','staticResource','静态资源版本控制',6,'0/1/6/','true',null,'/system/staticresource/index',8)
-,(114,'ztree_file','hzda','骨质疏松',1,'0/1/','true','accordion','',8)
 ,(115,'rmyy-hzda-generalinformation','generalinformation','一般信息',114,'0/1/114/','true',null,'/hzda/generalinformation/index',1)
 ,(116,'rmyy-hzda-complained','complained','主诉',114,'0/1/114/','true',null,'/hzda/complained/index',2)
 ,(117,'rmyy-hzda-presentillness','presentillness','现病史',114,'0/1/114/','true',null,'/hzda/presentillness/index',3)
@@ -85,13 +86,12 @@ insert into sec_resource(id, icon, identity, name, parent_id, parent_ids, is_sho
 ,(128,'rmyy-hzda-diagnosticmeasures','diagnosticmeasures','诊疗措施',114,'0/1/114/','true',null,'/hzda/diagnosticmeasures/index',14)
 ,(129,'rmyy-hzda-examinationlaboratoryresults','examinationlaboratoryresults','检查及化验结果',114,'0/1/114/','true',null,'/hzda/examinationlaboratoryresults/index',15)
 ,(130,'rmyy-hzda-bonedensity','bonedensity','骨密度',114,'0/1/114/','true',null,'/hzda/bonedensity/index',16)
-,(131,'rmyy-hzda-fracture','fracture','影像学检查：骨折',114,'0/1/114/','true',null,'/hzda/fracture/index',17)
+,(131,'rmyy-hzda-fracture','fracture','影像学检查:骨折',114,'0/1/114/','true',null,'/hzda/fracture/index',17)
 ,(132,'rmyy-hzda-fractureother','fractureother','其它相关检查',114,'0/1/114/','true',null,'/hzda/fractureother/index',18)
 ,(133,'rmyy-hzda-medicationrecord','medicationrecord','用药记录',114,'0/1/114/','true',null,'/hzda/medicationrecord/index',19)
-,(134,'ztree_file','zd','字典管理',1,'0/1/','true','accordion','',9)
 ,(135,'rmyy-system-externalds-tree','nation','民族',134,'0/1/134/','true',null,'/hzda/zd/nation/index',3)
 ,(136,'rmyy-system-icon-tree','certificatetype','证件类型',134,'0/1/134/','true',null,'/hzda/zd/certificatetype/index',2)
-,(137,'rmyy-system-notice-tree','notice','公告栏',6,'0/1/6/','true',null,'/system/notice/index',3)
+,(137,'rmyy-system-notice-tree','notice','公告栏',6,'0/1/6/','true',null,'/system/notice/index',4)
 ;
 select setval('seq_sec_resource_id', 137);
 
