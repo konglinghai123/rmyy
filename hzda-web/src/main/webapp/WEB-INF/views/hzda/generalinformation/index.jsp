@@ -39,10 +39,12 @@
 		</thead>
 	</table>
 	<div id="tb" style="padding:5px;height:auto;">
+		<c:if test="${!user.admin}">
         <div id="toolbar" class="toolbar" style="margin-bottom:2px">
 			<a id="tb-add" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-add'" onclick="$.ewcms.add({title:'新增 - 一般信息',width:850,height:550});">新增</a>
 			<a id="tb-edit" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-edit'" onclick="$.ewcms.edit({title:'修改 - 一般信息',width:850,height:550});">修改</a>
 		</div>
+		</c:if>
         <div>
         	<form id="queryform" style="padding:0;margin:0;">
         		<table class="formtable">

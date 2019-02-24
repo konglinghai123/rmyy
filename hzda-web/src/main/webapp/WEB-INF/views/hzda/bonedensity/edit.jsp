@@ -51,11 +51,13 @@
 				</table>
 			</form:form>
 		</div>
+		<c:if test="${!user.admin}">
 		<div data-options="region:'south'" style="text-align:center;height:30px;border:0">
 	  		<a class="easyui-linkbutton" data-options="iconCls:'icon-save'" href="javascript:void(0);" onclick="javascript:$('#editForm').submit();">提交</a>
 	  		<a class="easyui-linkbutton" data-options="iconCls:'icon-undo'" href="javascript:void(0);" onclick="javascript:$('#editForm').form('reset');">重置</a>
 	  		<a class="easyui-linkbutton" data-options="iconCls:'icon-cancel'" href="javascript:void(0);" onclick="javascript:parent.$('#edit-window').window('close');">关闭</a>
 		</div>
+		</c:if>
 	</div>
 <ewcms:footer/>
 <script type="text/javascript">
