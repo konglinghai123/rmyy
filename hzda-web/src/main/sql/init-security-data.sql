@@ -36,7 +36,7 @@ insert into sec_resource(id, icon, identity, name, parent_id, parent_ids, is_sho
 ,(5,'ztree_file','security','权限管理',1,'0/1/','true','tree','',4)
 ,(6,'ztree_file','system','系统管理',1,'0/1/','true','tree','',5)
 ,(95,'ztree_file','monitor','监控管理',1,'0/1/','true',null,'',6)
-,(114,'ztree_file','hzda','骨质疏松',1,'0/1/','true','tree','',1)
+,(114,'ztree_file','hzda','骨质疏松患者管理',1,'0/1/','true','tree','',1)
 ,(134,'ztree_file','zd','字典管理',1,'0/1/','true','tree','',2)
 ,(9,'rmyy-security-resource-tree','resource','控制列表',5,'0/1/5/','true',null,'/security/resource/index',1)
 ,(49,'rmyy-security-group-tree','group','分组列表',5,'0/1/5/','true',null,'/security/group/group/index',2)

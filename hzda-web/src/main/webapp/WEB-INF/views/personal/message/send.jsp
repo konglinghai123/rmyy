@@ -77,7 +77,7 @@
 					}		
                 },
                 {field:'mobilePhoneNumber',title:'手机号',width:120},
-                {field:'organizationNames',title:'科室名称',width:150}
+                {field:'organizationNames',title:'医院名称',width:150}
 		    ]]
 		});
 			

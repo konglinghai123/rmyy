@@ -21,13 +21,13 @@
 				    	<tr id="tr-user">
 		            		<td>用户：</td>
 				  			<td>
-								<input id="userIds" name="userIds" cssClass="validate[required]"/>
+								<input id="userIds" name="userIds" class="validate[required]"/>
 							</td>
 				    	</tr>
 				    	<tr id="tr-group">
 				    		<td><span id="span-group"></span>：</td>
 				    		<td>
-				    			<input id="groupIds" name="groupIds" cssClass="validate[required]"/>
+				    			<input id="groupIds" name="groupIds" class="validate[required]"/>
 				    		</td>
 				    	</tr>
 				    	<tr id="tr-organization_job-1">
@@ -55,7 +55,7 @@
 									  	<c:set var="jobUrl" value="${ctx}/security/organization/job/tree/${m.jobId}/singleChecked"/>
 									</c:otherwise>
 								</c:choose>
-								<input id="jobIds" name="jobIds" cssClass="validate[required]" data-options="url:'${jobUrl}',editable:false,multiple:true"/>
+								<input id="jobIds" name="jobIds" class="validate[required]" data-options="url:'${jobUrl}',editable:false,multiple:true"/>
 				    		</td>
 				    	</tr>
 				  	</table>

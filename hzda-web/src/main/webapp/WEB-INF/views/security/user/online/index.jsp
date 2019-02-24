@@ -6,7 +6,7 @@
 		<thead>
 			<tr>
 				<th data-options="field:'ck',checkbox:true"></th>
-				<th data-options="field:'id',width:240,sortable:true">用户会话ID</th>
+				<th data-options="field:'id',width:300,sortable:true">用户会话ID</th>
 				<th data-options="field:'userName',width:150,sortable:true">用户</th>
 				<th data-options="field:'host',width:150,sortable:true">用户主机IP</th>
 				<th data-options="field:'systemHost',width:150,sortable:true">系统主机IP</th>
@@ -16,7 +16,7 @@
 						formatter:function(val, row){
 							return row.statusInfo;
 						}">状态</th>
-				<th data-options="field:'userAgent',width:500,sortable:true">User-Agent</th>
+				<th data-options="field:'userAgent',width:500,sortable:true,formatter:formatTooltip">User-Agent</th>
 			</tr>
 		</thead>
 	</table>
@@ -77,4 +77,7 @@
 		    });
 		});
 	});
+	function formatTooltip(val, row){
+		return val != null ? '<span title="' + val + '" class="easyui-tooltip">' + val + '</span>' : '';
+	}
 </script>
