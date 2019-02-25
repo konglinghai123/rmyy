@@ -10,8 +10,8 @@
 		    	<form:hidden path="id"/>
 			  	<table class="formtable">
 		        	<tr>
-		        		<td width="30%">吸烟</td>
-		        		<td width="70%">
+		        		<td width="150">吸烟</td>
+		        		<td >
 		        			<form:checkbox path="noSmok"/>不吸&nbsp;&nbsp;&nbsp;&nbsp;
 		        			<form:checkbox path="quitSmok"/>已戒(戒烟年龄<form:input path="quitSmokAge" size="3" cssClass="validate[custom[number]]"/>)&nbsp;&nbsp;&nbsp;&nbsp;
 		        			<form:checkbox path="smok"/>目前吸烟(平均每日<form:input path="smokDay" size="3" cssClass="validate[custom[number]]"/>支，吸烟<form:input path="smokYear" size="3" cssClass="validate[custom[number]]"/>年)&nbsp;&nbsp;&nbsp;&nbsp;

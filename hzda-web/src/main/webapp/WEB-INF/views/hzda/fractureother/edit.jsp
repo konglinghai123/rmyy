@@ -10,8 +10,8 @@
 		    	<form:hidden path="id"/>
 			  	<table class="formtable">
 		        	<tr>
-						<td width="20%"><form:label path="otherExaminations">其它相关检查：</form:label></td>
-						<td width="80%" colspan="3"><form:textarea path="otherExaminations" style="width:100%;height:210px"/></td>
+						<td width="150"><form:label path="otherExaminations">其它相关检查：</form:label></td>
+						<td ><form:textarea path="otherExaminations" style="width:100%;height:210px"/></td>
 					</tr>
 				</table>
 			</form:form>
