@@ -5,7 +5,7 @@
 	<div id="edit-from" class="easyui-layout" data-options="fit:true" style="border:0;">
 		<ewcms:showAlertMessage/>
 		<div data-options="region:'center',border:false">	
-		 	<form:form id="editForm" method="post" action="${ctx}/hzda/diagnosis/save/${generalInformationId}" commandName="m"  class="form-horizontal">
+		 	<form:form id="editForm" method="post" action="${ctx}/hzda/examined/save/${generalInformationId}" commandName="m"  class="form-horizontal">
 		    	<ewcms:showGlobalError commandName="m"/>
 		    	<form:hidden path="id"/>
 			  	<table class="formtable">
@@ -51,8 +51,8 @@
 						</td>
 					</tr>				
 					<tr>
-						<td></td>
-						<td colspan="3"><form:label path="sign">专科查体出现的其他症状或体征其他症状或体征</form:label><form:textarea path="sign" style="width:400px;height:50px"/></td>
+						<td dth="150">专科查体出现的其他症状或体征其他症状或体征</td>
+						<td><form:textarea path="sign" style="width:400px;height:50px"/></td>
 					</tr>
 				</table>
 			</form:form>

@@ -61,7 +61,7 @@ public class Examined extends BaseSequenceEntity<Long>{
 	private Long userId;
 	@Formula(value = "(select s_o.realname  from sec_user s_o where s_o.id=user_id)")
 	private String realName;
-	@Column(name = "organization_id", nullable = false)
+	@Column(name = "organization_id")
 	private Long organizationId;
 	@Formula(value = "(select s_o.name from sec_organization s_o where s_o.id=organization_id)")
 	private String organizationName;
@@ -82,6 +82,8 @@ public class Examined extends BaseSequenceEntity<Long>{
 	private Boolean sideBending;
 	@Column(name = "is_ambulation")
 	private Boolean ambulation;
+	@Column(name = "is_abduction")
+	private Boolean abduction;	
 	@Column(name = "is_wheel_chair")
 	private Boolean wheelChair;
 	@Column(name = "is_bed_care")
@@ -307,6 +309,12 @@ public class Examined extends BaseSequenceEntity<Long>{
 	}
 	public void setOtherConstrainPart(String otherConstrainPart) {
 		this.otherConstrainPart = otherConstrainPart;
+	}
+	public Boolean getAbduction() {
+		return abduction;
+	}
+	public void setAbduction(Boolean abduction) {
+		this.abduction = abduction;
 	}	
 	
 }
