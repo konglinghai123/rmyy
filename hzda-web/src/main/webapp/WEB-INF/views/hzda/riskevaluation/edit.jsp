@@ -51,19 +51,36 @@
 					</tr>
 					<tr>
 						<td>11.女士回答：您是否在45岁或以前已停经？</td>
-						<td>11.<form:radiobuttons path="omt11" items="${booleanList}" itemLabel="info" delimiter="&nbsp;"/></td>
+						<td>
+							<c:if test="${isShow}">
+							11.<form:radiobuttons path="omt11" items="${booleanList}" itemLabel="info" delimiter="&nbsp;"/>
+							</c:if>
+						</td>
 					</tr>
+					
 					<tr>
 						<td>12.女士回答：除怀孕、停经或切除子宫后，您是否曾经停经超过12个月？</td>
-						<td>12.<form:radiobuttons path="omt12" items="${booleanList}" itemLabel="info" delimiter="&nbsp;"/></td>
+						<td>
+							<c:if test="${isShow}">
+							12.<form:radiobuttons path="omt12" items="${booleanList}" itemLabel="info" delimiter="&nbsp;"/>
+							</c:if>
+						</td>
 					</tr>
 					<tr>
 						<td>13.女士回答：您是否在50岁前切除卵巢且没有服用激素补充剂？</td>
-						<td>13.<form:radiobuttons path="omt13" items="${booleanList}" itemLabel="info" delimiter="&nbsp;"/></td>
+						<td>
+							<c:if test="${isShow}">
+							13.<form:radiobuttons path="omt13" items="${booleanList}" itemLabel="info" delimiter="&nbsp;"/>
+							</c:if>
+						</td>
 					</tr>
 					<tr>
 						<td>14.男士回答：您是否曾经因雄激素过低而导致阳痿或性欲减低？</td>
-						<td>14.<form:radiobuttons path="omt14" items="${booleanList}" itemLabel="info" delimiter="&nbsp;"/></td>
+						<td>
+							<c:if test="${!isShow}">
+							14.<form:radiobuttons path="omt14" items="${booleanList}" itemLabel="info" delimiter="&nbsp;"/>
+							</c:if>
+						</td>
 					</tr>
 					<tr>
 						<td>15. 您是否每天饮酒（每天超过两单位乙醇，相当于啤酒1斤、葡萄糖酒3两或烈性酒1两）？</td>
@@ -98,8 +115,6 @@
 <ewcms:footer/>
 <script type="text/javascript">
 	$(function(){
-		<c:if test='${empty m.omt1}'>$('input:radio[name="omt1"]').attr('checked',false);</c:if>
-		
 		var validationEngine = $("#editForm").validationEngine({
 			promptPosition:'bottomLeft',
 			showOneMessage: true

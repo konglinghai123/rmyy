@@ -19,6 +19,7 @@ import com.ewcms.common.entity.enums.BooleanEnum;
 import com.ewcms.common.utils.MessageUtils;
 import com.ewcms.common.web.controller.BaseCRUDController;
 import com.ewcms.hzda.entity.RiskEvaluation;
+import com.ewcms.hzda.entity.GeneralInformation.Sex;
 import com.ewcms.hzda.entity.GeneralInformation;
 import com.ewcms.hzda.service.RiskEvaluationService;
 import com.ewcms.hzda.web.controller.util.HzdaUtil;
@@ -60,7 +61,11 @@ public class RiskEvaluationController extends BaseCRUDController<RiskEvaluation,
 		if (riskEvaluation == null) {
 			riskEvaluation = new RiskEvaluation();
 		}
+		
+		Boolean isShow = (generalInformation.getSex() != null && generalInformation.getSex() == Sex.FEMALE) ? true : false;
+		
 		model.addAttribute("generalInformationId", generalInformation.getId());
+		model.addAttribute("isShow", isShow);
 		model.addAttribute("m", riskEvaluation);
 
 		return viewName("edit");

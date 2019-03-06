@@ -43,3 +43,13 @@ WITH (
 );
 ALTER TABLE public.hzda_risk_evaluation
   OWNER TO postgres;
+  
+  CREATE SEQUENCE public.hzda_risk_evaluation_id
+  INCREMENT 1
+  MINVALUE 1
+  MAXVALUE 9223372036854775807
+  START 1
+  CACHE 1;
+ALTER TABLE public.hzda_risk_evaluation_id
+  OWNER TO postgres;
+
