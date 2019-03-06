@@ -28,7 +28,7 @@
 						<td width="20%"><form:label path="remark">备注：</form:label></td>
 						<td width="30%"><form:input path="remark"/></td>
 						<td width="20%">上传图片</td>
-						<td width="30%"><input type="file" name="uploadPicture"  id="uploadPicture"  accept="image/*" class="validate[required]"></td>
+						<td width="30%"><input type="file" name="uploadPictureFile"  id="uploadPictureFile"  accept="image/*" class="validate[required]"></td>
 					</tr>
 				</table>
 			</form:form>

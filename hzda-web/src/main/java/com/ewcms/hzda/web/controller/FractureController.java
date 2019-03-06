@@ -94,7 +94,7 @@ public class FractureController extends BaseCRUDController<Fracture, Long> {
 
 	@RequestMapping(value = "save/{generalInformationId}", method = RequestMethod.POST)
 	public String save(Model model, @Valid @ModelAttribute("m") Fracture m,
-			@RequestParam(value = "uploadPicture") MultipartFile uploadPicture, BindingResult result,
+			@RequestParam(value = "uploadPictureFile") MultipartFile uploadPictureFile, BindingResult result,
 			@CurrentUser User user, @PathVariable(value = "generalInformationId") Long generalInformationId,
 			@RequestParam(required = false) List<Long> selections, RedirectAttributes redirectAttributes) {
 		if (hasError(m, result)) {
@@ -111,8 +111,8 @@ public class FractureController extends BaseCRUDController<Fracture, Long> {
 		m.setOrganizationId(user.getOrganizationJobs().get(0).getOrganizationId());
 		m.setGeneralInformationId(generalInformationId);
 		try {
-			m.setFormatName(ImageUtil.getFormatName(uploadPicture));
-			m.setUploadPicture(uploadPicture.getBytes());
+			m.setFormatName(ImageUtil.getFormatName(uploadPictureFile));
+			m.setUploadPicture(uploadPictureFile.getBytes());
 		} catch (IOException e) {
 			m.setFormatName(null);
 			m.setUploadPicture(null);
