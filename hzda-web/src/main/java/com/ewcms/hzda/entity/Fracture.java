@@ -12,6 +12,7 @@ import javax.persistence.TemporalType;
 import org.hibernate.annotations.Formula;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.ewcms.common.entity.BaseSequenceEntity;
 
 /**
@@ -28,6 +29,8 @@ import com.ewcms.common.entity.BaseSequenceEntity;
  * <li>degree:程度</li>
  * <li>reason:原因</li>
  * <li>remark:备注</li>
+ * <li>uploadPicture:上传图片</li>
+ * <li>formatName:图片格式</li>
  * </ul>
  * 
  * @author wuzhijun
@@ -60,6 +63,10 @@ public class Fracture extends BaseSequenceEntity<Long>{
     private String reason;
     @Column(name = "remark")
     private String remark;
+	@Column(name = "upload_picture")
+	private byte[] uploadPicture;
+	@Column(name = "format_name")
+	private String formatName;
 	public Long getUserId() {
 		return userId;
 	}
@@ -90,6 +97,7 @@ public class Fracture extends BaseSequenceEntity<Long>{
 	public void setGeneralInformationId(Long generalInformationId) {
 		this.generalInformationId = generalInformationId;
 	}
+	@JSONField(format = "yyyy-MM-dd")
 	public Date getExaminationDate() {
 		return examinationDate;
 	}
@@ -120,4 +128,18 @@ public class Fracture extends BaseSequenceEntity<Long>{
 	public void setRemark(String remark) {
 		this.remark = remark;
 	}
+	public byte[] getUploadPicture() {
+		return uploadPicture;
+	}
+	public void setUploadPicture(byte[] uploadPicture) {
+		this.uploadPicture = uploadPicture;
+	}
+	public String getFormatName() {
+		return formatName;
+	}
+	public void setFormatName(String formatName) {
+		this.formatName = formatName;
+	}
+	
+	
 }

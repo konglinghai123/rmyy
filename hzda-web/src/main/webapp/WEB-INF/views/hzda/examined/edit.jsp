@@ -21,13 +21,19 @@
 						<td>
 							<form:checkbox path="normal"/>正常&nbsp;&nbsp;&nbsp;&nbsp;
 							<form:checkbox path="straighten"/>变直&nbsp;&nbsp;&nbsp;&nbsp;
-							<form:checkbox path="sideBending"/>侧弯行动状态&nbsp;&nbsp;&nbsp;&nbsp;
+							<form:checkbox path="sideBending"/>侧弯
+
+						</td>
+					</tr>
+					<tr>
+						<td dth="150">行动状态：</td>
+						<td>
 							<form:checkbox path="ambulation"/>独立行走&nbsp;&nbsp;&nbsp;&nbsp;
 							<form:checkbox path="abduction"/>需拄拐或他人搀扶行走&nbsp;&nbsp;&nbsp;&nbsp;
 							<form:checkbox path="wheelChair"/>依靠轮椅&nbsp;&nbsp;&nbsp;&nbsp;
 							<form:checkbox path="bedCare"/>长期卧床
 						</td>
-					</tr>
+					</tr>					
 					<tr>
 						<td dth="150">是否有压痛及压痛部位：</td>
 						<td>
