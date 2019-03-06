@@ -47,7 +47,7 @@ import com.ewcms.hzda.zd.entity.Nation;
  * <li>medicalInsuranceNumber:医保号</li>
  * <li>mobilePhoneNumber:常用手机号码</li>
  * <li>otherTelephone:其他联系电话</li>
- * <li>remakrs:备注</li>
+ * <li>remakrs:备注</li>4
  * <li>
  * </ul>
  * 

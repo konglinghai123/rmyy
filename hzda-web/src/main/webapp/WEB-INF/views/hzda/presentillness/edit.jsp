@@ -13,7 +13,8 @@
 		        		<td>乏力：</td>
 						<td>
 							<form:label path="afterFatigue"><form:checkbox path="afterFatigue"/>活动后</form:label>&nbsp;&nbsp;&nbsp;&nbsp;
-							<form:checkbox path="fatiguePersistence"/>持续性<form:input path="fatiguePersistenceHour" size="3" cssClass="validate[custom[number]]"/>小时
+							<form:checkbox path="fatiguePersistence"/>持续性<form:input path="fatiguePersistenceHour" size="3" cssClass="validate[custom[number]]"/>小时&nbsp;&nbsp;&nbsp;&nbsp;
+							<form:label path="fatigueNo"><form:checkbox path="fatigueNo"/>无</form:label>
 						</td>
 					</tr>
 					<tr>

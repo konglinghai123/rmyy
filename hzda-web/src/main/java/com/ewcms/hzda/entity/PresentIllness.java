@@ -21,6 +21,7 @@ import com.ewcms.common.entity.BaseSequenceEntity;
  * <li>afterFatigue:乏力活动后</li>
  * <li>fatiguePersistence:乏力持续性</li>
  * <li>fatiguePersistenceHour:乏力持续小时</li>
+ * <li>fatigueNo:无乏力</li>
  * <li>lowBackPain:腰背疼痛</li>
  * <li>lowerLimbPain:下肢疼痛</li>
  * <li>upperLimbPain:上肢疼痛</li>
@@ -67,6 +68,8 @@ public class PresentIllness extends BaseSequenceEntity<Long> {
 	private Boolean fatiguePersistence;
 	@Column(name = "fatigue_persistence_hour")
 	private Double fatiguePersistenceHour;
+	@Column(name = "is_fatigue_no")
+	private Boolean fatigueNo;
 	@Column(name = "is_low_back_pain")
 	private Boolean lowBackPain;
 	@Column(name = "is_lower_limb_pain")
@@ -146,6 +149,14 @@ public class PresentIllness extends BaseSequenceEntity<Long> {
 
 	public void setFatiguePersistenceHour(Double fatiguePersistenceHour) {
 		this.fatiguePersistenceHour = fatiguePersistenceHour;
+	}
+	
+	public Boolean getFatigueNo() {
+		return fatigueNo;
+	}
+
+	public void setFatigueNo(Boolean fatigueNo) {
+		this.fatigueNo = fatigueNo;
 	}
 
 	public Boolean getLowBackPain() {

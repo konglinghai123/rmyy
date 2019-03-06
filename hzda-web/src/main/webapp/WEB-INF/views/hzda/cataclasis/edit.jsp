@@ -10,7 +10,7 @@
 		    	<form:hidden path="id"/>
 			  	<table class="formtable">
 		        	<tr>
-		        		<td colspan="3">患者是否骨折过：<form:checkbox path="boneDismantling"/>是&nbsp;&nbsp;&nbsp;&nbsp;</td>
+		        		<td colspan="3">患者是否骨折过：<form:radiobuttons path="boneDismantling" items="${booleanList}" itemLabel="info" delimiter="&nbsp;"/></td>
 					</tr>
 					<tr>
 						<td colspan="3">患者过去一年跌倒过<form:input path="fall" size="3" cssClass="validate[custom[integer]]"/>次</td>
@@ -56,6 +56,8 @@
 <ewcms:footer/>
 <script type="text/javascript">
 	$(function(){
+		<c:if test='${empty m.boneDismantling}'>$('input:radio[name="boneDismantling"]').attr('checked',false);</c:if>
+		
 		var validationEngine = $("#editForm").validationEngine({
 			promptPosition:'bottomLeft',
 			showOneMessage: true

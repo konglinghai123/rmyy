@@ -67,6 +67,8 @@ public class PresentIllnessController extends BaseCRUDController<PresentIllness,
 		
 		if (!user.getAdmin() && user.getId() != generalInformation.getUserId())
 			throw new UnauthorizedException(MessageUtils.message("no.permission", "no.update.permission"));
+
+		setCommonData(model);
 		
 		m.setUserId(user.getId());
 		m.setOrganizationId(generalInformation.getOrganizationId());

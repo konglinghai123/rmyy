@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.ewcms.common.Constants;
+import com.ewcms.common.entity.enums.BooleanEnum;
 import com.ewcms.common.utils.MessageUtils;
 import com.ewcms.common.web.controller.BaseCRUDController;
 import com.ewcms.hzda.entity.Cataclasis;
@@ -32,10 +33,21 @@ public class CataclasisController extends BaseCRUDController<Cataclasis, Long> {
 		return (CataclasisService) baseService;
 	}
 	
+	public CataclasisController() {
+		setListAlsoSetCommonData(true);
+	}
+	
 	@Override
 	public String index(Model model) {
 		return HzdaUtil.HZDA_GENERAL_INFORMATION_INDEX_URL;
 	}
+	
+	@Override
+	protected void setCommonData(Model model) {
+		super.setCommonData(model);
+		model.addAttribute("booleanList", BooleanEnum.values());
+	}
+
 
 	@RequestMapping(value = "index/{generalInformationId}")
 	public String showSaveForm(@CurrentUser User user,
@@ -43,6 +55,8 @@ public class CataclasisController extends BaseCRUDController<Cataclasis, Long> {
 		if (!user.getAdmin() && user.getId() != generalInformation.getUserId())
 			throw new UnauthorizedException(MessageUtils.message("no.permission", "no.view.permission"));
 
+		setCommonData(model);
+		
 		Cataclasis cataclasis = getCataclasisService().findByGeneralInformationId(generalInformation.getId());
 		if (cataclasis == null) {
 			cataclasis = new Cataclasis();
@@ -67,6 +81,8 @@ public class CataclasisController extends BaseCRUDController<Cataclasis, Long> {
 		
 		if (!user.getAdmin() && user.getId() != generalInformation.getUserId())
 			throw new UnauthorizedException(MessageUtils.message("no.permission", "no.update.permission"));
+		
+		setCommonData(model);
 		
 		m.setUserId(user.getId());
 		m.setOrganizationId(generalInformation.getOrganizationId());

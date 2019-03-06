@@ -132,28 +132,29 @@
 			  			<td colspan="2">
 			  				<table style="border:0px solid; padding:0px;" class="formtable">
 			  					<tr>
-			  						<td width="30%"><form:checkbox path="calcium"/>钙剂&nbsp;&nbsp;</td>
-			  						<td width="30%"><form:checkbox path="calciumLaw"/>是否规律用药&nbsp;&nbsp;</td>
-			  						<td width="40%">用药总时间<form:input path="calciumDuration" size="3"/></td>
+			  						<td width="20%"><form:checkbox path="calcium"/>钙剂&nbsp;&nbsp;</td>
+			  						<td width="30%">是否规律用药&nbsp;&nbsp;<form:radiobuttons path="calciumLaw" items="${booleanList}" itemLabel="info" delimiter="&nbsp;"/>
+			  						</td>
+			  						<td width="50%">用药总时间<form:input path="calciumDuration" size="3"/></td>
 			  					</tr>
 			  					<tr>
 			  						<td><form:checkbox path="vitaminD"/>维生素D及活性维生素D&nbsp;&nbsp;</td>
-			  						<td><form:checkbox path="vitaminDLaw"/>是否规律用药&nbsp;&nbsp;</td>
+			  						<td>是否规律用药&nbsp;&nbsp;<form:radiobuttons path="vitaminDLaw" items="${booleanList}" itemLabel="info" delimiter="&nbsp;"/></td>
 			  						<td>用药总时间<form:input path="vitaminDDuration" size="3"/></td>
 			  					</tr>
 			  					<tr>
 			  						<td><form:checkbox path="diphosphonate"/>双磷酸盐&nbsp;&nbsp;</td>
-			  						<td><form:checkbox path="diphosphonateLaw"/>是否规律用药&nbsp;&nbsp;</td>
+			  						<td>是否规律用药&nbsp;&nbsp;<form:radiobuttons path="diphosphonateLaw" items="${booleanList}" itemLabel="info" delimiter="&nbsp;"/></td>
 			  						<td>用药总时间<form:input path="diphosphonateDuration" size="3"/></td>
 			  					</tr>
 			  					<tr>
 			  						<td><form:checkbox path="calcitonin"/>降钙素类&nbsp;&nbsp;</td>
-			  						<td><form:checkbox path="calcitoninLaw"/>是否规律用药&nbsp;&nbsp;</td>
+			  						<td>是否规律用药&nbsp;&nbsp;<form:radiobuttons path="calcitoninLaw" items="${booleanList}" itemLabel="info" delimiter="&nbsp;"/></td>
 			  						<td>用药总时间<form:input path="calcitoninDuration" size="3"/></td>
 			  					</tr>
 			  					<tr>
 			  						<td><form:checkbox path="serm"/>选择性雌激素受体调节剂&nbsp;&nbsp;</td>
-			  						<td><form:checkbox path="sermLaw"/>是否规律用药&nbsp;&nbsp;</td>
+			  						<td>是否规律用药&nbsp;&nbsp;<form:radiobuttons path="sermLaw" items="${booleanList}" itemLabel="info" delimiter="&nbsp;"/></td>
 			  						<td>用药总时间<form:input path="sermDuration" size="3"/></td>
 			  					</tr>
 			  				</table>
@@ -167,10 +168,10 @@
 			  			<td colspan="2">
 			  				<table style="border:0px solid; padding:0px;" class="formtable">
 			  					<tr>
-			  						<td width="25%"><form:checkbox path="prednisone"/>泼尼松&nbsp;&nbsp;</td>
-			  						<td width="25%">起始剂量<form:input path="prednisoneInitialDose" size="3"/></td>
-			  						<td width="25%">目前剂量<form:input path="prednisoneCurrentDose" size="3"/></td>
-			  						<td width="25%">用药总时间<form:input path="prednisoneDuration" size="3"/></td>
+			  						<td width="10%"><form:checkbox path="prednisone"/>泼尼松&nbsp;&nbsp;</td>
+			  						<td width="20%">起始剂量<form:input path="prednisoneInitialDose" size="3"/></td>
+			  						<td width="20%">目前剂量<form:input path="prednisoneCurrentDose" size="3"/></td>
+			  						<td width="50%">用药总时间<form:input path="prednisoneDuration" size="3"/></td>
 			  					</tr>
 			  					<tr>
 			  						<td><form:checkbox path="prednisolone"/>泼尼松龙&nbsp;&nbsp;</td>
@@ -200,13 +201,19 @@
 			  						<td><form:checkbox path="ciclosporin"/>环孢素&nbsp;&nbsp;</td>
 			  						<td>起始剂量<form:input path="ciclosporinInitialDose" size="3"/></td>
 			  						<td>目前剂量<form:input path="ciclosporinCurrentDose" size="3"/></td>
-			  						<td>用药总时间<form:input path="ciclosporinDuration" size="3"/></td>
+			  						<td>
+			  							用药总时间<form:input path="ciclosporinDuration" size="3"/>&nbsp;&nbsp;
+			  							血药浓度<form:input path="ciclosporinBC" size="3"/>
+			  						</td>
 			  					</tr>
 			  					<tr>
 			  						<td><form:checkbox path="tacrolimus"/>他克莫司&nbsp;&nbsp;</td>
 			  						<td>起始剂量<form:input path="tacrolimusInitialDose" size="3"/></td>
 			  						<td>目前剂量<form:input path="tacrolimusCurrentDose" size="3"/></td>
-			  						<td>用药总时间<form:input path="tacrolimusDuration" size="3"/></td>
+			  						<td>
+			  							用药总时间<form:input path="tacrolimusDuration" size="3"/>&nbsp;&nbsp;
+			  							血药浓度<form:input path="tacrolimusBC" size="3"/>
+			  						</td>
 			  					</tr>
 			  					<tr>
 			  						<td><form:checkbox path="mmf"/>吗替麦考酚酯&nbsp;&nbsp;</td>
@@ -226,13 +233,13 @@
 					<tr>
 						<td>其他：</td>
 						<td>
-							<form:checkbox path="shard"/>性激素及其相关药物&nbsp;&nbsp;&nbsp;&nbsp;
-							<form:checkbox path="aeds"/>抗癫痫药物&nbsp;&nbsp;&nbsp;&nbsp;
-							<form:checkbox path="aluminumPreparation"/>铝制剂&nbsp;&nbsp;&nbsp;&nbsp;
-							<form:checkbox path="lithiumPreparations"/>锂制剂&nbsp;&nbsp;&nbsp;&nbsp;
-							<form:checkbox path="heparin"/>肝素&nbsp;&nbsp;&nbsp;&nbsp;
-							<form:checkbox path="aromataseInhibitor"/>芳重化酶抵制剂&nbsp;&nbsp;&nbsp;&nbsp;
-							<form:checkbox path="lastOther"/>其他<form:input path="lastOtherDesc" size="3"/>
+							<form:checkbox path="shard"/>性激素及其相关药物&nbsp;&nbsp;&nbsp;&nbsp;用药时长<form:input path="shardDuration" size="3"/><br/>
+							<form:checkbox path="aeds"/>抗癫痫药物&nbsp;&nbsp;&nbsp;&nbsp;用药时长<form:input path="aedsDuration" size="3"/><br/>
+							<form:checkbox path="aluminumPreparation"/>铝制剂&nbsp;&nbsp;&nbsp;&nbsp;用药时长<form:input path="aluminumPreparationDuration" size="3"/><br/>
+							<form:checkbox path="lithiumPreparations"/>锂制剂&nbsp;&nbsp;&nbsp;&nbsp;用药时长<form:input path="lithiumPreparationsDuration" size="3"/><br/>
+							<form:checkbox path="heparin"/>肝素&nbsp;&nbsp;&nbsp;&nbsp;用药时长<form:input path="heparinDuration" size="3"/><br/>
+							<form:checkbox path="aromataseInhibitor"/>芳重化酶抵制剂&nbsp;&nbsp;&nbsp;&nbsp;用药时长<form:input path="aromataseInhibitorDuration" size="3"/><br/>
+							<form:checkbox path="lastOther"/>其他<form:input path="lastOtherDesc" size="3"/>用药时长<form:input path="lastOtherDuration" size="3"/><br/>
 						</td>
 					</tr>
 				</table>
@@ -248,6 +255,18 @@
 <ewcms:footer/>
 <script type="text/javascript">
 	$(function(){
+		<c:if test='${empty m.calciumLaw}'>$('input:radio[name="calciumLaw"]').attr('checked',false);</c:if>
+		<c:if test='${empty m.vitaminDLaw}'>$('input:radio[name="vitaminDLaw"]').attr('checked',false);</c:if>
+		<c:if test='${empty m.diphosphonateLaw}'>$('input:radio[name="diphosphonateLaw"]').attr('checked',false);</c:if>
+		<c:if test='${empty m.calcitoninLaw}'>$('input:radio[name="calcitoninLaw"]').attr('checked',false);</c:if>
+		<c:if test='${empty m.sermLaw}'>$('input:radio[name="sermLaw"]').attr('checked',false);</c:if>
+		
+		//$('[name="calcium"]').bind('click', function(){
+		//	if (!$('[name="calcium"]').prop('checked')) {
+		//		$('input:radio[name="calciumLaw"]').attr('checked',false);
+		//	}
+		//});
+		
 		var validationEngine = $("#editForm").validationEngine({
 			promptPosition:'bottomLeft',
 			showOneMessage: true

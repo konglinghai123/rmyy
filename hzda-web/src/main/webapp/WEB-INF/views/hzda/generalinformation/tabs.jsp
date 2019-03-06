@@ -36,9 +36,6 @@
 		<div title="诊断" style="padding:2px;overflow:hidden;">
 			<iframe id="editdiagnosisifr"  name="editdiagnosisifr" class="editifr" src=""></iframe> 
 		</div>
-		<div title="诊断措施" style="padding:2px;overflow:hidden;">
-			<iframe id="editdiagnosticmeasuresifr"  name="editdiagnosticmeasuresifr" class="editifr" src=""></iframe> 
-		</div>
 		<div title="检查及化验结果" style="padding:2px;overflow:hidden;">
 			<iframe id="editexaminationlaboratoryresultsifr"  name="editexaminationlaboratoryresultsifr" class="editifr" src=""></iframe> 
 		</div>
@@ -82,8 +79,8 @@
 					$('#editexaminedifr').attr('src','${ctx}/hzda/examined/index/${generalInformationId}');
 				} else if (title == '诊断'){
 					$('#editdiagnosisifr').attr('src','${ctx}/hzda/diagnosis/index/${generalInformationId}');
-				} else if (title == '诊断措施'){
-					$('#editdiagnosticmeasuresifr').attr('src','${ctx}/hzda/diagnosticmeasures/index/${generalInformationId}');
+				//} else if (title == '诊断措施'){
+				//	$('#editdiagnosticmeasuresifr').attr('src','${ctx}/hzda/diagnosticmeasures/index/${generalInformationId}');
 				} else if (title == '检查及化验结果'){
 					$('#editexaminationlaboratoryresultsifr').attr('src','${ctx}/hzda/examinationlaboratoryresults/index/${generalInformationId}');
 				} else if (title == '骨密度'){
