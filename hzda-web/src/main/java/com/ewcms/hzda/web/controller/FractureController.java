@@ -143,16 +143,17 @@ public class FractureController extends BaseCRUDController<Fracture, Long> {
 	}
 
 	@ResponseBody
-	@RequestMapping("/lookpicture")
-	public void lookPicture(@PathVariable(value = "fractureId") Fracture fracture, final HttpServletResponse response) {
+	@RequestMapping("/lookpicture/{fractureId}")
+	public void lookPicture(@PathVariable(value = "fractureId") Fracture fracture, HttpServletResponse response) {
 		byte[] license_img = fracture.getUploadPicture();
 		OutputStream os = null;
 		if (license_img != null) {
 			try {
 				BufferedImage image = ImageIO.read(new ByteArrayInputStream(license_img));
-				response.setContentType("application/x-msdownload");
+				response.setContentType("image/"+fracture.getFormatName().toLowerCase());
 				os = response.getOutputStream();
-				ImageIO.write(image, "gif", os);
+				ImageIO.write(image, fracture.getFormatName().toLowerCase(), os);
+				
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

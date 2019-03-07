@@ -37,15 +37,15 @@
 				});
 			});			
 			function formatLookPicture(val, row){
-				if (val == ''){
-					return val + '&nbsp;|<a class="printCls" onclick="lookPicture(' + row.id + ')" style="height:24px;" href="javascript:void(0);"></a>'
+				if (val != ''){
+					return   '<a class="printCls" onclick="lookPicture(' + row.id + ')" style="height:24px;" href="javascript:void(0);"></a>'
 				}else{
 					return '无图片';
 				}
 			}
 
 			function lookPicture(id){
-				$.ewcms.openTopWindow({src:'${ctx}/hzda/fracture/lookpicture?fractureId=' + id,title:'查看图片',isRefresh:false,maximizable:true});
+				$.ewcms.openTopWindow({src:'${ctx}/hzda/fracture/lookpicture/' + id,title:'查看图片',isRefresh:false,maximizable:true});
 			}
 
 		</script>

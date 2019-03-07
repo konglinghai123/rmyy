@@ -128,6 +128,7 @@ public class Fracture extends BaseSequenceEntity<Long>{
 	public void setRemark(String remark) {
 		this.remark = remark;
 	}
+	 @JSONField(serialize = false)
 	public byte[] getUploadPicture() {
 		return uploadPicture;
 	}
