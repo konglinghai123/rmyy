@@ -3,7 +3,7 @@
 
 <ewcms:head title="编辑 - 一般信息"/>
 	<div id="edit-from" class="easyui-layout" data-options="fit:true" style="border:0;">
-		<ewcms:showMessage/>
+		<ewcms:showAlertMessage/>
 		<div data-options="region:'center',border:false">	
 		 	<form:form id="editForm" method="post" action="${ctx}/hzda/generalinformation/save" commandName="m"  class="form-horizontal">
 		    	<ewcms:showGlobalError commandName="m"/>
@@ -22,7 +22,7 @@
 						<td><form:label path="name">姓名：</form:label></td>
 						<td><form:input path="name" cssClass="validate[required]"/></td>
 						<td><form:label path="hospitalizationNumber">住院号：</form:label></td>
-						<td><form:input path="hospitalizationNumber"/>
+						<td><form:input path="hospitalizationNumber"/></td>
 					</tr>
 					<tr>
 						<td><form:label path="dxaNumber">DXA号：</form:label></td>
@@ -46,7 +46,7 @@
 						<td><form:label path="degreeEducation">文化程度：</form:label></td>
 						<td><form:input path="degreeEducation"/></td>
 						<td><form:label path="occupation">职业：</form:label></td>
-						<td><form:input path="occupation"/>
+						<td><form:input path="occupation"/></td>
 					</tr>
 					<tr>
 						<td><form:label path="address">现住址：</form:label></td>
@@ -61,18 +61,38 @@
 						<td><form:label path="certificateNumber">证件号：</form:label></td>
 						<td><form:input path="certificateNumber"/></td>
 						<td><form:label path="medicalInsuranceNumber">医保号：</form:label></td>
-						<td><form:input path="medicalInsuranceNumber"/>
+						<td><form:input path="medicalInsuranceNumber"/></td>
 					</tr>
 					<tr>
 						<td><form:label path="mobilePhoneNumber">手机号码：</form:label></td>
 						<td><form:input path="mobilePhoneNumber"/></td>
 						<td><form:label path="otherTelephone">其他联系电话：</form:label></td>
-						<td><form:input path="otherTelephone"/>
+						<td><form:input path="otherTelephone"/></td>
+					</tr>
+					<tr>
+						<td>特殊患者标记：</td>
+						<td><form:radiobuttons path="specialTab" items="${booleanList}" itemLabel="info" delimiter="&nbsp;"/></td>
+						<td>特殊患者编号：</td>
+						<td><form:input path="specialTabNumber"/></td>
 					</tr>
 					<tr>
 						<td><form:label path="remakrs">备注：</form:label></td>
-						<td colspan="3"><form:textarea path="remakrs" style="width:400px;height:60px"/></td>
-					
+						<td><form:textarea path="remakrs" style="width:200px;height:60px"/></td>
+						<td>eGFR：</td>
+						<td><form:input path="eGFR"/>
+					</tr>
+					<tr>
+						<td>OSTA评分：</td>
+						<td colspan="3">
+							<form:input path="oSTA" readonly="true" placeholder="(体重-年龄)×0.2;结果>-1为低,-1至-4为中,<-4为高"/>&nbsp;&nbsp;体重：<form:input path="weight" size="3" cssClass="validate[custom[integer]]"/>Kg&nbsp;&nbsp;年龄：<form:input path="age" size="3" cssClass="validate[custom[integer]]"/>岁&nbsp;&nbsp;
+							<a id="tb-calculate" class="easyui-linkbutton" data-options="iconCls:'icon-sum'" href="javascript:void(0);">计算</a>
+						</td>
+					</tr>
+					<tr>
+						<td>FRAX评估：主要部位骨折风险</td>
+						<td><form:input path="fRAXMain"/></td>
+						<td>FRAX评估：髋部骨折风险</td>
+						<td><form:input path="fRAXHipbone"/></td>
 					</tr>
 				</table>
 			</form:form>
@@ -122,6 +142,19 @@
 						$('#certificateTypeName').val(record.name);
 					}
 				});
+				
+				$('#tb-calculate').bind('click', function(){
+					if ($('#weight').val() != '' && $('#age').val() != ''){
+						var osta = ($('#weight').val() - $('#age').val())*0.2
+						if (osta > -1){
+							$('#oSTA').val('低');
+						} else if (osta < -4) {
+							$('#oSTA').val('高');
+						} else {
+							$('#oSTA').val('中');
+						}
+					}
+				})
 				
 				var validationEngine = $("#editForm").validationEngine({
 	    			relative: true,

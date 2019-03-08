@@ -47,7 +47,15 @@ import com.ewcms.hzda.zd.entity.Nation;
  * <li>medicalInsuranceNumber:医保号</li>
  * <li>mobilePhoneNumber:常用手机号码</li>
  * <li>otherTelephone:其他联系电话</li>
- * <li>remakrs:备注</li>4
+ * <li>specialTab:特殊患者标记(肾移植)</li>
+ * <li>specialTabNumber:特殊患者标记(肾移植)编号</li>
+ * <li>remakrs:备注</li>
+ * <li>age:年龄</li>
+ * <li> :体重</li>
+ * <li>OSTA:OSTA评分</li>
+ * <li>eGFR:eGFR</li>
+ * <li>FRAXMain:FRAX主要部位骨折风险</li>
+ * <li>FRAXHipbone:FRAX髋部骨折风险</li>
  * <li>
  * </ul>
  * 
@@ -124,6 +132,22 @@ public class GeneralInformation extends BaseSequenceEntity<Long> {
 	private String mobilePhoneNumber;
 	@Column(name = "other_telephone")
 	private String otherTelephone;
+	@Column(name = "is_special_tab")
+	private Boolean specialTab;
+	@Column(name = "special_tab_number")
+	private String specialTabNumber;
+	@Column(name = "age")
+	private Long age;
+	@Column(name = "weight")
+	private Long weight;
+	@Column(name = "osta")
+	private String oSTA;
+	@Column(name = "egfr")
+	private String eGFR;
+	@Column(name = "frax_main")
+	private String fRAXMain;
+	@Column(name = "frax_hipbone")
+	private String fRAXHipbone;
 	@Column(name = "remakrs", columnDefinition = "text")
 	private String remakrs;
 
@@ -291,6 +315,78 @@ public class GeneralInformation extends BaseSequenceEntity<Long> {
 
 	public void setRemakrs(String remakrs) {
 		this.remakrs = remakrs;
+	}
+	
+	public Boolean getSpecialTab() {
+		return specialTab;
+	}
+
+	public void setSpecialTab(Boolean specialTab) {
+		this.specialTab = specialTab;
+	}
+
+	public String getSpecialTabNumber() {
+		return specialTabNumber;
+	}
+
+	public void setSpecialTabNumber(String specialTabNumber) {
+		this.specialTabNumber = specialTabNumber;
+	}
+
+	public Long getAge() {
+		return age;
+	}
+
+	public void setAge(Long age) {
+		this.age = age;
+	}
+
+	public Long getWeight() {
+		return weight;
+	}
+
+	public void setWeight(Long weight) {
+		this.weight = weight;
+	}
+
+	public String getoSTA() {
+		return oSTA;
+	}
+
+	public void setoSTA(String oSTA) {
+		this.oSTA = oSTA;
+	}
+
+	public String geteGFR() {
+		return eGFR;
+	}
+
+	public void seteGFR(String eGFR) {
+		this.eGFR = eGFR;
+	}
+
+	public String getfRAXMain() {
+		return fRAXMain;
+	}
+
+	public void setfRAXMain(String fRAXMain) {
+		this.fRAXMain = fRAXMain;
+	}
+
+	public String getfRAXHipbone() {
+		return fRAXHipbone;
+	}
+
+	public void setfRAXHipbone(String fRAXHipbone) {
+		this.fRAXHipbone = fRAXHipbone;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+	public void setDxaNumber(String dxaNumber) {
+		this.dxaNumber = dxaNumber;
 	}
 
 	public String getRealName() {

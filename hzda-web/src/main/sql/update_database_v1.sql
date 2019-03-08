@@ -53,3 +53,14 @@ ALTER TABLE public.hzda_risk_evaluation
 ALTER TABLE public.hzda_risk_evaluation_id
   OWNER TO postgres;
 
+ALTER TABLE public.hzda_general_information ADD COLUMN age bigint;
+ALTER TABLE public.hzda_general_information ADD COLUMN is_special_tab boolean;
+ALTER TABLE public.hzda_general_information ADD COLUMN special_tab_number character varying(255);
+ALTER TABLE public.hzda_general_information ADD COLUMN osta character varying(255);
+ALTER TABLE public.hzda_general_information ADD COLUMN egfr character varying(255);
+ALTER TABLE public.hzda_general_information ADD COLUMN frax_main character varying(255);
+ALTER TABLE public.hzda_general_information ADD COLUMN frax_hipbone character varying(255);
+ALTER TABLE public.hzda_general_information ADD COLUMN weight bigint;
+
+ALTER TABLE public.hzda_fracture ADD COLUMN format_name character varying(255);
+ALTER TABLE public.hzda_fracture ADD COLUMN upload_picture bytea;

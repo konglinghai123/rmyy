@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.ewcms.common.entity.enums.BooleanEnum;
 import com.ewcms.common.entity.search.SearchParameter;
 import com.ewcms.common.utils.EmptyUtil;
 import com.ewcms.common.web.controller.BaseCRUDController;
@@ -41,6 +42,7 @@ public class GeneralInformationController extends BaseCRUDController<GeneralInfo
 		super.setCommonData(model);
 		model.addAttribute("sexList", GeneralInformation.Sex.values());
 		model.addAttribute("nationList", nationService.findAll());
+		model.addAttribute("booleanList", BooleanEnum.values());
 	}
 	
 	@RequestMapping(value = "tabs/{generalInformationId}")
