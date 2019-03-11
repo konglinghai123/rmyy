@@ -83,7 +83,7 @@ insert into sec_resource(id, icon, identity, name, parent_id, parent_ids, is_sho
 ,(125,'rmyy-hzda-renaltransplant-tree','renaltransplant','肾移植患者填',114,'0/1/114/','true',null,'/hzda/renaltransplant/index',11)
 ,(126,'rmyy-hzda-examined-tree','examined','查体',114,'0/1/114/','true',null,'/hzda/examined/index',12)
 ,(127,'rmyy-hzda-diagnosis-tree','diagnosis','诊断',114,'0/1/114/','true',null,'/hzda/diagnosis/index',13)
-,(128,'rmyy-hzda-riskevaluation-tree','riskevaluation','风险评估',114,'0/1/114/','true',null,'/hzda/diagnosticmeasures/index',2)
+,(128,'rmyy-hzda-riskevaluation-tree','riskevaluation','风险评估',114,'0/1/114/','true',null,'/hzda/riskevaluation/index',2)
 ,(129,'rmyy-hzda-examinationlaboratoryresults-tree','examinationlaboratoryresults','检查及化验结果',114,'0/1/114/','true',null,'/hzda/examinationlaboratoryresults/index',15)
 ,(130,'rmyy-hzda-bonedensity-tree','bonedensity','骨密度',114,'0/1/114/','true',null,'/hzda/bonedensity/index',16)
 ,(131,'rmyy-hzda-fracture-tree','fracture','影像学检查:骨折',114,'0/1/114/','true',null,'/hzda/fracture/index',17)
