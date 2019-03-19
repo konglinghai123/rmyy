@@ -255,18 +255,6 @@
 <ewcms:footer/>
 <script type="text/javascript">
 	$(function(){
-		<c:if test='${empty m.calciumLaw}'>$('input:radio[name="calciumLaw"]').attr('checked',false);</c:if>
-		<c:if test='${empty m.vitaminDLaw}'>$('input:radio[name="vitaminDLaw"]').attr('checked',false);</c:if>
-		<c:if test='${empty m.diphosphonateLaw}'>$('input:radio[name="diphosphonateLaw"]').attr('checked',false);</c:if>
-		<c:if test='${empty m.calcitoninLaw}'>$('input:radio[name="calcitoninLaw"]').attr('checked',false);</c:if>
-		<c:if test='${empty m.sermLaw}'>$('input:radio[name="sermLaw"]').attr('checked',false);</c:if>
-		
-		//$('[name="calcium"]').bind('click', function(){
-		//	if (!$('[name="calcium"]').prop('checked')) {
-		//		$('input:radio[name="calciumLaw"]').attr('checked',false);
-		//	}
-		//});
-		
 		var validationEngine = $("#editForm").validationEngine({
 			promptPosition:'bottomLeft',
 			showOneMessage: true

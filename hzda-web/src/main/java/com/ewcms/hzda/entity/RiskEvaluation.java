@@ -32,6 +32,11 @@ import com.ewcms.common.entity.BaseSequenceEntity;
  * <li>omt17每天的体力活动(如做家务、园艺、散步等)是否少于30分</li>
  * <li>omt18:是否不能进食奶类制品又没有服用钙片</li>
  * <li>omt19:每天的户外活动(部分身体暴露于阳光下)是否少于10分钟又没有服用维生素D补充剂</li>
+ * <li>age:年龄</li>
+ * <li>:体重</li>
+ * <li>OSTA:OSTA评分</li>
+ * <li>FRAXMain:FRAX主要部位骨折风险</li>
+ * <li>FRAXHipbone:FRAX髋部骨折风险</li>
  * </ul>
  * 
  * @author wuzhijun
@@ -40,10 +45,10 @@ import com.ewcms.common.entity.BaseSequenceEntity;
 @Entity
 @Table(name = "hzda_risk_evaluation")
 @SequenceGenerator(name = "seq", sequenceName = "hzda_risk_evaluation_id", allocationSize = 1)
-public class RiskEvaluation extends BaseSequenceEntity<Long>{
+public class RiskEvaluation extends BaseSequenceEntity<Long> {
 
 	private static final long serialVersionUID = -1183015670942513773L;
-	
+
 	@Column(name = "user_id", nullable = false)
 	private Long userId;
 	@Formula(value = "(select s_o.realname  from sec_user s_o where s_o.id=user_id)")
@@ -93,142 +98,239 @@ public class RiskEvaluation extends BaseSequenceEntity<Long>{
 	private Boolean omt18;
 	@Column(name = "is_omt_19")
 	private Boolean omt19;
+	@Column(name = "age")
+	private Long age;
+	@Column(name = "weight")
+	private Long weight;
+	@Column(name = "osta")
+	private String oSTA;
+	@Column(name = "frax_main")
+	private String fRAXMain;
+	@Column(name = "frax_hipbone")
+	private String fRAXHipbone;
+
 	public Boolean getOmt1() {
 		return omt1;
 	}
+
 	public void setOmt1(Boolean omt1) {
 		this.omt1 = omt1;
 	}
+
 	public Boolean getOmt2() {
 		return omt2;
 	}
+
 	public void setOmt2(Boolean omt2) {
 		this.omt2 = omt2;
 	}
+
 	public Boolean getOmt3() {
 		return omt3;
 	}
+
 	public void setOmt3(Boolean omt3) {
 		this.omt3 = omt3;
 	}
+
 	public Boolean getOmt4() {
 		return omt4;
 	}
+
 	public void setOmt4(Boolean omt4) {
 		this.omt4 = omt4;
 	}
+
 	public Boolean getOmt5() {
 		return omt5;
 	}
+
 	public void setOmt5(Boolean omt5) {
 		this.omt5 = omt5;
 	}
+
 	public Boolean getOmt6() {
 		return omt6;
 	}
+
 	public void setOmt6(Boolean omt6) {
 		this.omt6 = omt6;
 	}
+
 	public Boolean getOmt7() {
 		return omt7;
 	}
+
 	public void setOmt7(Boolean omt7) {
 		this.omt7 = omt7;
 	}
+
 	public Boolean getOmt8() {
 		return omt8;
 	}
+
 	public void setOmt8(Boolean omt8) {
 		this.omt8 = omt8;
 	}
+
 	public Boolean getOmt9() {
 		return omt9;
 	}
+
 	public void setOmt9(Boolean omt9) {
 		this.omt9 = omt9;
 	}
+
 	public Boolean getOmt10() {
 		return omt10;
 	}
+
 	public void setOmt10(Boolean omt10) {
 		this.omt10 = omt10;
 	}
+
 	public Boolean getOmt11() {
 		return omt11;
 	}
+
 	public void setOmt11(Boolean omt11) {
 		this.omt11 = omt11;
 	}
+
 	public Boolean getOmt12() {
 		return omt12;
 	}
+
 	public void setOmt12(Boolean omt12) {
 		this.omt12 = omt12;
 	}
+
 	public Boolean getOmt13() {
 		return omt13;
 	}
+
 	public void setOmt13(Boolean omt13) {
 		this.omt13 = omt13;
 	}
+
 	public Boolean getOmt14() {
 		return omt14;
 	}
+
 	public void setOmt14(Boolean omt14) {
 		this.omt14 = omt14;
 	}
+
 	public Boolean getOmt15() {
 		return omt15;
 	}
+
 	public void setOmt15(Boolean omt15) {
 		this.omt15 = omt15;
 	}
+
 	public Boolean getOmt16() {
 		return omt16;
 	}
+
 	public void setOmt16(Boolean omt16) {
 		this.omt16 = omt16;
 	}
+
 	public Boolean getOmt17() {
 		return omt17;
 	}
+
 	public void setOmt17(Boolean omt17) {
 		this.omt17 = omt17;
 	}
+
 	public Boolean getOmt18() {
 		return omt18;
 	}
+
 	public void setOmt18(Boolean omt18) {
 		this.omt18 = omt18;
 	}
+
 	public Boolean getOmt19() {
 		return omt19;
 	}
+
 	public void setOmt19(Boolean omt19) {
 		this.omt19 = omt19;
 	}
+
+	public Long getAge() {
+		return age;
+	}
+
+	public void setAge(Long age) {
+		this.age = age;
+	}
+
+	public Long getWeight() {
+		return weight;
+	}
+
+	public void setWeight(Long weight) {
+		this.weight = weight;
+	}
+
+	public String getoSTA() {
+		return oSTA;
+	}
+
+	public void setoSTA(String oSTA) {
+		this.oSTA = oSTA;
+	}
+
+	public String getfRAXMain() {
+		return fRAXMain;
+	}
+
+	public void setfRAXMain(String fRAXMain) {
+		this.fRAXMain = fRAXMain;
+	}
+
+	public String getfRAXHipbone() {
+		return fRAXHipbone;
+	}
+
+	public void setfRAXHipbone(String fRAXHipbone) {
+		this.fRAXHipbone = fRAXHipbone;
+	}
+
 	public Long getUserId() {
 		return userId;
 	}
+
 	public void setUserId(Long userId) {
 		this.userId = userId;
 	}
+
 	public Long getOrganizationId() {
 		return organizationId;
 	}
+
 	public void setOrganizationId(Long organizationId) {
 		this.organizationId = organizationId;
 	}
+
 	public Long getGeneralInformationId() {
 		return generalInformationId;
 	}
+
 	public void setGeneralInformationId(Long generalInformationId) {
 		this.generalInformationId = generalInformationId;
 	}
+
 	public String getRealName() {
 		return realName;
 	}
+
 	public String getOrganizationName() {
 		return organizationName;
 	}
+
 }
