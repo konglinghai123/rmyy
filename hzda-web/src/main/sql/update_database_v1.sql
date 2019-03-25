@@ -71,3 +71,4 @@ ALTER TABLE public.hzda_risk_evaluation ADD COLUMN weight bigint;
 
 ALTER TABLE public.hzda_fracture ADD COLUMN format_name character varying(255);
 ALTER TABLE public.hzda_fracture ADD COLUMN upload_picture bytea;
+ALTER TABLE public.hzda_bone_density ADD COLUMN id_no character varying(255);

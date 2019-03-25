@@ -8,6 +8,7 @@
 			    <th data-options="field:'ck',checkbox:true" rowspan="2"></th>
 			    <th data-options="field:'id',hidden:true" rowspan="2">编号</th>
 			    <th data-options="field:'examinationDate',width:120" rowspan="2">日期</th>
+			    <th data-options="field:'idNo',width:100" rowspan="2">ID号</th>
 			    <th colspan="3">腰椎(LI-4)</th>
 			    <th colspan="3">股骨颈 </th>
 			    <th colspan="3">髋总</th>

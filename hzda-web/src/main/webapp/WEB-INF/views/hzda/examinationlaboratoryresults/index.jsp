@@ -8,8 +8,7 @@
 			    <th data-options="field:'ck',checkbox:true" rowspan="2"></th>
 			    <th data-options="field:'id',hidden:true" rowspan="2">编号</th>
 			    <th data-options="field:'examinationDate',width:120" rowspan="2">日期</th>
-			    <th colspan="9">血液</th>
-			    <th data-options="field:'urinePTH',width:120" rowspan="2">血、非尿</th>
+			    <th colspan="10">血液</th>
 			    <th colspan="2">24h 尿 </th>
 			</tr>
 			<tr>
@@ -22,6 +21,7 @@
 				<th data-options="field:'bloodPINP',width:100">PINP(ng/ml)</th>
 			    <th data-options="field:'bloodCTX',width:100">CTX(ng/ml)</th>
 			    <th data-options="field:'bloodVitD',width:100">VitD(ng/ml)</th>
+			    <th data-options="field:'urinePTH',width:100">PTH(pg/ml)</th>	
 			   	<th data-options="field:'urineCa',width:100">Ca(mmol/L)</th>
 				<th data-options="field:'urineP',width:100">P(mmol/L)</th>			
 			</tr>

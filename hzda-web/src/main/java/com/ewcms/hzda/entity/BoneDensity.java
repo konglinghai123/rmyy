@@ -35,6 +35,7 @@ import com.ewcms.common.entity.BaseSequenceEntity;
  * <li>coxaT:髋总T值</li>
  * <li>coxaZ:髋总Z值</li>
  * <li>remark:备注</li>
+ * <li>idNo:ID号</li>
  * </ul>
  * 
  * @author wuzhijun
@@ -81,6 +82,9 @@ public class BoneDensity extends BaseSequenceEntity<Long>{
     private String coxaT; 
     @Column(name = "remark")
     private String remark;
+    @Column(name = "id_no")
+    private String idNo;     
+    
 	public Long getUserId() {
 		return userId;
 	}
@@ -178,4 +182,11 @@ public class BoneDensity extends BaseSequenceEntity<Long>{
 	public void setRemark(String remark) {
 		this.remark = remark;
 	}
+	public String getIdNo() {
+		return idNo;
+	}
+	public void setIdNo(String idNo) {
+		this.idNo = idNo;
+	}
+	
 }
