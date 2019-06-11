@@ -2,7 +2,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 		<div data-options="region:'north',border:false" style="height:70px;overflow:no;">
-		    <h2 align="center">欢迎使用网上药品申报信息管理系统</h2>
+		    <h2 align="center">欢迎使用网上药品申报评审信息管理系统</h2>
 		</div>
 		<div data-options="region:'center',border:false" style="width:40%;overflow:auto;">
 			<table style="width:100%;padding:0;">

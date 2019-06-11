@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/views/jspf/taglibs.jspf" %>
 
-<ewcms:head title="网上药品申报信息管理系统" index="true"/>
+<ewcms:head title="网上药品申报评审信息管理系统" index="true"/>
 	<div class="easyui-layout" data-options="fit:true">
 		<div data-options="region:'north',split:false" class="head">
 			<%@ include file="home/head.jsp" %>
