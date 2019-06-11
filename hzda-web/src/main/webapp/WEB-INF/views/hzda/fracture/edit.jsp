@@ -5,8 +5,8 @@
 	<div id="edit-form" class="easyui-layout" data-options="fit:true" style="border:0;">
 		<ewcms:showMessage/>
 		<div data-options="region:'center',border:false">	
-		 	<form:form id="editForm" action="${ctx}/hzda/fracture/save/${generalInformationId}" method="post" commandName="m" class="form-horizontal">
-		    	<ewcms:showGlobalError commandName="m"/>
+		 	<form:form id="editForm" action="${ctx}/hzda/fracture/save/${generalInformationId}" method="post" commandName="m" class="form-horizontal" enctype="multipart/form-data">
+		    	<ewcms:showGlobalError commandName="m"/>                                                                                            
 		    	<form:hidden path="id"/>
 		    	<c:forEach var="selection" items="${selections}">
 	  				<input type="hidden" name="selections" value="${selection}" />
@@ -19,16 +19,16 @@
 						<td width="30%"><form:input path="part" /></td>
 					</tr>
 					<tr>
-						<td width="20%"><form:label path="degree">程度：</form:label></td>
+						<td width="20%"><form:label path="degree">检查项目：</form:label></td>
 						<td width="30%"><form:input path="degree"/></td>
-						<td width="20%"><form:label path="reason">原因：</form:label></td>
+						<td width="20%"><form:label path="reason">结论：</form:label></td>
 						<td width="30%"><form:input path="reason" /></td>
 					</tr>
 					<tr>
 						<td width="20%"><form:label path="remark">备注：</form:label></td>
 						<td width="30%"><form:input path="remark"/></td>
-						<td width="20%"></td>
-						<td width="30%"></td>
+						<td width="20%">上传图片</td>
+						<td width="30%"><input type="file" name="uploadPictureFile"  id="uploadPictureFile"  accept="image/*" class="validate[required]"></td>
 					</tr>
 				</table>
 			</form:form>

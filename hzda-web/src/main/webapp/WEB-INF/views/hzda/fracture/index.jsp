@@ -9,9 +9,10 @@
 			    <th data-options="field:'id',hidden:true">编号</th>
 			    <th data-options="field:'examinationDate',width:120">日期</th>
 			    <th data-options="field:'part',width:100">部位</th>
-				<th data-options="field:'degree'">程度</th>
-				<th data-options="field:'reason',width:100">原因</th>
-			    <th data-options="field:'remark'">备注</th>				
+				<th data-options="field:'degree'">检查项目</th>
+				<th data-options="field:'reason',width:100">结论</th>
+			    <th data-options="field:'remark'">备注</th>	
+			   <th data-options="field:'formatName',width:100,formatter:formatLookPicture">上传图片</th>		
 			</tr>
 		</thead>
 	</table>
@@ -26,4 +27,27 @@
 		</c:if>
 	</div>
     <ewcms:editWindow/>
+    
+		<script type="text/javascript">
+			$(function(){
+				$('#tt').datagrid({
+					onLoadSuccess:function(row){
+						$('.printCls').linkbutton({text:'查看图片',plain:true,iconCls:'icon-reload'});
+					}
+				});
+			});			
+			function formatLookPicture(val, row){
+				if (val != ''){
+					return   '<a class="printCls" onclick="lookPicture(' + row.id + ')" style="height:24px;" href="javascript:void(0);"></a>'
+				}else{
+					return '无图片';
+				}
+			}
+
+			function lookPicture(id){
+				$.ewcms.openTopWindow({src:'${ctx}/hzda/fracture/lookpicture/' + id,title:'查看图片',isRefresh:false,maximizable:true});
+			}
+
+		</script>
+    
 <ewcms:footer/>

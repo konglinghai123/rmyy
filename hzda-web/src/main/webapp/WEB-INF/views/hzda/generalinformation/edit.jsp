@@ -3,7 +3,7 @@
 
 <ewcms:head title="编辑 - 一般信息"/>
 	<div id="edit-from" class="easyui-layout" data-options="fit:true" style="border:0;">
-		<ewcms:showMessage/>
+		<ewcms:showAlertMessage/>
 		<div data-options="region:'center',border:false">	
 		 	<form:form id="editForm" method="post" action="${ctx}/hzda/generalinformation/save" commandName="m"  class="form-horizontal">
 		    	<ewcms:showGlobalError commandName="m"/>
@@ -22,7 +22,7 @@
 						<td><form:label path="name">姓名：</form:label></td>
 						<td><form:input path="name" cssClass="validate[required]"/></td>
 						<td><form:label path="hospitalizationNumber">住院号：</form:label></td>
-						<td><form:input path="hospitalizationNumber"/>
+						<td><form:input path="hospitalizationNumber"/></td>
 					</tr>
 					<tr>
 						<td><form:label path="dxaNumber">DXA号：</form:label></td>
@@ -46,7 +46,7 @@
 						<td><form:label path="degreeEducation">文化程度：</form:label></td>
 						<td><form:input path="degreeEducation"/></td>
 						<td><form:label path="occupation">职业：</form:label></td>
-						<td><form:input path="occupation"/>
+						<td><form:input path="occupation"/></td>
 					</tr>
 					<tr>
 						<td><form:label path="address">现住址：</form:label></td>
@@ -61,18 +61,25 @@
 						<td><form:label path="certificateNumber">证件号：</form:label></td>
 						<td><form:input path="certificateNumber"/></td>
 						<td><form:label path="medicalInsuranceNumber">医保号：</form:label></td>
-						<td><form:input path="medicalInsuranceNumber"/>
+						<td><form:input path="medicalInsuranceNumber"/></td>
 					</tr>
 					<tr>
 						<td><form:label path="mobilePhoneNumber">手机号码：</form:label></td>
 						<td><form:input path="mobilePhoneNumber"/></td>
 						<td><form:label path="otherTelephone">其他联系电话：</form:label></td>
-						<td><form:input path="otherTelephone"/>
+						<td><form:input path="otherTelephone"/></td>
 					</tr>
 					<tr>
+						<td>特殊患者标记：</td>
+						<td><form:radiobuttons path="specialTab" items="${booleanList}" itemLabel="info" delimiter="&nbsp;"/></td>
+						<td>特殊患者编号：</td>
+						<td><form:input path="specialTabNumber"/></td>
+					</tr>
+					<tr>
+						<td>eGFR：</td>
+						<td><form:input path="eGFR"/>
 						<td><form:label path="remakrs">备注：</form:label></td>
-						<td colspan="3"><form:textarea path="remakrs" style="width:400px;height:60px"/></td>
-					
+						<td><form:textarea path="remakrs" style="width:200px;height:60px"/></td>
 					</tr>
 				</table>
 			</form:form>

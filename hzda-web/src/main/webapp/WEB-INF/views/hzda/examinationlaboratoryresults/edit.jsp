@@ -43,7 +43,7 @@
 						<td width="30%"><form:input path="bloodVitD" /></td>
 					</tr>	
 					<tr>
-						<td width="20%"><form:label path="urinePTH">24h尿PTH：</form:label></td>
+						<td width="20%"><form:label path="urinePTH">血、非尿：</form:label></td>
 						<td width="30%"><form:input path="urinePTH"/></td>
 						<td width="20%"><form:label path="urineCa">24h尿Ca：</form:label></td>
 						<td width="30%"><form:input path="urineCa" /></td>

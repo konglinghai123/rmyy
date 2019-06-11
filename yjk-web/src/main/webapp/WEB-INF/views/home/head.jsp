@@ -8,7 +8,7 @@
 				<tr>
 					<td><img src="${ctx}/static/image/top_bg_ewcms.gif" height="30px" border="0" style="border:0;padding-left:4px;padding-top:10px;"/></td>
 				</tr>
-				<tr><td align="center">申报系统V1.0</td></tr>
+				<tr><td align="center">申报评审系统V2.0</td></tr>
 			</table>
 		</td>
 		<td>

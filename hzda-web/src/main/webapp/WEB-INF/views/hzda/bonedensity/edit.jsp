@@ -45,8 +45,8 @@
 					<tr>
 						<td width="20%"><form:label path="remark">备注：</form:label></td>
 						<td width="30%"><form:input path="remark"/></td>
-						<td width="20%"></td>
-						<td width="30%"></td>
+						<td width="20%"><form:label path="idNo">ID号：</form:label></td>
+						<td width="30%"><form:input path="idNo"/></td>
 					</tr>
 				</table>
 			</form:form>

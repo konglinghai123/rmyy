@@ -1,8 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/views/jspf/taglibs.jspf" %>
 
-<ewcms:head title="字典-用药途径"/>
-	<table id="tt" class="easyui-datagrid" data-options="url:'${ctx}/yjk/zd/administration/query',toolbar:'#tb',fit:true,nowrap:true,pagination:true,rownumbers:true,striped:true,border:false,pageSize:20">
+<ewcms:head title="字典-证件类型"/>
+	<table id="tt" class="easyui-datagrid" data-options="url:'${ctx}/hzda/zd/certificatetype/query',toolbar:'#tb',fit:true,nowrap:true,pagination:true,rownumbers:true,striped:true,border:false,pageSize:20">
 		<thead>
 			<tr>
 			    <th data-options="field:'ck',checkbox:true"/>

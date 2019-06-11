@@ -6,6 +6,9 @@
 		<div title="主诉" style="padding:2px;overflow:hidden;">
 			<iframe id="editcomplainedifr" name="editcomplainedifr" class="editifr" src="${ctx}/hzda/complained/index/${generalInformationId}"></iframe>
 		</div>			
+		<div title="风险评估" style="padding:2px;overflow:hidden;">
+			<iframe id="editriskevaluationifr"  name="editriskevaluationifr" class="editifr" src=""></iframe>	
+		</div>
 		<div title="现病史" style="padding:2px;overflow:hidden;">
 			<iframe id="editpresentillnessifr"  name="editpresentillnessifr" class="editifr" src=""></iframe>	
 		</div>
@@ -36,9 +39,6 @@
 		<div title="诊断" style="padding:2px;overflow:hidden;">
 			<iframe id="editdiagnosisifr"  name="editdiagnosisifr" class="editifr" src=""></iframe> 
 		</div>
-		<div title="诊断措施" style="padding:2px;overflow:hidden;">
-			<iframe id="editdiagnosticmeasuresifr"  name="editdiagnosticmeasuresifr" class="editifr" src=""></iframe> 
-		</div>
 		<div title="检查及化验结果" style="padding:2px;overflow:hidden;">
 			<iframe id="editexaminationlaboratoryresultsifr"  name="editexaminationlaboratoryresultsifr" class="editifr" src=""></iframe> 
 		</div>
@@ -62,6 +62,8 @@
 			onSelect:function(title){
 				if (title == '主诉'){
 					$('#editcomplainedifr').attr('src', '${ctx}/hzda/complained/index/${generalInformationId}');
+				} else if (title == '风险评估'){
+					$('#editriskevaluationifr').attr('src','${ctx}/hzda/riskevaluation/index/${generalInformationId}');
 				} else if (title == '现病史'){
 					$('#editpresentillnessifr').attr('src','${ctx}/hzda/presentillness/index/${generalInformationId}');
 				} else if (title == '既往史'){
@@ -82,8 +84,6 @@
 					$('#editexaminedifr').attr('src','${ctx}/hzda/examined/index/${generalInformationId}');
 				} else if (title == '诊断'){
 					$('#editdiagnosisifr').attr('src','${ctx}/hzda/diagnosis/index/${generalInformationId}');
-				} else if (title == '诊断措施'){
-					$('#editdiagnosticmeasuresifr').attr('src','${ctx}/hzda/diagnosticmeasures/index/${generalInformationId}');
 				} else if (title == '检查及化验结果'){
 					$('#editexaminationlaboratoryresultsifr').attr('src','${ctx}/hzda/examinationlaboratoryresults/index/${generalInformationId}');
 				} else if (title == '骨密度'){

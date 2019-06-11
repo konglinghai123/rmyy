@@ -122,10 +122,12 @@ import com.ewcms.common.entity.BaseSequenceEntity;
  * <li>ciclosporinInitialDose:环孢素起始剂量</li>
  * <li>ciclosporinCurrentDose:环孢素目前剂量</li>
  * <li>ciclosporinDuration:环孢素用药总时间</li>
+ * <li>ciclosporinBC:环孢素血药浓度</li>
  * <li>tacrolimus:他克莫司</li>
  * <li>tacrolimusInitialDose:他克莫司起始剂量</li>
  * <li>tacrolimusCurrentDose:他克莫司目前剂量</li>
  * <li>tacrolimusDuration:他克莫司用药总时间</li>
+ * <li>tacrolimusBC:他克莫司血药浓度</li>
  * <li>mmf:吗替麦考酚酯</li>
  * <li>mmfInitialDose:吗替麦考酚酯起始剂量</li>
  * <li>mmfCurrentDose:吗替麦考酚酯目前剂量</li>
@@ -135,13 +137,20 @@ import com.ewcms.common.entity.BaseSequenceEntity;
  * <li>glucocorticoidOtherCurrentDose:肾上腺糖皮质激素其他目前剂量</li>
  * <li>glucocorticoidOtherDuration:肾上腺糖皮质激素其他用药总时间</li>
  * <li>shard:性激素及其相关药物</li>
+ * <li>shardDuration:性激素及其相关药物时长</li>
  * <li>aeds:抗癫痫药物</li>
+ * <li>aedsDuration:抗癫痫药物时长</li>
  * <li>aluminumPreparation:铝制剂</li>
+ * <li>aluminumPreparationDuration:铝制剂时长</li>
  * <li>lithiumPreparations:锂制剂</li>
+ * <li>lithiumPreparationsDuration:锂制剂时长</li>
  * <li>heparin:肝素</li>
+ * <li>heparinDuration:肝素时长</li>
  * <li>aromataseInhibitor:芳重化酶抵制剂</li>
+ * <li>aromataseInhibitorDuration:芳重化酶抵制剂时长</li>
  * <li>lastOther:其他</li>
  * <li>lastOtherDesc:其他说明</li>
+ * <li>lastOtherDuration:其他时长</li>
  * </ul>
  * 
  * @author wuzhijun
@@ -373,6 +382,8 @@ public class Anamnesis extends BaseSequenceEntity<Long> {
 	private Double ciclosporinCurrentDose;
 	@Column(name = "ciclosporin_duration")
 	private String ciclosporinDuration;
+	@Column(name = "ciclosporin_bc")
+	private String ciclosporinBC;
 	@Column(name = "is_tacrolimus")
 	private Boolean tacrolimus;
 	@Column(name = "tacrolimus_initial_dose")
@@ -381,6 +392,8 @@ public class Anamnesis extends BaseSequenceEntity<Long> {
 	private Double tacrolimusCurrentDose;
 	@Column(name = "tacrolimus_duration")
 	private String tacrolimusDuration;
+	@Column(name = "tacrolimus_bc")
+	private String tacrolimusBC;
 	@Column(name = "is_mmf")
 	private Boolean mmf;
 	@Column(name = "mmf_initial_dose")
@@ -399,20 +412,34 @@ public class Anamnesis extends BaseSequenceEntity<Long> {
 	private String glucocorticoidOtherDuration;
 	@Column(name = "is_shard")
 	private Boolean shard;
+	@Column(name = "shard_duration")
+	private String shardDuration;
 	@Column(name = "is_aeds")
 	private Boolean aeds;
+	@Column(name = "aeds_duration")
+	private String aedsDuration;
 	@Column(name = "is_aluminum_preparation")
 	private Boolean aluminumPreparation;
+	@Column(name = "aluminum_preparation_duration")
+	private String aluminumPreparationDuration;
 	@Column(name = "is_lithium_preparations")
 	private Boolean lithiumPreparations;
+	@Column(name = "lithium_preparations_duration")
+	private String lithiumPreparationsDuration;
 	@Column(name = "is_heparin")
 	private Boolean heparin;
+	@Column(name = "heparin_duration")
+	private String heparinDuration;
 	@Column(name = "is_aromatase_inhibitor")
 	private Boolean aromataseInhibitor;
+	@Column(name = "aromatase_inhibitor_duration")
+	private String aromataseInhibitorDuration;
 	@Column(name = "is_last_other")
 	private Boolean lastOther;
 	@Column(name = "last_other_desc")
 	private String lastOtherDesc;
+	@Column(name = "last_other_duration")
+	private String lastOtherDuration;
 
 	public Long getUserId() {
 		return userId;
@@ -1437,4 +1464,78 @@ public class Anamnesis extends BaseSequenceEntity<Long> {
 	public String getOrganizationName() {
 		return organizationName;
 	}
+
+	public String getCiclosporinBC() {
+		return ciclosporinBC;
+	}
+
+	public void setCiclosporinBC(String ciclosporinBC) {
+		this.ciclosporinBC = ciclosporinBC;
+	}
+
+	public String getTacrolimusBC() {
+		return tacrolimusBC;
+	}
+
+	public void setTacrolimusBC(String tacrolimusBC) {
+		this.tacrolimusBC = tacrolimusBC;
+	}
+
+	public String getShardDuration() {
+		return shardDuration;
+	}
+
+	public void setShardDuration(String shardDuration) {
+		this.shardDuration = shardDuration;
+	}
+
+	public String getAedsDuration() {
+		return aedsDuration;
+	}
+
+	public void setAedsDuration(String aedsDuration) {
+		this.aedsDuration = aedsDuration;
+	}
+
+	public String getAluminumPreparationDuration() {
+		return aluminumPreparationDuration;
+	}
+
+	public void setAluminumPreparationDuration(String aluminumPreparationDuration) {
+		this.aluminumPreparationDuration = aluminumPreparationDuration;
+	}
+
+	public String getLithiumPreparationsDuration() {
+		return lithiumPreparationsDuration;
+	}
+
+	public void setLithiumPreparationsDuration(String lithiumPreparationsDuration) {
+		this.lithiumPreparationsDuration = lithiumPreparationsDuration;
+	}
+
+	public String getHeparinDuration() {
+		return heparinDuration;
+	}
+
+	public void setHeparinDuration(String heparinDuration) {
+		this.heparinDuration = heparinDuration;
+	}
+
+	public String getAromataseInhibitorDuration() {
+		return aromataseInhibitorDuration;
+	}
+
+	public void setAromataseInhibitorDuration(String aromataseInhibitorDuration) {
+		this.aromataseInhibitorDuration = aromataseInhibitorDuration;
+	}
+
+	public String getLastOtherDuration() {
+		return lastOtherDuration;
+	}
+
+	public void setLastOtherDuration(String lastOtherDuration) {
+		this.lastOtherDuration = lastOtherDuration;
+	}
+	
+	
 }

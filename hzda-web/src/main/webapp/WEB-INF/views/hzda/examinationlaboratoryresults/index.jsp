@@ -8,8 +8,8 @@
 			    <th data-options="field:'ck',checkbox:true" rowspan="2"></th>
 			    <th data-options="field:'id',hidden:true" rowspan="2">编号</th>
 			    <th data-options="field:'examinationDate',width:120" rowspan="2">日期</th>
-			    <th colspan="9">血液</th>
-			    <th colspan="3">24h 尿 </th>
+			    <th colspan="10">血液</th>
+			    <th colspan="2">24h 尿 </th>
 			</tr>
 			<tr>
 				<th data-options="field:'bloodALP',width:100">ALP(U/L)</th>

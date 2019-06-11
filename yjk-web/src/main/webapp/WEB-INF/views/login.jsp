@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-    	<title>用户登录 - 网上药品申报信息管理系统</title>
+    	<title>用户登录 - 网上药品申报评审信息管理系统</title>
     	<script src="${ctx}/static/js/loading.js" charset="utf-8" type="text/javascript"></script>
     	<link href="${ctx}/static/jQuery-Validation-Engine/css/validationEngine.jquery-ciaoca.css" rel="stylesheet" type="text/css"/>
     	<link href="${ctx}/static/css/login.css"  type="text/css" rel="stylesheet"/>
@@ -36,7 +36,7 @@
 			<dl>
 				<dd id="user_bottom">
 				  	<ul>
-				    	<li class="user_title_l">欢迎使用网上药品申报信息管理系统</li>
+				    	<li class="user_title_l">欢迎使用网上药品申报评审信息管理系统</li>
 					</ul>
 				</dd>
 		  		<dd id="user_top">
