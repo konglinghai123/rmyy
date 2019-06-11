@@ -44,15 +44,6 @@ import com.google.common.collect.Sets;
  * <li>otherDeclarationLimt:外用及其他两规限数（院目录在用数量）</li>
  * <li>declareTotalLimt:申报总数限制（单个医生）</li>
  * <li>enabled:是否启用（系统中只能有1或0条设置启用）</li>
- * <li>organizations:科室对象集合
- * <li>departmentAttributes:科室属性对象集合</li>
- * <li>professions:执业类别对象集合</li>
- * <li>technicalTitle:技术职称(资格)对象集合</li>
- * <li>appointment:聘任对象集合</li>
- * <li>percent:百分比</li>
- * <li>totalNumber:人数</li>
- * <li>departmentNumber:部门人数</li>
- * <li>enabled:是否启用</li>
  * <li>repeatDeclared:是否重复申报</li>
  * <li>projectRemark:项目说明</li>
  * <li>deleted:是否删除</li>

@@ -32,7 +32,24 @@ import com.ewcms.security.user.entity.User;
 import com.google.common.collect.Sets;
 
 /**
- * 
+ * 申报人员过滤打件
+ * <ul>
+ * <li>weight:排序</li>
+ * <li>director:科主任</li>
+ * <li>secondDirector:科副主任</li>
+ * <li>pharmacy:药事会成员</li>
+ * <li>science:院学术委员会成员</li>
+ * <li>antibiosis:抗菌药物遴选小组成员</li>
+ * <li>organizations:科室对象集合</li>
+ * <li>departmentAttributes:科室属性对象集合</li>
+ * <li>professions:执业类别对象集合</li>
+ * <li>technicalTitle:技术职称(资格)对象集合</li>
+ * <li>appointment:聘任对象集合</li>
+ * <li>percent:百分比</li>
+ * <li>totalNumber:人数</li>
+ * <li>departmentNumber:部门人数</li>
+ * <li>enabled:是否启用</li>
+ * </ul>
  * @author wuzhijun
  *
  */

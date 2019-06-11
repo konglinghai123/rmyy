@@ -32,7 +32,7 @@ import com.ewcms.security.user.entity.User;
 import com.google.common.collect.Sets;
 
 /**
- * 评审专家
+ * 评审专家过滤打件
  * 
  * <ul>
  * <li>weight:排序</li>
