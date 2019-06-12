@@ -7,7 +7,7 @@ import com.ewcms.yjk.re.zd.entity.ReviewRule;
 
 public interface ReviewRuleRepository extends BaseRepository<ReviewRule, Long> {
 	
-	List<ReviewRule> findByDeletedFalseAndEnabledTrueOrderByWeightAsc();
+	List<ReviewRule> findByEnabledTrueOrderByWeightAsc();
 	
 	List<ReviewRule> findByRuleName(String ruleName);
 	
