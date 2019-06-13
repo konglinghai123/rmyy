@@ -13,19 +13,23 @@
 				</c:forEach>
 			  	<table class="formtable">
 		        	<tr>
-						<td width="30%"><form:label path="ruleName">规则字段名：</form:label></td>
-						<td width="70%"><form:input path="ruleName" cssClass="validate[required,ajax[ajaxNameCall]]"/></td>
+						<td width="15%"><form:label path="ruleName">规则字段名：</form:label></td>
+						<td width="85%"><form:input path="ruleName" cssClass="validate[required,ajax[ajaxNameCall]]"/></td>
 					</tr>
 		        	<tr>
-						<td width="30%"><form:label path="ruleCnName">规则字段中文名：</form:label></td>
-						<td width="70%"><form:input path="ruleCnName" cssClass="validate[required,ajax[ajaxNameCall]]"/></td>
-					</tr>				
+						<td width="15%"><form:label path="ruleCnName">规则字段中文名：</form:label></td>
+						<td width="85%"><form:input path="ruleCnName" cssClass="validate[required,ajax[ajaxNameCall]]"/></td>
+					</tr>	
+					<tr>
+						<td width="15%"><form:label path="displayColumns">所要显示字段：</form:label></td>
+						<td width="85%"><form:input path="displayColumns" cssClass="easyui-combobox" data-options="url:'${ctx}/yjk/re/zd/displaycolumn/canUse',valueField:'id',textField:'ruleCnName',editable:false,multiple:true,width:500"/></td>
+					</tr>								
 				</table>
 			</form:form>
 		</div>
 		<div data-options="region:'south'" style="text-align:center;height:30px;border:0">
 	  		<a class="easyui-linkbutton" data-options="iconCls:'icon-save'" href="javascript:void(0);" onclick="javascript:$('#editForm').submit();">提交</a>
-	  		<a class="easyui-linkbutton" data-options="iconCls:'icon-undo'" href="javascript:void(0);" onclick="javascript:$('#editForm').form('reset');">重置</a>
+	  		<a class="easyui-linkbutton" data-options="iconCls:'icon-undo'" href="javascript:void(0);" onclick="javascript:resetForm();">重置</a>
 	  		<a class="easyui-linkbutton" data-options="iconCls:'icon-cancel'" href="javascript:void(0);" onclick="javascript:parent.$('#edit-window').window('close');">关闭</a>
 		</div>
 	</div>
@@ -38,7 +42,7 @@
 	    	</c:when>
 	    	<c:otherwise>
 				$.validationEngineLanguage.allRules.ajaxNameCall= {
-	                "url": "${ctx}/yjk/re/zd/reviewrule/validate",
+	                "url": "${ctx}/yjk/re/zd/reviewbaserule/validate",
 	                extraDataDynamic : ['#id'],
 	                "alertTextLoad": "* 正在验证，请稍等。。。"
 	            };
@@ -50,7 +54,14 @@
 	        	<ewcms:showFieldError commandName="m"/>
 	    	</c:otherwise>
 	    </c:choose>
+	    $('#displayColumns').combobox('setValues', ${m.displayColumnsIds});
 	});
 	$.ewcms.refresh({operate : '${operate}', data : '${lastM}'});
+	
+	function resetForm(){
+		$('#editForm').form('reset');
+		$('#displayColumns').combobox('setValues', ${m.displayColumnsIds});
+	}
+
 </script>
 	

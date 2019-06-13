@@ -1,6 +1,7 @@
 package com.ewcms.yjk.re.zd.entity;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -11,7 +12,11 @@ import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+
 import com.ewcms.common.entity.BaseSequenceEntity;
+import com.ewcms.common.utils.Collections3;
+import com.ewcms.common.utils.EmptyUtil;
+import com.google.common.collect.Sets;
 
 /**
  * 评审基本规则制定
@@ -59,4 +64,21 @@ public class ReviewBaseRule extends BaseSequenceEntity<Long> {
 		this.ruleCnName = ruleCnName;
 	}
 
+	public List<DisplayColumn> getDisplayColumns() {
+		return displayColumns;
+	}
+
+	public void setDisplayColumns(List<DisplayColumn> displayColumns) {
+		this.displayColumns = displayColumns;
+	}
+	public String getDisplayColumnsNames() {
+		return (EmptyUtil.isCollectionNotEmpty(displayColumns))
+				? Collections3.convertToString(Collections3.extractToList(displayColumns, "ruleCnName"), "/")
+				: "/";
+	}
+	@SuppressWarnings("unchecked")
+	public Set<Long> getDisplayColumnsIds() {
+		return (EmptyUtil.isCollectionNotEmpty(displayColumns)) ? Collections3.extractToSet(displayColumns, "id")
+				: Sets.newHashSet();
+	}
 }

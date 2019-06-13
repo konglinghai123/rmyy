@@ -20,7 +20,7 @@ import com.alibaba.fastjson.annotation.JSONField;
 import com.ewcms.common.entity.BaseSequenceEntity;
 import com.ewcms.common.plugin.entity.Movable;
 import com.ewcms.yjk.re.zd.entity.DisplayColumn;
-import com.ewcms.yjk.re.zd.entity.ReviewRule;
+import com.ewcms.yjk.re.zd.entity.ReviewBaseRule;
 
 /**
  * 评审流程
@@ -40,7 +40,7 @@ public class ReviewProcess extends BaseSequenceEntity<Long> implements Movable{
 	private ReviewMain reviewMain;
 	@ManyToOne()
     @Fetch(FetchMode.SELECT)
-	private ReviewRule reviewRule;
+	private ReviewBaseRule reviewBaseRule;
 	@Column(name = "weight")
 	private Integer weight;
 	@ManyToMany(cascade = { CascadeType.ALL })

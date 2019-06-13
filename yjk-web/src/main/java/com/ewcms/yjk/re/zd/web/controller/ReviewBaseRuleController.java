@@ -17,14 +17,14 @@ import com.ewcms.yjk.re.zd.entity.ReviewBaseRule;
 import com.ewcms.yjk.re.zd.service.ReviewBaseRuleService;
 
 @Controller
-@RequestMapping(value = "/yjk/re/zd/reviebasewrule")
+@RequestMapping(value = "/yjk/re/zd/reviewbaserule")
 public class ReviewBaseRuleController extends BaseCRUDController<ReviewBaseRule, Long> {
 	private ReviewBaseRuleService getReviewRuleService() {
 		return (ReviewBaseRuleService) baseService;
 	}
 	
     public ReviewBaseRuleController() {
-        setResourceIdentity("yjk:reviewrule");
+        setResourceIdentity("yjk:reviewbaserule");
     }
     
 	@Override
