@@ -92,7 +92,7 @@ public class SystemParameterController extends BaseCRUDController<SystemParamete
 			SystemParameter vo = getSystemParameterService().openDeclare(user, systemParameterId);
 
 			if (vo == null) {
-				ajaxResponse.setMessage("数据启动异常");
+				ajaxResponse.setMessage("专家遴选中有未关闭的评审情况，请先关闭评审.");
 			} else {
 				if (!vo.getEnabled()) {
 					ajaxResponse.setMessage("当前时间不在启动时间范围内");

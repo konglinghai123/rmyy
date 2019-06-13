@@ -46,6 +46,11 @@ import com.google.common.collect.Sets;
  * <li>users:用户对象集合(直接指定的用户)</li>
  * <li>enabled:是否启用</li>
  * <li>systemParameter:系统参数对象(评审申报)</li>
+ * <li>generalNameChinese:新增通用名中成药数量</li>
+ * <li>generalNameWestern:新增通用名西药数量</li>
+ * <li>formulaChinese:新增剂型/规格中成药数量</li>
+ * <li>formulaWestern:新增剂型/规格西药数量</li>
+ * <li>reviewProcesses:评审流程集合</li>
  * </ul>
  * 
  * @author wuzhijun
@@ -87,6 +92,20 @@ public class ReviewMain extends BaseSequenceEntity<Long> {
 	@ManyToOne(optional = true, fetch = FetchType.EAGER)
     @Fetch(FetchMode.SELECT)
 	private SystemParameter systemParameter;
+	@Column(name = "general_name_chinese")
+	private Long generalNameChinese = 0L;
+	@Column(name = "general_name_western")
+	private Long generalNameWestern = 0L;
+	@Column(name = "formula_chinese")
+	private Long formulaChinese = 0L;
+	@Column(name = "formula_western")
+	private Long formulaWestern = 0L;
+	@OneToMany(cascade = { CascadeType.MERGE,
+			CascadeType.REFRESH }, fetch = FetchType.EAGER, targetEntity = ReviewProcess.class, mappedBy = "reviewMain", orphanRemoval = true)
+	@Fetch(FetchMode.SELECT)
+	@Basic(optional = true, fetch = FetchType.EAGER)
+	@OrderBy("weight")
+	private List<ReviewProcess> reviewProcesses;
 
 	public String getName() {
 		return name;
@@ -181,5 +200,46 @@ public class ReviewMain extends BaseSequenceEntity<Long> {
 		} catch (Exception e) {
 			return "";
 		}
+	}
+
+	public Long getGeneralNameChinese() {
+		return generalNameChinese;
+	}
+
+	public void setGeneralNameChinese(Long generalNameChinese) {
+		this.generalNameChinese = generalNameChinese;
+	}
+
+	public Long getGeneralNameWestern() {
+		return generalNameWestern;
+	}
+
+	public void setGeneralNameWestern(Long generalNameWestern) {
+		this.generalNameWestern = generalNameWestern;
+	}
+
+	public Long getFormulaChinese() {
+		return formulaChinese;
+	}
+
+	public void setFormulaChinese(Long formulaChinese) {
+		this.formulaChinese = formulaChinese;
+	}
+
+	public Long getFormulaWestern() {
+		return formulaWestern;
+	}
+
+	public void setFormulaWestern(Long formulaWestern) {
+		this.formulaWestern = formulaWestern;
+	}
+
+	@JSONField(serialize = false)
+	public List<ReviewProcess> getReviewProcesses() {
+		return reviewProcesses;
+	}
+
+	public void setReviewProcesses(List<ReviewProcess> reviewProcesses) {
+		this.reviewProcesses = reviewProcesses;
 	}
 }

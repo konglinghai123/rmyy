@@ -16,6 +16,22 @@
 						<td width="30%"><form:label path="name">名称：</form:label></td>
 						<td width="70%"><form:input path="name" cssClass="validate[required,ajax[ajaxNameCall]]"/></td>
 					</tr>
+					<tr>
+						<td><form:label path="generalNameChinese">拟新增通用名中成药：</form:label></td>
+						<td><form:input path="generalNameChinese" cssClass="validate[required, integer]"/></td>
+					</tr>
+					<tr>
+						<td><form:label path="generalNameWestern">拟新增通用名西药：</form:label></td>
+						<td><form:input path="generalNameWestern" cssClass="validate[required, integer]"/></td>
+					</tr>
+					<tr>
+						<td><form:label path="formulaChinese">拟新增剂型/规格中成药：</form:label></td>
+						<td><form:input path="formulaChinese" cssClass="validate[required, integer]"/></td>
+					</tr>
+					<tr>
+						<td><form:label path="formulaWestern">拟新增剂型/规格西药：</form:label></td>
+						<td><form:input path="formulaWestern" cssClass="validate[required, integer]"/></td>
+					</tr>
 		        	<tr>
 						<td><form:label path="remark">说明：</form:label></td>
 						<td><form:textarea path="remark" style="width:300px;height:50px" cssClass="validate[required]"/></td>

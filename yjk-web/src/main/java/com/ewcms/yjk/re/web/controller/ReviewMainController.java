@@ -92,7 +92,7 @@ public class ReviewMainController extends BaseCRUDController<ReviewMain, Long> {
 			ReviewMain reviewMain = getReviewMainService().openDeclare(user, reviewMainId);
 
 			if (reviewMain == null) {
-				ajaxResponse.setMessage("数据启动异常");
+				ajaxResponse.setMessage("系统参数中有未关闭的申报情况，请先关闭申报.");
 			}
 		} catch (Exception e) {
 			ajaxResponse.setSuccess(Boolean.FALSE);
@@ -250,10 +250,13 @@ public class ReviewMainController extends BaseCRUDController<ReviewMain, Long> {
 	}
 	
 	@RequestMapping(value = "{reviewMainId}/indexSystemParameter")
-	public String indexSystemParameter(@PathVariable("reviewMainId") Long reviewMainId) {
+	public String indexSystemParameter(@PathVariable("reviewMainId") ReviewMain reviewMain, Model model) {
 		if (permissionList != null) {
             this.permissionList.assertHasViewPermission();
         }
+		SystemParameter sp = reviewMain.getSystemParameter();
+		model.addAttribute("spId", (sp != null) ? sp.getId() : -1L);
+		
 		return viewName("indexSystemParameter");
 	}
 

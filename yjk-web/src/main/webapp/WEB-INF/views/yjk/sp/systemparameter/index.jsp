@@ -7,6 +7,7 @@
 		<thead > 	
 			<tr>	
 				<th data-options="field:'ck',checkbox:true"/>
+				<th data-options="field:'enabled',width:400,halign:'center',formatter:formatOperation">操作</th>
 				<th data-options="field:'id',width:80">编号</th>
 				<th data-options="field:'applyStartDate',width:150">申请开始时间</th>
 				<th data-options="field:'applyEndDate',width:150">申请结束时间</th>
@@ -31,7 +32,6 @@
 							return val==0?'不限数':val;
 						}">每个人总报限数</th>
 				<th data-options="field:'projectRemark',width:120">项目说明</th>
-				<th data-options="field:'enabled',width:400,halign:'center',formatter:formatOperation">操作</th>
 				<th data-options="field:'nodeclareNumber',width:100">未提交初审数</th>
 				<th data-options="field:'initNumber',width:100">已提交初审数</th>
 				<th data-options="field:'passedNumber',width:110">初审核已通过数</th>
@@ -112,11 +112,11 @@
 		applyEndDateTimestamp = new Date(Date.parse(row.applyEndDate.replace(/-/g, "/"))).getTime();
 		applyStartDatetamp = new Date(Date.parse(row.applyStartDate.replace(/-/g, "/"))).getTime();
 		var htmlOperation = '<a class="verifyCls" onclick="filter(' + row.id + ');" href="javascript:void(0);" style="height:24px;">筛选用户</a> | ';
-		htmlOperation = htmlOperation + '<a class="previewCls" onclick="preview(' + row.id + ');" href="javascript:void(0);" style="height:24px;">查看用户</a> | '
+		htmlOperation += '<a class="previewCls" onclick="preview(' + row.id + ');" href="javascript:void(0);" style="height:24px;">查看用户</a> | '
 		if (val) {
-			htmlOperation = htmlOperation + '<a class="closeCls" onclick="closeDeclare(' + row.id + ')" href="javascript:void(0);">关闭申报</a> ';
+			htmlOperation += '<a class="closeCls" onclick="closeDeclare(' + row.id + ')" href="javascript:void(0);">关闭申报</a> | ';
 		} else {
-			htmlOperation = htmlOperation +  '<a class="openCls" onclick="openDeclare(' + row.id + ')" href="javascript:void(0);">启动申报</a> ';
+			htmlOperation +=  '<a class="openCls" onclick="openDeclare(' + row.id + ')" href="javascript:void(0);">启动申报</a> | ';
 		}
 		return htmlOperation;
 	}

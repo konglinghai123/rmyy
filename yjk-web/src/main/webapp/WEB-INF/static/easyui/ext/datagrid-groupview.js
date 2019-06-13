@@ -43,11 +43,20 @@ var groupview = $.extend({}, $.fn.datagrid.defaults.view, {
 			table.push('</span>');
 		}
 		table.push('</div>');
+
+		var groupRows = $.extend([], group.rows);
+		if (opts.groupFooter){
+			var footerRow = opts.groupFooter.call(target, group.value, group.rows);
+			if (footerRow){
+				footerRow._group_footer = true;
+				groupRows.push(footerRow);
+			}
+		}
 		
 		table.push('<table class="datagrid-btable" cellspacing="0" cellpadding="0" border="0"><tbody>');
 		var index = group.startIndex;
-		for(var j=0; j<group.rows.length; j++) {
-			var css = opts.rowStyler ? opts.rowStyler.call(target, index, group.rows[j]) : '';
+		for(var j=0; j<groupRows.length; j++) {
+			var css = opts.rowStyler ? opts.rowStyler.call(target, index, groupRows[j]) : '';
 			var classValue = '';
 			var styleValue = '';
 			if (typeof css == 'string'){
@@ -58,10 +67,14 @@ var groupview = $.extend({}, $.fn.datagrid.defaults.view, {
 			}
 			
 			var cls = 'class="datagrid-row ' + (index % 2 && opts.striped ? 'datagrid-row-alt ' : ' ') + classValue + '"';
+			if (groupRows[j]._group_footer){
+				cls = 'class="datagrid-group-footer"';
+				styleValue = 'height:'+(opts.editorHeight+1)+'px';
+			}
 			var style = styleValue ? 'style="' + styleValue + '"' : '';
 			var rowId = state.rowIdPrefix + '-' + (frozen?1:2) + '-' + index;
 			table.push('<tr id="' + rowId + '" datagrid-row-index="' + index + '" ' + cls + ' ' + style + '>');
-			table.push(this.renderRow.call(this, target, fields, frozen, index, group.rows[j]));
+			table.push(this.renderRow.call(this, target, fields, frozen, index, groupRows[j]));
 			table.push('</tr>');
 			index++;
 		}
@@ -160,6 +173,7 @@ var groupview = $.extend({}, $.fn.datagrid.defaults.view, {
 					'.datagrid-group-title{position:relative;}' +
 					'.datagrid-group-expander{width:'+opts.expanderWidth+'px;text-align:center;padding:0}' +
 					'.datagrid-row-expander{margin:'+Math.floor((opts.groupHeight-16)/2)+'px 0;display:inline-block;width:16px;height:16px;cursor:pointer}' +
+					'.datagrid-group-footer .datagrid-cell-rownumber{display:none}' +
 					'</style>'
 				);
 			}
@@ -242,6 +256,12 @@ $.extend($.fn.datagrid.methods, {
 				}
 			}
     	});
+    },
+    refreshGroupTitle: function(jq, groupIndex){
+    	return jq.each(function(){
+    		var opts = $(this).datagrid('options');
+    		opts.view.refreshGroupTitle(this, groupIndex)
+    	})
     }
 });
 
@@ -384,4 +404,5 @@ $.extend(groupview, {
 		}
 	}
 });
+
 

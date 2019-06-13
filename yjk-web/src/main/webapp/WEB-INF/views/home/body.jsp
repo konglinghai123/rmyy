@@ -2,7 +2,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 		<div data-options="region:'north',border:false" style="height:70px;overflow:no;">
-		    <h2 align="center">欢迎使用网上药品申报评审信息管理系统</h2>
+		    <h2 align="center">欢迎使用网上药品申报评审信息管理系统V2.0</h2>
 		</div>
 		<div data-options="region:'center',border:false" style="width:40%;overflow:auto;">
 			<table style="width:100%;padding:0;">
@@ -79,7 +79,7 @@
 		            	<div style="overflow:hidden;padding:0 0 0 0">
 		               		<div class="panel" style="margin-bottom:2px;">
 		                 		<div class="panel-header">
-		                   			<div class="panel-title">提示栏</div>
+		                   			<div class="panel-title">申报统计栏</div>
 		                   			<div class="panel-tool">
 		                     			<a href="javascript:void(0);" style="display:inline;"></a>
 		                   			</div>
@@ -120,7 +120,7 @@
 		           	<td class="portal-column-td" width="48%">
 		            	<div class="panel" style="margin-bottom:2px;">
 		                 		<div class="panel-header">
-		                   			<div class="panel-title panel-with-icon">图表栏</div>
+		                   			<div class="panel-title panel-with-icon">申报统计图表</div>
 		                   			<div class="panel-icon icon-visit-analysis"></div>
 		                   			<div class="panel-tool">
 		                     			<a href="javascript:void(0);" class="icon-reload panel-tool-a" onclick="drugFormCountChart();" title="刷新"></a>

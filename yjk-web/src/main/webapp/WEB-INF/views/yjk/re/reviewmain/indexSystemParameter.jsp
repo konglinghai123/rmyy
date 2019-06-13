@@ -5,7 +5,7 @@
 	<div id="edit-from" class="easyui-layout" data-options="fit:true" style="border:0;">
 		<ewcms:showMessage/>
 		<div data-options="region:'center',border:false">	
-			<table id="tt" class="easyui-datagrid" data-options="url : '${ctx}/yjk/re/reviewmain/canUseSystemParameter',toolbar : '#tb',fit : true,nowrap : false,pagination : true,rownumbers : true,striped : true,pageSize : 20,border : false,singleSelect:true">
+			<table id="tt">
 				<thead>
 					<tr>	
 						<th data-options="field:'ck',checkbox:true"/>
@@ -33,6 +33,28 @@
 	</div>
 <ewcms:footer/>
 <script type="text/javascript">
+	$(function(){
+		$('#tt').datagrid({
+			url : '${ctx}/yjk/re/reviewmain/canUseSystemParameter',
+			toolbar : '#tb',
+			fit : true,
+			nowrap : false,
+			pagination : true,
+			rownumbers : true,
+			striped : true,
+			pageSize : 20,
+			border : false,
+			singleSelect:true,
+			onLoadSuccess:function(data){
+				$.each(data.rows, function(i, e){
+					if (e.id == ${spId}){
+						$('#tt').datagrid('selectRow', i);
+					}
+				})
+			}
+		});
+	});
+
 	function saveSelect(){
 		var rows = $('#tt').datagrid('getSelections');
     	

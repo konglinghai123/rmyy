@@ -18,6 +18,7 @@ import com.ewcms.security.user.entity.User;
 import com.ewcms.security.user.entity.UserStatus;
 import com.ewcms.security.user.service.UserOrganizationJobService;
 import com.ewcms.security.user.service.UserService;
+import com.ewcms.yjk.re.service.ReviewMainService;
 import com.ewcms.yjk.sp.entity.SystemExpert;
 import com.ewcms.yjk.sp.entity.SystemParameter;
 import com.ewcms.yjk.sp.repository.SystemParameterRepository;
@@ -51,6 +52,8 @@ public class SystemParameterService extends BaseService<SystemParameter, Long> {
 	private SystemExpertService systemExpertService;
 	@Autowired
 	private AutomaticAuthService automaticAuthService;
+	@Autowired
+	private ReviewMainService reviewMainService;
 
 	@Override
 	public SystemParameter update(SystemParameter systemParameter) {
@@ -184,35 +187,31 @@ public class SystemParameterService extends BaseService<SystemParameter, Long> {
 	}
 
 	public SystemParameter openDeclare(User opUser, Long systemParameterId) {
-		try {
-			SystemParameter systemParameter = findOne(systemParameterId);
-			if (systemParameter.getApplyEndDate().after(new Date()) && systemParameter.getApplyStartDate().before(new Date())) {
-				SystemParameter dbSystemParameter = findByEnabledTrue();
-				if (dbSystemParameter != null) {
-					dbSystemParameter.setEnabled(Boolean.FALSE);
-					super.update(dbSystemParameter);
-				}
-				systemParameter.setEnabled(Boolean.TRUE);
-			
-				List<Long> userIds = Lists.newArrayList(systemParameter.getUserIds());
-				List<SystemExpert> systemExperts = systemParameter.getSystemExperts();
-				if (EmptyUtil.isCollectionNotEmpty(systemExperts)) {
-					for (SystemExpert systemExpert : systemExperts) {
-						Set<Long> selectUserIds = systemExpert.getUserIds();
-						if (EmptyUtil.isCollectionNotEmpty(selectUserIds)) userIds.addAll(selectUserIds);
-					}
-				}
-				automaticAuthService.automaticAddAuth(ROLE_NAME, ROLE_IDENTIFICATION, GROUP_NAME, userIds, Boolean.TRUE, RESOURCE_ID);
-				
-				return super.update(systemParameter);
-			}else{
-				return systemParameter;
-			}
-		} catch (Exception e) {
-			System.out.println(e.toString());
-			return null;
-		}
+		if (reviewMainService.findByEnabledTrue() != null) return null;
 		
+		SystemParameter systemParameter = findOne(systemParameterId);
+		if (systemParameter.getApplyEndDate().after(new Date()) && systemParameter.getApplyStartDate().before(new Date())) {
+			SystemParameter dbSystemParameter = findByEnabledTrue();
+			if (dbSystemParameter != null) {
+				dbSystemParameter.setEnabled(Boolean.FALSE);
+				super.update(dbSystemParameter);
+			}
+			systemParameter.setEnabled(Boolean.TRUE);
+		
+			List<Long> userIds = Lists.newArrayList(systemParameter.getUserIds());
+			List<SystemExpert> systemExperts = systemParameter.getSystemExperts();
+			if (EmptyUtil.isCollectionNotEmpty(systemExperts)) {
+				for (SystemExpert systemExpert : systemExperts) {
+					Set<Long> selectUserIds = systemExpert.getUserIds();
+					if (EmptyUtil.isCollectionNotEmpty(selectUserIds)) userIds.addAll(selectUserIds);
+				}
+			}
+			automaticAuthService.automaticAddAuth(ROLE_NAME, ROLE_IDENTIFICATION, GROUP_NAME, userIds, Boolean.TRUE, RESOURCE_ID);
+				
+			return super.update(systemParameter);
+		}else{
+			return systemParameter;
+		}
 	}
 	
 	public SystemParameter closeDeclare(User opUser, Long systemParameterId) {

@@ -189,36 +189,33 @@ public class ReviewMainService extends BaseService<ReviewMain, Long> {
 		}
 	}
 
-	public ReviewMain openDeclare(User opUser, Long systemParameterId) {
-		try {
-			ReviewMain reviewMain = findOne(systemParameterId);
-			ReviewMain dbReviewMain = findByEnabledTrue();
-			if (dbReviewMain != null) {
-				dbReviewMain.setEnabled(Boolean.FALSE);
-				super.update(dbReviewMain);
-			}
-			reviewMain.setEnabled(Boolean.TRUE);
-
-			List<Long> userIds = Lists.newArrayList(reviewMain.getUserIds());
-			List<ReviewExpert> reviewExperts = reviewMain.getReviewExperts();
-			if (EmptyUtil.isCollectionNotEmpty(reviewExperts)) {
-				for (ReviewExpert reviewExpert : reviewExperts) {
-					Set<Long> selectUserIds = reviewExpert.getUserIds();
-					if (EmptyUtil.isCollectionNotEmpty(selectUserIds))
-						userIds.addAll(selectUserIds);
-				}
-			}
-			automaticAuthService.automaticAddAuth(ROLE_NAME, ROLE_IDENTIFICATION, GROUP_NAME, userIds, Boolean.TRUE, RESOURCE_ID);
-
-			return super.update(reviewMain);
-		} catch (Exception e) {
-			return null;
+	public ReviewMain openDeclare(User opUser, Long reviewMainId) {
+		if (systemParameterService.findByEnabledTrue() != null) return null;
+			
+		ReviewMain reviewMain = findOne(reviewMainId);
+		ReviewMain dbReviewMain = findByEnabledTrue();
+		if (dbReviewMain != null) {
+			dbReviewMain.setEnabled(Boolean.FALSE);
+			super.update(dbReviewMain);
 		}
+		reviewMain.setEnabled(Boolean.TRUE);
 
+		List<Long> userIds = Lists.newArrayList(reviewMain.getUserIds());
+		List<ReviewExpert> reviewExperts = reviewMain.getReviewExperts();
+		if (EmptyUtil.isCollectionNotEmpty(reviewExperts)) {
+			for (ReviewExpert reviewExpert : reviewExperts) {
+				Set<Long> selectUserIds = reviewExpert.getUserIds();
+				if (EmptyUtil.isCollectionNotEmpty(selectUserIds))
+					userIds.addAll(selectUserIds);
+			}
+		}
+		automaticAuthService.automaticAddAuth(ROLE_NAME, ROLE_IDENTIFICATION, GROUP_NAME, userIds, Boolean.TRUE, RESOURCE_ID);
+
+		return super.update(reviewMain);
 	}
 
-	public ReviewMain closeDeclare(User opUser, Long systemParameterId) {
-		ReviewMain reviewMain = findOne(systemParameterId);
+	public ReviewMain closeDeclare(User opUser, Long reviewMainId) {
+		ReviewMain reviewMain = findOne(reviewMainId);
 		reviewMain.setEnabled(Boolean.FALSE);
 
 		automaticAuthService.automaticRemoveAllUser(GROUP_NAME);
