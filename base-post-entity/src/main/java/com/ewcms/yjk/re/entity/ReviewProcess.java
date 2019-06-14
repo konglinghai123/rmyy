@@ -24,7 +24,7 @@ import com.ewcms.yjk.re.zd.entity.ReviewBaseRule;
 
 /**
  * 评审流程
- * 
+ * <li>finished:是否投票完成</li>
  * @author wuzhijun
  *
  */
@@ -50,6 +50,9 @@ public class ReviewProcess extends BaseSequenceEntity<Long> implements Movable{
 							"process_id", "column_id" })})
 	private List<DisplayColumn> displayColumns;
 	
+	@Column(name = "is_finished")
+	private Boolean finished = Boolean.FALSE;
+	
 	@JSONField(serialize = false)
 	public ReviewMain getReviewMain() {
 		return reviewMain;
@@ -57,6 +60,30 @@ public class ReviewProcess extends BaseSequenceEntity<Long> implements Movable{
 
 	public void setReviewMain(ReviewMain reviewMain) {
 		this.reviewMain = reviewMain;
+	}
+
+	public ReviewBaseRule getReviewBaseRule() {
+		return reviewBaseRule;
+	}
+
+	public void setReviewBaseRule(ReviewBaseRule reviewBaseRule) {
+		this.reviewBaseRule = reviewBaseRule;
+	}
+
+	public List<DisplayColumn> getDisplayColumns() {
+		return displayColumns;
+	}
+
+	public void setDisplayColumns(List<DisplayColumn> displayColumns) {
+		this.displayColumns = displayColumns;
+	}
+
+	public Boolean getFinished() {
+		return finished;
+	}
+
+	public void setFinished(Boolean finished) {
+		this.finished = finished;
 	}
 
 	@Override
