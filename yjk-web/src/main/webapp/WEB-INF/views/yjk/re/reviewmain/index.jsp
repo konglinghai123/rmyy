@@ -181,6 +181,6 @@
 	}
 	
 	function process(id){
-		alert('未实现');
+		$.ewcms.openWindow({src:'${ctx}/yjk/re/reviewprocess/' + id + '/index',title:'评审流程 - 选择评审流程',width:850,height:550});
 	}
 </script>

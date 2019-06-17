@@ -55,6 +55,7 @@ public class ReviewMainService extends BaseService<ReviewMain, Long> {
 	public ReviewMain update(ReviewMain reviewMain) {
 		ReviewMain dbReviewMain = findOne(reviewMain.getId());
 		reviewMain.setReviewExperts(dbReviewMain.getReviewExperts());
+		reviewMain.setReviewProcesses(dbReviewMain.getReviewProcesses());
 		reviewMain.setUsers(dbReviewMain.getUsers());
 
 		return super.update(reviewMain);

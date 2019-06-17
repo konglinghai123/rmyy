@@ -48,8 +48,7 @@ public class ReviewProcess extends BaseSequenceEntity<Long> implements Movable{
 			@JoinColumn(name = "process_id", referencedColumnName = "id") }, inverseJoinColumns = {
 					@JoinColumn(name = "column_id", referencedColumnName = "id") }, uniqueConstraints = {@UniqueConstraint(columnNames = {
 							"process_id", "column_id" })})
-	private List<DisplayColumn> displayColumns;
-	
+	private List<DisplayColumn> displayColumns;	
 	@Column(name = "is_finished")
 	private Boolean finished = Boolean.FALSE;
 	

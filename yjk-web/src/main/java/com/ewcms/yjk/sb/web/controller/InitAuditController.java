@@ -22,6 +22,8 @@ import com.ewcms.security.user.service.UserService;
 import com.ewcms.yjk.sb.entity.AuditStatusEnum;
 import com.ewcms.yjk.sb.entity.DrugForm;
 import com.ewcms.yjk.sb.service.DrugFormService;
+import com.ewcms.yjk.sp.entity.SystemParameter;
+import com.ewcms.yjk.sp.service.SystemParameterService;
 import com.ewcms.yjk.zd.commonname.service.CommonNameRuleService;
 
 /**
@@ -34,6 +36,9 @@ public class InitAuditController extends BaseCRUDController<DrugForm, Long> {
 	private CommonNameRuleService commonNameRuleService;
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private SystemParameterService systemParameterService;
+	
 	private DrugFormService getDrugFormService() {
 		return (DrugFormService) baseService;
 	}
@@ -64,6 +69,16 @@ public class InitAuditController extends BaseCRUDController<DrugForm, Long> {
 		if (searchParameter.getParameters().get("EQ_auditStatus").equals(AuditStatusEnum.nodeclare)) {
 			searchParameter.getParameters().put("EQ_declared", Boolean.TRUE);
 		}
+		
+		if (EmptyUtil.isStringEmpty(searchParameter.getParameters().get("EQ_systemParameterId"))) {
+			SystemParameter systemParameter = systemParameterService.findByEnabledTrue();
+			if (systemParameter != null) {
+				searchParameter.getParameters().put("EQ_systemParameterId", systemParameter.getId());
+			} else {
+				searchParameter.getParameters().put("EQ_systemParameterId", -1L);
+			}
+		}
+		
 		searchParameter.getSorts().put("userId", Direction.DESC);
 		searchParameter.getSorts().put("auditStatus", Direction.ASC);
 		return super.query(searchParameter, model);

@@ -238,6 +238,11 @@ public class ReviewMain extends BaseSequenceEntity<Long> {
 	public List<ReviewProcess> getReviewProcesses() {
 		return reviewProcesses;
 	}
+	
+	public void addReviewProcess(ReviewProcess reviewProcess) {
+		reviewProcess.setReviewMain(this);
+		getReviewProcesses().add(reviewProcess);
+	}
 
 	public void setReviewProcesses(List<ReviewProcess> reviewProcesses) {
 		this.reviewProcesses = reviewProcesses;

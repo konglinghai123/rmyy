@@ -90,7 +90,8 @@
 									 至 
 									<input type="text" id="fillInDate2" name="LTE_fillInDate" class="easyui-datetimebox" style="width: 145px" data-options="editable:false" />
 								</td>    				
-		           			</tr>            			
+		           			</tr>
+		           			<input name="EQ_systemParameterId" style="width:140px;"/>          			
 		           		</table>
 		          </form>
 		        </div>
