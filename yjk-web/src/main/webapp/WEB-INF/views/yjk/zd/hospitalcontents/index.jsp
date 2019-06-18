@@ -119,7 +119,10 @@
 	        	if (row.deleted){
 	    			return 'background-color:#FF0000;color:#FFFFFF;';
 	        	}
-	    	}
+	    	},
+			onLoadSuccess : function () {
+		        $(this).datagrid('fixRownumber');
+		    }
 		});
 	});
 </script>

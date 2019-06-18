@@ -7,7 +7,10 @@
 	        	if (!row.enabled){
 	    			return 'background-color:#FF0000;color:#FFFFFF;';
 	        	}
-	    	}">
+	    	},
+			onLoadSuccess : function () {
+		        $(this).datagrid('fixRownumber');
+		    }">
 		<thead>
 			<tr>
 			    <th data-options="field:'ck',checkbox:true"/>

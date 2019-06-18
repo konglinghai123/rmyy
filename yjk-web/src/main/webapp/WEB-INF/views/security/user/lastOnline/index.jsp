@@ -2,7 +2,10 @@
 <%@ include file="/WEB-INF/views/jspf/taglibs.jspf" %>
 
 <ewcms:head/>
-	<table id="tt" class="easyui-datagrid" data-options="url:'${ctx}/security/user/lastOnline/query',toolbar:'#tb',fit:true,nowrap:true,pagination:true,rownumbers:true,striped:true,border:false,pageSize:20">
+	<table id="tt" class="easyui-datagrid" data-options="url:'${ctx}/security/user/lastOnline/query',toolbar:'#tb',fit:true,nowrap:true,pagination:true,rownumbers:true,striped:true,border:false,pageSize:20,
+			onLoadSuccess : function () {
+		        $(this).datagrid('fixRownumber');
+		    }">
 		<thead>
 			<tr>
 			    <th data-options="field:'id',hidden:true">编号</th>

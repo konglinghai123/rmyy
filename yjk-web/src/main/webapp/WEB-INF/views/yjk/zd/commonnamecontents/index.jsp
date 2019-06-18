@@ -157,7 +157,10 @@
 	        	if (!row.declared){
 	    			return 'background-color:#FF0000;color:#FFFFFF;';
 	        	}
-	    	}
+	    	},
+			onLoadSuccess : function () {
+		        $(this).datagrid('fixRownumber');
+		    }
 		});
 	});
 </script>

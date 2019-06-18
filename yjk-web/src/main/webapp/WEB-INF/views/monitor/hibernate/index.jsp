@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/views/jspf/taglibs.jspf" %>
 
 <ewcms:head title="Hibernate监控 - 标签页"/>
-	<div id="tab-hibernate" class="easyui-tabs" data-options="fit:true,border:false,tabPosition:'right',headerWidth:120">
+	<div id="tab-hibernate" class="easyui-tabs" data-options="fit:true,border:false,tabPosition:'right',headerWidth:140">
 		<div title="总述" style="padding:2px;overflow:hidden;">
 			<iframe id="edithibifr" name="edithibifr" class="editifr" src="${ctx}/monitor/hibernate/hibernate/index"></iframe>
 		</div>			
