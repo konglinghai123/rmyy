@@ -46,6 +46,7 @@ import com.ewcms.yjk.zd.commonname.entity.CommonNameContents;
  * <li>constituent:成分</li>
  * <li>preparationed:是否复方制剂</li>
  * <li>declareCategory:申报类型</li>
+ * <li>reviewed:是否已评审</li>
  * </ul>
  * 
  * @author zhoudongchu
@@ -63,6 +64,9 @@ public class DrugForm extends BaseSequenceEntity<Long> {
 	
 	@Formula(value = "(select s_o.realname  from sec_user s_o where s_o.id=user_id)")
 	private String realName;
+	
+	@Formula(value = "(select s_o.project_remark  from sp_system_parameter s_o where s_o.id=system_parameter_id)")
+	private String projectRemark;
 	
 	@Formula(value = "(select string_agg(t2.name,',') from sec_organization t2  where t2.id in (select t1.organization_id from sec_user_organization_job t1 where t1.user_id=user_id))")
 	private String departName;
@@ -114,7 +118,9 @@ public class DrugForm extends BaseSequenceEntity<Long> {
 	@Column(name = "is_preparationed")
 	private Boolean preparationed = Boolean.FALSE;
 
-
+	@Column(name = "is_reviewed")
+	private Boolean reviewed = Boolean.FALSE;
+	
 	public String getRealName() {
 		return realName;
 	}
@@ -255,6 +261,18 @@ public class DrugForm extends BaseSequenceEntity<Long> {
 
 	public void setDeclareCategory(String declareCategory) {
 		this.declareCategory = declareCategory;
+	}
+
+	public Boolean getReviewed() {
+		return reviewed;
+	}
+
+	public void setReviewed(Boolean reviewed) {
+		this.reviewed = reviewed;
+	}
+
+	public String getProjectRemark() {
+		return projectRemark;
 	}
 	
 	

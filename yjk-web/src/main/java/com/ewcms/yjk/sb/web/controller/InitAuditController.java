@@ -51,8 +51,9 @@ public class InitAuditController extends BaseCRUDController<DrugForm, Long> {
 	@Override
 	protected void setCommonData(Model model) {
 		super.setCommonData(model);
-		model.addAttribute("stateList", AuditStatusEnum.values());
-		model.addAttribute("userList", userService.findAll());
+		model.addAttribute("stateList",AuditStatusEnum.values());
+		//model.addAttribute("userList",userService.findAll());
+		model.addAttribute("systemParameterList", systemParameterService.findAll());
 		model.addAttribute("commonNameRuleList",commonNameRuleService.findByDeletedFalseAndEnabledTrueOrderByWeightAsc());
 	}
 	
@@ -66,9 +67,13 @@ public class InitAuditController extends BaseCRUDController<DrugForm, Long> {
 		if(searchParameter.getParameters().size() == 0){
 			searchParameter.getParameters().put("EQ_auditStatus",AuditStatusEnum.init);
 		}
-		if (searchParameter.getParameters().get("EQ_auditStatus").equals(AuditStatusEnum.nodeclare)) {
+		if (searchParameter.getParameters().get("EQ_auditStatus").equals("nodeclare")) {
+			searchParameter.getParameters().put("EQ_declared", Boolean.FALSE);
+		}else{
 			searchParameter.getParameters().put("EQ_declared", Boolean.TRUE);
 		}
+		
+		searchParameter.getParameters().put("EQ_reviewed", Boolean.FALSE);
 		
 		if (EmptyUtil.isStringEmpty(searchParameter.getParameters().get("EQ_systemParameterId"))) {
 			SystemParameter systemParameter = systemParameterService.findByEnabledTrue();

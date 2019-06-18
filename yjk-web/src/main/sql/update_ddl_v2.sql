@@ -8,7 +8,11 @@ ALTER TABLE sp_system_parameter ALTER COLUMN oral_declaration_limt SET NOT NULL;
 ALTER TABLE sp_system_parameter ADD COLUMN other_declaration_limt bigint;
 ALTER TABLE sp_system_parameter ALTER COLUMN other_declaration_limt SET NOT NULL;
 ALTER TABLE sp_system_parameter DROP COLUMN declaration_limt;
+/*
+ * sb_drug_form
+ */
 
+ALTER TABLE sb_drug_form ADD COLUMN is_reviewed boolean;
 /*
  * zd_special_rule
  */

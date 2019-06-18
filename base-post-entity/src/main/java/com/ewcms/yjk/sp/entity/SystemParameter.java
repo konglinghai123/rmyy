@@ -90,6 +90,9 @@ public class SystemParameter extends BaseSequenceEntity<Long> implements LogicDe
 	
 	@Column(name = "is_repeat_declared")
 	private Boolean repeatDeclared = Boolean.FALSE;
+
+	@Column(name = "project_remark")
+	private String projectRemark;
 	
 	@OneToMany(cascade = { CascadeType.MERGE,
 			CascadeType.REFRESH }, fetch = FetchType.EAGER, targetEntity = SystemExpert.class, mappedBy = "systemParameter", orphanRemoval = true)
@@ -141,8 +144,6 @@ public class SystemParameter extends BaseSequenceEntity<Long> implements LogicDe
 		this.otherDeclarationLimt = otherDeclarationLimt;
 	}
 
-	@Column(name = "project_remark")
-	private String projectRemark;
 	
 	@JSONField(format = "yyyy-MM-dd HH:mm:ss")
 	public Date getApplyStartDate() {

@@ -8,6 +8,7 @@
 					    <th data-options="field:'id',sortable:true">序号</th>
 					    <th data-options="field:'formatId',width:100">编号</th>
 						<th data-options="field:'auditStatusInfo',width:100">审核状态</th>	
+						<th data-options="field:'projectRemark',width:100,sortable:true">申报说明</th>
 						<th data-options="field:'realName',width:100,sortable:true">申报医生</th>
 						<th data-options="field:'departName',width:150,sortable:true">科室名称</th>
 						<th data-options="field:'declareCategory',width:100,sortable:true">申报类型</th>
@@ -68,9 +69,14 @@
 									</form:select>
 		           				</td>
 			              		<td>医生姓名</td>
-			           			<td><input  id="userId" name="EQ_userId" style="width:140px;"/></td>	
-			              		<td>序号</td>
-			           			<td><input name="EQ_id" style="width:140px;"/></td>					           				              		   
+			           			<td><input  id="userId" name="EQ_userId" style="width:140px;"/></td>
+		           				<td>申报说明</td>
+		           				<td>
+		           					<form:select  name="EQ_systemParameterId" path="stateList" cssClass="easyui-combobox"  cssStyle="width:140px;" data-options="panelHeight:'auto',editable:false">
+							  			<form:option value="" label="------请选择------"/>
+							  			<form:options items="${systemParameterList}" itemValue="id" itemLabel="projectRemark"/>
+									</form:select>
+		           				</td>			           				
               					<td>简拼</td>
               					<td><input type="text" name="LIKE_commonNameContents.common.spellSimplify" style="width:140px;"/></td>
 		              			<td width="20%" colspan="2">
@@ -80,6 +86,8 @@
 		           				</td>
 		           			</tr>
 		           			<tr style="display: none;">
+			              		<td>序号</td>
+			           			<td><input name="EQ_id" style="width:140px;"/></td>				           			
 		              			<td>通用名</td>
 		              			<td><input type="text" name="LIKE_commonNameContents.common.commonName" style="width:140px;"/></td>	
 		              			<td>申报类型</td>
@@ -91,7 +99,6 @@
 									<input type="text" id="fillInDate2" name="LTE_fillInDate" class="easyui-datetimebox" style="width: 145px" data-options="editable:false" />
 								</td>    				
 		           			</tr>
-		           			<input name="EQ_systemParameterId" style="width:140px;"/>          			
 		           		</table>
 		          </form>
 		        </div>
@@ -168,8 +175,8 @@
 					        return;
 					    }
 					    for(j=0;j<rows.length;j++){
-					    	if(rows[j].auditStatusInfo!='等待初审'){
-						        $.messager.alert('提示','选择记录里不能有初审过的记录','info');
+					    	if(rows[j].auditStatusInfo=='未申报'){
+						        $.messager.alert('提示','未申报记录不能初审','info');
 						        return;
 					    	}
 					    }
