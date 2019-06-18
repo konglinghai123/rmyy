@@ -127,6 +127,10 @@ CREATE TABLE public.re_review_process
 (
   id bigint NOT NULL,
   is_finished boolean,
+  formula_chinese bigint,
+  formula_western bigint,
+  general_name_chinese bigint,
+  general_name_western bigint,
   weight integer,
   reviewbaserule_id bigint,
   reviewmain_id bigint,
@@ -143,6 +147,7 @@ WITH (
 );
 ALTER TABLE public.re_review_process
   OWNER TO postgres;
+
 
 /*
  * re_review_process_column
@@ -164,5 +169,26 @@ WITH (
 );
 ALTER TABLE public.re_review_process_column
   OWNER TO postgres;
-  
+
+/*
+ * re_zd_review_display_column
+ */
+CREATE TABLE public.re_zd_review_display_column
+(
+  review_base_rule_id bigint NOT NULL,
+  display_column_id bigint NOT NULL,
+  CONSTRAINT fk_6bnrk64u869yry7nh18fykjo0 FOREIGN KEY (display_column_id)
+      REFERENCES public.re_zd_display_column (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT fk_qmyteui5ijp6eoro8e0u3n1xs FOREIGN KEY (review_base_rule_id)
+      REFERENCES public.re_zd_review_base_rule (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT uk_gpe2f8fg61m33psp4jttexj96 UNIQUE (review_base_rule_id, display_column_id)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE public.re_zd_review_display_column
+  OWNER TO postgres;
+
   
