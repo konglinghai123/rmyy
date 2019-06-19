@@ -53,7 +53,7 @@
 	<div id="tb" style="padding:5px;height:auto;">
         <div class="toolbar" style="margin-bottom:2px">
         	<c:if test="${isOperation}">
-			<a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true" onclick="$.ewcms.add({src:'${ctx}/yjk/re/reviewexpert/${reviewMainId}/save',title:'新增',width:750,height:350,left:100});">新增</a>
+			<a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true" onclick="$.ewcms.add({src:'${ctx}/yjk/re/reviewexpert/${reviewMainId}/save',title:'新增',width:850,height:450,left:100});">新增</a>
 			<a id="tb-edit" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-edit'" onclick="$.ewcms.edit({src:'${ctx}/yjk/re/reviewexpert/${reviewMainId}/save',title:'修改',width:850,height:450,left:100});">修改</a>
  			<a id="tb-remove" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-remove'" onclick="$.ewcms.remove({src:'${ctx}/yjk/re/reviewexpert/${reviewMainId}/delete',title:'删除'});">删除</a>
 			<a id="tb-exchange" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-status-hide'">互换</a>

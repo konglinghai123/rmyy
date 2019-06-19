@@ -23,7 +23,6 @@ import com.ewcms.common.entity.enums.BooleanEnum;
 import com.ewcms.common.entity.search.SearchParameter;
 import com.ewcms.common.plugin.web.controller.BaseSequenceMovableController;
 import com.ewcms.common.web.validate.AjaxResponse;
-import com.ewcms.common.web.validate.ValidateResponse;
 import com.ewcms.yjk.re.entity.ReviewExpert;
 import com.ewcms.yjk.re.entity.ReviewMain;
 import com.ewcms.yjk.re.service.ReviewExpertService;
@@ -161,22 +160,6 @@ public class ReviewExpertController extends BaseSequenceMovableController<Review
 		return super.delete(selections);
 	}
 
-	@RequestMapping(value = "{reviewMainId}/validate")
-	@ResponseBody
-	public Object validate(@PathVariable("reviewMainId") ReviewMain reviewMain, @ModelAttribute("m") ReviewExpert m) {
-		m.setReviewMain(reviewMain);
-		ReviewExpert dbReviewExpert = getReviewExpertService().findByReviewMainAndId(reviewMain, m.getId());
-
-		ValidateResponse response = ValidateResponse.newInstance();
-		if (dbReviewExpert == null
-				|| (dbReviewExpert.getId().equals(m.getId()) && dbReviewExpert.getReviewMain().equals(reviewMain))) {
-			response.validateSuccess("", "");
-		} else {
-			response.validateFail("", "记录已存在，请重新选择");
-		}
-		return response.result();
-	}
-	
 	@RequestMapping(value = "{reviewMainId}/changeStatus/{newStatus}")
 	@ResponseBody
 	public AjaxResponse changeStatus(@PathVariable(value = "reviewMainId") Long reviewMainId, @PathVariable("newStatus") Boolean newStatus,

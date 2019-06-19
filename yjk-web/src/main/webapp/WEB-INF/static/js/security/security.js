@@ -2,9 +2,9 @@ $.security = {
     user : {
         initValidator : function(form) {
             var ajaxCall = {
-                "url": ctx + "/security/user/user/validate",
+                url: ctx + '/security/user/user/validate',
                 extraDataDynamic: ['#id'],
-                "alertTextLoad": "* 正在验证，请稍等。。。"
+                alertTextLoad: '* 正在验证，请稍等。。。'
             };
             //自定义ajax验证  ajax[ajaxNameCall] 放到验证规则的最后（放到中间只有当submit时才验证）
             //不能合并到一个 否则提交表单时有个黑屏阶段

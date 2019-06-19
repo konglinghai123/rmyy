@@ -19,12 +19,22 @@ import org.hibernate.annotations.FetchMode;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.ewcms.common.entity.BaseSequenceEntity;
 import com.ewcms.common.plugin.entity.Movable;
+import com.ewcms.common.utils.Collections3;
+import com.ewcms.common.utils.EmptyUtil;
 import com.ewcms.yjk.re.zd.entity.DisplayColumn;
 import com.ewcms.yjk.re.zd.entity.ReviewBaseRule;
 
 /**
  * 评审流程
+ * <li>reviewMain:评审主表对象</li>
+ * <li>reviewBaseRule:评审基本规则对象</li>
+ * <li>weight:排序号</li>
+ * <li>displayColumns:可显示的字段库对象集合</li>
  * <li>finished:是否投票完成</li>
+ * <li>generalNameChinese:新增通用名中成药数量</li>
+ * <li>generalNameWestern:新增通用名西药数量</li>
+ * <li>formulaChinese:新增剂型/规格中成药数量</li>
+ * <li>formulaWestern:新增剂型/规格西药数量</li>
  * @author wuzhijun
  *
  */
@@ -51,6 +61,14 @@ public class ReviewProcess extends BaseSequenceEntity<Long> implements Movable{
 	private List<DisplayColumn> displayColumns;	
 	@Column(name = "is_finished")
 	private Boolean finished = Boolean.FALSE;
+	@Column(name = "general_name_chinese")
+	private Long generalNameChinese = 0L;
+	@Column(name = "general_name_western")
+	private Long generalNameWestern = 0L;
+	@Column(name = "formula_chinese")
+	private Long formulaChinese = 0L;
+	@Column(name = "formula_western")
+	private Long formulaWestern = 0L;
 	
 	@JSONField(serialize = false)
 	public ReviewMain getReviewMain() {
@@ -72,7 +90,13 @@ public class ReviewProcess extends BaseSequenceEntity<Long> implements Movable{
 	public List<DisplayColumn> getDisplayColumns() {
 		return displayColumns;
 	}
-
+	
+	public String getDisplayColumnRuleCnNames() {
+		return (EmptyUtil.isCollectionNotEmpty(displayColumns))
+				? Collections3.convertToString(Collections3.extractToList(displayColumns, "ruleCnName"), "，")
+				: "";
+	}
+	
 	public void setDisplayColumns(List<DisplayColumn> displayColumns) {
 		this.displayColumns = displayColumns;
 	}
@@ -93,5 +117,37 @@ public class ReviewProcess extends BaseSequenceEntity<Long> implements Movable{
 	@Override
 	public void setWeight(Integer weight) {
 		this.weight = weight;
+	}
+
+	public Long getGeneralNameChinese() {
+		return generalNameChinese;
+	}
+
+	public void setGeneralNameChinese(Long generalNameChinese) {
+		this.generalNameChinese = generalNameChinese;
+	}
+
+	public Long getGeneralNameWestern() {
+		return generalNameWestern;
+	}
+
+	public void setGeneralNameWestern(Long generalNameWestern) {
+		this.generalNameWestern = generalNameWestern;
+	}
+
+	public Long getFormulaChinese() {
+		return formulaChinese;
+	}
+
+	public void setFormulaChinese(Long formulaChinese) {
+		this.formulaChinese = formulaChinese;
+	}
+
+	public Long getFormulaWestern() {
+		return formulaWestern;
+	}
+
+	public void setFormulaWestern(Long formulaWestern) {
+		this.formulaWestern = formulaWestern;
 	}
 }

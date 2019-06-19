@@ -42,7 +42,7 @@ import com.google.common.collect.Sets;
  * <li>createDate:创建时间</li>
  * <li>remark:说明</li>
  * <li>reviewExperts:评审专家过滤条件集合</li>
- * <li>extractDate:筛选时间</li>
+ * <li>:筛选时间</li>
  * <li>users:用户对象集合(直接指定的用户)</li>
  * <li>enabled:是否启用</li>
  * <li>systemParameter:系统参数对象(评审申报)</li>

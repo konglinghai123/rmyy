@@ -10,10 +10,10 @@
 			    <th data-options="field:'id',width:80" rowspan="2"/>编号</th>
 				<th data-options="field:'name',width:300" rowspan="2"/>名称</th>
 				<th data-options="field:'createDate',width:150" rowspan="2"/>创建时间</th>
-				<th data-options="field:'extractDate',width:150" rowspan="2"/>筛选时间</th>
+				<th data-options="field:'extractDate',width:150" rowspan="2"/>筛选用户时间</th>
 				<th data-options="field:'systemParameterRange',width:300" rowspan="2"/>评审申报范围</th>
-				<th colspan="2">拟新增通用名</th>
-				<th colspan="2">拟新增剂型/规格</th>
+				<th colspan="2">拟新增通用名总数</th>
+				<th colspan="2">拟新增剂型/规格总数</th>
 				<th data-options="field:'remark',width:300" rowspan="2"/>说明</th>
 			</tr>
 			<tr>
@@ -103,12 +103,12 @@
 			htmlOperation = '<a class="previewCls" onclick="preview(' + row.id + ');" href="javascript:void(0);" style="height:24px;">查看用户</a> | ';
 		}
 		if (val) {
-			htmlOperation += '<a class="closeCls" onclick="closeDeclare(' + row.id + ')" href="javascript:void(0);">关闭申报</a> | ';
+			htmlOperation += '<a class="closeCls" onclick="closeDeclare(' + row.id + ')" href="javascript:void(0);" style="height:24px;">关闭申报</a> | ';
 		} else {
-			htmlOperation += '<a class="openCls" onclick="openDeclare(' + row.id + ')" href="javascript:void(0);">启动申报</a> | ';
+			htmlOperation += '<a class="openCls" onclick="openDeclare(' + row.id + ')" href="javascript:void(0);" style="height:24px;">启动申报</a> | ';
 		}
-		htmlOperation += '<a class="selectCls" onclick="selectSystemParameter(' + row.id + ')" href="javascript:void(0);">选择范围</a> |  ';
-		htmlOperation += '<a class="processCls" onclick="process(' + row.id + ')" href="javascript:void(0);">评审流程</a> |  ';
+		htmlOperation += '<a class="selectCls" onclick="selectSystemParameter(' + row.id + ')" href="javascript:void(0);" style="height:24px;">选择范围</a> |  ';
+		htmlOperation += '<a class="processCls" onclick="process(' + row.id + ')" href="javascript:void(0);" style="height:24px;">评审流程</a> |  ';
 		return htmlOperation;
 	}
 	

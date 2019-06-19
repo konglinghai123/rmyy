@@ -8,7 +8,7 @@
 			    <th data-options="field:'ck',checkbox:true"/>
 			    <th data-options="field:'id',hidden:true">编号</th>
 				<th data-options="field:'ruleCnName',width:180">规则字段中文名</th>
-				<th data-options="field:'displayColumnsNames',width:400">所要显示基本字段</th>
+				<th data-options="field:'displayColumnsNames',width:600">所要显示基本字段</th>
 			</tr>
 		</thead>
 	</table>

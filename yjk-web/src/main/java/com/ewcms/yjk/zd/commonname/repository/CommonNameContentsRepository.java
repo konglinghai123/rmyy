@@ -9,7 +9,6 @@ import org.springframework.data.jpa.repository.Query;
 
 import com.ewcms.common.repository.BaseRepository;
 import com.ewcms.yjk.zd.commonname.entity.CommonNameContents;
-import com.ewcms.yjk.zd.commonname.entity.DrugCategoryEnum;
 
 public interface CommonNameContentsRepository extends BaseRepository<CommonNameContents, Long> {
 	@Query("from CommonNameContents c where (c.common.spell like ?1% or c.common.spellSimplify like %?2%) and c.deleted is false and c.declared is true")

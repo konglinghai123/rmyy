@@ -17,17 +17,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.alibaba.fastjson.JSON;
+import com.ewcms.common.Constants;
 import com.ewcms.common.entity.search.SearchParameter;
 import com.ewcms.common.plugin.web.controller.BaseSequenceMovableController;
 import com.ewcms.common.web.validate.AjaxResponse;
 import com.ewcms.common.web.validate.ValidateResponse;
-import com.ewcms.yjk.re.entity.ReviewExpert;
 import com.ewcms.yjk.re.entity.ReviewMain;
 import com.ewcms.yjk.re.entity.ReviewProcess;
 import com.ewcms.yjk.re.service.ReviewMainService;
 import com.ewcms.yjk.re.service.ReviewProcessService;
+import com.ewcms.yjk.re.zd.service.ReviewBaseRuleService;
 
 @Controller
 @RequestMapping(value = "/yjk/re/reviewprocess")
@@ -39,9 +41,18 @@ public class ReviewProcessController extends BaseSequenceMovableController<Revie
 	
 	@Autowired
 	private ReviewMainService reviewMainService;
+	@Autowired
+	private ReviewBaseRuleService reviewBaseRuleService;
 	
 	public ReviewProcessController() {
+		setListAlsoSetCommonData(true);
 		setResourceIdentity("yjk:reviewprocess");
+	}
+	
+	@Override
+	protected void setCommonData(Model model) {
+		super.setCommonData(model);
+		model.addAttribute("baseRuleList", reviewBaseRuleService.findAll());
 	}
 	
 	@RequestMapping(value = "index/discard")
@@ -95,7 +106,7 @@ public class ReviewProcessController extends BaseSequenceMovableController<Revie
 	}
 	
 	@RequestMapping(value = "{reviewMainId}/save", method = RequestMethod.POST)
-	public String save(@PathVariable(value = "reviewMainId") Long reviewMainId, Model model, @Valid @ModelAttribute("m") ReviewProcess m, BindingResult result, @RequestParam(required = false) List<Long> selections) {
+	public String save(@PathVariable(value = "reviewMainId") Long reviewMainId, Model model, @Valid @ModelAttribute("m") ReviewProcess m, BindingResult result, @RequestParam(required = false) List<Long> selections, RedirectAttributes redirectAttributes) {
 		setCommonData(model);
 		
 		if (hasError(m, result)) {
@@ -110,8 +121,11 @@ public class ReviewProcessController extends BaseSequenceMovableController<Revie
 				this.permissionList.assertHasUpdatePermission();
 			}
 			
-			ReviewProcess lastM = baseService.update(m);
-			
+			ReviewProcess lastM = getReviewProcessService().update(m);
+			if (lastM == null) {
+				 redirectAttributes.addFlashAttribute(Constants.MESSAGE, "修改的评审规则已存在，不能修改");
+				 return redirectToUrl(viewName(m.getReviewMain().getId() + "/save"));
+			}
 			selections.remove(0);
 			if (selections == null || selections.isEmpty()) {
 				model.addAttribute("close", true);
@@ -122,8 +136,12 @@ public class ReviewProcessController extends BaseSequenceMovableController<Revie
 				this.permissionList.assertHasCreatePermission();
 			}
 			
-			ReviewProcess lastM = baseService.save(m);
+			ReviewProcess lastM = getReviewProcessService().save(m);
 			
+			if (lastM == null) {
+				 redirectAttributes.addFlashAttribute(Constants.MESSAGE, "新增的评审规则已存在，不能增加");
+				 return redirectToUrl(viewName(m.getReviewMain().getId() + "/save"));
+			} 
 			model.addAttribute("m", newModel());
 			model.addAttribute("lastM", JSON.toJSONString(lastM));
 		}
@@ -144,20 +162,25 @@ public class ReviewProcessController extends BaseSequenceMovableController<Revie
 			@PathVariable(value = "reviewMainId") Long reviewMainId) {
 		return super.delete(selections);
 	}
+	
+    @RequestMapping(value = "{reviewMainId}/validate", method = RequestMethod.GET)
+    @ResponseBody
+    public Object validate(@PathVariable(value = "reviewMainId") Long reviewMainId,
+            @RequestParam("fieldId") String fieldId, @RequestParam("fieldValue") String fieldValue,
+            @RequestParam(value = "id", required = false) Long id) {
 
-	@RequestMapping(value = "{reviewMainId}/validate")
-	@ResponseBody
-	public Object validate(@PathVariable("reviewMainId") ReviewMain reviewMain, @ModelAttribute("m") ReviewExpert m) {
-		m.setReviewMain(reviewMain);
-		ReviewProcess dbReviewProcess = getReviewProcessService().findByReviewMainAndId(reviewMain, m.getId());
+        ValidateResponse response = ValidateResponse.newInstance();
 
-		ValidateResponse response = ValidateResponse.newInstance();
-		if (dbReviewProcess == null
-				|| (dbReviewProcess.getId().equals(m.getId()) && dbReviewProcess.getReviewMain().equals(reviewMain))) {
-			response.validateSuccess("", "");
-		} else {
-			response.validateFail("", "记录已存在，请重新选择");
-		}
-		return response.result();
-	}
+        if ("reviewBaseRule".equals(fieldId)) {
+            ReviewProcess reviewProcess = getReviewProcessService().findByReviewMainIdAndReviewBaseRuleId(reviewMainId, Long.valueOf(fieldValue));
+            if (reviewProcess == null || (reviewProcess.getId().equals(id) && reviewProcess.getReviewBaseRule().getId().equals(Long.valueOf(fieldValue)))) {
+                //如果msg 不为空 将弹出提示框
+                response.validateSuccess(fieldId, "");
+            } else {
+                response.validateFail(fieldId, "在此评审流程中已使用了本次规则，请选择其他的规则");
+            }
+        }
+
+        return response.result();
+    }
 }

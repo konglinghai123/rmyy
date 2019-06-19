@@ -6,33 +6,37 @@ import com.ewcms.common.plugin.service.BaseSequenceMovableService;
 import com.ewcms.yjk.re.entity.ReviewMain;
 import com.ewcms.yjk.re.entity.ReviewProcess;
 import com.ewcms.yjk.re.repository.ReviewProcessRepository;
+import com.ewcms.yjk.re.zd.entity.ReviewBaseRule;
 
 @Service
 public class ReviewProcessService extends BaseSequenceMovableService<ReviewProcess, Long>{
 
+	public ReviewProcessService() {
+		super(1);
+	}
+	
 	private ReviewProcessRepository getReviewProcessRepository() {
 		return (ReviewProcessRepository) baseRepository;
 	}
 	
-	@Override
-	public ReviewProcess save(ReviewProcess m) {
-		ReviewProcess dbReviewProcess = findByReviewMainAndId(m.getReviewMain(), m.getId());
-		if (dbReviewProcess != null) {
-			m.setId(dbReviewProcess.getId());
-		}
-		return super.save(m);
+	public ReviewProcess findByReviewMainAndReviewBaseRule(ReviewMain reviewMain, ReviewBaseRule reviewBaseRule) {
+		return getReviewProcessRepository().findByReviewMainAndReviewBaseRule(reviewMain, reviewBaseRule);
 	}
 	
-	public ReviewProcess findByReviewMainAndId(ReviewMain reviewMain, Long ReviewProcessId) {
-		return getReviewProcessRepository().findByReviewMainAndId(reviewMain, ReviewProcessId);
+	public ReviewProcess findByReviewMainIdAndReviewBaseRuleId(Long reviewMainId, Long reviewBaseRuleId) {
+		return getReviewProcessRepository().findByReviewMainIdAndReviewBaseRuleId(reviewMainId, reviewBaseRuleId);
+	}
+	
+	@Override
+	public ReviewProcess save(ReviewProcess m) {
+		ReviewProcess dbReviewProcess = findByReviewMainAndReviewBaseRule(m.getReviewMain(), m.getReviewBaseRule());
+		return (dbReviewProcess == null) ? super.save(m) : null;
 	}
 	
 	@Override
 	public ReviewProcess update(ReviewProcess m) {
-		ReviewProcess dbReviewProcess = findByReviewMainAndId(m.getReviewMain(), m.getId());
-		if (dbReviewProcess != null) {
-			m.setId(dbReviewProcess.getId());
-		}
-		return super.update(m);
+		ReviewProcess dbReviewProcess = findByReviewMainAndReviewBaseRule(m.getReviewMain(), m.getReviewBaseRule());
+		return (dbReviewProcess != null && m.getId().equals(dbReviewProcess.getId())) ? super.update(m) : null;
+		
 	}
 }

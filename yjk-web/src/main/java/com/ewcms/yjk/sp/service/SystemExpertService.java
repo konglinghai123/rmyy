@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import com.ewcms.common.plugin.service.BaseSequenceMovableService;
 import com.ewcms.common.utils.EmptyUtil;
 import com.ewcms.yjk.sp.entity.SystemExpert;
-import com.ewcms.yjk.sp.entity.SystemParameter;
 import com.ewcms.yjk.sp.repository.SystemExpertRepository;
 
 @Service
@@ -17,27 +16,9 @@ public class SystemExpertService extends BaseSequenceMovableService<SystemExpert
 		return (SystemExpertRepository) baseRepository;
 	}
 	
-	@Override
-	public SystemExpert save(SystemExpert m) {
-		SystemExpert dbSystemExpert = findBySystemParameterAndId(m.getSystemParameter(), m.getId());
-		if (dbSystemExpert != null) {
-			m.setId(dbSystemExpert.getId());
-		}
-		return super.save(m);
-	}
-	
-	public SystemExpert findBySystemParameterAndId(SystemParameter systemParameter, Long systemExpertId) {
-		return getSystemExpertRepository().findBySystemParameterAndId(systemParameter, systemExpertId);
-	}
-	
-	@Override
-	public SystemExpert update(SystemExpert m) {
-		SystemExpert dbSystemExpert = findBySystemParameterAndId(m.getSystemParameter(), m.getId());
-		if (dbSystemExpert != null) {
-			m.setId(dbSystemExpert.getId());
-		}
-		return super.update(m);
-	}
+//	public SystemExpert findBySystemParameterAndId(SystemParameter systemParameter, Long systemExpertId) {
+//		return getSystemExpertRepository().findBySystemParameterAndId(systemParameter, systemExpertId);
+//	}
 	
 	public void changeStatus(List<Long> systemExpertIds, Boolean newStatus) {
 		if (EmptyUtil.isCollectionEmpty(systemExpertIds)) return;

@@ -7,8 +7,8 @@
 			<tr>
 			    <th data-options="field:'ck',checkbox:true"/>
 			    <th data-options="field:'id',hidden:true">编号</th>
-				<th data-options="field:'ruleName',width:100">规则字段名</th>
-				<th data-options="field:'ruleCnName',width:100">规则字段中文名</th>
+				<th data-options="field:'ruleName',width:200">规则字段名</th>
+				<th data-options="field:'ruleCnName',width:200">规则字段中文名</th>
 			</tr>
 		</thead>
 	</table>

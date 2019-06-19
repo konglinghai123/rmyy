@@ -84,4 +84,10 @@ public class ReviewBaseRuleController extends BaseCRUDController<ReviewBaseRule,
         }
         return response.result();
     }
+    
+    @RequestMapping(value = "canUse")
+    @ResponseBody
+    public List<ReviewBaseRule> findReviewBaseRule(){
+    	return getReviewRuleService().findAll();
+    }
 }

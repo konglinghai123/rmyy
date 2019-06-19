@@ -14,7 +14,7 @@
 			  	<table class="formtable">
 		        	<tr>
 						<td width="20%"><form:label path="name">名称：</form:label></td>
-						<td width="80%"><form:input path="name" cssClass="validate[required]"/></td>
+						<td width="80%"><form:input path="name" cssClass="validate[required,ajax[ajaxNameCall]]"/></td>
 					</tr>
 					<tr>
 						<td><form:label path="limitNumber">限制数量：</form:label></td>

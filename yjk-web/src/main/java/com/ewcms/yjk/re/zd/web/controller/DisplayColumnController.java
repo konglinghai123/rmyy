@@ -2,8 +2,6 @@ package com.ewcms.yjk.re.zd.web.controller;
 
 import com.ewcms.common.entity.search.SearchParameter;
 import com.ewcms.common.web.controller.BaseCRUDController;
-import com.ewcms.security.dictionary.entity.Profession;
-import com.ewcms.security.dictionary.service.ProfessionService;
 import com.ewcms.yjk.re.zd.entity.DisplayColumn;
 import com.ewcms.yjk.re.zd.service.DisplayColumnService;
 

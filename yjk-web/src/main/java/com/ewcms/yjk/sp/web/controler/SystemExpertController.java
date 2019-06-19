@@ -23,7 +23,6 @@ import com.ewcms.common.entity.enums.BooleanEnum;
 import com.ewcms.common.entity.search.SearchParameter;
 import com.ewcms.common.plugin.web.controller.BaseSequenceMovableController;
 import com.ewcms.common.web.validate.AjaxResponse;
-import com.ewcms.common.web.validate.ValidateResponse;
 import com.ewcms.yjk.sp.entity.SystemExpert;
 import com.ewcms.yjk.sp.entity.SystemParameter;
 import com.ewcms.yjk.sp.service.SystemExpertService;
@@ -162,21 +161,21 @@ public class SystemExpertController extends BaseSequenceMovableController<System
 		return super.delete(selections);
 	}
 
-	@RequestMapping(value = "{systemParameterId}/validate")
-	@ResponseBody
-	public Object validate(@PathVariable("systemParameterId") SystemParameter systemParameter, @ModelAttribute("m") SystemExpert m) {
-		m.setSystemParameter(systemParameter);
-		SystemExpert dbSystemExpert = getSystemExpertService().findBySystemParameterAndId(systemParameter, m.getId());
-
-		ValidateResponse response = ValidateResponse.newInstance();
-		if (dbSystemExpert == null
-				|| (dbSystemExpert.getId().equals(m.getId()) && dbSystemExpert.getSystemParameter().equals(systemParameter))) {
-			response.validateSuccess("", "");
-		} else {
-			response.validateFail("", "记录已存在，请重新选择");
-		}
-		return response.result();
-	}
+//	@RequestMapping(value = "{systemParameterId}/validate")
+//	@ResponseBody
+//	public Object validate(@PathVariable("systemParameterId") SystemParameter systemParameter, @ModelAttribute("m") SystemExpert m) {
+//		m.setSystemParameter(systemParameter);
+//		SystemExpert dbSystemExpert = getSystemExpertService().findBySystemParameterAndId(systemParameter, m.getId());
+//
+//		ValidateResponse response = ValidateResponse.newInstance();
+//		if (dbSystemExpert == null
+//				|| (dbSystemExpert.getId().equals(m.getId()) && dbSystemExpert.getSystemParameter().equals(systemParameter))) {
+//			response.validateSuccess("", "");
+//		} else {
+//			response.validateFail("", "记录已存在，请重新选择");
+//		}
+//		return response.result();
+//	}
 	
 	@RequestMapping(value = "{systemParameterId}/changeStatus/{newStatus}")
 	@ResponseBody
