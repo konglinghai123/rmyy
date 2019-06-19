@@ -47,6 +47,7 @@ import com.ewcms.yjk.zd.commonname.entity.CommonNameContents;
  * <li>preparationed:是否复方制剂</li>
  * <li>declareCategory:申报类型</li>
  * <li>reviewed:是否已评审</li>
+ * <li>projectRemark:项目说明</li>
  * </ul>
  * 
  * @author zhoudongchu

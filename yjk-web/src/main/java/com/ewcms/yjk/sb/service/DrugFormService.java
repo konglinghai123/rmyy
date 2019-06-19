@@ -26,6 +26,7 @@ import com.ewcms.security.organization.service.OrganizationService;
 import com.ewcms.security.user.entity.User;
 import com.ewcms.security.user.entity.UserOrganizationJob;
 import com.ewcms.security.user.service.UserOrganizationJobService;
+import com.ewcms.yjk.re.service.ReviewMainService;
 import com.ewcms.yjk.sb.entity.AuditStatusEnum;
 import com.ewcms.yjk.sb.entity.DrugForm;
 import com.ewcms.yjk.sb.entity.DrugFormCount;
@@ -66,9 +67,15 @@ public class DrugFormService extends BaseService<DrugForm, Long> {
 	private UserOrganizationJobService userOrganizationJobService;
 	@Autowired
 	private CommonNameRuleService commonNameRuleService;
+	@Autowired
+	private ReviewMainService reviewMainService;
 	
 	private DrugFormRepository getDrugFormRepository() {
 		return (DrugFormRepository) baseRepository;
+	}
+	
+	public List<DrugForm> findByAuditStatusAndSystemParameterIdAndDeclareCategoryAndReviewedFalse(AuditStatusEnum auditStatus, Long systemParameterId, String declareCategory){
+		return getDrugFormRepository().findByAuditStatusAndSystemParameterIdAndDeclareCategoryAndReviewedFalse(auditStatus, systemParameterId, declareCategory);
 	}
 	/**
 	 * 新药填写，满足一品两规和特殊药品规则的才能填写入库

@@ -20,9 +20,7 @@ public interface DrugFormRepository extends BaseRepository<DrugForm, Long> {
 	List<DrugForm> findByUserIdAndDeclaredFalseAndSystemParameterId(Long userId, Long systemParameterId);
 	
 	List<DrugForm> findByUserIdAndAuditStatusAndSystemParameterId(Long userId,AuditStatusEnum auditStatus, Long systemParameterId);
-	
-//	Long countByAuditStatusAndSystemParameterId(AuditStatusEnum auditStatus, Long systemParameterId);
-	
+	List<DrugForm> findByAuditStatusAndSystemParameterIdAndDeclareCategoryAndReviewedFalse(AuditStatusEnum auditStatus, Long systemParameterId, String declareCategory);	
 	Long countByUserIdInAndAuditStatusAndSystemParameterId(Set<Long> userIds, AuditStatusEnum auditStatus, Long systemParameterId);
 	
 }

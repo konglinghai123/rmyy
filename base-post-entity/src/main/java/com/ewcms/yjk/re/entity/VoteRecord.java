@@ -19,13 +19,10 @@ import com.ewcms.yjk.sb.entity.DrugForm;
 /**
  * 评审专家投票结果记录
  * <ul>
- * <li>userId:评审专家Id</li>
- * <li>reviewMainId:评审Id</li>
  *  <li>drugForm:药品申报对象</li>
  *  <li>voteTypeEnum:投票种类</li>
  *  <li>voteDate:投票时间</li>
- *  <li>submitted:提交标志</li>
- *  <li>reviewProcess:投票过程对象</li>
+ *  <li>voteSerial:评审专家投票流水过程对象</li>
  * </ul>
  * 
  * @author zhoudongchu
@@ -36,11 +33,6 @@ import com.ewcms.yjk.sb.entity.DrugForm;
 @SequenceGenerator(name="seq", sequenceName="seq_re_vote_record_id", allocationSize = 1)
 public class VoteRecord extends BaseSequenceEntity<Long> {
 	private static final long serialVersionUID = -5879863363971625009L;
-	@Column(name = "user_id", nullable = false)
-	private Long userId;
-	
-	@Column(name = "review_main_id", nullable = false)
-	private Long reviewMainId;
 	
 	@ManyToOne()
     @Fetch(FetchMode.SELECT)
@@ -55,28 +47,10 @@ public class VoteRecord extends BaseSequenceEntity<Long> {
     @Temporal(TemporalType.TIMESTAMP)
     private Date voteDate = new Date();
 	
-	@Column(name = "is_submitted")
-	private Boolean submitted = Boolean.FALSE;
-	
 	@ManyToOne()
     @Fetch(FetchMode.SELECT)
-	private ReviewProcess reviewProcess;
+	private VoteSerialProcess voteSerial;
 
-	public Long getUserId() {
-		return userId;
-	}
-
-	public void setUserId(Long userId) {
-		this.userId = userId;
-	}
-
-	public Long getReviewMainId() {
-		return reviewMainId;
-	}
-
-	public void setReviewMainId(Long reviewMainId) {
-		this.reviewMainId = reviewMainId;
-	}
 
 	public DrugForm getDrugForm() {
 		return drugForm;
@@ -94,6 +68,14 @@ public class VoteRecord extends BaseSequenceEntity<Long> {
 		this.voteTypeEnum = voteTypeEnum;
 	}
 
+	public VoteSerialProcess getVoteSerial() {
+		return voteSerial;
+	}
+
+	public void setVoteSerial(VoteSerialProcess voteSerial) {
+		this.voteSerial = voteSerial;
+	}
+
 	public Date getVoteDate() {
 		return voteDate;
 	}
@@ -101,20 +83,5 @@ public class VoteRecord extends BaseSequenceEntity<Long> {
 	public void setVoteDate(Date voteDate) {
 		this.voteDate = voteDate;
 	}
-
-	public Boolean getSubmitted() {
-		return submitted;
-	}
-
-	public void setSubmitted(Boolean submitted) {
-		this.submitted = submitted;
-	}
-
-	public ReviewProcess getReviewProcess() {
-		return reviewProcess;
-	}
-
-	public void setReviewProcess(ReviewProcess reviewProcess) {
-		this.reviewProcess = reviewProcess;
-	}	
+	
 }
