@@ -10,4 +10,6 @@ public interface ReviewProcessRepository extends BaseRepository<ReviewProcess, L
 	ReviewProcess findByReviewMainAndReviewBaseRule(ReviewMain reviewMain, ReviewBaseRule reviewBaseRule);
 	
 	ReviewProcess findByReviewMainIdAndReviewBaseRuleId(Long reviewMainId, Long reviewBaseRuleId);
+	
+	ReviewProcess findByReviewBaseRuleRuleNameAndReviewMainId(String ruleName, Long reviewMainId);
 }

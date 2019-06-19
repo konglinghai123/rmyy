@@ -27,6 +27,10 @@ public class ReviewProcessService extends BaseSequenceMovableService<ReviewProce
 		return getReviewProcessRepository().findByReviewMainIdAndReviewBaseRuleId(reviewMainId, reviewBaseRuleId);
 	}
 	
+	public ReviewProcess findByReviewBaseRuleRuleNameAndReviewMainId(String ruleName, Long reviewMainId) {
+		return getReviewProcessRepository().findByReviewBaseRuleRuleNameAndReviewMainId(ruleName, reviewMainId);
+	}
+	
 	@Override
 	public ReviewProcess save(ReviewProcess m) {
 		ReviewProcess dbReviewProcess = findByReviewMainAndReviewBaseRule(m.getReviewMain(), m.getReviewBaseRule());
