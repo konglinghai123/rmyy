@@ -21,3 +21,5 @@ update sec_resource set parent_id=126, parent_ids='0/1/102/126', weight=4 where 
 update sec_resource set parent_id=126, parent_ids='0/1/102/126', weight=5 where id=116;
 update sec_resource set parent_id=126, parent_ids='0/1/102/126', weight=6 where id=117;
 update sec_resource set parent_id=126, parent_ids='0/1/102/126', weight=7 where id=118;
+
+update sb_drug_form set is_reviewed=false;

@@ -13,6 +13,7 @@ ALTER TABLE sp_system_parameter DROP COLUMN declaration_limt;
  */
 
 ALTER TABLE sb_drug_form ADD COLUMN is_reviewed boolean;
+
 /*
  * zd_special_rule
  */
@@ -76,6 +77,7 @@ CREATE TABLE public.re_zd_display_column
   id bigint NOT NULL,
   rule_cn_name character varying(255) NOT NULL,
   rule_name character varying(255) NOT NULL,
+  width bigint NOT NULL,
   CONSTRAINT re_zd_display_column_pkey PRIMARY KEY (id),
   CONSTRAINT uk_8shdwx0blgrarpicmtgbstcv1 UNIQUE (rule_name),
   CONSTRAINT uk_hjffgir51tqwaq7qbm9xd9yfn UNIQUE (rule_cn_name)

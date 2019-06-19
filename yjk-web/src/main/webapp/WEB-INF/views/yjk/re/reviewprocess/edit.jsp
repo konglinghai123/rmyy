@@ -57,7 +57,7 @@
 	    	<c:otherwise>
 	    		$.validationEngineLanguage.allRules.ajaxCall= {
 	                url: '${ctx}/yjk/re/reviewprocess/${reviewMainId}/validate',
-	                extraDataDynamic : ['#reviewBaseRule'],
+	                extraDataDynamic : ['#id'],
 	                alertTextLoad: '* 正在验证，请稍等。。。'
 	            };
 	    		var validationEngine = $("#editForm").validationEngine({

@@ -18,7 +18,6 @@ import com.ewcms.common.Constants;
 import com.ewcms.common.entity.search.SearchParameter;
 import com.ewcms.common.utils.EmptyUtil;
 import com.ewcms.common.web.controller.BaseCRUDController;
-import com.ewcms.security.user.service.UserService;
 import com.ewcms.yjk.sb.entity.AuditStatusEnum;
 import com.ewcms.yjk.sb.entity.DrugForm;
 import com.ewcms.yjk.sb.service.DrugFormService;
@@ -34,8 +33,6 @@ import com.ewcms.yjk.zd.commonname.service.CommonNameRuleService;
 public class InitAuditController extends BaseCRUDController<DrugForm, Long> {
 	@Autowired
 	private CommonNameRuleService commonNameRuleService;
-	@Autowired
-	private UserService userService;
 	@Autowired
 	private SystemParameterService systemParameterService;
 	
