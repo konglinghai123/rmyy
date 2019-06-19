@@ -21,7 +21,7 @@
 <script type="text/javascript">
 	$(function(){
 		$('#tt').datagrid({
-			url:'${ctx}/yjk/re/voterecord/query',
+			url:'${ctx}/yjk/re/voterecord/${reviewProcessId}/query',
 			toolbar:'#tb',
 			fit:true,
 			nowrap:true,

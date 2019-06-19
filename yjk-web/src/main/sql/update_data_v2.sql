@@ -1,11 +1,12 @@
 insert into sec_resource(id, icon, identity, name, parent_id, parent_ids, is_show, style, url, weight) values
-(122,'ztree_file','reviewbaserule','评审基本规则',125,'0/1/102/125/','true','','/yjk/re/zd/reviewbaserule/index',2)
-,(123,'ztree_file','displaycolumn','可显示的字段库',125,'0/1/102/125/','true','','/yjk/re/zd/displaycolumn/index',3)
-,(124,'ztree_file','','申报管理',102,'0/1/102/','true','','',17)
-,(125,'ztree_file','','评审管理',102,'0/1/102/','true','','',19)
-,(126,'ztree_file','','字典库',102,'0/1/102/','true','','',20)
+(122,'ztree_file','reviewbaserule','评审基本规则',125,'0/1/102/125/','true',null,'/yjk/re/zd/reviewbaserule/index',2)
+,(123,'ztree_file','displaycolumn','可显示的字段库',125,'0/1/102/125/','true',null,'/yjk/re/zd/displaycolumn/index',3)
+,(124,'ztree_file','','申报管理',102,'0/1/102/','true',null,'',17)
+,(125,'ztree_file','','评审管理',102,'0/1/102/','true',null,'',19)
+,(126,'ztree_file','','字典库',102,'0/1/102/','true',null,'',20)
+,(127,'ztree_file','voterecord','专家投票',125,'0/1/102/125/','true',null,'/yjk/re/voterecord/index',4)
 ;
-select setval('seq_sec_resource_id', 126);
+select setval('seq_sec_resource_id', 127);
 
 update sec_resource set parent_id=124, parent_ids='0/1/102/124', weight=1 where id=119;
 update sec_resource set parent_id=124, parent_ids='0/1/102/124', weight=2, name='申报设置' where id=108;
