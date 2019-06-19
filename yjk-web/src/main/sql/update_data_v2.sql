@@ -7,17 +7,17 @@ insert into sec_resource(id, icon, identity, name, parent_id, parent_ids, is_sho
 ;
 select setval('seq_sec_resource_id', 126);
 
-update from sec_resource set parent_id=124, parent_ids='0/1/102/124', weight=1 where id=119;
-update from sec_resource set parent_id=124, parent_ids='0/1/102/124', weight=2, name='申报设置' where id=108;
-update from sec_resource set parent_id=124, parent_ids='0/1/102/124', weight=3 where id=110;
-update from sec_resource set parent_id=124, parent_ids='0/1/102/124', weight=4 where id=111;
+update sec_resource set parent_id=124, parent_ids='0/1/102/124', weight=1 where id=119;
+update sec_resource set parent_id=124, parent_ids='0/1/102/124', weight=2, name='申报设置' where id=108;
+update sec_resource set parent_id=124, parent_ids='0/1/102/124', weight=3 where id=110;
+update sec_resource set parent_id=124, parent_ids='0/1/102/124', weight=4 where id=111;
 
-update from sec_resource set parent_id=125, parent_ids='0/1/102/125', weight=1, name='评审设置' where id=120;
+update sec_resource set parent_id=125, parent_ids='0/1/102/125', weight=1, name='评审设置' where id=120;
 
-update from sec_resource set parent_id=126, parent_ids='0/1/102/126', weight=1 where id=104;
-update from sec_resource set parent_id=126, parent_ids='0/1/102/126', weight=2 where id=105;
-update from sec_resource set parent_id=126, parent_ids='0/1/102/126', weight=3 where id=106;
-update from sec_resource set parent_id=126, parent_ids='0/1/102/126', weight=4 where id=115;
-update from sec_resource set parent_id=126, parent_ids='0/1/102/126', weight=5 where id=116;
-update from sec_resource set parent_id=126, parent_ids='0/1/102/126', weight=6 where id=117;
-update from sec_resource set parent_id=126, parent_ids='0/1/102/126', weight=7 where id=118;
+update sec_resource set parent_id=126, parent_ids='0/1/102/126', weight=1 where id=104;
+update sec_resource set parent_id=126, parent_ids='0/1/102/126', weight=2 where id=105;
+update sec_resource set parent_id=126, parent_ids='0/1/102/126', weight=3 where id=106;
+update sec_resource set parent_id=126, parent_ids='0/1/102/126', weight=4 where id=115;
+update sec_resource set parent_id=126, parent_ids='0/1/102/126', weight=5 where id=116;
+update sec_resource set parent_id=126, parent_ids='0/1/102/126', weight=6 where id=117;
+update sec_resource set parent_id=126, parent_ids='0/1/102/126', weight=7 where id=118;

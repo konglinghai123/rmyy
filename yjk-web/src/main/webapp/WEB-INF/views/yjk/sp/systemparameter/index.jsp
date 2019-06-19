@@ -7,7 +7,7 @@
 		<thead > 	
 			<tr>	
 				<th data-options="field:'ck',checkbox:true"/>
-				<th data-options="field:'enabled',width:400,halign:'center',formatter:formatOperation">操作</th>
+				<th data-options="field:'enabled',width:130,halign:'center',formatter:formatOperation">操作</th>
 				<th data-options="field:'id',width:80">编号</th>
 				<th data-options="field:'applyStartDate',width:150">申请开始时间</th>
 				<th data-options="field:'applyEndDate',width:150">申请结束时间</th>
@@ -99,10 +99,10 @@
 				$('#tt').datagrid('fixDetailRowHeight',rowIndex);
 		},
 		onLoadSuccess:function(row){
-			$('.openCls').linkbutton({text:'启动申报',plain:true,iconCls:'icon-operate'});
-			$('.closeCls').linkbutton({text:'关闭申报',plain:true,iconCls:'icon-exit'});
-			$('.verifyCls').linkbutton({text:'筛选用户',plain:true,iconCls:'icon-verify'});
-			$('.previewCls').linkbutton({text:'查看用户',plain:true,iconCls:'icon-preview'});
+			$('.openCls').linkbutton({plain:true,iconCls:'icon-operate'});
+			$('.closeCls').linkbutton({plain:true,iconCls:'icon-exit'});
+			$('.verifyCls').linkbutton({plain:true,iconCls:'icon-verify'});
+			$('.previewCls').linkbutton({plain:true,iconCls:'icon-preview'});
 		}
 		});
 	});
@@ -111,12 +111,12 @@
 		currentTimestamp = new Date().getTime();
 		applyEndDateTimestamp = new Date(Date.parse(row.applyEndDate.replace(/-/g, "/"))).getTime();
 		applyStartDatetamp = new Date(Date.parse(row.applyStartDate.replace(/-/g, "/"))).getTime();
-		var htmlOperation = '<a class="verifyCls" onclick="filter(' + row.id + ');" href="javascript:void(0);" style="height:24px;">筛选用户</a> | ';
-		htmlOperation += '<a class="previewCls" onclick="preview(' + row.id + ');" href="javascript:void(0);" style="height:24px;">查看用户</a> | '
+		var htmlOperation = '<a class="verifyCls" onclick="filter(' + row.id + ');" href="javascript:void(0);" style="height:24px;" title="筛选用户"/> | ';
+		htmlOperation += '<a class="previewCls" onclick="preview(' + row.id + ');" href="javascript:void(0);" style="height:24px;" title="查看用户"/> | '
 		if (val) {
-			htmlOperation += '<a class="closeCls" onclick="closeDeclare(' + row.id + ')" href="javascript:void(0);">关闭申报</a> | ';
+			htmlOperation += '<a class="closeCls" onclick="closeDeclare(' + row.id + ')" href="javascript:void(0);" style="height:24px;" title="关闭申报"/> ';
 		} else {
-			htmlOperation +=  '<a class="openCls" onclick="openDeclare(' + row.id + ')" href="javascript:void(0);">启动申报</a> | ';
+			htmlOperation +=  '<a class="openCls" onclick="openDeclare(' + row.id + ')" href="javascript:void(0);" style="height:24px;" title="启动申报"/> ';
 		}
 		return htmlOperation;
 	}

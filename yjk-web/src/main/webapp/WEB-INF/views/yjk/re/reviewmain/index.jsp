@@ -6,7 +6,7 @@
 		<thead>
 			<tr>
 			    <th data-options="field:'ck',checkbox:true" rowspan="2"/>
-				<th data-options="field:'enabled',width:400,halign:'center',formatter:formatOperation" rowspan="2"/>操作</th>
+				<th data-options="field:'enabled',width:200,halign:'center',formatter:formatOperation" rowspan="2"/>操作</th>
 			    <th data-options="field:'id',width:80" rowspan="2"/>编号</th>
 				<th data-options="field:'name',width:300" rowspan="2"/>名称</th>
 				<th data-options="field:'createDate',width:150" rowspan="2"/>创建时间</th>
@@ -85,12 +85,12 @@
 				param['parameters']=$('#queryform').serializeObject();
 			},
 			onLoadSuccess:function(row){
-				$('.openCls').linkbutton({text:'启动评审',plain:true,iconCls:'icon-operate'});
-				$('.closeCls').linkbutton({text:'关闭评审',plain:true,iconCls:'icon-exit'});
-				$('.verifyCls').linkbutton({text:'筛选用户',plain:true,iconCls:'icon-verify'});
-				$('.previewCls').linkbutton({text:'查看用户',plain:true,iconCls:'icon-preview'});
-				$('.selectCls').linkbutton({text:'选择范围',plain:true,iconCls:'icon-connect'});
-				$('.processCls').linkbutton({text:'评审流程',plain:true,iconCls:'icon-process'});
+				$('.openCls').linkbutton({plain:true,iconCls:'icon-operate'});
+				$('.closeCls').linkbutton({plain:true,iconCls:'icon-exit'});
+				$('.verifyCls').linkbutton({plain:true,iconCls:'icon-verify'});
+				$('.previewCls').linkbutton({plain:true,iconCls:'icon-preview'});
+				$('.selectCls').linkbutton({plain:true,iconCls:'icon-connect'});
+				$('.processCls').linkbutton({plain:true,iconCls:'icon-process'});
 			}
 		});
 	});
@@ -98,17 +98,17 @@
 	function formatOperation(val, row) {
 		var htmlOperation = '';
 		if (row.extractDate == null) {
-			htmlOperation = '<a class="verifyCls" onclick="filter(' + row.id + ');" href="javascript:void(0);" style="height:24px;">筛选用户</a> | ';
+			htmlOperation = '<a class="verifyCls" onclick="filter(' + row.id + ');" href="javascript:void(0);" style="height:24px;" title="筛选用户"/> | ';
 		} else {
-			htmlOperation = '<a class="previewCls" onclick="preview(' + row.id + ');" href="javascript:void(0);" style="height:24px;">查看用户</a> | ';
+			htmlOperation = '<a class="previewCls" onclick="preview(' + row.id + ');" href="javascript:void(0);" style="height:24px;" title="查看用户"/> | ';
 		}
 		if (val) {
-			htmlOperation += '<a class="closeCls" onclick="closeDeclare(' + row.id + ')" href="javascript:void(0);" style="height:24px;">关闭申报</a> | ';
+			htmlOperation += '<a class="closeCls" onclick="closeDeclare(' + row.id + ')" href="javascript:void(0);" style="height:24px;" title="关闭申报"/> | ';
 		} else {
-			htmlOperation += '<a class="openCls" onclick="openDeclare(' + row.id + ')" href="javascript:void(0);" style="height:24px;">启动申报</a> | ';
+			htmlOperation += '<a class="openCls" onclick="openDeclare(' + row.id + ')" href="javascript:void(0);" style="height:24px;" title="启动申报"/> | ';
 		}
-		htmlOperation += '<a class="selectCls" onclick="selectSystemParameter(' + row.id + ')" href="javascript:void(0);" style="height:24px;">选择范围</a> |  ';
-		htmlOperation += '<a class="processCls" onclick="process(' + row.id + ')" href="javascript:void(0);" style="height:24px;">评审流程</a> |  ';
+		htmlOperation += '<a class="selectCls" onclick="selectSystemParameter(' + row.id + ')" href="javascript:void(0);" style="height:24px;" title="选择范围"/> |  ';
+		htmlOperation += '<a class="processCls" onclick="process(' + row.id + ')" href="javascript:void(0);" style="height:24px;" title="评审流程"/> |  ';
 		return htmlOperation;
 	}
 	
