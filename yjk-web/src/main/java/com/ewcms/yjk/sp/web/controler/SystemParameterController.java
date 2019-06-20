@@ -25,6 +25,7 @@ import com.ewcms.common.entity.search.SearchOperator;
 import com.ewcms.common.entity.search.SearchParameter;
 import com.ewcms.common.entity.search.Searchable;
 import com.ewcms.common.entity.search.filter.SearchFilterHelper;
+import com.ewcms.common.exception.BaseException;
 import com.ewcms.common.utils.Collections3;
 import com.ewcms.common.utils.EmptyUtil;
 import com.ewcms.common.web.controller.BaseCRUDController;
@@ -92,12 +93,15 @@ public class SystemParameterController extends BaseCRUDController<SystemParamete
 			SystemParameter vo = getSystemParameterService().openDeclare(user, systemParameterId);
 
 			if (vo == null) {
-				ajaxResponse.setMessage("专家遴选中有未关闭的评审情况，请先关闭评审.");
+				ajaxResponse.setMessage("申报不存在，请重新选择.");
 			} else {
 				if (!vo.getEnabled()) {
 					ajaxResponse.setMessage("当前时间不在启动时间范围内");
 				}
 			}
+		} catch (BaseException e) {
+			ajaxResponse.setSuccess(Boolean.FALSE);
+			ajaxResponse.setMessage(e.getDefaultMessage());
 		} catch (Exception e) {
 			ajaxResponse.setSuccess(Boolean.FALSE);
 			ajaxResponse.setMessage("启动申报失败");

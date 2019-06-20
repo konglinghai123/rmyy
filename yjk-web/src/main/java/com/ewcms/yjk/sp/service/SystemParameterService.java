@@ -8,6 +8,7 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ewcms.common.exception.BaseException;
 import com.ewcms.common.service.BaseService;
 import com.ewcms.common.utils.Collections3;
 import com.ewcms.common.utils.EmptyUtil;
@@ -186,8 +187,9 @@ public class SystemParameterService extends BaseService<SystemParameter, Long> {
 		}
 	}
 
-	public SystemParameter openDeclare(User opUser, Long systemParameterId) {
-		if (reviewMainService.findByEnabledTrue() != null) return null;
+	public SystemParameter openDeclare(User opUser, Long systemParameterId) throws BaseException{
+		if (reviewMainService.isUseSystemParameter(systemParameterId)) throw new BaseException("", "由于申报编号[" + systemParameterId + "]已被评审使用了，不能启动申报");
+		if (reviewMainService.findByEnabledTrue() != null) throw new BaseException("", "评审设置中有未关闭的评审情况，请先关闭评审.");
 		
 		SystemParameter systemParameter = findOne(systemParameterId);
 		if (systemParameter.getApplyEndDate().after(new Date()) && systemParameter.getApplyStartDate().before(new Date())) {

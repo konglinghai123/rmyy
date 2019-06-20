@@ -60,7 +60,7 @@ public class ReviewMainController extends BaseCRUDController<ReviewMain, Long> {
 	private SystemParameterService systemParameterService;
 	@Autowired
 	private TextReportService textReportService;
-	
+
 	public ReviewMainController() {
 		setResourceIdentity("yjk:reviewmain");
 	}
@@ -83,7 +83,7 @@ public class ReviewMainController extends BaseCRUDController<ReviewMain, Long> {
 		}
 		return ajaxResponse;
 	}
-	
+
 	@RequestMapping(value = "{reviewMainId}/opendeclare")
 	@ResponseBody
 	public AjaxResponse openDeclare(@CurrentUser User user, @PathVariable(value = "reviewMainId") Long reviewMainId) {
@@ -100,7 +100,7 @@ public class ReviewMainController extends BaseCRUDController<ReviewMain, Long> {
 		}
 		return ajaxResponse;
 	}
-	
+
 	@Override
 	public String save(Model model, @Valid @ModelAttribute("m") ReviewMain m, BindingResult result,
 			@RequestParam(required = false) List<Long> selections) {
@@ -147,40 +147,41 @@ public class ReviewMainController extends BaseCRUDController<ReviewMain, Long> {
 	@RequestMapping(value = "{reviewMainId}/indexUser")
 	public String indexUser(@PathVariable("reviewMainId") Long reviewMainId) {
 		if (permissionList != null) {
-            this.permissionList.assertHasViewPermission();
-        }
+			this.permissionList.assertHasViewPermission();
+		}
 		return viewName("indexUser");
 	}
 
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "{reviewMainId}/queryUser")
 	@ResponseBody
-	public Map<String, Object> queryUser(@PathVariable("reviewMainId") ReviewMain reviewMain, @ModelAttribute SearchParameter<Long> searchParameter) {
+	public Map<String, Object> queryUser(@PathVariable("reviewMainId") ReviewMain reviewMain,
+			@ModelAttribute SearchParameter<Long> searchParameter) {
 		Map<String, Object> map = Maps.newHashMap();
-		
+
 		List<Long> allUserIds = Lists.newArrayList();
-		
+
 		List<User> reviewMainUsers = reviewMain.getUsers();
 		if (EmptyUtil.isCollectionNotEmpty(reviewMainUsers)) {
 			allUserIds.addAll(Collections3.extractToList(reviewMainUsers, "id"));
 		}
-		
+
 		List<ReviewExpert> reviewExperts = reviewMain.getReviewExperts();
 		if (EmptyUtil.isCollectionNotEmpty(reviewExperts)) {
 			for (ReviewExpert reviewExpert : reviewExperts) {
 				allUserIds.addAll(Collections3.extractToList(reviewExpert.getUsers(), "id"));
 			}
 		}
-		
+
 		Searchable searchable = SearchHelper.parameterConverSearchable(searchParameter, User.class);
 		if (EmptyUtil.isCollectionNotEmpty(allUserIds)) {
 			searchable.addSearchFilter("id", SearchOperator.IN, allUserIds);
 		} else {
 			searchable.addSearchFilter("id", SearchOperator.EQ, -1L);
 		}
-		
+
 		Page<User> users = userService.findAll(searchable);
-		
+
 		map.put("total", users.getTotalElements());
 		map.put("rows", users.getContent());
 		return map;
@@ -195,13 +196,14 @@ public class ReviewMainController extends BaseCRUDController<ReviewMain, Long> {
 	}
 
 	@RequestMapping(value = "{reviewMainId}/saveUser", method = RequestMethod.POST)
-	public String saveUser(@PathVariable("reviewMainId") ReviewMain reviewMain,  @RequestParam(required = false) List<Long> userIds) {
+	public String saveUser(@PathVariable("reviewMainId") ReviewMain reviewMain,
+			@RequestParam(required = false) List<Long> userIds) {
 		if (permissionList != null) {
 			this.permissionList.assertHasCreatePermission();
 		}
 
 		getReviewMainService().addUser(reviewMain, userIds);
-		
+
 		return redirectToUrl(viewName(reviewMain.getId() + "/saveUser"));
 	}
 
@@ -228,38 +230,41 @@ public class ReviewMainController extends BaseCRUDController<ReviewMain, Long> {
 
 	@RequestMapping(value = "canUseUser")
 	@ResponseBody
-	public Map<String, Object> canUseUser(@RequestParam(value = "name", required = false) String name, @ModelAttribute SearchParameter<Long> searchParameter) {
+	public Map<String, Object> canUseUser(@RequestParam(value = "name", required = false) String name,
+			@ModelAttribute SearchParameter<Long> searchParameter) {
 		Searchable searchable = SearchHelper.parameterConverSearchable(searchParameter, User.class);
-		
+
 		if (EmptyUtil.isStringNotEmpty(name)) {
-			searchable.or(SearchFilterHelper.newCondition("username", SearchOperator.LIKE, name), SearchFilterHelper.newCondition("realname", SearchOperator.LIKE, name));
+			searchable.or(SearchFilterHelper.newCondition("username", SearchOperator.LIKE, name),
+					SearchFilterHelper.newCondition("realname", SearchOperator.LIKE, name));
 		}
 
-		searchable.and(SearchFilterHelper.newCondition("admin", SearchOperator.EQ, Boolean.FALSE), SearchFilterHelper.newCondition("deleted", SearchOperator.EQ, Boolean.FALSE));
-		
+		searchable.and(SearchFilterHelper.newCondition("admin", SearchOperator.EQ, Boolean.FALSE),
+				SearchFilterHelper.newCondition("deleted", SearchOperator.EQ, Boolean.FALSE));
+
 		searchable.addSort(Direction.ASC, "id");
 
 		Page<User> users = userService.findAll(searchable);
-		
+
 		Map<String, Object> map = Maps.newHashMap();
-		
+
 		map.put("total", users.getTotalElements());
 		map.put("rows", users.getContent());
-		
+
 		return map;
 	}
-	
+
 	@RequestMapping(value = "{reviewMainId}/indexSystemParameter")
 	public String indexSystemParameter(@PathVariable("reviewMainId") Long reviewMainId, Model model) {
 		if (permissionList != null) {
-            this.permissionList.assertHasViewPermission();
-        }
-		
+			this.permissionList.assertHasViewPermission();
+		}
+
 		ReviewMain reviewMain = baseService.findOne(reviewMainId);
-		
+
 		SystemParameter sp = reviewMain.getSystemParameter();
 		model.addAttribute("spId", (sp != null) ? sp.getId() : -1L);
-		
+
 		return viewName("indexSystemParameter");
 	}
 
@@ -270,16 +275,17 @@ public class ReviewMainController extends BaseCRUDController<ReviewMain, Long> {
 		searchable.addSort(Direction.DESC, "id");
 		Page<SystemParameter> systemParameters = systemParameterService.findAll(searchable);
 		Map<String, Object> map = Maps.newHashMap();
-		
+
 		map.put("total", systemParameters.getTotalElements());
 		map.put("rows", systemParameters.getContent());
-		
+
 		return map;
 	}
 
 	@RequestMapping(value = "{reviewMainId}/saveSelect")
 	@ResponseBody
-	public AjaxResponse saveSelect(@PathVariable("reviewMainId") Long reviewMainId, @RequestParam("systemParameterId") Long systemParameterId) {
+	public AjaxResponse saveSelect(@PathVariable("reviewMainId") Long reviewMainId,
+			@RequestParam("systemParameterId") Long systemParameterId) {
 		AjaxResponse ajaxResponse = new AjaxResponse("选择评审范围成功！");
 
 		try {
@@ -293,8 +299,7 @@ public class ReviewMainController extends BaseCRUDController<ReviewMain, Long> {
 
 	@RequestMapping(value = "{reviewMainId}/print/{type}")
 	public void build(@RequestParam(value = "reportId", defaultValue = "6") Long reportId,
-			@PathVariable(value = "reviewMainId") Long reviewMainId, 
-			@PathVariable(value = "type") String type,
+			@PathVariable(value = "reviewMainId") Long reviewMainId, @PathVariable(value = "type") String type,
 			HttpServletResponse response) {
 		response.setDateHeader("Expires", 0L);
 		response.setHeader("Cache-Control", "no-store, no-cache, must-revalidate");
@@ -303,7 +308,7 @@ public class ReviewMainController extends BaseCRUDController<ReviewMain, Long> {
 		try {
 			ParameterBuilder parameterBuilder = new ParameterBuilder();
 			parameterBuilder.getParamMap().put("reviewMainId", String.valueOf(reviewMainId));
-			if (type.equals("xls")) 
+			if (type.equals("xls"))
 				parameterBuilder.setTextType(TextReport.Type.XLS);
 			else
 				parameterBuilder.setTextType(TextReport.Type.PDF);
