@@ -1,10 +1,10 @@
 insert into sec_resource(id, icon, identity, name, parent_id, parent_ids, is_show, style, url, weight) values
-(122,'ztree_file','reviewbaserule','评审基本规则',125,'0/1/102/125/','true',null,'/yjk/re/zd/reviewbaserule/index',2)
-,(123,'ztree_file','displaycolumn','可显示的字段库',125,'0/1/102/125/','true',null,'/yjk/re/zd/displaycolumn/index',3)
+(122,'rmyy-yjk-reviewbaserule-tree','reviewbaserule','评审基本规则',125,'0/1/102/125/','true',null,'/yjk/re/zd/reviewbaserule/index',2)
+,(123,'rmyy-yjk-displaycolumn-tre','displaycolumn','可显示的字段库',125,'0/1/102/125/','true',null,'/yjk/re/zd/displaycolumn/index',3)
 ,(124,'ztree_file','','申报管理',102,'0/1/102/','true',null,'',17)
 ,(125,'ztree_file','','评审管理',102,'0/1/102/','true',null,'',19)
 ,(126,'ztree_file','','字典库',102,'0/1/102/','true',null,'',20)
-,(127,'ztree_file','voterecord','专家投票',125,'0/1/102/125/','true',null,'/yjk/re/voterecord/index',4)
+,(127,'rmyy-yjk-voterecord-tree','voterecord','专家投票',125,'0/1/102/125/','true',null,'/yjk/re/voterecord/index',4)
 ;
 select setval('seq_sec_resource_id', 127);
 
@@ -32,5 +32,7 @@ insert into sys_icon(id,css_class, description, icon_height, icon_type, identity
 ,(94,'','药剂管理-可显示的字段库',18,'css_sprite','rmyy-yjk-displaycolumn-tree','',0,'static/image/menu/yjk/displaycolumn.png','background-size:100%;',0,16)
 ,(95,'','药刘管理-评审基本规则',48,'css_sprite','rmyy-yjk-reviewbaserule','',0,'static/image/menu/yjk/reviewbaserule.png','',0;48)
 ,(96,'','药刘管理-评审基本规则',18,'css_sprite','rmyy-yjk-reviewbaserule-tree','',0,'static/image/menu/yjk/reviewbaserule.png','background-size:100%;',0,16)
+,(97,'','药刘管理-专家投票',48,'css_sprite','rmyy-yjk-voterecord','',0,'static/image/menu/yjk/voterecord.png','',0;48)
+,(98,'','药刘管理-专家投票',18,'css_sprite','rmyy-yjk-voterecord-tree','',0,'static/image/menu/yjk/voterecord.png','background-size:100%;',0,16)
 ;
-select setval('seq_sys_icon_id', 96);
+select setval('seq_sys_icon_id', 98);
