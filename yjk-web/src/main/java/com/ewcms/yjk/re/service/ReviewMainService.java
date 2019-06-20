@@ -56,6 +56,7 @@ public class ReviewMainService extends BaseService<ReviewMain, Long> {
 		ReviewMain dbReviewMain = findOne(reviewMain.getId());
 		reviewMain.setReviewExperts(dbReviewMain.getReviewExperts());
 		reviewMain.setReviewProcesses(dbReviewMain.getReviewProcesses());
+		reviewMain.setSystemParameter(dbReviewMain.getSystemParameter());
 		reviewMain.setUsers(dbReviewMain.getUsers());
 
 		return super.update(reviewMain);
@@ -289,9 +290,22 @@ public class ReviewMainService extends BaseService<ReviewMain, Long> {
 	public void updSystemParameter(Long reviewMainId, Long systemParameterId) {
 		ReviewMain reviewMain = findOne(reviewMainId);
 		SystemParameter systemParameter = systemParameterService.findOne(systemParameterId);
-		if (EmptyUtil.isNotNull(reviewMain) && EmptyUtil.isNotNull(systemParameter)) {
+		if (EmptyUtil.isNotNull(reviewMain) && EmptyUtil.isNotNull(systemParameter) && EmptyUtil.isNull(reviewMain.getSystemParameter())) {
 			reviewMain.setSystemParameter(systemParameter);
 			super.update(reviewMain);
+		}
+	}
+	
+	public List<ReviewMain> findBySystemParameterId(Long systemParameterId){
+		return getReviewMainRepository().findBySystemParameterId(systemParameterId);
+	}
+	
+	public Boolean isUseSystemParameter(Long systemParameterId) {
+		List<ReviewMain> reviewMains = findBySystemParameterId(systemParameterId);
+		if (EmptyUtil.isCollectionNotEmpty(reviewMains)) {
+			return true;
+		} else {
+			return false;
 		}
 	}
 }

@@ -193,6 +193,10 @@ public class ReviewMain extends BaseSequenceEntity<Long> {
 		this.systemParameter = systemParameter;
 	}
 	
+	public String getSystemParameterProjectRemark() {
+		return (systemParameter != null) ? systemParameter.getProjectRemark() : "";
+	}
+	
 	public String getSystemParameterRange() {
 		try {
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

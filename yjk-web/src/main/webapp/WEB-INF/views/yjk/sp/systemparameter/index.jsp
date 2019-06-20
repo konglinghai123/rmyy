@@ -128,10 +128,10 @@
 				$.post('${ctx}/yjk/sp/systemparameter/' + id + '/closedeclare',{}, function(result) {
 					if (result.success) {
 						$('#tt').datagrid('reload');
-						$.ewcms.removeLoading();
 					}
 					$.messager.alert('提示', result.message, 'info');
 				});
+				$.ewcms.removeLoading();
 			}
 		});
 		
@@ -144,10 +144,10 @@
 				$.post('${ctx}/yjk/sp/systemparameter/' + id + '/opendeclare',{}, function(result) {
 					if (result.success) {
 						$('#tt').datagrid('reload');
-						$.ewcms.removeLoading();
 					}
 					$.messager.alert('提示', result.message, 'info');
 				});
+				$.ewcms.removeLoading();
 			}
 		});
 	}

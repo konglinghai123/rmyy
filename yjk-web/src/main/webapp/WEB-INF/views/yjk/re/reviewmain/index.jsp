@@ -11,7 +11,8 @@
 				<th data-options="field:'name',width:300" rowspan="2"/>名称</th>
 				<th data-options="field:'createDate',width:150" rowspan="2"/>创建时间</th>
 				<th data-options="field:'extractDate',width:150" rowspan="2"/>筛选用户时间</th>
-				<th data-options="field:'systemParameterRange',width:300" rowspan="2"/>评审申报范围</th>
+				<th data-options="field:'systemParameterProjectRemark',width:120" rowspan="2">申报项目说明</th>
+				<th data-options="field:'systemParameterRange',width:320" rowspan="2"/>评审申报范围</th>
 				<th colspan="2">拟新增通用名总数</th>
 				<th colspan="2">拟新增剂型/规格总数</th>
 				<th data-options="field:'remark',width:300" rowspan="2"/>说明</th>
@@ -55,7 +56,7 @@
 			url:'${ctx}/yjk/re/reviewmain/query',
 			toolbar:'#tb',
 			fit:true,
-			nowrap:true,
+			nowrap:false,
 			pagination:true,
 			rownumbers:true,
 			striped:true,
@@ -177,7 +178,11 @@
 	}
 	
 	function selectSystemParameter(id){
-		$.ewcms.openWindow({src:'${ctx}/yjk/re/reviewmain/' + id + '/indexSystemParameter',title:'选择范围 - 有申报数据',width:850,height:550});
+		//$.messager.confirm('提示', '确定要选择申报数据吗?<br/><font color="red">申报的数据只能选择一次，请谨慎选择！</font>', function(r) {
+		//	if (r) {
+				$.ewcms.openWindow({src:'${ctx}/yjk/re/reviewmain/' + id + '/indexSystemParameter',title:'选择范围 - 有申报数据',width:850,height:550});
+		//	}
+		//});
 	}
 	
 	function process(id){

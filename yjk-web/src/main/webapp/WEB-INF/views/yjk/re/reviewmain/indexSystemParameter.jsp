@@ -28,7 +28,9 @@
 			</table>
 		</div>
 		<div data-options="region:'south'" style="text-align:center;height:30px;border:0">
+			<c:if test="${spId==-1}">
 	  		<a id="tb-declare" class="easyui-linkbutton" data-options="iconCls:'icon-save'" href="javascript:void(0);" onclick="javascript:saveSelect();">提交选择</a>
+	  		</c:if>
 	  		<a class="easyui-linkbutton" data-options="iconCls:'icon-cancel'" href="javascript:void(0);" onclick="javascript:parent.$('#edit-window').window('close');">关闭</a>
 		</div>
 	</div>
