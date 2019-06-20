@@ -89,7 +89,7 @@ public class ReviewMain extends BaseSequenceEntity<Long> {
 	private List<User> users;
 	@Column(name = "is_enabled")
 	private Boolean enabled = Boolean.FALSE;
-	@ManyToOne(optional = true, fetch = FetchType.EAGER)
+	@ManyToOne()
     @Fetch(FetchMode.SELECT)
 	private SystemParameter systemParameter;
 	@Column(name = "general_name_chinese")

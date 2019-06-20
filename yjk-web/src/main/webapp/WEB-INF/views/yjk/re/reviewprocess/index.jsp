@@ -6,7 +6,8 @@
 		<thead>
 			<tr>
 			    <th data-options="field:'ck',checkbox:true" rowspan="2"/>
-			    <th data-options="field:'weight',width:80" rowspan="2">排序号</th>
+			    <th data-options="field:'id',hidden:true" rowspan="2">编号</th>
+			    <th data-options="field:'weight',width:80,hidden:true" rowspan="2">排序号</th>
 				<th data-options="field:'ruleCnName',width:150,
 						formatter:function(val,row){
 							return row.reviewBaseRule != null ? row.reviewBaseRule.ruleCnName : '';
@@ -43,6 +44,7 @@
 	</div>
 	<ewcms:editWindow/>
 <ewcms:footer/>
+<script type="text/javascript" src="${ctx}/static/easyui/ext/datagrid-detailview.js"></script>
 <script type="text/javascript">
 	$(function(){
 		$('#tt').datagrid({
@@ -51,6 +53,7 @@
 			fit:true,
 			nowrap:true,
 			rownumbers:true,
+			pagination:true,
 			striped:true,
 			pageSize:20,
 			border:true,
@@ -59,6 +62,21 @@
 	    			return 'background-color:#FF0000;color:#FFFFFF;';
 	        	}
 	    	},
+			view : detailview,
+			detailFormatter : function(rowIndex, rowData) {
+				return '<div id="ddv-' + rowIndex + '" style="padding:2px"></div>';
+			},
+			onExpandRow: function(rowIndex, rowData){
+				$('#ddv-' + rowIndex).panel({
+					border:false,
+					cache:false,
+					content: '<iframe src="${ctx}/yjk/re/reviewprocessrecord/' + rowData.id + '/index" frameborder="0" width="100%" height="250px" scrolling="auto"></iframe>',
+					onLoad:function(){
+						$('#tt').datagrid('fixDetailRowHeight',rowIndex);
+					}
+				});
+				$('#tt').datagrid('fixDetailRowHeight',rowIndex);
+			},
 			onBeforeLoad:function(param){
 				param['parameters']=$('#queryform').serializeObject();
 			}

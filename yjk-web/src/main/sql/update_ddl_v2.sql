@@ -197,4 +197,63 @@ WITH (
 ALTER TABLE public.re_zd_review_display_column
   OWNER TO postgres;
 
+/*
+ * re_review_process_record
+ */
+CREATE SEQUENCE public.seq_re_review_process_record_id
+  INCREMENT 1
+  MINVALUE 1
+  MAXVALUE 9223372036854775807
+  START 1
+  CACHE 1;
+ALTER TABLE public.seq_re_review_process_record_id
+  OWNER TO postgres;
   
+
+CREATE TABLE public.re_review_process_record
+(
+  id bigint NOT NULL,
+  operate_date timestamp without time zone DEFAULT now(),
+  remark text,
+  review_process_id bigint NOT NULL,
+  user_id bigint,
+  CONSTRAINT re_review_process_record_pkey PRIMARY KEY (id)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE public.re_review_process_record
+  OWNER TO postgres;
+  
+/*
+ * re_vote_record
+ */
+CREATE SEQUENCE public.seq_re_vote_record_id
+  INCREMENT 1
+  MINVALUE 1
+  MAXVALUE 9223372036854775807
+  START 1
+  CACHE 1;
+ALTER TABLE public.seq_re_vote_record_id
+  OWNER TO postgres;
+ 
+CREATE TABLE public.re_vote_record
+(
+  id bigint NOT NULL,
+  review_main_id bigint NOT NULL,
+  review_process_id bigint NOT NULL,
+  submitt_date timestamp without time zone,
+  is_submitted boolean,
+  user_id bigint NOT NULL,
+  votetypeenum character varying(255),
+  drugform_id bigint,
+  CONSTRAINT re_vote_record_pkey PRIMARY KEY (id),
+  CONSTRAINT fk_k6d08qty3ln4irbptn6upd5xi FOREIGN KEY (drugform_id)
+      REFERENCES public.sb_drug_form (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE public.re_vote_record
+  OWNER TO postgres;

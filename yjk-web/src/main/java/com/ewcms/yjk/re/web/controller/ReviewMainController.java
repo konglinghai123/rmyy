@@ -250,10 +250,13 @@ public class ReviewMainController extends BaseCRUDController<ReviewMain, Long> {
 	}
 	
 	@RequestMapping(value = "{reviewMainId}/indexSystemParameter")
-	public String indexSystemParameter(@PathVariable("reviewMainId") ReviewMain reviewMain, Model model) {
+	public String indexSystemParameter(@PathVariable("reviewMainId") Long reviewMainId, Model model) {
 		if (permissionList != null) {
             this.permissionList.assertHasViewPermission();
         }
+		
+		ReviewMain reviewMain = baseService.findOne(reviewMainId);
+		
 		SystemParameter sp = reviewMain.getSystemParameter();
 		model.addAttribute("spId", (sp != null) ? sp.getId() : -1L);
 		
