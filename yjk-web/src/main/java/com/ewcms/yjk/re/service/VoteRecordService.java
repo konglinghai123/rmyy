@@ -26,22 +26,26 @@ public class VoteRecordService extends BaseService<VoteRecord, Long> {
 	private VoteRecordRepository getVoteRecordRepository() {
 		return (VoteRecordRepository) baseRepository;
 	}
-
+	/**
+	 * 启动专家新增通用名投票
+	 * 
+	 */
 	public String ExpertStartVoteAddCommonName(Long userId){
 		ReviewMain reviewMainEnable = reviewMainService.findByEnabledTrue();
 		if(reviewMainEnable == null)return "评审还未启动！";
 		ReviewProcess reviewProcess = reviewProcessService.findByReviewBaseRuleRuleNameAndReviewMainId("addCommonName", reviewMainEnable.getId());
 		if(reviewProcess == null)return "新增通用名评审流程未找到！";
-		
-		List<DrugForm> validDrugFormList = drugFormService.findByAuditStatusAndSystemParameterIdAndDeclareCategoryAndReviewedFalse(AuditStatusEnum.passed, reviewMainEnable.getSystemParameter().getId(), "新增通用名");
-		for(DrugForm drugForm:validDrugFormList){
-			VoteRecord vo = new VoteRecord();
-			vo.setSubmitted(Boolean.FALSE);
-			vo.setUserId(userId);
-			vo.setReviewMainId(reviewMainEnable.getId()); 
-			vo.setReviewProcessId(reviewProcess.getId());
-			vo.setDrugForm(drugForm);
-			getVoteRecordRepository().save(vo);
+		if(getVoteRecordRepository().countByUserIdAndReviewProcessId(userId, reviewProcess.getId()).intValue()  == 0){
+			List<DrugForm> validDrugFormList = drugFormService.findByAuditStatusAndSystemParameterIdAndDeclareCategoryAndReviewedFalse(AuditStatusEnum.passed, reviewMainEnable.getSystemParameter().getId(), "新增通用名");
+			for(DrugForm drugForm:validDrugFormList){
+				VoteRecord vo = new VoteRecord();
+				vo.setSubmitted(Boolean.FALSE);
+				vo.setUserId(userId);
+				vo.setReviewMainId(reviewMainEnable.getId()); 
+				vo.setReviewProcessId(reviewProcess.getId());
+				vo.setDrugForm(drugForm);
+				getVoteRecordRepository().save(vo);
+			}
 		}
 		return reviewProcess.getId().toString();
 	}
