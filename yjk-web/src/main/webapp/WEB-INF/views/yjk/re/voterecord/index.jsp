@@ -30,10 +30,9 @@
 	</table>
 	<div id="tb" style="padding:5px;height:auto;">
         <div class="toolbar" style="margin-bottom:2px">
-			投票流程：<font color=red>新增通用名</font><img  width=30 height=15 src="${ctx}/static/image/arrow.jpg">新增规格/剂型<img  width=30 height=15 src="${ctx}/static/image/arrow.jpg">新增通用名厂家<img  width=30 height=15 src="${ctx}/static/image/arrow.jpg">新增剂型/规格厂家   &nbsp; &nbsp; &nbsp; 
-			<a id="icon-save" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-add',toggle:true" onclick="">保存</a>
+			<font color=blue>最大投票通过数为50</font>&nbsp; &nbsp; 投票流程：<font color=red>新增通用名</font><img  width=30 height=15 src="${ctx}/static/image/arrow.jpg">新增规格/剂型<img  width=30 height=15 src="${ctx}/static/image/arrow.jpg">新增通用名厂家<img  width=30 height=15 src="${ctx}/static/image/arrow.jpg">新增剂型/规格厂家   &nbsp; &nbsp; &nbsp; 
+			<a id="icon-save" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-add',toggle:true" onclick="javascript:save();">保存</a>
 			<a id="tb-edit" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-edit',toggle:true" onclick="">提交</a>
-			&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<font color=blue>最大投票通过数为50</font>
 		</div>
 	</div>
 	<ewcms:editWindow/>
@@ -49,6 +48,7 @@
 			border:false,
             singleSelect: true,
             onClickCell: onClickCell,
+            onEndEdit: onEndEdit
 		});
 	});
 
@@ -84,5 +84,29 @@
             }
         }
     }
-	
+
+    
+    function onEndEdit(index, row){
+        var ed = $(this).datagrid('getEditor', {
+            index: index,
+            field: 'voteTypeInfo'
+        });
+        row.voteTypeInfo = $(ed.target).combobox('getText');
+    }
+    
+    function save(){
+    	var rows = $('#tt').datagrid('getChanges');
+    	
+	    var parameter='';
+	    $.each(rows,function(index,row){
+	    	parameter += 'selections=' + row.id +'@'+row.voteTypeInfo+'&';
+	    });
+	    alert(parameter);
+        $.post('${ctx}/yjk/re/voterecord/savevote', parameter, function (data) {
+
+
+
+        });
+
+    }
 </script>
