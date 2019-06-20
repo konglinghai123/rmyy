@@ -4,5 +4,5 @@ import com.ewcms.common.repository.BaseRepository;
 import com.ewcms.yjk.re.entity.VoteRecord;
 
 public interface VoteRecordRepository extends BaseRepository<VoteRecord, Long> {
-
+	Long countByUserIdAndReviewProcessId(Long userId, Long reviewProcessId);
 }

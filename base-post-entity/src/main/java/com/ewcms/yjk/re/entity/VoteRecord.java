@@ -1,6 +1,7 @@
 package com.ewcms.yjk.re.entity;
 
 import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -10,9 +11,11 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.springframework.format.annotation.DateTimeFormat;
+
 import com.ewcms.common.entity.BaseSequenceEntity;
 import com.ewcms.yjk.sb.entity.DrugForm;
 
@@ -93,7 +96,9 @@ public class VoteRecord extends BaseSequenceEntity<Long> {
 		this.voteTypeEnum = voteTypeEnum;
 	}
 
-
+	public String getVoteTypeInfo() {
+		return voteTypeEnum == null ? "" : voteTypeEnum.getInfo();
+	}
 	public Date getSubmittDate() {
 		return submittDate;
 	}
