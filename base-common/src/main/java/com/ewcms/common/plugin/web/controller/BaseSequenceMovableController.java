@@ -43,8 +43,6 @@ public abstract class BaseSequenceMovableController<M extends BaseSequenceEntity
     @RequestMapping(value = "{fromId}/{toId}/down")
     @ResponseBody
     public AjaxResponse down(@PathVariable("fromId") ID fromId, @PathVariable("toId") ID toId) {
-
-
         if (this.permissionList != null) {
             this.permissionList.assertHasEditPermission();
         }

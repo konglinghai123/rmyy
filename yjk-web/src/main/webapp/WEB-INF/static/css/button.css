@@ -107,3 +107,15 @@
 .icon-process{
 	background: url('icons/buttons/process.png') no-repeat;
 }
+.icon-exchange{
+	background: url('icons/buttons/exchange.png') no-repeat;
+}
+.icon-forced{
+	background: url('icons/buttons/forced.png') no-repeat;
+}
+.icon-forced-closure{
+	background: url('icons/buttons/forced_closure.png') no-repeat;
+}
+.icon-forced-open{
+	background: url('icons/buttons/forced_open.png') no-repeat;
+}

@@ -6,7 +6,7 @@
 		<thead>
 			<tr>
 			    <th data-options="field:'ck',checkbox:true" rowspan="2"/>
-			    <th data-options="field:'id',hidden:true" rowspan="2">编号</th>
+			    <th data-options="field:'id',width:60" rowspan="2">编号</th>
 			    <th data-options="field:'weight',width:80,hidden:true" rowspan="2">排序号</th>
 				<th data-options="field:'ruleCnName',width:150,
 						formatter:function(val,row){
@@ -33,7 +33,12 @@
         <div class="toolbar" style="margin-bottom:2px">
 			<a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true" onclick="$.ewcms.add({src:'${ctx}/yjk/re/reviewprocess/${reviewMainId}/save',title:'新增',width:750,height:450});">新增</a>
 			<a id="tb-edit" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-edit'" onclick="$.ewcms.edit({src:'${ctx}/yjk/re/reviewprocess/${reviewMainId}/save',title:'修改',width:750,height:450});">修改</a>
-			<a id="tb-exchange" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-status-hide'">互换</a>
+			<a id="tb-exchange" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-exchange'">互换位置</a>
+			<a id="tb-forced" href="javascript:void(0);" class="easyui-menubutton" data-options="menu:'#menu-forced',iconCls:'icon-forced'">强制操作</a>
+		</div>
+		<div id="menu-forced" style="width:150px">
+			<div id="menu-forced-open" data-options="iconCls:'icon-forced-open'" onclick="$.ewcms.status({status:false,info:'强制开启',prompt:true});">开启</div>
+			<div id="menu-forced-closure" data-options="iconCls:'icon-forced-closure'" onclick="$.ewcms.status({status:true,info:'强制结束',prompt:true});">结束</div>
 		</div>
         <div>
         	<form id="queryform" style="padding:0;margin:0;">

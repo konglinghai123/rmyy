@@ -24,3 +24,13 @@ update sec_resource set parent_id=126, parent_ids='0/1/102/126', weight=6 where 
 update sec_resource set parent_id=126, parent_ids='0/1/102/126', weight=7 where id=118;
 
 update sb_drug_form set is_reviewed=false;
+
+insert into sys_icon(id,css_class, description, icon_height, icon_type, identity, img_src, icon_left, sprite_src, icon_style, icon_top, icon_width) values
+(91,'','系统管理-公告栏',48,'css_sprite','rmyy-system-notice','',0,'static/image/menu/system/notice.png','',0,48)
+,(92,'','系统管理-公告栏',18,'css_sprite','rmyy-system-notice-tree','',0,'static/image/menu/system/notice.png','background-size:100%;',0,16)
+,(93,'','药剂管理-可显示的字段库',48,'css_sprite','rmyy-yjk-displaycolumn','',0,'static/image/menu/yjk/displaycolumn.png','',0;48)
+,(94,'','药剂管理-可显示的字段库',18,'css_sprite','rmyy-yjk-displaycolumn-tree','',0,'static/image/menu/yjk/displaycolumn.png','background-size:100%;',0,16)
+,(95,'','药刘管理-评审基本规则',48,'css_sprite','rmyy-yjk-reviewbaserule','',0,'static/image/menu/yjk/reviewbaserule.png','',0;48)
+,(96,'','药刘管理-评审基本规则',18,'css_sprite','rmyy-yjk-reviewbaserule-tree','',0,'static/image/menu/yjk/reviewbaserule.png','background-size:100%;',0,16)
+;
+select setval('seq_sys_icon_id', 96);

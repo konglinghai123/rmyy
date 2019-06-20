@@ -95,7 +95,5 @@ insert into sys_icon(id,css_class, description, icon_height, icon_type, identity
 ,(88,'','药剂管理-技术职称(资格)',18,'css_sprite','rmyy-yjk-technicaltitle-tree','',0,'static/image/menu/yjk/technicaltitle.png','background-size:100%;',0,16)
 ,(89,'','药剂管理-聘任',48,'css_sprite','rmyy-yjk-appointment','',0,'static/image/menu/yjk/appointment.png','',0,48)
 ,(90,'','药剂管理-聘任',18,'css_sprite','rmyy-yjk-appointment-tree','',0,'static/image/menu/yjk/appointment.png','background-size:100%;',0,16)
-,(91,'','系统管理-公告栏',48,'css_sprite','rmyy-system-notice','',0,'static/image/menu/system/notice.png','',0,48)
-,(92,'','系统管理-公告栏',18,'css_sprite','rmyy-system-notice-tree','',0,'static/image/menu/system/notice.png','background-size:100%;',0,16)
 ;
-select setval('seq_sys_icon_id', 92);
+select setval('seq_sys_icon_id', 90);

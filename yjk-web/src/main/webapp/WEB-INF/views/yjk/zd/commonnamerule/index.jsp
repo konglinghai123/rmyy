@@ -15,7 +15,7 @@
 	</table>
 	<div id="tb" style="padding:5px;height:auto;">
         <div class="toolbar" style="margin-bottom:2px">
-			<a id="tb-exchange" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-status-hide'">互换</a>
+			<a id="tb-exchange" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-exchange'">互换</a>
 		</div>
         <div>
         	<form id="queryform" style="padding:0;margin:0;">

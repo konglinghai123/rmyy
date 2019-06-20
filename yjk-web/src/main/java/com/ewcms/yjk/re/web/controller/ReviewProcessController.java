@@ -23,6 +23,7 @@ import com.alibaba.fastjson.JSON;
 import com.ewcms.common.Constants;
 import com.ewcms.common.entity.search.SearchParameter;
 import com.ewcms.common.plugin.web.controller.BaseSequenceMovableController;
+import com.ewcms.common.utils.MessageUtils;
 import com.ewcms.common.web.validate.AjaxResponse;
 import com.ewcms.common.web.validate.ValidateResponse;
 import com.ewcms.security.user.entity.User;
@@ -112,7 +113,7 @@ public class ReviewProcessController extends BaseSequenceMovableController<Revie
 	@RequestMapping(value = "{reviewMainId}/save", method = RequestMethod.POST)
 	public String save(@PathVariable(value = "reviewMainId") Long reviewMainId, Model model,
 			@Valid @ModelAttribute("m") ReviewProcess m, BindingResult result,
-			@RequestParam(required = false) List<Long> selections, @CurrentUser User user,RedirectAttributes redirectAttributes) {
+			@RequestParam(required = false) List<Long> selections, @CurrentUser User user, RedirectAttributes redirectAttributes) {
 		setCommonData(model);
 
 		if (hasError(m, result)) {
@@ -162,11 +163,28 @@ public class ReviewProcessController extends BaseSequenceMovableController<Revie
 		throw new RuntimeException("discarded method");
 	}
 
-	@RequestMapping(value = "{reviewMainId}/delete")
+	@RequestMapping(value = "down/discard")
 	@ResponseBody
-	public AjaxResponse delete(@RequestParam(required = false) List<Long> selections,
-			@PathVariable(value = "reviewMainId") Long reviewMainId) {
-		return super.delete(selections);
+	@Override
+	public AjaxResponse down(Long fromId, Long toId) {
+		throw new RuntimeException("discarded method");
+	}
+	
+    @RequestMapping(value = "{fromId}/{toId}/down")
+    @ResponseBody
+    public AjaxResponse down(@PathVariable("fromId") Long fromId, @PathVariable("toId") Long toId, @CurrentUser User user) {
+        if (this.permissionList != null) {
+            this.permissionList.assertHasEditPermission();
+        }
+
+        AjaxResponse ajaxResponse = new AjaxResponse("移动位置成功");
+        try {
+        	getReviewProcessService().down(fromId, toId, user.getId());
+        } catch (IllegalStateException e) {
+            ajaxResponse.setSuccess(Boolean.FALSE);
+            ajaxResponse.setMessage(MessageUtils.message("move.not.enough"));
+        }
+        return ajaxResponse;
 	}
 
 	@RequestMapping(value = "{reviewMainId}/validate", method = RequestMethod.GET)
@@ -191,4 +209,19 @@ public class ReviewProcessController extends BaseSequenceMovableController<Revie
 
 		return response.result();
 	}
+	
+	@RequestMapping(value = "{reviewMainId}/changeStatus/{newStatus}")
+	@ResponseBody
+	public AjaxResponse changeStatus(@PathVariable(value = "reviewMainId") Long reviewMainId, @PathVariable("newStatus") Boolean newStatus,
+			@RequestParam("selections") List<Long> selections,
+			@RequestParam("reason") String reason, @CurrentUser User opUser) {
+		AjaxResponse ajaxResponse = new AjaxResponse();
+		try{
+			getReviewProcessService().changeStatus(opUser.getId(), selections, newStatus, reason);
+		} catch (IllegalStateException e){
+			ajaxResponse.setSuccess(Boolean.FALSE);
+		}
+		return ajaxResponse;
+	}
+
 }
