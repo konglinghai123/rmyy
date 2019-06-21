@@ -191,7 +191,7 @@ public class ReviewMainService extends BaseService<ReviewMain, Long> {
 		}
 	}
 
-	public ReviewMain openDeclare(User opUser, Long reviewMainId) {
+	public ReviewMain openReview(User opUser, Long reviewMainId) {
 		if (systemParameterService.findByEnabledTrue() != null) return null;
 			
 		ReviewMain reviewMain = findOne(reviewMainId);
@@ -216,7 +216,7 @@ public class ReviewMainService extends BaseService<ReviewMain, Long> {
 		return super.update(reviewMain);
 	}
 
-	public ReviewMain closeDeclare(User opUser, Long reviewMainId) {
+	public ReviewMain closeReview(User opUser, Long reviewMainId) {
 		ReviewMain reviewMain = findOne(reviewMainId);
 		reviewMain.setEnabled(Boolean.FALSE);
 
@@ -225,17 +225,17 @@ public class ReviewMainService extends BaseService<ReviewMain, Long> {
 		return update(reviewMain);
 	}
 
-	public boolean isOpenDrugDeclare() {
+	public boolean isOpenReview() {
 		return findByEnabledTrue() == null ? false : true;
 	}
 
-	public void isCloseDeclare() {
+	public void isCloseReview() {
 		ReviewMain reviewMain = findByEnabledTrue();
 		if (EmptyUtil.isNotNull(reviewMain)) {
 			List<User> users = userService.findByAdminTrueAndDeletedFalseAndStatus(UserStatus.normal);
 			if (EmptyUtil.isCollectionNotEmpty(users)) {
 				User opUser = users.get(0);
-				closeDeclare(opUser, reviewMain.getId());
+				closeReview(opUser, reviewMain.getId());
 			}
 		}
 	}

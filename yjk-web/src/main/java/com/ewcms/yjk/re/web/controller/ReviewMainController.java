@@ -76,7 +76,7 @@ public class ReviewMainController extends BaseCRUDController<ReviewMain, Long> {
 	public AjaxResponse closeDeclare(@CurrentUser User user, @PathVariable(value = "reviewMainId") Long reviewMainId) {
 		AjaxResponse ajaxResponse = new AjaxResponse("关闭评审成功");
 		try {
-			getReviewMainService().closeDeclare(user, reviewMainId);
+			getReviewMainService().closeReview(user, reviewMainId);
 		} catch (Exception e) {
 			ajaxResponse.setSuccess(Boolean.FALSE);
 			ajaxResponse.setMessage("关闭评审失败");
@@ -89,7 +89,7 @@ public class ReviewMainController extends BaseCRUDController<ReviewMain, Long> {
 	public AjaxResponse openDeclare(@CurrentUser User user, @PathVariable(value = "reviewMainId") Long reviewMainId) {
 		AjaxResponse ajaxResponse = new AjaxResponse("启动评审成功");
 		try {
-			ReviewMain reviewMain = getReviewMainService().openDeclare(user, reviewMainId);
+			ReviewMain reviewMain = getReviewMainService().openReview(user, reviewMainId);
 
 			if (reviewMain == null) {
 				ajaxResponse.setMessage("系统参数中有未关闭的申报情况，请先关闭申报.");

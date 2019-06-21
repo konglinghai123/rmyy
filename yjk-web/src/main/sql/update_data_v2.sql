@@ -1,12 +1,13 @@
 insert into sec_resource(id, icon, identity, name, parent_id, parent_ids, is_show, style, url, weight) values
-(122,'rmyy-yjk-reviewbaserule-tree','reviewbaserule','评审基本规则',125,'0/1/102/125/','true',null,'/yjk/re/zd/reviewbaserule/index',2)
-,(123,'rmyy-yjk-displaycolumn-tre','displaycolumn','可显示的字段库',125,'0/1/102/125/','true',null,'/yjk/re/zd/displaycolumn/index',3)
+(122,'rmyy-yjk-reviewbaserule-tree','reviewbaserule','基本规则',125,'0/1/102/125/','true',null,'/yjk/re/zd/reviewbaserule/index',2)
+,(123,'rmyy-yjk-displaycolumn-tre','displaycolumn','显示字段',125,'0/1/102/125/','true',null,'/yjk/re/zd/displaycolumn/index',3)
 ,(124,'ztree_file','','申报管理',102,'0/1/102/','true',null,'',17)
 ,(125,'ztree_file','','评审管理',102,'0/1/102/','true',null,'',19)
 ,(126,'ztree_file','','字典库',102,'0/1/102/','true',null,'',20)
-,(127,'rmyy-yjk-voterecord-tree','voterecord','专家投票',125,'0/1/102/125/','true',null,'/yjk/re/voterecord/index',4)
+,(127,'rmyy-yjk-voterecord-tree','re:voterecord','新药投票',62,'0/1/62/','true',null,'/yjk/re/voterecord/index',4)
+,(128,'ztree_file','re:uservote','用户投票情况',125,'0/1/102/125/','true',null,'/yjk/re/uservote/index',4)
 ;
-select setval('seq_sec_resource_id', 127);
+select setval('seq_sec_resource_id', 128);
 
 update sec_resource set parent_id=124, parent_ids='0/1/102/124', weight=1 where id=119;
 update sec_resource set parent_id=124, parent_ids='0/1/102/124', weight=2, name='申报设置' where id=108;
