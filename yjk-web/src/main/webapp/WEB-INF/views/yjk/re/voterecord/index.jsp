@@ -4,9 +4,9 @@
 <ewcms:head title="专家评审投票"/>
 	<table id="tt">
 		<thead>
-			<tr>
-			    <th data-options="field:'id',hidden:true">编号</th>
-                <th data-options="field:'voteTypeInfo',width:100,
+				    <thead frozen="true">    
+				        <tr>    
+               <th data-options="field:'voteTypeInfo',width:80,
                         editor:{
                             type:'combobox',
                             options:{
@@ -17,6 +17,12 @@
                                 required:true
                             }
                         }">投票操作</th>
+				        </tr>    
+				    </thead> 
+				    <thead>   		
+			<tr>
+			    <th data-options="field:'id',hidden:true">编号</th>
+ 
 				<th data-options="field:'drugForm.commonNameContents.extractCommonName',width:150,
 						formatter:function(val,row){
 							if(row.drugForm.commonNameContents==null){
@@ -24,8 +30,112 @@
 							}else{
 								return formatTooltip(row.drugForm.commonNameContents.extractCommonName, row);
 							}
-						}">药品通用名</th>      
-				<th data-options="field:'drugForm.commonNameContents.administrationName',width:100,
+						}">药品通用名</th>  
+				<th data-options="field:'drugForm.commonNameContents.productName',width:80,
+						formatter:function(val,row){
+							if(row.drugForm.commonNameContents==null){
+							 	return '';
+							}else{
+								return formatTooltip(row.drugForm.commonNameContents.productName, row);
+							}
+						}">商品名</th> 
+				<th data-options="field:'drugForm.commonNameContents.amount',width:50,
+						formatter:function(val,row){
+							if(row.drugForm.commonNameContents==null){
+							 	return '';
+							}else{
+								return formatTooltip(row.drugForm.commonNameContents.amount, row);
+							}
+						}">数量</th> 	
+				<th data-options="field:'drugForm.commonNameContents.manufacturer',width:250,
+						formatter:function(val,row){
+							if(row.drugForm.commonNameContents==null){
+							 	return '';
+							}else{
+								return formatTooltip(row.drugForm.commonNameContents.manufacturer, row);
+							}
+						}">生产厂家</th> 
+				<th data-options="field:'drugForm.commonNameContents.purchasePrice',width:50,
+						formatter:function(val,row){
+							if(row.drugForm.commonNameContents==null){
+							 	return '';
+							}else{
+								return formatTooltip(row.drugForm.commonNameContents.purchasePrice, row);
+							}
+						}">中标价</th> 	
+				<th data-options="field:'drugForm.commonNameContents.heds',width:80,
+						formatter:function(val,row){
+							if(row.drugForm.commonNameContents==null){
+							 	return '';
+							}else{
+								return formatTooltip(row.drugForm.commonNameContents.heds, row);
+							}
+						}">基药</th> 
+				<th data-options="field:'drugForm.commonNameContents.cheapShortage',width:80,
+						formatter:function(val,row){
+							if(row.drugForm.commonNameContents==null){
+							 	return '';
+							}else{
+								return formatTooltip(row.drugForm.commonNameContents.cheapShortage, row);
+							}
+						}">廉价短缺</th> 
+				<th data-options="field:'drugForm.commonNameContents.gynaecology',width:50,
+						formatter:function(val,row){
+							if(row.drugForm.commonNameContents==null){
+							 	return '';
+							}else{
+								return formatTooltip(row.drugForm.commonNameContents.gynaecology, row);
+							}
+						}">妇科</th> 
+				<th data-options="field:'drugForm.commonNameContents.pediatric',width:50,
+						formatter:function(val,row){
+							if(row.drugForm.commonNameContents==null){
+							 	return '';
+							}else{
+								return formatTooltip(row.drugForm.commonNameContents.pediatric, row);
+							}
+						}">儿科</th> 
+				<th data-options="field:'drugForm.commonNameContents.firstAid',width:50,
+						formatter:function(val,row){
+							if(row.drugForm.commonNameContents==null){
+							 	return '';
+							}else{
+								return formatTooltip(row.drugForm.commonNameContents.firstAid, row);
+							}
+						}">急救</th> 	
+				<th data-options="field:'drugForm.commonNameContents.medicalDirNo',width:80,
+						formatter:function(val,row){
+							if(row.drugForm.commonNameContents==null){
+							 	return '';
+							}else{
+								return formatTooltip(row.drugForm.commonNameContents.medicalDirNo, row);
+							}
+						}">医保目录编号</th> 	
+				<th data-options="field:'drugForm.commonNameContents.medicalCategory',width:80,
+						formatter:function(val,row){
+							if(row.drugForm.commonNameContents==null){
+							 	return '';
+							}else{
+								return formatTooltip(row.drugForm.commonNameContents.medicalCategory, row);
+							}
+						}">医保类别</th> 	
+				<th data-options="field:'drugForm.commonNameContents.consistencyEvaluation',width:80,
+						formatter:function(val,row){
+							if(row.drugForm.commonNameContents==null){
+							 	return '';
+							}else{
+								return formatTooltip(row.drugForm.commonNameContents.consistencyEvaluation, row);
+							}
+						}">一致性评价</th> 	
+				<th data-options="field:'drugForm.commonNameContents.negotiationVariety',width:80,
+						formatter:function(val,row){
+							if(row.drugForm.commonNameContents==null){
+							 	return '';
+							}else{
+								return formatTooltip(row.drugForm.commonNameContents.negotiationVariety, row);
+							}
+						}">谈判品种</th> 																																																																							  						    
+				<th data-options="field:'drugForm.commonNameContents.administrationName',width:80,
 						formatter:function(val,row){
 							if(row.drugForm.commonNameContents==null){
 							 	return '';
@@ -40,7 +150,15 @@
 							}else{
 								return formatTooltip(row.drugForm.commonNameContents.pill, row);
 							}
-						}">剂型</th> 											                  			    
+						}">剂型</th> 	
+				<th data-options="field:'drugForm.commonNameContents.specifications',width:150,
+						formatter:function(val,row){
+							if(row.drugForm.commonNameContents==null){
+							 	return '';
+							}else{
+								return formatTooltip(row.drugForm.commonNameContents.specifications, row);
+							}
+						}">规格</th> 																	                  			    
 				<th data-options="field:'drugForm.indicationsEffect',width:200,
 						formatter:function(val,row){
 							if(row.drugForm==null){
@@ -82,6 +200,7 @@
 							}
 						}">化药小类</th> 						 
 			</tr>
+			</thead> 
 		</thead>
 	</table>
 	<div id="tb" style="padding:5px;height:auto;">

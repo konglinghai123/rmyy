@@ -14,7 +14,7 @@
 			  	<table class="formtable">
 		        	<tr>
 						<td width="30%"><form:label path="ruleName">规则字段名：</form:label></td>
-						<td width="70%"><form:input path="ruleName" cssClass="validate[required]"/></td>
+						<td width="70%"><form:input path="ruleName"  style="width:300px;" cssClass="validate[required]" /></td>
 					</tr>
 		        	<tr>
 						<td width="30%"><form:label path="ruleCnName">规则字段中文名：</form:label></td>
