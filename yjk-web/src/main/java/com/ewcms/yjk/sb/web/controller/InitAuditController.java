@@ -18,6 +18,7 @@ import com.ewcms.common.Constants;
 import com.ewcms.common.entity.search.SearchParameter;
 import com.ewcms.common.utils.EmptyUtil;
 import com.ewcms.common.web.controller.BaseCRUDController;
+import com.ewcms.yjk.re.service.ReviewMainService;
 import com.ewcms.yjk.sb.entity.AuditStatusEnum;
 import com.ewcms.yjk.sb.entity.DrugForm;
 import com.ewcms.yjk.sb.service.DrugFormService;
@@ -35,6 +36,8 @@ public class InitAuditController extends BaseCRUDController<DrugForm, Long> {
 	private CommonNameRuleService commonNameRuleService;
 	@Autowired
 	private SystemParameterService systemParameterService;
+	@Autowired
+	private ReviewMainService reviewMainService;
 	
 	private DrugFormService getDrugFormService() {
 		return (DrugFormService) baseService;
@@ -49,7 +52,7 @@ public class InitAuditController extends BaseCRUDController<DrugForm, Long> {
 	protected void setCommonData(Model model) {
 		super.setCommonData(model);
 		model.addAttribute("stateList",AuditStatusEnum.values());
-		//model.addAttribute("userList",userService.findAll());
+		model.addAttribute("isOpenReview", reviewMainService.isOpenReview());
 		model.addAttribute("systemParameterList", systemParameterService.findAll());
 		model.addAttribute("commonNameRuleList",commonNameRuleService.findByDeletedFalseAndEnabledTrueOrderByWeightAsc());
 	}

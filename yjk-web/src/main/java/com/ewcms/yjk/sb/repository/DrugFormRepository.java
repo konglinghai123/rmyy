@@ -17,10 +17,10 @@ public interface DrugFormRepository extends BaseRepository<DrugForm, Long> {
 	@Query("select count(*) from DrugForm c where c.userId=?1 and c.systemParameterId=?2 and c.auditStatus !='nodeclare'")
 	Long findDeclareTotalByUserId(Long userId,Long systemParameterId);
 	
-	List<DrugForm> findByUserIdAndDeclaredFalseAndSystemParameterId(Long userId, Long systemParameterId);
+	List<DrugForm> findByUserIdAndDeclaredFalseAndSystemParameterIdAndReviewedFalse(Long userId, Long systemParameterId);
 	
 	List<DrugForm> findByUserIdAndAuditStatusAndSystemParameterId(Long userId,AuditStatusEnum auditStatus, Long systemParameterId);
-	List<DrugForm> findByAuditStatusAndSystemParameterIdAndDeclareCategoryAndReviewedFalse(AuditStatusEnum auditStatus, Long systemParameterId, String declareCategory);	
+	List<DrugForm> findByAuditStatusAndSystemParameterIdAndDeclareCategoryAndReviewedFalseOrderByIdAsc(AuditStatusEnum auditStatus, Long systemParameterId, String declareCategory);	
 	Long countByUserIdInAndAuditStatusAndSystemParameterId(Set<Long> userIds, AuditStatusEnum auditStatus, Long systemParameterId);
 	
 }

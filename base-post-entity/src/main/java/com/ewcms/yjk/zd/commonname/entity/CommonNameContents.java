@@ -542,7 +542,7 @@ public class CommonNameContents extends BaseSequenceEntity<Long> implements Logi
 	}
 	
 	public String getExtractCommonName() {
-		return common == null||common.getDrugCategory()==null ? "" : common.getCommonName();
+		return common == null? "" : common.getCommonName();
 	}	
 	
 	

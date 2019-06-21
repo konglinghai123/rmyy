@@ -85,6 +85,7 @@ public class DrugFormController extends BaseCRUDController<DrugForm, Long> {
 		searchParameter.getSorts().put("auditStatus", Direction.ASC);
 		searchParameter.getSorts().put("id", Direction.DESC);
 		searchParameter.getParameters().put("EQ_userId", user.getId());
+		//searchParameter.getParameters().put("EQ_reviewed", Boolean.FALSE);
 		SystemParameter systemParameter = systemParameterService.findByEnabledTrue();
 		if(EmptyUtil.isNotNull(systemParameter)){
 			searchParameter.getParameters().put("GTE_systemParameterId", systemParameter.getId());
@@ -138,7 +139,7 @@ public class DrugFormController extends BaseCRUDController<DrugForm, Long> {
 		AjaxResponse ajaxResponse = new AjaxResponse("删除成功");
 		try {
 			DrugForm vo = getDrugFormService().findOne(drugFormId);
-			if(user.getId().equals(vo.getUserId()) && !vo.getDeclared()){
+			if(user.getId().equals(vo.getUserId()) && !vo.getDeclared() && !vo.getReviewed()){
 				getDrugFormService().delete(drugFormId);
 			}
 			

@@ -1,5 +1,7 @@
 package com.ewcms.yjk.re.service;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +11,7 @@ import com.ewcms.common.service.BaseService;
 import com.ewcms.yjk.re.entity.ReviewMain;
 import com.ewcms.yjk.re.entity.ReviewProcess;
 import com.ewcms.yjk.re.entity.VoteRecord;
+import com.ewcms.yjk.re.entity.VoteTypeEnum;
 import com.ewcms.yjk.re.repository.VoteRecordRepository;
 import com.ewcms.yjk.sb.entity.AuditStatusEnum;
 import com.ewcms.yjk.sb.entity.DrugForm;
@@ -35,8 +38,8 @@ public class VoteRecordService extends BaseService<VoteRecord, Long> {
 		if(reviewMainEnable == null)return "评审还未启动！";
 		ReviewProcess reviewProcess = reviewProcessService.findByReviewBaseRuleRuleNameAndReviewMainId("addCommonName", reviewMainEnable.getId());
 		if(reviewProcess == null)return "新增通用名评审流程未找到！";
-		if(getVoteRecordRepository().countByUserIdAndReviewProcessId(userId, reviewProcess.getId()).intValue()  == 0){
-			List<DrugForm> validDrugFormList = drugFormService.findByAuditStatusAndSystemParameterIdAndDeclareCategoryAndReviewedFalse(AuditStatusEnum.passed, reviewMainEnable.getSystemParameter().getId(), "新增通用名");
+		if(getVoteRecordRepository().countByUserIdAndReviewProcessId(userId, reviewProcess.getId()).intValue()  == 0){//初次进入投票，初始化需要投票的申报新曾通用名的药品
+			List<DrugForm> validDrugFormList = drugFormService.findByAuditStatusAndSystemParameterIdAndDeclareCategoryAndReviewedFalseOrderByIdAsc(AuditStatusEnum.passed, reviewMainEnable.getSystemParameter().getId(), "新增通用名");
 			for(DrugForm drugForm:validDrugFormList){
 				VoteRecord vo = new VoteRecord();
 				vo.setSubmitted(Boolean.FALSE);
@@ -50,4 +53,39 @@ public class VoteRecordService extends BaseService<VoteRecord, Long> {
 		return reviewProcess.getId().toString();
 	}
 	
+	/**
+	 * 保存专家新增通用名投票
+	 * 
+	 */
+	public void saveVote(Long userId,List<String> selections){
+		for(String voteReult:selections){
+			String[] voteResultArr = voteReult.split("@");
+			if(voteResultArr.length == 2){
+				VoteRecord vo = getVoteRecordRepository().findOne(Long.parseLong(voteResultArr[0]));
+				if(vo != null && vo.getUserId().equals(userId)){
+					vo.setVoteTypeEnum(VoteTypeEnum.valueOf(voteResultArr[1]));
+					super.save(vo);
+				}
+			}
+		}
+	}
+	
+	/**
+	 * 提交专家新增通用名投票
+	 * 
+	 */
+	public void submitVote(Long userId,List<String> selections){
+		for(String voteReult:selections){
+			String[] voteResultArr = voteReult.split("@");
+			if(voteResultArr.length == 2){
+				VoteRecord vo = getVoteRecordRepository().findOne(Long.parseLong(voteResultArr[0]));
+				if(vo != null && vo.getUserId().equals(userId)&&!vo.getSubmitted()){
+					vo.setVoteTypeEnum(VoteTypeEnum.valueOf(voteResultArr[1]));
+					vo.setSubmitted(Boolean.TRUE);
+					vo.setSubmittDate(new Date(Calendar.getInstance().getTime().getTime()));
+					super.save(vo);
+				}
+			}
+		}
+	}
 }

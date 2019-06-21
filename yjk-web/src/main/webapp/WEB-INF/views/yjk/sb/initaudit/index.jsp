@@ -54,8 +54,10 @@
 			</table>
 			<div id="tb" style="padding:5px;height:auto;">
 		        <div class="toolbar" style="margin-bottom:2px">
+		        	<c:if test="${!isOpenReview}">
 		        	<a id="tb-audit" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-edit'" onclick="initAudit();">新药初审</a>
 		        	<a id="tb-export" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-export',toggle:true" onclick="$.ewcms.openWindow({windowId:'#edit-window',width:500,height:350,title:'导出新药申报',src:'${ctx}/system/report/show/text/7/paraset'});">新药申报统计</a>
+		        	</c:if>
 				</div>
 		        <div>
 		        	<form id="queryform" style="padding:0;margin:0;" >

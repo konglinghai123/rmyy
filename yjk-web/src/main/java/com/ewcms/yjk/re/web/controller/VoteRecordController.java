@@ -4,17 +4,15 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
 import com.ewcms.common.entity.search.SearchParameter;
 import com.ewcms.common.web.controller.BaseCRUDController;
 import com.ewcms.common.web.validate.AjaxResponse;
@@ -30,9 +28,8 @@ import com.ewcms.yjk.sb.service.DrugFormService;
 @RequestMapping(value = "/yjk/re/voterecord")
 public class VoteRecordController extends BaseCRUDController<VoteRecord, Long> {
 	@Autowired
-	private ReviewMainService reviewMainService;
-	@Autowired
 	private DrugFormService drugFormService;
+
 	
 	private VoteRecordService getVoteRecordService() {
 		return (VoteRecordService) baseService;
@@ -75,6 +72,8 @@ public class VoteRecordController extends BaseCRUDController<VoteRecord, Long> {
 	public Map<String, Object> query(@CurrentUser User user,SearchParameter<Long> searchParameter,	Model model,@PathVariable(value = "reviewProcessId") Long reviewProcessId) {
 		searchParameter.getParameters().put("EQ_userId", user.getId());
 		searchParameter.getParameters().put("EQ_reviewProcessId",reviewProcessId);
+		searchParameter.getParameters().put("EQ_submitted",Boolean.FALSE);
+		searchParameter.getSorts().put("id", Direction.ASC);
 		return super.query(searchParameter, model);
 	}
 	/**
@@ -97,16 +96,27 @@ public class VoteRecordController extends BaseCRUDController<VoteRecord, Long> {
 	public AjaxResponse saveVote(@CurrentUser User user, @RequestParam(required = false) List<String> selections) {
 		AjaxResponse ajaxResponse = new AjaxResponse("保存成功！");
 		try {
-				//JSONObject jo=new JSONObject();
-				
-				//如果页面传的是json字符串，用下列方式解析
-//				Map<String, Object> m=(Map<String, Object> )jo.parse(param); //string转map
-//				System.out.println(m);//		
-//				JSONObject parseObject = jo.parseObject(param); //string转json
-//				System.out.println(parseObject);
+			getVoteRecordService().saveVote(user.getId(), selections);
 		} catch (Exception e) {
 			ajaxResponse.setSuccess(Boolean.FALSE);
 			ajaxResponse.setMessage("保存失败！");
+		}
+		return ajaxResponse;
+	}
+	
+	/**
+	 * 提交专家投票结果
+	 * 
+	 */
+	@RequestMapping(value = "submitvote", method = RequestMethod.POST)
+	@ResponseBody
+	public AjaxResponse submitVote(@CurrentUser User user, @RequestParam(required = false) List<String> selections) {
+		AjaxResponse ajaxResponse = new AjaxResponse("提交成功！");
+		try {
+			getVoteRecordService().submitVote(user.getId(), selections);
+		} catch (Exception e) {
+			ajaxResponse.setSuccess(Boolean.FALSE);
+			ajaxResponse.setMessage("提交失败！");
 		}
 		return ajaxResponse;
 	}

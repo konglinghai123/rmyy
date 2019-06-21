@@ -74,9 +74,14 @@ public class DrugFormService extends BaseService<DrugForm, Long> {
 		return (DrugFormRepository) baseRepository;
 	}
 	
-	public List<DrugForm> findByAuditStatusAndSystemParameterIdAndDeclareCategoryAndReviewedFalse(AuditStatusEnum auditStatus, Long systemParameterId, String declareCategory){
-		return getDrugFormRepository().findByAuditStatusAndSystemParameterIdAndDeclareCategoryAndReviewedFalse(auditStatus, systemParameterId, declareCategory);
+	/**
+	 * 查询某次申报可进行评审的申报药品
+	 * 
+	 */
+	public List<DrugForm> findByAuditStatusAndSystemParameterIdAndDeclareCategoryAndReviewedFalseOrderByIdAsc(AuditStatusEnum auditStatus, Long systemParameterId, String declareCategory){
+		return getDrugFormRepository().findByAuditStatusAndSystemParameterIdAndDeclareCategoryAndReviewedFalseOrderByIdAsc(auditStatus, systemParameterId, declareCategory);
 	}
+	
 	/**
 	 * 新药填写，满足一品两规和特殊药品规则的才能填写入库
 	 * 
@@ -124,7 +129,7 @@ public class DrugFormService extends BaseService<DrugForm, Long> {
 						String isDeclareLimt = resulstMap.get("isDeclareLimt");
 						if (isDeclareLimt.equals("false")){
 							if(!isDeclareTotalUpperLimt(drugForm.getUserId())){
-								if(!isRepeatDeclare(drugForm.getCommonNameContents().getId())){
+								if(!isRepeatDeclare(drugForm.getCommonNameContents().getId())&&!drugForm.getDeclared()&&!drugForm.getReviewed()){
 									drugForm.setDeclared(Boolean.TRUE);
 									drugForm.setAuditStatus(AuditStatusEnum.init);
 									drugForm.setDeclareDate(new Date(Calendar.getInstance().getTime().getTime()));
@@ -172,7 +177,7 @@ public class DrugFormService extends BaseService<DrugForm, Long> {
 	public List<DrugForm> findByUserIdAndDeclaredFalse(Long userId) {
 		SystemParameter systemParameter = systemParameterService.findByEnabledTrue();
 		if (EmptyUtil.isNotNull(systemParameter)) {
-			return getDrugFormRepository().findByUserIdAndDeclaredFalseAndSystemParameterId(userId, systemParameter.getId());
+			return getDrugFormRepository().findByUserIdAndDeclaredFalseAndSystemParameterIdAndReviewedFalse(userId, systemParameter.getId());
 		}
 		return Lists.newArrayList();
 	}
@@ -195,18 +200,20 @@ public class DrugFormService extends BaseService<DrugForm, Long> {
 	public void initAudit(List<Long> selections,Boolean isAuditPassed,String remark){
 		for(Long drugFormId:selections){
 			DrugForm drugForm = findOne(drugFormId);
-			if(isAuditPassed){
-				drugForm.setAuditStatus(AuditStatusEnum.passed);
-				drugForm.setAuditDate(new Date(Calendar.getInstance().getTime().getTime()));
-			}else{
-				drugForm.setAuditStatus(AuditStatusEnum.un_passed);
-				drugForm.setAuditDate(new Date(Calendar.getInstance().getTime().getTime()));
-
+			if(drugForm.getDeclared()&&!drugForm.getReviewed()&&!reviewMainService.isOpenReview()){
+				if(isAuditPassed){
+					drugForm.setAuditStatus(AuditStatusEnum.passed);
+					drugForm.setAuditDate(new Date(Calendar.getInstance().getTime().getTime()));
+				}else{
+					drugForm.setAuditStatus(AuditStatusEnum.un_passed);
+					drugForm.setAuditDate(new Date(Calendar.getInstance().getTime().getTime()));
+				}
+				drugForm.setRemark(remark);
+				super.save(drugForm);
 			}
-			drugForm.setRemark(remark);
-			super.save(drugForm);
 		}
 	}
+	
 	private Boolean isRepeatDeclare(Long commonNameContentsId){
 		Boolean isRepeatDeclare = Boolean.FALSE;
 		SystemParameter systemParameter = systemParameterService.findByEnabledTrue();
