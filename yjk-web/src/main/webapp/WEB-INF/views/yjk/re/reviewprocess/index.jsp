@@ -19,7 +19,7 @@
 						}" rowspan="2">是否完成</th>
 				<th colspan="2">拟新增通用名</th>
 				<th colspan="2">拟新增剂型/规格</th>
-				<th data-options="field:'displayColumnRuleCnNames',width:300" rowspan="2">显示字段集合</th>
+				<th data-options="field:'displayColumnRuleCnNames',width:300,formatter:formatTooltip" rowspan="2">显示字段集合</th>
 			</tr>
 			<tr>
 				<th data-options="field:'generalNameChinese',width:100">中成药</th>
@@ -56,7 +56,7 @@
 			url:'${ctx}/yjk/re/reviewprocess/${reviewMainId}/query',
 			toolbar:'#tb',
 			fit:true,
-			nowrap:true,
+			nowrap:false,
 			rownumbers:true,
 			pagination:true,
 			striped:true,
@@ -117,4 +117,8 @@
 			});
 		});
 	});
+	
+	function formatTooltip(val, row){
+		return val != null ? '<span title="' + val + '" class="easyui-tooltip">' + val + '</span>' : '';
+	}
 </script>

@@ -38,6 +38,12 @@
 						<td><form:label path="formulaWestern">拟新增剂型/规格西药：</form:label></td>
 						<td><form:input path="formulaWestern" cssClass="validate[required, integer]"/></td>
 					</tr>
+					<c:if test="${not empty m.id}">
+					<tr>
+						<td><form:label path="displayColumns">所要显示字段：</form:label></td>
+						<td><form:input path="displayColumns" cssClass="easyui-combobox" data-options="url:'${ctx}/yjk/re/zd/displaycolumn/canUse',valueField:'id',textField:'ruleCnName',editable:false,multiple:true,multiline:true,panelHeight:140,height:100" cssStyle="width:100%;"/></td>
+					</tr>
+					</c:if>
 				</table>
 			</form:form>
 		</div>
@@ -67,15 +73,14 @@
 	        	<ewcms:showFieldError commandName="m"/>
 	    	</c:otherwise>
 	    </c:choose>
-	    //$('#reviewBaseRule').combobox({
-	    //	panelHeight:'auto',
-	    //	editable:false
-	    //});
+	    $('#displayColumns').combobox('setValues', ${m.displayColumnsIds});
 	});
 	
 	$.ewcms.refresh({operate : '${operate}', data : '${lastM}'});
 	
 	function resetForm(){
+		$('#editForm').form('reset');
+		$('#displayColumns').combobox('setValues', ${m.displayColumnsIds});
 	}
 
 </script>

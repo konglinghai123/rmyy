@@ -1,6 +1,7 @@
 package com.ewcms.yjk.re.entity;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -23,6 +24,7 @@ import com.ewcms.common.utils.Collections3;
 import com.ewcms.common.utils.EmptyUtil;
 import com.ewcms.yjk.re.zd.entity.DisplayColumn;
 import com.ewcms.yjk.re.zd.entity.ReviewBaseRule;
+import com.google.common.collect.Sets;
 
 /**
  * 评审流程
@@ -58,7 +60,7 @@ public class ReviewProcess extends BaseSequenceEntity<Long> implements Movable{
 			@JoinColumn(name = "process_id", referencedColumnName = "id") }, inverseJoinColumns = {
 					@JoinColumn(name = "column_id", referencedColumnName = "id") }, uniqueConstraints = {@UniqueConstraint(columnNames = {
 							"process_id", "column_id" })})
-	private List<DisplayColumn> displayColumns;	
+	private List<DisplayColumn> displayColumns;
 	@Column(name = "is_finished")
 	private Boolean finished = Boolean.FALSE;
 	@Column(name = "general_name_chinese")
@@ -95,6 +97,12 @@ public class ReviewProcess extends BaseSequenceEntity<Long> implements Movable{
 		return (EmptyUtil.isCollectionNotEmpty(displayColumns))
 				? Collections3.convertToString(Collections3.extractToList(displayColumns, "ruleCnName"), "，")
 				: "";
+	}
+	
+	@SuppressWarnings("unchecked")
+	public Set<Long> getDisplayColumnsIds() {
+		return (EmptyUtil.isCollectionNotEmpty(displayColumns)) ? Collections3.extractToSet(displayColumns, "id")
+				: Sets.newHashSet();
 	}
 	
 	public void setDisplayColumns(List<DisplayColumn> displayColumns) {

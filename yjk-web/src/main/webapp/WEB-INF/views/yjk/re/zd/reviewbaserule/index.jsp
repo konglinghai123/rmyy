@@ -42,7 +42,7 @@
 			url:'${ctx}/yjk/re/zd/reviewbaserule/query',
 			toolbar:'#tb',
 			fit:true,
-			nowrap:true,
+			nowrap:false,
 			pagination:true,
 			rownumbers:true,
 			striped:true,

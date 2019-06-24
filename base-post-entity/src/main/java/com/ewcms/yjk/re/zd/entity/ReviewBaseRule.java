@@ -73,8 +73,8 @@ public class ReviewBaseRule extends BaseSequenceEntity<Long> {
 	}
 	public String getDisplayColumnsNames() {
 		return (EmptyUtil.isCollectionNotEmpty(displayColumns))
-				? Collections3.convertToString(Collections3.extractToList(displayColumns, "ruleCnName"), "/")
-				: "/";
+				? Collections3.convertToString(Collections3.extractToList(displayColumns, "ruleCnName"), "，")
+				: "";
 	}
 	@SuppressWarnings("unchecked")
 	public Set<Long> getDisplayColumnsIds() {

@@ -2,6 +2,7 @@ package com.ewcms.yjk.re.service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
@@ -20,10 +21,14 @@ import com.ewcms.security.user.service.UserOrganizationJobService;
 import com.ewcms.security.user.service.UserService;
 import com.ewcms.yjk.re.entity.ReviewExpert;
 import com.ewcms.yjk.re.entity.ReviewMain;
+import com.ewcms.yjk.re.entity.ReviewProcess;
+import com.ewcms.yjk.re.model.UserVote;
 import com.ewcms.yjk.re.repository.ReviewMainRepository;
+import com.ewcms.yjk.sb.entity.DrugForm;
 import com.ewcms.yjk.sp.entity.SystemParameter;
 import com.ewcms.yjk.sp.service.SystemParameterService;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
 @Service
@@ -50,6 +55,8 @@ public class ReviewMainService extends BaseService<ReviewMain, Long> {
 	private AutomaticAuthService automaticAuthService;
 	@Autowired
 	private SystemParameterService systemParameterService;
+	@Autowired
+	private VoteRecordService voteRecordService;
 
 	@Override
 	public ReviewMain update(ReviewMain reviewMain) {
@@ -308,4 +315,24 @@ public class ReviewMainService extends BaseService<ReviewMain, Long> {
 			return false;
 		}
 	}
+	
+//	public Map<DrugForm, List<String>> findUserVote(Long voteUserId){
+//		ReviewMain reviewMain = findByEnabledTrue();
+//		if (reviewMain == null) return Maps.newHashMap();
+//		
+//		List<ReviewProcess> reviewProcesses = reviewMain.getReviewProcesses();
+//		if (EmptyUtil.isCollectionEmpty(reviewProcesses)) return Maps.newHashMap();
+//		Map<String, String> processMap = Maps.newHashMap();
+//		
+//		List<DrugForm> drugForms = 
+//		
+//		for (ReviewProcess reviewProcess : reviewProcesses) {
+//			processMap.put("vote" + i, )
+//			i++;
+//		}
+//		
+//		Map<DrugForm, List<String>> maps = Maps.newHashMap();
+//		
+//		
+//	}
 }

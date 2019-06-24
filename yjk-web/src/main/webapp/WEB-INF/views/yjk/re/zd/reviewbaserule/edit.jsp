@@ -13,16 +13,16 @@
 				</c:forEach>
 			  	<table class="formtable">
 		        	<tr>
-						<td width="15%"><form:label path="ruleName">规则字段名：</form:label></td>
-						<td width="85%"><form:input path="ruleName" cssClass="validate[required,ajax[ajaxNameCall]]"/></td>
+						<td width="20%"><form:label path="ruleName">规则字段名：</form:label></td>
+						<td width="80%"><form:input path="ruleName" cssClass="validate[required,ajax[ajaxNameCall]]"/></td>
 					</tr>
 		        	<tr>
-						<td width="15%"><form:label path="ruleCnName">规则字段中文名：</form:label></td>
-						<td width="85%"><form:input path="ruleCnName" cssClass="validate[required,ajax[ajaxNameCall]]"/></td>
+						<td><form:label path="ruleCnName">规则字段中文名：</form:label></td>
+						<td><form:input path="ruleCnName" cssClass="validate[required,ajax[ajaxNameCall]]"/></td>
 					</tr>	
 					<tr>
-						<td width="15%"><form:label path="displayColumns">所要显示字段：</form:label></td>
-						<td width="85%"><form:input path="displayColumns" cssClass="easyui-combobox" data-options="url:'${ctx}/yjk/re/zd/displaycolumn/canUse',valueField:'id',textField:'ruleCnName',editable:false,multiple:true,width:500"/></td>
+						<td><form:label path="displayColumns">所要显示字段：</form:label></td>
+						<td><form:input path="displayColumns" cssClass="easyui-combobox" data-options="url:'${ctx}/yjk/re/zd/displaycolumn/canUse',valueField:'id',textField:'ruleCnName',editable:false,multiple:true,multiline:true,panelHeight:140,height:100" cssStyle="width:100%;"/></td>
 					</tr>								
 				</table>
 			</form:form>

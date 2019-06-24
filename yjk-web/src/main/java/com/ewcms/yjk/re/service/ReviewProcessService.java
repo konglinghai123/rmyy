@@ -6,11 +6,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ewcms.common.plugin.service.BaseSequenceMovableService;
+import com.ewcms.common.utils.EmptyUtil;
 import com.ewcms.yjk.re.entity.ReviewMain;
 import com.ewcms.yjk.re.entity.ReviewProcess;
 import com.ewcms.yjk.re.entity.ReviewProcessRecord;
 import com.ewcms.yjk.re.repository.ReviewProcessRepository;
+import com.ewcms.yjk.re.zd.entity.DisplayColumn;
 import com.ewcms.yjk.re.zd.entity.ReviewBaseRule;
+import com.ewcms.yjk.re.zd.service.ReviewBaseRuleService;
+import com.google.common.collect.Lists;
 
 @Service
 public class ReviewProcessService extends BaseSequenceMovableService<ReviewProcess, Long>{
@@ -21,6 +25,8 @@ public class ReviewProcessService extends BaseSequenceMovableService<ReviewProce
 	
 	@Autowired
 	private ReviewProcessRecordService reviewProcessRecordService;
+	@Autowired
+	private ReviewBaseRuleService reviewBaseRuleService;
 	
 	private ReviewProcessRepository getReviewProcessRepository() {
 		return (ReviewProcessRepository) baseRepository;
@@ -49,6 +55,16 @@ public class ReviewProcessService extends BaseSequenceMovableService<ReviewProce
 		
 		ReviewProcess newReviewProcess = null;
 		if (dbReviewProcess == null) {
+			ReviewBaseRule dbReviewBaseRule = reviewBaseRuleService.findOne(m.getReviewBaseRule().getId());
+			
+			if (EmptyUtil.isCollectionNotEmpty(dbReviewBaseRule.getDisplayColumns())) {
+				List<DisplayColumn> displayColumns = Lists.newArrayList();
+				for (DisplayColumn displayColumn : dbReviewBaseRule.getDisplayColumns()) {
+					displayColumns.add(displayColumn);
+				}
+				m.setDisplayColumns(displayColumns);
+			}
+			
 			newReviewProcess = super.save(m);
 			
 			ReviewProcessRecord reviewProcessRecord = new ReviewProcessRecord(newReviewProcess.getId(), opUserId, "新增 评审流程");
