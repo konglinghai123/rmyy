@@ -1,5 +1,7 @@
 package com.ewcms.yjk.re.repository;
 
+import java.util.List;
+
 import com.ewcms.common.repository.BaseRepository;
 import com.ewcms.yjk.re.entity.ReviewMain;
 import com.ewcms.yjk.re.entity.ReviewProcess;
@@ -12,4 +14,8 @@ public interface ReviewProcessRepository extends BaseRepository<ReviewProcess, L
 	ReviewProcess findByReviewMainIdAndReviewBaseRuleId(Long reviewMainId, Long reviewBaseRuleId);
 	
 	ReviewProcess findByReviewBaseRuleRuleNameAndReviewMainId(String ruleName, Long reviewMainId);
+	
+	List<ReviewProcess> findByReviewMainIdAndFinishedFalseOrderByWeightAsc(Long reviewMainId);
+	
+	
 }

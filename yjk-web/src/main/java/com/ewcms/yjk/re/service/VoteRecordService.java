@@ -63,7 +63,14 @@ public class VoteRecordService extends BaseService<VoteRecord, Long> {
 		}
 		return maps;
 	}
-
+	
+	public Boolean expertSubmitCurrentReview(Long userId, Long reviewProcessId){
+		if(getVoteRecordRepository().countByUserIdAndReviewProcessIdAndSubmittedTrue(userId, reviewProcessId) == 0){
+			return Boolean.FALSE;
+		}else{
+			return Boolean.TRUE;
+		}
+	}
 	
 	/**
 	 * 启动专家新增通用名投票

@@ -18,6 +18,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import com.ewcms.common.entity.BaseSequenceEntity;
 import com.ewcms.yjk.sb.entity.DrugForm;
+import com.ewcms.yjk.zd.commonname.entity.CommonNameContents;
 
 /**
  * 评审专家投票结果记录
@@ -25,6 +26,7 @@ import com.ewcms.yjk.sb.entity.DrugForm;
  * <li>userId:评审专家Id</li>
  * <li>reviewMainId:评审Id</li>
  *  <li>drugForm:药品申报对象</li>
+ *  <li>commonNameContents:大总目录对象</li>
  *  <li>voteTypeEnum:投票种类</li>
  *  <li>submittDate:投票时间</li>
  *  <li>submitted:提交标志</li>
@@ -48,6 +50,10 @@ public class VoteRecord extends BaseSequenceEntity<Long> {
 	@ManyToOne()
     @Fetch(FetchMode.SELECT)
 	private DrugForm drugForm;
+	
+	@ManyToOne()
+    @Fetch(FetchMode.SELECT)	
+	private CommonNameContents commonNameContents;
 	
 	@Enumerated(EnumType.STRING)
 	private VoteTypeEnum voteTypeEnum = VoteTypeEnum.abstain;
@@ -123,4 +129,11 @@ public class VoteRecord extends BaseSequenceEntity<Long> {
 		this.reviewProcessId = reviewProcessId;
 	}
 
+	public CommonNameContents getCommonNameContents() {
+		return commonNameContents;
+	}
+
+	public void setCommonNameContents(CommonNameContents commonNameContents) {
+		this.commonNameContents = commonNameContents;
+	}
 }
