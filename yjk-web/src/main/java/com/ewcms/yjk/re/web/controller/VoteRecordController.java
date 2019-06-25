@@ -18,9 +18,11 @@ import com.ewcms.common.web.controller.BaseCRUDController;
 import com.ewcms.common.web.validate.AjaxResponse;
 import com.ewcms.security.user.entity.User;
 import com.ewcms.security.user.web.bind.annotation.CurrentUser;
+import com.ewcms.yjk.re.entity.ReviewMain;
+import com.ewcms.yjk.re.entity.ReviewProcess;
 import com.ewcms.yjk.re.entity.VoteRecord;
-import com.ewcms.yjk.re.entity.VoteTypeEnum;
 import com.ewcms.yjk.re.service.ReviewMainService;
+import com.ewcms.yjk.re.service.ReviewProcessService;
 import com.ewcms.yjk.re.service.VoteRecordService;
 import com.ewcms.yjk.sb.service.DrugFormService;
 
@@ -29,7 +31,10 @@ import com.ewcms.yjk.sb.service.DrugFormService;
 public class VoteRecordController extends BaseCRUDController<VoteRecord, Long> {
 	@Autowired
 	private DrugFormService drugFormService;
-
+	@Autowired
+	private ReviewMainService reviewMainService;
+	@Autowired
+	private ReviewProcessService reviewProcessService;
 	
 	private VoteRecordService getVoteRecordService() {
 		return (VoteRecordService) baseService;
@@ -42,6 +47,12 @@ public class VoteRecordController extends BaseCRUDController<VoteRecord, Long> {
 	
 	@Override
 	protected void setCommonData(Model model) {
+		model.addAttribute("isOpenReview", reviewMainService.isOpenReview());
+		if(reviewMainService.isOpenReview()){
+			ReviewMain reviewMain =  reviewMainService.findByEnabledTrue();
+			model.addAttribute("reviewProcessesList", reviewMain.getReviewProcesses());
+			model.addAttribute("currentReviewProcess", reviewProcessService.findCurrentReviewProcess(reviewMain.getId()));
+		}
 		super.setCommonData(model);
 	}
 	
@@ -58,7 +69,17 @@ public class VoteRecordController extends BaseCRUDController<VoteRecord, Long> {
 	 */
 	@RequestMapping(value = "index")
 	public String index(@CurrentUser User user,Model model) {
-		model.addAttribute("reviewProcessId", getVoteRecordService().ExpertStartVoteAddCommonName(user.getId()));
+		ReviewMain reviewMain =  reviewMainService.findByEnabledTrue();
+		if(reviewMain != null){
+			ReviewProcess reviewProcess = reviewProcessService.findCurrentReviewProcess(reviewMain.getId());
+			Boolean isExpertSubmitCurrentReview = getVoteRecordService().expertSubmitCurrentReview(user.getId(), reviewProcess.getId());
+			model.addAttribute("isExpertSubmitCurrentReview", isExpertSubmitCurrentReview);
+			if(!isExpertSubmitCurrentReview){
+				if(reviewProcess.getReviewBaseRule().getRuleName().equals("addCommonName")){
+					model.addAttribute("reviewProcessId", getVoteRecordService().expertStartVoteAddCommonName(user.getId(),reviewProcess.getId()));
+				}
+			}
+		}
 		return super.index(model);
 	}
 
@@ -72,7 +93,6 @@ public class VoteRecordController extends BaseCRUDController<VoteRecord, Long> {
 	public Map<String, Object> query(@CurrentUser User user,SearchParameter<Long> searchParameter,	Model model,@PathVariable(value = "reviewProcessId") Long reviewProcessId) {
 		searchParameter.getParameters().put("EQ_userId", user.getId());
 		searchParameter.getParameters().put("EQ_reviewProcessId",reviewProcessId);
-		searchParameter.getParameters().put("EQ_submitted",Boolean.FALSE);
 		searchParameter.getSorts().put("id", Direction.ASC);
 		return super.query(searchParameter, model);
 	}
