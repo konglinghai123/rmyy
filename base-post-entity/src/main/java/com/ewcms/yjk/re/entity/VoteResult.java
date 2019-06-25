@@ -23,8 +23,9 @@ import com.ewcms.yjk.zd.commonname.entity.CommonNameContents;
  *  <li>passSum:通过的数量</li>
  *  <li>opposeSum:反对的数量</li>
  *  <li>abstainSum:弃权的数量
- *  <li>selected:初选入围</li>
- *  <li>affirmSelected:初选入围</li>
+ *  <li>selected:拟入围</li>
+ *  <li>affirmSelected:确认入围</li>
+ *  <li>adjusted:是否调整入围</li>
  * </ul>
  * 
  * @author zhoudongchu
@@ -54,6 +55,9 @@ public class VoteResult extends BaseSequenceEntity<Long> {
 	
 	@Column(name = "is_affirm_selected")
 	private Boolean affirmSelected = Boolean.FALSE;
+	
+	@Column(name = "is_adjusted")
+	private Boolean adjusted = Boolean.FALSE;	
 	
 	@Column(name = "pass_sum")
 	private Integer passSum;
@@ -127,4 +131,21 @@ public class VoteResult extends BaseSequenceEntity<Long> {
 	public void setAbstainSum(Integer abstainSum) {
 		this.abstainSum = abstainSum;
 	}
+
+	public Boolean getAffirmSelected() {
+		return affirmSelected;
+	}
+
+	public void setAffirmSelected(Boolean affirmSelected) {
+		this.affirmSelected = affirmSelected;
+	}
+
+	public Boolean getAdjusted() {
+		return adjusted;
+	}
+
+	public void setAdjusted(Boolean adjusted) {
+		this.adjusted = adjusted;
+	}
+	
 }
