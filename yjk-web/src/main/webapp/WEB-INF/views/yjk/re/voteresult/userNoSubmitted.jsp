@@ -47,15 +47,18 @@
 			striped:true,
 			border:false,
 			onLoadSuccess:function(row){
-				$('.processCls').linkbutton({plain:true,iconCls:'icon-operate'});
+				$('.giveupCls').linkbutton({plain:true,iconCls:'icon-give-up'});
 			}
 		});
 	});
 	
 	function formatOperation(val, row) {
 		var htmlOperation = '';
-		htmlOperation += '<a class="processCls" onclick="process(' + row.id + ')" href="javascript:void(0);" style="height:24px;" title="放弃投票"/> ';
+		htmlOperation += '<a class="giveupCls" onclick="giveUp(' + row.id + ')" href="javascript:void(0);" style="height:24px;" title="放弃投票"/> ';
 		return htmlOperation;
 	}
 
+	function giveup(id){
+		
+	}
 </script>

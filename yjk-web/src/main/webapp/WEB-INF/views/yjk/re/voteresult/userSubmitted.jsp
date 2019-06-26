@@ -68,15 +68,23 @@
 			border:false,
 			onLoadSuccess:function(row){
 				$('.printCls').linkbutton({plain:true,iconCls:'icon-print'});
-				$('.processCls').linkbutton({plain:true,iconCls:'icon-process'});
+				$('.signCls').linkbutton({plain:true,iconCls:'icon-sign'});
 			}
 		});
 	});
 	
 	function formatOperation(val, row) {
 		var htmlOperation = '';
-		htmlOperation += '<a class="printCls" onclick="selectSystemParameter(' + row.id + ')" href="javascript:void(0);" style="height:24px;" title="打印"/> |  ';
-		htmlOperation += '<a class="processCls" onclick="process(' + row.id + ')" href="javascript:void(0);" style="height:24px;" title="评审流程"/> ';
+		htmlOperation += '<a class="printCls" onclick="print(' + row.id + ')" href="javascript:void(0);" style="height:24px;" title="打印"/> |  ';
+		htmlOperation += '<a class="signCls" onclick="sign(' + row.id + ')" href="javascript:void(0);" style="height:24px;" title="签字确认"/> ';
 		return htmlOperation;
+	}
+	
+	function print(id){
+		
+	}
+	
+	function sign(id){
+		
 	}
 </script>
