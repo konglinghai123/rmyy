@@ -257,3 +257,47 @@ WITH (
 );
 ALTER TABLE public.re_vote_record
   OWNER TO postgres;
+  
+
+/*
+ * re_vote_result
+ */
+CREATE SEQUENCE public.seq_re_vote_result_id
+  INCREMENT 1
+  MINVALUE 1
+  MAXVALUE 9223372036854775807
+  START 1
+  CACHE 1;
+ALTER TABLE public.seq_re_vote_result_id
+  OWNER TO postgres;
+ 
+
+CREATE TABLE public.re_vote_result
+(
+  id bigint NOT NULL,
+  abstain_sum integer,
+  is_adjusted boolean,
+  is_affirm_resulted boolean,
+  oppose_sum integer,
+  pass_sum integer,
+  review_main_id bigint NOT NULL,
+  review_process_id bigint NOT NULL,
+  is_selected boolean,
+  commonnamecontents_id bigint,
+  drugform_id bigint,
+  CONSTRAINT re_vote_result_pkey PRIMARY KEY (id),
+  CONSTRAINT fk_1qgltel6nl3wr24jkprcrmrpw FOREIGN KEY (commonnamecontents_id)
+      REFERENCES public.zd_common_name_contents (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT fk_463o9bolo8y94vaipvweww9mv FOREIGN KEY (drugform_id)
+      REFERENCES public.sb_drug_form (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE public.re_vote_result
+  OWNER TO postgres;
+
+  
+  

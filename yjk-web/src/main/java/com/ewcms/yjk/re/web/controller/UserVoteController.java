@@ -19,7 +19,7 @@ import com.ewcms.yjk.sb.entity.DrugForm;
 
 @Controller
 @RequestMapping(value = "/yjk/re/uservote")
-@RequiresPermissions("re:uservote:*")
+@RequiresPermissions("yjk:uservote:*")
 public class UserVoteController extends BaseController<User, Long>{
 
 	@Autowired

@@ -169,4 +169,14 @@ public class VoteRecordService extends BaseService<VoteRecord, Long> {
 			}
 		}
 	}
+	
+	/**
+	 * 查询已投票专家编号集合
+	 * @param reviewMainId
+	 * @param reviewProcessId
+	 * @return
+	 */
+	public List<Long> findUserSubmitted(Long reviewMainId, Long reviewProcessId){
+		return getVoteRecordRepository().findUserSubmitted(reviewMainId, reviewProcessId);
+	}
 }
