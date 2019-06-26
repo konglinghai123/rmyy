@@ -122,6 +122,16 @@ public class VoteRecordService extends BaseService<VoteRecord, Long> {
 	}
 	
 	/**
+	 * 启动专家通用名遴选投票
+	 * 
+	 */
+	public String expertStartVoteaddCommonNameManufacturer(Long userId,Long currentReviewProcessId){
+		
+		return expertDrugFormInitVote(userId,currentReviewProcessId,"新增通用名");
+	}
+	
+	
+	/**
 	 * 保存专家投票记录集
 	 * 
 	 */
@@ -169,7 +179,7 @@ public class VoteRecordService extends BaseService<VoteRecord, Long> {
 			}
 		}
 	}
-	
+
 	/**
 	 * 查询已投票专家编号集合
 	 * @param reviewMainId

@@ -8,6 +8,7 @@ import com.ewcms.common.service.BaseService;
 import com.ewcms.yjk.re.entity.VoteResult;
 import com.ewcms.yjk.re.model.VoteMonitor;
 import com.ewcms.yjk.re.repository.VoteResultRepository;
+import com.ewcms.yjk.sb.entity.DrugForm;
 
 @Service
 public class VoteResultService extends BaseService<VoteResult, Long> {
@@ -26,5 +27,9 @@ public class VoteResultService extends BaseService<VoteResult, Long> {
 	
 	public List<VoteMonitor> findVoteMonitor(List<Long> userIds){
 		return getVoteResultRepository().findVoteMonitor(userIds);
+	}
+	
+	public List<DrugForm> findSelectedDrugForm(Long reviewMainId,String declareCategory){
+		return getVoteResultRepository().findSelectedDrugForm(reviewMainId, declareCategory);
 	}
 }
