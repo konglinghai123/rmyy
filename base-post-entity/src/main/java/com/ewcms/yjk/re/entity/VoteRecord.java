@@ -71,7 +71,7 @@ public class VoteRecord extends BaseSequenceEntity<Long> {
 	@Column(name = "review_process_id", nullable = false)
 	private Long reviewProcessId;
 	
-	@Column(name = "is_sined")
+	@Column(name = "is_signed")
 	private Boolean signed = Boolean.FALSE;
 	
 	public Long getUserId() {
