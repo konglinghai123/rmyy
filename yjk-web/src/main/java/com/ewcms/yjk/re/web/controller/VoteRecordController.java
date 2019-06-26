@@ -71,13 +71,18 @@ public class VoteRecordController extends BaseCRUDController<VoteRecord, Long> {
 	public String index(@CurrentUser User user,Model model) {
 		ReviewMain reviewMain =  reviewMainService.findByEnabledTrue();
 		if(reviewMain != null){
-			ReviewProcess reviewProcess = reviewProcessService.findCurrentReviewProcess(reviewMain.getId());
-			Boolean isExpertSubmitCurrentReview = getVoteRecordService().expertSubmitCurrentReview(user.getId(), reviewProcess.getId());
+			ReviewProcess currentReviewProcess = reviewProcessService.findCurrentReviewProcess(reviewMain.getId());
+			Boolean isExpertSubmitCurrentReview = getVoteRecordService().expertSubmitCurrentReview(user.getId(), currentReviewProcess.getId());
 			model.addAttribute("isExpertSubmitCurrentReview", isExpertSubmitCurrentReview);
+			model.addAttribute("reviewProcessId", currentReviewProcess.getId());
 			if(!isExpertSubmitCurrentReview){
-				if(reviewProcess.getReviewBaseRule().getRuleName().equals("addCommonName")){
-					model.addAttribute("reviewProcessId", getVoteRecordService().expertStartVoteAddCommonName(user.getId(),reviewProcess.getId()));
+				if(currentReviewProcess.getReviewBaseRule().getRuleName().equals("addCommonName")){
+					getVoteRecordService().expertStartVoteAddCommonName(user.getId(),currentReviewProcess.getId());
+					
 				}
+				if(currentReviewProcess.getReviewBaseRule().getRuleName().equals("addSpecificationsAndPill")){
+					getVoteRecordService().expertStartVoteAddSpecificationsAndPill(user.getId(),currentReviewProcess.getId());
+				}				
 			}
 		}
 		return super.index(model);
@@ -93,6 +98,7 @@ public class VoteRecordController extends BaseCRUDController<VoteRecord, Long> {
 	public Map<String, Object> query(@CurrentUser User user,SearchParameter<Long> searchParameter,	Model model,@PathVariable(value = "reviewProcessId") Long reviewProcessId) {
 		searchParameter.getParameters().put("EQ_userId", user.getId());
 		searchParameter.getParameters().put("EQ_reviewProcessId",reviewProcessId);
+		searchParameter.getSorts().put("drugForm.commonNameContents.common.drugCategory", Direction.ASC);
 		searchParameter.getSorts().put("id", Direction.ASC);
 		return super.query(searchParameter, model);
 	}

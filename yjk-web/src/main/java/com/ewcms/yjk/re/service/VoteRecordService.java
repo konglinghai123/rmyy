@@ -13,6 +13,7 @@ import com.ewcms.common.utils.EmptyUtil;
 import com.ewcms.yjk.re.entity.ReviewMain;
 import com.ewcms.yjk.re.entity.ReviewProcess;
 import com.ewcms.yjk.re.entity.VoteRecord;
+import com.ewcms.yjk.re.entity.VoteResult;
 import com.ewcms.yjk.re.entity.VoteTypeEnum;
 import com.ewcms.yjk.re.repository.VoteRecordRepository;
 import com.ewcms.yjk.sb.entity.AuditStatusEnum;
@@ -28,6 +29,8 @@ public class VoteRecordService extends BaseService<VoteRecord, Long> {
 	private ReviewMainService reviewMainService;
 	@Autowired
 	private ReviewProcessService reviewProcessService;
+	@Autowired
+	private VoteResultService voteResultService;
 	
 	private VoteRecordRepository getVoteRecordRepository() {
 		return (VoteRecordRepository) baseRepository;
@@ -77,12 +80,34 @@ public class VoteRecordService extends BaseService<VoteRecord, Long> {
 	 * 
 	 */
 	public String expertStartVoteAddCommonName(Long userId,Long currentReviewProcessId){
+		return expertDrugFormInitVote(userId,currentReviewProcessId,"新增通用名");
+	}
+	
+	/**
+	 * 启动专家新增剂型规格的投票
+	 * 
+	 */
+	public String expertStartVoteAddSpecificationsAndPill(Long userId,Long currentReviewProcessId){
+		return expertDrugFormInitVote(userId,currentReviewProcessId,"新增规格/剂型");
+	}
+	private String expertDrugFormInitVote(Long userId,Long currentReviewProcessId,String declareCategory){
 		ReviewMain reviewMainEnable = reviewMainService.findByEnabledTrue();
 		if(reviewMainEnable == null)return "评审还未启动！";
-
+		Boolean isExitsResult = voteResultService.countByReviewProcessId(currentReviewProcessId) == 0?Boolean.FALSE:Boolean.TRUE;//判断是否已经有投票结果记录，没有就初始初始投票结果都为0的记录
 		if(getVoteRecordRepository().countByUserIdAndReviewProcessId(userId, currentReviewProcessId).intValue()  == 0){//初次进入投票，初始化需要投票的申报新曾通用名的药品
-			List<DrugForm> validDrugFormList = drugFormService.findByAuditStatusAndSystemParameterIdAndDeclareCategoryAndReviewedFalseOrderByIdAsc(AuditStatusEnum.passed, reviewMainEnable.getSystemParameter().getId(), "新增通用名");
+			List<DrugForm> validDrugFormList = drugFormService.findByAuditStatusAndSystemParameterIdAndDeclareCategoryAndReviewedFalseOrderByIdAsc(AuditStatusEnum.passed, reviewMainEnable.getSystemParameter().getId(), declareCategory);
 			for(DrugForm drugForm:validDrugFormList){
+				if(!isExitsResult){
+					VoteResult voteResult = new VoteResult();
+					voteResult.setReviewMainId(reviewMainEnable.getId()); 
+					voteResult.setReviewProcessId(currentReviewProcessId);
+					voteResult.setDrugForm(drugForm);
+					voteResult.setOpposeSum(0);
+					voteResult.setPassSum(0);
+					voteResult.setAbstainSum(0);
+					voteResultService.save(voteResult);
+					
+				}
 				VoteRecord vo = new VoteRecord();
 				vo.setSubmitted(Boolean.FALSE);
 				vo.setUserId(userId);
@@ -97,7 +122,7 @@ public class VoteRecordService extends BaseService<VoteRecord, Long> {
 	}
 	
 	/**
-	 * 保存专家新增通用名投票
+	 * 保存专家投票记录集
 	 * 
 	 */
 	public void saveVote(Long userId,List<String> selections){
@@ -105,7 +130,7 @@ public class VoteRecordService extends BaseService<VoteRecord, Long> {
 			String[] voteResultArr = voteReult.split("@");
 			if(voteResultArr.length == 2){
 				VoteRecord vo = getVoteRecordRepository().findOne(Long.parseLong(voteResultArr[0]));
-				if(vo != null && vo.getUserId().equals(userId)){
+				if(vo != null && vo.getUserId().equals(userId)&&!vo.getSubmitted()){
 					vo.setVoteTypeEnum(VoteTypeEnum.valueOf(voteResultArr[1]));
 					super.save(vo);
 				}
@@ -114,7 +139,7 @@ public class VoteRecordService extends BaseService<VoteRecord, Long> {
 	}
 	
 	/**
-	 * 提交专家新增通用名投票
+	 * 提交专家投票记录集
 	 * 
 	 */
 	public void submitVote(Long userId,List<String> selections){
@@ -123,10 +148,23 @@ public class VoteRecordService extends BaseService<VoteRecord, Long> {
 			if(voteResultArr.length == 2){
 				VoteRecord vo = getVoteRecordRepository().findOne(Long.parseLong(voteResultArr[0]));
 				if(vo != null && vo.getUserId().equals(userId)&&!vo.getSubmitted()){
-					vo.setVoteTypeEnum(VoteTypeEnum.valueOf(voteResultArr[1]));
+					VoteTypeEnum voteTypeEnum = VoteTypeEnum.valueOf(voteResultArr[1]);
+					vo.setVoteTypeEnum(voteTypeEnum);
 					vo.setSubmitted(Boolean.TRUE);
 					vo.setSubmittDate(new Date(Calendar.getInstance().getTime().getTime()));
 					super.save(vo);
+
+					VoteResult voteResult = voteResultService.findByDrugFormIdAndReviewProcessId(vo.getDrugForm().getId(), vo.getReviewProcessId());
+					if(voteResult != null &&!voteResult.getAffirmVoteResulted()){
+						if(voteTypeEnum.equals(VoteTypeEnum.pass)){
+							voteResult.setPassSum(voteResult.getPassSum()+1);
+						}else if(voteTypeEnum.equals(VoteTypeEnum.oppose)){
+							voteResult.setOpposeSum(voteResult.getOpposeSum()+1);
+						}else if(voteTypeEnum.equals(VoteTypeEnum.abstain)){
+							voteResult.setAbstainSum(voteResult.getAbstainSum()+1);
+						}
+						voteResultService.save(voteResult);
+					}
 				}
 			}
 		}

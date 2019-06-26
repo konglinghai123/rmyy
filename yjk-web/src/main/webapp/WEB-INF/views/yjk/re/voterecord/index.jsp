@@ -1,32 +1,33 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/views/jspf/taglibs.jspf" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <c:choose>
 	<c:when test="${isOpenReview}">
 <ewcms:head title="专家评审投票"/>
 	<table id="tt">
 		<thead>
-				    <thead frozen="true">    
-				        <tr>   
-			<c:choose>
-				<c:when test="${!isExpertSubmitCurrentReview}">				         
-			               <th data-options="field:'voteTypeInfo',width:80,
-			                        editor:{
-			                            type:'combobox',
-			                            options:{
-			                                valueField:'value',
-			                                textField:'text',
-			                                panelHeight:100,
-			                                data:[{ 'value': 'pass', 'text': '通过' }, { 'value': 'oppose', 'text': '反对' }, { 'value': 'abstain', 'text': '弃权' }],
-			                                required:true
-			                            }
-			                        }">投票操作</th>
-				</c:when>
-				<c:otherwise>
-					<th data-options="field:'voteTypeInfo',width:80">投票操作</th>				
-				</c:otherwise>
-			</c:choose>					                        
-				        </tr>    
-				    </thead> 
+			<thead frozen="true">    
+				<tr>   
+					<c:choose>
+						<c:when test="${!isExpertSubmitCurrentReview}">				         
+					               <th data-options="field:'voteTypeInfo',width:80,
+					                        editor:{
+					                            type:'combobox',
+					                            options:{
+					                                valueField:'value',
+					                                textField:'text',
+					                                panelHeight:100,
+					                                data:[{ 'value': 'pass', 'text': '通过' }, { 'value': 'oppose', 'text': '反对' }, { 'value': 'abstain', 'text': '弃权' }],
+					                                required:true
+					                            }
+					                        }">投票操作</th>
+						</c:when>
+						<c:otherwise>
+							<th data-options="field:'voteTypeInfo',width:80">投票操作</th>				
+						</c:otherwise>
+					</c:choose>					                        
+				</tr>    
+			</thead> 
 				    <thead>   		
 			<tr>
 			    <th data-options="field:'id',hidden:true">编号</th>
@@ -43,7 +44,14 @@
 									}">${displayColumn.ruleCnName}</th>  						
 						</c:when>
 						<c:otherwise>
-						
+							<th data-options="field:'${fn:substring(displayColumn.ruleName,6,fn:length(displayColumn.ruleName)-6)}',width:150,
+									formatter:function(val,row){
+										if(row.drugForm.commonNameContents==null){
+										 	return '';
+										}else{
+											return formatTooltip(row.${fn:substring(displayColumn.ruleName,6,fn:length(displayColumn.ruleName)-6), row);
+										}
+									}">${displayColumn.ruleCnName}</th>  						
 						</c:otherwise>
 					</c:choose>
  				</c:forEach>
@@ -54,11 +62,11 @@
 	</table>
 	<div id="tb" style="padding:5px;height:auto;">
         <div class="toolbar" style="margin-bottom:2px">
-			<font color=blue>最大投票通过数为50</font>&nbsp; &nbsp; 投票流程：
+			<font color=blue>最大投票通过数为10</font>&nbsp;&nbsp;投票流程：
 			<c:forEach items="${reviewProcessesList}" var="reviewProcess" varStatus="status">
 				<c:choose>
 					<c:when test="${reviewProcess.reviewBaseRule.ruleName == currentReviewProcess.reviewBaseRule.ruleName}">
-						<font color=red>${reviewProcess.reviewBaseRule.ruleCnName}</font>
+						<font color=green>${reviewProcess.reviewBaseRule.ruleCnName}</font>
 					</c:when>
 					<c:otherwise>
 						${reviewProcess.reviewBaseRule.ruleCnName}
@@ -68,20 +76,14 @@
 	    	   			<img  width=30 height=15 src="${ctx}/static/image/arrow.jpg">
 	    	   	</c:if>	
 			</c:forEach>		 
-			&nbsp; &nbsp; &nbsp; 
+			&nbsp;&nbsp; 
 			<c:choose>
 				<c:when test="${!isExpertSubmitCurrentReview}">
-			<a id="icon-save" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-add',toggle:true" onclick="javascript:saveVote();">保存</a>
-			<a id="tb-edit" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-edit',toggle:true" onclick="javascript:submitVote();">提交</a>
+					<a id="icon-save" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-add',toggle:true" onclick="javascript:saveVote();">保存</a>
+					<a id="tb-edit" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-edit',toggle:true" onclick="javascript:submitVote();">提交</a>
 				</c:when>
 				<c:otherwise>
-					<ewcms:head title="申报 - 专家评审投票"/>
-						<div id="edit-from" class="easyui-layout" data-options="fit:true" style="border:0;">
-							<div data-options="region:'center',fit:true" style="border:0;">	
-								<h1 class="title">当前评审你已提交，不能再修改！</h1>
-							</div>
-						</div>
-					<ewcms:footer/>
+					<font color=red>当前阶段评审的投票你已提交，请等待下一阶段的评审！</font>
 				</c:otherwise>
 			</c:choose>			
 		</div>
@@ -185,7 +187,7 @@
 			    	}
 			    	parameter += 'selections=' + row.id +'@'+voteTypeValue+'&';
 			    });
-			    if(passTotal>3){
+			    if(passTotal>10){
 			    	$.messager.alert('提示', '投票通过的总数量超过3，不能提交！', 'info');
 			    	return;
 			    }
