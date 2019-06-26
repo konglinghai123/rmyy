@@ -31,7 +31,7 @@ import com.ewcms.yjk.zd.commonname.entity.CommonNameContents;
  *  <li>submittDate:投票时间</li>
  *  <li>submitted:提交标志</li>
  *  <li>reviewProcessId:投票流程Id</li>
- *  <li>sined:是否签字</li>
+ *  <li>signed:是否签字</li>
  * </ul>
  * 
  * @author zhoudongchu
@@ -72,7 +72,7 @@ public class VoteRecord extends BaseSequenceEntity<Long> {
 	private Long reviewProcessId;
 	
 	@Column(name = "is_sined")
-	private Boolean sined = Boolean.FALSE;
+	private Boolean signed = Boolean.FALSE;
 	
 	public Long getUserId() {
 		return userId;
@@ -141,11 +141,11 @@ public class VoteRecord extends BaseSequenceEntity<Long> {
 		this.commonNameContents = commonNameContents;
 	}
 
-	public Boolean getSined() {
-		return sined;
+	public Boolean getSigned() {
+		return signed;
 	}
 
-	public void setSined(Boolean sined) {
-		this.sined = sined;
+	public void setSigned(Boolean signed) {
+		this.signed = signed;
 	}
 }

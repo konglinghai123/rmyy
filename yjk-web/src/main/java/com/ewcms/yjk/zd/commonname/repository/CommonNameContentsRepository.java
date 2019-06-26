@@ -20,7 +20,8 @@ public interface CommonNameContentsRepository extends BaseRepository<CommonNameC
 	@Query("select distinct projectName from CommonNameContents")
 	List<String> findDistinctProjectName();
 //	List<CommonNameContents> findByCommonIdAndDeletedFalse(Long commonId);
-    
+	//查询归为一品的大目录集合
+	List<CommonNameContents> findByCommonIdInAndAdministrationIdAndDeletedFalseAndDeclaredTrue(List<Long> commonIds, Long administrationId);  
 	//查询归为一品的大目录集合
 	Page<CommonNameContents> findByCommonIdInAndAdministrationIdAndDeletedFalseAndDeclaredTrue(List<Long> commonIds, Long administrationId, Pageable pageable);
 	

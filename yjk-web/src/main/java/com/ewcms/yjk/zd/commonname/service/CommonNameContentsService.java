@@ -84,6 +84,10 @@ public class CommonNameContentsService extends BaseService<CommonNameContents, L
 	public CommonNameContents findByBidDrugIdAndDeletedFalse(String bidDrugId) {
 		return getCommonNameContentsRepository().findByBidDrugIdAndDeletedFalse(bidDrugId);
 	}
+	
+	public List<CommonNameContents> findByCommonIdInAndAdministrationIdAndDeletedFalseAndDeclaredTrue(List<Long> commonIds, Long administrationId){
+		return getCommonNameContentsRepository().findByCommonIdInAndAdministrationIdAndDeletedFalseAndDeclaredTrue(commonIds, administrationId);
+	}
 	/**
 	 * 根据申报药品查找当前大目录匹配数据集合
 	 * 

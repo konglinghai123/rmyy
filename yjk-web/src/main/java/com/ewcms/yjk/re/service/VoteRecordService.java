@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ewcms.common.service.BaseService;
+import com.ewcms.common.utils.Collections3;
 import com.ewcms.common.utils.EmptyUtil;
 import com.ewcms.yjk.re.entity.ReviewMain;
 import com.ewcms.yjk.re.entity.ReviewProcess;
@@ -19,6 +20,10 @@ import com.ewcms.yjk.re.repository.VoteRecordRepository;
 import com.ewcms.yjk.sb.entity.AuditStatusEnum;
 import com.ewcms.yjk.sb.entity.DrugForm;
 import com.ewcms.yjk.sb.service.DrugFormService;
+import com.ewcms.yjk.zd.commonname.entity.CommonName;
+import com.ewcms.yjk.zd.commonname.entity.CommonNameContents;
+import com.ewcms.yjk.zd.commonname.service.CommonNameContentsService;
+import com.ewcms.yjk.zd.commonname.service.CommonNameService;
 import com.google.common.collect.Maps;
 
 @Service
@@ -31,6 +36,10 @@ public class VoteRecordService extends BaseService<VoteRecord, Long> {
 	private ReviewProcessService reviewProcessService;
 	@Autowired
 	private VoteResultService voteResultService;
+	@Autowired
+	private CommonNameContentsService commonNameContentsService;
+	@Autowired
+	private CommonNameService commonNameService;
 	
 	private VoteRecordRepository getVoteRecordRepository() {
 		return (VoteRecordRepository) baseRepository;
@@ -126,8 +135,20 @@ public class VoteRecordService extends BaseService<VoteRecord, Long> {
 	 * 
 	 */
 	public String expertStartVoteaddCommonNameManufacturer(Long userId,Long currentReviewProcessId){
+		ReviewMain reviewMainEnable = reviewMainService.findByEnabledTrue();
+		if(reviewMainEnable == null)return "评审还未启动！";
+		List<DrugForm> selectedDrugFormList = voteResultService.findSelectedDrugForm(reviewMainEnable.getId(), "新增通用名");
+		for(DrugForm drugForm:selectedDrugFormList){
+			CommonNameContents commonNameContentsvo = commonNameContentsService.findOne(drugForm.getCommonNameContents().getId());
+			List<CommonName> commonNames = commonNameService.findByMatchNumber(commonNameContentsvo.getCommon().getMatchNumber());
+			List<Long> commonNameIds = Collections3.extractToList(commonNames, "id");
+			List<CommonNameContents> machCommonNameContentsList = commonNameContentsService.findByCommonIdInAndAdministrationIdAndDeletedFalseAndDeclaredTrue(commonNameIds,commonNameContentsvo.getAdministration().getId());
+			for(CommonNameContents commonNameContents:machCommonNameContentsList){
+				
+			}
+		}
 		
-		return expertDrugFormInitVote(userId,currentReviewProcessId,"新增通用名");
+		return currentReviewProcessId.toString();
 	}
 	
 	
