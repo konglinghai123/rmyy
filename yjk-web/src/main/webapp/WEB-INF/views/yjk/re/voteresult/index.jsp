@@ -28,7 +28,7 @@
 					<iframe id="editsubmitifr"  name="editriskevaluationifr" class="editifr" src=""></iframe>	
 				</div>
 				<div title="投票结果" data-options="tools:'#p2-tools'" style="padding:2px;overflow:hidden;">
-					<iframe id="editresultifr"  name="editpresentillnessifr" class="editifr" src=""></iframe>	
+					<iframe id="editresultifr" name="editpresentillnessifr" class="editifr" src=""></iframe>	
 				</div>
 			</div>
 		</div>

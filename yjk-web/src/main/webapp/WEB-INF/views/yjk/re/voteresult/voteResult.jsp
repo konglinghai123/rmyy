@@ -26,7 +26,7 @@
 			    <c:forEach items="${currentReviewProcess.displayColumns}" var="displayColumn" varStatus="status">
  					<c:choose>
 	 					<c:when test="${currentReviewProcess.reviewBaseRule.ruleName == 'addCommonName'||currentReviewProcess.reviewBaseRule.ruleName == 'addSpecificationsAndPill'}">
-							<th data-options="field:'${displayColumn.ruleName}',width:150,
+							<th data-options="field:'${displayColumn.ruleName}',width:${displayColumn.width},
 									formatter:function(val,row){
 										if(row.drugForm.commonNameContents==null){
 										 	return '';
@@ -36,7 +36,7 @@
 									}">${displayColumn.ruleCnName}</th>  						
 						</c:when>
 						<c:otherwise>
-							<th data-options="field:'${fn:substring(displayColumn.ruleName,6,fn:length(displayColumn.ruleName)-6)}',width:150,
+							<th data-options="field:'${fn:substring(displayColumn.ruleName,6,fn:length(displayColumn.ruleName)-6)}',width:${displayColumn.width},
 									formatter:function(val,row){
 										if(row.drugForm.commonNameContents==null){
 										 	return '';
@@ -66,8 +66,6 @@
 			rowStyler: function(index,row){
 	    	},
 			onLoadSuccess:function(row){
-				$('.printCls').linkbutton({plain:true,iconCls:'icon-print'});
-				$('.signCls').linkbutton({plain:true,iconCls:'icon-sign'});
 			}
 		});
 	});
@@ -78,10 +76,6 @@
 	
 	function formatOperation(val, row) {
 		var htmlOperation = '';
-		htmlOperation += '<a class="printCls" onclick="print(' + row.user.id + ')" href="javascript:void(0);" style="height:24px;" title="打印"/> ';
-		if (!row.signed){
-			htmlOperation += '|  <a class="signCls" onclick="sign(' + row.user.id + ')" href="javascript:void(0);" style="height:24px;" title="签字确认"/> ';
-		}
 		return htmlOperation;
 	}
 </script>

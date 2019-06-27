@@ -8,6 +8,8 @@
 			    <th data-options="field:'ck',checkbox:true"/>
 			    <th data-options="field:'id',hidden:true">编号</th>
 				<th data-options="field:'ruleCnName',width:200">规则字段中文名</th>
+				<th data-options="field:'ruleName',width:200,hidden:true">规则字段名</th>
+				<th data-options="field:'width',width:200">显示宽度(单位：px)</th>
 			</tr>
 		</thead>
 	</table>

@@ -34,7 +34,7 @@
  				<c:forEach items="${currentReviewProcess.displayColumns}" var="displayColumn" varStatus="status">
  					<c:choose>
 	 					<c:when test="${currentReviewProcess.reviewBaseRule.ruleName == 'addCommonName'||currentReviewProcess.reviewBaseRule.ruleName == 'addSpecificationsAndPill'}">
-							<th data-options="field:'${displayColumn.ruleName}',width:150,
+							<th data-options="field:'${displayColumn.ruleName}',width:${displayColumn.width},
 									formatter:function(val,row){
 										if(row.drugForm.commonNameContents==null){
 										 	return '';
@@ -44,7 +44,7 @@
 									}">${displayColumn.ruleCnName}</th>  						
 						</c:when>
 						<c:otherwise>
-							<th data-options="field:'${fn:substring(displayColumn.ruleName,6,fn:length(displayColumn.ruleName)-6)}',width:150,
+							<th data-options="field:'${fn:substring(displayColumn.ruleName,6,fn:length(displayColumn.ruleName)-6)}',width:${displayColumn.width},
 									formatter:function(val,row){
 										if(row.drugForm.commonNameContents==null){
 										 	return '';
