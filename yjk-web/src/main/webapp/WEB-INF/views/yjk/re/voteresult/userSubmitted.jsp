@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/views/jspf/taglibs.jspf" %>
 
-<ewcms:head title="用户"/>
+<ewcms:head title="已投用户"/>
 	<table id="tt">
 		<thead>
 			<tr>
@@ -48,7 +48,7 @@
 						}">聘任</th>
 				<th data-options="field:'signed',width:60,
 						formatter:function(val,row){
-							return val? '是' : '否';
+							return val ? '是' : '否';
 						}">已签字</th>
 			</tr>
 		</thead>
@@ -68,7 +68,7 @@
 			border:false,
 			rowStyler: function(index,row){
 	        	if (!row.signed){
-	    			return 'background-color:#FF9999;color:#0000FF;';
+	    			return 'background-color:#C4E1FF;color:#000000;';
 	        	}
 	    	},
 			onLoadSuccess:function(row){
@@ -94,7 +94,7 @@
 	function sign(id){
 		$.messager.confirm('提示', '确定已签字确认了吗？', function(r){
 			if (r){
-				$.post('${ctx}/yjk/re/voteresult/' + id + '/${reviewMainId}/${currentReviewProcess.id}/sign', {}, function(result) {
+				$.post('${ctx}/yjk/re/voteresult/' + id + '/${currentReviewProcess.id}/sign', {}, function(result) {
 					if (result.success){
 						$('#tt').datagrid('clearSelections');
 						$('#tt').datagrid('reload');
@@ -102,6 +102,6 @@
 					$.messager.alert('提示', result.message, 'info');
 				});
 			}
-	 });
+	 	});
 	}
 </script>

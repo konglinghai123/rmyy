@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/views/jspf/taglibs.jspf" %>
 
-<ewcms:head title="用户"/>
+<ewcms:head title="未投用户"/>
 	<table id="tt">
 		<thead>
 			<tr>
@@ -61,7 +61,7 @@
 	function giveUp(id){
 		 $.messager.confirm('提示', '确定要中止本轮投票的权利吗？中止后此人本轮将不能进行投票了，请谨慎操作！', function(r){
 				if (r){
-					$.post('${ctx}/yjk/re/voteresult/' + id + '/${reviewMainId}/${currentReviewProcess.id}/giveUp', {}, function(result) {
+					$.post('${ctx}/yjk/re/voteresult/' + id + '/${currentReviewProcess.id}/giveUp', {}, function(result) {
 						if (result.success){
 							$('#tt').datagrid('clearSelections');
 							$('#tt').datagrid('reload');

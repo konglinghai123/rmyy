@@ -34,7 +34,7 @@
 			<a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true" onclick="$.ewcms.add({src:'${ctx}/yjk/re/reviewprocess/${reviewMainId}/save',title:'新增',width:750,height:450});">新增</a>
 			<a id="tb-edit" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-edit'" onclick="$.ewcms.edit({src:'${ctx}/yjk/re/reviewprocess/${reviewMainId}/save',title:'修改',width:750,height:450});">修改</a>
 			<a id="tb-exchange" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-exchange'">互换位置</a>
-			<a id="tb-forced" href="javascript:void(0);" class="easyui-menubutton" data-options="menu:'#menu-forced',iconCls:'icon-forced'">强制操作</a>
+			<a id="tb-forced" href="javascript:void(0);" class="easyui-menubutton" data-options="menu:'#menu-forced',iconCls:'icon-forced'">强制</a>
 		</div>
 		<div id="menu-forced" style="width:150px">
 			<div id="menu-forced-open" data-options="iconCls:'icon-forced-open'" onclick="$.ewcms.status({status:false,info:'强制开启',prompt:true});">开启</div>

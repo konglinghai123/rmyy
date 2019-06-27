@@ -34,7 +34,29 @@ public class VoteResultService extends BaseService<VoteResult, Long> {
 		return getVoteResultRepository().findSelectedDrugForm(reviewMainId, declareCategory);
 	}
 	
-	public List<VoteResult> findByReviewMainIdAndReviewProcessIdOrderByPassSumDesc(Long reviewMainId, Long reviewProcessId){
-		return getVoteResultRepository().findByReviewMainIdAndReviewProcessIdOrderByPassSumDesc(reviewMainId, reviewProcessId);
+	public List<VoteResult> findCurrentReviewProcessVoteResults(Long reviewMainId, Long reviewProcessId){
+		return getVoteResultRepository().findCurrentReviewProcessVoteResults(reviewMainId, reviewProcessId);
+	}
+	
+	/**
+	 * 调整入围
+	 * 
+	 * @param reviewMainId
+	 * @param reviewProcessId
+	 * @param voteResultIds
+	 */
+	public void adjust(Long reviewMainId,Long reviewProcessId, List<Long> voteResultIds) {
+		getVoteResultRepository().adjust(reviewMainId, reviewProcessId, voteResultIds);
+	}
+	
+	/**
+	 * 调整出围
+	 * 
+	 * @param reviewMainId
+	 * @param reviewProcessId
+	 * @param voteResultIds
+	 */
+	public void cancel(Long reviewMainId,Long reviewProcessId, List<Long> voteResultIds) {
+		getVoteResultRepository().cancel(reviewMainId, reviewProcessId, voteResultIds);
 	}
 }

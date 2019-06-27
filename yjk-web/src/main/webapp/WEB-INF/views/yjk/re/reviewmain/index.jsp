@@ -28,7 +28,7 @@
 	<div id="tb" style="padding:5px;height:auto;">
         <div class="toolbar" style="margin-bottom:2px">
 			<a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true" onclick="$.ewcms.add({title:'新增',width:750,height:365});">新增</a>
-			<a id="tb-edit" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-edit'"	onclick="updateReviewMain();">修改</a>
+			<a id="tb-edit" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-edit'" onclick="updateReviewMain();">修改</a>
 		</div>
         <div>
         	<form id="queryform" style="padding:0;margin:0;">

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ewcms.common.entity.search.SearchHelper;
@@ -26,7 +27,6 @@ import com.ewcms.security.user.entity.User;
 import com.ewcms.security.user.service.UserService;
 import com.ewcms.yjk.re.entity.ReviewExpert;
 import com.ewcms.yjk.re.entity.ReviewMain;
-import com.ewcms.yjk.re.entity.ReviewProcess;
 import com.ewcms.yjk.re.entity.VoteResult;
 import com.ewcms.yjk.re.model.VoteMonitor;
 import com.ewcms.yjk.re.service.ReviewMainService;
@@ -55,14 +55,11 @@ public class VoteResultController extends BaseController<VoteResult, Long> {
 	@Override
 	protected void setCommonData(Model model) {
 		model.addAttribute("isOpenReview", reviewMainService.isOpenReview());
-		Long reviewMainId = 0L;
 		if (reviewMainService.isOpenReview()) {
 			ReviewMain reviewMain = reviewMainService.findByEnabledTrue();
 			model.addAttribute("reviewProcessesList", reviewMain.getReviewProcesses());
 			model.addAttribute("currentReviewProcess", reviewProcessService.findCurrentReviewProcess(reviewMain.getId()));
-			reviewMainId = reviewMain.getId();
 		}
-		model.addAttribute("reviewMainId", reviewMainId);
 		super.setCommonData(model);
 	}
 
@@ -141,12 +138,19 @@ public class VoteResultController extends BaseController<VoteResult, Long> {
 		return map;
 	}
 	
-	@RequestMapping(value = "{userId}/{reviewMainId}/{reviewProcessId}/giveUp", method = RequestMethod.POST)
+	@RequestMapping(value = "{userId}/{reviewProcessId}/giveUp", method = RequestMethod.POST)
 	@ResponseBody
-	public AjaxResponse giveUp(@PathVariable(value = "userId")Long userId, @PathVariable(value = "reviewMainId")Long reviewMainId, @PathVariable(value = "reviewProcessId")Long reviewProcessId) {
+	public AjaxResponse giveUp(@PathVariable(value = "userId")Long userId, @PathVariable(value = "reviewProcessId")Long reviewProcessId) {
 		AjaxResponse ajaxResponse = new AjaxResponse("放弃投票成功！");
 		try {
-			voteRecordService.giveUp(userId, reviewMainId, reviewProcessId);
+			ReviewMain reviewMain = reviewMainService.findByEnabledTrue();
+			if (reviewMain == null) {
+				ajaxResponse.setSuccess(Boolean.FALSE);
+				ajaxResponse.setMessage("评审未开启，不能操作！");
+			} else {
+				voteRecordService.giveUp(userId, reviewMain.getId(), reviewProcessId);
+			}
+			
 		} catch (Exception e) {
 			ajaxResponse.setSuccess(Boolean.FALSE);
 			ajaxResponse.setMessage("放弃投票失败！");
@@ -154,12 +158,18 @@ public class VoteResultController extends BaseController<VoteResult, Long> {
 		return ajaxResponse;
 	}
  
-	@RequestMapping(value = "{userId}/{reviewMainId}/{reviewProcessId}/sign", method = RequestMethod.POST)
+	@RequestMapping(value = "{userId}/{reviewProcessId}/sign", method = RequestMethod.POST)
 	@ResponseBody
-	public AjaxResponse sign(@PathVariable(value = "userId")Long userId, @PathVariable(value = "reviewMainId")Long reviewMainId, @PathVariable(value = "reviewProcessId")Long reviewProcessId) {
+	public AjaxResponse sign(@PathVariable(value = "userId")Long userId, @PathVariable(value = "reviewProcessId")Long reviewProcessId) {
 		AjaxResponse ajaxResponse = new AjaxResponse("签字确认成功！");
 		try {
-			voteRecordService.sign(userId, reviewMainId, reviewProcessId);
+			ReviewMain reviewMain = reviewMainService.findByEnabledTrue();
+			if (reviewMain == null) {
+				ajaxResponse.setSuccess(Boolean.FALSE);
+				ajaxResponse.setMessage("评审未开启，不能操作！");
+			} else {
+				voteRecordService.sign(userId, reviewMain.getId(), reviewProcessId);
+			}
 		} catch (Exception e) {
 			ajaxResponse.setSuccess(Boolean.FALSE);
 			ajaxResponse.setMessage("签字确认失败！");
@@ -181,10 +191,49 @@ public class VoteResultController extends BaseController<VoteResult, Long> {
 		ReviewMain reviewMain = reviewMainService.findByEnabledTrue();
 		if (reviewMain == null) return map;
 		
-		List<VoteResult> voteResults = voteResultService.findByReviewMainIdAndReviewProcessIdOrderByPassSumDesc(reviewMain.getId(), reviewProcessId);
+		List<VoteResult> voteResults = voteResultService.findCurrentReviewProcessVoteResults(reviewMain.getId(), reviewProcessId);
 		map.put("total", voteResults.size());
 		map.put("rows", voteResults);
 		return map;
 
 	}
+	
+	@RequestMapping(value = "{reviewProcessId}/adjust", method = RequestMethod.POST)
+	@ResponseBody
+	public AjaxResponse adjust(@PathVariable(value = "reviewProcessId")Long reviewProcessId, @RequestParam(required = false) List<Long> selections) {
+		AjaxResponse ajaxResponse = new AjaxResponse("调整入围成功！");
+		try {
+			ReviewMain reviewMain = reviewMainService.findByEnabledTrue();
+			if (reviewMain == null) {
+				ajaxResponse.setSuccess(Boolean.FALSE);
+				ajaxResponse.setMessage("评审未开启，不能操作！");
+			} else {
+				voteResultService.adjust(reviewMain.getId(), reviewProcessId, selections);
+			}
+		} catch (Exception e) {
+			ajaxResponse.setSuccess(Boolean.FALSE);
+			ajaxResponse.setMessage("调整入围失败！");
+		}
+		return ajaxResponse;
+	}
+
+	@RequestMapping(value = "{reviewProcessId}/cancel", method = RequestMethod.POST)
+	@ResponseBody
+	public AjaxResponse cancel(@PathVariable(value = "reviewProcessId")Long reviewProcessId, @RequestParam(required = false) List<Long> selections) {
+		AjaxResponse ajaxResponse = new AjaxResponse("调整出围成功！");
+		try {
+			ReviewMain reviewMain = reviewMainService.findByEnabledTrue();
+			if (reviewMain == null) {
+				ajaxResponse.setSuccess(Boolean.FALSE);
+				ajaxResponse.setMessage("评审未开启，不能操作！");
+			} else {
+				voteResultService.cancel(reviewMain.getId(), reviewProcessId, selections);
+			}
+		} catch (Exception e) {
+			ajaxResponse.setSuccess(Boolean.FALSE);
+			ajaxResponse.setMessage("调整出围失败！");
+		}
+		return ajaxResponse;
+	}
+
 }
