@@ -2,6 +2,7 @@ package com.ewcms.yjk.re.repository;
 
 import java.util.List;
 
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import com.ewcms.common.repository.BaseRepository;
@@ -16,4 +17,12 @@ public interface VoteRecordRepository extends BaseRepository<VoteRecord, Long> {
 	
 	@Query("select distinct v.userId from VoteRecord v where v.reviewMainId=?1 and v.reviewProcessId=?2 and v.submitted=true")
 	List<Long> findUserSubmitted(Long reviewMainId, Long reviewProcessId);
+	
+	List<VoteRecord> findByUserIdAndReviewMainIdAndReviewProcessIdAndDrugFormIdIsNullAndCommonNameContentsIdIsNull(Long userId, Long reviewMainId, Long reviewProcessId);
+	
+	List<VoteRecord>  findByUserIdAndReviewMainIdAndReviewProcessIdAndSignedFalse(Long userId, Long reviewMainId, Long reviewProcessId);
+	
+	@Modifying
+	@Query("update VoteRecord v set v.signed=true where v.userId=?1 and v.reviewMainId=?2 and v.reviewProcessId=?3")
+	void updateSigned(Long userId, Long reviewMainId, Long reviewProcessId);
 }

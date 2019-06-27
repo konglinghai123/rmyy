@@ -12,6 +12,7 @@ import com.ewcms.yjk.sb.entity.DrugForm;
 
 @Service
 public class VoteResultService extends BaseService<VoteResult, Long> {
+
 	private VoteResultRepository getVoteResultRepository(){
 		return (VoteResultRepository)baseRepository;
 	}
@@ -31,5 +32,9 @@ public class VoteResultService extends BaseService<VoteResult, Long> {
 	
 	public List<DrugForm> findSelectedDrugForm(Long reviewMainId,String declareCategory){
 		return getVoteResultRepository().findSelectedDrugForm(reviewMainId, declareCategory);
+	}
+	
+	public List<VoteResult> findByReviewMainIdAndReviewProcessIdOrderByPassSumDesc(Long reviewMainId, Long reviewProcessId){
+		return getVoteResultRepository().findByReviewMainIdAndReviewProcessIdOrderByPassSumDesc(reviewMainId, reviewProcessId);
 	}
 }

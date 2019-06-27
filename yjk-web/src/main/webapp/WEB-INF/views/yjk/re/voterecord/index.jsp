@@ -49,7 +49,7 @@
 										if(row.drugForm.commonNameContents==null){
 										 	return '';
 										}else{
-											return formatTooltip(row.${fn:substring(displayColumn.ruleName,6,fn:length(displayColumn.ruleName)-6), row);
+											return formatTooltip(row.${fn:substring(displayColumn.ruleName,6,fn:length(displayColumn.ruleName)-6)}, row);
 										}
 									}">${displayColumn.ruleCnName}</th>  						
 						</c:otherwise>

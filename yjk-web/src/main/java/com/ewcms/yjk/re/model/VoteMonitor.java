@@ -9,15 +9,15 @@ public class VoteMonitor implements Serializable {
 	private static final long serialVersionUID = -3461725134953255962L;
 
 	public User user;
-	private Boolean sined;
+	private Boolean signed;
 
 	public VoteMonitor() {
 	}
 	
-	public VoteMonitor(User user, Boolean sined) {
+	public VoteMonitor(User user, Boolean signed) {
 		super();
 		this.user = user;
-		this.sined = sined;
+		this.signed = signed;
 	}
 
 	public User getUser() {
@@ -28,12 +28,12 @@ public class VoteMonitor implements Serializable {
 		this.user = user;
 	}
 
-	public Boolean getSined() {
-		return sined;
+	public Boolean getSigned() {
+		return signed;
 	}
 
-	public void setSined(Boolean sined) {
-		this.sined = sined;
+	public void setSigned(Boolean signed) {
+		this.signed = signed;
 	}
 
 	@Override

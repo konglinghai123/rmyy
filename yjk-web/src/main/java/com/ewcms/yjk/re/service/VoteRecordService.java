@@ -33,8 +33,6 @@ public class VoteRecordService extends BaseService<VoteRecord, Long> {
 	@Autowired
 	private ReviewMainService reviewMainService;
 	@Autowired
-	private ReviewProcessService reviewProcessService;
-	@Autowired
 	private VoteResultService voteResultService;
 	@Autowired
 	private CommonNameContentsService commonNameContentsService;
@@ -134,6 +132,7 @@ public class VoteRecordService extends BaseService<VoteRecord, Long> {
 	 * 启动专家通用名遴选投票
 	 * 
 	 */
+	@SuppressWarnings("unchecked")
 	public String expertStartVoteaddCommonNameManufacturer(Long userId,Long currentReviewProcessId){
 		ReviewMain reviewMainEnable = reviewMainService.findByEnabledTrue();
 		if(reviewMainEnable == null)return "评审还未启动！";
@@ -209,5 +208,56 @@ public class VoteRecordService extends BaseService<VoteRecord, Long> {
 	 */
 	public List<Long> findUserSubmitted(Long reviewMainId, Long reviewProcessId){
 		return getVoteRecordRepository().findUserSubmitted(reviewMainId, reviewProcessId);
+	}
+	
+	/**
+	 * 查询中止投票记录集
+	 * 
+	 * @param userId
+	 * @param reviewMainId
+	 * @param reviewProcessId
+	 * @return
+	 */
+	public List<VoteRecord> findByUserIdAndReviewMainIdAndReviewProcessIdAndDrugFormIdIsNullAndCommonNameContentsIdIsNull(Long userId, Long reviewMainId, Long reviewProcessId){
+		return getVoteRecordRepository().findByUserIdAndReviewMainIdAndReviewProcessIdAndDrugFormIdIsNullAndCommonNameContentsIdIsNull(userId, reviewMainId, reviewProcessId);
+	}
+	
+	/**
+	 * 中止投票（由管理人员操作），在VoteRecord对象中产生一条drugForm和commonNameContents都为空的一条记录
+	 * @param userId
+	 * @param reviewMainId
+	 * @param reviewProcessId
+	 */
+	public void giveUp(Long userId, Long reviewMainId, Long reviewProcessId) {
+		List<VoteRecord> voteRecords = findByUserIdAndReviewMainIdAndReviewProcessIdAndDrugFormIdIsNullAndCommonNameContentsIdIsNull(userId, reviewMainId, reviewProcessId);
+		if (EmptyUtil.isCollectionEmpty(voteRecords)) {
+			VoteRecord voteRecord = new VoteRecord();
+			voteRecord.setUserId(userId);
+			voteRecord.setReviewMainId(reviewMainId);
+			voteRecord.setReviewProcessId(reviewProcessId);
+			voteRecord.setVoteTypeEnum(VoteTypeEnum.abstain);
+			voteRecord.setSigned(Boolean.TRUE);
+			voteRecord.setSubmitted(Boolean.TRUE);
+			voteRecord.setSubmittDate(new Date(Calendar.getInstance().getTime().getTime()));
+			super.save(voteRecord);
+		}
+	}
+	
+	/**
+	 * 查询未签字的记录集
+	 * @param userId 用户编号
+	 * @param reviewMainId 主评审编号
+	 * @param reviewProcessId 流程编号
+	 * @return
+	 */
+	public List<VoteRecord>  findByUserIdAndReviewMainIdAndReviewProcessIdAndSignedFalse(Long userId, Long reviewMainId, Long reviewProcessId){
+		return getVoteRecordRepository().findByUserIdAndReviewMainIdAndReviewProcessIdAndSignedFalse(userId, reviewMainId, reviewProcessId);
+	}
+	
+	public void sign(Long userId, Long reviewMainId, Long reviewProcessId) {
+		List<VoteRecord> voteRecords = findByUserIdAndReviewMainIdAndReviewProcessIdAndSignedFalse(userId, reviewMainId, reviewProcessId);
+		if (EmptyUtil.isCollectionNotEmpty(voteRecords)) {
+			getVoteRecordRepository().updateSigned(userId, reviewMainId, reviewProcessId);
+		}
 	}
 }

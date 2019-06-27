@@ -5,8 +5,9 @@
 	<table id="tt">
 		<thead>
 			<tr>
+				<th data-options="field:'operation',width:80,align:'center',formatter:formatOperation"/>操作</th>
 			    <th data-options="field:'id',hidden:true">编号</th>
-				<th data-options="field:'realname',width:150">姓名</th>
+				<th data-options="field:'realname',width:120">姓名</th>
 				<th data-options="field:'sex',width:60,
 						formatter:function(val,row){
 							return row.sexDescription;
@@ -29,7 +30,6 @@
 						formatter:function(val,row){
 							return row.appointment != null ? row.appointment.name : '';
 						}">聘任</th>
-				<th data-options="field:'operation',width:80,align:'center',formatter:formatOperation"/>操作</th>
 			</tr>
 		</thead>
 	</table>
@@ -54,11 +54,21 @@
 	
 	function formatOperation(val, row) {
 		var htmlOperation = '';
-		htmlOperation += '<a class="giveupCls" onclick="giveUp(' + row.id + ')" href="javascript:void(0);" style="height:24px;" title="放弃投票"/> ';
+		htmlOperation += '<a class="giveupCls" onclick="giveUp(' + row.id + ')" href="javascript:void(0);" style="height:24px;" title="中止投票"/> ';
 		return htmlOperation;
 	}
 
-	function giveup(id){
-		
+	function giveUp(id){
+		 $.messager.confirm('提示', '确定要中止本轮投票的权利吗？中止后此人本轮将不能进行投票了，请谨慎操作！', function(r){
+				if (r){
+					$.post('${ctx}/yjk/re/voteresult/' + id + '/${reviewMainId}/${currentReviewProcess.id}/giveUp', {}, function(result) {
+						if (result.success){
+							$('#tt').datagrid('clearSelections');
+							$('#tt').datagrid('reload');
+						}
+						$.messager.alert('提示', result.message, 'info');
+					});
+				}
+		 });
 	}
 </script>

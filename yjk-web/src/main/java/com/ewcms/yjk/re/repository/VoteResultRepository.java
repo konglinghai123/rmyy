@@ -15,7 +15,7 @@ public interface VoteResultRepository extends BaseRepository<VoteResult, Long> {
 	VoteResult findByDrugFormIdAndReviewProcessId(Long drugFormId, Long reviewProcessId);
 	
 	@Query("select distinct new com.ewcms.yjk.re.model.VoteMonitor("
-			+ "u, v.sined"
+			+ "u, v.signed"
 			+ ") "
 			+ "from User u, VoteRecord v "
 			+ "where u.id=v.userId and u.id in (?1) "
@@ -24,4 +24,6 @@ public interface VoteResultRepository extends BaseRepository<VoteResult, Long> {
 	
 	@Query("select c.drugForm from VoteResult c where c.reviewMainId=?1 and c.drugForm.declareCategory=?2 and c.selected=true and c.affirmVoteResulted=true")
 	List<DrugForm> findSelectedDrugForm(Long reviewMainId, String declareCategory);
+	
+	List<VoteResult> findByReviewMainIdAndReviewProcessIdOrderByPassSumDesc(Long reviewMainId, Long reviewProcessId);
 }

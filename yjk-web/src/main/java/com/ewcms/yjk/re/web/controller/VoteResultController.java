@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ewcms.common.entity.search.SearchHelper;
@@ -20,10 +21,12 @@ import com.ewcms.common.entity.search.Searchable;
 import com.ewcms.common.utils.Collections3;
 import com.ewcms.common.utils.EmptyUtil;
 import com.ewcms.common.web.controller.BaseController;
+import com.ewcms.common.web.validate.AjaxResponse;
 import com.ewcms.security.user.entity.User;
 import com.ewcms.security.user.service.UserService;
 import com.ewcms.yjk.re.entity.ReviewExpert;
 import com.ewcms.yjk.re.entity.ReviewMain;
+import com.ewcms.yjk.re.entity.ReviewProcess;
 import com.ewcms.yjk.re.entity.VoteResult;
 import com.ewcms.yjk.re.model.VoteMonitor;
 import com.ewcms.yjk.re.service.ReviewMainService;
@@ -56,8 +59,7 @@ public class VoteResultController extends BaseController<VoteResult, Long> {
 		if (reviewMainService.isOpenReview()) {
 			ReviewMain reviewMain = reviewMainService.findByEnabledTrue();
 			model.addAttribute("reviewProcessesList", reviewMain.getReviewProcesses());
-			model.addAttribute("currentReviewProcess",
-					reviewProcessService.findCurrentReviewProcess(reviewMain.getId()));
+			model.addAttribute("currentReviewProcess", reviewProcessService.findCurrentReviewProcess(reviewMain.getId()));
 			reviewMainId = reviewMain.getId();
 		}
 		model.addAttribute("reviewMainId", reviewMainId);
@@ -78,8 +80,7 @@ public class VoteResultController extends BaseController<VoteResult, Long> {
 
 	@RequestMapping(value = "{reviewProcessId}/queryUserSubmitted")
 	@ResponseBody
-	public Map<String, Object> queryUserSubmitted(@PathVariable("reviewProcessId") Long reviewProcessId,
-			@ModelAttribute SearchParameter<Long> searchParameter) {
+	public Map<String, Object> queryUserSubmitted(@PathVariable("reviewProcessId") Long reviewProcessId, @ModelAttribute SearchParameter<Long> searchParameter) {
 		Map<String, Object> map = Maps.newHashMap();
 		ReviewMain reviewMain = reviewMainService.findByEnabledTrue();
 		if (reviewMain == null)
@@ -99,10 +100,10 @@ public class VoteResultController extends BaseController<VoteResult, Long> {
 		return viewName("userNoSubmitted");
 	}
 
+	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "{reviewProcessId}/queryUserNoSubmitted")
 	@ResponseBody
-	public Map<String, Object> queryUserNoSubmitted(@PathVariable("reviewProcessId") Long reviewProcessId,
-			@ModelAttribute SearchParameter<Long> searchParameter) {
+	public Map<String, Object> queryUserNoSubmitted(@PathVariable("reviewProcessId") Long reviewProcessId, @ModelAttribute SearchParameter<Long> searchParameter) {
 		Map<String, Object> map = Maps.newHashMap();
 		ReviewMain reviewMain = reviewMainService.findByEnabledTrue();
 		if (reviewMain == null)
@@ -138,5 +139,52 @@ public class VoteResultController extends BaseController<VoteResult, Long> {
 		map.put("total", users.size());
 		map.put("rows", users);
 		return map;
+	}
+	
+	@RequestMapping(value = "{userId}/{reviewMainId}/{reviewProcessId}/giveUp", method = RequestMethod.POST)
+	@ResponseBody
+	public AjaxResponse giveUp(@PathVariable(value = "userId")Long userId, @PathVariable(value = "reviewMainId")Long reviewMainId, @PathVariable(value = "reviewProcessId")Long reviewProcessId) {
+		AjaxResponse ajaxResponse = new AjaxResponse("放弃投票成功！");
+		try {
+			voteRecordService.giveUp(userId, reviewMainId, reviewProcessId);
+		} catch (Exception e) {
+			ajaxResponse.setSuccess(Boolean.FALSE);
+			ajaxResponse.setMessage("放弃投票失败！");
+		}
+		return ajaxResponse;
+	}
+ 
+	@RequestMapping(value = "{userId}/{reviewMainId}/{reviewProcessId}/sign", method = RequestMethod.POST)
+	@ResponseBody
+	public AjaxResponse sign(@PathVariable(value = "userId")Long userId, @PathVariable(value = "reviewMainId")Long reviewMainId, @PathVariable(value = "reviewProcessId")Long reviewProcessId) {
+		AjaxResponse ajaxResponse = new AjaxResponse("签字确认成功！");
+		try {
+			voteRecordService.sign(userId, reviewMainId, reviewProcessId);
+		} catch (Exception e) {
+			ajaxResponse.setSuccess(Boolean.FALSE);
+			ajaxResponse.setMessage("签字确认失败！");
+		}
+		return ajaxResponse;
+	}
+	
+	@RequestMapping(value = "voteResult")
+	public String voteResult(Model model) {
+		setCommonData(model);
+		return viewName("voteResult");
+	}
+
+	
+	@RequestMapping(value = "{reviewProcessId}/queryVoteResult")
+	@ResponseBody
+	public Map<String, Object> queryVoteResult(@PathVariable("reviewProcessId") Long reviewProcessId, @ModelAttribute SearchParameter<Long> searchParameter) {
+		Map<String, Object> map = Maps.newHashMap();
+		ReviewMain reviewMain = reviewMainService.findByEnabledTrue();
+		if (reviewMain == null) return map;
+		
+		List<VoteResult> voteResults = voteResultService.findByReviewMainIdAndReviewProcessIdOrderByPassSumDesc(reviewMain.getId(), reviewProcessId);
+		map.put("total", voteResults.size());
+		map.put("rows", voteResults);
+		return map;
+
 	}
 }
