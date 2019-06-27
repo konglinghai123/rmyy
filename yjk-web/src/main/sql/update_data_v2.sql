@@ -5,9 +5,10 @@ insert into sec_resource(id, icon, identity, name, parent_id, parent_ids, is_sho
 ,(125,'ztree_file','','评审管理',102,'0/1/102/','true',null,'',19)
 ,(126,'ztree_file','','字典库',102,'0/1/102/','true',null,'',20)
 ,(127,'rmyy-yjk-voterecord-tree','re:voterecord','新药投票',62,'0/1/62/','true',null,'/yjk/re/voterecord/index',4)
-,(128,'ztree_file','re:uservote','用户投票情况',125,'0/1/102/125/','true',null,'/yjk/re/uservote/index',4)
+,(128,'ztree_file','uservote','用户投票情况',125,'0/1/102/125/','true',null,'/yjk/re/uservote/index',4)
+,(129,'rmyy-yjk-voteresult-tree','voteresult','投票监控',125,'0/1/102/125/','true',null,'/yjk/re/voteresult/index',5)
 ;
-select setval('seq_sec_resource_id', 128);
+select setval('seq_sec_resource_id', 129);
 
 update sec_resource set parent_id=124, parent_ids='0/1/102/124', weight=1 where id=119;
 update sec_resource set parent_id=124, parent_ids='0/1/102/124', weight=2, name='申报设置' where id=108;
@@ -35,8 +36,10 @@ insert into sys_icon(id,css_class, description, icon_height, icon_type, identity
 ,(96,'','药刘管理-评审基本规则',18,'css_sprite','rmyy-yjk-reviewbaserule-tree','',0,'static/image/menu/yjk/reviewbaserule.png','background-size:100%;',0,16)
 ,(97,'','药刘管理-专家投票',48,'css_sprite','rmyy-yjk-voterecord','',0,'static/image/menu/yjk/voterecord.png','',0;48)
 ,(98,'','药刘管理-专家投票',18,'css_sprite','rmyy-yjk-voterecord-tree','',0,'static/image/menu/yjk/voterecord.png','background-size:100%;',0,16)
+,(99,'','药剂管理-投票监控',48,'css_sprite','rmyy-yjk-voteresult','',0,'static/image/menu/yjk/voteresult.png','',0,48)
+,(100,'','药剂管理-投票监控',18,'css_sprite','rmyy-yjk-voteresult-tree','',0,'static/image/menu/yjk/voteresult.png','background-size:100%,';0,16)
 ;
-select setval('seq_sys_icon_id', 98);
+select setval('seq_sys_icon_id', 100);
 
 insert into re_zd_display_column(id, rule_cn_name,rule_name,width) values
 (1,'药品通用名','drugForm.commonNameContents.extractCommonName',150)
@@ -56,7 +59,7 @@ insert into re_zd_display_column(id, rule_cn_name,rule_name,width) values
 ,(15,'妇科','drugForm.commonNameContents.gynaecology',50)
 ,(16,'儿科','drugForm.commonNameContents.pediatric',50)
 ,(17,'急救','drugForm.commonNameContents.firstAid',50)
-,(18,'医保目录编号','drugForm.commonNameContents.medicalDirNo',80)
+,(18,'医保目录编号','drugForm.commonNameContents.medicalDirNo',100)
 ,(19,'医保类别','drugForm.commonNameContents.medicalCategory',80)
 ,(20,'一致性评价','drugForm.commonNameContents.consistencyEvaluation',80)
 ,(21,'谈判品种','drugForm.commonNameContents.negotiationVariety',80)
