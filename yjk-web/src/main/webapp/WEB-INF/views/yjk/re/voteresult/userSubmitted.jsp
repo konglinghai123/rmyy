@@ -53,9 +53,49 @@
 			</tr>
 		</thead>
 	</table>
+	<table id="ttPrint">
+		<thead>   		
+			<tr>
+			    <th data-options="field:'id',hidden:true">编号</th>
+ 				<c:forEach items="${currentReviewProcess.displayColumns}" var="displayColumn" varStatus="status">
+ 					<c:choose>
+	 					<c:when test="${currentReviewProcess.reviewBaseRule.ruleName == 'addCommonName'||currentReviewProcess.reviewBaseRule.ruleName == 'addSpecificationsAndPill'}">
+							<th data-options="field:'${displayColumn.ruleName}',width:${displayColumn.width},
+									formatter:function(val,row){
+										try{
+											if(row.drugForm==null && row.drugForm.commonNameContents==null){
+											 	return '';
+											}else{
+												return row.${displayColumn.ruleName};
+											}
+										}catch(err){
+											return '';
+										}
+									}">${displayColumn.ruleCnName}</th>  						
+						</c:when>
+						<c:otherwise>
+							<th data-options="field:'${fn:substring(displayColumn.ruleName,6,fn:length(displayColumn.ruleName)-6)}',width:${displayColumn.width},
+									formatter:function(val,row){
+										try{
+											if(row.drugForm==null && row.drugForm.commonNameContents==null){
+											 	return '';
+											}else{
+												return row.${fn:substring(displayColumn.ruleName,6,fn:length(displayColumn.ruleName)-6)};
+											}
+										}catch(err){
+											return '';
+										}
+									}">${displayColumn.ruleCnName}</th>  						
+						</c:otherwise>
+					</c:choose>
+ 				</c:forEach>
+			</tr>
+		</thead> 
+	</table>
     <ewcms:editWindow/>
 <ewcms:footer/>
 <script type="text/javascript">
+	var caption = '${currentReviewProcess.reviewBaseRule.ruleCnName}';
 	$(function(){
 		$('#tt').datagrid({
 			url:'${ctx}/yjk/re/voteresult/${currentReviewProcess.id}/queryUserSubmitted',
@@ -88,7 +128,18 @@
 	}
 	
 	function print(id){
-		$.messager.alert('提示', '方法未实现', 'info');
+		$('#ttPrint').datagrid({
+			url:'${ctx}/yjk/re/voteresult/' + id + '/${currentReviewProcess.id}/queryVoteRecord',
+			fit:true,
+			nowrap:true,
+			pagination:false,
+			rownumbers:true,
+			striped:true,
+			border:false,
+			onLoadSuccess:function(row){
+				$(this).datagrid('toExcel','dg.xls');
+			}
+		});
 	}
 	
 	function sign(id){

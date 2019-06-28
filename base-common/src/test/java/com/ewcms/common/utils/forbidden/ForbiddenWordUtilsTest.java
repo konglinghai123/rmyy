@@ -56,5 +56,14 @@ public class ForbiddenWordUtilsTest {
 		Assert.assertTrue(ForbiddenWordUtils.containsForbiddenWord(input));
 	}
 	
-	
+	@Test
+	public void testStringSpilt() {
+		String input = "drugFrom.test.abc";
+		String[] result = input.split("\\.");
+		System.out.println(" result1 : " + result[result.length - 1].toString());
+		
+		input = "drugFromtestabc";
+		result = input.split("\\.");
+		System.out.println(" result2 : " + result[result.length - 1].toString());
+	}
 }

@@ -10,12 +10,26 @@
     function toHtml(target, rows){
         rows = rows || getRows(target);
         var dg = $(target);
+        
         var data = ['<table border="1" rull="all" style="border-collapse:collapse">'];
         var fields = dg.datagrid('getColumnFields',true).concat(dg.datagrid('getColumnFields',false));
         var trStyle = 'height:32px';
         var tdStyle0 = 'vertical-align:middle;padding:0 4px';
+        
+        data.push('<tr style="'+trStyle+'">');
+        var fieldLen = fields.length;
+        for(var i=0; i<fields.length; i++){
+        	if (fields[i] == 'ck') {
+        		fieldLen = fieldLen - 1;
+        		break;
+        	}
+        }
+        data.push('<th colspan="' + fieldLen + '"><center><h4>《' + caption + '》投票结果</h4></center></th>');
+        data.push('</tr>');
+        
         data.push('<tr style="'+trStyle+'">');
         for(var i=0; i<fields.length; i++){
+        	if (fields[i] == 'ck') continue;
             var col = dg.datagrid('getColumnOption', fields[i]);
             var tdStyle = tdStyle0 + ';width:'+col.boxWidth+'px;';
             data.push('<th style="'+tdStyle+'">'+col.title+'</th>');
@@ -25,9 +39,28 @@
             data.push('<tr style="'+trStyle+'">');
             for(var i=0; i<fields.length; i++){
                 var field = fields[i];
-                data.push(
-                    '<td style="'+tdStyle0+'">'+row[field]+'</td>'
-                );
+                if (field == 'ck') continue;
+                var fieldArray = field.split(".");
+                var value = "";
+                if (fieldArray.length == 1){
+                	if (row[fieldArray[0]] != undefined){
+                		value = row[fieldArray[0]];
+                	}
+                } else if (fieldArray.length == 2){
+                	if (row[fieldArray[0]] != undefined && row[fieldArray[0]][fieldArray[1]] != undefined){
+                		value = row[fieldArray[0]][fieldArray[1]];
+                	}
+                } else if (fieldArray.length == 3){
+                	if (row[fieldArray[0]] != undefined && row[fieldArray[0]][fieldArray[1]] != undefined && row[fieldArray[0]][fieldArray[1]][fieldArray[2]] != undefined){
+                		value = row[fieldArray[0]][fieldArray[1]][fieldArray[2]];
+                	}
+                } else if (fieldArray.length == 4){
+                	if (row[fieldArray[0]] != undefined && row[fieldArray[0]][fieldArray[1]] != undefined && row[fieldArray[0]][fieldArray[1]][fieldArray[2]] != undefined && row[fieldArray[0]][fieldArray[1]][fieldArray[2]][fieldArray[3]] != undefined){
+                		value = row[fieldArray[0]][fieldArray[1]][fieldArray[2]][fieldArray[3]];
+                	}
+                }
+                
+                data.push('<td style="'+tdStyle0+'">'+value+'</td>');
             }
             data.push('</tr>');
         });

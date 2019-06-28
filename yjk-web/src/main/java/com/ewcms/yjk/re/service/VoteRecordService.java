@@ -377,4 +377,16 @@ public class VoteRecordService extends BaseService<VoteRecord, Long> {
 					reviewProcessId);
 		}
 	}
+	
+	/**
+	 * 查询用户投票记录
+	 * 
+	 * @param userId
+	 * @param reviewMainId
+	 * @param reviewProcessId
+	 * @return
+	 */
+	public List<VoteRecord> findByUserIdAndReviewMainIdAndReviewProcessIdAndDrugFormIsNotNull(Long userId, Long reviewMainId, Long reviewProcessId){
+		return getVoteRecordRepository().findByUserIdAndReviewMainIdAndReviewProcessIdAndDrugFormIsNotNull(userId, reviewMainId, reviewProcessId);
+	}
 }

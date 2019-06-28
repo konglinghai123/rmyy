@@ -27,6 +27,7 @@ import com.ewcms.security.user.entity.User;
 import com.ewcms.security.user.service.UserService;
 import com.ewcms.yjk.re.entity.ReviewExpert;
 import com.ewcms.yjk.re.entity.ReviewMain;
+import com.ewcms.yjk.re.entity.VoteRecord;
 import com.ewcms.yjk.re.entity.VoteResult;
 import com.ewcms.yjk.re.model.VoteMonitor;
 import com.ewcms.yjk.re.service.ReviewMainService;
@@ -89,6 +90,23 @@ public class VoteResultController extends BaseController<VoteResult, Long> {
 		map.put("total", users.size());
 		map.put("rows", users);
 		return map;
+	}
+	
+	@RequestMapping(value = "{userId}/{reviewProcessId}/queryVoteRecord")
+	@ResponseBody
+	public Map<String, Object> queryVoteRecord(@PathVariable(value = "userId")Long userId, @PathVariable(value = "reviewProcessId")Long reviewProcessId, Model model){
+		Map<String, Object> map = Maps.newHashMap();
+		ReviewMain reviewMain = reviewMainService.findByEnabledTrue();
+		if (reviewMain == null)
+			return map;
+		
+		setCommonData(model);
+		
+		List<VoteRecord> voteResults = voteRecordService.findByUserIdAndReviewMainIdAndReviewProcessIdAndDrugFormIsNotNull(userId, reviewMain.getId(), reviewProcessId);
+		map.put("total", voteResults.size());
+		map.put("rows", voteResults);
+		return map;
+
 	}
 
 	@RequestMapping(value = "userNoSubmitted")
@@ -186,16 +204,17 @@ public class VoteResultController extends BaseController<VoteResult, Long> {
 	
 	@RequestMapping(value = "{reviewProcessId}/queryVoteResult")
 	@ResponseBody
-	public Map<String, Object> queryVoteResult(@PathVariable("reviewProcessId") Long reviewProcessId, @ModelAttribute SearchParameter<Long> searchParameter) {
+	public Map<String, Object> queryVoteResult(@PathVariable("reviewProcessId") Long reviewProcessId, @ModelAttribute SearchParameter<Long> searchParameter, Model model) {
 		Map<String, Object> map = Maps.newHashMap();
 		ReviewMain reviewMain = reviewMainService.findByEnabledTrue();
 		if (reviewMain == null) return map;
+		
+		setCommonData(model);
 		
 		List<VoteResult> voteResults = voteResultService.findCurrentReviewProcessVoteResults(reviewMain.getId(), reviewProcessId);
 		map.put("total", voteResults.size());
 		map.put("rows", voteResults);
 		return map;
-
 	}
 	
 	@RequestMapping(value = "{reviewProcessId}/adjust", method = RequestMethod.POST)

@@ -8,7 +8,7 @@
 				<th data-options="field:'ck',checkbox:true"/>
 			    <th data-options="field:'id',hidden:true,">编号</th>
 				<th data-options="field:'passSum',width:60">赞成票</th>
-				<th data-options="field:'opposeSum',width:60">返对票</th>
+				<th data-options="field:'opposeSum',width:60">反对票</th>
 				<th data-options="field:'abstainSum',width:60">弃权票</th>
 				<th data-options="field:'selected',width:80,
 						formatter:function(val,row){
@@ -65,7 +65,9 @@
         </div>
 	</div>
 <ewcms:footer/>
+<script type="text/javascript" src="${ctx}/static/easyui/ext/datagrid-export.js"></script>
 <script type="text/javascript">
+	var caption = '${currentReviewProcess.reviewBaseRule.ruleCnName}';
 	$(function(){
 		$('#tt').datagrid({
 			url:'${ctx}/yjk/re/voteresult/${currentReviewProcess.id}/queryVoteResult',
@@ -87,7 +89,7 @@
 	});
 	
 	$('#tb-print').bind('click', function(){
-		
+		$('#tt').datagrid('toExcel','dg.xls');
 	});
 	
 	$('#tb-adjust').bind('click', function(){
