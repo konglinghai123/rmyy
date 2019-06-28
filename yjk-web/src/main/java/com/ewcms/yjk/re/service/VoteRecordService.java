@@ -203,18 +203,18 @@ public class VoteRecordService extends BaseService<VoteRecord, Long> {
 								commonNameIds, commonNameContentsvo
 										.getAdministration().getId());
 				for (CommonNameContents commonNameContents : machCommonNameContentsList) {
-					if (hospitalContentsService
-							.findByBidDrugIdAndDeletedFalse(commonNameContents
-									.getBidDrugId()) == null) {
-						VoteResult voteResult = new VoteResult();
-						voteResult.setReviewMainId(reviewMainEnable.getId());
-						voteResult.setReviewProcessId(currentReviewProcessId);
-						voteResult.setDrugForm(drugForm);
-						voteResult.setOpposeSum(0);
-						voteResult.setPassSum(0);
-						voteResult.setAbstainSum(0);
-						voteResult.setCommonNameContents(commonNameContents);
-						voteResultService.save(voteResult);
+					if(voteResultService.findByCommonNameContentsIdAndReviewProcessId(commonNameContents.getId(), currentReviewProcessId)==null){//已经存在的大总目录不再进入投票
+						if (hospitalContentsService.findByBidDrugIdAndDeletedFalse(commonNameContents.getBidDrugId()) == null) {//院用目录已存在的不进行投票
+							VoteResult voteResult = new VoteResult();
+							voteResult.setReviewMainId(reviewMainEnable.getId());
+							voteResult.setReviewProcessId(currentReviewProcessId);
+							voteResult.setDrugForm(drugForm);
+							voteResult.setOpposeSum(0);
+							voteResult.setPassSum(0);
+							voteResult.setAbstainSum(0);
+							voteResult.setCommonNameContents(commonNameContents);
+							voteResultService.save(voteResult);
+						}
 					}
 				}
 			}

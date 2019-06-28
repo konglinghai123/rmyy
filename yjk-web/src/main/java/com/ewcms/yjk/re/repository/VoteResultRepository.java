@@ -14,6 +14,7 @@ public interface VoteResultRepository extends BaseRepository<VoteResult, Long> {
 	Long countByReviewProcessId(Long reviewProcessId);
 	List<VoteResult> findByReviewProcessId(Long reviewProcessId);
 	VoteResult findByDrugFormIdAndReviewProcessId(Long drugFormId, Long reviewProcessId);
+	VoteResult findByCommonNameContentsIdAndReviewProcessId(Long commonNameContentsId, Long reviewProcessId);
 	
 	@Query("select distinct new com.ewcms.yjk.re.model.VoteMonitor("
 			+ "u, v.signed"
@@ -36,5 +37,5 @@ public interface VoteResultRepository extends BaseRepository<VoteResult, Long> {
 	@Modifying
 	@Query("update VoteResult v set v.adjusted=true, v.selected=false where v.reviewMainId=?1 and v.reviewProcessId=?2 and v.id in (?3) and v.selected=true")
 	void cancel(Long reviewMainId, Long reviewProcessId, List<Long> voteResultIds);
-
+	
 }
