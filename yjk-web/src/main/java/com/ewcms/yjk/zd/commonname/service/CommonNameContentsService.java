@@ -36,6 +36,7 @@ public class CommonNameContentsService extends BaseService<CommonNameContents, L
 	@Autowired
 	private AdministrationService administrationService;
 
+	
 	private CommonNameContentsRepository getCommonNameContentsRepository() {
 		return (CommonNameContentsRepository) baseRepository;
 	}

@@ -38,6 +38,10 @@ public class VoteResultService extends BaseService<VoteResult, Long> {
 		return getVoteResultRepository().findCurrentReviewProcessVoteResults(reviewMainId, reviewProcessId);
 	}
 	
+	public List<VoteResult> findByReviewProcessId(Long reviewProcessId){
+		return getVoteResultRepository().findByReviewProcessId(reviewProcessId);
+	}
+	
 	/**
 	 * 调整入围
 	 * 

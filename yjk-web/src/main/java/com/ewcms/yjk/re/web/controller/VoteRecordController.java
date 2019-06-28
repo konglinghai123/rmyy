@@ -82,7 +82,13 @@ public class VoteRecordController extends BaseCRUDController<VoteRecord, Long> {
 				}
 				if(currentReviewProcess.getReviewBaseRule().getRuleName().equals("addSpecificationsAndPill")){
 					getVoteRecordService().expertStartVoteAddSpecificationsAndPill(user.getId(),currentReviewProcess.getId());
-				}				
+				}	
+				if(currentReviewProcess.getReviewBaseRule().getRuleName().equals("addCommonNameManufacturer")){
+					getVoteRecordService().expertStartVoteAddCommonNameManufacturer(user.getId(),currentReviewProcess.getId());
+				}	
+				if(currentReviewProcess.getReviewBaseRule().getRuleName().equals("addSpecificationsAndPillManufacturer")){
+					getVoteRecordService().expertStartVoteAddSpecificationsAndPillManufacturer(user.getId(),currentReviewProcess.getId());
+				}	
 			}
 		}
 		return super.index(model);

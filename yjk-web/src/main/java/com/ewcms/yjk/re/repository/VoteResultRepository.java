@@ -12,7 +12,7 @@ import com.ewcms.yjk.sb.entity.DrugForm;
 
 public interface VoteResultRepository extends BaseRepository<VoteResult, Long> {
 	Long countByReviewProcessId(Long reviewProcessId);
-	
+	List<VoteResult> findByReviewProcessId(Long reviewProcessId);
 	VoteResult findByDrugFormIdAndReviewProcessId(Long drugFormId, Long reviewProcessId);
 	
 	@Query("select distinct new com.ewcms.yjk.re.model.VoteMonitor("

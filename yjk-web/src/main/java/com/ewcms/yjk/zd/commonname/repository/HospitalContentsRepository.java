@@ -36,4 +36,6 @@ public interface HospitalContentsRepository extends BaseRepository<HospitalConte
 	
 	@Query("select count(*) from HospitalContents c where c.common.id in (?1) and deleted is false")
 	Long countHospitalContents(List<Long> commonIds);
+	
+	HospitalContents findByBidDrugIdAndDeletedFalse(String bidDrugId);
 }

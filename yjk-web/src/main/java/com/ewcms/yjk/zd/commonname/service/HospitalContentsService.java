@@ -50,6 +50,10 @@ public class HospitalContentsService extends BaseService<HospitalContents, Long>
 		getHospitalContentsRepository().deleteAllHospitalContents();
 	}
 	
+	public HospitalContents findByBidDrugIdAndDeletedFalse(String bidDrugId){
+		return getHospitalContentsRepository().findByBidDrugIdAndDeletedFalse(bidDrugId);
+	}
+	
 	/**
 	 * 查询申报类型,0为新增通用名,其他为新增规格/剂型
 	 * 
