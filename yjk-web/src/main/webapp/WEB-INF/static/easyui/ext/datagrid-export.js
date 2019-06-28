@@ -24,7 +24,7 @@
         		break;
         	}
         }
-        data.push('<th colspan="' + fieldLen + '"><center><h4>《' + caption + '》投票结果</h4></center></th>');
+        data.push('<th colspan="' + fieldLen + '"><center><h4>' + caption + '</h4></center></th>');
         data.push('</tr>');
         
         data.push('<tr style="'+trStyle+'">');

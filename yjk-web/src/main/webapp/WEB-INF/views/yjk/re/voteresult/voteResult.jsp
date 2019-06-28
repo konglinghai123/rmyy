@@ -27,20 +27,28 @@
 	 					<c:when test="${currentReviewProcess.reviewBaseRule.ruleName == 'addCommonName'||currentReviewProcess.reviewBaseRule.ruleName == 'addSpecificationsAndPill'}">
 							<th data-options="field:'${displayColumn.ruleName}',width:${displayColumn.width},
 									formatter:function(val,row){
-										if(row.drugForm.commonNameContents==null){
-										 	return '';
-										}else{
-											return formatTooltip(row.${displayColumn.ruleName}, row);
+										try{
+											if(row.drugForm.commonNameContents==null){
+											 	return '';
+											}else{
+												return formatTooltip(row.${displayColumn.ruleName}, row);
+											}
+										}catch(err){
+											return '';
 										}
 									}">${displayColumn.ruleCnName}</th>  						
 						</c:when>
 						<c:otherwise>
 							<th data-options="field:'${fn:substring(displayColumn.ruleName,6,fn:length(displayColumn.ruleName)-6)}',width:${displayColumn.width},
 									formatter:function(val,row){
-										if(row.drugForm.commonNameContents==null){
-										 	return '';
-										}else{
-											return formatTooltip(row.${fn:substring(displayColumn.ruleName,6,fn:length(displayColumn.ruleName)-6)}, row);
+										try{
+											if(row.drugForm.commonNameContents==null){
+											 	return '';
+											}else{
+												return formatTooltip(row.${fn:substring(displayColumn.ruleName,6,fn:length(displayColumn.ruleName)-6)}, row);
+											}
+										}catch(err){
+											return '';
 										}
 									}">${displayColumn.ruleCnName}</th>  						
 						</c:otherwise>
@@ -67,7 +75,7 @@
 <ewcms:footer/>
 <script type="text/javascript" src="${ctx}/static/easyui/ext/datagrid-export.js"></script>
 <script type="text/javascript">
-	var caption = '${currentReviewProcess.reviewBaseRule.ruleCnName}';
+	var caption = '所有用户在 ${currentReviewProcess.reviewBaseRule.ruleCnName} 中投票结果统计';
 	$(function(){
 		$('#tt').datagrid({
 			url:'${ctx}/yjk/re/voteresult/${currentReviewProcess.id}/queryVoteResult',
@@ -89,7 +97,7 @@
 	});
 	
 	$('#tb-print').bind('click', function(){
-		$('#tt').datagrid('toExcel','dg.xls');
+		$('#tt').datagrid('toExcel','voteResult.xls');
 	});
 	
 	$('#tb-adjust').bind('click', function(){

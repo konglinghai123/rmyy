@@ -95,7 +95,7 @@
     <ewcms:editWindow/>
 <ewcms:footer/>
 <script type="text/javascript">
-	var caption = '${currentReviewProcess.reviewBaseRule.ruleCnName}';
+	var caption = '';
 	$(function(){
 		$('#tt').datagrid({
 			url:'${ctx}/yjk/re/voteresult/${currentReviewProcess.id}/queryUserSubmitted',
@@ -120,14 +120,14 @@
 	
 	function formatOperation(val, row) {
 		var htmlOperation = '';
-		htmlOperation += '<a class="printCls" onclick="print(' + row.user.id + ')" href="javascript:void(0);" style="height:24px;" title="打印"/> ';
+		htmlOperation += '<a class="printCls" onclick="print(' + row.user.id + ',\'' + row.user.realname + '\');" href="javascript:void(0);" style="height:24px;" title="打印"/> ';
 		if (!row.signed){
-			htmlOperation += '|  <a class="signCls" onclick="sign(' + row.user.id + ')" href="javascript:void(0);" style="height:24px;" title="签字确认"/> ';
+			htmlOperation += '|  <a class="signCls" onclick="sign(' + row.user.id + ');" href="javascript:void(0);" style="height:24px;" title="签字确认"/> ';
 		}
 		return htmlOperation;
 	}
 	
-	function print(id){
+	function print(id, realname){
 		$('#ttPrint').datagrid({
 			url:'${ctx}/yjk/re/voteresult/' + id + '/${currentReviewProcess.id}/queryVoteRecord',
 			fit:true,
@@ -137,7 +137,8 @@
 			striped:true,
 			border:false,
 			onLoadSuccess:function(row){
-				$(this).datagrid('toExcel','dg.xls');
+				caption='用户：' + realname + ' 在 ${currentReviewProcess.reviewBaseRule.ruleCnName} 中的投票结果明细';
+				$(this).datagrid('toExcel','userSubmitted.xls');
 			}
 		});
 	}
