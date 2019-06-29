@@ -24,18 +24,35 @@ public interface VoteResultRepository extends BaseRepository<VoteResult, Long> {
 			+ "order by u.id")
 	List<VoteMonitor> findVoteMonitor(List<Long> userIds);
 	
-	@Query("select c.drugForm from VoteResult c where c.reviewMainId=?1 and c.drugForm.declareCategory=?2 and c.selected=true and c.affirmVoteResulted=true")
+	@Query("select c.drugForm "
+			+ "from VoteResult c "
+			+ "where c.reviewMainId=?1 and c.drugForm.declareCategory=?2 and c.selected=true and c.affirmVoteResulted=true")
 	List<DrugForm> findSelectedDrugForm(Long reviewMainId, String declareCategory);
 	
-	@Query("from VoteResult v where v.reviewMainId=?1 and v.reviewProcessId=?2 order by v.passSum desc, v.selected desc, v.adjusted asc, v.id")
+	@Query("from VoteResult v "
+			+ "where v.reviewMainId=?1 and v.reviewProcessId=?2 "
+			+ "order by v.passSum desc, v.selected desc, v.adjusted asc, v.id")
 	List<VoteResult> findCurrentReviewProcessVoteResults(Long reviewMainId, Long reviewProcessId);
 	
 	@Modifying
-	@Query("update VoteResult v set v.adjusted=true, v.selected=true where v.reviewMainId=?1 and v.reviewProcessId=?2 and v.id in (?3) and v.selected=false")
+	@Query("update VoteResult v "
+			+ "set v.adjusted=true, v.selected=true "
+			+ "where v.reviewMainId=?1 and v.reviewProcessId=?2 and v.id in (?3) and v.selected=false and v.affirmVoteResulted=false")
 	void adjust(Long reviewMainId, Long reviewProcessId, List<Long> voteResultIds);
 	
 	@Modifying
-	@Query("update VoteResult v set v.adjusted=true, v.selected=false where v.reviewMainId=?1 and v.reviewProcessId=?2 and v.id in (?3) and v.selected=true")
+	@Query("update VoteResult v "
+			+ "set v.adjusted=true, v.selected=false "
+			+ "where v.reviewMainId=?1 and v.reviewProcessId=?2 and v.id in (?3) and v.selected=true and v.affirmVoteResulted=false")
 	void cancel(Long reviewMainId, Long reviewProcessId, List<Long> voteResultIds);
 	
+	@Modifying
+	@Query("update VoteResult v "
+			+ "set v.affirmVoteResulted=true "
+			+ "where v.reviewMainId=?1 and v.reviewProcessId=?2 and v.id in (?3)")
+	void affirm(Long reviewMainId, Long reviewProcessId, List<Long> voteResultIds);
+	
+	Long countByReviewMainIdAndReviewProcessIdAndAffirmVoteResultedFalse(Long reviewMainId, Long reviewProcessId);
+	
+	Long countByReviewMainIdAndReviewProcessIdAndAffirmVoteResultedTrueAndSelectedTrue(Long reviewMainId, Long reviewProcessId);
 }

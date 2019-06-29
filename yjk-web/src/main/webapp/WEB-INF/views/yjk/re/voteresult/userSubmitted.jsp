@@ -98,14 +98,14 @@
 	var caption = '';
 	$(function(){
 		$('#tt').datagrid({
-			url:'${ctx}/yjk/re/voteresult/${currentReviewProcess.id}/queryUserSubmitted',
+			url:'${ctx}/yjk/re/voteresult/queryUserSubmitted',
 			toolbar:'#tb',
 			fit:true,
 			nowrap:true,
-			pagination:false,
 			rownumbers:true,
 			striped:true,
 			border:false,
+			singleSelect:true,
 			rowStyler: function(index,row){
 	        	if (!row.signed){
 	    			return 'background-color:#C4E1FF;color:#000000;';
@@ -129,7 +129,7 @@
 	
 	function print(id, realname){
 		$('#ttPrint').datagrid({
-			url:'${ctx}/yjk/re/voteresult/' + id + '/${currentReviewProcess.id}/queryVoteRecord',
+			url:'${ctx}/yjk/re/voteresult/' + id + '/queryVoteRecord',
 			fit:true,
 			nowrap:true,
 			pagination:false,
@@ -146,7 +146,7 @@
 	function sign(id){
 		$.messager.confirm('提示', '确定已签字确认了吗？', function(r){
 			if (r){
-				$.post('${ctx}/yjk/re/voteresult/' + id + '/${currentReviewProcess.id}/sign', {}, function(result) {
+				$.post('${ctx}/yjk/re/voteresult/' + id + '/sign', {}, function(result) {
 					if (result.success){
 						$('#tt').datagrid('clearSelections');
 						$('#tt').datagrid('reload');

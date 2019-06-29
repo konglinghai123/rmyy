@@ -27,7 +27,6 @@ import com.ewcms.common.entity.search.SearchOperator;
 import com.ewcms.common.entity.search.SearchParameter;
 import com.ewcms.common.entity.search.Searchable;
 import com.ewcms.common.entity.search.filter.SearchFilterHelper;
-import com.ewcms.common.utils.Collections3;
 import com.ewcms.common.utils.EmptyUtil;
 import com.ewcms.common.web.controller.BaseCRUDController;
 import com.ewcms.common.web.validate.AjaxResponse;
@@ -38,12 +37,10 @@ import com.ewcms.security.user.web.bind.annotation.CurrentUser;
 import com.ewcms.system.report.entity.TextReport;
 import com.ewcms.system.report.generate.entity.ParameterBuilder;
 import com.ewcms.system.report.service.TextReportService;
-import com.ewcms.yjk.re.entity.ReviewExpert;
 import com.ewcms.yjk.re.entity.ReviewMain;
 import com.ewcms.yjk.re.service.ReviewMainService;
 import com.ewcms.yjk.sp.entity.SystemParameter;
 import com.ewcms.yjk.sp.service.SystemParameterService;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 @Controller
@@ -152,26 +149,13 @@ public class ReviewMainController extends BaseCRUDController<ReviewMain, Long> {
 		return viewName("indexUser");
 	}
 
-	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "{reviewMainId}/queryUser")
 	@ResponseBody
 	public Map<String, Object> queryUser(@PathVariable("reviewMainId") ReviewMain reviewMain,
 			@ModelAttribute SearchParameter<Long> searchParameter) {
 		Map<String, Object> map = Maps.newHashMap();
 
-		List<Long> allUserIds = Lists.newArrayList();
-
-		List<User> reviewMainUsers = reviewMain.getUsers();
-		if (EmptyUtil.isCollectionNotEmpty(reviewMainUsers)) {
-			allUserIds.addAll(Collections3.extractToList(reviewMainUsers, "id"));
-		}
-
-		List<ReviewExpert> reviewExperts = reviewMain.getReviewExperts();
-		if (EmptyUtil.isCollectionNotEmpty(reviewExperts)) {
-			for (ReviewExpert reviewExpert : reviewExperts) {
-				allUserIds.addAll(Collections3.extractToList(reviewExpert.getUsers(), "id"));
-			}
-		}
+		List<Long> allUserIds = getReviewMainService().findReviewUserIds(reviewMain);
 
 		Searchable searchable = SearchHelper.parameterConverSearchable(searchParameter, User.class);
 		if (EmptyUtil.isCollectionNotEmpty(allUserIds)) {

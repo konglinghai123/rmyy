@@ -45,7 +45,21 @@ public class ReviewProcessService extends BaseSequenceMovableService<ReviewProce
 	}
 	
 	public ReviewProcess findCurrentReviewProcess(Long reviewMainId){
-		return getReviewProcessRepository().findByReviewMainIdAndFinishedFalseOrderByWeightAsc(reviewMainId).get(0);
+		List<ReviewProcess> reviewProcesses = getReviewProcessRepository().findByReviewMainIdAndFinishedFalseOrderByWeightAsc(reviewMainId);
+		if (EmptyUtil.isCollectionNotEmpty(reviewProcesses)) {
+			return reviewProcesses.get(0);
+		} else {
+			return null;
+		}
+	}
+	
+	public ReviewProcess findCurrentReviewProcessNext(Long reviewMainId){
+		List<ReviewProcess> reviewProcesses = getReviewProcessRepository().findByReviewMainIdAndFinishedFalseOrderByWeightAsc(reviewMainId);
+		if (EmptyUtil.isCollectionNotEmpty(reviewProcesses) && reviewProcesses.size() >= 2) {
+			return reviewProcesses.get(1);
+		} else {
+			return null;
+		}
 	}
 	
 	@Override
@@ -83,11 +97,11 @@ public class ReviewProcessService extends BaseSequenceMovableService<ReviewProce
 		throw new RuntimeException("discarded method");
 	}
 	
-	public ReviewProcess update(ReviewProcess m, Long opUserId) {
+	public ReviewProcess update(ReviewProcess m, Long opUserId, String reason) {
 		ReviewProcess dbReviewProcess = findByReviewMainAndReviewBaseRule(m.getReviewMain(), m.getReviewBaseRule());
 		
 		if (dbReviewProcess != null && m.getId().equals(dbReviewProcess.getId())) {
-			ReviewProcessRecord reviewProcessRecord = new ReviewProcessRecord(m.getId(), opUserId, "修改 评审流程");
+			ReviewProcessRecord reviewProcessRecord = new ReviewProcessRecord(m.getId(), opUserId, reason + " 评审流程");
 			reviewProcessRecordService.save(reviewProcessRecord);
 			
 			return super.update(m);

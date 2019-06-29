@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.ewcms.common.service.BaseService;
 import com.ewcms.common.utils.Collections3;
 import com.ewcms.common.utils.EmptyUtil;
+import com.ewcms.common.web.validate.AjaxResponse;
 import com.ewcms.yjk.re.entity.ReviewMain;
 import com.ewcms.yjk.re.entity.ReviewProcess;
 import com.ewcms.yjk.re.entity.VoteRecord;
@@ -33,6 +34,8 @@ public class VoteRecordService extends BaseService<VoteRecord, Long> {
 	private DrugFormService drugFormService;
 	@Autowired
 	private ReviewMainService reviewMainService;
+	@Autowired
+	private ReviewProcessService reviewProcessService;
 	@Autowired
 	private VoteResultService voteResultService;
 	@Autowired
@@ -307,9 +310,8 @@ public class VoteRecordService extends BaseService<VoteRecord, Long> {
 	 * @param reviewProcessId
 	 * @return
 	 */
-	public List<Long> findUserSubmitted(Long reviewMainId, Long reviewProcessId) {
-		return getVoteRecordRepository().findUserSubmitted(reviewMainId,
-				reviewProcessId);
+	public List<Long> findSubmittedUserIds(Long reviewMainId, Long reviewProcessId) {
+		return getVoteRecordRepository().findSubmittedUserIds(reviewMainId,reviewProcessId);
 	}
 
 	/**
@@ -331,51 +333,67 @@ public class VoteRecordService extends BaseService<VoteRecord, Long> {
 	 * 中止投票（由管理人员操作），在VoteRecord对象中产生一条drugForm和commonNameContents都为空的一条记录
 	 * 
 	 * @param userId
-	 * @param reviewMainId
-	 * @param reviewProcessId
 	 */
-	public void giveUp(Long userId, Long reviewMainId, Long reviewProcessId) {
-		List<VoteRecord> voteRecords = findByUserIdAndReviewMainIdAndReviewProcessIdAndDrugFormIdIsNullAndCommonNameContentsIdIsNull(
-				userId, reviewMainId, reviewProcessId);
-		if (EmptyUtil.isCollectionEmpty(voteRecords)) {
-			VoteRecord voteRecord = new VoteRecord();
-			voteRecord.setUserId(userId);
-			voteRecord.setReviewMainId(reviewMainId);
-			voteRecord.setReviewProcessId(reviewProcessId);
-			voteRecord.setVoteTypeEnum(VoteTypeEnum.abstain);
-			voteRecord.setSigned(Boolean.TRUE);
-			voteRecord.setSubmitted(Boolean.TRUE);
-			voteRecord.setSubmittDate(new Date(Calendar.getInstance().getTime()
-					.getTime()));
-			super.save(voteRecord);
-		}
-	}
-
-	/**
-	 * 查询未签字的记录集
-	 * 
-	 * @param userId
-	 *            用户编号
-	 * @param reviewMainId
-	 *            主评审编号
-	 * @param reviewProcessId
-	 *            流程编号
-	 * @return
-	 */
-	public List<VoteRecord> findByUserIdAndReviewMainIdAndReviewProcessIdAndSignedFalse(
-			Long userId, Long reviewMainId, Long reviewProcessId) {
-		return getVoteRecordRepository()
-				.findByUserIdAndReviewMainIdAndReviewProcessIdAndSignedFalse(
+	public AjaxResponse giveUp(Long userId) {
+		AjaxResponse ajaxResponse = new AjaxResponse();
+		String message = "中止投票操作成功！";
+		ReviewMain reviewMain = reviewMainService.findByEnabledTrue();
+		if (reviewMain == null) {
+			message = "评审未开启，不能操作！";
+			ajaxResponse.setSuccess(Boolean.FALSE);
+		} else {
+			Long reviewMainId = reviewMain.getId();
+			ReviewProcess reviewProcess = reviewProcessService.findCurrentReviewProcess(reviewMainId);
+			if (reviewProcess == null) {
+				message = "没有流程可使用或当前流程已结束！";
+				ajaxResponse.setSuccess(Boolean.FALSE);
+			} else {
+				Long reviewProcessId = reviewProcess.getId();
+				List<VoteRecord> voteRecords = findByUserIdAndReviewMainIdAndReviewProcessIdAndDrugFormIdIsNullAndCommonNameContentsIdIsNull(
 						userId, reviewMainId, reviewProcessId);
+				if (EmptyUtil.isCollectionEmpty(voteRecords)) {
+					VoteRecord voteRecord = new VoteRecord();
+					voteRecord.setUserId(userId);
+					voteRecord.setReviewMainId(reviewMainId);
+					voteRecord.setReviewProcessId(reviewProcessId);
+					voteRecord.setVoteTypeEnum(VoteTypeEnum.abstain);
+					voteRecord.setSigned(Boolean.TRUE);
+					voteRecord.setSubmitted(Boolean.TRUE);
+					voteRecord.setSubmittDate(new Date(Calendar.getInstance().getTime()
+							.getTime()));
+					super.save(voteRecord);
+				}
+			}
+		}
+		ajaxResponse.setMessage(message);
+		return ajaxResponse;
 	}
 
-	public void sign(Long userId, Long reviewMainId, Long reviewProcessId) {
-		List<VoteRecord> voteRecords = findByUserIdAndReviewMainIdAndReviewProcessIdAndSignedFalse(
-				userId, reviewMainId, reviewProcessId);
-		if (EmptyUtil.isCollectionNotEmpty(voteRecords)) {
-			getVoteRecordRepository().updateSigned(userId, reviewMainId,
-					reviewProcessId);
+	
+	
+	public AjaxResponse sign(Long userId) {
+		AjaxResponse ajaxResponse = new AjaxResponse();
+		String message = "签字操作成功！";
+		ReviewMain reviewMain = reviewMainService.findByEnabledTrue();
+		if (reviewMain == null) {
+			message = "评审未开启，不能操作！";
+			ajaxResponse.setSuccess(Boolean.FALSE);
+		} else {
+			Long reviewMainId = reviewMain.getId();
+			ReviewProcess reviewProcess = reviewProcessService.findCurrentReviewProcess(reviewMainId);
+			if (reviewProcess == null) {
+				message = "没有流程可使用或当前流程已结束！";
+				ajaxResponse.setSuccess(Boolean.FALSE);
+			} else {
+				Long reviewProcessId = reviewProcess.getId();
+				Long noSigned = getVoteRecordRepository().countByUserIdAndReviewMainIdAndReviewProcessIdAndSignedFalse(userId, reviewMainId, reviewProcessId);
+				if (noSigned.longValue() > 0) {
+					getVoteRecordRepository().updateSigned(userId, reviewMainId,reviewProcessId);
+				}
+			}
 		}
+		ajaxResponse.setMessage(message);
+		return ajaxResponse;
 	}
 	
 	/**

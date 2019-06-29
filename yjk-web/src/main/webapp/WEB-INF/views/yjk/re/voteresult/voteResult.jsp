@@ -18,10 +18,10 @@
 						formatter:function(val,row){
 							return val ? '是' : '';
 						}">是否调整</th>
-				<th data-options="field:'affirmVoteResulted',width:100,
+				<th data-options="field:'affirmVoteResulted',width:80,
 						formatter:function(val,row){
 							return val ? '是' : '';
-						}">确认最终结果</th>
+						}">最终结果</th>
 			    <c:forEach items="${currentReviewProcess.displayColumns}" var="displayColumn" varStatus="status">
  					<c:choose>
 	 					<c:when test="${currentReviewProcess.reviewBaseRule.ruleName == 'addCommonName'||currentReviewProcess.reviewBaseRule.ruleName == 'addSpecificationsAndPill'}">
@@ -62,6 +62,8 @@
 			<a id="tb-adjust" href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-forced-open',plain:true">调入</a>
 			<a id="tb-cancel" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-forced-closure'">调出</a>
 			<a id="tb-print" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-print'">打印</a>
+			<a id="tb-affirm" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-ok'">最终确认</a>
+			<a id="tb-next" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-next'">进入下一轮</a>
 		</div>
         <div>
         	<form id="queryform" style="padding:0;margin:0;">
@@ -78,7 +80,7 @@
 	var caption = '所有用户在 ${currentReviewProcess.reviewBaseRule.ruleCnName} 中投票结果统计';
 	$(function(){
 		$('#tt').datagrid({
-			url:'${ctx}/yjk/re/voteresult/${currentReviewProcess.id}/queryVoteResult',
+			url:'${ctx}/yjk/re/voteresult/queryVoteResult',
 			toolbar:'#tb',
 			fit:true,
 			nowrap:true,
@@ -101,21 +103,20 @@
 	});
 	
 	$('#tb-adjust').bind('click', function(){
+		var rows = $('#tt').datagrid('getSelections');
+    	
+    	if(rows.length == 0){
+	        $.messager.alert('提示','请选择入围的记录','info');
+	        return;
+	    }
 		$.messager.confirm('提示', '确定要把选中的记录调整到入围里吗？', function(r){
 			if (r){
-				var rows = $('#tt').datagrid('getSelections');
-		    	
-		    	if(rows.length == 0){
-			        $.messager.alert('提示','请选择入围的记录','info');
-			        return;
-			    }
-			    
 			    var parameter='';
 			    $.each(rows,function(index,row){
 			    	parameter += 'selections=' + row.id +'&';
 			    });
 			    
-				$.post('${ctx}/yjk/re/voteresult/${currentReviewProcess.id}/adjust', parameter, function(result) {
+				$.post('${ctx}/yjk/re/voteresult/adjust', parameter, function(result) {
 					if (result.success){
 						$('#tt').datagrid('clearSelections');
 						$('#tt').datagrid('reload');
@@ -127,21 +128,60 @@
 	});
 	
 	$('#tb-cancel').bind('click', function(){
+		var rows = $('#tt').datagrid('getSelections');
+    	
+    	if(rows.length == 0){
+	        $.messager.alert('提示','请选择出围的记录','info');
+	        return;
+	    }
+    	
 		$.messager.confirm('提示', '确定要把选中的记录调整到出围里吗？', function(r){
 			if (r){
-				var rows = $('#tt').datagrid('getSelections');
-		    	
-		    	if(rows.length == 0){
-			        $.messager.alert('提示','请选择出围的记录','info');
-			        return;
-			    }
-			    
 			    var parameter='';
 			    $.each(rows,function(index,row){
 			    	parameter += 'selections=' + row.id +'&';
 			    });
 			    
-				$.post('${ctx}/yjk/re/voteresult/${currentReviewProcess.id}/cancel', parameter, function(result) {
+				$.post('${ctx}/yjk/re/voteresult/cancel', parameter, function(result) {
+					if (result.success){
+						$('#tt').datagrid('clearSelections');
+						$('#tt').datagrid('reload');
+					}
+					$.messager.alert('提示', result.message, 'info');
+				});
+			}
+	 	});
+	});
+	
+	$('#tb-affirm').bind('click', function(){
+		var rows = $('#tt').datagrid('getSelections');
+    	
+    	if(rows.length == 0){
+	        $.messager.alert('提示','请选择确认结果的记录','info');
+	        return;
+	    }
+    	$.messager.confirm('提示', '确定要把选中的记录变成最终结果吗？如果点确认后选中的记录将不能进行任何调整，要继续操作吗？', function(r){
+			if (r){
+			    var parameter='';
+			    $.each(rows,function(index,row){
+			    	parameter += 'selections=' + row.id +'&';
+			    });
+			    
+				$.post('${ctx}/yjk/re/voteresult/affirm', parameter, function(result) {
+					if (result.success){
+						$('#tt').datagrid('clearSelections');
+						$('#tt').datagrid('reload');
+					}
+					$.messager.alert('提示', result.message, 'info');
+				});
+			}
+	 	});
+	});
+	
+	$('#tb-next').bind('click', function(){
+    	$.messager.confirm('提示', '确认要进入下一轮投票流程吗？', function(r){
+			if (r){
+				$.post('${ctx}/yjk/re/voteresult/next', {}, function(result) {
 					if (result.success){
 						$('#tt').datagrid('clearSelections');
 						$('#tt').datagrid('reload');

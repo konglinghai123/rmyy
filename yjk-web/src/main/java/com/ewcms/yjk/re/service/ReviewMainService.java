@@ -309,4 +309,23 @@ public class ReviewMainService extends BaseService<ReviewMain, Long> {
 		}
 	}
 	
+	@SuppressWarnings("unchecked")
+	public List<Long> findReviewUserIds(ReviewMain reviewMain) {
+		List<Long> allReviewUserIds = Lists.newArrayList();
+
+		List<User> reviewMainUsers = reviewMain.getUsers();
+		if (EmptyUtil.isCollectionNotEmpty(reviewMainUsers)) {
+			allReviewUserIds.addAll(Collections3.extractToList(reviewMainUsers, "id"));
+		}
+
+		List<ReviewExpert> reviewExperts = reviewMain.getReviewExperts();
+		if (EmptyUtil.isCollectionNotEmpty(reviewExperts)) {
+			for (ReviewExpert reviewExpert : reviewExperts) {
+				allReviewUserIds.addAll(Collections3.extractToList(reviewExpert.getUsers(), "id"));
+			}
+		}
+
+		return allReviewUserIds;
+	}
+	
 }

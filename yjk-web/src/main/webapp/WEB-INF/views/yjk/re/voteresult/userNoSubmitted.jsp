@@ -38,14 +38,14 @@
 <script type="text/javascript">
 	$(function(){
 		$('#tt').datagrid({
-			url:'${ctx}/yjk/re/voteresult/${currentReviewProcess.id}/queryUserNoSubmitted',
+			url:'${ctx}/yjk/re/voteresult/queryUserNoSubmitted',
 			toolbar:'#tb',
 			fit:true,
 			nowrap:true,
-			pagination:false,
 			rownumbers:true,
 			striped:true,
 			border:false,
+			singleSelect:true,
 			onLoadSuccess:function(row){
 				$('.giveupCls').linkbutton({plain:true,iconCls:'icon-give-up'});
 			}
@@ -61,7 +61,7 @@
 	function giveUp(id){
 		 $.messager.confirm('提示', '确定要中止本轮投票的权利吗？中止后此人本轮将不能进行投票了，请谨慎操作！', function(r){
 				if (r){
-					$.post('${ctx}/yjk/re/voteresult/' + id + '/${currentReviewProcess.id}/giveUp', {}, function(result) {
+					$.post('${ctx}/yjk/re/voteresult/' + id + '/giveUp', {}, function(result) {
 						if (result.success){
 							$('#tt').datagrid('clearSelections');
 							$('#tt').datagrid('reload');

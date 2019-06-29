@@ -129,7 +129,7 @@ public class ReviewProcessController extends BaseSequenceMovableController<Revie
 				this.permissionList.assertHasUpdatePermission();
 			}
 
-			ReviewProcess lastM = getReviewProcessService().update(m, user.getId());
+			ReviewProcess lastM = getReviewProcessService().update(m, user.getId(), "修改");
 			if (lastM == null) {
 				redirectAttributes.addFlashAttribute(Constants.MESSAGE, "修改的评审规则已存在，不能修改");
 				return redirectToUrl(viewName(m.getReviewMain().getId() + "/save"));
