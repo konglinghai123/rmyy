@@ -31,6 +31,7 @@ public class CalendarService extends BaseService<Calendar, Long>{
 		save(copyCalendar);
 	}
 	
+	@SuppressWarnings("deprecation")
 	public Long countRecentlyCalendar(Long userId, Integer interval){
 		Date now = new Date();
 		
