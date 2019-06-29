@@ -7,7 +7,6 @@ import org.springframework.data.jpa.repository.Query;
 
 import com.ewcms.common.repository.BaseRepository;
 import com.ewcms.yjk.re.entity.VoteResult;
-import com.ewcms.yjk.re.model.VoteMonitor;
 import com.ewcms.yjk.sb.entity.DrugForm;
 
 public interface VoteResultRepository extends BaseRepository<VoteResult, Long> {
@@ -15,14 +14,6 @@ public interface VoteResultRepository extends BaseRepository<VoteResult, Long> {
 	List<VoteResult> findByReviewProcessId(Long reviewProcessId);
 	VoteResult findByDrugFormIdAndReviewProcessId(Long drugFormId, Long reviewProcessId);
 	VoteResult findByCommonNameContentsIdAndReviewProcessId(Long commonNameContentsId, Long reviewProcessId);
-	
-	@Query("select distinct new com.ewcms.yjk.re.model.VoteMonitor("
-			+ "u, v.signed"
-			+ ") "
-			+ "from User u, VoteRecord v "
-			+ "where u.id=v.userId and u.id in (?1) "
-			+ "order by u.id")
-	List<VoteMonitor> findVoteMonitor(List<Long> userIds);
 	
 	@Query("select c.drugForm "
 			+ "from VoteResult c "

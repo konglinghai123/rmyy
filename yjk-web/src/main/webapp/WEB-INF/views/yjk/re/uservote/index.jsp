@@ -69,8 +69,8 @@
 			rownumbers:true,
 			striped:true,
 			pageSize:20,
-			view : detailview,
 			border:false,
+			view : detailview,
 			detailFormatter : function(rowIndex, rowData) {
 				return '<div id="ddv-' + rowIndex + '" style="padding:2px"></div>';
 			},

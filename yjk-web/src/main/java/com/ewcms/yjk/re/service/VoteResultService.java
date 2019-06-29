@@ -37,8 +37,8 @@ public class VoteResultService extends BaseService<VoteResult, Long> {
 		return getVoteResultRepository().findByDrugFormIdAndReviewProcessId(drugFormId, reviewProcessId);
 	}
 	
-	public List<VoteMonitor> findVoteMonitor(List<Long> userIds){
-		return getVoteResultRepository().findVoteMonitor(userIds);
+	public List<VoteMonitor> findVoteResultMonitor(List<Long> userIds){
+		return voteRecordService.findVoteResultMonitor(userIds);
 	}
 	
 	public List<DrugForm> findSelectedDrugForm(Long reviewMainId,String declareCategory){

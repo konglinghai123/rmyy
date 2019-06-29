@@ -59,7 +59,6 @@ public class VoteRecord extends BaseSequenceEntity<Long> {
 	@Enumerated(EnumType.STRING)
 	private VoteTypeEnum voteTypeEnum = VoteTypeEnum.abstain;
 	
-	
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Column(name = "submitt_date")
     @Temporal(TemporalType.TIMESTAMP)
@@ -109,6 +108,7 @@ public class VoteRecord extends BaseSequenceEntity<Long> {
 	public String getVoteTypeInfo() {
 		return voteTypeEnum == null ? "" : voteTypeEnum.getInfo();
 	}
+	
 	public Date getSubmittDate() {
 		return submittDate;
 	}

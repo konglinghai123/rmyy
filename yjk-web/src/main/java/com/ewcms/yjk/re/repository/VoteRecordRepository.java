@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import com.ewcms.common.repository.BaseRepository;
 import com.ewcms.yjk.re.entity.VoteRecord;
+import com.ewcms.yjk.re.model.VoteMonitor;
 
 public interface VoteRecordRepository extends BaseRepository<VoteRecord, Long> {
 	
@@ -32,4 +33,27 @@ public interface VoteRecordRepository extends BaseRepository<VoteRecord, Long> {
 	//查询当前用户投票结果
 	List<VoteRecord> findByUserIdAndReviewMainIdAndReviewProcessIdAndDrugFormIsNotNull(Long userId, Long reviewMainId, Long reviewProcessId);
 	
+	@Query("select distinct new com.ewcms.yjk.re.model.VoteMonitor("
+			+ "u, v.signed"
+			+ ") "
+			+ "from User u, VoteRecord v "
+			+ "where u.id=v.userId and u.id in (?1) "
+			+ "order by u.id")
+	List<VoteMonitor> findVoteResultMonitor(List<Long> userIds);
+
+	@Query("select distinct new com.ewcms.yjk.re.model.VoteMonitor("
+			+ "u, v.voteTypeEnum"
+			+ ") "
+			+ "from User u, VoteRecord v "
+			+ "where u.id=v.userId and v.reviewMainId=?1 and v.reviewProcessId=?2 and v.drugForm.id=?3 and v.submitted=true "
+			+ "order by u.id")
+	List<VoteMonitor> findVoteUserMonitorDrugForm(Long reviewMainId, Long reviewProcessId, Long drugFormId);
+	
+	@Query("select distinct new com.ewcms.yjk.re.model.VoteMonitor("
+			+ "u, v.voteTypeEnum"
+			+ ") "
+			+ "from User u, VoteRecord v "
+			+ "where u.id=v.userId and v.reviewMainId=?1 and v.reviewProcessId=?2 and v.commonNameContents.id=?3 and v.submitted=true "
+			+ "order by u.id")
+	List<VoteMonitor> findVoteUserMonitorCommonNameContents(Long reviewMainId, Long reviewProcessId, Long commonNameContentsId);
 }

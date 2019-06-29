@@ -24,13 +24,10 @@ import com.ewcms.yjk.re.entity.VoteRecord;
 import com.ewcms.yjk.re.service.ReviewMainService;
 import com.ewcms.yjk.re.service.ReviewProcessService;
 import com.ewcms.yjk.re.service.VoteRecordService;
-import com.ewcms.yjk.sb.service.DrugFormService;
 
 @Controller
 @RequestMapping(value = "/yjk/re/voterecord")
 public class VoteRecordController extends BaseCRUDController<VoteRecord, Long> {
-	@Autowired
-	private DrugFormService drugFormService;
 	@Autowired
 	private ReviewMainService reviewMainService;
 	@Autowired

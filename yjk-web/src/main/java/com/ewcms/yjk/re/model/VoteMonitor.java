@@ -3,6 +3,7 @@ package com.ewcms.yjk.re.model;
 import java.io.Serializable;
 
 import com.ewcms.security.user.entity.User;
+import com.ewcms.yjk.re.entity.VoteTypeEnum;
 
 public class VoteMonitor implements Serializable {
 
@@ -10,6 +11,7 @@ public class VoteMonitor implements Serializable {
 
 	public User user;
 	private Boolean signed;
+	private VoteTypeEnum voteTypeEnum;
 
 	public VoteMonitor() {
 	}
@@ -18,6 +20,12 @@ public class VoteMonitor implements Serializable {
 		super();
 		this.user = user;
 		this.signed = signed;
+	}
+	
+	public VoteMonitor(User user, VoteTypeEnum voteTypeEnum) {
+		super();
+		this.user = user;
+		this.voteTypeEnum = voteTypeEnum;
 	}
 
 	public User getUser() {
@@ -34,6 +42,18 @@ public class VoteMonitor implements Serializable {
 
 	public void setSigned(Boolean signed) {
 		this.signed = signed;
+	}
+	
+	public VoteTypeEnum getVoteTypeEnum() {
+		return voteTypeEnum;
+	}
+
+	public void setVoteTypeEnum(VoteTypeEnum voteTypeEnum) {
+		this.voteTypeEnum = voteTypeEnum;
+	}
+	
+	public String getVoteTypeInfo() {
+		return voteTypeEnum == null ? "" : voteTypeEnum.getInfo();
 	}
 
 	@Override

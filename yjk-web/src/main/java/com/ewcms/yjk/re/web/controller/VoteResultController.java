@@ -29,7 +29,6 @@ import com.ewcms.security.user.web.bind.annotation.CurrentUser;
 import com.ewcms.yjk.re.entity.ReviewExpert;
 import com.ewcms.yjk.re.entity.ReviewMain;
 import com.ewcms.yjk.re.entity.ReviewProcess;
-import com.ewcms.yjk.re.entity.VoteRecord;
 import com.ewcms.yjk.re.entity.VoteResult;
 import com.ewcms.yjk.re.model.VoteMonitor;
 import com.ewcms.yjk.re.service.ReviewMainService;
@@ -89,7 +88,7 @@ public class VoteResultController extends BaseController<VoteResult, Long> {
 		if (reviewProcess == null) return map;
 		
 		List<Long> submittedUserIds = voteRecordService.findSubmittedUserIds(reviewMainId, reviewProcess.getId());
-		List<VoteMonitor> users = voteResultService.findVoteMonitor(submittedUserIds);
+		List<VoteMonitor> users = voteResultService.findVoteResultMonitor(submittedUserIds);
 
 		map.put("total", users.size());
 		map.put("rows", users);
@@ -175,7 +174,7 @@ public class VoteResultController extends BaseController<VoteResult, Long> {
 		ReviewProcess reviewProcess = reviewProcessService.findCurrentReviewProcess(reviewMainId);
 		if (reviewProcess == null) return map;
 		
-		List<VoteResult> voteResults = voteResultService.findCurrentReviewProcessVoteResults(reviewMain.getId(), reviewProcess.getId());
+		List<VoteResult> voteResults = voteResultService.findCurrentReviewProcessVoteResults(reviewMainId, reviewProcess.getId());
 		map.put("total", voteResults.size());
 		map.put("rows", voteResults);
 		return map;

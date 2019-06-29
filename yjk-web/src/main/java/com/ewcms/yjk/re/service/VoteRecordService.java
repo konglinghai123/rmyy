@@ -3,7 +3,6 @@ package com.ewcms.yjk.re.service;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,6 +16,7 @@ import com.ewcms.yjk.re.entity.ReviewProcess;
 import com.ewcms.yjk.re.entity.VoteRecord;
 import com.ewcms.yjk.re.entity.VoteResult;
 import com.ewcms.yjk.re.entity.VoteTypeEnum;
+import com.ewcms.yjk.re.model.VoteMonitor;
 import com.ewcms.yjk.re.repository.VoteRecordRepository;
 import com.ewcms.yjk.sb.entity.AuditStatusEnum;
 import com.ewcms.yjk.sb.entity.DrugForm;
@@ -26,7 +26,6 @@ import com.ewcms.yjk.zd.commonname.entity.CommonNameContents;
 import com.ewcms.yjk.zd.commonname.service.CommonNameContentsService;
 import com.ewcms.yjk.zd.commonname.service.CommonNameService;
 import com.ewcms.yjk.zd.commonname.service.HospitalContentsService;
-import com.google.common.collect.Maps;
 
 @Service
 public class VoteRecordService extends BaseService<VoteRecord, Long> {
@@ -65,42 +64,6 @@ public class VoteRecordService extends BaseService<VoteRecord, Long> {
 		return getVoteRecordRepository()
 				.findByUserIdAndReviewMainIdAndDrugFormIdAndReviewProcessIdAndSubmittedTrue(
 						userId, reviewMainId, drugFormId, reviewProcessId);
-	}
-
-	// 专家投票评审监控
-	public Map<DrugForm, Map<String, String>> findUserVote(Long voteUserId) {
-		// 查询评审是否开启，并检验是否关联申报系统
-		ReviewMain reviewMain = reviewMainService.findByEnabledTrue();
-		if (reviewMain == null || reviewMain.getSystemParameter() == null)
-			return Maps.newHashMap();
-
-		// 评审流程是否存在
-		List<ReviewProcess> reviewProcesses = reviewMain.getReviewProcesses();
-		if (EmptyUtil.isCollectionEmpty(reviewProcesses))
-			return Maps.newHashMap();
-
-		// 获取申报系统编号，并查询本次初审所有通过的药品记录集
-		List<DrugForm> drugForms = drugFormService
-				.findByAuditStatusAndSystemParameterIdOrderByIdAsc(
-						AuditStatusEnum.passed, reviewMain.getSystemParameter()
-								.getId());
-
-		Map<DrugForm, Map<String, String>> maps = Maps.newHashMap();
-		for (DrugForm drugForm : drugForms) {
-			Map<String, String> processMap = Maps.newHashMap();
-			for (ReviewProcess reviewProcess : reviewProcesses) {
-				VoteRecord voteRecord = findByUserIdAndReviewMainIdAndDrugFormIdAndReviewProcessIdAndSubmittedTrue(
-						voteUserId, reviewMain.getId(), drugForm.getId(),
-						reviewProcess.getId());
-				String voteType = "";
-				if (voteRecord != null)
-					voteType = voteRecord.getVoteTypeEnum().getInfo();
-				processMap.put(reviewProcess.getReviewBaseRule()
-						.getRuleCnName(), voteType);
-			}
-			maps.put(drugForm, processMap);
-		}
-		return maps;
 	}
 
 	/**
@@ -406,5 +369,17 @@ public class VoteRecordService extends BaseService<VoteRecord, Long> {
 	 */
 	public List<VoteRecord> findByUserIdAndReviewMainIdAndReviewProcessIdAndDrugFormIsNotNull(Long userId, Long reviewMainId, Long reviewProcessId){
 		return getVoteRecordRepository().findByUserIdAndReviewMainIdAndReviewProcessIdAndDrugFormIsNotNull(userId, reviewMainId, reviewProcessId);
+	}
+	
+	public List<VoteMonitor> findVoteResultMonitor(List<Long> userIds){
+		return getVoteRecordRepository().findVoteResultMonitor(userIds);
+	}
+	
+	public List<VoteMonitor> findVoteUserMonitorDrugForm(Long reviewMainId, Long reviewProcessId, Long drugFormId){
+		return getVoteRecordRepository().findVoteUserMonitorDrugForm(reviewMainId, reviewProcessId, drugFormId);
+	}
+	
+	public List<VoteMonitor> findVoteUserMonitorCommonNameContents(Long reviewMainId, Long reviewProcessId, Long commonNameContentsId){
+		return getVoteRecordRepository().findVoteUserMonitorCommonNameContents(reviewMainId, reviewProcessId, commonNameContentsId);
 	}
 }

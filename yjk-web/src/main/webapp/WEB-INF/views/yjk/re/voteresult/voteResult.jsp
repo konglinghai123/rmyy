@@ -7,7 +7,7 @@
 			<tr>
 				<th data-options="field:'ck',checkbox:true"/>
 			    <th data-options="field:'id',hidden:true,">编号</th>
-				<th data-options="field:'passSum',width:60">赞成票</th>
+				<th data-options="field:'passSum',width:60">通过票</th>
 				<th data-options="field:'opposeSum',width:60">反对票</th>
 				<th data-options="field:'abstainSum',width:60">弃权票</th>
 				<th data-options="field:'selected',width:80,
@@ -39,13 +39,13 @@
 									}">${displayColumn.ruleCnName}</th>  						
 						</c:when>
 						<c:otherwise>
-							<th data-options="field:'${fn:substring(displayColumn.ruleName,6,fn:length(displayColumn.ruleName)-6)}',width:${displayColumn.width},
+							<th data-options="field:'${fn:substring(displayColumn.ruleName,9,fn:length(displayColumn.ruleName))}',width:${displayColumn.width},
 									formatter:function(val,row){
 										try{
 											if(row.drugForm.commonNameContents==null){
 											 	return '';
 											}else{
-												return formatTooltip(row.${fn:substring(displayColumn.ruleName,6,fn:length(displayColumn.ruleName)-6)}, row);
+												return formatTooltip(row.${fn:substring(displayColumn.ruleName,9,fn:length(displayColumn.ruleName))}, row);
 											}
 										}catch(err){
 											return '';
@@ -194,10 +194,5 @@
 	
 	function formatTooltip(val, row){
 		return val != null ? '<span title="' + val + '" class="easyui-tooltip">' + val + '</span>' : '';
-	}
-	
-	function formatOperation(val, row) {
-		var htmlOperation = '';
-		return htmlOperation;
 	}
 </script>
