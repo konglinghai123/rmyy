@@ -44,12 +44,12 @@
 									}">${displayColumn.ruleCnName}</th>  						
 						</c:when>
 						<c:otherwise>
-							<th data-options="field:'${fn:substring(displayColumn.ruleName,6,fn:length(displayColumn.ruleName)-6)}',width:${displayColumn.width},
+							<th data-options="field:'${fn:substring(displayColumn.ruleName,9,fn:length(displayColumn.ruleName))}',width:${displayColumn.width},
 									formatter:function(val,row){
 										if(row.drugForm.commonNameContents==null){
 										 	return '';
 										}else{
-											return formatTooltip(row.${fn:substring(displayColumn.ruleName,6,fn:length(displayColumn.ruleName)-6)}, row);
+											return formatTooltip(row.${fn:substring(displayColumn.ruleName,9,fn:length(displayColumn.ruleName))}, row);
 										}
 									}">${displayColumn.ruleCnName}</th>  						
 						</c:otherwise>
@@ -65,7 +65,7 @@
 			<font color=blue>最大投票通过数为10</font>&nbsp;&nbsp;投票流程：
 			<c:forEach items="${reviewProcessesList}" var="reviewProcess" varStatus="status">
 				<c:choose>
-					<c:when test="${reviewProcess.reviewBaseRule.ruleName == currentReviewProcess.reviewBaseRule.ruleName}">
+					<c:when test="${reviewProcess.reviewBaseRule.ruleName == reviewProcess.reviewBaseRule.ruleName}">
 						<font color=green>${reviewProcess.reviewBaseRule.ruleCnName}</font>
 					</c:when>
 					<c:otherwise>

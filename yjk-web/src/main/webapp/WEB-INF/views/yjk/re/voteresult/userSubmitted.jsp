@@ -56,7 +56,7 @@
 	<table id="ttPrint">
 		<thead>   		
 			<tr>
-			    <th data-options="field:'id',hidden:true">编号</th>
+			    <th data-options="field:'voteTypeInfo',width:80">投票操作</th>
  				<c:forEach items="${currentReviewProcess.displayColumns}" var="displayColumn" varStatus="status">
  					<c:choose>
 	 					<c:when test="${currentReviewProcess.reviewBaseRule.ruleName == 'addCommonName'||currentReviewProcess.reviewBaseRule.ruleName == 'addSpecificationsAndPill'}">
@@ -74,13 +74,13 @@
 									}">${displayColumn.ruleCnName}</th>  						
 						</c:when>
 						<c:otherwise>
-							<th data-options="field:'${fn:substring(displayColumn.ruleName,6,fn:length(displayColumn.ruleName)-6)}',width:${displayColumn.width},
+							<th data-options="field:'${fn:substring(displayColumn.ruleName,9,fn:length(displayColumn.ruleName))}',width:${displayColumn.width},
 									formatter:function(val,row){
 										try{
 											if(row.drugForm==null && row.drugForm.commonNameContents==null){
 											 	return '';
 											}else{
-												return row.${fn:substring(displayColumn.ruleName,6,fn:length(displayColumn.ruleName)-6)};
+												return row.${fn:substring(displayColumn.ruleName,9,fn:length(displayColumn.ruleName))};
 											}
 										}catch(err){
 											return '';
@@ -129,7 +129,7 @@
 	
 	function print(id, realname){
 		$('#ttPrint').datagrid({
-			url:'${ctx}/yjk/re/voteresult/' + id + '/queryVoteRecord',
+			url:'${ctx}/yjk/re/voterecord/' + id + '/${currentReviewProcess.id}/query',
 			fit:true,
 			nowrap:true,
 			pagination:false,

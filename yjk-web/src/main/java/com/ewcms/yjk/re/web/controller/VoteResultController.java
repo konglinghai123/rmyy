@@ -96,23 +96,6 @@ public class VoteResultController extends BaseController<VoteResult, Long> {
 		return map;
 	}
 	
-	@RequestMapping(value = "{userId}/queryVoteRecord")
-	@ResponseBody
-	public Map<String, Object> queryVoteRecord(@PathVariable(value = "userId")Long userId){
-		Map<String, Object> map = Maps.newHashMap();
-		ReviewMain reviewMain = reviewMainService.findByEnabledTrue();
-		if (reviewMain == null) return map;
-		Long reviewMainId = reviewMain.getId();
-		ReviewProcess reviewProcess = reviewProcessService.findCurrentReviewProcess(reviewMainId);
-		if (reviewProcess == null) return map;
-		
-		List<VoteRecord> voteResults = voteRecordService.findByUserIdAndReviewMainIdAndReviewProcessIdAndDrugFormIsNotNull(userId, reviewMainId, reviewProcess.getId());
-		map.put("total", voteResults.size());
-		map.put("rows", voteResults);
-		return map;
-
-	}
-
 	@RequestMapping(value = "userNoSubmitted")
 	public String userNoSubmitted() {
 		return viewName("userNoSubmitted");

@@ -42,7 +42,7 @@ public class VoteRecordController extends BaseCRUDController<VoteRecord, Long> {
 	
 	public VoteRecordController() {
 		setListAlsoSetCommonData(true);
-		setResourceIdentity("yjk:voterecord");
+		setResourceIdentity("re:voterecord");
 	}
 	
 	@Override
@@ -108,6 +108,17 @@ public class VoteRecordController extends BaseCRUDController<VoteRecord, Long> {
 		searchParameter.getSorts().put("id", Direction.ASC);
 		return super.query(searchParameter, model);
 	}
+	
+	@RequestMapping(value = "{userId}/{reviewProcessId}/query")
+	@ResponseBody
+	public Map<String, Object> query(@PathVariable(value = "userId") Long userId,SearchParameter<Long> searchParameter,	Model model, @PathVariable(value = "reviewProcessId") Long reviewProcessId) {
+		searchParameter.getParameters().put("EQ_userId", userId);
+		searchParameter.getParameters().put("EQ_reviewProcessId",reviewProcessId);
+		searchParameter.getSorts().put("drugForm.commonNameContents.common.drugCategory", Direction.ASC);
+		searchParameter.getSorts().put("id", Direction.ASC);
+		return super.query(searchParameter, model);
+	}
+
 	/**
 	 * 获取投票类型记录集
 	 * 

@@ -95,7 +95,7 @@
 	    	<c:otherwise>
 	    		var validationEngine = $("#editForm").validationEngine({
 	    			promptPosition:'bottomRight',
-	    			validateNonVisibleFields:true,
+	    			validateNonVisibleFields:false,
 	    			showOneMessage: true
 	    		});
 	        	<ewcms:showFieldError commandName="m"/>
