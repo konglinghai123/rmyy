@@ -50,7 +50,7 @@
 			border:false,
 			onLoadSuccess:function(row){
 				$('.closeCls').linkbutton({text:'关闭',plain:true,iconCls:'icon-exit'});
-				$('.openCls').linkbutton({text:'启用',plain:true,iconCls:'icon-operate'});
+				$('.runCls').linkbutton({text:'启用',plain:true,iconCls:'icon-run'});
 			}
 		});
 		
@@ -111,7 +111,7 @@
 		if(row.id==1 || row.id==2){
 			return val ? '是 ' : '否';
 		}else{
-			return val ? '是&nbsp;|&nbsp;<a class="closeCls" onclick="javascript:closeEnabled(' + row.id + ');" href="javascript:void(0);">关闭</a>' : '否&nbsp;|&nbsp;<a class="openCls" onclick="javascript:openEnabled(' + row.id + ');" href="javascript:void(0);">启用</a>';
+			return val ? '是&nbsp;|&nbsp;<a class="closeCls" onclick="javascript:closeEnabled(' + row.id + ');" href="javascript:void(0);">关闭</a>' : '否&nbsp;|&nbsp;<a class="runCls" onclick="javascript:openEnabled(' + row.id + ');" href="javascript:void(0);">启用</a>';
 		}
 		
 	}
