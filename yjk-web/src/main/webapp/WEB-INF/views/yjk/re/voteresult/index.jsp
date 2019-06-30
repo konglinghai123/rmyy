@@ -6,11 +6,11 @@
 	<c:when test="${isOpenReview}">
 	<div id="edit-from" class="easyui-layout" data-options="fit:true" style="border:0;">
 		<div data-options="region:'north'" style="text-align:center;height:30px;border:0">
-			<b>评审流程：</b>
+			评审流程：
 	  		<c:forEach items="${reviewProcessesList}" var="reviewProcess" varStatus="status">
 				<c:choose>
 					<c:when test="${reviewProcess.reviewBaseRule.ruleName == currentReviewProcess.reviewBaseRule.ruleName}">
-						<font color="green">${reviewProcess.reviewBaseRule.ruleCnName}</font>
+						<font color="red" style="font-size:14px;"><b>${reviewProcess.reviewBaseRule.ruleCnName}</b></font>
 					</c:when>
 					<c:otherwise>
 						${reviewProcess.reviewBaseRule.ruleCnName}

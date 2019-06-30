@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ewcms.common.entity.search.SearchHelper;
@@ -47,8 +48,8 @@ public class UserVoteController extends BaseController<User, Long>{
 		return viewName("index");
 	}
 	
-	@RequestMapping(value = "{userId}/{reviewMainId}/tabs")
-	public String tabs(@PathVariable(value = "userId") Long userId, @PathVariable(value = "reviewMainId") Long reviewMainId, Model model) {
+	@RequestMapping(value = "{userId}/tabs")
+	public String tabs(@PathVariable(value = "userId") Long userId, @RequestParam(value = "reviewMainId", required=false) Long reviewMainId, Model model) {
 		ReviewMain reviewMain =  reviewMainService.findByEnabledTrue();
 		if (reviewMain == null) {
 			reviewMain = reviewMainService.findOne(reviewMainId);

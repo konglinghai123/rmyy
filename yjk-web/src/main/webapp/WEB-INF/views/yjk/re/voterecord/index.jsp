@@ -84,15 +84,16 @@
 				</table>
 				<div id="tb" style="padding:5px;height:auto;">
 			        <div class="toolbar" style="margin-bottom:2px">
-						<font color=blue>最大投票通过数为10</font>&nbsp;&nbsp;投票流程：
+						<font color=“blue” style="font-size:14px;">最大投票通过数为10</font>&nbsp;&nbsp;&nbsp;&nbsp;投票流程：
+						
 						<c:forEach items="${reviewProcessesList}" var="reviewProcess" varStatus="status">
 							<c:choose>
-								<c:when test="${reviewProcess.reviewBaseRule.ruleName == reviewProcess.reviewBaseRule.ruleName}">
-									<font color=green>${reviewProcess.reviewBaseRule.ruleCnName}</font>
-								</c:when>
-								<c:otherwise>
-									${reviewProcess.reviewBaseRule.ruleCnName}
-								</c:otherwise>
+								<c:when test="${reviewProcess.reviewBaseRule.ruleName == currentReviewProcess.reviewBaseRule.ruleName}">
+								<font color="red" style="font-size:14px;"><b>${reviewProcess.reviewBaseRule.ruleCnName}</b></font>
+							</c:when>
+							<c:otherwise>
+								${reviewProcess.reviewBaseRule.ruleCnName}
+							</c:otherwise>
 							</c:choose>
 							<c:if test="${!status.last}">
 				    	   			<img  width=30 height=15 src="${ctx}/static/image/arrow.jpg">
@@ -105,7 +106,7 @@
 								<a id="tb-edit" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-edit',toggle:true" onclick="javascript:submitVote();">提交</a>
 							</c:when>
 							<c:otherwise>
-								<font color=red>当前阶段评审的投票你已提交，请等待下一阶段的评审！</font>
+								<font color="red" style="font-size:14px;">当前阶段评审的投票你已提交，请等待下一阶段的评审！</font>
 							</c:otherwise>
 						</c:choose>			
 					</div>

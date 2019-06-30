@@ -104,7 +104,7 @@
 				$('#ddv-' + rowIndex).panel({
 					border:false,
 					cache:false,
-					content: '<iframe src="${ctx}/yjk/re/uservote/' + rowData.id + '/' + $('#reviewMainId').val() + '/tabs" frameborder="0" width="100%" height="315px" scrolling="auto"></iframe>',
+					content: '<iframe src="${ctx}/yjk/re/uservote/' + rowData.id + '/tabs?reviewMainId=' + $('#reviewMainId').val() + '" frameborder="0" width="100%" height="315px" scrolling="auto"></iframe>',
 					onLoad:function(){
 						$('#tt').datagrid('fixDetailRowHeight',rowIndex);
 					}
