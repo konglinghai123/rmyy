@@ -75,7 +75,6 @@
         </div>
 	</div>
 <ewcms:footer/>
-<script type="text/javascript" src="${ctx}/static/easyui/ext/datagrid-export.js"></script>
 <script type="text/javascript">
 	var caption = '所有用户在 ${currentReviewProcess.reviewBaseRule.ruleCnName} 中投票结果统计';
 	$(function(){

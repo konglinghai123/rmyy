@@ -60,12 +60,11 @@
 	</div>
 <ewcms:footer/>
 <script type="text/javascript" src="${ctx}/static/easyui/ext/datagrid-detailview.js"></script>
-<script type="text/javascript" src="${ctx}/static/easyui/ext/datagrid-export.js"></script>
 <script type="text/javascript">
 	var caption = '所有用户在 ${reviewProcess.reviewBaseRule.ruleCnName} 中投票结果统计';
 	$(function(){
 		$('#tt').datagrid({
-			url:'${ctx}/yjk/re/drugvote/${reviewProcess.id}/queryVoteResult',
+			url:'${ctx}/yjk/re/drugvote/${reviewProcess.id}/queryVoteResult?reviewMainId=${reviewMainId}',
 			toolbar:'#tb',
 			fit:true,
 			nowrap:true,
@@ -86,7 +85,7 @@
 				$('#ddv-' + rowIndex).panel({
 					border:false,
 					cache:false,
-					content: '<iframe src="${ctx}/yjk/re/drugvote/${reviewProcess.id}/' + rowData.id + '/user" frameborder="0" width="100%" height="315px" scrolling="auto"></iframe>',
+					content: '<iframe src="${ctx}/yjk/re/drugvote/${reviewProcess.id}/' + rowData.id + '/user?reviewMainId=${reviewMainId}" frameborder="0" width="100%" height="315px" scrolling="auto"></iframe>',
 					onLoad:function(){
 						$('#tt').datagrid('fixDetailRowHeight',rowIndex);
 					}

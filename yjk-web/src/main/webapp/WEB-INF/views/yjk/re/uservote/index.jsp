@@ -55,13 +55,39 @@
 			</tr>
 		</thead>
 	</table>
+	<div id="tb" style="padding:5px;height:auto;">
+        <div>
+        	<c:if test="${!istbEnable}">
+        	<form id="queryform" style="padding:0;margin:0;">
+        		<table class="formtable">
+              		<tr>
+              			<td width="5%">评审名称</td>
+              			<td width="23%">
+		           			<form:select  id="EQ_reviewMainId" name="EQ_reviewMainId" path="reviewMainList" cssClass="easyui-combobox"  cssStyle="width:140px;" data-options="panelHeight:'auto',editable:false">
+								<form:option value="-1" label="------请选择------"/>
+								<form:options items="${reviewMainList}" itemValue="id" itemLabel="name" cssStyle="width:150"/>
+							</form:select>
+						</td>
+            			<td width="5%"></td>
+              			<td width="23%"></td>
+              			<td width="16%" colspan="2">
+            				<a id="tb-query" href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-search'">查询</a>
+           					<a id="tb-clear" href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-clear'">清除</a>
+           				</td>
+           			</tr>
+           		</table>
+          </form>
+          </c:if>
+        </div>
+	</div>
+	<input type="hidden" id="reviewMainId"/>
     <ewcms:editWindow/>
 <ewcms:footer/>
 <script type="text/javascript" src="${ctx}/static/easyui/ext/datagrid-detailview.js"></script>
 <script type="text/javascript">
 	$(function(){
 		$('#tt').datagrid({
-			url:'${ctx}/yjk/re/reviewmain/${reviewMainId}/queryUser',
+			url:'${ctx}/yjk/re/uservote/queryUser',
 			toolbar:'#tb',
 			fit:true,
 			nowrap:true,
@@ -78,16 +104,24 @@
 				$('#ddv-' + rowIndex).panel({
 					border:false,
 					cache:false,
-					content: '<iframe src="${ctx}/yjk/re/uservote/' + rowData.id + '/tabs" frameborder="0" width="100%" height="315px" scrolling="auto"></iframe>',
+					content: '<iframe src="${ctx}/yjk/re/uservote/' + rowData.id + '/' + $('#reviewMainId').val() + '/tabs" frameborder="0" width="100%" height="315px" scrolling="auto"></iframe>',
 					onLoad:function(){
 						$('#tt').datagrid('fixDetailRowHeight',rowIndex);
 					}
 				});
 				$('#tt').datagrid('fixDetailRowHeight',rowIndex);
-			},
-			onBeforeLoad:function(param){
-				param['parameters']=$('#queryform').serializeObject();
 			}
 		});
 	});
+	<c:if test="${!istbEnable}">
+	$('#tb-query').bind('click', function(){
+		$('#reviewMainId').val($('#EQ_reviewMainId').combobox('getValue'));
+		$.ewcms.query();
+	});
+	$('#tb-clear').bind('click', function(){
+		$('#reviewMainId').val(-1);
+		$('#queryform').form('reset');
+		$('#tt').datagrid('reload');
+	});
+	</c:if>
 </script>

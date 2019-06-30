@@ -2,6 +2,8 @@
 <%@ include file="/WEB-INF/views/jspf/taglibs.jspf" %>
 
 <ewcms:head title="评审监控 - 标签页"/>
+	<c:choose>
+	<c:when test="${isOpenReview}">
 	<div id="edit-from" class="easyui-layout" data-options="fit:true" style="border:0;">
 		<div data-options="region:'north'" style="text-align:center;height:30px;border:0">
 			<b>评审流程：</b>
@@ -42,9 +44,19 @@
 			<a href="javascript:void(0)" class="icon-reload" onclick="$('#editresultifr')[0].contentWindow.$('#tt').datagrid('reload');"></a>
 		</div>
 	</div>
+	</c:when>
+	<c:otherwise>
+		<div id="edit-from" class="easyui-layout" data-options="fit:true" style="border:0;">
+			<div data-options="region:'center',fit:true" style="border:0;">	
+				<h1 class="title">评审监控必须在评审流程开启时才能使用！</h1>
+			</div>
+		</div>
+	</c:otherwise>
+	</c:choose>
 <ewcms:footer/>
 <script type="text/javascript">
 	$(function(){
+		<c:if test="${isOpenReview}">
 		$('#tab-voteresult').tabs({
 			onSelect:function(title){
 				if (title == '未投用户'){
@@ -56,5 +68,6 @@
 				}
 			}
 		});
+		</c:if>
 	});
 </script>

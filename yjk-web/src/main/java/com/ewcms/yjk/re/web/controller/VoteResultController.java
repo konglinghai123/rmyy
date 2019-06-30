@@ -56,12 +56,17 @@ public class VoteResultController extends BaseController<VoteResult, Long> {
 
 	@Override
 	protected void setCommonData(Model model) {
-		model.addAttribute("isOpenReview", reviewMainService.isOpenReview());
-		if (reviewMainService.isOpenReview()) {
-			ReviewMain reviewMain = reviewMainService.findByEnabledTrue();
+		Boolean isOpenReview = false;
+		
+		ReviewMain reviewMain = reviewMainService.findByEnabledTrue();
+		if (reviewMain != null) {
+			isOpenReview = true;
 			model.addAttribute("reviewProcessesList", reviewMain.getReviewProcesses());
 			model.addAttribute("currentReviewProcess", reviewProcessService.findCurrentReviewProcess(reviewMain.getId()));
 		}
+		
+		model.addAttribute("isOpenReview", isOpenReview);
+		
 		super.setCommonData(model);
 	}
 

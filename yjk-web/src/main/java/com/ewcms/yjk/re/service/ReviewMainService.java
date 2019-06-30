@@ -313,6 +313,8 @@ public class ReviewMainService extends BaseService<ReviewMain, Long> {
 	public List<Long> findReviewUserIds(ReviewMain reviewMain) {
 		List<Long> allReviewUserIds = Lists.newArrayList();
 
+		if (reviewMain == null) return allReviewUserIds;
+		
 		List<User> reviewMainUsers = reviewMain.getUsers();
 		if (EmptyUtil.isCollectionNotEmpty(reviewMainUsers)) {
 			allReviewUserIds.addAll(Collections3.extractToList(reviewMainUsers, "id"));

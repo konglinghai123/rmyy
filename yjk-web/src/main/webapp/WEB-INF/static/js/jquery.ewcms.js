@@ -43,7 +43,8 @@
 					tabsMenu : 'tabsMenu',
 					id : '#systemtab',
 					src : 'javascript:void(0);',
-					refresh : true
+					refresh : true,
+					closable: true
 				};
 				var opts = $.extend({}, defaults, options); 
 			    if(!opts.content){
@@ -75,7 +76,7 @@
 			        t.tabs('add', {
 			            title : title,
 			            content : opts.content,
-			            closable : true
+			            closable : opts.closable
 			        });
 			        return;
 			    }

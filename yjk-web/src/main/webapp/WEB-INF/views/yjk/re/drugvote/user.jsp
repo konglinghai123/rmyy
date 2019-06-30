@@ -55,7 +55,7 @@
 	var caption = '';
 	$(function(){
 		$('#tt').datagrid({
-			url:'${ctx}/yjk/re/drugvote/${reviewProcessId}/${voteResultId}/queryVoteUser',
+			url:'${ctx}/yjk/re/drugvote/${reviewProcessId}/${voteResultId}/queryVoteUser?reviewMainId=${reviewMainId}',
 			toolbar:'#tb',
 			fit:true,
 			nowrap:true,
