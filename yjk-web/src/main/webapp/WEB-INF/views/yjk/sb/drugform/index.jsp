@@ -1,7 +1,19 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/views/jspf/taglibs.jspf" %>
+
 <c:choose>
 	<c:when test="${isOpenDeclare}">
+	<c:choose>
+	<c:when test="${user.admin}">
+		<ewcms:head title="申报 - 新药申报无权限"/>
+			<div id="edit-from" class="easyui-layout" data-options="fit:true" style="border:0;">
+				<div data-options="region:'center',fit:true" style="border:0;">	
+					<h1 class="title">新药申报已开启，但管理员权限的用户不能进行新药申报，如需申报请切换为有权限申报的普通用户！</h1>
+				</div>
+			</div>
+		<ewcms:footer/>
+	</c:when>
+	<c:otherwise>
 		<ewcms:head title="申报-新药申报"/>
 			<table id="tt">
 				<thead>
@@ -144,6 +156,8 @@
 				return val != null ? '<span title="' + val + '" class="easyui-tooltip">' + val + '</span>' : '';
 			}
 		</script>
+		</c:otherwise>
+		</c:choose>
 	</c:when>
 	<c:otherwise>
 		<ewcms:head title="申报 - 新药申报未开启"/>

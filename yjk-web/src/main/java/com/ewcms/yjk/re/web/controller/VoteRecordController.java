@@ -67,27 +67,33 @@ public class VoteRecordController extends BaseCRUDController<VoteRecord, Long> {
 	@RequestMapping(value = "index")
 	public String index(@CurrentUser User user,Model model) {
 		ReviewMain reviewMain =  reviewMainService.findByEnabledTrue();
+		Boolean isReivewProcess = false;
 		if(reviewMain != null){
+			Boolean isExpertSubmitCurrentReview = false;
 			ReviewProcess currentReviewProcess = reviewProcessService.findCurrentReviewProcess(reviewMain.getId());
-			Boolean isExpertSubmitCurrentReview = getVoteRecordService().expertSubmitCurrentReview(user.getId(), currentReviewProcess.getId());
-			model.addAttribute("isExpertSubmitCurrentReview", isExpertSubmitCurrentReview);
-			model.addAttribute("reviewProcessId", currentReviewProcess.getId());
-			if(!isExpertSubmitCurrentReview){
-				if(currentReviewProcess.getReviewBaseRule().getRuleName().equals("addCommonName")){
-					getVoteRecordService().expertStartVoteAddCommonName(user.getId(),currentReviewProcess.getId());
-					
+			if (currentReviewProcess != null) { 
+				isReivewProcess = true;
+				isExpertSubmitCurrentReview = getVoteRecordService().expertSubmitCurrentReview(user.getId(), currentReviewProcess.getId());
+				model.addAttribute("reviewProcessId", currentReviewProcess.getId());
+				if(!isExpertSubmitCurrentReview){
+					if(currentReviewProcess.getReviewBaseRule().getRuleName().equals("addCommonName")){
+						getVoteRecordService().expertStartVoteAddCommonName(user.getId(),currentReviewProcess.getId());
+					}
+					if(currentReviewProcess.getReviewBaseRule().getRuleName().equals("addSpecificationsAndPill")){
+						getVoteRecordService().expertStartVoteAddSpecificationsAndPill(user.getId(),currentReviewProcess.getId());
+					}	
+					if(currentReviewProcess.getReviewBaseRule().getRuleName().equals("addCommonNameManufacturer")){
+						getVoteRecordService().expertStartVoteAddCommonNameManufacturer(user.getId(),currentReviewProcess.getId());
+					}	
+					if(currentReviewProcess.getReviewBaseRule().getRuleName().equals("addSpecificationsAndPillManufacturer")){
+						getVoteRecordService().expertStartVoteAddSpecificationsAndPillManufacturer(user.getId(),currentReviewProcess.getId());
+					}	
 				}
-				if(currentReviewProcess.getReviewBaseRule().getRuleName().equals("addSpecificationsAndPill")){
-					getVoteRecordService().expertStartVoteAddSpecificationsAndPill(user.getId(),currentReviewProcess.getId());
-				}	
-				if(currentReviewProcess.getReviewBaseRule().getRuleName().equals("addCommonNameManufacturer")){
-					getVoteRecordService().expertStartVoteAddCommonNameManufacturer(user.getId(),currentReviewProcess.getId());
-				}	
-				if(currentReviewProcess.getReviewBaseRule().getRuleName().equals("addSpecificationsAndPillManufacturer")){
-					getVoteRecordService().expertStartVoteAddSpecificationsAndPillManufacturer(user.getId(),currentReviewProcess.getId());
-				}	
 			}
+			
+			model.addAttribute("isExpertSubmitCurrentReview", isExpertSubmitCurrentReview);
 		}
+		model.addAttribute("isReivewProcess", isReivewProcess);
 		return super.index(model);
 	}
 

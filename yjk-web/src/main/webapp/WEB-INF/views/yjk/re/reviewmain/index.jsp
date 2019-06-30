@@ -6,7 +6,7 @@
 		<thead>
 			<tr>
 			    <th data-options="field:'ck',checkbox:true" rowspan="2"/>
-				<th data-options="field:'enabled',width:200,halign:'center',formatter:formatOperation" rowspan="2">操作</th>
+				<th data-options="field:'enabled',width:200,align:'center',formatter:formatOperation" rowspan="2">操作</th>
 			    <th data-options="field:'id',width:80" rowspan="2">编号</th>
 				<th data-options="field:'name',width:300" rowspan="2">名称</th>
 				<th data-options="field:'createDate',width:150" rowspan="2">创建时间</th>
@@ -86,7 +86,7 @@
 				param['parameters']=$('#queryform').serializeObject();
 			},
 			onLoadSuccess:function(row){
-				$('.openCls').linkbutton({plain:true,iconCls:'icon-operate'});
+				$('.runCls').linkbutton({plain:true,iconCls:'icon-run'});
 				$('.closeCls').linkbutton({plain:true,iconCls:'icon-exit'});
 				$('.verifyCls').linkbutton({plain:true,iconCls:'icon-verify'});
 				$('.previewCls').linkbutton({plain:true,iconCls:'icon-preview'});
@@ -106,10 +106,10 @@
 		if (val) {
 			htmlOperation += '<a class="closeCls" onclick="closeDeclare(' + row.id + ')" href="javascript:void(0);" style="height:24px;" title="关闭申报"/> | ';
 		} else {
-			htmlOperation += '<a class="openCls" onclick="openDeclare(' + row.id + ')" href="javascript:void(0);" style="height:24px;" title="启动申报"/> | ';
+			htmlOperation += '<a class="runCls" onclick="openDeclare(' + row.id + ')" href="javascript:void(0);" style="height:24px;" title="启动申报"/> | ';
 		}
 		htmlOperation += '<a class="selectCls" onclick="selectSystemParameter(' + row.id + ')" href="javascript:void(0);" style="height:24px;" title="选择范围"/> |  ';
-		htmlOperation += '<a class="processCls" onclick="process(' + row.id + ')" href="javascript:void(0);" style="height:24px;" title="评审流程"/> |  ';
+		htmlOperation += '<a class="processCls" onclick="process(' + row.id + ')" href="javascript:void(0);" style="height:24px;" title="评审流程"/> ';
 		return htmlOperation;
 	}
 	
