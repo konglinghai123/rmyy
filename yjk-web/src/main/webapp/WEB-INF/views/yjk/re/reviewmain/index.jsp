@@ -104,41 +104,41 @@
 			htmlOperation = '<a class="previewCls" onclick="preview(' + row.id + ');" href="javascript:void(0);" style="height:24px;" title="查看用户"/> | ';
 		}
 		if (val) {
-			htmlOperation += '<a class="closeCls" onclick="closeDeclare(' + row.id + ')" href="javascript:void(0);" style="height:24px;" title="关闭申报"/> | ';
+			htmlOperation += '<a class="closeCls" onclick="closeReview(' + row.id + ')" href="javascript:void(0);" style="height:24px;" title="关闭申报"/> | ';
 		} else {
-			htmlOperation += '<a class="runCls" onclick="openDeclare(' + row.id + ')" href="javascript:void(0);" style="height:24px;" title="启动申报"/> | ';
+			htmlOperation += '<a class="runCls" onclick="openReview(' + row.id + ')" href="javascript:void(0);" style="height:24px;" title="启动申报"/> | ';
 		}
 		htmlOperation += '<a class="selectCls" onclick="selectSystemParameter(' + row.id + ')" href="javascript:void(0);" style="height:24px;" title="选择范围"/> |  ';
 		htmlOperation += '<a class="processCls" onclick="process(' + row.id + ')" href="javascript:void(0);" style="height:24px;" title="评审流程"/> ';
 		return htmlOperation;
 	}
 	
-	function closeDeclare(id) {
+	function closeReview(id) {
 		$.messager.confirm('提示', '确定要关闭评审吗?<br/><font color="red">关闭后所有人员将无法进行评审!</font>', function(r) {
 			if (r) {
 				$.ewcms.addLoading();
-				$.post('${ctx}/yjk/re/reviewmain/' + id + '/closedeclare',{}, function(result) {
+				$.post('${ctx}/yjk/re/reviewmain/' + id + '/closereview',{}, function(result) {
 					if (result.success) {
 						$('#tt').datagrid('reload');
-						$.ewcms.removeLoading();
 					}
 					$.messager.alert('提示', result.message, 'info');
+					$.ewcms.removeLoading();
 				});
 			}
 		});
 		
 	}
 	
-	function openDeclare(id) {
+	function openReview(id) {
 		$.messager.confirm('提示', '确定要启动评审吗?<br/><font color="red">启动后筛选用户可进行评审!</font>', function(r) {
 			if (r) {
 				$.ewcms.addLoading();
-				$.post('${ctx}/yjk/re/reviewmain/' + id + '/opendeclare',{}, function(result) {
+				$.post('${ctx}/yjk/re/reviewmain/' + id + '/openreview',{}, function(result) {
 					if (result.success) {
 						$('#tt').datagrid('reload');
-						$.ewcms.removeLoading();
 					}
 					$.messager.alert('提示', result.message, 'info');
+					$.ewcms.removeLoading();
 				});
 			}
 		});
@@ -165,9 +165,9 @@
 				$.post('${ctx}/yjk/re/reviewmain/' + id + '/filter', {}, function(result){
 					if (result.success){
 						$('#tt').datagrid('reload');
-						$.ewcms.removeLoading();
 					}
 					$.messager.alert('提示', result.message, 'info');
+					$.ewcms.removeLoading();
 				});
 			}
 		});
@@ -178,11 +178,7 @@
 	}
 	
 	function selectSystemParameter(id){
-		//$.messager.confirm('提示', '确定要选择申报数据吗?<br/><font color="red">申报的数据只能选择一次，请谨慎选择！</font>', function(r) {
-		//	if (r) {
-				$.ewcms.openWindow({src:'${ctx}/yjk/re/reviewmain/' + id + '/indexSystemParameter',title:'选择范围 - 有申报数据',width:850,height:550});
-		//	}
-		//});
+		$.ewcms.openWindow({src:'${ctx}/yjk/re/reviewmain/' + id + '/indexSystemParameter',title:'选择范围 - 有申报数据',width:850,height:550});
 	}
 	
 	function process(id){

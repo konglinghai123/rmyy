@@ -68,34 +68,24 @@ public class ReviewMainController extends BaseCRUDController<ReviewMain, Long> {
 		return super.query(searchParameter, model);
 	}
 
-	@RequestMapping(value = "{reviewMainId}/closedeclare")
+	@RequestMapping(value = "{reviewMainId}/closereview")
 	@ResponseBody
-	public AjaxResponse closeDeclare(@CurrentUser User user, @PathVariable(value = "reviewMainId") Long reviewMainId) {
-		AjaxResponse ajaxResponse = new AjaxResponse("关闭评审成功");
+	public AjaxResponse closeReview(@CurrentUser User user, @PathVariable(value = "reviewMainId") Long reviewMainId) {
 		try {
-			getReviewMainService().closeReview(user, reviewMainId);
+			return getReviewMainService().closeReview(user, reviewMainId);
 		} catch (Exception e) {
-			ajaxResponse.setSuccess(Boolean.FALSE);
-			ajaxResponse.setMessage("关闭评审失败");
+			return new AjaxResponse(Boolean.FALSE, "关闭评审失败");
 		}
-		return ajaxResponse;
 	}
 
-	@RequestMapping(value = "{reviewMainId}/opendeclare")
+	@RequestMapping(value = "{reviewMainId}/openreview")
 	@ResponseBody
-	public AjaxResponse openDeclare(@CurrentUser User user, @PathVariable(value = "reviewMainId") Long reviewMainId) {
-		AjaxResponse ajaxResponse = new AjaxResponse("启动评审成功");
+	public AjaxResponse openReview(@CurrentUser User user, @PathVariable(value = "reviewMainId") Long reviewMainId) {
 		try {
-			ReviewMain reviewMain = getReviewMainService().openReview(user, reviewMainId);
-
-			if (reviewMain == null) {
-				ajaxResponse.setMessage("系统参数中有未关闭的申报情况，请先关闭申报.");
-			}
+			return getReviewMainService().openReview(user, reviewMainId);
 		} catch (Exception e) {
-			ajaxResponse.setSuccess(Boolean.FALSE);
-			ajaxResponse.setMessage("启动评审失败");
+			return new AjaxResponse(Boolean.FALSE, "启动评审失败");
 		}
-		return ajaxResponse;
 	}
 
 	@Override

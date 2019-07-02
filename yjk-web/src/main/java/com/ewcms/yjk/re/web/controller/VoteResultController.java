@@ -93,7 +93,7 @@ public class VoteResultController extends BaseController<VoteResult, Long> {
 		if (reviewProcess == null) return map;
 		
 		List<Long> submittedUserIds = voteRecordService.findSubmittedUserIds(reviewMainId, reviewProcess.getId());
-		List<VoteMonitor> users = voteResultService.findVoteResultMonitor(submittedUserIds);
+		List<VoteMonitor> users = voteResultService.findVoteResultMonitor(submittedUserIds, reviewMainId, reviewProcess.getId());
 
 		map.put("total", users.size());
 		map.put("rows", users);
@@ -160,9 +160,58 @@ public class VoteResultController extends BaseController<VoteResult, Long> {
 		return voteRecordService.sign(userId);
 	}
 	
+	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "voteResult")
 	public String voteResult(Model model) {
 		setCommonData(model);
+		
+		Boolean isNextEnable = true;
+		Boolean isResult = false;
+		Boolean isClose = false;
+		ReviewMain reviewMain = reviewMainService.findByEnabledTrue();
+		if (reviewMain != null) {
+			Long reviewMainId = reviewMain.getId();
+			ReviewProcess reviewProcess = reviewProcessService.findCurrentReviewProcess(reviewMainId);
+			if (reviewProcess != null) {
+				List<ReviewProcess> reviewProcesses = reviewProcessService.findByReviewMainIdAndFinishedFalseOrderByWeightDesc(reviewMainId);
+				if (EmptyUtil.isCollectionNotEmpty(reviewProcesses) && reviewProcesses.get(0).equals(reviewProcess)) {
+					isNextEnable = false;
+				}
+
+				Long countSinged = voteRecordService.findSubmittedAndSinged(reviewMainId, reviewProcess.getId());
+				
+				List<Long> allUserIds = Lists.newArrayList();
+
+				List<User> reviewMainUsers = reviewMain.getUsers();
+				if (EmptyUtil.isCollectionNotEmpty(reviewMainUsers)) {
+					allUserIds.addAll(Collections3.extractToList(reviewMainUsers, "id"));
+				}
+
+				List<ReviewExpert> reviewExperts = reviewMain.getReviewExperts();
+				if (EmptyUtil.isCollectionNotEmpty(reviewExperts)) {
+					for (ReviewExpert reviewExpert : reviewExperts) {
+						allUserIds.addAll(Collections3.extractToList(reviewExpert.getUsers(), "id"));
+					}
+				}
+				
+				if (EmptyUtil.isCollectionNotEmpty(allUserIds) && allUserIds.size() == countSinged.intValue()){
+					voteResultService.generateCurrentReviewProcessVoteResults(reviewMainId, reviewProcess.getId());
+					isResult = true;
+				}
+			} else {
+				List<ReviewProcess> reviewProcesses = reviewMain.getReviewProcesses();
+				if (EmptyUtil.isCollectionNotEmpty(reviewProcesses)) {
+					model.addAttribute("currentReviewProcess", reviewProcesses.get(reviewProcesses.size() - 1));
+					isResult = true;
+					isClose = true;
+				}
+			}
+			
+		}
+		model.addAttribute("isResult", isResult);
+		model.addAttribute("isNextEnable", isNextEnable);
+		model.addAttribute("isClose", isClose);
+		
 		return viewName("voteResult");
 	}
 
@@ -177,6 +226,10 @@ public class VoteResultController extends BaseController<VoteResult, Long> {
 		Long reviewMainId = reviewMain.getId();
 		
 		ReviewProcess reviewProcess = reviewProcessService.findCurrentReviewProcess(reviewMainId);
+		List<ReviewProcess> reviewProcesses = reviewMain.getReviewProcesses();
+		if (reviewProcess == null && EmptyUtil.isCollectionNotEmpty(reviewProcesses)) {
+			reviewProcess = reviewProcesses.get(reviewProcesses.size() - 1);
+		}
 		if (reviewProcess == null) return map;
 		
 		List<VoteResult> voteResults = voteResultService.findCurrentReviewProcessVoteResults(reviewMainId, reviewProcess.getId());
@@ -205,7 +258,26 @@ public class VoteResultController extends BaseController<VoteResult, Long> {
 	
 	@RequestMapping(value = "next", method = RequestMethod.POST)
 	@ResponseBody
-	public AjaxResponse next(@CurrentUser User user) {
-		return voteResultService.next(user.getId());
+	public AjaxResponse next(@CurrentUser User user, @RequestParam(value = "reason") String reason, Model model) {
+		return voteResultService.next(user.getId(), reason);
 	}
+	
+	@RequestMapping(value = "process")
+	public String process(Model model) {
+		setCommonData(model);
+		
+		Boolean isClose = false;
+		ReviewMain reviewMain = reviewMainService.findByEnabledTrue();
+		if (reviewMain != null) {
+			Long reviewMainId = reviewMain.getId();
+			ReviewProcess reviewProcess = reviewProcessService.findCurrentReviewProcess(reviewMainId);
+			if (reviewProcess == null && EmptyUtil.isCollectionNotEmpty(reviewMain.getReviewProcesses())) {
+				isClose = true;
+			}
+		}
+		model.addAttribute("isClose", isClose);
+		
+		return viewName("process");
+	}
+	
 }

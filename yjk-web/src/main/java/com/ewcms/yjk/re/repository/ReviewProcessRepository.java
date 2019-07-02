@@ -16,4 +16,6 @@ public interface ReviewProcessRepository extends BaseRepository<ReviewProcess, L
 	ReviewProcess findByReviewBaseRuleRuleNameAndReviewMainId(String ruleName, Long reviewMainId);
 	
 	List<ReviewProcess> findByReviewMainIdAndFinishedFalseOrderByWeightAsc(Long reviewMainId);
+	
+	List<ReviewProcess> findByReviewMainIdAndFinishedFalseOrderByWeightDesc(Long reviewMainId);
 }

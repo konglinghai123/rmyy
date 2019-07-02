@@ -137,4 +137,8 @@ public class ReviewProcessService extends BaseSequenceMovableService<ReviewProce
 			}
 		}
 	}
+	
+	public List<ReviewProcess> findByReviewMainIdAndFinishedFalseOrderByWeightDesc(Long reviewMainId){
+		return getReviewProcessRepository().findByReviewMainIdAndFinishedFalseOrderByWeightDesc(reviewMainId);
+	}
 }

@@ -14,6 +14,8 @@ import com.ewcms.yjk.re.entity.VoteResult;
 import com.ewcms.yjk.re.model.VoteMonitor;
 import com.ewcms.yjk.re.repository.VoteResultRepository;
 import com.ewcms.yjk.sb.entity.DrugForm;
+import com.ewcms.yjk.zd.commonname.entity.DrugCategoryEnum;
+import com.google.common.collect.Lists;
 
 @Service
 public class VoteResultService extends BaseService<VoteResult, Long> {
@@ -37,8 +39,8 @@ public class VoteResultService extends BaseService<VoteResult, Long> {
 		return getVoteResultRepository().findByDrugFormIdAndReviewProcessId(drugFormId, reviewProcessId);
 	}
 	
-	public List<VoteMonitor> findVoteResultMonitor(List<Long> userIds){
-		return voteRecordService.findVoteResultMonitor(userIds);
+	public List<VoteMonitor> findVoteResultMonitor(List<Long> userIds, Long reviewMainId, Long reviewProcessId){
+		return voteRecordService.findVoteResultMonitor(userIds, reviewMainId, reviewProcessId);
 	}
 	
 	public List<DrugForm> findSelectedDrugForm(Long reviewMainId,String declareCategory){
@@ -147,11 +149,12 @@ public class VoteResultService extends BaseService<VoteResult, Long> {
 	/**
 	 * 进入下一轮
 	 * @param opUserId 操作用户
+	 * @param reason 按钮说明
 	 * @return
 	 */
-	public AjaxResponse next(Long opUserId) {
+	public AjaxResponse next(Long opUserId, String reason) {
 		AjaxResponse ajaxResponse = new AjaxResponse();
-		String message = "进入下一轮操作成功！";
+		String message = reason + "操作成功！";
 		
 		ReviewMain reviewMain = reviewMainService.findByEnabledTrue();
 		if (reviewMain == null) {
@@ -161,7 +164,7 @@ public class VoteResultService extends BaseService<VoteResult, Long> {
 			Long reviewMainId = reviewMain.getId();
 			ReviewProcess reviewProcess = reviewProcessService.findCurrentReviewProcess(reviewMainId);
 			if (reviewProcess == null) {
-				message = "本轮已是最后投票结果！";
+				message = "本轮流程有误！";
 				ajaxResponse.setSuccess(Boolean.FALSE);
 			} else {
 				Long reviewProcessId = reviewProcess.getId();
@@ -173,17 +176,17 @@ public class VoteResultService extends BaseService<VoteResult, Long> {
 						Long countBeSelectedNext = getVoteResultRepository().countByReviewMainIdAndReviewProcessIdAndAffirmVoteResultedTrueAndSelectedTrue(reviewMainId, reviewProcessId);
 						if (countBeSelectedNext.longValue() > 0) {
 							reviewProcess.setFinished(Boolean.TRUE);
-							reviewProcessService.update(reviewProcess, opUserId, "在 最终结果 窗口中操作了 进入下一轮 按钮");
+							reviewProcessService.update(reviewProcess, opUserId, "在 投票结果 窗口中操作了 " + reason + " 按钮");
 						} else {
-							message = "在本轮未有入选的结果，不能进行下一轮！";
+							message = "在本轮未有入选的结果，不能" + reason + "！";
 							ajaxResponse.setSuccess(Boolean.FALSE);
 						}
 					} else {
-						message = "还有未确认最终结果的记录！";
+						message = "还有未确认本轮结果的记录！";
 						ajaxResponse.setSuccess(Boolean.FALSE);
 					}
 				} else {
-					message = "本轮投票中有专家还没有结束投票，请等全部都投完后进行完最终确认后再进入下一轮！";
+					message = "本轮投票中有专家还没有结束投票，请等全部都投完后进行完最终确认后再" + reason + "！";
 					ajaxResponse.setSuccess(Boolean.FALSE);
 				}
 			}
@@ -192,4 +195,43 @@ public class VoteResultService extends BaseService<VoteResult, Long> {
 		ajaxResponse.setMessage(message);
 		return ajaxResponse;
 	}
+	
+	private void generateSelected(Long reviewMainId, Long reviewProcessId, Long number, DrugCategoryEnum drugCategoryEnum) {
+		List<VoteResult> voteResults = getVoteResultRepository().findCurrentReviewProcessVoteResults(reviewMainId, reviewProcessId, drugCategoryEnum);
+		if (EmptyUtil.isCollectionNotEmpty(voteResults)) {
+			long i = 0;
+			for (VoteResult voteResult : voteResults) {
+				if (i < number.longValue()) {
+					voteResult.setSelected(true);
+					update(voteResult);
+				} else {
+					break;
+				}
+				i++;
+			}
+		}
+	}
+	
+	public List<VoteResult> generateCurrentReviewProcessVoteResults(Long reviewMainId, Long reviewProcessId){
+		ReviewProcess reviewProcess = reviewProcessService.findOne(reviewProcessId);
+		if (reviewProcess == null) return Lists.newArrayList();
+		
+		String reuleName = reviewProcess.getReviewBaseRule().getRuleName();
+		if (reuleName.equals("addCommonName") || reuleName.equals("addCommonNameManufacturer")) {
+			generateSelected(reviewMainId, reviewProcessId, reviewProcess.getGeneralNameChinese(), DrugCategoryEnum.Z);
+			generateSelected(reviewMainId, reviewProcessId, reviewProcess.getGeneralNameWestern(), DrugCategoryEnum.H);
+		} else if (reuleName.equals("addSpecificationsAndPill") || reuleName.equals("addSpecificationsAndPillManufacturer")) {
+			generateSelected(reviewMainId, reviewProcessId, reviewProcess.getFormulaChinese(), DrugCategoryEnum.Z);
+			generateSelected(reviewMainId, reviewProcessId, reviewProcess.getFormulaWestern(), DrugCategoryEnum.H);
+		} else {
+			return Lists.newArrayList();
+		}
+		
+		return findCurrentReviewProcessVoteResults(reviewMainId, reviewProcessId);
+	}
+
+	public Long countByReviewMainIdAndReviewProcessIdAndAffirmVoteResultedFalse(Long reviewMainId, Long reviewProcessId){
+		return getVoteResultRepository().countByReviewMainIdAndReviewProcessIdAndAffirmVoteResultedFalse(reviewMainId, reviewProcessId);
+	}
+	
 }

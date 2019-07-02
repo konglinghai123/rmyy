@@ -41,7 +41,7 @@
 							<th data-options="field:'${fn:substring(displayColumn.ruleName,9,fn:length(displayColumn.ruleName))}',width:${displayColumn.width},
 									formatter:function(val,row){
 										try{
-											if(row.drugForm.commonNameContents==null){
+											if(row.commonNameContents==null){
 											 	return '';
 											}else{
 												return formatTooltip(row.${fn:substring(displayColumn.ruleName,9,fn:length(displayColumn.ruleName))}, row);

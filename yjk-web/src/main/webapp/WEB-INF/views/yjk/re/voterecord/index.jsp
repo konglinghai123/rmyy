@@ -68,7 +68,7 @@
 									<c:otherwise>
 										<th data-options="field:'${fn:substring(displayColumn.ruleName,9,fn:length(displayColumn.ruleName))}',width:${displayColumn.width},
 												formatter:function(val,row){
-													if(row.drugForm.commonNameContents==null){
+													if(row.commonNameContents==null){
 													 	return '';
 													}else{
 														return formatTooltip(row.${fn:substring(displayColumn.ruleName,9,fn:length(displayColumn.ruleName))}, row);
@@ -84,7 +84,7 @@
 				</table>
 				<div id="tb" style="padding:5px;height:auto;">
 			        <div class="toolbar" style="margin-bottom:2px">
-						<font color=“blue” style="font-size:14px;">最大投票通过数为10</font>&nbsp;&nbsp;&nbsp;&nbsp;投票流程：
+						投票流程：
 						
 						<c:forEach items="${reviewProcessesList}" var="reviewProcess" varStatus="status">
 							<c:choose>
@@ -219,15 +219,14 @@
 									if (r) {
 										$.ewcms.addLoading();
 								        $.post('${ctx}/yjk/re/voterecord/submitvote', parameter, function (data) {
-								        	
 								        	if(data.success){
-								        		$.ewcms.removeLoading();
 								        		alert(data.message);
 								        		window.location.reload();
 								        	}else{
 								        		$.messager.alert('提示', data.message, 'info');
 								        	}
 								        });
+								        $.ewcms.removeLoading();
 									}
 								});	
 				    }   

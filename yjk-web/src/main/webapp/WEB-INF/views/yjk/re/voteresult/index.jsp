@@ -5,21 +5,8 @@
 	<c:choose>
 	<c:when test="${isOpenReview}">
 	<div id="edit-from" class="easyui-layout" data-options="fit:true" style="border:0;">
-		<div data-options="region:'north'" style="text-align:center;height:30px;border:0">
-			评审流程：
-	  		<c:forEach items="${reviewProcessesList}" var="reviewProcess" varStatus="status">
-				<c:choose>
-					<c:when test="${reviewProcess.reviewBaseRule.ruleName == currentReviewProcess.reviewBaseRule.ruleName}">
-						<font color="red" style="font-size:14px;"><b>${reviewProcess.reviewBaseRule.ruleCnName}</b></font>
-					</c:when>
-					<c:otherwise>
-						${reviewProcess.reviewBaseRule.ruleCnName}
-					</c:otherwise>
-				</c:choose>
-				<c:if test="${!status.last}">
-	    	   			<img  width=30 height=15 src="${ctx}/static/image/arrow.jpg">
-	    	   	</c:if>	
-			</c:forEach>
+		<div data-options="region:'north'" style="text-align:center;height:30px;border:0;overflow:hidden;">
+			<iframe id="ifrprocess" name="ifrprocess" class="editifr" src="${ctx}/yjk/re/voteresult/process"></iframe>
 		</div>	
 		<div data-options="region:'center',border:false">
 			 <div id="tab-voteresult" class="easyui-tabs" data-options="fit:true,tabPosition:'top',border:true,headerWidth:120">

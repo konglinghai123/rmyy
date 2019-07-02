@@ -243,11 +243,15 @@ public class VoteRecordService extends BaseService<VoteRecord, Long> {
 					vo.setSubmittDate(new Date(Calendar.getInstance().getTime()
 							.getTime()));
 					super.save(vo);
-
-					VoteResult voteResult = voteResultService
-							.findByDrugFormIdAndReviewProcessId(vo
-									.getDrugForm().getId(), vo
-									.getReviewProcessId());
+					VoteResult voteResult;
+					ReviewProcess reviewProcess = reviewProcessService.findOne(vo.getReviewProcessId());
+					String ruleName = reviewProcess.getReviewBaseRule().getRuleName();
+					if(ruleName.equals("addCommonName")||ruleName.equals("addSpecificationsAndPill")) {
+						voteResult = voteResultService.findByDrugFormIdAndReviewProcessId(vo.getDrugForm().getId(), vo.getReviewProcessId());
+					}else {
+						voteResult = voteResultService.findByCommonNameContentsIdAndReviewProcessId(vo.getCommonNameContents().getId(), vo.getReviewProcessId());
+					}
+					
 					if (voteResult != null
 							&& !voteResult.getAffirmVoteResulted()) {
 						if (voteTypeEnum.equals(VoteTypeEnum.pass)) {
@@ -312,19 +316,29 @@ public class VoteRecordService extends BaseService<VoteRecord, Long> {
 				ajaxResponse.setSuccess(Boolean.FALSE);
 			} else {
 				Long reviewProcessId = reviewProcess.getId();
-				List<VoteRecord> voteRecords = findByUserIdAndReviewMainIdAndReviewProcessIdAndDrugFormIdIsNullAndCommonNameContentsIdIsNull(
-						userId, reviewMainId, reviewProcessId);
-				if (EmptyUtil.isCollectionEmpty(voteRecords)) {
-					VoteRecord voteRecord = new VoteRecord();
-					voteRecord.setUserId(userId);
-					voteRecord.setReviewMainId(reviewMainId);
-					voteRecord.setReviewProcessId(reviewProcessId);
-					voteRecord.setVoteTypeEnum(VoteTypeEnum.abstain);
-					voteRecord.setSigned(Boolean.TRUE);
-					voteRecord.setSubmitted(Boolean.TRUE);
-					voteRecord.setSubmittDate(new Date(Calendar.getInstance().getTime()
-							.getTime()));
-					super.save(voteRecord);
+				Long countSigned = getVoteRecordRepository().countByUserIdAndReviewMainIdAndReviewProcessIdAndSubmittedTrueAndSignedTrue(userId, reviewMainId, reviewProcessId);
+				if (countSigned > 0) {
+					message = "本轮用户已签字，不能中止投票！";
+					ajaxResponse.setSuccess(Boolean.FALSE);
+				} else {
+					List<VoteRecord> voteRecords = findByUserIdAndReviewMainIdAndReviewProcessIdAndDrugFormIdIsNullAndCommonNameContentsIdIsNull(
+							userId, reviewMainId, reviewProcessId);
+					if (EmptyUtil.isCollectionEmpty(voteRecords)) {
+						//先删除
+						getVoteRecordRepository().deleteGvieUpVoteRecord(userId, reviewMainId, reviewProcessId);
+						
+						VoteRecord voteRecord = new VoteRecord();
+						voteRecord.setUserId(userId);
+						voteRecord.setReviewMainId(reviewMainId);
+						voteRecord.setReviewProcessId(reviewProcessId);
+						voteRecord.setVoteTypeEnum(VoteTypeEnum.abstain);
+						voteRecord.setSigned(Boolean.TRUE);
+						voteRecord.setSubmitted(Boolean.TRUE);
+						voteRecord.setSubmittDate(new Date(Calendar.getInstance().getTime().getTime()));
+						super.save(voteRecord);
+						
+						
+					}
 				}
 			}
 		}
@@ -371,8 +385,8 @@ public class VoteRecordService extends BaseService<VoteRecord, Long> {
 		return getVoteRecordRepository().findByUserIdAndReviewMainIdAndReviewProcessIdAndDrugFormIsNotNull(userId, reviewMainId, reviewProcessId);
 	}
 	
-	public List<VoteMonitor> findVoteResultMonitor(List<Long> userIds){
-		return getVoteRecordRepository().findVoteResultMonitor(userIds);
+	public List<VoteMonitor> findVoteResultMonitor(List<Long> userIds, Long reviewMainId, Long reviewProcessId){
+		return getVoteRecordRepository().findVoteResultMonitor(userIds, reviewMainId, reviewProcessId);
 	}
 	
 	public List<VoteMonitor> findVoteUserMonitorDrugForm(Long reviewMainId, Long reviewProcessId, Long drugFormId){
@@ -381,5 +395,9 @@ public class VoteRecordService extends BaseService<VoteRecord, Long> {
 	
 	public List<VoteMonitor> findVoteUserMonitorCommonNameContents(Long reviewMainId, Long reviewProcessId, Long commonNameContentsId){
 		return getVoteRecordRepository().findVoteUserMonitorCommonNameContents(reviewMainId, reviewProcessId, commonNameContentsId);
+	}
+	
+	public Long findSubmittedAndSinged(Long reviewMainId, Long reviewProcessId) {
+		return getVoteRecordRepository().findSubmittedAndSinged(reviewMainId, reviewProcessId);
 	}
 }

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ewcms.common.entity.search.SearchParameter;
+import com.ewcms.common.entity.search.Searchable;
 import com.ewcms.common.web.controller.BaseCRUDController;
 import com.ewcms.common.web.validate.AjaxResponse;
 import com.ewcms.security.user.entity.User;
@@ -24,6 +25,7 @@ import com.ewcms.yjk.re.entity.VoteRecord;
 import com.ewcms.yjk.re.service.ReviewMainService;
 import com.ewcms.yjk.re.service.ReviewProcessService;
 import com.ewcms.yjk.re.service.VoteRecordService;
+import com.google.common.collect.Maps;
 
 @Controller
 @RequestMapping(value = "/yjk/re/voterecord")
@@ -107,9 +109,19 @@ public class VoteRecordController extends BaseCRUDController<VoteRecord, Long> {
 	public Map<String, Object> query(@CurrentUser User user,SearchParameter<Long> searchParameter,	Model model,@PathVariable(value = "reviewProcessId") Long reviewProcessId) {
 		searchParameter.getParameters().put("EQ_userId", user.getId());
 		searchParameter.getParameters().put("EQ_reviewProcessId",reviewProcessId);
-		searchParameter.getSorts().put("drugForm.commonNameContents.common.drugCategory", Direction.ASC);
-		searchParameter.getSorts().put("id", Direction.ASC);
-		return super.query(searchParameter, model);
+//		searchParameter.getSorts().put("drugForm.commonNameContents.common.drugCategory", Direction.ASC);
+//		searchParameter.getSorts().put("id", Direction.ASC);
+		
+		Searchable searchable = Searchable.newSearchable(searchParameter.getParameters());
+		searchable.addSort(Direction.ASC, "drugForm.commonNameContents.common.drugCategory");
+		searchable.addSort(Direction.ASC, "id");
+		
+		List<VoteRecord> voteRecords = getVoteRecordService().findAllWithSort(searchable);
+		Map<String, Object> map = Maps.newHashMap();
+		map.put("total", voteRecords.size());
+		map.put("rows", voteRecords);
+		return map;
+
 	}
 	
 	@RequestMapping(value = "{userId}/{reviewProcessId}/query")

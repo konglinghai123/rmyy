@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.ewcms.common.service.BaseService;
 import com.ewcms.common.utils.Collections3;
 import com.ewcms.common.utils.EmptyUtil;
+import com.ewcms.common.web.validate.AjaxResponse;
 import com.ewcms.security.auth.service.AutomaticAuthService;
 import com.ewcms.security.auth.util.AutomaticAuthUtil;
 import com.ewcms.security.organization.service.OrganizationService;
@@ -191,10 +192,19 @@ public class ReviewMainService extends BaseService<ReviewMain, Long> {
 		}
 	}
 
-	public ReviewMain openReview(User opUser, Long reviewMainId) {
-		if (systemParameterService.findByEnabledTrue() != null) return null;
+	public AjaxResponse openReview(User opUser, Long reviewMainId) {
+		if (systemParameterService.findByEnabledTrue() != null) {
+			return new AjaxResponse(Boolean.FALSE, "还有申报新药在进行中，必须先停止申报新药才能开启评审！");
+		}
 			
 		ReviewMain reviewMain = findOne(reviewMainId);
+		if (reviewMain == null) {
+			return new AjaxResponse(Boolean.FALSE, "评审不存在！");
+		}
+		if (EmptyUtil.isCollectionEmpty(reviewMain.getReviewProcesses())) {
+			return new AjaxResponse(Boolean.FALSE, "评审流程未定义，不能开启评审！");
+		}
+		
 		ReviewMain dbReviewMain = findByEnabledTrue();
 		if (dbReviewMain != null) {
 			dbReviewMain.setEnabled(Boolean.FALSE);
@@ -211,18 +221,37 @@ public class ReviewMainService extends BaseService<ReviewMain, Long> {
 					userIds.addAll(selectUserIds);
 			}
 		}
+		if (EmptyUtil.isCollectionEmpty(userIds)) {
+			return new AjaxResponse(Boolean.FALSE, "没有评审专家，请先添加评审专家！");
+		}
+		
 		automaticAuthService.automaticAddAuth(ROLE_NAME, ROLE_IDENTIFICATION, GROUP_NAME, userIds, Boolean.TRUE, RESOURCE_ID);
-
-		return super.update(reviewMain);
+		super.update(reviewMain);
+		
+		return new AjaxResponse(Boolean.TRUE, "评审流程开启成功！");
 	}
 
-	public ReviewMain closeReview(User opUser, Long reviewMainId) {
+	public AjaxResponse closeReview(User opUser, Long reviewMainId) {
 		ReviewMain reviewMain = findOne(reviewMainId);
+		if (reviewMain == null) return new AjaxResponse(Boolean.FALSE, "评审不存在！");
+//		if (EmptyUtil.isCollectionNotEmpty(reviewMain.getReviewProcesses())) {
+//			ReviewProcess currentReviewProcess = reviewProcessService.findCurrentReviewProcess(reviewMainId);
+			
+//			List<ReviewProcess> reviewProcesses = reviewProcessService.findByReviewMainIdAndFinishedFalseOrderByWeightDesc(reviewMainId);
+//			if (EmptyUtil.isCollectionNotEmpty(reviewProcesses) && reviewProcesses.get(0).equals(currentReviewProcess)) {
+//				Long countNoAffirm = voteResultService.countByReviewMainIdAndReviewProcessIdAndAffirmVoteResultedFalse(reviewMainId, currentReviewProcess.getId());
+//				if (countNoAffirm.longValue() != 0) {
+//					return new AjaxResponse(Boolean.FALSE, "还有未确认最终结果的记录，不能关闭本次评审！");
+//				}
+//			}
+//		}
+		
 		reviewMain.setEnabled(Boolean.FALSE);
-
+		update(reviewMain);
+		
 		automaticAuthService.automaticRemoveAllUser(GROUP_NAME);
-
-		return update(reviewMain);
+		
+		return new AjaxResponse(Boolean.TRUE, "评审流程关闭成功！");
 	}
 
 	public boolean isOpenReview() {

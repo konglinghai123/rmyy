@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/views/jspf/taglibs.jspf" %>
-
+<c:choose>
+	<c:when test="${isResult}">
 <ewcms:head title="最终结果"/>
 	<table id="tt">
 		<thead>
@@ -21,7 +22,7 @@
 				<th data-options="field:'affirmVoteResulted',width:80,
 						formatter:function(val,row){
 							return val ? '是' : '';
-						}">最终结果</th>
+						}">本轮结果</th>
 			    <c:forEach items="${currentReviewProcess.displayColumns}" var="displayColumn" varStatus="status">
  					<c:choose>
 	 					<c:when test="${currentReviewProcess.reviewBaseRule.ruleName == 'addCommonName'||currentReviewProcess.reviewBaseRule.ruleName == 'addSpecificationsAndPill'}">
@@ -59,11 +60,20 @@
 	</table>
 	<div id="tb" style="padding:5px;height:auto;">
         <div class="toolbar" style="margin-bottom:2px">
+        	<c:if test="${!isClose }">
 			<a id="tb-adjust" href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-forced-open',plain:true">调入</a>
 			<a id="tb-cancel" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-forced-closure'">调出</a>
 			<a id="tb-print" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-print'">打印</a>
-			<a id="tb-affirm" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-ok'">最终确认</a>
+			<a id="tb-affirm" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-ok'">本轮确认</a>
+			<c:choose>
+			<c:when test="${isNextEnable}">
 			<a id="tb-next" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-next'">进入下一轮</a>
+			</c:when>
+			<c:otherwise>
+			<a id="tb-exit" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-exit'">结束投票</a>
+			</c:otherwise>
+			</c:choose>
+			</c:if>
 		</div>
         <div>
         	<form id="queryform" style="padding:0;margin:0;">
@@ -180,12 +190,30 @@
 	$('#tb-next').bind('click', function(){
     	$.messager.confirm('提示', '确认要进入下一轮投票流程吗？', function(r){
 			if (r){
-				$.post('${ctx}/yjk/re/voteresult/next', {}, function(result) {
+				$.post('${ctx}/yjk/re/voteresult/next', {reason:'进入下一轮'}, function(result) {
 					if (result.success){
 						$('#tt').datagrid('clearSelections');
 						$('#tt').datagrid('reload');
+						parent.$('#ifrprocess')[0].contentWindow.location.reload();
 					}
-					$.messager.alert('提示', result.message, 'info');
+					alert(result.message);
+					window.location.reload();
+				});
+			}
+	 	});
+	});
+	
+	$('#tb-exit').bind('click', function(){
+		$.messager.confirm('提示', '确认要结束投票吗？', function(r){
+			if (r){
+				$.post('${ctx}/yjk/re/voteresult/next', {reason:'结束投票'}, function(result) {
+					if (result.success){
+						$('#tt').datagrid('clearSelections');
+						$('#tt').datagrid('reload');
+						parent.$('#ifrprocess')[0].contentWindow.location.reload();
+					}
+					alert(result.message);
+					window.location.reload();
 				});
 			}
 	 	});
@@ -195,3 +223,14 @@
 		return val != null ? '<span title="' + val + '" class="easyui-tooltip">' + val + '</span>' : '';
 	}
 </script>
+</c:when>
+<c:otherwise>
+<ewcms:head title="评审监控 - 投票结果"/>
+			<div id="edit-from" class="easyui-layout" data-options="fit:true" style="border:0;">
+				<div data-options="region:'center',fit:true" style="border:0;">	
+					<h1 class="title">本轮投票还未完成，还不能生成投票结果！</h1>
+				</div>
+			</div>
+		<ewcms:footer/>
+</c:otherwise>
+</c:choose>

@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import com.ewcms.common.repository.BaseRepository;
 import com.ewcms.yjk.re.entity.VoteResult;
 import com.ewcms.yjk.sb.entity.DrugForm;
+import com.ewcms.yjk.zd.commonname.entity.DrugCategoryEnum;
 
 public interface VoteResultRepository extends BaseRepository<VoteResult, Long> {
 	Long countByReviewProcessId(Long reviewProcessId);
@@ -24,6 +25,11 @@ public interface VoteResultRepository extends BaseRepository<VoteResult, Long> {
 			+ "where v.reviewMainId=?1 and v.reviewProcessId=?2 "
 			+ "order by v.passSum desc, v.selected desc, v.adjusted asc, v.id")
 	List<VoteResult> findCurrentReviewProcessVoteResults(Long reviewMainId, Long reviewProcessId);
+	
+	@Query("from VoteResult v "
+			+ "where v.reviewMainId=?1 and v.reviewProcessId=?2 and v.selected = true and v.affirmVoteResulted=true "
+			+ "order by v.passSum desc, v.selected desc, v.adjusted asc, v.id")
+	List<VoteResult> findLastReviewProcessVoteResults(Long reviewMainId, Long reviewProcessId);
 	
 	@Modifying
 	@Query("update VoteResult v "
@@ -46,4 +52,10 @@ public interface VoteResultRepository extends BaseRepository<VoteResult, Long> {
 	Long countByReviewMainIdAndReviewProcessIdAndAffirmVoteResultedFalse(Long reviewMainId, Long reviewProcessId);
 	
 	Long countByReviewMainIdAndReviewProcessIdAndAffirmVoteResultedTrueAndSelectedTrue(Long reviewMainId, Long reviewProcessId);
+	
+	@Query("from VoteResult v "
+			+ "where v.reviewMainId=?1 and v.reviewProcessId=?2 and v.drugForm.commonNameContents.common.drugCategory=?3 "
+			+ "order by v.passSum desc, v.opposeSum asc, v.abstainSum asc")
+	List<VoteResult> findCurrentReviewProcessVoteResults(Long reviewMainId, Long reviewProcessId, DrugCategoryEnum drugCategoryEnum);
+
 }

@@ -37,9 +37,9 @@ public interface VoteRecordRepository extends BaseRepository<VoteRecord, Long> {
 			+ "u, v.signed"
 			+ ") "
 			+ "from User u, VoteRecord v "
-			+ "where u.id=v.userId and u.id in (?1) "
+			+ "where u.id=v.userId and u.id in (?1) and v.reviewMainId=?2 and v.reviewProcessId=?3 "
 			+ "order by u.id")
-	List<VoteMonitor> findVoteResultMonitor(List<Long> userIds);
+	List<VoteMonitor> findVoteResultMonitor(List<Long> userIds, Long reviewMainId, Long reviewProcessId);
 
 	@Query("select distinct new com.ewcms.yjk.re.model.VoteMonitor("
 			+ "u, v.voteTypeEnum"
@@ -56,4 +56,14 @@ public interface VoteRecordRepository extends BaseRepository<VoteRecord, Long> {
 			+ "where u.id=v.userId and v.reviewMainId=?1 and v.reviewProcessId=?2 and v.commonNameContents.id=?3 and v.submitted=true "
 			+ "order by u.id")
 	List<VoteMonitor> findVoteUserMonitorCommonNameContents(Long reviewMainId, Long reviewProcessId, Long commonNameContentsId);
+	
+	@Modifying
+	@Query("delete from VoteRecord v where v.userId=?1 and v.reviewMainId=?2 and v.reviewProcessId=?3 and (v.submitted=false or v.signed=false)")
+	void deleteGvieUpVoteRecord(Long userId, Long reviewMainId, Long reviewProcessId);
+	
+	Long countByUserIdAndReviewMainIdAndReviewProcessIdAndSubmittedTrueAndSignedTrue(Long userId, Long reviewMainId, Long reviewProcessId);
+	
+	@Query("select count(distinct v.userId) from VoteRecord v where v.reviewMainId=?1 and v.reviewProcessId=?2 and v.submitted=true and v.signed=true")
+	Long findSubmittedAndSinged(Long reviewMainId, Long reviewProcessId);
+
 }
