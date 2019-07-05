@@ -63,7 +63,6 @@
         	<c:if test="${!isClose }">
 			<a id="tb-adjust" href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-forced-open',plain:true">调入</a>
 			<a id="tb-cancel" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-forced-closure'">调出</a>
-			<a id="tb-print" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-print'">打印</a>
 			<a id="tb-affirm" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-ok'">本轮确认</a>
 			<c:choose>
 			<c:when test="${isNextEnable}">
@@ -74,15 +73,8 @@
 			</c:otherwise>
 			</c:choose>
 			</c:if>
+			<a id="tb-print" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-print'">打印</a>
 		</div>
-        <div>
-        	<form id="queryform" style="padding:0;margin:0;">
-        		<table class="formtable">
-              		<tr>
-           			</tr>
-           		</table>
-          </form>
-        </div>
 	</div>
 <ewcms:footer/>
 <script type="text/javascript">

@@ -16,8 +16,8 @@ import com.ewcms.security.user.entity.User;
 import com.ewcms.security.user.web.bind.annotation.CurrentUser;
 import com.ewcms.system.notice.entity.Notice;
 import com.ewcms.system.notice.service.NoticeService;
-import com.ewcms.yjk.sp.entity.SystemParameter;
-import com.ewcms.yjk.sp.service.SystemParameterService;
+//import com.ewcms.yjk.sp.entity.SystemParameter;
+//import com.ewcms.yjk.sp.service.SystemParameterService;
 import com.google.common.collect.Maps;
 
 @Controller
@@ -27,8 +27,8 @@ public class PushController {
 	private MessageApi messageApi;
     @Autowired
     private PushService pushService;
-    @Autowired
-    private SystemParameterService systemParameterService;
+//    @Autowired
+//    private SystemParameterService systemParameterService;
     @Autowired
     private NoticeService noticeService;
     /**
@@ -51,7 +51,7 @@ public class PushController {
         if(!pushService.isOnline(userId)) {
             Long unreadMessageCount = messageApi.countUnread(userId);
             
-            SystemParameter systemParameter = systemParameterService.findByEnabledTrue();
+//            SystemParameter systemParameter = systemParameterService.findByEnabledTrue();
 
 //            String notice = (systemParameter == null) ? "申报新药还未开启，请等待!!!" : "请大家在 " + systemParameter.getApplyStartDate() + " 至 " + systemParameter.getApplyEndDate() + " 之间申报新药！！！";
             Map<String, Object> data = Maps.newHashMap();
@@ -61,14 +61,12 @@ public class PushController {
             List<Notice> notices = noticeService.findByIndexShow();
             data.put("notices", notices);
             
-            if (systemParameter != null) {
-                data.put("drugForm_nodeclare", systemParameter.getNodeclareNumber());
-                data.put("drugForm_init", systemParameter.getInitNumber());
-                data.put("drugForm_passed", systemParameter.getPassedNumber());
-                data.put("drugForm_unPassed", systemParameter.getUnPassedNumber());
-            }
-            
-            
+//            if (systemParameter != null) {
+//                data.put("drugForm_nodeclare", systemParameter.getNodeclareNumber());
+//                data.put("drugForm_init", systemParameter.getInitNumber());
+//                data.put("drugForm_passed", systemParameter.getPassedNumber());
+//                data.put("drugForm_unPassed", systemParameter.getUnPassedNumber());
+//            }
             
             pushService.online(userId);
             return data;

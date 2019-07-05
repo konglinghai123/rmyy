@@ -234,4 +234,16 @@ public class VoteResultService extends BaseService<VoteResult, Long> {
 		return getVoteResultRepository().countByReviewMainIdAndReviewProcessIdAndAffirmVoteResultedFalse(reviewMainId, reviewProcessId);
 	}
 	
+	/**
+	 * 评审统计结果
+	 * 
+	 * @param reviewMainId
+	 * @param reviewProcessId
+	 * @param drugCategoryEnum
+	 * @return
+	 */
+	public Long countResult(Long reviewMainId, Long reviewProcessId, DrugCategoryEnum drugCategoryEnum) {
+		return getVoteResultRepository().countByReviewMainIdAndReviewProcessIdAndDrugFormCommonNameContentsCommonDrugCategoryAndSelectedTrueAndAffirmVoteResultedTrue(reviewMainId, reviewProcessId, drugCategoryEnum);
+	}
+	
 }

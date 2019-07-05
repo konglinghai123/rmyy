@@ -247,6 +247,8 @@ CREATE TABLE public.re_vote_record
   user_id bigint NOT NULL,
   votetypeenum character varying(255),
   drugform_id bigint,
+  is_signed boolean,
+  commonnamecontents_id bigint,
   CONSTRAINT re_vote_record_pkey PRIMARY KEY (id),
   CONSTRAINT fk_k6d08qty3ln4irbptn6upd5xi FOREIGN KEY (drugform_id)
       REFERENCES public.sb_drug_form (id) MATCH SIMPLE

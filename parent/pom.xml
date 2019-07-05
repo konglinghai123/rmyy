@@ -27,12 +27,12 @@
 		<!-- 追溯查询 -->
 		<!-- <module>../trace-web</module> -->
 		<!-- <module>../weixin-web</module> -->
-		<!-- 
 		<module>../base-post-entity</module>
 		<module>../yjk-web</module>
-		-->
+		<!-- 
 		<module>../base-common-entity</module>
 		<module>../hzda-web</module>
+		-->
 	</modules>
 
 	<repositories>

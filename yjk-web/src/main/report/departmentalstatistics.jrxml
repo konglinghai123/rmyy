@@ -3,33 +3,31 @@
 	<property name="ireport.zoom" value="1.7715610000000013"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
+	<parameter name="systemParameterId" class="java.lang.Long"/>
 	<queryString>
-		<![CDATA[select o.name,sp.apply_start_date, sp.apply_end_date,
+		<![CDATA[select o.name, sp.project_remark, sp.apply_start_date, sp.apply_end_date,
 (select count(df.id)
-from sb_drug_form df left join sp_system_parameter sp on df.system_parameter_id=sp.id
-left join sec_user_organization_job uoj on df.user_id=uoj.user_id
-where sp.is_enabled=true and o.id=uoj.organization_id and df.auditstatus = 'nodeclare'
+from sb_drug_form df left join sec_user_organization_job uoj on df.user_id=uoj.user_id
+where df.system_parameter_id=sp.id and o.id=uoj.organization_id and df.auditstatus = 'nodeclare'
 ) as nodeclare,
 (select count(df.id)
-from sb_drug_form df left join sp_system_parameter sp on df.system_parameter_id=sp.id
-left join sec_user_organization_job uoj on df.user_id=uoj.user_id
-where sp.is_enabled=true and o.id=uoj.organization_id and df.auditstatus = 'init'
+from sb_drug_form df left join sec_user_organization_job uoj on df.user_id=uoj.user_id
+where df.system_parameter_id=sp.id and o.id=uoj.organization_id and df.auditstatus = 'init'
 ) as init,
 (select count(df.id)
-from sb_drug_form df left join sp_system_parameter sp on df.system_parameter_id=sp.id
-left join sec_user_organization_job uoj on df.user_id=uoj.user_id
-where sp.is_enabled=true and o.id=uoj.organization_id and df.auditstatus = 'passed'
+from sb_drug_form df left join sec_user_organization_job uoj on df.user_id=uoj.user_id
+where df.system_parameter_id=sp.id and o.id=uoj.organization_id and df.auditstatus = 'passed'
 ) as passed,
 (select count(df.id)
-from sb_drug_form df left join sp_system_parameter sp on df.system_parameter_id=sp.id
-left join sec_user_organization_job uoj on df.user_id=uoj.user_id
-where sp.is_enabled=true and o.id=uoj.organization_id and df.auditstatus = 'un_passed'
+from sb_drug_form df left join sec_user_organization_job uoj on df.user_id=uoj.user_id
+where df.system_parameter_id=sp.id and o.id=uoj.organization_id and df.auditstatus = 'un_passed'
 ) as un_passed
 from sec_organization o , sp_system_parameter sp
-where o.parent_id != 0 and sp.is_enabled=true
+where o.parent_id != 0 and sp.id=$P{systemParameterId}
 order by o.weight asc]]>
 	</queryString>
 	<field name="name" class="java.lang.String"/>
+	<field name="project_remark" class="java.lang.String"/>
 	<field name="apply_start_date" class="java.sql.Timestamp"/>
 	<field name="apply_end_date" class="java.sql.Timestamp"/>
 	<field name="nodeclare" class="java.lang.Long"/>
@@ -54,37 +52,37 @@ order by o.weight asc]]>
 		</band>
 	</pageHeader>
 	<columnHeader>
-		<band height="55" splitType="Stretch">
+		<band height="64" splitType="Stretch">
 			<textField>
-				<reportElement x="436" y="0" width="119" height="20"/>
+				<reportElement x="435" y="21" width="119" height="20"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="文鼎ＰＬ简报宋" size="10" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[(new SimpleDateFormat("yyyy年MM月dd日")).format(new Date())]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="50" y="0" width="309" height="20"/>
+				<reportElement x="49" y="21" width="309" height="20"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="文鼎ＰＬ简报宋" size="10" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H"/>
 				</textElement>
 				<textFieldExpression><![CDATA[(new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss")).format($F{apply_start_date})+ "—" + (new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss")).format($F{apply_end_date})]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="1" y="0" width="49" height="20"/>
+				<reportElement x="0" y="21" width="49" height="20"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="文鼎ＰＬ简报宋" size="10" isBold="false"/>
 				</textElement>
 				<text><![CDATA[申报时间:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="380" y="0" width="56" height="20"/>
+				<reportElement x="379" y="21" width="56" height="20"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="文鼎ＰＬ简报宋" size="10" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 				</textElement>
 				<text><![CDATA[制表日期：　　]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="171" y="32" width="96" height="23"/>
+				<reportElement x="171" y="41" width="96" height="23"/>
 				<box>
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
@@ -98,7 +96,7 @@ order by o.weight asc]]>
 				<text><![CDATA[未提交初审]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="1" y="32" width="170" height="23"/>
+				<reportElement x="1" y="41" width="170" height="23"/>
 				<box>
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
@@ -112,7 +110,7 @@ order by o.weight asc]]>
 				<text><![CDATA[部门名称]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="267" y="32" width="96" height="23"/>
+				<reportElement x="267" y="41" width="96" height="23"/>
 				<box>
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
@@ -126,7 +124,7 @@ order by o.weight asc]]>
 				<text><![CDATA[已提交初审]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="363" y="32" width="96" height="23"/>
+				<reportElement x="363" y="41" width="96" height="23"/>
 				<box>
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
@@ -140,7 +138,7 @@ order by o.weight asc]]>
 				<text><![CDATA[初审核已通过]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="459" y="32" width="96" height="23"/>
+				<reportElement x="459" y="41" width="96" height="23"/>
 				<box>
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
@@ -153,6 +151,20 @@ order by o.weight asc]]>
 				</textElement>
 				<text><![CDATA[初审核未通过]]></text>
 			</staticText>
+			<staticText>
+				<reportElement x="1" y="1" width="49" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="文鼎ＰＬ简报宋" size="10" isBold="false"/>
+				</textElement>
+				<text><![CDATA[申报名称:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="50" y="1" width="504" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="文鼎ＰＬ简报宋" size="10" pdfFontName="STSong-Light" pdfEncoding="UniGB-UCS2-H"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{project_remark}]]></textFieldExpression>
+			</textField>
 		</band>
 	</columnHeader>
 	<detail>
@@ -233,7 +245,7 @@ order by o.weight asc]]>
 		<band splitType="Stretch"/>
 	</columnFooter>
 	<pageFooter>
-		<band height="33" splitType="Stretch">
+		<band height="36" splitType="Stretch">
 			<staticText>
 				<reportElement x="239" y="7" width="16" height="20"/>
 				<textElement verticalAlignment="Middle">

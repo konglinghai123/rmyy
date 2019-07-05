@@ -103,7 +103,6 @@
 			if (id == 'index'){
 				$('#index').show();
 				$('#center').hide();
-				drugFormCountChart();
 			}else{
 				$('#index').hide();
 				$('#center').show();
@@ -125,24 +124,110 @@
 				$(this).combobox('setValue', theme);
 			}
 		});
-	    function onChangeTheme(theme){
-	    	$.cookie('theme', theme);
-			var link = $('head').find('link:first');
-			link.attr('href', '${ctx}/static/easyui/themes/'+theme+'/easyui.css');
-			try{
-				var childLink = $('iframe').contents().find('link:first');
-				childLink.attr('href', '${ctx}/static/easyui/themes/'+theme+'/easyui.css');
-			}catch(err){
-			}
-		}
+	    
+	    $('#systemParameterId').combobox({
+	    	panelHeight:'auto',
+	    	editable:false,
+	    	onSelect:function(record){
+	    		$.ajax({
+					 async:false,
+					 type:'POST',
+					 url:'${ctx}/' + record.value + '/drugFormStatistic',
+					 dataType : 'json',
+					 success:function(data) {
+						 $('#drugForm_nodeclare').empty();
+						 $('#drugForm_nodeclare').html(data.drugForm_nodeclare);
+						 $('#drugForm_init').empty();
+						 $('#drugForm_init').html(data.drugForm_init);
+						 $('#drugForm_passed').empty();
+						 $('#drugForm_passed').html(data.drugForm_passed);
+						 $('#drugForm_unPassed').empty();
+						 $('#drugForm_unPassed').html(data.drugForm_unPassed);
+						 drugFormCountChart(record.value);
+						 $('#ttSystemParameter').datagrid({
+							 url:'${ctx}/' + record.value + '/drugFormCountReport'
+						 });
+						 systemParameterTable();
+					 }
+				});
+	    	}
+		});
+	    
+	    $('#reviewMainId').combobox({
+	    	panelHeight:'auto',
+	    	editable:false,
+	    	onSelect:function(record){
+	    		$.ajax({
+					 async:false,
+					 type:'POST',
+					 url:'${ctx}/' + record.value + '/reviewStatistic',
+					 dataType : 'json',
+					 success:function(data) {
+						 if (data.reviewStatistic){
+							 $('#reivewStatistic .t-list').empty();
+						     var noticesHtml = '<div class="t-list"><table width="100%">';
+						     var pro = [];
+						     $.each(data.reviewStatistic, function(idx, item){
+							 	pro.push('<tr><td style="font-size:14px;">' + item);
+						     });
+						     var html = pro.join("");
+						     noticesHtml += html + '</table></div>';
+						     $(noticesHtml).appendTo('#reivewStatistic');
+						 }
+						 reviewCountChart(record.value);
+					 }
+				});
+	    	}
+		});
+	    
+	    $('#ttSystemParameter').datagrid({
+	    	height:300,
+	    	nowrap:true,
+	    	pagination:true,
+	    	rownumbers:true,
+	    	striped:true,
+	    	pageSize:10
+	    })
+	    
+		systemParameterTable();
 	    
 	    var poll = new Poll();
-	    drugFormCountChart();
 	});
 	
-	function drugFormCountChart(){
+	function drugFormCountChart(systemParameterId){
 		var myChart = new FusionCharts('${ctx}/static/fcf/swf/Pie3D.swf?ChartNoDataText=无数据显示', new Date().getTime(), '400', '170');
-   		myChart.setDataURL('${ctx}/drugFormCountChart?_=' + new Date().getTime());
+   		myChart.setDataURL('${ctx}/' + systemParameterId + '/drugFormCountChart?_=' + new Date().getTime());
    		myChart.render('drugFormCountDiv');
+	}
+	
+	function reviewCountChart(reviewMainId){
+		var myChart = new FusionCharts('${ctx}/static/fcf/swf/MSColumn3D.swf?ChartNoDataText=无数据显示', new Date().getTime(), '400', '270');
+   		myChart.setDataURL('${ctx}/' + reviewMainId + '/reviewCountChart?_=' + new Date().getTime());
+   		myChart.render('reviewCountDiv');
+	}
+	
+	function onChangeTheme(theme){
+    	$.cookie('theme', theme);
+		var link = $('head').find('link:first');
+		link.attr('href', '${ctx}/static/easyui/themes/'+theme+'/easyui.css');
+		try{
+			var childLink = $('iframe').contents().find('link:first');
+			childLink.attr('href', '${ctx}/static/easyui/themes/'+theme+'/easyui.css');
+		}catch(err){
+		}
+	}
+	
+	function systemParameterTable(){
+		<c:if test="${user.admin}">
+		var pager = $('#ttSystemParameter').datagrid().datagrid('getPager');
+		pager.pagination({
+			buttons:[{
+				iconCls:'icon-print',
+				handler:function(){
+					$.ewcms.openTopWindow({src:'${ctx}/buildSystemParameter?systemParameterId=' + $('#systemParameterId').combobox('getValue'),title:'打印各部门填报情况表',isRefresh:false,maximizable:true});
+				}
+			}]
+		});
+		</c:if>
 	}
 </script>

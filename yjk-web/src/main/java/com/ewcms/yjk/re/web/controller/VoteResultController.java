@@ -93,6 +93,8 @@ public class VoteResultController extends BaseController<VoteResult, Long> {
 		if (reviewProcess == null) return map;
 		
 		List<Long> submittedUserIds = voteRecordService.findSubmittedUserIds(reviewMainId, reviewProcess.getId());
+		if (EmptyUtil.isCollectionEmpty(submittedUserIds)) submittedUserIds.add(-1L);
+		
 		List<VoteMonitor> users = voteResultService.findVoteResultMonitor(submittedUserIds, reviewMainId, reviewProcess.getId());
 
 		map.put("total", users.size());
