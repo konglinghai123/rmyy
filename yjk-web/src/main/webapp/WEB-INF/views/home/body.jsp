@@ -4,8 +4,8 @@
 		<div data-options="region:'north',border:false" style="height:70px;overflow:no;">
 		    <h2 align="center">欢迎使用网上药品申报评审信息管理系统V2.0</h2>
 		</div>
-		<div data-options="region:'west',border:false" style="width:34%;overflow:auto;">
-			<fieldset>
+		<div data-options="region:'west',border:false" style="width:34%;overflow:auto;padding-top:3px;">
+			<fieldset style="height:765px">
 			<legend style="font-size:16px;color:red"><b>综合栏</b></legend>
 			<table style="width:99%;">
 				<tr>
@@ -15,7 +15,7 @@
 			                 <div class="panel-header">
 			                   <div class="panel-title">公告栏</div>
 			                 </div>
-			                 <div style="height:500px; padding: 5px;" id="notice" class="portal-p panel-body" data-options="closable:true,collapsible:false"></div>
+			                 <div style="height:300px; padding: 5px;" id="notice" class="portal-p panel-body" data-options="closable:true,collapsible:false"></div>
 			               </div>
 			             </div>
 		           	</td>
@@ -24,7 +24,7 @@
 		    </fieldset>
 		</div>
 		<div data-options="region:'center',border:false" style="width:33%;overflow:auto;">
-			<fieldset>
+			<fieldset style="height:767px">
 			<legend style="font-size:16px;color:red"><b>申报新药统计栏：</b>
 			    <form:select id="systemParameterId" path="systemParameterList">
 					<form:options items="${systemParameterList}" itemValue="id" itemLabel="projectRemark"/>
@@ -109,7 +109,7 @@
 		    </fieldset>
 		</div>
 		<div data-options="region:'east',border:false" style="width:33%;overflow:auto;">
-			<fieldset>
+			<fieldset style="height:767px">
 			<legend style="font-size:16px;color:red"><b>评审新药统计栏：</b>
 				<form:select id="reviewMainId" path="reviewMainList">
 					<form:options items="${reviewMainList}" itemValue="id" itemLabel="name"/>
