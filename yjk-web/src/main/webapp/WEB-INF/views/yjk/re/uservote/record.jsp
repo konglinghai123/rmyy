@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page import="com.ewcms.yjk.YjkConstants" %>
 <%@ include file="/WEB-INF/views/jspf/taglibs.jspf" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
@@ -9,7 +10,7 @@
 			    <th data-options="field:'voteTypeInfo',width:80">投票操作</th>
  				<c:forEach items="${reviewProcess.displayColumns}" var="displayColumn" varStatus="status">
  					<c:choose>
-	 					<c:when test="${reviewProcess.reviewBaseRule.ruleName == 'addCommonName'||reviewProcess.reviewBaseRule.ruleName == 'addSpecificationsAndPill'}">
+	 					<c:when test="${reviewProcess.reviewBaseRule.ruleName == '<%=YjkConstants.ACN%>'||reviewProcess.reviewBaseRule.ruleName == '<%=YjkConstants.ASAP%>'}">
 							<th data-options="field:'${displayColumn.ruleName}',width:${displayColumn.width},
 									formatter:function(val,row){
 										if(row.drugForm.commonNameContents==null){

@@ -12,6 +12,9 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.dom4j.Element;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.domain.Sort.Order;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -75,16 +78,19 @@ public class HomeController {
 			String previousUsername = (String) subject.getPreviousPrincipals().getPrimaryPrincipal();
 			model.addAttribute("previousUsername", previousUsername);
 		}
-
-		// 未读消息
-		// Long messageUnreadCount = messageService.countUnread(loginUser.getId());
-		// model.addAttribute("messageUnreadCount", messageUnreadCount);
-
+		
+		SystemParameter systemParameter = systemParameterService.findByEnabledTrue();
+		if (systemParameter != null) model.addAttribute("systemParameterId", systemParameter.getId());
+		
+		ReviewMain reviewMain = reviewMainService.findByEnabledTrue();
+		if (reviewMain != null) model.addAttribute("reviewMainId", reviewMain.getId());
+		
 		// 最近3天的日历
 		model.addAttribute("calendarCount", calendarService.countRecentlyCalendar(user.getId(), 2));
-
-		model.addAttribute("systemParameterList", systemParameterService.findAll());
-		model.addAttribute("reviewMainList", reviewMainService.findAll());
+		// 所有新药申报
+		model.addAttribute("systemParameterList", systemParameterService.findAll(new Sort(new Order(Direction.DESC, "id"))));
+		// 所有新药评审
+		model.addAttribute("reviewMainList", reviewMainService.findAll(new Sort(new Order(Direction.DESC, "id"))));
 
 		return "home";
 	}
@@ -103,8 +109,7 @@ public class HomeController {
 		SystemParameter systemParameter = systemParameterService.findOne(systemParameterId);
 
 		Map<String, Long> map = Maps.newHashMap();
-		if (systemParameter == null)
-			return map;
+		if (systemParameter == null) return map;
 
 		map.put("drugForm_nodeclare", systemParameter.getNodeclareNumber());
 		map.put("drugForm_init", systemParameter.getInitNumber());

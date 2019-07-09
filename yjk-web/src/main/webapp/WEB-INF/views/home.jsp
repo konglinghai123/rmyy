@@ -116,7 +116,6 @@
 			groupField:'group',
 			data: themes,
 			editable:false,
-			panelHeight:'auto',
 			onChange:onChangeTheme,
 			onLoadSuccess:function(){
 				var theme = $.cookie('theme');
@@ -150,6 +149,10 @@
 						 systemParameterTable();
 					 }
 				});
+	    	},onLoadSuccess:function(){
+	    		if ('${systemParameterId}' != ''){
+	    			$(this).combobox('setValue','${systemParameterId}');
+	    		}
 	    	}
 		});
 	    
@@ -177,6 +180,10 @@
 						 reviewCountChart(record.value);
 					 }
 				});
+	    	},onLoadSuccess:function(){
+	    		if ('${reviewMainId}' != ''){
+	    			$(this).combobox('setValue','${reviewMainId}');
+	    		}
 	    	}
 		});
 	    
@@ -189,7 +196,7 @@
 	    	pageSize:10
 	    })
 	    
-		systemParameterTable();
+		//systemParameterTable();
 	    
 	    var poll = new Poll();
 	});

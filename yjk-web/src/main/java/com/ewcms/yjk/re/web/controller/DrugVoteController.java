@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ewcms.common.entity.search.SearchParameter;
 import com.ewcms.common.web.controller.BaseController;
+import com.ewcms.yjk.YjkConstants;
 import com.ewcms.yjk.re.entity.ReviewMain;
 import com.ewcms.yjk.re.entity.ReviewProcess;
 import com.ewcms.yjk.re.entity.VoteRecord;
@@ -111,10 +112,9 @@ public class DrugVoteController extends BaseController<VoteRecord, Long>{
 		
 		if (reviewProcess != null && reviewProcess.getReviewBaseRule() != null){
 			List<VoteMonitor> voteMonitors = Lists.newArrayList();
-			if (reviewProcess.getReviewBaseRule().getRuleName().equals("addCommonName") || reviewProcess.getReviewBaseRule().getRuleName().equals("addSpecificationsAndPill")) {
+			if (reviewProcess.getReviewBaseRule().getRuleName().equals(YjkConstants.ACN) || reviewProcess.getReviewBaseRule().getRuleName().equals(YjkConstants.ASAP)) {
 				voteMonitors = voteRecordService.findVoteUserMonitorDrugForm(reviewMainId, reviewProcess.getId(), voteResult.getDrugForm().getId());
-				
-			} else if (reviewProcess.getReviewBaseRule().getRuleName().equals("addCommonNameManufacturer") || reviewProcess.getReviewBaseRule().getRuleName().equals("addSpecificationsAndPillManufacturer")) {
+			} else if (reviewProcess.getReviewBaseRule().getRuleName().equals(YjkConstants.ACNM) || reviewProcess.getReviewBaseRule().getRuleName().equals(YjkConstants.ASAPM)) {
 				voteMonitors = voteRecordService.findVoteUserMonitorCommonNameContents(reviewMainId, reviewProcess.getId(), voteResult.getCommonNameContents().getId());
 			}
 			map.put("total", voteMonitors.size());

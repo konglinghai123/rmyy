@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.ewcms.common.service.BaseService;
 import com.ewcms.common.utils.EmptyUtil;
 import com.ewcms.common.web.validate.AjaxResponse;
+import com.ewcms.yjk.YjkConstants;
 import com.ewcms.yjk.re.entity.ReviewMain;
 import com.ewcms.yjk.re.entity.ReviewProcess;
 import com.ewcms.yjk.re.entity.VoteResult;
@@ -217,10 +218,10 @@ public class VoteResultService extends BaseService<VoteResult, Long> {
 		if (reviewProcess == null) return Lists.newArrayList();
 		
 		String reuleName = reviewProcess.getReviewBaseRule().getRuleName();
-		if (reuleName.equals("addCommonName") || reuleName.equals("addCommonNameManufacturer")) {
+		if (reuleName.equals(YjkConstants.ACN) || reuleName.equals(YjkConstants.ASAP)) {
 			generateSelected(reviewMainId, reviewProcessId, reviewProcess.getGeneralNameChinese(), DrugCategoryEnum.Z);
 			generateSelected(reviewMainId, reviewProcessId, reviewProcess.getGeneralNameWestern(), DrugCategoryEnum.H);
-		} else if (reuleName.equals("addSpecificationsAndPill") || reuleName.equals("addSpecificationsAndPillManufacturer")) {
+		} else if (reuleName.equals(YjkConstants.ACNM) || reuleName.equals(YjkConstants.ASAPM)) {
 			generateSelected(reviewMainId, reviewProcessId, reviewProcess.getFormulaChinese(), DrugCategoryEnum.Z);
 			generateSelected(reviewMainId, reviewProcessId, reviewProcess.getFormulaWestern(), DrugCategoryEnum.H);
 		} else {

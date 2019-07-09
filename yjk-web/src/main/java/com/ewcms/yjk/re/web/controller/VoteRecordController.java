@@ -19,6 +19,7 @@ import com.ewcms.common.web.controller.BaseCRUDController;
 import com.ewcms.common.web.validate.AjaxResponse;
 import com.ewcms.security.user.entity.User;
 import com.ewcms.security.user.web.bind.annotation.CurrentUser;
+import com.ewcms.yjk.YjkConstants;
 import com.ewcms.yjk.re.entity.ReviewMain;
 import com.ewcms.yjk.re.entity.ReviewProcess;
 import com.ewcms.yjk.re.entity.VoteRecord;
@@ -78,16 +79,16 @@ public class VoteRecordController extends BaseCRUDController<VoteRecord, Long> {
 				isExpertSubmitCurrentReview = getVoteRecordService().expertSubmitCurrentReview(user.getId(), currentReviewProcess.getId());
 				model.addAttribute("reviewProcessId", currentReviewProcess.getId());
 				if(!isExpertSubmitCurrentReview){
-					if(currentReviewProcess.getReviewBaseRule().getRuleName().equals("addCommonName")){
+					if(currentReviewProcess.getReviewBaseRule().getRuleName().equals(YjkConstants.ACN)){
 						getVoteRecordService().expertStartVoteAddCommonName(user.getId(),currentReviewProcess.getId());
 					}
-					if(currentReviewProcess.getReviewBaseRule().getRuleName().equals("addSpecificationsAndPill")){
+					if(currentReviewProcess.getReviewBaseRule().getRuleName().equals(YjkConstants.ASAP)){
 						getVoteRecordService().expertStartVoteAddSpecificationsAndPill(user.getId(),currentReviewProcess.getId());
 					}	
-					if(currentReviewProcess.getReviewBaseRule().getRuleName().equals("addCommonNameManufacturer")){
+					if(currentReviewProcess.getReviewBaseRule().getRuleName().equals(YjkConstants.ACNM)){
 						getVoteRecordService().expertStartVoteAddCommonNameManufacturer(user.getId(),currentReviewProcess.getId());
 					}	
-					if(currentReviewProcess.getReviewBaseRule().getRuleName().equals("addSpecificationsAndPillManufacturer")){
+					if(currentReviewProcess.getReviewBaseRule().getRuleName().equals(YjkConstants.ASAPM)){
 						getVoteRecordService().expertStartVoteAddSpecificationsAndPillManufacturer(user.getId(),currentReviewProcess.getId());
 					}	
 				}
@@ -110,35 +111,25 @@ public class VoteRecordController extends BaseCRUDController<VoteRecord, Long> {
 		searchParameter.getParameters().put("EQ_userId", user.getId());
 		searchParameter.getParameters().put("EQ_reviewProcessId",reviewProcessId);
 		searchParameter.getParameters().put("ISNOTNULL_drugForm","");
-//		searchParameter.getSorts().put("drugForm.commonNameContents.common.drugCategory", Direction.ASC);
-//		searchParameter.getSorts().put("id", Direction.ASC);
 		
 		Searchable searchable = Searchable.newSearchable(searchParameter.getParameters());
 		searchable.addSort(Direction.ASC, "id");
-			ReviewProcess currentReviewProcess = reviewProcessService.findOne(reviewProcessId);
-			if (currentReviewProcess != null) { 
-				if(currentReviewProcess.getReviewBaseRule().getRuleName().equals("addCommonNameManufacturer")||currentReviewProcess.getReviewBaseRule().getRuleName().equals("addSpecificationsAndPillManufacturer")){
-					
-					searchable.addSort(Direction.ASC, "commonNameContents.pill");
-					searchable.addSort(Direction.ASC, "commonNameContents.common.commonName");
-					searchable.addSort(Direction.ASC, "commonNameContents.common.drugCategory");
-					
-					
-				}
-				if(currentReviewProcess.getReviewBaseRule().getRuleName().equals("addCommonName")||currentReviewProcess.getReviewBaseRule().getRuleName().equals("addSpecificationsAndPillManufacturer")){
+		ReviewProcess currentReviewProcess = reviewProcessService.findOne(reviewProcessId);
+		if (currentReviewProcess != null) { 
+			if(currentReviewProcess.getReviewBaseRule().getRuleName().equals(YjkConstants.ACNM)||currentReviewProcess.getReviewBaseRule().getRuleName().equals(YjkConstants.ASAPM)){
+				searchable.addSort(Direction.ASC, "commonNameContents.pill");
+				searchable.addSort(Direction.ASC, "commonNameContents.common.commonName");
+				searchable.addSort(Direction.ASC, "commonNameContents.common.drugCategory");
+			}else if(currentReviewProcess.getReviewBaseRule().getRuleName().equals(YjkConstants.ACN)||currentReviewProcess.getReviewBaseRule().getRuleName().equals(YjkConstants.ASAP)){
 					searchable.addSort(Direction.ASC, "drugForm.commonNameContents.common.drugCategory");
-				}					
-			}
-		
-		
-		
+			}					
+		}
 		
 		List<VoteRecord> voteRecords = getVoteRecordService().findAllWithSort(searchable);
 		Map<String, Object> map = Maps.newHashMap();
 		map.put("total", voteRecords.size());
 		map.put("rows", voteRecords);
 		return map;
-
 	}
 	
 	@RequestMapping(value = "{userId}/{reviewProcessId}/query")
@@ -147,24 +138,20 @@ public class VoteRecordController extends BaseCRUDController<VoteRecord, Long> {
 		searchParameter.getParameters().put("EQ_userId", userId);
 		searchParameter.getParameters().put("EQ_reviewProcessId",reviewProcessId);
 		searchParameter.getParameters().put("ISNOTNULL_drugForm","");
+		
 		Searchable searchable = Searchable.newSearchable(searchParameter.getParameters());
 		
 		searchable.addSort(Direction.ASC, "id");
 		ReviewProcess currentReviewProcess = reviewProcessService.findOne(reviewProcessId);
 		if (currentReviewProcess != null) { 
-			if(currentReviewProcess.getReviewBaseRule().getRuleName().equals("addCommonNameManufacturer")||currentReviewProcess.getReviewBaseRule().getRuleName().equals("addSpecificationsAndPillManufacturer")){
-					
+			if(currentReviewProcess.getReviewBaseRule().getRuleName().equals(YjkConstants.ACNM)||currentReviewProcess.getReviewBaseRule().getRuleName().equals(YjkConstants.ASAPM)){
 				searchable.addSort(Direction.ASC, "commonNameContents.pill");
 				searchable.addSort(Direction.ASC, "commonNameContents.common.commonName");
 				searchable.addSort(Direction.ASC, "commonNameContents.common.drugCategory");
-					
-					
-			}
-			if(currentReviewProcess.getReviewBaseRule().getRuleName().equals("addCommonName")||currentReviewProcess.getReviewBaseRule().getRuleName().equals("addSpecificationsAndPillManufacturer")){
+			} else	if(currentReviewProcess.getReviewBaseRule().getRuleName().equals(YjkConstants.ACN)||currentReviewProcess.getReviewBaseRule().getRuleName().equals(YjkConstants.ASAP)){
 				searchable.addSort(Direction.ASC, "drugForm.commonNameContents.common.drugCategory");
 			}					
 		}
-		
 		
 		List<VoteRecord> voteRecords = getVoteRecordService().findAllWithSort(searchable);
 		Map<String, Object> map = Maps.newHashMap();

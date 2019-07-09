@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page import="com.ewcms.yjk.YjkConstants" %>
 <%@ include file="/WEB-INF/views/jspf/taglibs.jspf" %>
 
 <ewcms:head title="已投用户"/>
@@ -59,7 +60,7 @@
 			    <th data-options="field:'voteTypeInfo',width:80">投票操作</th>
  				<c:forEach items="${currentReviewProcess.displayColumns}" var="displayColumn" varStatus="status">
  					<c:choose>
-	 					<c:when test="${currentReviewProcess.reviewBaseRule.ruleName == 'addCommonName'||currentReviewProcess.reviewBaseRule.ruleName == 'addSpecificationsAndPill'}">
+	 					<c:when test="${currentReviewProcess.reviewBaseRule.ruleName == '<%=YjkConstants.ACN%>'||currentReviewProcess.reviewBaseRule.ruleName == '<%=YjkConstants.ASAP%>'}">
 							<th data-options="field:'${displayColumn.ruleName}',width:${displayColumn.width},
 									formatter:function(val,row){
 										try{

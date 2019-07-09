@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page import="com.ewcms.yjk.YjkConstants" %>
 <%@ include file="/WEB-INF/views/jspf/taglibs.jspf" %>
 
 <ewcms:head title="药品投票情况"/>
@@ -23,7 +24,7 @@
 						}">最终结果</th>
 			    <c:forEach items="${reviewProcess.displayColumns}" var="displayColumn" varStatus="status">
  					<c:choose>
-	 					<c:when test="${reviewProcess.reviewBaseRule.ruleName == 'addCommonName'||reviewProcess.reviewBaseRule.ruleName == 'addSpecificationsAndPill'}">
+	 					<c:when test="${reviewProcess.reviewBaseRule.ruleName == '<%=YjkConstants.ACN%>'||reviewProcess.reviewBaseRule.ruleName == '<%=YjkConstants.ASAP%>'}">
 							<th data-options="field:'${displayColumn.ruleName}',width:${displayColumn.width},
 									formatter:function(val,row){
 										try{

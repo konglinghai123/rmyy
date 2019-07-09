@@ -11,6 +11,7 @@ import com.ewcms.common.service.BaseService;
 import com.ewcms.common.utils.Collections3;
 import com.ewcms.common.utils.EmptyUtil;
 import com.ewcms.common.web.validate.AjaxResponse;
+import com.ewcms.yjk.YjkConstants;
 import com.ewcms.yjk.re.entity.ReviewMain;
 import com.ewcms.yjk.re.entity.ReviewProcess;
 import com.ewcms.yjk.re.entity.VoteRecord;
@@ -243,12 +244,12 @@ public class VoteRecordService extends BaseService<VoteRecord, Long> {
 					vo.setSubmittDate(new Date(Calendar.getInstance().getTime()
 							.getTime()));
 					super.save(vo);
-					VoteResult voteResult;
+					VoteResult voteResult = null;
 					ReviewProcess reviewProcess = reviewProcessService.findOne(vo.getReviewProcessId());
 					String ruleName = reviewProcess.getReviewBaseRule().getRuleName();
-					if(ruleName.equals("addCommonName")||ruleName.equals("addSpecificationsAndPill")) {
+					if(ruleName.equals(YjkConstants.ACN)||ruleName.equals(YjkConstants.ASAP)) {
 						voteResult = voteResultService.findByDrugFormIdAndReviewProcessId(vo.getDrugForm().getId(), vo.getReviewProcessId());
-					}else {
+					} else 	if(ruleName.equals(YjkConstants.ACNM)||ruleName.equals(YjkConstants.ASAPM)) {
 						voteResult = voteResultService.findByCommonNameContentsIdAndReviewProcessId(vo.getCommonNameContents().getId(), vo.getReviewProcessId());
 					}
 					
