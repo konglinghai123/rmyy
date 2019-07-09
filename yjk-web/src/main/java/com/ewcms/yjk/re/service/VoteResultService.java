@@ -190,6 +190,7 @@ public class VoteResultService extends BaseService<VoteResult, Long> {
 					message = "本轮投票中有专家还没有结束投票，请等全部都投完后进行完最终确认后再" + reason + "！";
 					ajaxResponse.setSuccess(Boolean.FALSE);
 				}
+				
 			}
 		}
 		
@@ -214,18 +215,20 @@ public class VoteResultService extends BaseService<VoteResult, Long> {
 	}
 	
 	public List<VoteResult> generateCurrentReviewProcessVoteResults(Long reviewMainId, Long reviewProcessId){
-		ReviewProcess reviewProcess = reviewProcessService.findOne(reviewProcessId);
-		if (reviewProcess == null) return Lists.newArrayList();
-		
-		String reuleName = reviewProcess.getReviewBaseRule().getRuleName();
-		if (reuleName.equals(YjkConstants.ACN) || reuleName.equals(YjkConstants.ASAP)) {
-			generateSelected(reviewMainId, reviewProcessId, reviewProcess.getGeneralNameChinese(), DrugCategoryEnum.Z);
-			generateSelected(reviewMainId, reviewProcessId, reviewProcess.getGeneralNameWestern(), DrugCategoryEnum.H);
-		} else if (reuleName.equals(YjkConstants.ACNM) || reuleName.equals(YjkConstants.ASAPM)) {
-			generateSelected(reviewMainId, reviewProcessId, reviewProcess.getFormulaChinese(), DrugCategoryEnum.Z);
-			generateSelected(reviewMainId, reviewProcessId, reviewProcess.getFormulaWestern(), DrugCategoryEnum.H);
-		} else {
-			return Lists.newArrayList();
+		if(getVoteResultRepository().countByReviewMainIdAndReviewProcessIdAndSelectedTrue(reviewMainId, reviewProcessId).longValue() == 0){
+			ReviewProcess reviewProcess = reviewProcessService.findOne(reviewProcessId);
+			if (reviewProcess == null) return Lists.newArrayList();
+			
+			String reuleName = reviewProcess.getReviewBaseRule().getRuleName();
+			if (reuleName.equals(YjkConstants.ACN) || reuleName.equals(YjkConstants.ACNM)) {
+				generateSelected(reviewMainId, reviewProcessId, reviewProcess.getGeneralNameChinese(), DrugCategoryEnum.Z);
+				generateSelected(reviewMainId, reviewProcessId, reviewProcess.getGeneralNameWestern(), DrugCategoryEnum.H);
+			} else if (reuleName.equals(YjkConstants.ASAP) || reuleName.equals(YjkConstants.ASAPM)) {
+				generateSelected(reviewMainId, reviewProcessId, reviewProcess.getFormulaChinese(), DrugCategoryEnum.Z);
+				generateSelected(reviewMainId, reviewProcessId, reviewProcess.getFormulaWestern(), DrugCategoryEnum.H);
+			} else {
+				return Lists.newArrayList();
+			}
 		}
 		
 		return findCurrentReviewProcessVoteResults(reviewMainId, reviewProcessId);
@@ -247,4 +250,7 @@ public class VoteResultService extends BaseService<VoteResult, Long> {
 		return getVoteResultRepository().countByReviewMainIdAndReviewProcessIdAndDrugFormCommonNameContentsCommonDrugCategoryAndSelectedTrueAndAffirmVoteResultedTrue(reviewMainId, reviewProcessId, drugCategoryEnum);
 	}
 	
+	public List<VoteResult> findVoteResultLast(Long reviewMainId){
+		return getVoteResultRepository().findVoteResultLast(reviewMainId);
+	}
 }

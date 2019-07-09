@@ -230,13 +230,20 @@ public class VoteResultController extends BaseController<VoteResult, Long> {
 		ReviewProcess reviewProcess = reviewProcessService.findCurrentReviewProcess(reviewMainId);
 		List<ReviewProcess> reviewProcesses = reviewMain.getReviewProcesses();
 		if (reviewProcess == null && EmptyUtil.isCollectionNotEmpty(reviewProcesses)) {
-			reviewProcess = reviewProcesses.get(reviewProcesses.size() - 1);
+			List<VoteResult> voteResults = voteResultService.findVoteResultLast(reviewMainId);
+			map.put("total", voteResults.size());
+			map.put("rows", voteResults);
+		}else{
+			//reviewProcess = reviewProcesses.get(reviewProcesses.size() - 1);
+			//if (reviewProcess == null) return map;
+			List<VoteResult> voteResults = voteResultService.findCurrentReviewProcessVoteResults(reviewMainId, reviewProcess.getId());
+			map.put("total", voteResults.size());
+			map.put("rows", voteResults);
 		}
-		if (reviewProcess == null) return map;
-		
-		List<VoteResult> voteResults = voteResultService.findCurrentReviewProcessVoteResults(reviewMainId, reviewProcess.getId());
-		map.put("total", voteResults.size());
-		map.put("rows", voteResults);
+
+
+
+
 		return map;
 	}
 	
