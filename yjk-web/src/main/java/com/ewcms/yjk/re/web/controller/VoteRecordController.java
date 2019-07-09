@@ -113,15 +113,19 @@ public class VoteRecordController extends BaseCRUDController<VoteRecord, Long> {
 		searchParameter.getParameters().put("ISNOTNULL_drugForm","");
 		
 		Searchable searchable = Searchable.newSearchable(searchParameter.getParameters());
-		searchable.addSort(Direction.ASC, "id");
+		
 		ReviewProcess currentReviewProcess = reviewProcessService.findOne(reviewProcessId);
 		if (currentReviewProcess != null) { 
 			if(currentReviewProcess.getReviewBaseRule().getRuleName().equals(YjkConstants.ACNM)||currentReviewProcess.getReviewBaseRule().getRuleName().equals(YjkConstants.ASAPM)){
+				searchable.addSort(Direction.ASC, "commonNameContents.id");
 				searchable.addSort(Direction.ASC, "commonNameContents.pill");
 				searchable.addSort(Direction.ASC, "commonNameContents.common.commonName");
 				searchable.addSort(Direction.ASC, "commonNameContents.common.drugCategory");
 			}else if(currentReviewProcess.getReviewBaseRule().getRuleName().equals(YjkConstants.ACN)||currentReviewProcess.getReviewBaseRule().getRuleName().equals(YjkConstants.ASAP)){
-					searchable.addSort(Direction.ASC, "drugForm.commonNameContents.common.drugCategory");
+				searchable.addSort(Direction.ASC, "drugForm.id");	
+				searchable.addSort(Direction.ASC, "drugForm.commonNameContents.pill");
+				searchable.addSort(Direction.ASC, "drugForm.commonNameContents.common.commonName");
+				searchable.addSort(Direction.ASC, "drugForm.commonNameContents.common.drugCategory");
 			}					
 		}
 		
@@ -145,10 +149,14 @@ public class VoteRecordController extends BaseCRUDController<VoteRecord, Long> {
 		ReviewProcess currentReviewProcess = reviewProcessService.findOne(reviewProcessId);
 		if (currentReviewProcess != null) { 
 			if(currentReviewProcess.getReviewBaseRule().getRuleName().equals(YjkConstants.ACNM)||currentReviewProcess.getReviewBaseRule().getRuleName().equals(YjkConstants.ASAPM)){
+				searchable.addSort(Direction.ASC, "commonNameContents.id");
 				searchable.addSort(Direction.ASC, "commonNameContents.pill");
 				searchable.addSort(Direction.ASC, "commonNameContents.common.commonName");
 				searchable.addSort(Direction.ASC, "commonNameContents.common.drugCategory");
-			} else	if(currentReviewProcess.getReviewBaseRule().getRuleName().equals(YjkConstants.ACN)||currentReviewProcess.getReviewBaseRule().getRuleName().equals(YjkConstants.ASAP)){
+			}else if(currentReviewProcess.getReviewBaseRule().getRuleName().equals(YjkConstants.ACN)||currentReviewProcess.getReviewBaseRule().getRuleName().equals(YjkConstants.ASAP)){
+				searchable.addSort(Direction.ASC, "drugForm.id");	
+				searchable.addSort(Direction.ASC, "drugForm.commonNameContents.pill");
+				searchable.addSort(Direction.ASC, "drugForm.commonNameContents.common.commonName");
 				searchable.addSort(Direction.ASC, "drugForm.commonNameContents.common.drugCategory");
 			}					
 		}

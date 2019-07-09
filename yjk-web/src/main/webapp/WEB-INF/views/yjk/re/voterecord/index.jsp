@@ -2,6 +2,9 @@
 <%@ page import="com.ewcms.yjk.YjkConstants" %>
 <%@ include file="/WEB-INF/views/jspf/taglibs.jspf" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<c:set var="acn" value="<%=YjkConstants.ACN%>"/>
+<c:set var="asap" value="<%=YjkConstants.ASAP%>"/>
+
 <c:choose>
 	<c:when test="${isOpenReview}">
 		<c:choose>
@@ -55,7 +58,7 @@
 						    <th data-options="field:'id',hidden:true">编号</th>
 			 				<c:forEach items="${currentReviewProcess.displayColumns}" var="displayColumn" varStatus="status">
 			 					<c:choose>
-				 					<c:when test="${currentReviewProcess.reviewBaseRule.ruleName == '<%=YjkConstants.ACN%>'||currentReviewProcess.reviewBaseRule.ruleName == '<%=YjkConstants.ASAP%>'}">
+				 					<c:when test="${currentReviewProcess.reviewBaseRule.ruleName == acn||currentReviewProcess.reviewBaseRule.ruleName == asap}">
 										<th data-options="field:'${displayColumn.ruleName}',width:${displayColumn.width},
 												formatter:function(val,row){
 													if(row.drugForm.commonNameContents==null){
@@ -104,6 +107,7 @@
 							</c:when>
 							<c:otherwise>
 								<font color="red" style="font-size:14px;">当前阶段评审投票你已提交，请等待下一阶段的评审投票！</font>
+								<a id="icon-refresh" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-reload',toggle:true" onclick="javascript:window.location.reload();;">刷新</a>
 							</c:otherwise>
 						</c:choose>			
 					</div>

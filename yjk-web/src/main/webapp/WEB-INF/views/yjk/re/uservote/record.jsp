@@ -2,7 +2,8 @@
 <%@ page import="com.ewcms.yjk.YjkConstants" %>
 <%@ include file="/WEB-INF/views/jspf/taglibs.jspf" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-
+<c:set var="acn" value="<%=YjkConstants.ACN%>"/>
+<c:set var="asap" value="<%=YjkConstants.ASAP%>"/>
 <ewcms:head title="专家评审投票"/>
 	<table id="tt">
 		<thead>
@@ -10,7 +11,7 @@
 			    <th data-options="field:'voteTypeInfo',width:80">投票操作</th>
  				<c:forEach items="${reviewProcess.displayColumns}" var="displayColumn" varStatus="status">
  					<c:choose>
-	 					<c:when test="${reviewProcess.reviewBaseRule.ruleName == '<%=YjkConstants.ACN%>'||reviewProcess.reviewBaseRule.ruleName == '<%=YjkConstants.ASAP%>'}">
+	 					<c:when test="${reviewProcess.reviewBaseRule.ruleName == acn||reviewProcess.reviewBaseRule.ruleName == asap}">
 							<th data-options="field:'${displayColumn.ruleName}',width:${displayColumn.width},
 									formatter:function(val,row){
 										if(row.drugForm.commonNameContents==null){

@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="com.ewcms.yjk.YjkConstants" %>
 <%@ include file="/WEB-INF/views/jspf/taglibs.jspf" %>
+<c:set var="acn" value="<%=YjkConstants.ACN%>"/>
+<c:set var="asap" value="<%=YjkConstants.ASAP%>"/>
 <c:choose>
 	<c:when test="${isResult}">
 <ewcms:head title="最终结果"/>
@@ -26,7 +28,7 @@
 						}">本轮结果</th>
 			    <c:forEach items="${currentReviewProcess.displayColumns}" var="displayColumn" varStatus="status">
  					<c:choose>
-	 					<c:when test="${currentReviewProcess.reviewBaseRule.ruleName == '<%=YjkConstants.ACN%>'||currentReviewProcess.reviewBaseRule.ruleName == '<%=YjkConstants.ASAP%>'}">
+	 					<c:when test="${currentReviewProcess.reviewBaseRule.ruleName == acn||currentReviewProcess.reviewBaseRule.ruleName == asap}">
 							<th data-options="field:'${displayColumn.ruleName}',width:${displayColumn.width},
 									formatter:function(val,row){
 										try{
