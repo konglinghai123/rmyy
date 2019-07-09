@@ -84,7 +84,7 @@
 		                   		<div class="panel-tool">
 		                   		</div>
 		                 	</div>
-		                 	<div style="height:310px; padding:5px;" title="" id="tip" class="portal-p panel-body" data-options="closable:true,collapsible:false">
+		                 	<div style="height:320px; padding:5px;" title="" id="tip" class="portal-p panel-body" data-options="closable:true,collapsible:false">
 		                 		<div class="t-list">
 									<table id="ttSystemParameter">
 										<thead>

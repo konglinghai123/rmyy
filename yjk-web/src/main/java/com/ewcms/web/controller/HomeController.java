@@ -123,6 +123,9 @@ public class HomeController {
 	@ResponseBody
 	public String findDrugFormCountChart(@PathVariable(value = "systemParameterId") Long systemParameterId) {
 		XMLUtil xml = new XMLUtil();
+		
+		xml.setXMLEncoding("GBK");
+		
 		Element graph = xml.addRoot("graph");
 		xml.addAttribute(graph, "basefontsize", "12");
 		xml.addAttribute(graph, "showNames", "1");

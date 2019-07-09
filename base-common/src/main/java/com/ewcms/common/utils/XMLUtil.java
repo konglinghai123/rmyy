@@ -23,6 +23,10 @@ public class XMLUtil {
 	public XMLUtil() {
 		document = DocumentHelper.createDocument();
 	}
+	
+	public void setXMLEncoding(String encoding) {
+		document.setXMLEncoding(encoding);
+	}
 
 	/**
 	 * 生成根节点
@@ -84,12 +88,20 @@ public class XMLUtil {
 	}
 
 	/**
-	 * 获取最终的XML
+	 * 获取最终的XML,截取掉xml版本和字符编码格式
 	 * 
 	 * @return
 	 * @throws IOException
 	 */
+	public String getXMLSub() {
+		return getXML().substring(39);
+	}
+	
+	/**
+	 * 获取完整的XML
+	 * @return
+	 */
 	public String getXML() {
-		return document.asXML().substring(39);
+		return document.asXML();
 	}
 }

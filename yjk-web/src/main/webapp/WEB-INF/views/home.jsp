@@ -27,7 +27,7 @@
 <ewcms:footer/>
 <script type="text/javascript" src="${ctx}/static/js/clock.js"></script>
 <script type="text/javascript" src="${ctx}/static/js/polling.js"></script>
-<script type="text/javascript" src="${ctx}/static/fcf/js/FusionCharts.js"></script>
+<script type="text/javascript" src="${ctx}/static/fcf/js/FusionCharts.js" charset="utf-8"></script>
 <script type="text/javascript">
 	$(function(){
 		var themes = [
