@@ -8,8 +8,8 @@
 		<form:form id="editForm" method="post" action="${ctx}/yjk/sp/systemparameter/${systemParameterId}/saveUser" class="form-horizontal">
 			<table class="formtable">
 				<tr>
-					<td width="20%">用户名：</td>
-					<td colspan="3" ><input id="cc_userIds" name="userIds" class="validate[required]"/></td>
+					<td width="10%">用户名：</td>
+					<td><input id="cc_userIds" name="userIds" class="validate[required]"/></td>
 				</tr>
 			</table>
 		</form:form>
@@ -30,11 +30,11 @@
             fitColumns: true,
             pagination:true,
             url:'${ctx}/yjk/sp/systemparameter/canUseUser',
-            queryParams:{name:''},
+            //queryParams:{name:''},
             columns: [[
                 {field:'id',title:'编号',hidden:true},
-                {field:'username',title:'登录名',width:150,sortable:true},
-				{field:'realname',title:'实名',width:150,sortable:true},
+                {field:'username',title:'登录名',width:80,sortable:true},
+				{field:'realname',title:'实名',width:80,sortable:true},
 				{field:'sex',title:'性别',width:60,sortable:true,
 						formatter:function(val,row){
 							return row.sexDescription;

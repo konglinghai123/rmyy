@@ -5,7 +5,7 @@
 	<table id="tt">
 		<thead>
 			<tr>
-				<th data-options="field:'operation',width:100,align:'center',formatter:formatOperation"/>操作</th>
+				<th data-options="field:'operation',width:100,align:'center',formatter:formatOperation">操作</th>
 			    <th data-options="field:'id',hidden:true,
 						formatter:function(val,row){
 							return row.user.id;

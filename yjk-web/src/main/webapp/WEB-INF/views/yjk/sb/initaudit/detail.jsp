@@ -4,6 +4,7 @@
 <ewcms:head title="匹配的医院药品目录"/>
 	<table id="tt2" class="easyui-datagrid" data-options="url:'${ctx}/yjk/zd/hospitalcontents/${commonNameContentsId}/query',nowrap:true,pagination:true,rownumbers:true,striped:true,pageSize:10">
 		<thead>
+			<tr>
 			    <th data-options="field:'id',hidden:true">编号</th>	
 			    <th data-options="field:'common.commonName',width:200,sortable:true,
 						formatter:function(val,row){
@@ -42,7 +43,7 @@
 						formatter:function(val,row){
 							return row.common==null?'':row.common.chemicalSubCategory;
 						}">小类</th>
-
+			</tr>
 		</thead>
 	</table>
 	<table id="tt1" class="easyui-datagrid" data-options="url:'${ctx}/yjk/zd/commonnamecontents/${commonNameContentsId}/query',nowrap:true,pagination:true,rownumbers:true,striped:true,pageSize:10,
@@ -57,6 +58,7 @@
 					}	
 	    	}">
 		<thead>
+			<tr>
 				<th data-options="field:'common.commonName',width:200,sortable:true,
 						formatter:function(val,row){
 							return row.common==null?'':row.common.commonName;
@@ -109,6 +111,7 @@
 				<th data-options="field:'bidUnit',width:80">招标单位</th>
 				<th data-options="field:'packageMaterials',width:50">包材</th>
 				<th data-options="field:'minimalUnit',width:80">最小制剂单位</th>
+			</tr>
 		</thead>
 	</table>
 <ewcms:editWindow/>

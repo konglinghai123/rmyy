@@ -4,7 +4,7 @@
 
 <ewcms:head title="申报 - 系统参数设置" />
 	<table id="tt">
-		<thead > 	
+		<thead> 	
 			<tr>	
 				<th data-options="field:'ck',checkbox:true"/>
 				<th data-options="field:'enabled',width:130,align:'center',formatter:formatOperation">操作</th>
@@ -37,7 +37,7 @@
 				<th data-options="field:'passedNumber',width:110">初审核已通过数</th>
 				<th data-options="field:'unPassedNumber',width:110">初审核未通过数</th>
 			</tr>
-		</thread>
+		</thead>
 	</table>
 	<div id="tb" style="padding: 5px; height: auto;">
 		<div class="toolbar" style="margin-bottom: 2px">
