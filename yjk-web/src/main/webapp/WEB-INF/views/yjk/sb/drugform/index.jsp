@@ -16,13 +16,12 @@
 	<c:otherwise>
 		<ewcms:head title="申报-新药申报"/>
 			<table id="tt">
-				<thead>
-				    <thead frozen="true">    
-				        <tr>    
+			    <thead data-options="frozen:true">    
+					<tr>    
 					    <th data-options="field:'declared',width:120,formatter:formatOperation">是否已经申报</th> 
-				        </tr>    
-				    </thead>  
-				    <thead >  				
+				    </tr>    
+				</thead>  
+				<thead>  				
 					<tr>
 					    <th data-options="field:'id',hidden:true">id</th>
 					    <th data-options="field:'formatId',width:100">编号</th>
@@ -61,9 +60,7 @@
 						<th data-options="field:'declareDate',width:150">申报时间</th>
 						<th data-options="field:'auditDate',width:150">初审时间</th>
 						<th data-options="field:'remark',width:150">初审说明</th>
-							
 					</tr>
-					 </thead> 
 				</thead>
 			</table>
 			<div id="tb" style="padding:5px;height:auto;">
@@ -100,7 +97,7 @@
 			<div>
 				<form:form id="printForm" method="post" action="${ctx}/system/report/show/text/1/build" commandName="m"  class="form-horizontal" target="_blank">
 					<input type="hidden" id="printDrugFormId" name="paramMap['drugFormId']"/>
-					<input type="hidden" name="textType" vlaue="PDF"/>
+					<input type="hidden" name="textType" value="PDF"/>
 				</form:form>
 			</div>
 			<ewcms:editWindow/>

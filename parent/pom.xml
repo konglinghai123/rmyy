@@ -286,7 +286,7 @@
 		<common.fileupload.version>1.3</common.fileupload.version>
 		<ant.version>1.9.2</ant.version>
 
-		<druid.version>1.1.11</druid.version>
+		<druid.version>1.1.18</druid.version>
 
 		<servlet.version>3.0.1</servlet.version>
 		<jsp.version>2.2</jsp.version>
@@ -311,7 +311,7 @@
 		<slf4j.version>1.7.7</slf4j.version>
 		<logback.version>1.1.2</logback.version>
 
-		<fastjson.version>1.2.1</fastjson.version>
+		<fastjson.version>1.2.58</fastjson.version>
 
 		<joda-time.version>2.3</joda-time.version>
 		<prettytime.version>3.2.3.Final</prettytime.version>

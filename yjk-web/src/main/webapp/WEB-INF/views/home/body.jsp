@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 		<div data-options="region:'north',border:false" style="height:70px;overflow:no;">
@@ -65,15 +65,13 @@
 		    	<tr>
 		           	<td class="portal-column-td">
 		            	<div class="panel">
-		                 		<div class="panel-header">
-		                   			<div class="panel-title panel-with-icon">申报统计图表</div>
-		                   			<div class="panel-icon icon-visit-analysis"></div>
-		                   			<div class="panel-tool">
-		                   			</div>
-		                 		</div>
-			             		<div style="height: 190px; padding: 5px;" title="" class="portal-p panel-body" data-options="closable:true,collapsible:false">
-		        					<div id="drugFormCountDiv" align="center"></div>
-				    			</div>
+		                 	<div class="panel-header">
+		                   		<div class="panel-title panel-with-icon">申报统计图表</div>
+		                   		<div class="panel-icon icon-visit-analysis"></div>
+		                   		<div class="panel-tool"></div>
+		                 	</div>
+			             	<div style="height: 190px; padding: 5px;" title="" class="portal-p panel-body" data-options="closable:true,collapsible:false">
+		        				<div id="drugFormCountDiv" align="center"></div>
 				    		</div>
 				    	</div>
 		           	</td>
@@ -133,15 +131,13 @@
 		    	<tr>
 		           	<td class="portal-column-td">
 		            	<div class="panel" style="margin-bottom:2px;">
-		                 		<div class="panel-header">
-		                   			<div class="panel-title panel-with-icon">评审统计图表</div>
-		                   			<div class="panel-icon icon-visit-analysis"></div>
-		                   			<div class="panel-tool">
-		                   			</div>
-		                 		</div>
-			             		<div style="height: 290px; padding: 5px;" title="" class="portal-p panel-body" data-options="closable:true,collapsible:false">
-		        					<div id="reviewCountDiv" align="center"></div>
-				    			</div>
+		                 	<div class="panel-header">
+		                   		<div class="panel-title panel-with-icon">评审统计图表</div>
+		                   		<div class="panel-icon icon-visit-analysis"></div>
+		                   		<div class="panel-tool"></div>
+		                 	</div>
+			             	<div style="height: 290px; padding: 5px;" title="" class="portal-p panel-body" data-options="closable:true,collapsible:false">
+		        				<div id="reviewCountDiv" align="center"></div>
 				    		</div>
 				    	</div>
 		           	</td>

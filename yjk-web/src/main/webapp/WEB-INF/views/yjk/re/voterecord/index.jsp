@@ -27,30 +27,29 @@
 				<c:otherwise>
 				<ewcms:head title="专家评审投票"/>
 				<table id="tt">
-					<thead>
-						<thead frozen="true">    
-							<tr>   
-								<c:choose>
-									<c:when test="${!isExpertSubmitCurrentReview}">				         
-								               <th data-options="field:'voteTypeInfo',width:80,
-								                        editor:{
-								                            type:'combobox',
-								                            options:{
-								                                valueField:'value',
-								                                textField:'text',
-								                                panelHeight:100,
-								                                data:[{ 'value': 'pass', 'text': '通过' }, { 'value': 'oppose', 'text': '反对' }, { 'value': 'abstain', 'text': '弃权' }],
-								                                required:true
-								                            }
-								                        }">投票操作</th>
-									</c:when>
-									<c:otherwise>
-										<th data-options="field:'voteTypeInfo',width:80">投票操作</th>				
-									</c:otherwise>
-								</c:choose>					                        
-							</tr>    
-						</thead> 
-						<thead>   		
+					<thead data-options="frozen:true">    
+						<tr>   
+						<c:choose>
+						<c:when test="${!isExpertSubmitCurrentReview}">				         
+							<th data-options="field:'voteTypeInfo',width:80,
+								            editor:{
+								                  type:'combobox',
+								                  options:{
+								                      valueField:'value',
+								                      textField:'text',
+								                      panelHeight:100,
+								                      data:[{ 'value': 'pass', 'text': '通过' }, { 'value': 'oppose', 'text': '反对' }, { 'value': 'abstain', 'text': '弃权' }],
+								                      required:true
+								                   }
+								             }">投票操作</th>
+						</c:when>
+						<c:otherwise>
+							<th data-options="field:'voteTypeInfo',width:80">投票操作</th>				
+						</c:otherwise>
+						</c:choose>					                        
+						</tr>    
+					</thead> 
+					<thead>   		
 						<tr>
 						    <th data-options="field:'id',hidden:true">编号</th>
 			 				<c:forEach items="${currentReviewProcess.displayColumns}" var="displayColumn" varStatus="status">
@@ -77,10 +76,8 @@
 									</c:otherwise>
 								</c:choose>
 			 				</c:forEach>
-									 
 						</tr>
-						</thead> 
-					</thead>
+					</thead> 
 				</table>
 				<div id="tb" style="padding:5px;height:auto;">
 			        <div class="toolbar" style="margin-bottom:2px">

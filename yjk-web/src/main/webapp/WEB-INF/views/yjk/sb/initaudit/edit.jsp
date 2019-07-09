@@ -27,7 +27,7 @@
 						</tr>
 						<tr>
 							<td width="25%">初审说明：</td>
-							<td width="75%"><textarea name="remark"	id="remark" style="width:200px;height:100px" cssClass="validate[required]"> </textarea></td>
+							<td width="75%"><textarea name="remark"	id="remark" style="width:200px;height:100px" class="validate[required]"> </textarea></td>
 						</tr>					
 					</table>          	
 				</form:form>

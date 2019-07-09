@@ -97,14 +97,12 @@
 					    <li class="user_bottom_r"></li>
 					</ul>
 					<ul>
-						<span>
 						<c:if test="${not empty(openDeclareObj)}">
-						<center><font color="white">你现在可以在${openDeclareObj.applyStartDate}到${openDeclareObj.applyEndDate}时间段内申报新药</font></center>
+						<span style="text-align:center"><font color="white">你现在可以在${openDeclareObj.applyStartDate}到${openDeclareObj.applyEndDate}时间段内申报新药</font></span>
 						</c:if>
 						<c:if test="${not empty(openReviewObj)}">
-						<center><font color="white">正在进行的评审，请评审专家登录</font></center>
+						<span style="text-align:center"><font color="white">正在进行的评审，请评审专家登录</font></span>
 						</c:if>
-						</span>
 					</ul>
 				</dd>
 			</dl>

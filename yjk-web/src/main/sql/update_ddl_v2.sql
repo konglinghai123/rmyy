@@ -1,13 +1,13 @@
 /*
  * sp_system_parameter
  */
-ALTER TABLE sp_system_parameter ADD COLUMN inject_declaration_limt bigint;
+--ALTER TABLE sp_system_parameter ADD COLUMN inject_declaration_limt bigint;
 ALTER TABLE sp_system_parameter ALTER COLUMN inject_declaration_limt SET NOT NULL;
-ALTER TABLE sp_system_parameter ADD COLUMN oral_declaration_limt bigint;
+--ALTER TABLE sp_system_parameter ADD COLUMN oral_declaration_limt bigint;
 ALTER TABLE sp_system_parameter ALTER COLUMN oral_declaration_limt SET NOT NULL;
-ALTER TABLE sp_system_parameter ADD COLUMN other_declaration_limt bigint;
+--ALTER TABLE sp_system_parameter ADD COLUMN other_declaration_limt bigint;
 ALTER TABLE sp_system_parameter ALTER COLUMN other_declaration_limt SET NOT NULL;
-ALTER TABLE sp_system_parameter DROP COLUMN declaration_limt;
+--ALTER TABLE sp_system_parameter DROP COLUMN declaration_limt;
 /*
  * sb_drug_form
  */

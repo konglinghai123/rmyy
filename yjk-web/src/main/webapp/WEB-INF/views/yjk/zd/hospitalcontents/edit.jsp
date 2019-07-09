@@ -15,7 +15,7 @@
 			  	<table class="formtable">
 					<tr>
 						<td width="20%"><form:label path="common">通用名(拼音)<font color="red">*</font>：</form:label></td>
-						<td width="30%"><from:input id="cc_common" name="common" cssClass="validate[required]"/> </td>
+						<td width="30%"><form:input id="cc_common" path="common" cssClass="validate[required]"/> </td>
 						<td width="20%"><form:label path="commonName">院用目录通用名<font color="red">*</font>：</form:label></td>
 						<td width="30%"><form:input path="commonName" cssClass="validate[required]"/></td>			  	
 					</tr>
