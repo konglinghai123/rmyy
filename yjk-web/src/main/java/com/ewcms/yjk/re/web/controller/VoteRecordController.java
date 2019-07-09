@@ -109,6 +109,7 @@ public class VoteRecordController extends BaseCRUDController<VoteRecord, Long> {
 	public Map<String, Object> query(@CurrentUser User user,SearchParameter<Long> searchParameter,	Model model,@PathVariable(value = "reviewProcessId") Long reviewProcessId) {
 		searchParameter.getParameters().put("EQ_userId", user.getId());
 		searchParameter.getParameters().put("EQ_reviewProcessId",reviewProcessId);
+		searchParameter.getParameters().put("ISNOTNULL_drugForm","");
 //		searchParameter.getSorts().put("drugForm.commonNameContents.common.drugCategory", Direction.ASC);
 //		searchParameter.getSorts().put("id", Direction.ASC);
 		
@@ -145,7 +146,7 @@ public class VoteRecordController extends BaseCRUDController<VoteRecord, Long> {
 	public Map<String, Object> query(@PathVariable(value = "userId") Long userId,SearchParameter<Long> searchParameter,	Model model, @PathVariable(value = "reviewProcessId") Long reviewProcessId) {
 		searchParameter.getParameters().put("EQ_userId", userId);
 		searchParameter.getParameters().put("EQ_reviewProcessId",reviewProcessId);
-		
+		searchParameter.getParameters().put("ISNOTNULL_drugForm","");
 		Searchable searchable = Searchable.newSearchable(searchParameter.getParameters());
 		
 		searchable.addSort(Direction.ASC, "id");
