@@ -103,7 +103,7 @@
 								<a id="tb-edit" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-edit',toggle:true" onclick="javascript:submitVote();">提交</a>
 							</c:when>
 							<c:otherwise>
-								<font color="red" style="font-size:14px;">当前阶段评审的投票你已提交，请等待下一阶段的评审！</font>
+								<font color="red" style="font-size:14px;">当前阶段评审投票你已提交，请等待下一阶段的评审投票！</font>
 							</c:otherwise>
 						</c:choose>			
 					</div>

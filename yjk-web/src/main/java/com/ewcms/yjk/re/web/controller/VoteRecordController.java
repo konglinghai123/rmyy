@@ -113,8 +113,24 @@ public class VoteRecordController extends BaseCRUDController<VoteRecord, Long> {
 //		searchParameter.getSorts().put("id", Direction.ASC);
 		
 		Searchable searchable = Searchable.newSearchable(searchParameter.getParameters());
-		searchable.addSort(Direction.ASC, "drugForm.commonNameContents.common.drugCategory");
 		searchable.addSort(Direction.ASC, "id");
+			ReviewProcess currentReviewProcess = reviewProcessService.findOne(reviewProcessId);
+			if (currentReviewProcess != null) { 
+				if(currentReviewProcess.getReviewBaseRule().getRuleName().equals("addCommonNameManufacturer")||currentReviewProcess.getReviewBaseRule().getRuleName().equals("addSpecificationsAndPillManufacturer")){
+					
+					searchable.addSort(Direction.ASC, "commonNameContents.pill");
+					searchable.addSort(Direction.ASC, "commonNameContents.common.commonName");
+					searchable.addSort(Direction.ASC, "commonNameContents.common.drugCategory");
+					
+					
+				}
+				if(currentReviewProcess.getReviewBaseRule().getRuleName().equals("addCommonName")||currentReviewProcess.getReviewBaseRule().getRuleName().equals("addSpecificationsAndPillManufacturer")){
+					searchable.addSort(Direction.ASC, "drugForm.commonNameContents.common.drugCategory");
+				}					
+			}
+		
+		
+		
 		
 		List<VoteRecord> voteRecords = getVoteRecordService().findAllWithSort(searchable);
 		Map<String, Object> map = Maps.newHashMap();
@@ -129,9 +145,31 @@ public class VoteRecordController extends BaseCRUDController<VoteRecord, Long> {
 	public Map<String, Object> query(@PathVariable(value = "userId") Long userId,SearchParameter<Long> searchParameter,	Model model, @PathVariable(value = "reviewProcessId") Long reviewProcessId) {
 		searchParameter.getParameters().put("EQ_userId", userId);
 		searchParameter.getParameters().put("EQ_reviewProcessId",reviewProcessId);
-		searchParameter.getSorts().put("drugForm.commonNameContents.common.drugCategory", Direction.ASC);
-		searchParameter.getSorts().put("id", Direction.ASC);
-		return super.query(searchParameter, model);
+		
+		Searchable searchable = Searchable.newSearchable(searchParameter.getParameters());
+		
+		searchable.addSort(Direction.ASC, "id");
+		ReviewProcess currentReviewProcess = reviewProcessService.findOne(reviewProcessId);
+		if (currentReviewProcess != null) { 
+			if(currentReviewProcess.getReviewBaseRule().getRuleName().equals("addCommonNameManufacturer")||currentReviewProcess.getReviewBaseRule().getRuleName().equals("addSpecificationsAndPillManufacturer")){
+					
+				searchable.addSort(Direction.ASC, "commonNameContents.pill");
+				searchable.addSort(Direction.ASC, "commonNameContents.common.commonName");
+				searchable.addSort(Direction.ASC, "commonNameContents.common.drugCategory");
+					
+					
+			}
+			if(currentReviewProcess.getReviewBaseRule().getRuleName().equals("addCommonName")||currentReviewProcess.getReviewBaseRule().getRuleName().equals("addSpecificationsAndPillManufacturer")){
+				searchable.addSort(Direction.ASC, "drugForm.commonNameContents.common.drugCategory");
+			}					
+		}
+		
+		
+		List<VoteRecord> voteRecords = getVoteRecordService().findAllWithSort(searchable);
+		Map<String, Object> map = Maps.newHashMap();
+		map.put("total", voteRecords.size());
+		map.put("rows", voteRecords);
+		return map;
 	}
 
 	/**

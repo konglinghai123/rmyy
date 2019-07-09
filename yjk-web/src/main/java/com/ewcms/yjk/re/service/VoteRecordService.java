@@ -170,7 +170,7 @@ public class VoteRecordService extends BaseService<VoteRecord, Long> {
 										.getAdministration().getId());
 				for (CommonNameContents commonNameContents : machCommonNameContentsList) {
 					if(voteResultService.findByCommonNameContentsIdAndReviewProcessId(commonNameContents.getId(), currentReviewProcessId)==null){//已经存在的大总目录不再进入投票
-						if (hospitalContentsService.findByBidDrugIdAndDeletedFalse(commonNameContents.getBidDrugId()) == null) {//院用目录已存在的不进行投票
+						if (hospitalContentsService.countByBidDrugIdAndDeletedFalse(commonNameContents.getBidDrugId()).longValue()==0) {//院用目录已存在的不进行投票
 							VoteResult voteResult = new VoteResult();
 							voteResult.setReviewMainId(reviewMainEnable.getId());
 							voteResult.setReviewProcessId(currentReviewProcessId);
