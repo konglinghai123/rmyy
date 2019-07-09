@@ -6,8 +6,8 @@
 	<table id="tt" class="easyui-datagrid" data-options="toolbar:'#tb',fit:true,url:'${ctx}/system/icon/query',nowrap:true,pagination:true,rownumbers:true,striped:true,border:false,pageSize:20">
 		<thead>
 			<tr>
-			    <th data-options="field:'ck',checkbox:true"></th>
-			    <th data-options="field:'id',hidden:true">编号</th>
+			    <th data-options="field:'ck',checkbox:true"/>
+			    <th data-options="field:'id',sortable:true">编号</th>
 			    <th data-options="field:'identity',width:300,sortable:true">标识符</th>
 			    <th data-options="field:'iconTypeInfo',width:120,sortable:true">类型</th>
 			    <th data-options="field:'cssClass',width:100,formatter:formatCssClass">css类</th>

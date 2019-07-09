@@ -6,7 +6,7 @@
 		<thead>
 			<tr>
 				<th data-options="field:'operation',width:80,align:'center',formatter:formatOperation">操作</th>
-			    <th data-options="field:'id',hidden:true">编号</th>
+			    <th data-options="field:'id',sortable:true">编号</th>
 				<th data-options="field:'realname',width:120">姓名</th>
 				<th data-options="field:'sex',width:60,
 						formatter:function(val,row){

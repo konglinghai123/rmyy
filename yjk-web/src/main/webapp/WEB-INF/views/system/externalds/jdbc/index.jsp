@@ -6,7 +6,7 @@
 		<thead>
 			<tr>
 			    <th data-options="field:'ck',checkbox:true"/>
-			    <th data-options="field:'id',hidden:true">编号</th>
+			    <th data-options="field:'id',sortable:true">编号</th>
 				<th data-options="field:'name',width:100">名称</th>
 				<th data-options="field:'driver',width:200">驱动名</th>
 				<th data-options="field:'connUrl',width:300">数据库连接URL</th>

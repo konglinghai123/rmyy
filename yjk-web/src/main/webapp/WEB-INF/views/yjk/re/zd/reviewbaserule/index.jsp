@@ -6,7 +6,7 @@
 		<thead>
 			<tr>
 			    <th data-options="field:'ck',checkbox:true"/>
-			    <th data-options="field:'id',hidden:true">编号</th>
+			    <th data-options="field:'id',sortable:true">编号</th>
 				<th data-options="field:'ruleCnName',width:180">规则字段中文名</th>
 				<th data-options="field:'displayColumnsNames',width:1000">所要显示基本字段</th>
 			</tr>

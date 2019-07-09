@@ -7,7 +7,7 @@
 			<tr>
 			    <th data-options="field:'ck',checkbox:true" rowspan="2"/>
 				<th data-options="field:'enabled',width:200,align:'center',formatter:formatOperation" rowspan="2">操作</th>
-			    <th data-options="field:'id',width:80" rowspan="2">编号</th>
+			    <th data-options="field:'id',sortable:true" rowspan="2">编号</th>
 				<th data-options="field:'name',width:300" rowspan="2">名称</th>
 				<th data-options="field:'createDate',width:150" rowspan="2">创建时间</th>
 				<th data-options="field:'extractDate',width:150" rowspan="2">筛选用户时间</th>

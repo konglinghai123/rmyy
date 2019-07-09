@@ -6,7 +6,7 @@
 		<thead>
 			<tr>
 			    <th data-options="field:'ck',checkbox:true"/>
-			    <th data-options="field:'id',hidden:true">编号</th>
+			    <th data-options="field:'id',sortable:true">编号</th>
 			    <th data-options="field:'weight',hidden:true">排序号</th>
 				<th data-options="field:'percent',width:60,
 						formatter:function(val,row){

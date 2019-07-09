@@ -6,7 +6,7 @@
 		<thead>
 			<tr>
 			    <th data-options="field:'ck',checkbox:true"></th>
-			    <th data-options="field:'id',hidden:true">编号</th>
+			    <th data-options="field:'id',sortable:true">编号</th>
 				<th data-options="field:'name',width:200,sortable:true">分组名称</th>
 				<th data-options="field:'type',width:300,sortable:true,
 						formatter:function(val, row){

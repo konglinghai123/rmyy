@@ -82,7 +82,6 @@
 				<div id="tb" style="padding:5px;height:auto;">
 			        <div class="toolbar" style="margin-bottom:2px">
 						投票流程：
-						
 						<c:forEach items="${reviewProcessesList}" var="reviewProcess" varStatus="status">
 							<c:choose>
 								<c:when test="${reviewProcess.reviewBaseRule.ruleName == currentReviewProcess.reviewBaseRule.ruleName}">

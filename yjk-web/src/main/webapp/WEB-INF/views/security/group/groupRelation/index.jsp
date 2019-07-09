@@ -6,15 +6,15 @@
 		<thead>
 			<tr>
 			    <th data-options="field:'ck',checkbox:true"></th>
-			    <th data-options="field:'id',hidden:true">编号</th>
+			    <th data-options="field:'id',sortable:true">编号</th>
 			    <c:if test="${group.type eq 'user'}">
-			    	<th data-options="field:'userId',hidden:true">用户编号</th>
-			    	<th data-options="field:'username',width:200">登录名</th>
-			    	<th data-options="field:'realname',width:200">姓名</th>
+			    	<th data-options="field:'userId',sortable:true">用户编号</th>
+			    	<th data-options="field:'username',width:120">登录名</th>
+			    	<th data-options="field:'realname',width:120">姓名</th>
 			    </c:if>
 			    <c:if test="${group.type eq 'organization'}">
-				    <th data-options="field:'organizationId',width:100">组织机构编号</th>
-				    <th data-options="field:'organizationName',width:200">组织机构</th>
+				    <th data-options="field:'organizationId',width:120">组织机构编号</th>
+				    <th data-options="field:'organizationName',width:120">组织机构</th>
 			    </c:if>
 			</tr>
 		</thead>

@@ -6,7 +6,7 @@
 		<thead>
 			<tr>
 				<th data-options="field:'ck',checkbox:true"></th>
-				<th data-options="field:'id',width:240,sortable:true">用户会话ID</th>
+				<th data-options="field:'id',sortable:true">用户会话ID</th>
 				<th data-options="field:'userName',width:150,sortable:true">用户</th>
 				<th data-options="field:'host',width:150,sortable:true">用户主机IP</th>
 				<th data-options="field:'systemHost',width:150,sortable:true">系统主机IP</th>

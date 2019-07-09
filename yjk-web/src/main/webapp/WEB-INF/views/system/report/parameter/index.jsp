@@ -6,7 +6,7 @@
 		<thead>
 			<tr>
 			    <th data-options="field:'ck',checkbox:true"/>
-			    <th data-options="field:'id',hidden:true">编号</th>
+			    <th data-options="field:'id',sortable:true">编号</th>
 				<th data-options="field:'enName',width:200">参数名</th>
 				<th data-options="field:'cnName',width:200">中文名</th>
 				<th data-options="field:'typeDescription',width:100">数据输入方式</th>

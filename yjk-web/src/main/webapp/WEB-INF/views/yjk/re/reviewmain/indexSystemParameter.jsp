@@ -9,7 +9,7 @@
 				<thead>
 					<tr>	
 						<th data-options="field:'ck',checkbox:true"/>
-						<th data-options="field:'id',hidden:true">编号</th>
+						<th data-options="field:'id',sortable:true">编号</th>
 						<th data-options="field:'projectRemark',width:120">项目说明</th>
 						<th data-options="field:'applyStartDate',width:150">申请开始时间</th>
 						<th data-options="field:'applyEndDate',width:150">申请结束时间</th>

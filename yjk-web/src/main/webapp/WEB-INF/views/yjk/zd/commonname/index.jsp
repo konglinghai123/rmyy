@@ -14,7 +14,7 @@
 		<thead>
 			<tr>
 			    <th data-options="field:'ck',checkbox:true"/>
-			    <th data-options="field:'id',hidden:true">编号</th>
+			    <th data-options="field:'id',sortable:true">编号</th>
 				<th data-options="field:'commonName',sortable:true,width:200">通用名</th>
 				<th data-options="field:'bidCommonName',width:200,sortable:true">省招标通用名</th>
 				<th data-options="field:'matchNumber',width:80,sortable:true">匹配编号</th>

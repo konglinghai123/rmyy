@@ -6,7 +6,7 @@
 		<thead>
 			<tr>
 			    <th data-options="field:'ck',checkbox:true"/>
-			    <th data-options="field:'id',hidden:true">编号</th>
+			    <th data-options="field:'id',sortable:true">编号</th>
 				<th data-options="field:'name',width:300">名称</th>
 				<th data-options="field:'updateDate',width:145">更新时间</th>
 				<th data-options="field:'publishDate',width:145">发布时间</th>

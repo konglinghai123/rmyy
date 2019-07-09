@@ -6,7 +6,7 @@
 		<thead>
 			<tr>
 			    <th data-options="field:'ck',checkbox:true"></th>
-			    <th data-options="field:'id',hidden:true">编号</th>
+			    <th data-options="field:'id',sortable:true">编号</th>
 				<th data-options="field:'name',width:150,sortable:true">角色名称</th>
 				<th data-options="field:'role',width:300,sortable:true">角色标识</th>
 				<th data-options="field:'description',width:400">详细描述</th>

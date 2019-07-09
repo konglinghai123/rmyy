@@ -5,7 +5,6 @@
 	<table id="tt">
 		<thead>
 			<tr>
-			    <th data-options="field:'id',hidden:true">编号</th>
 				<th data-options="field:'text',width:400">名称</th>
 				<th data-options="field:'identity',width:200,
 						formatter:function(val,row){
@@ -23,6 +22,7 @@
 						formatter:function(val,row){
 							if (row.attributes != null) return row.attributes.show ? '显示' : '不显示';
 						}">状态</th>
+				<th data-options="field:'id'">编号</th>
 			</tr>
 		</thead>
 	</table>

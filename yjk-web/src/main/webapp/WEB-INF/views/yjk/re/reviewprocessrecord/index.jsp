@@ -5,7 +5,7 @@
 	<table id="tt">
 		<thead>
 			<tr>
-				 <th data-options="field:'id',hidden:true">编号</th>
+				 <th data-options="field:'id',sortable:true">编号</th>
 			    <th data-options="field:'userName',width:150">操作员</th>
 				<th data-options="field:'operateDate',width:150">操作时间</th>
 				<th data-options="field:'remark',width:300">操作原因</th>

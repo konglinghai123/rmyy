@@ -7,7 +7,7 @@
 		<thead>
 			<tr>
 			    <th data-options="field:'ck',checkbox:true"></th>
-			    <th data-options="field:'id',hidden:true">编号</th>
+			    <th data-options="field:'id',sortable:true">编号</th>
 			    <th data-options="field:'name',width:200">名称</th>
 			    <th data-options="field:'className',width:500">类实体</th>
 			    <th data-options="field:'description',width:400">描述</th>

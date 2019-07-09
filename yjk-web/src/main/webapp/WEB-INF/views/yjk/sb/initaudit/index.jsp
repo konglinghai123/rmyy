@@ -6,7 +6,7 @@
 					<tr>
 					    <th data-options="field:'ck',checkbox:true"/>
 					    <th data-options="field:'id',sortable:true">序号</th>
-					    <th data-options="field:'formatId',width:100">编号</th>
+					    <th data-options="field:'formatId'">编号</th>
 						<th data-options="field:'auditStatusInfo',width:100">审核状态</th>	
 						<th data-options="field:'projectRemark',width:100,sortable:true">申报说明</th>
 						<th data-options="field:'realName',width:100,sortable:true">申报医生</th>

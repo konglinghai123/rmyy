@@ -6,7 +6,7 @@
 		<thead>
 			<tr>
 				<th data-options="field:'ck',checkbox:true"></th>
-				<th data-options="field:'id',hidden:true">编号</th>
+				<th data-options="field:'id',sortable:true">编号</th>
 				<th data-options="field:'user.username',width:150,sortable:true,
 						formatter:function(val, row){
 							return row.userName;

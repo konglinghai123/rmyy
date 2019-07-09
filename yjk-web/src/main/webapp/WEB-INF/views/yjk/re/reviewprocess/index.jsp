@@ -6,8 +6,8 @@
 		<thead>
 			<tr>
 			    <th data-options="field:'ck',checkbox:true" rowspan="2"/>
-			    <th data-options="field:'id',width:60" rowspan="2">编号</th>
-			    <th data-options="field:'weight',width:80,hidden:true" rowspan="2">排序号</th>
+			    <th data-options="field:'id',sortable:true" rowspan="2">编号</th>
+			    <th data-options="field:'weight',sortable:true" rowspan="2">排序号</th>
 				<th data-options="field:'ruleCnName',width:150,
 						formatter:function(val,row){
 							return row.reviewBaseRule != null ? row.reviewBaseRule.ruleCnName : '';

@@ -8,9 +8,9 @@
 		    }">
 		<thead>
 			<tr>
-			    <th data-options="field:'id',hidden:true">编号</th>
-				<th data-options="field:'userName',width:150,sortable:true">用户</th>
-				<th data-options="field:'uid',width:240,sortable:true">用户会话ID</th>
+			    <th data-options="field:'id',sortable:true">编号</th>
+				<th data-options="field:'userName',sortable:true">用户</th>
+				<th data-options="field:'uid',sortable:true">用户会话ID</th>
 				<th data-options="field:'host',width:150,sortable:true">用户主机IP</th>
 				<th data-options="field:'systemHost',width:150,sortable:true">系统主机IP</th>
 				<th data-options="field:'lastLoginTimestamp',width:145,sortable:true">最后登录时间</th>

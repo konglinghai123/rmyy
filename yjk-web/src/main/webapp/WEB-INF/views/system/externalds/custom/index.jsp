@@ -6,7 +6,7 @@
 		<thead>
 			<tr>
 			    <th data-options="field:'ck',checkbox:true"/>
-			    <th data-options="field:'id',hidden:true">编号</th>
+			    <th data-options="field:'id',sortable:true">编号</th>
 				<th data-options="field:'name',width:100">名称</th>
 				<th data-options="field:'customName',width:200">自定义名称</th>
 				<th data-options="field:'customMethod',width:200">自定义方法</th>

@@ -8,7 +8,7 @@
 			<tr>	
 				<th data-options="field:'ck',checkbox:true"/>
 				<th data-options="field:'enabled',width:130,align:'center',formatter:formatOperation">操作</th>
-				<th data-options="field:'id',width:80">编号</th>
+				<th data-options="field:'id',sortable:true">编号</th>
 				<th data-options="field:'applyStartDate',width:150">申请开始时间</th>
 				<th data-options="field:'applyEndDate',width:150">申请结束时间</th>
 				<th data-options="field:'repeatDeclared',width:120,

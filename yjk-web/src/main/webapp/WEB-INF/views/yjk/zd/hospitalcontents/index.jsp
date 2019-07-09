@@ -6,7 +6,7 @@
 		<thead>
 			<tr>
 			    <th data-options="field:'ck',checkbox:true"/>
-			    <th data-options="field:'id',hidden:true">编号</th>	
+			    <th data-options="field:'id',sortable:true">编号</th>	
 				<th data-options="field:'common.commonName',width:200,sortable:true,
 						formatter:function(val,row){
 							return row.common==null?'':row.common.commonName;

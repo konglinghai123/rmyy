@@ -5,7 +5,7 @@
 	<table id="tt">
 		<thead>
 			<tr>
-			    <th data-options="field:'id',hidden:true,">编号</th>
+			    <th data-options="field:'id',sortable:true">编号</th>
 				<th data-options="field:'passSum',width:60">通过票</th>
 				<th data-options="field:'opposeSum',width:60">反对票</th>
 				<th data-options="field:'abstainSum',width:60">弃权票</th>

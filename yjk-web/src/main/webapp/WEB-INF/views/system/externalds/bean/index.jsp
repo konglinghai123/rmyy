@@ -6,7 +6,7 @@
 		<thead>
 			<tr>
 			    <th data-options="field:'ck',checkbox:true"/>
-			    <th data-options="field:'id',hidden:true">编号</th>
+			    <th data-options="field:'id',sortable:true">编号</th>
 				<th data-options="field:'name',width:100">名称</th>
 				<th data-options="field:'beanName',width:200">Bean名称</th>
 				<th data-options="field:'beanMethod',width:200">Bean方法</th>
