@@ -50,8 +50,8 @@ public class HospitalContentsService extends BaseService<HospitalContents, Long>
 		getHospitalContentsRepository().deleteAllHospitalContents();
 	}
 	
-	public HospitalContents findByBidDrugIdAndDeletedFalse(String bidDrugId){
-		return getHospitalContentsRepository().findByBidDrugIdAndDeletedFalse(bidDrugId);
+	public Long countByBidDrugIdAndDeletedFalse(String bidDrugId){
+		return getHospitalContentsRepository().countByBidDrugIdAndDeletedFalse(bidDrugId);
 	}
 	
 	/**
