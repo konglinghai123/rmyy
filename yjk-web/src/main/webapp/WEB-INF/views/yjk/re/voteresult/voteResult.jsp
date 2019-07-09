@@ -94,7 +94,12 @@
 			border:false,
 			rowStyler: function(index,row){
 				if (row.selected){
-	    			return 'background-color:#DDDDFF;color:#000000;';
+					if( row.drugForm.commonNameContents.common.drugCategory=='Z'){
+						return 'background-color:#DDDDFF;color:#000000;';
+					}else{
+						return 'background-color:#C4E1FF;color:#000000;';
+					}
+	    			
 	        	}
 	    	},
 			onLoadSuccess:function(row){

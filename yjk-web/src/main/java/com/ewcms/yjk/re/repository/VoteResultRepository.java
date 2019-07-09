@@ -23,7 +23,7 @@ public interface VoteResultRepository extends BaseRepository<VoteResult, Long> {
 	
 	@Query("from VoteResult v "
 			+ "where v.reviewMainId=?1 and v.reviewProcessId=?2 "
-			+ "order by v.passSum desc, v.selected desc, v.adjusted asc, v.drugForm.commonNameContents.common.drugCategory asc, v.drugForm.commonNameContents.common.commonName asc, drugForm.commonNameContents.pill asc, v.id desc")
+			+ "order by v.drugForm.commonNameContents.common.drugCategory asc, v.passSum desc, v.selected desc, v.adjusted asc, v.drugForm.commonNameContents.common.commonName asc, drugForm.commonNameContents.pill asc, v.id desc")
 	List<VoteResult> findCurrentReviewProcessVoteResults(Long reviewMainId, Long reviewProcessId);
 	
 	@Query("from VoteResult v "
