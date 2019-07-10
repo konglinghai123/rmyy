@@ -8,8 +8,16 @@ insert into sec_resource(id, icon, identity, name, parent_id, parent_ids, is_sho
 ,(128,'ztree_file','uservote','用户投票情况',125,'0/1/102/125/','true',null,'/yjk/re/uservote/index',5)
 ,(129,'rmyy-yjk-voteresult-tree','voteresult','投票监控',125,'0/1/102/125/','true',null,'/yjk/re/voteresult/index',4)
 ,(130,'rmyy-yjk-drugvote-tree','drugvote','药品投票情况',125,'0/1/102/125/','true',null,'/yjk/re/drugvote/index',6)
+,(131,'rmyy-system-notice-tree','notice','公告栏',6,'0/1/6/','true',null,'/system/notice/index',1)
 ;
-select setval('seq_sec_resource_id', 130);
+select setval('seq_sec_resource_id', 131);
+
+update sec_resource set weight=2 where id=66;
+update sec_resource set weight=3 where id=86;
+update sec_resource set weight=4 where id=68;
+update sec_resource set weight=5 where id=81;
+update sec_resource set weight=6 where id=112;
+update sec_resource set weight=7 where id=113;
 
 update sec_resource set parent_id=124, parent_ids='0/1/102/124', weight=1 where id=119;
 update sec_resource set parent_id=124, parent_ids='0/1/102/124', weight=2, name='申报设置' where id=108;

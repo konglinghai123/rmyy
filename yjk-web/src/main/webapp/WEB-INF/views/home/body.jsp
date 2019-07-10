@@ -6,7 +6,7 @@
 		</div>
 		<div data-options="region:'west',border:false" style="width:34%;overflow:auto;padding-top:3px;">
 			<fieldset style="height:765px">
-			<legend style="font-size:16px;color:red"><b>综合栏</b></legend>
+			<legend><b style="font-size:16px;color:red">综合栏</b></legend>
 			<table style="width:99%;">
 				<tr>
 					<td class="portal-column-td">
@@ -25,8 +25,8 @@
 		</div>
 		<div data-options="region:'center',border:false" style="width:33%;overflow:auto;">
 			<fieldset style="height:767px">
-			<legend style="font-size:16px;color:red"><b>申报新药统计栏：</b>
-			    <form:select id="systemParameterId" path="systemParameterList">
+			<legend><b style="font-size:16px;color:red">申报新药统计栏：</b>
+			    <form:select id="systemParameterId" path="systemParameterList" cssStyle="width:60%;">
 					<form:options items="${systemParameterList}" itemValue="id" itemLabel="projectRemark"/>
 				</form:select>
 			</legend>
@@ -37,8 +37,7 @@
 		               		<div class="panel">
 		                 		<div class="panel-header">
 		                   			<div class="panel-title">申报统计栏</div>
-		                   			<div class="panel-tool">
-		                   			</div>
+		                   			<div class="panel-tool"></div>
 		                 		</div>
 		                 		<div style="height: 120px; padding: 5px;" id="drugFormStatistic" class="portal-p panel-body" data-options="closable:true,collapsible:false"></div>
 		               		</div>
@@ -91,8 +90,8 @@
 		</div>
 		<div data-options="region:'east',border:false" style="width:33%;overflow:auto;">
 			<fieldset style="height:767px">
-			<legend style="font-size:16px;color:red"><b>评审新药统计栏：</b>
-				<form:select id="reviewMainId" path="reviewMainList">
+			<legend><b style="font-size:16px;color:red">评审新药统计栏：</b>
+				<form:select id="reviewMainId" path="reviewMainList" cssStyle="width:60%;">
 					<form:options items="${reviewMainList}" itemValue="id" itemLabel="name"/>
 				</form:select>
 			</legend>

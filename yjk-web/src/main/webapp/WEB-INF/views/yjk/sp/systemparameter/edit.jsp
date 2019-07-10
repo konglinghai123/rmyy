@@ -74,7 +74,7 @@
 					</tr>	
 					<tr>
 						<td><form:label path="projectRemark">项目说明：</form:label></td>
-						<td><form:input path="projectRemark" cssStyle="width:200px;" /></td>
+						<td><form:input path="projectRemark" cssStyle="width:200px;" cssClass="validate[required]"/></td>
 					</tr>									
 				</table>
 			</form:form>
