@@ -8,11 +8,15 @@
 		<thead>
 			<tr>
 				<th data-options="field:'operation',width:100,align:'center',formatter:formatOperation">操作</th>
-			    <th data-options="field:'id',hidden:true,
+			    <th data-options="field:'id',
 						formatter:function(val,row){
 							return row.user.id;
 						}">编号</th>
-				<th data-options="field:'realname',width:120,
+				<th data-options="field:'username',width:80,
+						formatter:function(val,row){
+							return row.user.username;
+						}">用户名</th>
+				<th data-options="field:'realname',width:100,
 						formatter:function(val,row){
 							return row.user.realname;
 						}">姓名</th>

@@ -40,24 +40,7 @@
 		                   			<div class="panel-tool">
 		                   			</div>
 		                 		</div>
-		                 		<div style="height: 120px; padding: 5px;" title="" id="tip" class="portal-p panel-body" data-options="closable:true,collapsible:false">
-		                 			<div class="t-list">
-		                 				<table style="width:100%;">
-		                 					<tr>	
-			                 					<td style="font-size: 14px;">1、未提交初审数：<span id="drugForm_nodeclare"></span>&nbsp;条</td>
-		                 					</tr>
-		                 					<tr>	
-			                 					<td style="font-size: 14px;">2、已提交初审数：<span id="drugForm_init"></span>&nbsp;条</td>
-		                 					</tr>
-		                 					<tr>	
-			                 					<td style="font-size: 14px;">3、初审核已通过数：<span id="drugForm_passed"></span>&nbsp;条</td>
-		                 					</tr>
-		                 					<tr>	
-			                 					<td style="font-size: 14px;">4、初审核未通过数：<span id="drugForm_unPassed"></span>&nbsp;条</td>
-		                 					</tr>
-		                 				</table>
-		                 			</div>
-		                 		</div>
+		                 		<div style="height: 120px; padding: 5px;" id="drugFormStatistic" class="portal-p panel-body" data-options="closable:true,collapsible:false"></div>
 		               		</div>
 		             	</div>
 					</td>

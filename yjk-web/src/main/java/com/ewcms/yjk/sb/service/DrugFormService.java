@@ -399,29 +399,18 @@ public class DrugFormService extends BaseService<DrugForm, Long> {
 		return map;
 	}
 	
-//	public Map<String, Long> drupFromCountChart(){
-//		Map<String, Long> map = Maps.newHashMap();
-//		SystemParameter systemParameter = systemParameterService.findByEnabledTrue();
-//		if (systemParameter == null) return map;
-//		
-//		map.put("未提交初审", count(Searchable.newSearchable().addSearchFilter("auditStatus", SearchOperator.EQ, AuditStatusEnum.nodeclare).addSearchFilter("fillInDate", SearchOperator.GTE, systemParameter.getApplyStartDate()).addSearchFilter("fillInDate", SearchOperator.LTE, systemParameter.getApplyEndDate())));
-//		map.put("已提交初审", count(Searchable.newSearchable().addSearchFilter("auditStatus", SearchOperator.EQ, AuditStatusEnum.init).addSearchFilter("fillInDate", SearchOperator.GTE, systemParameter.getApplyStartDate()).addSearchFilter("fillInDate", SearchOperator.LTE, systemParameter.getApplyEndDate())));
-//		map.put("初审核已通过", count(Searchable.newSearchable().addSearchFilter("auditStatus", SearchOperator.EQ, AuditStatusEnum.passed).addSearchFilter("fillInDate", SearchOperator.GTE, systemParameter.getApplyStartDate()).addSearchFilter("fillInDate", SearchOperator.LTE, systemParameter.getApplyEndDate())));
-//		map.put("初审核未通过", count(Searchable.newSearchable().addSearchFilter("auditStatus", SearchOperator.EQ, AuditStatusEnum.un_passed).addSearchFilter("fillInDate", SearchOperator.GTE, systemParameter.getApplyStartDate()).addSearchFilter("fillInDate", SearchOperator.LTE, systemParameter.getApplyEndDate())));
-//		
-//		return map;
-//	}
-//	
-//	public Map<String, Long> drupFromCountChart(Long systemParameterId){
-//		Map<String, Long> map = Maps.newHashMap();
-//		SystemParameter systemParameter = systemParameterService.findOne(systemParameterId);
-//		if (systemParameter == null) return map;
-//		
-//		map.put("未提交初审", count(Searchable.newSearchable().addSearchFilter("auditStatus", SearchOperator.EQ, AuditStatusEnum.nodeclare).addSearchFilter("fillInDate", SearchOperator.GTE, systemParameter.getApplyStartDate()).addSearchFilter("fillInDate", SearchOperator.LTE, systemParameter.getApplyEndDate())));
-//		map.put("已提交初审", count(Searchable.newSearchable().addSearchFilter("auditStatus", SearchOperator.EQ, AuditStatusEnum.init).addSearchFilter("fillInDate", SearchOperator.GTE, systemParameter.getApplyStartDate()).addSearchFilter("fillInDate", SearchOperator.LTE, systemParameter.getApplyEndDate())));
-//		map.put("初审核已通过", count(Searchable.newSearchable().addSearchFilter("auditStatus", SearchOperator.EQ, AuditStatusEnum.passed).addSearchFilter("fillInDate", SearchOperator.GTE, systemParameter.getApplyStartDate()).addSearchFilter("fillInDate", SearchOperator.LTE, systemParameter.getApplyEndDate())));
-//		map.put("初审核未通过", count(Searchable.newSearchable().addSearchFilter("auditStatus", SearchOperator.EQ, AuditStatusEnum.un_passed).addSearchFilter("fillInDate", SearchOperator.GTE, systemParameter.getApplyStartDate()).addSearchFilter("fillInDate", SearchOperator.LTE, systemParameter.getApplyEndDate())));
-//		
-//		return map;
-//	}
+	public Map<String, Long> findDrugFromCountChart(Long systemParameterId){
+		Map<String, Long> map = Maps.newHashMap();
+		SystemParameter systemParameter = systemParameterService.findOne(systemParameterId);
+		if (systemParameter == null) return map;
+		
+		map.put("未提交初审", systemParameter.getNodeclareNumber());
+		map.put("已提交初审", systemParameter.getInitNumber());
+		map.put("初审核已通过", systemParameter.getPassedNumber());
+		map.put("初审核未通过", systemParameter.getUnPassedNumber());
+		
+		return map;
+	}
+	
+	
 }

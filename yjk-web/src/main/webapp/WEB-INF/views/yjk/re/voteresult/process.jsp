@@ -3,8 +3,7 @@
 
 <ewcms:head title="投票结果 - 流程"/>
 	<div id="edit-from" class="easyui-layout" data-options="fit:true" style="border:0;">
-		<div data-options="region:'center',border:false">
-			<span style="text-align: center">
+		<div data-options="region:'center',border:false" style="text-align:center">
 			<c:choose>
 				<c:when test="${isClose}">
 					本次评审的流程已全部结束，以下为最终结果！
@@ -26,7 +25,6 @@
 				</c:forEach>
 				</c:otherwise>
 			</c:choose>
-			</span>
 		</div>
 	</div>
 <ewcms:footer/>

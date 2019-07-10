@@ -103,6 +103,8 @@
 			if (id == 'index'){
 				$('#index').show();
 				$('#center').hide();
+				drugFormCountChart($('#systemParameterId').combobox('getValue'));
+				reviewCountChart($('#reviewMainId').combobox('getValue'));
 			}else{
 				$('#index').hide();
 				$('#center').show();
@@ -132,16 +134,20 @@
 					 async:false,
 					 type:'POST',
 					 url:'${ctx}/' + record.value + '/drugFormStatistic',
+					 contentType: 'application/json; charset=utf-8',
 					 dataType : 'json',
 					 success:function(data) {
-						 $('#drugForm_nodeclare').empty();
-						 $('#drugForm_nodeclare').html(data.drugForm_nodeclare);
-						 $('#drugForm_init').empty();
-						 $('#drugForm_init').html(data.drugForm_init);
-						 $('#drugForm_passed').empty();
-						 $('#drugForm_passed').html(data.drugForm_passed);
-						 $('#drugForm_unPassed').empty();
-						 $('#drugForm_unPassed').html(data.drugForm_unPassed);
+						 if (data.drugFormStatistic){
+							 $('#drugFormStatistic .t-list').empty();
+						     var drugFormHtml = '<div class="t-list"><table width="100%">';
+						     var pro = [];
+						     $.each(data.drugFormStatistic, function(idx, item){
+							 	pro.push('<tr><td style="font-size:14px;">' + item);
+						     });
+						     var html = pro.join("");
+						     drugFormHtml += html + '</table></div>';
+						     $(drugFormHtml).appendTo('#drugFormStatistic');
+						 }
 						 drugFormCountChart(record.value);
 						 $('#ttSystemParameter').datagrid({
 							 url:'${ctx}/' + record.value + '/drugFormCountReport'
@@ -168,14 +174,14 @@
 					 success:function(data) {
 						 if (data.reviewStatistic){
 							 $('#reivewStatistic .t-list').empty();
-						     var noticesHtml = '<div class="t-list"><table width="100%">';
+						     var reviewHtml = '<div class="t-list"><table width="100%">';
 						     var pro = [];
 						     $.each(data.reviewStatistic, function(idx, item){
 							 	pro.push('<tr><td style="font-size:14px;">' + item);
 						     });
 						     var html = pro.join("");
-						     noticesHtml += html + '</table></div>';
-						     $(noticesHtml).appendTo('#reivewStatistic');
+						     reviewHtml += html + '</table></div>';
+						     $(reviewHtml).appendTo('#reivewStatistic');
 						 }
 						 reviewCountChart(record.value);
 					 }
@@ -196,19 +202,17 @@
 	    	pageSize:10
 	    })
 	    
-		//systemParameterTable();
-	    
 	    var poll = new Poll();
 	});
 	
 	function drugFormCountChart(systemParameterId){
-		var myChart = new FusionCharts('${ctx}/static/fcf/swf/Pie3D.swf?ChartNoDataText=无数据显示', new Date().getTime(), '400', '170');
+		var myChart = new FusionCharts('${ctx}/static/fcf/swf/Pie3D.swf?ChartNoDataText=无数据显示', 'drugFormChart_' + new Date().getTime(), '400', '170');
    		myChart.setDataURL('${ctx}/' + systemParameterId + '/drugFormCountChart?_=' + new Date().getTime());
    		myChart.render('drugFormCountDiv');
 	}
 	
 	function reviewCountChart(reviewMainId){
-		var myChart = new FusionCharts('${ctx}/static/fcf/swf/MSColumn3D.swf?ChartNoDataText=无数据显示', new Date().getTime(), '400', '270');
+		var myChart = new FusionCharts('${ctx}/static/fcf/swf/MSColumn3D.swf?ChartNoDataText=无数据显示', 'reviewChart_' + new Date().getTime(), '400', '270');
    		myChart.setDataURL('${ctx}/' + reviewMainId + '/reviewCountChart?_=' + new Date().getTime());
    		myChart.render('reviewCountDiv');
 	}

@@ -2,8 +2,10 @@ package com.ewcms.web.controller;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -105,17 +107,21 @@ public class HomeController {
 
 	@RequestMapping(value = "{systemParameterId}/drugFormStatistic")
 	@ResponseBody
-	public Map<String, Long> findDrugFormStatistic(@PathVariable(value = "systemParameterId") Long systemParameterId) {
+	public Map<String, Object> findDrugFormStatistic(@PathVariable(value = "systemParameterId") Long systemParameterId) {
 		SystemParameter systemParameter = systemParameterService.findOne(systemParameterId);
 
-		Map<String, Long> map = Maps.newHashMap();
+		Map<String, Object> map = Maps.newHashMap();
 		if (systemParameter == null) return map;
-
-		map.put("drugForm_nodeclare", systemParameter.getNodeclareNumber());
-		map.put("drugForm_init", systemParameter.getInitNumber());
-		map.put("drugForm_passed", systemParameter.getPassedNumber());
-		map.put("drugForm_unPassed", systemParameter.getUnPassedNumber());
-
+		
+		List<String> drugFormStatistics = Lists.newArrayList();
+		
+		drugFormStatistics.add("1、未提交初审数： " + systemParameter.getNodeclareNumber() + " 条");
+		drugFormStatistics.add("2、已提交初审数： " + systemParameter.getInitNumber() + " 条");
+		drugFormStatistics.add("3、初审已通过数： " + systemParameter.getPassedNumber() + " 条");
+		drugFormStatistics.add("4、初审未通过数： " + systemParameter.getUnPassedNumber() + " 条");
+		
+		map.put("drugFormStatistic", drugFormStatistics);
+		
 		return map;
 	}
 
@@ -124,33 +130,25 @@ public class HomeController {
 	public String findDrugFormCountChart(@PathVariable(value = "systemParameterId") Long systemParameterId) {
 		XMLUtil xml = new XMLUtil();
 		
-		xml.setXMLEncoding("GBK");
-		
 		Element graph = xml.addRoot("graph");
 		xml.addAttribute(graph, "basefontsize", "12");
 		xml.addAttribute(graph, "showNames", "1");
 		xml.addAttribute(graph, "decimalPrecision", "0");
 		xml.addAttribute(graph, "formatNumberScale", "0");
+		
+		Map<String, Long> map = drugFormService.findDrugFromCountChart(systemParameterId);
+		Iterator<Entry<String, Long>> it = map.entrySet().iterator();
+		
+		while (it.hasNext()) {
+			Map.Entry<String, Long> m = (Map.Entry<String, Long>)it.next();
+			String key = m.getKey();
+			Long total = (Long)map.get(key);
+			Element set = xml.addNode(graph, "set");
+			set.addAttribute("name", key);
+			set.addAttribute("value", total.toString());
+		}
 
-		SystemParameter systemParameter = systemParameterService.findOne(systemParameterId);
-
-		Element set = xml.addNode(graph, "set");
-		set.addAttribute("name", "未提交初审");
-		set.addAttribute("value", (systemParameter.getNodeclareNumber()).toString());
-
-		set = xml.addNode(graph, "set");
-		set.addAttribute("name", "已提交初审");
-		set.addAttribute("value", (systemParameter.getInitNumber()).toString());
-
-		set = xml.addNode(graph, "set");
-		set.addAttribute("name", "初审核已通过");
-		set.addAttribute("value", (systemParameter.getPassedNumber()).toString());
-
-		set = xml.addNode(graph, "set");
-		set.addAttribute("name", "初审核未通过");
-		set.addAttribute("value", (systemParameter.getUnPassedNumber()).toString());
-
-		return xml.getXML();
+		return xml.getXMLSub();
 	}
 
 	@RequestMapping(value = "buildSystemParameter")
@@ -197,7 +195,7 @@ public class HomeController {
 		
 		List<String> reviewStatistics = Lists.newArrayList();
 		for (int i = 0; i < reviewProcesses.size(); i++) {
-			reviewStatistics.add("第 " + (i + 1) + " 轮投票结果：" + DrugCategoryEnum.H.getInfo() + "入围" + voteResultService.countResult(reviewMainId, reviewProcesses.get(i).getId(), DrugCategoryEnum.H) + "条，" + DrugCategoryEnum.Z.getInfo() + "入围" + voteResultService.countResult(reviewMainId, reviewProcesses.get(i).getId(), DrugCategoryEnum.Z) + "条");
+			reviewStatistics.add("第 " + (i + 1) + " 轮投票结果：" + DrugCategoryEnum.H.getInfo() + "入围 " + voteResultService.countResult(reviewMainId, reviewProcesses.get(i).getId(), DrugCategoryEnum.H) + " 条，" + DrugCategoryEnum.Z.getInfo() + "入围 " + voteResultService.countResult(reviewMainId, reviewProcesses.get(i).getId(), DrugCategoryEnum.Z) + " 条");
 		}
 		map.put("reviewStatistic", reviewStatistics);
 		
@@ -208,6 +206,7 @@ public class HomeController {
 	@ResponseBody
 	public String findReviewCountChart(@PathVariable(value = "reviewMainId") Long reviewMainId) {
 		XMLUtil xml = new XMLUtil();
+		
 		Element graph = xml.addRoot("graph");
 		xml.addAttribute(graph, "basefontsize", "12");
 		xml.addAttribute(graph, "showNames", "1");
@@ -243,7 +242,7 @@ public class HomeController {
 			zset.addAttribute("value", zCount.toString());
 		}
 		
-		return xml.getXML();
+		return xml.getXMLSub();
 	}
 
 }
