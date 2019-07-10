@@ -80,6 +80,7 @@
 			</c:if>
 			<a id="tb-print" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-print'">打印</a>
 		</div>
+		<c:if test="${isClose}">
 		<div>
         	<form id="queryform" style="padding:0;margin:0;">
         		<table class="formtable">
@@ -101,7 +102,7 @@
            		</table>
           	</form>
     	</div>
-		
+		</c:if>
 	</div>
 <ewcms:footer/>
 <script type="text/javascript">

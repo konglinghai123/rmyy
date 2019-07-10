@@ -63,7 +63,7 @@
               		<tr>
               			<td width="5%">显示情况</td>
               			<td width="23%">
-              				<select class="easyui-combobox" name="CUSTOM_show" data-options="editable:false,width:100,panelHeight:'auto'">
+              				<select name="CUSTOM_show" data-options="editable:false,width:100,panelHeight:'auto'">
               					<option value="all" selected="selected">全部</option>
               					<option value="selected">入围</option>
               				</select>
