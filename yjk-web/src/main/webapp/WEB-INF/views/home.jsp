@@ -207,14 +207,14 @@
 	});
 	
 	function drugFormCountChart(systemParameterId){
-		var myChart = new FusionCharts('${ctx}/static/fcf/swf/Pie3D.swf?ChartNoDataText=无数据显示', 'drugFormChart_' + new Date().getTime(), '400', '170');
-   		myChart.setDataURL('${ctx}/' + systemParameterId + '/drugFormCountChart?_=' + new Date().getTime());
+		var myChart = new FusionCharts('${ctx}/static/fcf/swf/Pie3D.swf?ChartNoDataText=无数据显示', 'drugFormChart_' + new Date().getTime(), '400', '170', '0','1');
+   		myChart.setDataURL('${ctx}/' + systemParameterId + '/drugFormCountChart');
    		myChart.render('drugFormCountDiv');
 	}
 	
 	function reviewCountChart(reviewMainId){
-		var myChart = new FusionCharts('${ctx}/static/fcf/swf/MSColumn3D.swf?ChartNoDataText=无数据显示', 'reviewChart_' + new Date().getTime(), '400', '270');
-   		myChart.setDataURL('${ctx}/' + reviewMainId + '/reviewCountChart?_=' + new Date().getTime());
+		var myChart = new FusionCharts('${ctx}/static/fcf/swf/MSColumn3D.swf?ChartNoDataText=无数据显示', 'reviewChart_' + new Date().getTime(), '400', '270', '0', '1');
+   		myChart.setDataURL('${ctx}/' + reviewMainId + '/reviewCountChart');
    		myChart.render('reviewCountDiv');
 	}
 	

@@ -213,8 +213,10 @@ public class HomeController {
 		xml.addAttribute(graph, "decimalPrecision", "0");
 		xml.addAttribute(graph, "formatNumberScale", "0");
 		xml.addAttribute(graph, "xaxisname", "轮次");
+		xml.addAttribute(graph, "yaxisname", "入围数");
 		xml.addAttribute(graph, "shownames", "1");
 		xml.addAttribute(graph, "rotatenames", "1");
+		xml.addAttribute(graph, "rotateYAxisName", "0");
 		xml.addAttribute(graph, "labeldisplay", "rotate");
 		xml.addAttribute(graph, "slantlabels", "1");
 
