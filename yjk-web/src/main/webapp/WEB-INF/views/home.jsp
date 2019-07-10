@@ -202,6 +202,7 @@
 	    	pageSize:10
 	    })
 	    
+	    systemParameterTable();
 	    var poll = new Poll();
 	});
 	

@@ -63,7 +63,12 @@ public interface VoteResultRepository extends BaseRepository<VoteResult, Long> {
 	Long countByReviewMainIdAndReviewProcessIdAndSelectedTrue(Long reviewMainId, Long reviewProcessId);
 	
 	@Query("from VoteResult v "
-			+ "where v.reviewMainId=?1 and v.affirmVoteResulted = true and v.commonNameContents is not null "
+			+ "where v.reviewMainId=?1 and v.affirmVoteResulted=true and v.commonNameContents is not null "
 			+ "order by v.drugForm.commonNameContents.common.drugCategory asc,v.selected desc, v.passSum desc, v.adjusted asc, v.drugForm.commonNameContents.common.commonName asc, drugForm.commonNameContents.pill asc, v.id desc")
-	List<VoteResult> findVoteResultLast(Long reviewMainId);
+	List<VoteResult> findAllVoteResultLast(Long reviewMainId);
+	
+	@Query("from VoteResult v "
+			+ "where v.reviewMainId=?1 and v.affirmVoteResulted=true and v.selected=true and v.commonNameContents is not null "
+			+ "order by v.drugForm.commonNameContents.common.drugCategory asc,v.selected desc, v.passSum desc, v.adjusted asc, v.drugForm.commonNameContents.common.commonName asc, drugForm.commonNameContents.pill asc, v.id desc")
+	List<VoteResult> findSelectedVoteResultLast(Long reviewMainId);
 }

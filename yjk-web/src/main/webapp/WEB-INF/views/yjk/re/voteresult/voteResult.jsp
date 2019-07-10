@@ -18,6 +18,7 @@
 						formatter:function(val,row){
 							return val ? '是' : '';
 						}">是否入围</th>
+				<c:if test="${!isClose }">
 				<th data-options="field:'adjusted',width:80,
 						formatter:function(val,row){
 							return val ? '是' : '';
@@ -26,6 +27,7 @@
 						formatter:function(val,row){
 							return val ? '是' : '';
 						}">本轮结果</th>
+				</c:if>
 			    <c:forEach items="${currentReviewProcess.displayColumns}" var="displayColumn" varStatus="status">
  					<c:choose>
 	 					<c:when test="${currentReviewProcess.reviewBaseRule.ruleName == acn||currentReviewProcess.reviewBaseRule.ruleName == asap}">
@@ -63,7 +65,7 @@
 	</table>
 	<div id="tb" style="padding:5px;height:auto;">
         <div class="toolbar" style="margin-bottom:2px">
-        	<c:if test="${!isClose }">
+        	<c:if test="${!isClose}">
 			<a id="tb-adjust" href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-forced-open',plain:true">调入</a>
 			<a id="tb-cancel" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-forced-closure'">调出</a>
 			<a id="tb-affirm" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-ok'">本轮确认</a>
@@ -78,10 +80,32 @@
 			</c:if>
 			<a id="tb-print" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-print'">打印</a>
 		</div>
+		<div>
+        	<form id="queryform" style="padding:0;margin:0;">
+        		<table class="formtable">
+              		<tr>
+              			<td width="5%">显示情况</td>
+              			<td width="23%">
+              				<select class="easyui-combobox" name="CUSTOM_show" data-options="editable:false,width:100,panelHeight:'auto'">
+              					<option value="all" selected="selected">全部</option>
+              					<option value="selected">入围</option>
+              				</select>
+              			</td>
+            			<td width="5%"></td>
+              			<td width="23%"></td>
+              			<td width="16%" colspan="2">
+            				<a id="tb-query" href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="$.ewcms.query();">查询</a>
+           					<a id="tb-clear" href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-clear'" onclick="javascript:$('#queryform').form('reset');">清除</a>
+           				</td>
+           			</tr>
+           		</table>
+          	</form>
+    	</div>
+		
 	</div>
 <ewcms:footer/>
 <script type="text/javascript">
-	var caption = '所有用户在 ${currentReviewProcess.reviewBaseRule.ruleCnName} 中投票结果统计';
+	var caption = <c:choose><c:when test="${!isClose}">'所有用户在 ${currentReviewProcess.reviewBaseRule.ruleCnName} 中投票结果统计'</c:when><c:otherwise>'最终入围结果统计'</c:otherwise></c:choose>;
 	$(function(){
 		$('#tt').datagrid({
 			url:'${ctx}/yjk/re/voteresult/queryVoteResult',
@@ -226,11 +250,11 @@
 </c:when>
 <c:otherwise>
 <ewcms:head title="评审监控 - 投票结果"/>
-			<div id="edit-from" class="easyui-layout" data-options="fit:true" style="border:0;">
-				<div data-options="region:'center',fit:true" style="border:0;">	
-					<h1 class="title">本轮投票还未完成，还不能生成投票结果！</h1>
-				</div>
-			</div>
-		<ewcms:footer/>
+	<div id="edit-from" class="easyui-layout" data-options="fit:true" style="border:0;">
+		<div data-options="region:'center',fit:true" style="border:0;">	
+			<h1 class="title">本轮投票还未完成，还不能生成投票结果！</h1>
+		</div>
+	</div>
+<ewcms:footer/>
 </c:otherwise>
 </c:choose>

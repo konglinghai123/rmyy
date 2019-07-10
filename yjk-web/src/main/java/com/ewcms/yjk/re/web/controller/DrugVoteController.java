@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ewcms.common.entity.search.SearchParameter;
+import com.ewcms.common.utils.EmptyUtil;
 import com.ewcms.common.web.controller.BaseController;
 import com.ewcms.yjk.YjkConstants;
 import com.ewcms.yjk.re.entity.ReviewMain;
@@ -22,6 +23,7 @@ import com.ewcms.yjk.re.entity.VoteRecord;
 import com.ewcms.yjk.re.entity.VoteResult;
 import com.ewcms.yjk.re.model.VoteMonitor;
 import com.ewcms.yjk.re.service.ReviewMainService;
+import com.ewcms.yjk.re.service.ReviewProcessService;
 import com.ewcms.yjk.re.service.VoteRecordService;
 import com.ewcms.yjk.re.service.VoteResultService;
 import com.google.common.collect.Lists;
@@ -35,24 +37,26 @@ public class DrugVoteController extends BaseController<VoteRecord, Long>{
 	@Autowired
 	private ReviewMainService reviewMainService;
 	@Autowired
+	private ReviewProcessService reviewProcessService;
+	@Autowired
 	private VoteRecordService voteRecordService;
 	@Autowired
 	private VoteResultService voteResultService;
 	
 	@RequestMapping(value = "index")
 	public String index(Model model) {
-		Boolean isOpenReview = false;
+		Boolean istbEnable = false;
 		
 		ReviewMain reviewMain =  reviewMainService.findByEnabledTrue();
 		if (reviewMain != null) {
-			isOpenReview = true;
+			istbEnable = true;
 			model.addAttribute("reviewProcessesList", reviewMain.getReviewProcesses());
 		}
 		
 		List<ReviewMain> reviewMainList = reviewMainService.findAll();
 		model.addAttribute("reviewMainList", reviewMainList);
 		
-		model.addAttribute("istbEnable", isOpenReview);
+		model.addAttribute("istbEnable", istbEnable);
 		
 		return viewName("index");
 	}
@@ -75,7 +79,7 @@ public class DrugVoteController extends BaseController<VoteRecord, Long>{
 		model.addAttribute("reviewMainId", reviewMainId);
 		return viewName("record");
 	}
-
+	
 	@RequestMapping(value = "{reviewProcessId}/queryVoteResult")
 	@ResponseBody
 	public Map<String, Object> queryVoteResult(@PathVariable(value = "reviewProcessId") Long reviewProcessId, @RequestParam(value = "reviewMainId", required = false) Long reviewMainId, @ModelAttribute SearchParameter<Long> searchParameter) {
@@ -91,6 +95,65 @@ public class DrugVoteController extends BaseController<VoteRecord, Long>{
 		map.put("rows", voteResults);
 		return map;
 	}
+	
+	@RequestMapping(value = "last")
+	public String last(@RequestParam(value = "reviewMainId", required = false) Long reviewMainId, Model model) {
+		ReviewMain reviewMain = reviewMainService.findByEnabledTrue();
+		if (reviewMain != null) {
+			reviewMainId = reviewMain.getId();
+		} else {
+			reviewMain = reviewMainService.findOne(reviewMainId);
+		}
+		
+		Boolean isLast = false;
+		if (reviewMain != null) {
+			model.addAttribute("reviewMainId", reviewMainId);
+			
+			ReviewProcess reviewProcess = reviewProcessService.findCurrentReviewProcess(reviewMainId);
+			if (reviewProcess == null && EmptyUtil.isCollectionNotEmpty(reviewMain.getReviewProcesses())) {
+				isLast = true;
+				
+				reviewProcess = reviewMain.getReviewProcesses().get(reviewMain.getReviewProcesses().size() - 1);
+				
+				model.addAttribute("currentReviewProcess", reviewProcess);
+			}
+		}
+		model.addAttribute("isLast", isLast);
+		
+		return viewName("last");
+	}
+
+	@RequestMapping(value = "queryLastVoteResult")
+	@ResponseBody
+	public Map<String, Object> queryLastVoteResult(@RequestParam(value = "reviewMainId", required = false) Long reviewMainId, @ModelAttribute SearchParameter<Long> searchParameter) {
+		Map<String, Object> map = Maps.newHashMap();
+		
+		ReviewMain reviewMain = reviewMainService.findByEnabledTrue();
+		if (reviewMain != null) {
+			reviewMainId = reviewMain.getId();
+		} else {
+			reviewMain = reviewMainService.findOne(reviewMainId);
+		}
+		
+		if (reviewMain == null) return map;
+		
+		ReviewProcess reviewProcess = reviewProcessService.findCurrentReviewProcess(reviewMainId);
+		List<ReviewProcess> reviewProcesses = reviewMain.getReviewProcesses();
+		if (reviewProcess == null && EmptyUtil.isCollectionNotEmpty(reviewProcesses)) {
+			String customShow = (String) searchParameter.getParameters().get("CUSTOM_show");
+			List<VoteResult> voteResults = Lists.newArrayList();
+			if (EmptyUtil.isStringEmpty(customShow) || customShow.equals("all")) {
+				voteResults = voteResultService.findAllVoteResultLast(reviewMainId);
+			} else {
+				voteResults = voteResultService.findSelectedVoteResultLast(reviewMainId);
+			}
+			map.put("total", voteResults.size());
+			map.put("rows", voteResults);
+		}
+		
+		return map;
+	}
+
 	
 	@RequestMapping(value = "{reviewProcessId}/{voteResultId}/user")
 	public String user(@PathVariable(value = "reviewProcessId") Long reviewProcessId, @PathVariable(value = "voteResultId")Long voteResultId, @RequestParam(value = "reviewMainId", required = false) Long reviewMainId, Model model) {

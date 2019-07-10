@@ -250,7 +250,11 @@ public class VoteResultService extends BaseService<VoteResult, Long> {
 		return getVoteResultRepository().countByReviewMainIdAndReviewProcessIdAndDrugFormCommonNameContentsCommonDrugCategoryAndSelectedTrueAndAffirmVoteResultedTrue(reviewMainId, reviewProcessId, drugCategoryEnum);
 	}
 	
-	public List<VoteResult> findVoteResultLast(Long reviewMainId){
-		return getVoteResultRepository().findVoteResultLast(reviewMainId);
+	public List<VoteResult> findAllVoteResultLast(Long reviewMainId){
+		return getVoteResultRepository().findAllVoteResultLast(reviewMainId);
+	}
+	
+	public List<VoteResult> findSelectedVoteResultLast(Long reviewMainId){
+		return getVoteResultRepository().findSelectedVoteResultLast(reviewMainId);
 	}
 }
