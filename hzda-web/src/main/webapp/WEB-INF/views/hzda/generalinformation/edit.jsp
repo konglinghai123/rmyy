@@ -115,7 +115,16 @@
 					editable:false,
 					onSelect:function(record){
 						$('#nationName').val(record.name);
-					}
+					},
+                    onLoadSuccess:function(data){
+                        //默认选中第一个
+                        var array=$(this).combobox("getData");
+                        for(var item in array[0]){
+                            if(item=="id"){
+                                $(this).combobox('select',array[0][item]);
+                            }
+                        }
+                    }
 				});
 				$('#certificateTypeId').combobox({
 					panelWidth:150,
@@ -127,7 +136,16 @@
 					editable:false,
 					onSelect:function(record){
 						$('#certificateTypeName').val(record.name);
-					}
+					},
+                    onLoadSuccess:function(data){
+                        //默认选中第一个
+                        var array=$(this).combobox("getData");
+                        for(var item in array[0]){
+                            if(item=="id"){
+                                $(this).combobox('select',array[0][item]);
+                            }
+                        }
+                    }
 				});
 				
 				var validationEngine = $("#editForm").validationEngine({
