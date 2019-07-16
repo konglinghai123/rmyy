@@ -36,7 +36,7 @@ public class PasswordService {
 
     @PostConstruct
     public void init() {
-        loginRecordCache = ehcacheManager.getCache("loginRecordCache");
+        loginRecordCache = ehcacheManager.getCache("hzda-loginRecordCache");
     }
 
     public void validate(User user, String password) {

@@ -20,7 +20,7 @@ import com.ewcms.security.user.entity.User;
 public class UserCacheAspect extends BaseCacheAspect {
 
     public UserCacheAspect() {
-        setCacheName("ewcms-userCache");
+        setCacheName("hzda-userCache");
     }
 
     private String idKeyPrefix = "id-";

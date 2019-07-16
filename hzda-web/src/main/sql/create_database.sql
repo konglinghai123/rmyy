@@ -1,6 +1,6 @@
--- Database: yjk
+-- Database: hzda
 
--- DROP DATABASE yjk;
+-- DROP DATABASE hzda;
 
 CREATE DATABASE hzda
   WITH OWNER = postgres

@@ -120,7 +120,7 @@
 			editable:false,
 			onChange:onChangeTheme,
 			onLoadSuccess:function(){
-				var theme = $.cookie('theme');
+				var theme = $.cookie('yjk-theme');
 				if (theme == null) theme = 'default';
 				$(this).combobox('setValue', theme);
 			}
@@ -219,7 +219,7 @@
 	}
 	
 	function onChangeTheme(theme){
-    	$.cookie('theme', theme);
+    	$.cookie('yjk-theme', theme);
 		var link = $('head').find('link:first');
 		link.attr('href', '${ctx}/static/easyui/themes/'+theme+'/easyui.css');
 		try{
