@@ -1,6 +1,5 @@
 package com.ewcms.common.web.utils;
 
-
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -62,13 +61,20 @@ public class DownloadUtils {
             response.setHeader("Content-Disposition", "attachment;filename=" + displayFilename);
         }
         
-        ServletOutputStream out = response.getOutputStream();
-        IOUtils.copy(new FileInputStream(file), out);
-        try {
+        //Java7 新特性 try-with-resources语句
+        try (ServletOutputStream out = response.getOutputStream();){
+        	IOUtils.copy(new FileInputStream(file), out);
         	out.flush();
-        } finally {
-            IOUtils.closeQuietly(out);
         }
+        
+//    	//Java6以前的写法
+//        ServletOutputStream out = response.getOutputStream();
+//        IOUtils.copy(new FileInputStream(file), out);
+//        try {
+//        	out.flush();
+//        } finally {
+//            IOUtils.closeQuietly(out);
+//        }
     }
 
 
@@ -101,13 +107,19 @@ public class DownloadUtils {
             displayFilename = new String(displayFilename.getBytes("UTF-8"), "ISO8859-1");
             response.setHeader("Content-Disposition", "attachment;filename=" + displayFilename);
         }
-        
-        ServletOutputStream out = response.getOutputStream();
-        IOUtils.copy(new ByteArrayInputStream(bytes), out);
-        try {
+        //Java7 新特性 try-with-resources语句
+        try (ServletOutputStream out = response.getOutputStream();){
+        	IOUtils.copy(new ByteArrayInputStream(bytes), out);
         	out.flush();
-        } finally {
-            IOUtils.closeQuietly(out);
         }
+        
+//    	//Java6以前的写法
+//        ServletOutputStream out = response.getOutputStream();
+//        IOUtils.copy(new ByteArrayInputStream(bytes), out);
+//        try {
+//        	out.flush();
+//        } finally {
+//            IOUtils.closeQuietly(out);
+//        }
     }
 }

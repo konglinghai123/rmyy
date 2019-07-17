@@ -13,7 +13,6 @@ import java.io.Writer;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.io.IOUtils;
 import org.mozilla.javascript.ErrorReporter;
 import org.mozilla.javascript.EvaluatorException;
 
@@ -44,12 +43,8 @@ public class YuiCompressorUtils {
 		} else {
 			throw new RuntimeException("file type only is css/js, but was fileName : " + fileName + ", extension : " + extension);
 		}
-		Reader in = null;
-		Writer out = null;
-		try{
-			in = new BufferedReader(new InputStreamReader(new FileInputStream(fileName), Constants.ENCODING));
-			out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(minFileName), Constants.ENCODING));
-			
+    	//Java7 新特性 try-with-resources语句
+		try (Reader in = new BufferedReader(new InputStreamReader(new FileInputStream(fileName), Constants.ENCODING));Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(minFileName), Constants.ENCODING));){
 			if ("js".equals(extension)){
 				CustomErrorReporter errorReporter = new CustomErrorReporter();
 				
@@ -63,7 +58,7 @@ public class YuiCompressorUtils {
 				CssCompressor compressor = new CssCompressor(in);
 				compressor.compress(out, 10);
 			}
-		} catch (Exception e){
+		}catch (Exception e){
 			//如果发生异常， 直接做个副本，防止加载css/jss出错
 			try{
 				FileUtils.copyFile(new File(fileName), new File(minFileName));
@@ -71,10 +66,39 @@ public class YuiCompressorUtils {
 				throw new RuntimeException("compress error : " + e1.getMessage(), e1);
 			}
 			throw new RuntimeException("compress error : " + e.getMessage(), e);
-		} finally{
-			IOUtils.closeQuietly(in);
-			IOUtils.closeQuietly(out);
 		}
+//    	//Java6以前的写法
+//		Reader in = null;
+//		Writer out = null;
+//		try{
+//			in = new BufferedReader(new InputStreamReader(new FileInputStream(fileName), Constants.ENCODING));
+//			out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(minFileName), Constants.ENCODING));
+//			
+//			if ("js".equals(extension)){
+//				CustomErrorReporter errorReporter = new CustomErrorReporter();
+//				
+//				JavaScriptCompressor compressor = new JavaScriptCompressor(in, errorReporter);
+//				compressor.compress(out, 10, true, false, false, false);
+//				
+//				if (errorReporter.hasError()){
+//					throw new RuntimeException(errorReporter.getErrorMessage());
+//				}
+//			} else if ("css".equals(extension)){
+//				CssCompressor compressor = new CssCompressor(in);
+//				compressor.compress(out, 10);
+//			}
+//		} catch (Exception e){
+//			//如果发生异常， 直接做个副本，防止加载css/jss出错
+//			try{
+//				FileUtils.copyFile(new File(fileName), new File(minFileName));
+//			} catch (IOException e1){
+//				throw new RuntimeException("compress error : " + e1.getMessage(), e1);
+//			}
+//			throw new RuntimeException("compress error : " + e.getMessage(), e);
+//		} finally{
+//			IOUtils.closeQuietly(in);
+//			IOUtils.closeQuietly(out);
+//		}
 		
 		if (FileUtils.sizeOf(new File(minFileName)) == 0){
 			try{

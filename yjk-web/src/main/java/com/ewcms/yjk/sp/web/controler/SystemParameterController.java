@@ -7,7 +7,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort.Direction;
@@ -20,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.ewcms.common.Constants;
 import com.ewcms.common.entity.search.SearchHelper;
 import com.ewcms.common.entity.search.SearchOperator;
 import com.ewcms.common.entity.search.SearchParameter;
@@ -245,16 +245,20 @@ public class SystemParameterController extends BaseCRUDController<SystemParamete
 		} catch (Exception e) {
 			String str = "可申报新药人员打印错误，请联系管理员！";
 			response.setHeader("content-type", "text/html;charset=UTF-8");
-			OutputStream os = null;
-			try {
-				os = response.getOutputStream();
-				byte[] b = str.getBytes("utf-8");
-				os.write(b);
+			try (OutputStream os = response.getOutputStream();){
+				os.write(str.getBytes(Constants.ENCODING));
 				os.flush();
-			} catch (IOException ex) {
-			} finally {
-				IOUtils.closeQuietly(os);
-			}
+			}catch (IOException ex) {}
+//			OutputStream os = null;
+//			try {
+//				os = response.getOutputStream();
+//				byte[] b = str.getBytes("utf-8");
+//				os.write(b);
+//				os.flush();
+//			} catch (IOException ex) {
+//			} finally {
+//				IOUtils.closeQuietly(os);
+//			}
 		}
 	}
 }

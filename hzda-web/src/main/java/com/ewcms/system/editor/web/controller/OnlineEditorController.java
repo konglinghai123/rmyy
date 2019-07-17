@@ -143,7 +143,7 @@ public class OnlineEditorController extends BaseController {
 			return redirectToUrl(viewName("index"));
 		}
 		
-		String content = FileUtils.readFileToString(file);
+		String content = FileUtils.readFileToString(file, Constants.ENCODING);
 		
 		model.addAttribute("content", content);
 		model.addAttribute("path", URLEncoder.encode(path, Constants.ENCODING));
@@ -158,7 +158,7 @@ public class OnlineEditorController extends BaseController {
 		path = URLDecoder.decode(path, Constants.ENCODING);
 		File file = new File(rootPath + File.separator + path);
 		
-		FileUtils.write(file, content);
+		FileUtils.write(file, content, Constants.ENCODING);
 		
 		redirectAttributes.addFlashAttribute(Constants.MESSAGE, "编辑成功！");
 		

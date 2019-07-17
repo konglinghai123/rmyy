@@ -34,6 +34,7 @@ import com.google.common.collect.Maps;
  * @author wu_zhijun
  *
  */
+@SuppressWarnings("rawtypes")
 @Controller
 @RequestMapping(value = "/monitor/ehcache")
 @RequiresPermissions("monitor:ehcache:*")
@@ -103,7 +104,7 @@ public class EhcacheMonitorController extends BaseController{
 	@RequestMapping(value = "{cacheName}/detail/query")
 	@ResponseBody
 	public Map<String, Object> detailQuery(@PathVariable(value = "cacheName") String cacheName, @ModelAttribute SearchParameter<String> searchParameter){
-		List keys = cacheManager.getCache(cacheName).getKeys();
+		List<?> keys = cacheManager.getCache(cacheName).getKeys();
 		
 		String searchKey = (String) searchParameter.getParameters().get("CUSTOM_key");
 		if (EmptyUtil.isStringEmpty(searchKey)) searchKey = "";

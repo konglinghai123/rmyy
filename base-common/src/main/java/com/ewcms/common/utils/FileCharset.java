@@ -1,7 +1,5 @@
 package com.ewcms.common.utils;
 
-import org.apache.commons.io.IOUtils;
-
 import java.io.*;
 
 /**
@@ -27,15 +25,24 @@ public class FileCharset {
      * @return
      */
     public static String getCharset(File file) {
-        InputStream is = null;
-        try {
-            is = new FileInputStream(file);
-            return getCharset(new BufferedInputStream(is));
-        } catch (FileNotFoundException e) {
-            return DEFAULT_CHARSET;
-        } finally {
-            IOUtils.closeQuietly(is);
-        }
+    	//Java7 新特性 try-with-resources语句
+    	try (InputStream is = new FileInputStream(file);){
+    		 return getCharset(new BufferedInputStream(is));
+    	} catch (FileNotFoundException e) {
+    		return DEFAULT_CHARSET;
+    	} catch (IOException e1) {
+    		return DEFAULT_CHARSET;
+		}
+//    	//Java6以前的写法
+//        InputStream is = null;
+//        try {
+//            is = new FileInputStream(file);
+//            return getCharset(new BufferedInputStream(is));
+//        } catch (FileNotFoundException e) {
+//            return DEFAULT_CHARSET;
+//        } finally {
+//            IOUtils.closeQuietly(is);
+//        }
     }
     public static String getCharset(final BufferedInputStream is) {
         String charset = DEFAULT_CHARSET;

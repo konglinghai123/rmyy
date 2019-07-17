@@ -2,7 +2,6 @@ package com.ewcms.system.report.service;
 
 import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
-import java.io.OutputStream;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedHashSet;
@@ -200,20 +199,28 @@ public class ChartReportService extends BaseService<ChartReport, Long>{
 	
 	public void buildChart(Map<String, String> paramMap, Long reportId, HttpServletResponse response) {
         response.setContentType("image/png");
+        ChartReport chart = findOne(reportId);
         
-        BufferedInputStream is = null;
-        OutputStream os = null;
-        try {
-        	ChartReport chart = findOne(reportId);
-        	os = response.getOutputStream();
-            is = new BufferedInputStream(new ByteArrayInputStream(chartFactory.export(chart, paramMap)));
-            IOUtils.copy(is, os);
-            os.flush();
-        } catch (Exception e) {
-        } finally {
-            IOUtils.closeQuietly(is);
-            IOUtils.closeQuietly(os);
+	   	//Java7 新特性 try-with-resources语句
+        try (BufferedInputStream is = new BufferedInputStream(new ByteArrayInputStream(chartFactory.export(chart, paramMap)));){
+        	IOUtils.copy(is, response.getOutputStream());
+        }catch (Exception e) {
         }
+        
+//    	//Java6以前的写法
+//        BufferedInputStream is = null;
+//        OutputStream os = null;
+//        try {
+//        	ChartReport chart = findOne(reportId);
+//        	os = response.getOutputStream();
+//            is = new BufferedInputStream(new ByteArrayInputStream(chartFactory.export(chart, paramMap)));
+//            IOUtils.copy(is, os);
+//            os.flush();
+//        } catch (Exception e) {
+//        } finally {
+//            IOUtils.closeQuietly(is);
+//            IOUtils.closeQuietly(os);
+//        }
 	}
 
 }

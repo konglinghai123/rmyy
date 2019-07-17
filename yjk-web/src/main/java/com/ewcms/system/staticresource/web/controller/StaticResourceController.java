@@ -11,8 +11,8 @@ import java.util.regex.Pattern;
 import javax.servlet.ServletContext;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.text.StringEscapeUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.ewcms.common.Constants;
 import com.ewcms.common.utils.FileExtension;
 import com.ewcms.common.web.controller.BaseController;
 import com.ewcms.common.web.controller.entity.TreeNode;
@@ -196,7 +197,7 @@ public class StaticResourceController extends BaseController{
 		
 		content = StringEscapeUtils.unescapeXml(content);
 		File file = new File(versionedResourceRealPath + fileName);
-		List<String> contents = FileUtils.readLines(file);
+		List<String> contents = FileUtils.readLines(file, Constants.ENCODING);
 		for (int i = 0, k = contents.size(); i < k; i++){
 			String fileContent = contents.get(i);
 			if (content.equals(fileContent)){
@@ -237,7 +238,7 @@ public class StaticResourceController extends BaseController{
 		}
 		
 		File file = new File(fileRealPath);
-		List<String> contents = FileUtils.readLines(file);
+		List<String> contents = FileUtils.readLines(file, Constants.ENCODING);
 		
 		for (int i = 0, k = contents.size(); i < k; i++){
 			String fileContent = contents.get(i);
@@ -273,7 +274,7 @@ public class StaticResourceController extends BaseController{
 			rootNode.setText(fileName.substring(1));
 			rootNode.setState("open");
 			
-			List<String> contents = FileUtils.readLines(file);
+			List<String> contents = FileUtils.readLines(file, Constants.ENCODING);
 			List<TreeNode<String>> childrenNodes = Lists.newArrayList();
 			
 			for (String content : contents){

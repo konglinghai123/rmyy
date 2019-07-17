@@ -42,6 +42,7 @@ import com.google.common.collect.Maps;
  * @author wu_zhijun
  *
  */
+@SuppressWarnings("rawtypes")
 @Controller
 @RequestMapping(value = "/monitor/db")
 @RequiresPermissions("monitor:ql:*")
@@ -66,6 +67,7 @@ public class SQLExecutorController extends BaseController{
 		return JSON.toJSONString(getColumnNames(sql, true), true);
 	}
 		
+	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "sqlQuery")
 	@ResponseBody
 	public Map<String, Object> executeQL(final @RequestParam(value = "sql") String sql, final @ModelAttribute SearchParameter<Object> searchParameter){

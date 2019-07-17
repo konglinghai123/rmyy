@@ -9,7 +9,6 @@ import java.util.Map.Entry;
 
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.io.IOUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.dom4j.Element;
@@ -25,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.ewcms.common.Constants;
 import com.ewcms.common.entity.search.SearchParameter;
 import com.ewcms.common.utils.XMLUtil;
 import com.ewcms.extra.push.PushService;
@@ -170,16 +170,22 @@ public class HomeController {
 		} catch (Exception e) {
 			String str = "各部门填报情况打印错误，请联系管理员！";
 			response.setHeader("content-type", "text/html;charset=UTF-8");
-			OutputStream os = null;
-			try {
-				os = response.getOutputStream();
-				byte[] b = str.getBytes("utf-8");
-				os.write(b);
+			
+			try (OutputStream os = response.getOutputStream();){
+				os.write(str.getBytes(Constants.ENCODING));
 				os.flush();
-			} catch (IOException ex) {
-			} finally {
-				IOUtils.closeQuietly(os);
-			}
+			}catch (IOException ex) {}
+			
+//			OutputStream os = null;
+//			try {
+//				os = response.getOutputStream();
+//				byte[] b = str.getBytes("utf-8");
+//				os.write(b);
+//				os.flush();
+//			} catch (IOException ex) {
+//			} finally {
+//				IOUtils.closeQuietly(os);
+//			}
 		}
 	}
 

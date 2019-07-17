@@ -63,8 +63,8 @@
               		<tr>
               			<td width="5%">显示情况</td>
               			<td width="23%">
-              				<select name="CUSTOM_show" data-options="editable:false,width:100,panelHeight:'auto'">
-              					<option value="all" selected="selected">全部</option>
+              				<select name="CUSTOM_show" class="easyui-combobox" data-options="editable:false,width:100,panelHeight:'auto'">
+              					<option value="all">全部</option>
               					<option value="selected">入围</option>
               				</select>
               			</td>
@@ -99,7 +99,6 @@
 					}else{
 						return 'background-color:#C4E1FF;color:#000000;';
 					}
-	    			
 	        	}
 	    	}
 		});

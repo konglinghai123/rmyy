@@ -36,6 +36,7 @@ import com.ewcms.common.web.controller.BaseController;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
+@SuppressWarnings("rawtypes")
 @Controller
 @RequestMapping(value = "/monitor/db")
 @RequiresPermissions("monitor:ql:*")
@@ -55,6 +56,7 @@ public class JPAQLExecutorController extends BaseController{
 		return viewName("jpaql");
 	}
 	
+	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "jpaqlQuery")
 	@ResponseBody
 	public Map<String, Object> executeQL(final @RequestParam(value = "jpaql") String jpaql, final @RequestParam(value = "pageNumber", defaultValue = "1") Integer pageNumber, final @RequestParam(value = "pageSize", defaultValue="30") Integer pageSize){

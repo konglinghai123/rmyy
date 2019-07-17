@@ -27,6 +27,11 @@
 		</c:if>
 		<div data-options="region:'center',border:false">
 			 <div id="tab-voterecord" class="easyui-tabs" data-options="fit:true,tabPosition:'top',border:true,headerWidth:120">
+			 	<c:if test="${istbEnable}">
+				<div title="最终结果" data-options="" style="padding:2px;overflow:hidden;">
+					<iframe id="ifr-last" name="ifr-last" class="editifr" src="${ctx}/yjk/re/drugvote/last"></iframe>
+				</div>
+				</c:if>
 			 	<c:forEach items="${reviewProcessesList}" var="reviewProcess" varStatus="status">
 				<div title="${reviewProcess.reviewBaseRule.ruleCnName}" data-options="tools:'#ptools-${reviewProcess.id}'" style="padding:2px;overflow:hidden;">
 					<iframe id="ifr-${reviewProcess.id}" name="ifr-${reviewProcess.id}" class="editifr" src="${ctx}/yjk/re/drugvote/${reviewProcess.id}/record"></iframe>
@@ -36,15 +41,6 @@
 					</div>
 				</div>
 				</c:forEach>
-				<c:if test="${istbEnable}">
-				<div title="最终结果" data-options="tools:'#ptools-last'" style="padding:2px;overflow:hidden;">
-					<iframe id="ifr-last" name="ifr-last" class="editifr" src="${ctx}/yjk/re/drugvote/last"></iframe>
-					<div id="ptools-last">
-						<a href="javascript:void(0)" class="icon-reload" onclick="$('#ifr-last')[0].contentWindow.$('#tt').datagrid('reload');"></a>
-						<a href="javascript:void(0)" class="icon-print" onclick="$('#ifr-last')[0].contentWindow.print();"></a>
-					</div>
-				</div>
-				</c:if>
 			</div>
 		</div>
 	</div>
@@ -61,12 +57,12 @@
 				 dataType : 'json',
 				 success:function(data) {
 					 tabsClose();
+					 $.ewcms.openTab({id:'#tab-voterecord',title:'最终结果',src:'${ctx}/yjk/re/drugvote/last?reviewMainId=' + $('#reviewMainId').val(),closable:false});
 					 $.map(data, function(row){
 						 var src = '${ctx}/yjk/re/drugvote/' + row['id'] + '/record?reviewMainId=' + $('#reviewMainId').val();
 						 var title = row['reviewBaseRule'].ruleCnName;
 						 $.ewcms.openTab({id:'#tab-voterecord',title:title,src:src,closable:false});
 					 });
-					 $.ewcms.openTab({id:'#tab-voterecord',title:'最终结果',src:'${ctx}/yjk/re/drugvote/last?reviewMainId=' + $('#reviewMainId').val(),closable:false});
 					 tabsSelect();
 				 }
 			});

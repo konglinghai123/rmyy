@@ -34,20 +34,32 @@ public class CompressUtils {
 			files.add(needCompressFile);
 		}
 		try{
-			ZipArchiveOutputStream zaos = null;
-			try{
-				zaos = new ZipArchiveOutputStream(compressFile);
+	    	//Java7 新特性 try-with-resources语句
+			try (ZipArchiveOutputStream zaos = new ZipArchiveOutputStream(compressFile);){
 				zaos.setUseZip64(Zip64Mode.AsNeeded);
 				zaos.setEncoding("GBK");
 				
 				for (File file : files){
 					addFilesToCompression(zaos, file, "");
 				}
-			} catch (IOException e){
+			}catch (IOException e){
 				throw e;
-			} finally {
-				IOUtils.closeQuietly(zaos);
 			}
+//	    	//Java6以前的写法
+//			ZipArchiveOutputStream zaos = null;
+//			try{
+//				zaos = new ZipArchiveOutputStream(compressFile);
+//				zaos.setUseZip64(Zip64Mode.AsNeeded);
+//				zaos.setEncoding("GBK");
+//				
+//				for (File file : files){
+//					addFilesToCompression(zaos, file, "");
+//				}
+//			} catch (IOException e){
+//				throw e;
+//			} finally {
+//				IOUtils.closeQuietly(zaos);
+//			}
 		} catch (Exception e){
 			FileUtils.deleteQuietly(compressFile);
 			throw new RuntimeException("压缩失败", e);
@@ -59,16 +71,25 @@ public class CompressUtils {
 		zaos.putArchiveEntry(zipArchiveEntry);
 		
 		if (file.isFile()){
-			BufferedInputStream bis = null;
-			try{
-				bis = new BufferedInputStream(new FileInputStream(file));
+	    	//Java7 新特性 try-with-resources语句
+			try (BufferedInputStream bis = new BufferedInputStream(new FileInputStream(file));){
 				IOUtils.copy(bis, zaos);
 				zaos.closeArchiveEntry();
 			} catch (IOException e){
 				throw e;
-			} finally {
-				IOUtils.closeQuietly(bis);
 			}
+			
+//	    	//Java6以前的写法
+//			BufferedInputStream bis = null;
+//			try{
+//				bis = new BufferedInputStream(new FileInputStream(file));
+//				IOUtils.copy(bis, zaos);
+//				zaos.closeArchiveEntry();
+//			} catch (IOException e){
+//				throw e;
+//			} finally {
+//				IOUtils.closeQuietly(bis);
+//			}
 		} else if (file.isDirectory()){
 			zaos.closeArchiveEntry();
 			for (File childFile : file.listFiles()){
@@ -90,10 +111,8 @@ public class CompressUtils {
 	}
 	
 	private static void unzipFolder(File uncompressFile, File descPathFile, boolean override){
-		ZipFile zipFile = null;
-		try{
-			zipFile = new ZipFile(uncompressFile, "GBK");
-			
+		//Java7 新特性 try-with-resources语句
+		try (ZipFile zipFile = new ZipFile(uncompressFile, "GBK");){
 			Enumeration<ZipArchiveEntry> entries = zipFile.getEntries();
 			while (entries.hasMoreElements()){
 				ZipArchiveEntry zipEntry = entries.nextElement();
@@ -111,25 +130,58 @@ public class CompressUtils {
 				} else {
 					currentFile.getParentFile().mkdirs();
 				}
-				
-				FileOutputStream fos = null;
-				try{
-					fos = new FileOutputStream(currentFile);
+				try (
+					FileOutputStream fos = new FileOutputStream(currentFile);
 					InputStream is = zipFile.getInputStream(zipEntry);
+				){
 					IOUtils.copy(is, fos);
-				} finally {
-					IOUtils.closeQuietly(fos);
 				}
 			}
 		} catch (IOException e){
 			throw new RuntimeException("解压缩失败", e);
-		} finally {
-			if (zipFile != null){
-				try{
-					zipFile.close();
-				} catch (IOException e){
-				}
-			}
 		}
+		
+//    	//Java6以前的写法
+//		ZipFile zipFile = null;
+//		try{
+//			zipFile = new ZipFile(uncompressFile, "GBK");
+//			
+//			Enumeration<ZipArchiveEntry> entries = zipFile.getEntries();
+//			while (entries.hasMoreElements()){
+//				ZipArchiveEntry zipEntry = entries.nextElement();
+//				String name = zipEntry.getName();
+//				name = name.replace("\\", "/");
+//				
+//				File currentFile = new File(descPathFile, name);
+//				
+//				//非覆盖，跳过
+//				if (currentFile.isFile() && currentFile.exists() && !override) continue;
+//				
+//				if (name.endsWith("/")){
+//					currentFile.mkdirs();
+//					continue;
+//				} else {
+//					currentFile.getParentFile().mkdirs();
+//				}
+//	
+//				FileOutputStream fos = null;
+//				try{
+//					fos = new FileOutputStream(currentFile);
+//					InputStream is = zipFile.getInputStream(zipEntry);
+//					IOUtils.copy(is, fos);
+//				} finally {
+//					IOUtils.closeQuietly(fos);
+//				}
+//			}
+//		} catch (IOException e){
+//			throw new RuntimeException("解压缩失败", e);
+//		} finally {
+//			if (zipFile != null){
+//				try{
+//					zipFile.close();
+//				} catch (IOException e){
+//				}
+//			}
+//		}
 	}
 }

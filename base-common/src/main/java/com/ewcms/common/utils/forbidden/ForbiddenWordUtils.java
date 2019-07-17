@@ -92,19 +92,28 @@ public class ForbiddenWordUtils {
 
 
     static {
-        InputStream is = null;
-        try {
-            String fileName = "forbidden.txt";
-            is = ForbiddenWordUtils.class.getResourceAsStream(fileName);
-            byte[] fileCBytes;
+    	//Java7 新特性 try-with-resources语句
+    	String fileName = "forbidden.txt";
+    	try (InputStream is = ForbiddenWordUtils.class.getResourceAsStream(fileName);){
+    		byte[] fileCBytes;
             fileCBytes = IOUtils.toByteArray(is);
             ForbiddenWordUtils.loadForbiddenWords(fileCBytes);
-        } catch (IOException e) {
-            LOGGER.error("read forbidden file failed", e);
-        } finally {
-            IOUtils.closeQuietly(is);
-        }
-
+    	} catch (IOException e) {
+    		LOGGER.error("read forbidden file failed", e);
+    	}
+//    	//Java6以前的写法
+//        InputStream is = null;
+//        try {
+//            String fileName = "forbidden.txt";
+//            is = ForbiddenWordUtils.class.getResourceAsStream(fileName);
+//            byte[] fileCBytes;
+//            fileCBytes = IOUtils.toByteArray(is);
+//            ForbiddenWordUtils.loadForbiddenWords(fileCBytes);
+//        } catch (IOException e) {
+//            LOGGER.error("read forbidden file failed", e);
+//        } finally {
+//            IOUtils.closeQuietly(is);
+//        }
     }
 
     /**
@@ -122,10 +131,9 @@ public class ForbiddenWordUtils {
     }
 
     private static void loadForbiddenWords(byte[] fileCBytes) throws IOException {
-        Reader reader = null;
-        try {
-            reader = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(fileCBytes), Constants.ENCODING));
-            List<String> forbiddenWordsStrList = IOUtils.readLines(reader);
+    	//Java7 新特性 try-with-resources语句
+    	try (Reader reader = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(fileCBytes), Constants.ENCODING));){
+    		List<String> forbiddenWordsStrList = IOUtils.readLines(reader);
             forbiddenWords = Lists.newArrayList();
             for (int i = forbiddenWordsStrList.size() - 1; i >= 0; i--) {
                 String forbiddenWord = forbiddenWordsStrList.get(i).trim();
@@ -135,11 +143,29 @@ public class ForbiddenWordUtils {
                     forbiddenWords.add(Pattern.compile(forbiddenWord));
                 }
             }
-        } catch (Exception e) {
-            LOGGER.error("load forbidden words failed", e);
-        } finally {
-            IOUtils.closeQuietly(reader);
-        }
+    	} catch (Exception e) {
+    		LOGGER.error("load forbidden words failed", e);
+    	}
+    	
+//    	//Java6以前的写法
+//        Reader reader = null;
+//        try {
+//            reader = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(fileCBytes), Constants.ENCODING));
+//            List<String> forbiddenWordsStrList = IOUtils.readLines(reader);
+//            forbiddenWords = Lists.newArrayList();
+//            for (int i = forbiddenWordsStrList.size() - 1; i >= 0; i--) {
+//                String forbiddenWord = forbiddenWordsStrList.get(i).trim();
+//                if (forbiddenWord.length() == 0 || forbiddenWord.startsWith("#")) {
+//                    continue;
+//                } else {
+//                    forbiddenWords.add(Pattern.compile(forbiddenWord));
+//                }
+//            }
+//        } catch (Exception e) {
+//            LOGGER.error("load forbidden words failed", e);
+//        } finally {
+//            IOUtils.closeQuietly(reader);
+//        }
     }
 
 }

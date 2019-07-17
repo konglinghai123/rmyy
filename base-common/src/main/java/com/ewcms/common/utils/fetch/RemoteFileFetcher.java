@@ -23,8 +23,8 @@ public class RemoteFileFetcher {
     private byte[] fileConent;
     private String url;
     private long lastModified;
-	private int connectTimeout;
-	private int readTimeout;
+//	private int connectTimeout;
+//	private int readTimeout;
     private FileChangeListener listener;
 
     private static final ScheduledExecutorService scheduledExecutorService =
@@ -37,8 +37,8 @@ public class RemoteFileFetcher {
 
 
     private RemoteFileFetcher(String url, int reloadInterval, FileChangeListener listener) {
-        this.connectTimeout = 1000;
-        this.readTimeout = 1000;
+//        this.connectTimeout = 1000;
+//        this.readTimeout = 1000;
 
         this.url = url;
         this.listener = listener;

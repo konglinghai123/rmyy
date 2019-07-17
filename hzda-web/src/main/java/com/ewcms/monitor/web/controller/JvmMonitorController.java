@@ -25,6 +25,7 @@ import com.google.common.collect.Maps;
  * @author wu_zhijun
  *
  */
+@SuppressWarnings("rawtypes")
 @Controller
 @RequestMapping(value = "/monitor/jvm")
 @RequiresPermissions("monitor:jvm:*")

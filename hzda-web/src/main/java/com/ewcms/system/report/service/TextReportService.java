@@ -3,7 +3,6 @@ package com.ewcms.system.report.service;
 import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedHashSet;
@@ -224,25 +223,26 @@ public class TextReportService extends BaseService<TextReport, Long>{
 	}
 
 	public void buildText(Map<String, String> paramMap, Long reportId, TextReport.Type textReportTypeMap, HttpServletResponse response) {
-        BufferedInputStream is = null;
-        OutputStream os = null;
-        try {
-        	TextReport report = findOne(reportId);
-        	os = response.getOutputStream();
-            is = new BufferedInputStream(new ByteArrayInputStream(textFactory.export(paramMap, report, textReportTypeMap, response)));
-            IOUtils.copy(is, os);
-            os.flush();
-        } catch (Exception e) {
-        } finally {
-            IOUtils.closeQuietly(is);
-            IOUtils.closeQuietly(os);
-        }
-        
-        //Java 7 以上版本不需要显示地关闭资源
-//		TextReport report = findOne(reportId);
-//        try(BufferedInputStream is = new BufferedInputStream(new ByteArrayInputStream(textFactory.export(paramMap, report, textReportTypeMap, response)))) {
-//        	IOUtils.copy(is, response.getOutputStream());
+	   	//Java7 新特性 try-with-resources语句
+		TextReport report = findOne(reportId);
+		try (BufferedInputStream is = new BufferedInputStream(new ByteArrayInputStream(textFactory.export(paramMap, report, textReportTypeMap, response)));){
+			IOUtils.copy(is, response.getOutputStream());
+		}catch (Exception e) {
+		}
+		
+//    	//Java6以前的写法
+//        BufferedInputStream is = null;
+//        OutputStream os = null;
+//        try {
+//        	TextReport report = findOne(reportId);
+//        	os = response.getOutputStream();
+//            is = new BufferedInputStream(new ByteArrayInputStream(textFactory.export(paramMap, report, textReportTypeMap, response)));
+//            IOUtils.copy(is, os);
+//            os.flush();
 //        } catch (Exception e) {
-//		}
+//        } finally {
+//            IOUtils.closeQuietly(is);
+//            IOUtils.closeQuietly(os);
+//        }        
 	}
 }

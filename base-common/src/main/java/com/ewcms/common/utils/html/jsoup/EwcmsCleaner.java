@@ -94,7 +94,8 @@ public class EwcmsCleaner {
                 }
             } else if (sourceChild instanceof TextNode) {
                 TextNode sourceText = (TextNode) sourceChild;
-                TextNode destText = new TextNode(sourceText.getWholeText(), sourceChild.baseUri());
+                //TextNode destText = new TextNode(sourceText.getWholeText(), sourceChild.baseUri());
+                TextNode destText = new TextNode(sourceText.getWholeText());
                 dest.appendChild(destText);
             } // else, we don't care about comments, xml proc instructions, etc
         }

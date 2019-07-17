@@ -10,7 +10,7 @@
 <!--[if lt IE 9]><script src="${ctx}/static/js/html5.js"></script><![endif]-->
 <script type="text/javascript">
 	try{
-		var theme = $.cookie('theme');
+		var theme = $.cookie('yjk-theme');
 		if (theme == null) theme = 'default';
 		var link = $('head').find('link:first');
 		link.attr('href', '${ctx}/static/easyui/themes/'+theme+'/easyui.css');

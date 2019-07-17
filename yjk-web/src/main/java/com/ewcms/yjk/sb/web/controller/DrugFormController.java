@@ -9,7 +9,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
-import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Controller;
@@ -262,30 +261,38 @@ public class DrugFormController extends BaseCRUDController<DrugForm, Long> {
 	        } else {
 	        	String str = "未提交申报或初审未通过的新药申报是不能打印的！";
 	        	response.setHeader("content-type", "text/html;charset=UTF-8");
-	        	OutputStream os = null;
-	        	try {
-		        	os = response.getOutputStream();
-		        	byte[]b=str.getBytes("utf-8");
-		        	os.write(b);
-		        	os.flush();
-	        	}catch (IOException e) {
-	        	} finally {
-	                 IOUtils.closeQuietly(os);	
-	        	}
+	        	try (OutputStream os = response.getOutputStream();){
+					os.write(str.getBytes(Constants.ENCODING));
+					os.flush();
+				}catch (IOException ex) {}
+//	        	OutputStream os = null;
+//	        	try {
+//		        	os = response.getOutputStream();
+//		        	byte[]b=str.getBytes("utf-8");
+//		        	os.write(b);
+//		        	os.flush();
+//	        	}catch (IOException e) {
+//	        	} finally {
+//	                 IOUtils.closeQuietly(os);	
+//	        	}
 	        }
         }catch (Exception e) {
         	String str = "新药申报打印错误，请联系管理员！";
         	response.setHeader("content-type", "text/html;charset=UTF-8");
-        	OutputStream os = null;
-        	try {
-	        	os = response.getOutputStream();
-	        	byte[]b=str.getBytes("utf-8");
-	        	os.write(b);
-	        	os.flush();
-        	}catch (IOException ex) {
-        	} finally {
-                 IOUtils.closeQuietly(os);	
-        	}
+        	try (OutputStream os = response.getOutputStream();){
+				os.write(str.getBytes(Constants.ENCODING));
+				os.flush();
+			}catch (IOException ex) {}
+//        	OutputStream os = null;
+//        	try {
+//	        	os = response.getOutputStream();
+//	        	byte[]b=str.getBytes("utf-8");
+//	        	os.write(b);
+//	        	os.flush();
+//        	}catch (IOException ex) {
+//        	} finally {
+//                 IOUtils.closeQuietly(os);	
+//        	}
         }
 	}
 }
