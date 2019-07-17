@@ -18,38 +18,174 @@
 						formatter:function(val,row){
 							return val ? '是' : '';
 						}">是否入围</th>
-			    <c:forEach items="${currentReviewProcess.displayColumns}" var="displayColumn" varStatus="status">
- 					<c:choose>
-	 					<c:when test="${currentReviewProcess.reviewBaseRule.ruleName == acn||currentReviewProcess.reviewBaseRule.ruleName == asap}">
-							<th data-options="field:'${displayColumn.ruleName}',width:${displayColumn.width},
-									formatter:function(val,row){
-										try{
-											if(row.drugForm.commonNameContents==null){
-											 	return '';
-											}else{
-												return formatTooltip(row.${displayColumn.ruleName}, row);
-											}
-										}catch(err){
-											return '';
-										}
-									}">${displayColumn.ruleCnName}</th>  						
-						</c:when>
-						<c:otherwise>
-							<th data-options="field:'${fn:substring(displayColumn.ruleName,9,fn:length(displayColumn.ruleName))}',width:${displayColumn.width},
-									formatter:function(val,row){
-										try{
-											if(row.drugForm.commonNameContents==null){
-											 	return '';
-											}else{
-												return formatTooltip(row.${fn:substring(displayColumn.ruleName,9,fn:length(displayColumn.ruleName))}, row);
-											}
-										}catch(err){
-											return '';
-										}
-									}">${displayColumn.ruleCnName}</th>  						
-						</c:otherwise>
-					</c:choose>
- 				</c:forEach>
+			    <th data-options="field:'commonNameContents.common.commonName',width:200,
+						formatter:function(val,row){
+							return (row.commonNameContents==null || row.commonNameContents.common==null)?'':row.commonNameContents.common.commonName;
+						}">通用名</th>
+				<th data-options="field:'commonNameContents.common.matchNumber',width:80,
+						formatter:function(val,row){
+							return (row.commonNameContents==null || row.commonNameContents.common==null)?'':row.commonNameContents.common.matchNumber;
+						}">匹配编号</th>
+				<th data-options="field:'commonNameContents.administration.name',width:80,
+						formatter:function(val,row){
+							return (row.commonNameContents==null || row.commonNameContents.administration==null)?'':row.commonNameContents.administration.name;
+						}">给药途径</th>
+				<th data-options="field:'commonNameContents.drugCategoryInfo',width:80,
+						formatter:function(val,row){
+							return row.commonNameContents==null?'':row.commonNameContents.drugCategoryInfo;
+						}">药品种类</th>												
+				<th data-options="field:'commonNameContents.commonName',width:150,
+						formatter:function(val,row){
+							return row.commonNameContents==null?'':row.commonNameContents.commonName;
+						}">大目录通用名</th>
+				<th data-options="field:'commonNameContents.common.bidCommonName',width:150,
+						formatter:function(val,row){
+							return (row.commonNameContents==null || row.commonNameContents.common==null)?'':row.commonNameContents.common.bidCommonName;
+						}">省招标通用名</th>							
+				<th data-options="field:'commonNameContents.projectName',width:150,
+						formatter:function(val,row){
+							return row.commonNameContents==null?'':row.commonNameContents.projectName;
+						}">项目名称</th>
+				<th data-options="field:'commonNameContents.batch',width:80,
+						formatter:function(val,row){
+							return row.commonNameContents==null?'':row.commonNameContents.batch;
+						}">批次</th>
+				<th data-options="field:'commonNameContents.pill',width:100,
+						formatter:function(val,row){
+							return row.commonNameContents==null?'':row.commonNameContents.pill;
+						}">剂型</th>				
+				<th data-options="field:'commonNameContents.bidDrugId',width:150,
+						formatter:function(val,row){
+							return row.commonNameContents==null?'':row.commonNameContents.bidDrugId;
+						}">省招标药品ID</th>
+				<th data-options="field:'commonNameContents.countryId',width:100,
+						formatter:function(val,row){
+							return row.commonNameContents==null?'':row.commonNameContents.countryId;
+						}">国家ID</th>
+				<th data-options="field:'commonNameContents.specifications',width:150,
+						formatter:function(val,row){
+							return row.commonNameContents==null?'':row.commonNameContents.specifications;
+						}">规格</th>
+				<th data-options="field:'commonNameContents.amount',width:70,
+						formatter:function(val,row){
+							return row.commonNameContents==null?'':row.commonNameContents.amount;
+						}">包装数量</th>
+				<th data-options="field:'commonNameContents.productName',width:100,
+						formatter:function(val,row){
+							return row.commonNameContents==null?'':row.commonNameContents.productName;
+						}">商品名</th>
+				<th data-options="field:'commonNameContents.packageUnit',width:80,
+						formatter:function(val,row){
+							return row.commonNameContents==null?'':row.commonNameContents.packageUnit;
+						}">包装单位</th>
+				<th data-options="field:'commonNameContents.manufacturer',width:300,
+						formatter:function(val,row){
+							return row.commonNameContents==null?'':row.commonNameContents.manufacturer;
+						}">生产企业</th>
+				<th data-options="field:'commonNameContents.importEnterprise',width:300,
+						formatter:function(val,row){
+							return row.commonNameContents==null?'':row.commonNameContents.importEnterprise;
+						}">进口企业</th>
+				<th data-options="field:'commonNameContents.purchasePrice',width:50,
+						formatter:function(val,row){
+							return row.commonNameContents==null?'':row.commonNameContents.purchasePrice;
+						}">采购价</th>
+				<th data-options="field:'commonNameContents.medicalDirNo',width:80,
+						formatter:function(val,row){
+							return row.commonNameContents==null?'':row.commonNameContents.medicalDirNo;
+						}">医保目录编号</th>
+				<th data-options="field:'commonNameContents.medicalCategory',width:120,
+						formatter:function(val,row){
+							return row.commonNameContents==null?'':row.commonNameContents.medicalCategory;
+						}">医保类别</th>
+				<th data-options="field:'commonNameContents.medicalRemark',width:80,
+						formatter:function(val,row){
+							return row.commonNameContents==null?'':row.commonNameContents.medicalRemark;
+						}">医保备注</th>
+				<th data-options="field:'commonNameContents.consistencyEvaluation',width:100,
+						formatter:function(val,row){
+							return row.commonNameContents==null?'':row.commonNameContents.consistencyEvaluation;
+						}">一致性评价</th>
+				<th data-options="field:'commonNameContents.heds',width:80,
+						formatter:function(val,row){
+							return row.commonNameContents==null?'':row.commonNameContents.heds;
+						}">基药</th>
+				<th data-options="field:'commonNameContents.gynaecology',width:80,
+						formatter:function(val,row){
+							return row.commonNameContents==null?'':row.commonNameContents.gynaecology;
+						}">妇科</th>
+				<th data-options="field:'commonNameContents.pediatric',width:80,
+						formatter:function(val,row){
+							return row.commonNameContents==null?'':row.commonNameContents.pediatric;
+						}">儿科</th>
+				<th data-options="field:'commonNameContents.firstAid',width:80,
+						formatter:function(val,row){
+							return row.commonNameContents==null?'':row.commonNameContents.firstAid;
+						}">急救</th>	
+				<th data-options="field:'commonNameContents.basicInfusion',width:100,
+						formatter:function(val,row){
+							return row.commonNameContents==null?'':row.commonNameContents.basicInfusion;
+						}">基础输液</th>
+				<th data-options="field:'commonNameContents.cheapShortage',width:80,
+						formatter:function(val,row){
+							return row.commonNameContents==null?'':row.commonNameContents.cheapShortage;
+						}">廉价短缺</th>
+				<th data-options="field:'commonNameContents.negotiationVariety',width:80,
+						formatter:function(val,row){
+							return row.commonNameContents==null?'':row.commonNameContents.negotiationVariety;
+						}">国家谈判品种</th>
+				<th data-options="field:'commonNameContents.common.chemicalBigCategory',width:200,
+						formatter:function(val,row){
+							return (row.commonNameContents==null || row.commonNameContents.common==null)?'':row.commonNameContents.common.chemicalBigCategory;
+						}">大类</th>	
+				<th data-options="field:'commonNameContents.common.chemicalSubCategory',width:200,
+						formatter:function(val,row){
+							return (row.commonNameContents==null || row.commonNameContents.common==null)?'':row.commonNameContents.common.chemicalSubCategory;
+						}">小类/功效</th>	
+				<th data-options="field:'commonNameContents.licenseNumber',width:100,
+						formatter:function(val,row){
+							return row.commonNameContents==null?'':row.commonNameContents.licenseNumber;
+						}">批准文号</th>
+				<th data-options="field:'commonNameContents.bidPill',width:80,
+						formatter:function(val,row){
+							return row.commonNameContents==null?'':row.commonNameContents.bidPill;
+						}">招标剂型</th>
+				<th data-options="field:'commonNameContents.bidSpecifications',width:80,
+						formatter:function(val,row){
+							return row.commonNameContents==null?'':row.commonNameContents.bidSpecifications;
+						}">招标规格</th>
+				<th data-options="field:'commonNameContents.bidUnit',width:80,
+						formatter:function(val,row){
+							return row.commonNameContents==null?'':row.commonNameContents.bidUnit;
+						}">招标单位</th>
+				<th data-options="field:'commonNameContents.packageMaterials',width:50,
+						formatter:function(val,row){
+							return row.commonNameContents==null?'':row.commonNameContents.packageMaterials;
+						}">包材</th>
+				<th data-options="field:'commonNameContents.minimalUnit',width:80,
+						formatter:function(val,row){
+							return row.commonNameContents==null?'':row.commonNameContents.minimalUnit;
+						}">最小制剂单位</th>
+				<th data-options="field:'commonNameContents.remark1',width:80,
+						formatter:function(val,row){
+							return row.commonNameContents==null?'':row.commonNameContents.remark1;
+						}">备注1</th>
+				<th data-options="field:'commonNameContents.remark2',width:80,
+						formatter:function(val,row){
+							return row.commonNameContents==null?'':row.commonNameContents.remark2;
+						}">备注2</th>
+				<th data-options="field:'commonNameContents.remark3',width:80,
+						formatter:function(val,row){
+							return row.commonNameContents==null?'':row.commonNameContents.remark3;
+						}">备注3</th>
+				<th data-options="field:'commonNameContents.createDate',width:150,
+						formatter:function(val,row){
+							return row.commonNameContents==null?'':row.commonNameContents.createDate;
+						}">创建时间</th>
+				<th data-options="field:'commonNameContents.updateDate',width:150,
+						formatter:function(val,row){
+							return row.commonNameContents==null?'':row.commonNameContents.updateDate;
+						}">修改时间</th>
 			</tr>
 		</thead>
 	</table>
