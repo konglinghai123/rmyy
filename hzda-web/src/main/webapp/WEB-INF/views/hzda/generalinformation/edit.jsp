@@ -33,12 +33,12 @@
 					<tr>
 						<td><form:label path="birthday">出生年月：</form:label></td>
 						<td>
-							<input type="text" id="birthday_show" class="validate[custom[date]]" value="${m.birthday}" style="width:0px;height:0px;z-index:0;position:absolute;margin-top:5px;margin-left:5px;" size="0" readonly="readonly"/>
+							<input type="text" id="birthday_show" class="validate[required, custom[date]]" value="${m.birthday}" style="width:0px;height:0px;z-index:0;position:absolute;margin-top:5px;margin-left:5px;" size="0" readonly="readonly"/>
 							<form:input path="birthday" cssStyle="margin-left:0px;z-index:1;position:absolute;"/>
 						</td>
 						<td><form:label path="nation">民族：</form:label></td>
 						<td>
-							<form:input path="nation.name" id="nationName" cssStyle="width:0px;height:0px;z-index:0;position:absolute;margin-top:5px;margin-left:5px;" size="0" readonly="readonly"/>
+							<form:input path="nation.name" id="nationName" cssClass="validate[required]" cssStyle="width:0px;height:0px;z-index:0;position:absolute;margin-top:5px;margin-left:5px;" size="0" readonly="readonly"/>
 							<form:input path="nation.id" id="nationId" cssStyle="margin-left:0px;z-index:1;position:absolute;"/>
 						</td>
 					</tr>
@@ -53,19 +53,19 @@
 						<td><form:input path="address"/></td>
 						<td><form:label path="certificateType">证件类型：</form:label></td>
 						<td>
-							<form:input path="certificateType.name" id="certificateTypeName" cssStyle="width:0px;height:0px;z-index:0;position:absolute;margin-top:5px;margin-left:5px;" size="0" readonly="readonly"/>
+							<form:input path="certificateType.name" id="certificateTypeName" cssClass="validate[required]" cssStyle="width:0px;height:0px;z-index:0;position:absolute;margin-top:5px;margin-left:5px;" size="0" readonly="readonly"/>
 							<form:input path="certificateType.id" id="certificateTypeId" cssStyle="margin-left:0px;z-index:1;position:absolute;"/>
 						</td>
 					</tr>
 					<tr>
 						<td><form:label path="certificateNumber">证件号：</form:label></td>
-						<td><form:input path="certificateNumber"/></td>
+						<td><form:input path="certificateNumber" cssClass="validate[required]"/></td>
 						<td><form:label path="medicalInsuranceNumber">医保号：</form:label></td>
 						<td><form:input path="medicalInsuranceNumber"/></td>
 					</tr>
 					<tr>
 						<td><form:label path="mobilePhoneNumber">手机号码：</form:label></td>
-						<td><form:input path="mobilePhoneNumber"/></td>
+						<td><form:input path="mobilePhoneNumber" cssClass="validate[required]"/></td>
 						<td><form:label path="otherTelephone">其他联系电话：</form:label></td>
 						<td><form:input path="otherTelephone"/></td>
 					</tr>
@@ -101,6 +101,7 @@
 	    	</c:when>
 	    	<c:otherwise>
 		    	$('#birthday').datebox({
+		    		editable:false,
 					onSelect:function(date){
 						$('#birthday_show').val(date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate());
 					}

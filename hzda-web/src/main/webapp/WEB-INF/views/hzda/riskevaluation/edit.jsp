@@ -115,7 +115,8 @@
 			  			</td>
 			  		</tr>
 			  		<tr>
-			  			<td colspan="2"><h3>FRAX风险评估</h3></td>
+			  			<td><h3>FRAX风险评估</h3></td>
+			  			<td><a href="https://www.sheffield.ac.uk/FRAX/tool.aspx?country=2" target="_blank">链接</a></td>
 			  		</tr>
 			  		<tr>
 			  			<td colspan="2">
