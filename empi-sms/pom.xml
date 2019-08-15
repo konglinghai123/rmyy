@@ -19,4 +19,16 @@
 		<site.basedir>${project.parent.parent.basedir}</site.basedir>
 	</properties>
 
+	<dependencies>
+		<dependency>
+		    <groupId>com.aliyun</groupId>
+		    <artifactId>aliyun-java-sdk-core</artifactId>
+		    <version>4.1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.aliyun</groupId>
+			<artifactId>aliyun-java-sdk-ecs</artifactId>
+			<version>4.16.11</version>
+		</dependency>
+	</dependencies>
 </project>
