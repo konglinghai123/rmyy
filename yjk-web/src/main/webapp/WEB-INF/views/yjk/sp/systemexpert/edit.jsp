@@ -87,7 +87,7 @@
 						<td><form:input path="randomNumber" cssClass="validate[custom[integer]]" maxlength="4" size="10"/><font color="red">0代表不限</font></td>
 					</tr>
 					<tr>
-						<td><form:label path="departmentNumber">确保每部门人数：</form:label></td>
+						<td><form:label path="departmentNumber">每科室人数：</form:label></td>
 						<td><form:input path="departmentNumber" cssClass="validate[custom[integer]]" maxlength="4" size="10"/><font color="red">0代表不限</font></td>
 					</tr>			
 				</table>

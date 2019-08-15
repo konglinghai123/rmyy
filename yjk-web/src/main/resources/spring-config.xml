@@ -29,10 +29,11 @@
 
 	<!-- 数据源 -->
 	<!--see https://github.com/alibaba/druid/wiki/%E9%85%8D%E7%BD%AE_DruidDataSource%E5%8F%82%E8%80%83%E9%85%8D%E7%BD%AE -->
-	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource"
-		init-method="init" destroy-method="close">
+	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
+		<property name="name" value="${druid.name}"/>
+		
 		<!-- 基本属性 url、user、password -->
-		<property name="driverClassName" value="${connection.driverClassName}" />
+		<!-- <property name="driverClassName" value="${connection.driverClassName}" /> -->
 		<property name="url" value="${connection.url}" />
 		<property name="username" value="${connection.username}" />
 		<property name="password" value="${connection.password}" />
@@ -57,8 +58,7 @@
 
 		<!-- 打开PSCache，并且指定每个连接上PSCache的大小;如果用Oracle，则把poolPreparedStatements配置为true，mysql可以配置为false。 -->
 		<property name="poolPreparedStatements" value="${druid.poolPreparedStatements}" />
-		<property name="maxPoolPreparedStatementPerConnectionSize"
-			value="${druid.maxPoolPreparedStatementPerConnectionSize}" />
+		<property name="maxPoolPreparedStatementPerConnectionSize" value="${druid.maxPoolPreparedStatementPerConnectionSize}" />
 
 		<!-- 配置监控统计拦截的filters -->
 		<property name="filters" value="${druid.filters}" />
@@ -111,14 +111,14 @@
 				<entry key="hibernate.default_batch_fetch_size" value="${hibernate.default_batch_fetch_size}" />
 				<entry key="hibernate.max_fetch_depth" value="${hibernate.max_fetch_depth}" />
 				<entry key="hibernate.generate_statistics" value="${hibernate.generate_statistics}" />
-				<entry key="hibernate.bytecode.use_reflection_optimizer"
-					value="${hibernate.bytecode.use_reflection_optimizer}" />
+				<entry key="hibernate.bytecode.use_reflection_optimizer" value="${hibernate.bytecode.use_reflection_optimizer}" />
 				<entry key="hibernate.cache.use_second_level_cache" value="${hibernate.cache.use_second_level_cache}" />
 				<entry key="hibernate.cache.use_query_cache" value="${hibernate.cache.use_query_cache}" />
 				<entry key="hibernate.cache.region.factory_class" value="${hibernate.cache.region.factory_class}" />
 				<entry key="net.sf.ehcache.configurationResourceName" value="${net.sf.ehcache.configurationResourceName}" />
 				<entry key="hibernate.cache.use_structured_entries" value="${hibernate.cache.use_structured_entries}" />
 				<entry key="hibernate.hbm2ddl.auto" value="${hibernate.hbm2ddl.auto}" />
+				<entry key="hibernate.jdbc.lob.non_contextual_creation" value="${hibernate.jdbc.lob.non_contextual_creation}"/>
 			</map>
 		</property>
 	</bean>

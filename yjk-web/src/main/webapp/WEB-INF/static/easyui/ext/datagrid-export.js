@@ -60,6 +60,12 @@
                 	}
                 }
                 
+                if (value == 'true'){
+                	value = '是';
+                } else if (value == 'false'){
+                	value = '否';
+                }
+                
                 data.push('<td style="'+tdStyle0+'">'+value+'</td>');
             }
             data.push('</tr>');

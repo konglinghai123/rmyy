@@ -29,6 +29,7 @@ import com.ewcms.security.dictionary.entity.Profession;
 import com.ewcms.security.dictionary.entity.TechnicalTitle;
 import com.ewcms.security.organization.entity.Organization;
 import com.ewcms.security.user.entity.User;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
 /**
@@ -188,6 +189,11 @@ public class SystemExpert extends BaseSequenceEntity<Long> implements Movable{
 	public Set<Long> getOrganizationIds() {
 		return (EmptyUtil.isCollectionNotEmpty(organizations)) ? Collections3.extractToSet(organizations, "id")
 				: Sets.newHashSet();
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Long> getOrganiztionIdsList(){
+		return (EmptyUtil.isCollectionNotEmpty(organizations)) ? Collections3.extractToList(organizations, "id") : Lists.newArrayList();
 	}
 	
 	@JSONField(serialize = false)

@@ -13,7 +13,7 @@
 							return val != null ? val + '%' : '';
 						}">百分比</th>
 				<th data-options="field:'randomNumber',width:80">随机人数</th>
-				<th data-options="field:'departmentNumber',width:80">科室人数</th>
+				<th data-options="field:'departmentNumber',width:100">每科室人数</th>
 				<th data-options="field:'director',width:100,
 						formatter:function(val,row){
 							if (typeof(val)=='undefined') return '/';
