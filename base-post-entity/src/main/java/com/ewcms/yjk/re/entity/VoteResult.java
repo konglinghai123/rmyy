@@ -2,6 +2,8 @@ package com.ewcms.yjk.re.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -15,17 +17,19 @@ import com.ewcms.yjk.zd.commonname.entity.CommonNameContents;
 
 /**
  * 评审专家投票结果记录
+ * 
  * <ul>
  * <li>reviewMainId:评审Id</li>
  * <li>reviewProcessId:投票流程Id</li>
- *  <li>drugForm:药品申报对象</li>
- *  <li>commonNameContents:大总目录对象</li>
- *  <li>passSum:通过的数量</li>
- *  <li>opposeSum:反对的数量</li>
- *  <li>abstainSum:弃权的数量
- *  <li>selected:是否入围</li>
- *  <li>affirmVoteResulted:确认最终结果</li>
- *  <li>adjusted:是否调整入围</li>
+ * <li>drugForm:药品申报对象</li>
+ * <li>commonNameContents:大总目录对象</li>
+ * <li>passSum:通过的数量</li>
+ * <li>opposeSum:反对的数量</li>
+ * <li>abstainSum:弃权的数量
+ * <li>selected:是否拟入围</li>
+ * <li>affirmVoteResulted:确认投票结果</li>
+ * <li>adjusted:调整操作</li>
+ * <li>chosen:是否入围</li>
  * </ul>
  * 
  * @author zhoudongchu
@@ -56,8 +60,9 @@ public class VoteResult extends BaseSequenceEntity<Long> {
 	@Column(name = "is_affirm_resulted")
 	private Boolean affirmVoteResulted = Boolean.FALSE;
 	
-	@Column(name = "is_adjusted")
-	private Boolean adjusted = Boolean.FALSE;	
+	@Column(name = "adjusted")
+	@Enumerated(EnumType.STRING)
+	private AdjustedEnum adjusted = AdjustedEnum.notAdjusted;	
 	
 	@Column(name = "pass_sum")
 	private Integer passSum;
@@ -67,6 +72,9 @@ public class VoteResult extends BaseSequenceEntity<Long> {
 	
 	@Column(name = "abstain_sum")
 	private Integer abstainSum;
+	
+	@Column(name = "chosen")
+	private Boolean chosen = Boolean.FALSE;
 
 	public Long getReviewMainId() {
 		return reviewMainId;
@@ -132,8 +140,6 @@ public class VoteResult extends BaseSequenceEntity<Long> {
 		this.abstainSum = abstainSum;
 	}
 
-
-
 	public Boolean getAffirmVoteResulted() {
 		return affirmVoteResulted;
 	}
@@ -142,12 +148,23 @@ public class VoteResult extends BaseSequenceEntity<Long> {
 		this.affirmVoteResulted = affirmVoteResulted;
 	}
 
-	public Boolean getAdjusted() {
+	public AdjustedEnum getAdjusted() {
 		return adjusted;
 	}
 
-	public void setAdjusted(Boolean adjusted) {
+	public void setAdjusted(AdjustedEnum adjusted) {
 		this.adjusted = adjusted;
 	}
-	
+
+	public String getAdjustedInfo() {
+		return adjusted == null ? "" : adjusted.getInfo();
+	}
+
+	public Boolean getChosen() {
+		return chosen;
+	}
+
+	public void setChosen(Boolean chosen) {
+		this.chosen = chosen;
+	}
 }

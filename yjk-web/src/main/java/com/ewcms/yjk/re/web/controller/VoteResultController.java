@@ -251,13 +251,13 @@ public class VoteResultController extends BaseController<VoteResult, Long> {
 	@RequestMapping(value = "adjust", method = RequestMethod.POST)
 	@ResponseBody
 	public AjaxResponse adjust(@RequestParam(required = false) List<Long> selections) {
-		return voteResultService.adjust(selections);
+		return voteResultService.transferIn(selections);
 	}
 
 	@RequestMapping(value = "cancel", method = RequestMethod.POST)
 	@ResponseBody
 	public AjaxResponse cancel(@RequestParam(required = false) List<Long> selections) {
-		return voteResultService.cancel(selections);
+		return voteResultService.callOut(selections);
 	}
 
 	@RequestMapping(value = "affirm", method = RequestMethod.POST)

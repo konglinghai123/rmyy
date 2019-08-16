@@ -65,7 +65,7 @@ public class VoteResultService extends BaseService<VoteResult, Long> {
 	 * 
 	 * @param reviewMainId
 	 */
-	public AjaxResponse adjust(List<Long> voteResultIds) {
+	public AjaxResponse transferIn(List<Long> voteResultIds) {
 		AjaxResponse ajaxResponse = new AjaxResponse();
 		String message = "调整入围操作成功！";
 		ReviewMain reviewMain = reviewMainService.findByEnabledTrue();
@@ -80,7 +80,7 @@ public class VoteResultService extends BaseService<VoteResult, Long> {
 				ajaxResponse.setSuccess(Boolean.FALSE);
 			} else {
 				Long reviewProcessId = reviewProcess.getId();
-				getVoteResultRepository().adjust(reviewMainId, reviewProcessId, voteResultIds);
+				getVoteResultRepository().transferIn(reviewMainId, reviewProcessId, voteResultIds);
 			}
 		}
 		ajaxResponse.setMessage(message);
@@ -92,7 +92,7 @@ public class VoteResultService extends BaseService<VoteResult, Long> {
 	 * 
 	 * @param voteResultIds
 	 */
-	public AjaxResponse cancel(List<Long> voteResultIds) {
+	public AjaxResponse callOut(List<Long> voteResultIds) {
 		AjaxResponse ajaxResponse = new AjaxResponse();
 		String message = "调整出围操作成功！";
 		ReviewMain reviewMain = reviewMainService.findByEnabledTrue();
@@ -107,7 +107,7 @@ public class VoteResultService extends BaseService<VoteResult, Long> {
 				ajaxResponse.setSuccess(Boolean.FALSE);
 			} else {
 				Long reviewProcessId = reviewProcess.getId();
-				getVoteResultRepository().cancel(reviewMainId, reviewProcessId, voteResultIds);
+				getVoteResultRepository().callOut(reviewMainId, reviewProcessId, voteResultIds);
 			}
 		}
 		ajaxResponse.setMessage(message);
@@ -137,6 +137,7 @@ public class VoteResultService extends BaseService<VoteResult, Long> {
 				List<Long> reviewUserIds = reviewMainService.findReviewUserIds(reviewMain);
 				if (EmptyUtil.isCollectionNotEmpty(submittedUserIds) && EmptyUtil.isCollectionNotEmpty(reviewUserIds) && submittedUserIds.size() == reviewUserIds.size()) {
 					getVoteResultRepository().affirm(reviewMainId, reviewProcessId, voteResultIds);
+					//TODO chosen改变
 				} else {
 					message = "本轮投票中有专家还没有结束投票，请等全部都投完后，再最终确认！";
 					ajaxResponse.setSuccess(Boolean.FALSE);

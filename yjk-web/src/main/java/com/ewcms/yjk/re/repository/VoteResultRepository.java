@@ -33,15 +33,15 @@ public interface VoteResultRepository extends BaseRepository<VoteResult, Long> {
 	
 	@Modifying
 	@Query("update VoteResult v "
-			+ "set v.adjusted=true, v.selected=true "
-			+ "where v.reviewMainId=?1 and v.reviewProcessId=?2 and v.id in (?3) and v.selected=false and v.affirmVoteResulted=false")
-	void adjust(Long reviewMainId, Long reviewProcessId, List<Long> voteResultIds);
+			+ "set v.adjusted='transferIn' "
+			+ "where v.reviewMainId=?1 and v.reviewProcessId=?2 and v.id in (?3) and v.affirmVoteResulted=false")
+	void transferIn(Long reviewMainId, Long reviewProcessId, List<Long> voteResultIds);
 	
 	@Modifying
 	@Query("update VoteResult v "
-			+ "set v.adjusted=true, v.selected=false "
-			+ "where v.reviewMainId=?1 and v.reviewProcessId=?2 and v.id in (?3) and v.selected=true and v.affirmVoteResulted=false")
-	void cancel(Long reviewMainId, Long reviewProcessId, List<Long> voteResultIds);
+			+ "set v.adjusted='callOut' "
+			+ "where v.reviewMainId=?1 and v.reviewProcessId=?2 and v.id in (?3) and v.affirmVoteResulted=false")
+	void callOut(Long reviewMainId, Long reviewProcessId, List<Long> voteResultIds);
 	
 	@Modifying
 	@Query("update VoteResult v "

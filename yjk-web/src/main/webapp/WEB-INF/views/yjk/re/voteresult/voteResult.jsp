@@ -17,13 +17,10 @@
 				<th data-options="field:'selected',width:80,
 						formatter:function(val,row){
 							return val ? '是' : '';
-						}">是否入围</th>
+						}">是否拟入围</th>
 				<c:choose>
 				<c:when test='${!isClose}'>
-				<th data-options="field:'adjusted',width:80,
-						formatter:function(val,row){
-							return val ? '是' : '';
-						}">是否调整</th>
+				<th data-options="field:'adjustedInfo',width:100">调入/调出</th>
 				<th data-options="field:'affirmVoteResulted',width:80,
 						formatter:function(val,row){
 							return val ? '是' : '';
