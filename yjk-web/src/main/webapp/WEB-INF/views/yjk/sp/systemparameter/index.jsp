@@ -18,15 +18,15 @@
 				<th data-options="field:'injectDeclarationLimt',width:120,
 						formatter:function(val,row){
 							return val==0?'不限数':val;
-						}">注射两规限数</th>
+						}">注射一品限数</th>
 				<th data-options="field:'oralDeclarationLimt',width:120,
 						formatter:function(val,row){
 							return val==0?'不限数':val;
-						}">口服两规限数</th>
+						}">口服一品限数</th>
 				<th data-options="field:'otherDeclarationLimt',width:160,
 						formatter:function(val,row){
 							return val==0?'不限数':val;
-						}">外用及其他两规限数</th>
+						}">外用及其他一品限数</th>
 				<th data-options="field:'declareTotalLimt',width:140,
 						formatter:function(val,row){
 							return val==0?'不限数':val;

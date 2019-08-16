@@ -22,19 +22,19 @@
 							</form:select>
 						</td>
 					</tr>
-		        	<tr>
+		        	<tr id="generalName1">
 						<td><form:label path="generalNameChinese">拟新增通用名中成药：</form:label></td>
 						<td><form:input path="generalNameChinese" cssClass="validate[required, integer]"/></td>
 					</tr>
-					<tr>
+					<tr id="generalName2">
 						<td><form:label path="generalNameWestern">拟新增通用名西药：</form:label></td>
 						<td><form:input path="generalNameWestern" cssClass="validate[required, integer]"/></td>
 					</tr>
-					<tr>
+					<tr id="formula1">
 						<td><form:label path="formulaChinese">拟新增剂型/规格中成药：</form:label></td>
 						<td><form:input path="formulaChinese" cssClass="validate[required, integer]"/></td>
 					</tr>
-					<tr>
+					<tr id="formula2">
 						<td><form:label path="formulaWestern">拟新增剂型/规格西药：</form:label></td>
 						<td><form:input path="formulaWestern" cssClass="validate[required, integer]"/></td>
 					</tr>
@@ -56,6 +56,10 @@
 <ewcms:footer/>
 <script type="text/javascript">
 	$(function(){
+		typeSelect($("#reviewBaseRule").val());
+	    $('#reviewBaseRule').bind('change', function(){
+	    	typeSelect($("#reviewBaseRule").val());
+	    });
 		  <c:choose>
 	    	<c:when test="${close}">
 	    		parent.$('#edit-window').window('close');
@@ -74,6 +78,8 @@
 	    	</c:otherwise>
 	    </c:choose>
 	    $('#displayColumns').combobox('setValues', ${m.displayColumnsIds});
+	    
+	    
 	});
 	
 	$.ewcms.refresh({operate : '${operate}', data : '${lastM}'});
@@ -82,6 +88,18 @@
 		$('#editForm').form('reset');
 		$('#displayColumns').combobox('setValues', ${m.displayColumnsIds});
 	}
-
+	
+	function typeSelect(checkValue){
+    	if (checkValue == 1 || checkValue == 3){
+    		$('#generalName1,#generalName2').show();
+    		$('#formula1,#formula2').hide();
+    	} else if (checkValue == 2 || checkValue == 4){
+    		$('#generalName1,#generalName2').hide();
+    		$('#formula1,#formula2').show();
+    	} else {
+    		$('#generalName1,#generalName2').hide();
+    		$('#formula1,#formula2').hide();
+    	}
+	}
 </script>
 	

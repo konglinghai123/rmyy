@@ -57,15 +57,15 @@
 						<td><form:checkbox path="repeatDeclared"/></td>
 					</tr>					
 		        	<tr>
-						<td><form:label path="injectDeclarationLimt">注射两规限数<font color="red">*</font>：</form:label></td>
+						<td><form:label path="injectDeclarationLimt">注射一品限数<font color="red">*</font>：</form:label></td>
 						<td><form:input path="injectDeclarationLimt" cssClass="validate[required,custom[integer]]" maxlength="4" size="10"/><font color="red">0代表不限</font></td>
 					</tr>
 		        	<tr>
-						<td><form:label path="oralDeclarationLimt">口服两规限数<font color="red">*</font>：</form:label></td>
+						<td><form:label path="oralDeclarationLimt">口服一品限数<font color="red">*</font>：</form:label></td>
 						<td><form:input path="oralDeclarationLimt" cssClass="validate[required,custom[integer]]" maxlength="4" size="10"/><font color="red">0代表不限</font></td>
 					</tr>
 		        	<tr>
-						<td><form:label path="otherDeclarationLimt">外用及其他两规限数<font color="red">*</font>：</form:label></td>
+						<td><form:label path="otherDeclarationLimt">外用及其他一品限数<font color="red">*</font>：</form:label></td>
 						<td><form:input path="otherDeclarationLimt" cssClass="validate[required,custom[integer]]" maxlength="4" size="10"/><font color="red">0代表不限</font></td>
 					</tr>										
 		        	<tr>
