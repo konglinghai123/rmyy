@@ -104,9 +104,9 @@
 			htmlOperation = '<a class="previewCls" onclick="preview(' + row.id + ');" href="javascript:void(0);" style="height:24px;" title="查看用户"/> | ';
 		}
 		if (val) {
-			htmlOperation += '<a class="closeCls" onclick="closeReview(' + row.id + ')" href="javascript:void(0);" style="height:24px;" title="关闭申报"/> | ';
+			htmlOperation += '<a class="closeCls" onclick="closeReview(' + row.id + ')" href="javascript:void(0);" style="height:24px;" title="关闭评审"/> | ';
 		} else {
-			htmlOperation += '<a class="runCls" onclick="openReview(' + row.id + ')" href="javascript:void(0);" style="height:24px;" title="启动申报"/> | ';
+			htmlOperation += '<a class="runCls" onclick="openReview(' + row.id + ')" href="javascript:void(0);" style="height:24px;" title="启动评审"/> | ';
 		}
 		htmlOperation += '<a class="selectCls" onclick="selectSystemParameter(' + row.id + ')" href="javascript:void(0);" style="height:24px;" title="选择范围"/> |  ';
 		htmlOperation += '<a class="processCls" onclick="process(' + row.id + ')" href="javascript:void(0);" style="height:24px;" title="评审流程"/> ';
@@ -167,8 +167,8 @@
 						$('#tt').datagrid('reload');
 					}
 					$.messager.alert('提示', result.message, 'info');
-					$.ewcms.removeLoading();
 				});
+				$.ewcms.removeLoading();
 			}
 		});
 	}

@@ -62,7 +62,7 @@ public class VoteResult extends BaseSequenceEntity<Long> {
 	
 	@Column(name = "adjusted")
 	@Enumerated(EnumType.STRING)
-	private AdjustedEnum adjusted = AdjustedEnum.notAdjusted;	
+	private AdjustedEnum adjusted;	
 	
 	@Column(name = "pass_sum")
 	private Integer passSum;

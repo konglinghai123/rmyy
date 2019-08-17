@@ -114,6 +114,36 @@ public class VoteResultService extends BaseService<VoteResult, Long> {
 		return ajaxResponse;
 	}
 	
+	public AjaxResponse cancel(Long voteResultId) {
+		AjaxResponse ajaxResponse = new AjaxResponse();
+		String message = "取消调整操作成功！";
+		ReviewMain reviewMain = reviewMainService.findByEnabledTrue();
+		if (reviewMain == null) {
+			message = "评审未开启，不能操作！";
+			ajaxResponse.setSuccess(Boolean.FALSE);
+		} else {
+			Long reviewMainId = reviewMain.getId();
+			ReviewProcess reviewProcess = reviewProcessService.findCurrentReviewProcess(reviewMainId);
+			if (reviewProcess == null) {
+				message = "没有流程可使用或当前流程已结束！";
+				ajaxResponse.setSuccess(Boolean.FALSE);
+			} else {
+				VoteResult voteResult = findOne(voteResultId);
+				if (voteResult.getAdjusted() != null) {
+					if (voteResult.getAffirmVoteResulted()) {
+						message = "此条记录结果已封存，不能取消调整操作！";
+						ajaxResponse.setSuccess(Boolean.FALSE);
+					} else {
+						voteResult.setAdjusted(null);
+						update(voteResult);
+					}
+				}
+			}
+		}
+		ajaxResponse.setMessage(message);
+		return ajaxResponse;
+	}
+	
 	/**
 	 * 最终确认
 	 * @param voteResultIds
@@ -137,7 +167,7 @@ public class VoteResultService extends BaseService<VoteResult, Long> {
 				List<Long> reviewUserIds = reviewMainService.findReviewUserIds(reviewMain);
 				if (EmptyUtil.isCollectionNotEmpty(submittedUserIds) && EmptyUtil.isCollectionNotEmpty(reviewUserIds) && submittedUserIds.size() == reviewUserIds.size()) {
 					getVoteResultRepository().affirm(reviewMainId, reviewProcessId, voteResultIds);
-					//TODO chosen改变
+					getVoteResultRepository().result(reviewMainId, reviewProcessId, voteResultIds);
 				} else {
 					message = "本轮投票中有专家还没有结束投票，请等全部都投完后，再最终确认！";
 					ajaxResponse.setSuccess(Boolean.FALSE);
@@ -255,7 +285,7 @@ public class VoteResultService extends BaseService<VoteResult, Long> {
 		return getVoteResultRepository().findAllVoteResultLast(reviewMainId);
 	}
 	
-	public List<VoteResult> findSelectedVoteResultLast(Long reviewMainId){
-		return getVoteResultRepository().findSelectedVoteResultLast(reviewMainId);
+	public List<VoteResult> findChosnResult(Long reviewMainId){
+		return getVoteResultRepository().findChosnResult(reviewMainId);
 	}
 }

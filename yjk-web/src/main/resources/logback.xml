@@ -2,7 +2,7 @@
 <!DOCTYPE xml>
 <configuration scan="true" scanPeriod="10 seconds" debug="false">	
 	<!-- 开发环境使用 -->
-	<property name="LOG_HOME" value="/home/wu_zhijun/work/workfile/logs" /> 
+	<property name="LOG_HOME" value="/home/wuzhijun/logs" /> 
 	<!-- 生产环境使用 
 	<property name="LOG_HOME" value="/webserver/tomcat/logs" /> -->
 

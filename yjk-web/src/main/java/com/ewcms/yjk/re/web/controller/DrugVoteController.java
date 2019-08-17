@@ -145,7 +145,7 @@ public class DrugVoteController extends BaseController<VoteRecord, Long>{
 			if (EmptyUtil.isStringEmpty(customShow) || customShow.equals("all")) {
 				voteResults = voteResultService.findAllVoteResultLast(reviewMainId);
 			} else {
-				voteResults = voteResultService.findSelectedVoteResultLast(reviewMainId);
+				voteResults = voteResultService.findChosnResult(reviewMainId);
 			}
 			map.put("total", voteResults.size());
 			map.put("rows", voteResults);

@@ -11,20 +11,24 @@
 			<tr>
 				<th data-options="field:'ck',checkbox:true"/>
 			    <th data-options="field:'id',hidden:true">编号</th>
+				<c:choose>
+				<c:when test='${!isClose}'>
 				<th data-options="field:'passSum',width:60">通过票</th>
 				<th data-options="field:'opposeSum',width:60">反对票</th>
 				<th data-options="field:'abstainSum',width:60">弃权票</th>
-				<th data-options="field:'selected',width:80,
+				<th data-options="field:'selected',width:90,
 						formatter:function(val,row){
-							return val ? '是' : '';
+							return val ? '是' : '否';
 						}">是否拟入围</th>
-				<c:choose>
-				<c:when test='${!isClose}'>
-				<th data-options="field:'adjustedInfo',width:100">调入/调出</th>
-				<th data-options="field:'affirmVoteResulted',width:80,
+				<th data-options="field:'adjustedInfo',width:90,formatter:formatOperation">调入/调出</th>
+				<th data-options="field:'affirmVoteResulted',width:90,
 						formatter:function(val,row){
 							return val ? '是' : '';
-						}">本轮结果</th>
+						}">结果封存</th>
+				<th data-options="field:'chosen',width:100,
+						formatter:function(val,row){
+							return val ? '入围' : '';
+						}">本轮最终结果</th>
 			    <c:forEach items="${currentReviewProcess.displayColumns}" var="displayColumn" varStatus="status">
  					<c:choose>
 	 					<c:when test="${currentReviewProcess.reviewBaseRule.ruleName == acn||currentReviewProcess.reviewBaseRule.ruleName == asap}">
@@ -59,6 +63,10 @@
  				</c:forEach>
  				</c:when>
  				<c:otherwise>
+ 				<th data-options="field:'chosen',width:90,
+						formatter:function(val,row){
+							return val ? '入围' : '';
+						}">最终结果</th>
  				<th data-options="field:'commonNameContents.common.commonName',width:200,
 						formatter:function(val,row){
 							return (row.commonNameContents==null || row.commonNameContents.common==null)?'':row.commonNameContents.common.commonName;
@@ -235,9 +243,9 @@
 	<div id="tb" style="padding:5px;height:auto;">
         <div class="toolbar" style="margin-bottom:2px">
         	<c:if test="${!isClose}">
-			<a id="tb-adjust" href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-forced-open',plain:true">调入</a>
-			<a id="tb-cancel" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-forced-closure'">调出</a>
-			<a id="tb-affirm" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-ok'">本轮确认</a>
+			<a id="tb-transferIn" href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-forced-open',plain:true">调入</a>
+			<a id="tb-callOut" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-forced-closure'">调出</a>
+			<a id="tb-affirm" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-ok'">结果封存</a>
 			<c:choose>
 			<c:when test="${isNextEnable}">
 			<a id="tb-next" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-next'">进入下一轮</a>
@@ -258,7 +266,7 @@
               			<td width="23%">
               				<select class="easyui-combobox" name="CUSTOM_show" data-options="editable:false,width:100,panelHeight:'auto'">
               					<option value="all" selected="selected">全部</option>
-              					<option value="selected">入围</option>
+              					<option value="chosen">入围</option>
               				</select>
               			</td>
             			<td width="5%"></td>
@@ -287,7 +295,7 @@
 			striped:true,
 			border:false,
 			rowStyler: function(index,row){
-				if (row.selected){
+				if ((row.selected && row.adjustedInfo!='调出') || (!row.selected && row.adjustedInfo=='调入')){
 					if( row.drugForm.commonNameContents.common.drugCategory=='Z'){
 						return 'background-color:#DDDDFF;color:#000000;';
 					}else{
@@ -297,6 +305,7 @@
 	        	}
 	    	},
 			onLoadSuccess:function(row){
+				$('.cancelCls').linkbutton({plain:true,iconCls:'icon-cancel'});
 			}
 		});
 	});
@@ -305,7 +314,7 @@
 		$('#tt').datagrid('toExcel','voteResult.xls');
 	});
 	
-	$('#tb-adjust').bind('click', function(){
+	$('#tb-transferIn').bind('click', function(){
 		var rows = $('#tt').datagrid('getSelections');
     	
     	if(rows.length == 0){
@@ -319,7 +328,7 @@
 			    	parameter += 'selections=' + row.id +'&';
 			    });
 			    
-				$.post('${ctx}/yjk/re/voteresult/adjust', parameter, function(result) {
+				$.post('${ctx}/yjk/re/voteresult/transferIn', parameter, function(result) {
 					if (result.success){
 						$('#tt').datagrid('clearSelections');
 						$('#tt').datagrid('reload');
@@ -330,7 +339,7 @@
 	 	});
 	});
 	
-	$('#tb-cancel').bind('click', function(){
+	$('#tb-callOut').bind('click', function(){
 		var rows = $('#tt').datagrid('getSelections');
     	
     	if(rows.length == 0){
@@ -345,7 +354,7 @@
 			    	parameter += 'selections=' + row.id +'&';
 			    });
 			    
-				$.post('${ctx}/yjk/re/voteresult/cancel', parameter, function(result) {
+				$.post('${ctx}/yjk/re/voteresult/callOut', parameter, function(result) {
 					if (result.success){
 						$('#tt').datagrid('clearSelections');
 						$('#tt').datagrid('reload');
@@ -415,6 +424,31 @@
 	
 	function formatTooltip(val, row){
 		return val != null ? '<span title="' + val + '" class="easyui-tooltip">' + val + '</span>' : '';
+	}
+	
+	function formatOperation(val, row) {
+		var htmlOperation = '';
+		if (row.adjustedInfo != '') {
+			htmlOperation = row.adjustedInfo;
+			if (!row.affirmVoteResulted){
+				htmlOperation += ' | <a class="cancelCls" onclick="cancel(' + row.id + ');" href="javascript:void(0);" style="height:24px;" title="取消"/>';
+			}
+		}
+		return htmlOperation;
+	}
+	
+	function cancel(id){
+		$.messager.confirm('提示', '确认要取消调整吗？', function(r){
+			if (r){
+				$.post('${ctx}/yjk/re/voteresult/cancel', {voteResultId:id}, function(result) {
+					if (result.success){
+						$('#tt').datagrid('clearSelections');
+						$('#tt').datagrid('reload');
+					}
+					$.messager.alert('提示', result.message, 'info');
+				});
+			}
+	 	});
 	}
 </script>
 </c:when>

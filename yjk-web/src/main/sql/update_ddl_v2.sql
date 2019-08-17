@@ -278,7 +278,6 @@ CREATE TABLE public.re_vote_result
 (
   id bigint NOT NULL,
   abstain_sum integer,
-  is_adjusted boolean,
   is_affirm_resulted boolean,
   oppose_sum integer,
   pass_sum integer,
@@ -287,6 +286,8 @@ CREATE TABLE public.re_vote_result
   is_selected boolean,
   commonnamecontents_id bigint,
   drugform_id bigint,
+  adjusted character varying(255),
+  chosen boolean,
   CONSTRAINT re_vote_result_pkey PRIMARY KEY (id),
   CONSTRAINT fk_1qgltel6nl3wr24jkprcrmrpw FOREIGN KEY (commonnamecontents_id)
       REFERENCES public.zd_common_name_contents (id) MATCH SIMPLE
@@ -300,6 +301,7 @@ WITH (
 );
 ALTER TABLE public.re_vote_result
   OWNER TO postgres;
+
 
 /**
  * re_zd_review_base_rule

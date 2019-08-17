@@ -8,8 +8,7 @@ package com.ewcms.yjk.re.entity;
 public enum AdjustedEnum {
 
 	transferIn("调入"),
-	callOut("调出"),
-	notAdjusted("");
+	callOut("调出");
 	
 	private final String info;
 	

@@ -7,22 +7,23 @@
 	<table id="tt">
 		<thead>
 			<tr>
-			    <th data-options="field:'id',sortable:true">编号</th>
+			    <th data-options="field:'id',hidden:true">编号</th>
 				<th data-options="field:'passSum',width:60">通过票</th>
 				<th data-options="field:'opposeSum',width:60">反对票</th>
 				<th data-options="field:'abstainSum',width:60">弃权票</th>
-				<th data-options="field:'selected',width:80,
+				<th data-options="field:'selected',width:90,
+						formatter:function(val,row){
+							return val ? '是' : '否';
+						}">是否拟入围</th>
+				<th data-options="field:'adjustedInfo',width:90">调入/调出</th>
+				<th data-options="field:'affirmVoteResulted',width:90,
 						formatter:function(val,row){
 							return val ? '是' : '';
-						}">是否入围</th>
-				<th data-options="field:'adjusted',width:80,
+						}">结果封存</th>
+				<th data-options="field:'chosen',width:100,
 						formatter:function(val,row){
-							return val ? '是' : '';
-						}">是否调整</th>
-				<th data-options="field:'affirmVoteResulted',width:80,
-						formatter:function(val,row){
-							return val ? '是' : '';
-						}">最终结果</th>
+							return val ? '入围' : '';
+						}">本轮最终结果</th>
 			    <c:forEach items="${reviewProcess.displayColumns}" var="displayColumn" varStatus="status">
  					<c:choose>
 	 					<c:when test="${reviewProcess.reviewBaseRule.ruleName == acn||reviewProcess.reviewBaseRule.ruleName == asap}">
@@ -75,8 +76,13 @@
 			striped:true,
 			border:false,
 			rowStyler: function(index,row){
-				if (row.selected){
-	    			return 'background-color:#DDDDFF;color:#000000;';
+				if ((row.selected && row.adjustedInfo!='调出') || (!row.selected && row.adjustedInfo=='调入')){
+					if( row.drugForm.commonNameContents.common.drugCategory=='Z'){
+						return 'background-color:#DDDDFF;color:#000000;';
+					}else{
+						return 'background-color:#C4E1FF;color:#000000;';
+					}
+	    			
 	        	}
 	    	},
 			view : detailview,

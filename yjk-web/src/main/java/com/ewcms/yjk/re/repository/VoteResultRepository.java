@@ -34,20 +34,26 @@ public interface VoteResultRepository extends BaseRepository<VoteResult, Long> {
 	@Modifying
 	@Query("update VoteResult v "
 			+ "set v.adjusted='transferIn' "
-			+ "where v.reviewMainId=?1 and v.reviewProcessId=?2 and v.id in (?3) and v.affirmVoteResulted=false")
+			+ "where v.reviewMainId=?1 and v.reviewProcessId=?2 and v.id in (?3) and v.affirmVoteResulted=false and v.selected=false")
 	void transferIn(Long reviewMainId, Long reviewProcessId, List<Long> voteResultIds);
 	
 	@Modifying
 	@Query("update VoteResult v "
 			+ "set v.adjusted='callOut' "
-			+ "where v.reviewMainId=?1 and v.reviewProcessId=?2 and v.id in (?3) and v.affirmVoteResulted=false")
+			+ "where v.reviewMainId=?1 and v.reviewProcessId=?2 and v.id in (?3) and v.affirmVoteResulted=false and v.selected=true")
 	void callOut(Long reviewMainId, Long reviewProcessId, List<Long> voteResultIds);
 	
 	@Modifying
 	@Query("update VoteResult v "
 			+ "set v.affirmVoteResulted=true "
-			+ "where v.reviewMainId=?1 and v.reviewProcessId=?2 and v.id in (?3)")
+			+ "where v.reviewMainId=?1 and v.reviewProcessId=?2 and v.id in (?3) and v.affirmVoteResulted=false")
 	void affirm(Long reviewMainId, Long reviewProcessId, List<Long> voteResultIds);
+	
+	@Modifying
+	@Query("update VoteResult v "
+			+ "set v.chosen=true "
+			+ "where v.reviewMainId=?1 and v.reviewProcessId=?2 and v.id in (?3) and v.affirmVoteResulted=true and ((v.selected=false and v.adjusted='transferIn') or (v.selected=true and v.adjusted=null))")
+	void result(Long reviewMainId, Long reviewProcessId, List<Long> voteResultIds);
 	
 	Long countByReviewMainIdAndReviewProcessIdAndAffirmVoteResultedFalse(Long reviewMainId, Long reviewProcessId);
 	
@@ -68,7 +74,7 @@ public interface VoteResultRepository extends BaseRepository<VoteResult, Long> {
 	List<VoteResult> findAllVoteResultLast(Long reviewMainId);
 	
 	@Query("from VoteResult v "
-			+ "where v.reviewMainId=?1 and v.affirmVoteResulted=true and v.selected=true and v.commonNameContents is not null "
+			+ "where v.reviewMainId=?1 and v.affirmVoteResulted=true and v.chosen=true and v.commonNameContents is not null "
 			+ "order by v.drugForm.commonNameContents.common.drugCategory asc,v.selected desc, v.passSum desc, v.adjusted asc, v.drugForm.commonNameContents.common.commonName asc, drugForm.commonNameContents.pill asc, v.id desc")
-	List<VoteResult> findSelectedVoteResultLast(Long reviewMainId);
+	List<VoteResult> findChosnResult(Long reviewMainId);
 }

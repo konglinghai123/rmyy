@@ -235,7 +235,7 @@ public class VoteResultController extends BaseController<VoteResult, Long> {
 			if (EmptyUtil.isStringEmpty(customShow) || customShow.equals("all")) {
 				voteResults = voteResultService.findAllVoteResultLast(reviewMainId);
 			} else {
-				voteResults = voteResultService.findSelectedVoteResultLast(reviewMainId);
+				voteResults = voteResultService.findChosnResult(reviewMainId);
 			}
 			
 			map.put("total", voteResults.size());
@@ -248,17 +248,24 @@ public class VoteResultController extends BaseController<VoteResult, Long> {
 		return map;
 	}
 	
-	@RequestMapping(value = "adjust", method = RequestMethod.POST)
+	@RequestMapping(value = "transferIn", method = RequestMethod.POST)
 	@ResponseBody
-	public AjaxResponse adjust(@RequestParam(required = false) List<Long> selections) {
+	public AjaxResponse transferIn(@RequestParam(required = false) List<Long> selections) {
 		return voteResultService.transferIn(selections);
 	}
 
-	@RequestMapping(value = "cancel", method = RequestMethod.POST)
+	@RequestMapping(value = "callOut", method = RequestMethod.POST)
 	@ResponseBody
-	public AjaxResponse cancel(@RequestParam(required = false) List<Long> selections) {
+	public AjaxResponse callOut(@RequestParam(required = false) List<Long> selections) {
 		return voteResultService.callOut(selections);
 	}
+	
+	@RequestMapping(value = "cancel", method = RequestMethod.POST)
+	@ResponseBody
+	public AjaxResponse cancel(@RequestParam(value = "voteResultId") Long voteResultId) {
+		return voteResultService.cancel(voteResultId);
+	}
+	
 
 	@RequestMapping(value = "affirm", method = RequestMethod.POST)
 	@ResponseBody

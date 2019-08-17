@@ -17,8 +17,12 @@
 						<td width="70%"><form:input path="ruleName"  style="width:300px;" cssClass="validate[required]" /></td>
 					</tr>
 		        	<tr>
-						<td width="30%"><form:label path="ruleCnName">规则字段中文名：</form:label></td>
-						<td width="70%"><form:input path="ruleCnName" cssClass="validate[required]"/></td>
+						<td><form:label path="ruleCnName">规则字段中文名：</form:label></td>
+						<td><form:input path="ruleCnName" cssClass="validate[required]"/></td>
+					</tr>
+					<tr>
+						<td><form:label path="width">显示宽度：</form:label></td>
+						<td><form:input path="width" style="width:100px;" cssClass="validate[required]"/>(单位：px)</td>
 					</tr>				
 				</table>
 			</form:form>
