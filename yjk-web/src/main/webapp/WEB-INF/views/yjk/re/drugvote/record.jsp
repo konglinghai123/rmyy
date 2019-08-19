@@ -8,6 +8,7 @@
 		<thead>
 			<tr>
 			    <th data-options="field:'id',hidden:true">编号</th>
+			    <th data-options="field:'hemicalSubCategor',hidden:true">化药小类</th>
 				<th data-options="field:'passSum',width:60">通过票</th>
 				<th data-options="field:'opposeSum',width:60">反对票</th>
 				<th data-options="field:'abstainSum',width:60">弃权票</th>
@@ -63,6 +64,7 @@
 	</div>
 <ewcms:footer/>
 <script type="text/javascript" src="${ctx}/static/easyui/ext/datagrid-detailview.js"></script>
+<script type="text/javascript" src="${ctx}/static/easyui/ext/datagrid-groupview.js"></script>
 <script type="text/javascript">
 	var caption = '所有用户在 ${reviewProcess.reviewBaseRule.ruleCnName} 中投票结果统计';
 	$(function(){

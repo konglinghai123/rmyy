@@ -8,6 +8,7 @@
 	<table id="tt">
 		<thead>
 			<tr>
+				<th data-options="field:'hemicalSubCategor',hidden:true">化药小类</th>
 			    <th data-options="field:'voteTypeInfo',width:80">投票操作</th>
  				<c:forEach items="${reviewProcess.displayColumns}" var="displayColumn" varStatus="status">
  					<c:choose>
@@ -39,6 +40,7 @@
 	</table>
 	<ewcms:editWindow/>
 <ewcms:footer/>
+<script type="text/javascript" src="${ctx}/static/easyui/ext/datagrid-groupview.js"></script>
 <script type="text/javascript">
 	var caption = '';
 	$(function(){
@@ -50,7 +52,12 @@
 			rownumbers:true,
 			striped:true,
 			border:false,
-            singleSelect: true
+            singleSelect: true,
+            groupField:'chemicalSubCategory',
+		    view: groupview,
+		    groupFormatter:function(value, rows){
+		        return value + ' - ' + rows.length + ' 条';
+		    }
 		});
 	});
 	

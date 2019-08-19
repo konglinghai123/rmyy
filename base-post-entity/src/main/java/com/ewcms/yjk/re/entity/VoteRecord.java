@@ -148,4 +148,8 @@ public class VoteRecord extends BaseSequenceEntity<Long> {
 	public void setSigned(Boolean signed) {
 		this.signed = signed;
 	}
+	
+	public String getChemicalSubCategory() {
+		return (drugForm != null && drugForm.getCommonNameContents() != null && drugForm.getCommonNameContents().getCommon() != null) ? drugForm.getCommonNameContents().getCommon().getChemicalSubCategory() : "";
+	}
 }

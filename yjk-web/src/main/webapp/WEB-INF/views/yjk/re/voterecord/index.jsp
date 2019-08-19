@@ -56,6 +56,7 @@
 					<thead>   		
 						<tr>
 						    <th data-options="field:'id',hidden:true">编号</th>
+						    <th data-options="field:'hemicalSubCategor',hidden:true">化药小类</th>
 			 				<c:forEach items="${currentReviewProcess.displayColumns}" var="displayColumn" varStatus="status">
 			 					<c:choose>
 				 					<c:when test="${currentReviewProcess.reviewBaseRule.ruleName == acn||currentReviewProcess.reviewBaseRule.ruleName == asap}">
@@ -114,6 +115,7 @@
 				</div>
 				<ewcms:editWindow/>
 				<ewcms:footer/>
+				<script type="text/javascript" src="${ctx}/static/easyui/ext/datagrid-groupview.js"></script>
 				<script type="text/javascript">
 					$(function(){
 						$('#tt').datagrid({
@@ -124,6 +126,11 @@
 							rownumbers:true,
 							striped:true,
 							border:false,
+							groupField:'chemicalSubCategory',
+						    view: groupview,
+						    groupFormatter:function(value, rows){
+						        return value + ' - ' + rows.length + ' 条';
+						    },
 				            singleSelect: true
 							<c:if test="${!isExpertSubmitCurrentReview}">		
 				            ,onClickCell: onClickCell,

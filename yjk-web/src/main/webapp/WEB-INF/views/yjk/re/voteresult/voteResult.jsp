@@ -11,6 +11,7 @@
 			<tr>
 				<th data-options="field:'ck',checkbox:true"/>
 			    <th data-options="field:'id',hidden:true">编号</th>
+			    <th data-options="field:'hemicalSubCategor',hidden:true">化药小类</th>
 				<c:choose>
 				<c:when test='${!isClose}'>
 				<th data-options="field:'passSum',width:60">通过票</th>
@@ -282,6 +283,7 @@
 		</c:if>
 	</div>
 <ewcms:footer/>
+<script type="text/javascript" src="${ctx}/static/easyui/ext/datagrid-groupview.js"></script>
 <script type="text/javascript">
 	var caption = <c:choose><c:when test='${!isClose}'>"所有用户在 ${currentReviewProcess.reviewBaseRule.ruleCnName} 中投票结果统计"</c:when><c:otherwise>"最终入围结果统计"</c:otherwise></c:choose>;
 	$(function(){
@@ -294,6 +296,11 @@
 			rownumbers:true,
 			striped:true,
 			border:false,
+		    groupField:'chemicalSubCategory',
+		    view: groupview,
+		    groupFormatter:function(value, rows){
+		        return value + ' - ' + rows.length + ' Item(s)';
+		    },
 			rowStyler: function(index,row){
 				if ((row.selected && row.adjustedInfo!='调出') || (!row.selected && row.adjustedInfo=='调入')){
 					if( row.drugForm.commonNameContents.common.drugCategory=='Z'){

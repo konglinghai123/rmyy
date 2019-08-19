@@ -167,4 +167,8 @@ public class VoteResult extends BaseSequenceEntity<Long> {
 	public void setChosen(Boolean chosen) {
 		this.chosen = chosen;
 	}
+	
+	public String getChemicalSubCategory() {
+		return (drugForm != null && drugForm.getCommonNameContents() != null && drugForm.getCommonNameContents().getCommon() != null) ? drugForm.getCommonNameContents().getCommon().getChemicalSubCategory() : "";
+	}
 }
