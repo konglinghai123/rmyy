@@ -11,7 +11,6 @@
 			<tr>
 				<th data-options="field:'ck',checkbox:true"/>
 			    <th data-options="field:'id',hidden:true">编号</th>
-			    <th data-options="field:'hemicalSubCategor',hidden:true">化药小类</th>
 				<th data-options="field:'chosen',width:90,
 						formatter:function(val,row){
 							return val ? '入围' : '';

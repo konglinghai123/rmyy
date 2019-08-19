@@ -11,7 +11,6 @@
 			<tr>
 				<th data-options="field:'ck',checkbox:true"/>
 			    <th data-options="field:'id',hidden:true">编号</th>
-			    <th data-options="field:'hemicalSubCategor',hidden:true">化药小类</th>
 				<c:choose>
 				<c:when test='${!isClose}'>
 				<th data-options="field:'passSum',width:60">通过票</th>

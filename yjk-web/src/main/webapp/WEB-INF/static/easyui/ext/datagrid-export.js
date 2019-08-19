@@ -70,6 +70,12 @@
             }
             data.push('</tr>');
         });
+        data.push('<tr>');
+        data.push('<th colspan="' + fieldLen + '">签名:_______________________________________</th>');
+        data.push('</tr>');
+        data.push('<tr>');
+        data.push('<th colspan="' + fieldLen + '"></th>');
+        data.push('</tr>');
         data.push('</table>');
         return data.join('');
     }

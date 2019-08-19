@@ -100,6 +100,7 @@
 	</table>
     <ewcms:editWindow/>
 <ewcms:footer/>
+<script type="text/javascript" src="${ctx}/static/easyui/ext/datagrid-groupview.js"></script>
 <script type="text/javascript">
 	var caption = '';
 	$(function(){
@@ -142,6 +143,11 @@
 			rownumbers:true,
 			striped:true,
 			border:false,
+			groupField:'chemicalSubCategory',
+		    view: groupview,
+		    groupFormatter:function(value, rows){
+		        return value + ' - ' + rows.length + ' Item(s)';
+		    },
 			onLoadSuccess:function(row){
 				caption='用户：' + realname + ' 在 ${currentReviewProcess.reviewBaseRule.ruleCnName} 中的投票结果明细';
 				$(this).datagrid('toExcel','userSubmitted.xls');
