@@ -111,6 +111,13 @@
 							</c:otherwise>
 						</c:choose>			
 					</div>
+					<div>
+        				<table class="formtable">
+        					<tr>
+              					<td width="100%">化药小类分组<input type="checkbox" id="chemicalSub" value="true" checked="checked"></td>
+              				</tr>
+        				</table>
+          			</div>
 				</div>
 				<ewcms:editWindow/>
 				<ewcms:footer/>
@@ -135,6 +142,25 @@
 				            ,onClickCell: onClickCell,
 				            onEndEdit: onEndEdit
 				            </c:if>
+						});
+						$('#chemicalSub').bind('click', function(){
+							if ($(this).is(':checked')) {
+								$('#tt').datagrid({
+									groupField:'chemicalSubCategory',
+								    view: groupview,
+								    groupFormatter:function(value, rows){
+								        return value + ' - ' + rows.length + ' 条';
+								    }
+								})
+							} else {
+								$('#tt').datagrid({
+									groupField:'',
+								    view: groupview,
+								    groupFormatter:function(value, rows){
+								        return  '合计 - ' + rows.length + ' 条';
+								    }
+								})
+							}
 						});
 					});
 				

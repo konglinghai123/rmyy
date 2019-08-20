@@ -8,7 +8,6 @@
 	<table id="tt">
 		<thead>
 			<tr>
-				<th data-options="field:'hemicalSubCategor',hidden:true">化药小类</th>
 			    <th data-options="field:'voteTypeInfo',width:80">投票操作</th>
  				<c:forEach items="${reviewProcess.displayColumns}" var="displayColumn" varStatus="status">
  					<c:choose>
@@ -38,6 +37,17 @@
 			</tr>
 		</thead> 
 	</table>
+	<div id="tb" style="padding:5px;height:auto;">
+        <div class="toolbar" style="margin-bottom:2px">
+		</div>
+		<div>
+        	<table class="formtable">
+              	<tr>
+              		<td>化药小类分组<input type="checkbox" id="chemicalSub" value="true" checked="checked"></td>
+           		</tr>
+           	</table>
+    	</div>
+	</div>
 	<ewcms:editWindow/>
 <ewcms:footer/>
 <script type="text/javascript" src="${ctx}/static/easyui/ext/datagrid-groupview.js"></script>
@@ -58,6 +68,25 @@
 		    groupFormatter:function(value, rows){
 		        return value + ' - ' + rows.length + ' 条';
 		    }
+		});
+		$('#chemicalSub').bind('click', function(){
+			if ($(this).is(':checked')) {
+				$('#tt').datagrid({
+					groupField:'chemicalSubCategory',
+				    view: groupview,
+				    groupFormatter:function(value, rows){
+				        return value + ' - ' + rows.length + ' 条';
+				    }
+				})
+			} else {
+				$('#tt').datagrid({
+					groupField:'',
+				    view: groupview,
+				    groupFormatter:function(value, rows){
+				        return  '合计 - ' + rows.length + ' 条';
+				    }
+				})
+			}
 		});
 	});
 	

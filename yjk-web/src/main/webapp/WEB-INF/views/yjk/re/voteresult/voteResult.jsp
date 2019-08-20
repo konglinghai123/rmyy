@@ -261,11 +261,12 @@
 			</c:if>
 			<a id="tb-print" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-print'">打印</a>
 		</div>
-		<c:if test="${isClose}">
 		<div>
         	<form id="queryform" style="padding:0;margin:0;">
         		<table class="formtable">
               		<tr>
+              			<td width="28%">化药小类分组<input type="checkbox" id="chemicalSub" value="true" checked="checked"></td>
+              			<c:if test="${isClose}">
               			<td width="5%">显示情况</td>
               			<td width="23%">
               				<select class="easyui-combobox" name="CUSTOM_show" data-options="editable:false,width:100,panelHeight:'auto'">
@@ -273,17 +274,15 @@
               					<option value="chosen">入围</option>
               				</select>
               			</td>
-            			<td width="5%"></td>
-              			<td width="23%"></td>
-              			<td width="16%" colspan="2">
+              			<td width="16%">
             				<a id="tb-query" href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="$.ewcms.query();">查询</a>
            					<a id="tb-clear" href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-clear'" onclick="javascript:$('#queryform').form('reset');">清除</a>
            				</td>
+           				</c:if>
            			</tr>
            		</table>
           	</form>
     	</div>
-		</c:if>
 	</div>
 <ewcms:footer/>
 <script type="text/javascript" src="${ctx}/static/easyui/ext/datagrid-groupview.js"></script>
@@ -316,6 +315,25 @@
 	    	},
 			onLoadSuccess:function(row){
 				$('.cancelCls').linkbutton({plain:true,iconCls:'icon-cancel'});
+			}
+		});
+		$('#chemicalSub').bind('click', function(){
+			if ($(this).is(':checked')) {
+				$('#tt').datagrid({
+					groupField:'chemicalSubCategory',
+				    view: groupview,
+				    groupFormatter:function(value, rows){
+				        return value + ' - ' + rows.length + ' 条';
+				    }
+				})
+			} else {
+				$('#tt').datagrid({
+					groupField:'',
+				    view: groupview,
+				    groupFormatter:function(value, rows){
+				        return  '合计 - ' + rows.length + ' 条';
+				    }
+				})
 			}
 		});
 	});
