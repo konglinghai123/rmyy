@@ -24,10 +24,6 @@ import com.google.common.collect.Sets;
  * <li>ruleName:规则名(字段名)</li>
  * <li>ruleCnName:规则名(中文名)</li>
  * <li>displayColumns:所要显示的字段</li>
- * <li>injectDeclarationLimt:注射两规限数（院目录在用数量）</li>
- * <li>oralDeclarationLimt:口服两规限数（院目录在用数量）</li>
- * <li>otherDeclarationLimt:外用及其他两规限数（院目录在用数量）</li>
- * <li>isHospitalData:是否显示院用数据</li>
  * </ul>
  * 
  * @author zhoudongchu
@@ -51,18 +47,6 @@ public class ReviewBaseRule extends BaseSequenceEntity<Long> {
 					@JoinColumn(name = "display_column_id", referencedColumnName = "id") }, uniqueConstraints = {@UniqueConstraint(columnNames = {
 							"review_base_rule_id", "display_column_id" })})
 	private List<DisplayColumn> displayColumns;
-	
-	@Column(name = "inject_declaration_limt", nullable = false)
-	private Long injectDeclarationLimt = Long.valueOf(2);
-	
-	@Column(name = "oral_declaration_limt", nullable = false)
-	private Long oralDeclarationLimt = Long.valueOf(2);
-	
-	@Column(name = "other_declaration_limt", nullable = false)
-	private Long otherDeclarationLimt = Long.valueOf(0);
-
-	@Column(name = "is_hospital_data")
-	private Boolean isHospitalData;
 	
 	public String getRuleName() {
 		return ruleName;
@@ -98,35 +82,4 @@ public class ReviewBaseRule extends BaseSequenceEntity<Long> {
 				: Sets.newHashSet();
 	}
 
-	public Long getInjectDeclarationLimt() {
-		return injectDeclarationLimt;
-	}
-
-	public void setInjectDeclarationLimt(Long injectDeclarationLimt) {
-		this.injectDeclarationLimt = injectDeclarationLimt;
-	}
-
-	public Long getOralDeclarationLimt() {
-		return oralDeclarationLimt;
-	}
-
-	public void setOralDeclarationLimt(Long oralDeclarationLimt) {
-		this.oralDeclarationLimt = oralDeclarationLimt;
-	}
-
-	public Long getOtherDeclarationLimt() {
-		return otherDeclarationLimt;
-	}
-
-	public void setOtherDeclarationLimt(Long otherDeclarationLimt) {
-		this.otherDeclarationLimt = otherDeclarationLimt;
-	}
-
-	public Boolean getIsHospitalData() {
-		return isHospitalData;
-	}
-
-	public void setIsHospitalData(Boolean isHospitalData) {
-		this.isHospitalData = isHospitalData;
-	}
 }

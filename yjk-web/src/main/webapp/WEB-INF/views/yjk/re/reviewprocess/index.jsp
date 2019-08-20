@@ -13,6 +13,10 @@
 							return row.reviewBaseRule != null ? row.reviewBaseRule.ruleCnName : '';
 						}" rowspan="2">规格名称</th>
 				<th data-options="field:'givenOrgan',width:150,formatter:formatOperation" rowspan="2">特定科室/病区</th>
+				<th data-options="field:'hospitalData',width:140,
+						formatter:function(val,row){
+							return val?'是':'否';
+						}">是否显示院用数据</th>
 				<th colspan="2">确保申报科室通过数</th>
 				<th data-options="field:'finished', width:100,
 						formatter:function(val,row){

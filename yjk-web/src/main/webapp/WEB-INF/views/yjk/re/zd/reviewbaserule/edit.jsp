@@ -21,22 +21,6 @@
 						<td><form:input path="ruleCnName" cssClass="validate[required,ajax[ajaxNameCall]]"/></td>
 					</tr>
 					<tr>
-						<td><form:label path="injectDeclarationLimt">注射一品限数<font color="red">*</font>：</form:label></td>
-						<td><form:input path="injectDeclarationLimt" cssClass="validate[required,custom[integer]]" maxlength="4" size="10"/><font color="red">0代表不限</font></td>
-					</tr>
-		        	<tr>
-						<td><form:label path="oralDeclarationLimt">口服一品限数<font color="red">*</font>：</form:label></td>
-						<td><form:input path="oralDeclarationLimt" cssClass="validate[required,custom[integer]]" maxlength="4" size="10"/><font color="red">0代表不限</font></td>
-					</tr>
-		        	<tr>
-						<td><form:label path="otherDeclarationLimt">外用及其他一品限数<font color="red">*</font>：</form:label></td>
-						<td><form:input path="otherDeclarationLimt" cssClass="validate[required,custom[integer]]" maxlength="4" size="10"/><font color="red">0代表不限</font></td>
-					</tr>
-					<tr>
-						<td><form:label path="isHospitalData">是否显示院用数据：</form:label></td>
-						<td><form:checkbox path="isHospitalData"/></td>
-					</tr>
-					<tr>
 						<td><form:label path="displayColumns">所要显示字段：</form:label></td>
 						<td><form:input path="displayColumns" cssClass="easyui-combobox" data-options="url:'${ctx}/yjk/re/zd/displaycolumn/canUse',valueField:'id',textField:'ruleCnName',editable:false,multiple:true,multiline:true,panelHeight:140,height:100" cssStyle="width:100%;"/></td>
 					</tr>								

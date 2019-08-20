@@ -23,6 +23,10 @@
 						</td>
 					</tr>
 					<tr>
+						<td><form:label path="hospitalData">是否显示院用数据：</form:label></td>
+						<td><form:checkbox path="hospitalData"/></td>
+					</tr>
+					<tr>
 						<td><form:label path="ensureOrganPassChineseNumber">确保申报科室通过中成药数：</form:label></td>
 						<td><form:input path="ensureOrganPassChineseNumber" cssClass="validate[required, integer]"/></td>	
 					</tr>

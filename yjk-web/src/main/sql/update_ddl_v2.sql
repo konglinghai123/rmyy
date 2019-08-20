@@ -141,6 +141,7 @@ CREATE TABLE public.re_review_process
   reviewbaserule_id bigint,
   reviewmain_id bigint,
   ensure_organ_pass_number bigint,
+  is_hospital_data boolean,
   CONSTRAINT re_review_process_pkey PRIMARY KEY (id),
   CONSTRAINT fk_49avd1oe4o0dwimaxue8nmkvl FOREIGN KEY (reviewmain_id)
       REFERENCES public.re_review_main (id) MATCH SIMPLE
@@ -303,25 +304,6 @@ WITH (
 );
 ALTER TABLE public.re_vote_result
   OWNER TO postgres;
-
-
-
-/**
- * re_zd_review_base_rule
- */
-ALTER TABLE public.re_zd_review_base_rule ADD COLUMN inject_declaration_limt bigint;
-ALTER TABLE public.re_zd_review_base_rule ADD COLUMN oral_declaration_limt bigint;
-ALTER TABLE public.re_zd_review_base_rule ADD COLUMN other_declaration_limt bigint;
-ALTER TABLE public.re_zd_review_base_rule ADD COLUMN is_hospital_data boolean;
-
-update re_zd_review_base_rule set inject_declaration_limt = 2, oral_declaration_limt = 2, other_declaration_limt = 2;
-update re_zd_review_base_rule set is_hospital_data = false where id in (1, 3);
-update re_zd_review_base_rule set is_hospital_data = true where id in (2, 4);
-
-
-ALTER TABLE public.re_zd_review_base_rule ALTER COLUMN inject_declaration_limt SET NOT NULL;
-ALTER TABLE public.re_zd_review_base_rule ALTER COLUMN oral_declaration_limt SET NOT NULL;
-ALTER TABLE public.re_zd_review_base_rule ALTER COLUMN other_declaration_limt SET NOT NULL;
 
 /**
  * re_ensure_pass_through

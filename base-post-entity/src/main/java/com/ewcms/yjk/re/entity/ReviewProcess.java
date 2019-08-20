@@ -44,6 +44,7 @@ import com.google.common.collect.Sets;
  * <li>formulaWestern:剂型/规格西药通过数量</li>
  * <li>ensureOrganPassChineseNumber:确保申报科室通过中成药数</li>
  * <li>ensureOrganPassWesternNumber:确保申报科室通过西药数</li>
+ * <li>hospitalData:是否显示院用数据</li>
  * 
  * @author wuzhijun
  *
@@ -89,6 +90,8 @@ public class ReviewProcess extends BaseSequenceEntity<Long> implements Movable{
 	@Basic(optional = true, fetch = FetchType.EAGER)
 	@OrderBy("weight")
 	private List<EnsurePassThrough> ensurePassThrough;
+	@Column(name = "is_hospital_data")
+	private Boolean hospitalData = Boolean.FALSE;
 	
 	@JSONField(serialize = false)
 	public ReviewMain getReviewMain() {
@@ -209,5 +212,13 @@ public class ReviewProcess extends BaseSequenceEntity<Long> implements Movable{
 	
 	public Boolean getIsEnsurePassThrough() {
 		return (EmptyUtil.isCollectionEmpty(ensurePassThrough)) ? false : true;
+	}
+
+	public Boolean getHospitalData() {
+		return hospitalData;
+	}
+
+	public void setHospitalData(Boolean hospitalData) {
+		this.hospitalData = hospitalData;
 	}
 }

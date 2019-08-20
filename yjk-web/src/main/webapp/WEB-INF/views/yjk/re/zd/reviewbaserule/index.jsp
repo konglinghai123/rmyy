@@ -8,22 +8,6 @@
 			    <th data-options="field:'ck',checkbox:true"/>
 			    <th data-options="field:'id',sortable:true">编号</th>
 				<th data-options="field:'ruleCnName',width:180">规则字段中文名</th>
-				<th data-options="field:'injectDeclarationLimt',width:120,
-						formatter:function(val,row){
-							return val==0?'不限数':val;
-						}">注射一品限数</th>
-				<th data-options="field:'oralDeclarationLimt',width:120,
-						formatter:function(val,row){
-							return val==0?'不限数':val;
-						}">口服一品限数</th>
-				<th data-options="field:'otherDeclarationLimt',width:160,
-						formatter:function(val,row){
-							return val==0?'不限数':val;
-						}">外用及其他一品限数</th>
-				<th data-options="field:'isHospitalData',width:140,
-						formatter:function(val,row){
-							return val?'是':'否';
-						}">是否显示院用数据</th>
 				<th data-options="field:'displayColumnsNames',width:400">所要显示基本字段</th>
 			</tr>
 		</thead>
