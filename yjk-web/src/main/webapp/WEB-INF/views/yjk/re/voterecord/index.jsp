@@ -165,6 +165,11 @@
 					});
 				
 					function formatTooltip(val, row){
+						if(val == true){
+							val="是";
+						}else if(val == false){
+							val="否";
+						}
 						return val != null ? '<span title="' + val + '" class="easyui-tooltip">' + val + '</span>' : '';
 					}
 					

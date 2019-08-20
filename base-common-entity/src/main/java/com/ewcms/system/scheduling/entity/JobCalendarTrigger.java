@@ -43,6 +43,7 @@ public class JobCalendarTrigger extends JobTrigger {
     @Column(name = "months", length = 40, nullable = false)
     private String months;
 
+    
      public String getMinutes() {
         return minutes;
     }

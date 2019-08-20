@@ -5,24 +5,24 @@
 	<table id="tt">
 		<thead>
 			<tr>
-			    <th data-options="field:'ck',checkbox:true" rowspan="2"/>
-				<th data-options="field:'enabled',width:200,align:'center',formatter:formatOperation" rowspan="2">操作</th>
-			    <th data-options="field:'id',sortable:true" rowspan="2">编号</th>
-				<th data-options="field:'name',width:300" rowspan="2">名称</th>
-				<th data-options="field:'createDate',width:150" rowspan="2">创建时间</th>
-				<th data-options="field:'extractDate',width:150" rowspan="2">筛选用户时间</th>
-				<th data-options="field:'systemParameterProjectRemark',width:120" rowspan="2">申报项目说明</th>
-				<th data-options="field:'systemParameterRange',width:320" rowspan="2">评审申报范围</th>
-				<th colspan="2">拟新增通用名总数</th>
-				<th colspan="2">拟新增剂型/规格总数</th>
-				<th data-options="field:'remark',width:300" rowspan="2">说明</th>
+			    <th data-options="field:'ck',checkbox:true"/>
+				<th data-options="field:'enabled',width:200,align:'center',formatter:formatOperation">操作</th>
+			    <th data-options="field:'id',sortable:true">编号</th>
+				<th data-options="field:'name',width:300">名称</th>
+				<th data-options="field:'createDate',width:150">创建时间</th>
+				<th data-options="field:'extractDate',width:150">筛选用户时间</th>
+				<th data-options="field:'systemParameterProjectRemark',width:120">申报项目说明</th>
+				<th data-options="field:'systemParameterRange',width:320">评审申报范围</th>
+				<th data-options="field:'remark',width:300">说明</th>
 			</tr>
+			<!--  
 			<tr>
 				<th data-options="field:'generalNameChinese',width:100">中成药</th>
 				<th data-options="field:'generalNameWestern',width:100">西药</th>
 				<th data-options="field:'formulaChinese',width:100">中成药</th>
 				<th data-options="field:'formulaWestern',width:100">西药</th>
 			</tr>
+			-->
 		</thead>
 	</table>
 	<div id="tb" style="padding:5px;height:auto;">

@@ -80,8 +80,12 @@ insert into re_zd_display_column(id, rule_cn_name,rule_name,width) values
 ,(20,'一致性评价','drugForm.commonNameContents.consistencyEvaluation',80)
 ,(21,'谈判品种','drugForm.commonNameContents.negotiationVariety',80)
 ,(22,'规格','drugForm.commonNameContents.specifications',150)
+,(23,'用法用量','drugForm.dosage',150)
+,(24,'申请理由','drugForm.declareReason',200)
+,(25,'成分','drugForm.constituent',100)
+,(26,'是否复方制剂','drugForm.preparationed',50)
 ;
-select setval('seq_re_zd_display_column_id', 22);
+select setval('seq_re_zd_display_column_id', 26);
 
 insert into re_zd_review_base_rule(id, rule_cn_name,rule_name) values
 (1,'新增通用名','addCommonName')
