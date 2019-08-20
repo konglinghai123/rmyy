@@ -1,6 +1,7 @@
 package com.ewcms.yjk.re.repository;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -23,7 +24,7 @@ public interface VoteResultRepository extends BaseRepository<VoteResult, Long> {
 	
 	@Query("from VoteResult v "
 			+ "where v.reviewMainId=?1 and v.reviewProcessId=?2 "
-			+ "order by v.drugForm.commonNameContents.common.drugCategory asc,v.selected desc, v.passSum desc,  v.adjusted asc, v.drugForm.commonNameContents.common.commonName asc, drugForm.commonNameContents.pill asc, v.id desc")
+			+ "order by v.drugForm.commonNameContents.common.drugCategory asc,v.selected desc, v.passSum desc, v.adjusted asc, v.drugForm.commonNameContents.common.commonName asc, drugForm.commonNameContents.pill asc, v.id desc")
 	List<VoteResult> findCurrentReviewProcessVoteResults(Long reviewMainId, Long reviewProcessId);
 	
 	@Query("from VoteResult v "
@@ -64,6 +65,22 @@ public interface VoteResultRepository extends BaseRepository<VoteResult, Long> {
 			+ "order by v.passSum desc, v.opposeSum asc, v.abstainSum asc")
 	List<VoteResult> findCurrentReviewProcessVoteResults(Long reviewMainId, Long reviewProcessId, DrugCategoryEnum drugCategoryEnum);
 	
+	@Query("select v.id from VoteResult v "
+			+ "where v.reviewMainId=?1 and v.reviewProcessId=?2 and v.drugForm.commonNameContents.common.drugCategory=?3 and v.drugForm.userId in (?4) "
+			+ "order by v.passSum desc, v.opposeSum asc, v.abstainSum asc")
+	List<Long> findCurrentReviewProcessVoteResults(Long reviewMainId, Long reviewProcessId, DrugCategoryEnum drugCategoryEnum, Set<Long> userIds);
+	
+	@Modifying
+	@Query("update VoteResult v "
+			+ "set v.selected=true, v.ensureOrgan=true "
+			+ "where v.id in (?1)")
+	void ensure(List<Long> voteResultIds);
+	
+	@Query("from VoteResult v "
+			+ "where v.reviewMainId=?1 and v.reviewProcessId=?2 and v.drugForm.commonNameContents.common.drugCategory=?3 and v.id not in (?4) "
+			+ "order by v.passSum desc, v.opposeSum asc, v.abstainSum asc")
+	List<VoteResult> findCurrentReviewProcessVoteResults(Long reviewMainId, Long reviewProcessId, DrugCategoryEnum drugCategoryEnum, List<Long> excludeVoteResutIds);
+ 	
 	Long countByReviewMainIdAndReviewProcessIdAndDrugFormCommonNameContentsCommonDrugCategoryAndSelectedTrueAndAffirmVoteResultedTrue(Long reviewMainId, Long reviewProcessId, DrugCategoryEnum drugCategoryEnum);
 	
 	Long countByReviewMainIdAndReviewProcessIdAndSelectedTrue(Long reviewMainId, Long reviewProcessId);

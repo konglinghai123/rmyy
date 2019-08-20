@@ -20,6 +20,10 @@
 						formatter:function(val,row){
 							return val ? '是' : '否';
 						}">是否拟入围</th>
+				<th data-options="field:'ensureOrgan',width:100,
+						formatter:function(val,row){
+							return val ? '是' : '';
+						}">是否确保科室</th>
 				<th data-options="field:'adjustedInfo',width:90,formatter:formatOperation">调入/调出</th>
 				<th data-options="field:'affirmVoteResulted',width:90,
 						formatter:function(val,row){
@@ -298,7 +302,7 @@
 		    groupField:'chemicalSubCategory',
 		    view: groupview,
 		    groupFormatter:function(value, rows){
-		        return value + ' - ' + rows.length + ' Item(s)';
+		        return value + ' - ' + rows.length + ' 条';
 		    },
 			rowStyler: function(index,row){
 				if ((row.selected && row.adjustedInfo!='调出') || (!row.selected && row.adjustedInfo=='调入')){

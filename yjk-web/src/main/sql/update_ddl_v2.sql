@@ -140,6 +140,7 @@ CREATE TABLE public.re_review_process
   weight integer,
   reviewbaserule_id bigint,
   reviewmain_id bigint,
+  ensure_organ_pass_number bigint,
   CONSTRAINT re_review_process_pkey PRIMARY KEY (id),
   CONSTRAINT fk_49avd1oe4o0dwimaxue8nmkvl FOREIGN KEY (reviewmain_id)
       REFERENCES public.re_review_main (id) MATCH SIMPLE
@@ -278,7 +279,10 @@ CREATE TABLE public.re_vote_result
 (
   id bigint NOT NULL,
   abstain_sum integer,
+  adjusted character varying(255),
   is_affirm_resulted boolean,
+  is_chosen boolean,
+  is_ensure_organ boolean,
   oppose_sum integer,
   pass_sum integer,
   review_main_id bigint NOT NULL,
@@ -286,8 +290,6 @@ CREATE TABLE public.re_vote_result
   is_selected boolean,
   commonnamecontents_id bigint,
   drugform_id bigint,
-  adjusted character varying(255),
-  chosen boolean,
   CONSTRAINT re_vote_result_pkey PRIMARY KEY (id),
   CONSTRAINT fk_1qgltel6nl3wr24jkprcrmrpw FOREIGN KEY (commonnamecontents_id)
       REFERENCES public.zd_common_name_contents (id) MATCH SIMPLE
@@ -301,6 +303,7 @@ WITH (
 );
 ALTER TABLE public.re_vote_result
   OWNER TO postgres;
+
 
 
 /**
@@ -320,3 +323,54 @@ ALTER TABLE public.re_zd_review_base_rule ALTER COLUMN inject_declaration_limt S
 ALTER TABLE public.re_zd_review_base_rule ALTER COLUMN oral_declaration_limt SET NOT NULL;
 ALTER TABLE public.re_zd_review_base_rule ALTER COLUMN other_declaration_limt SET NOT NULL;
 
+/**
+ * re_ensure_pass_through
+ */
+CREATE SEQUENCE public.seq_re_ensure_pass_through_id
+  INCREMENT 1
+  MINVALUE 1
+  MAXVALUE 9223372036854775807
+  START 1
+  CACHE 1;
+ALTER TABLE public.seq_re_ensure_pass_through_id
+  OWNER TO postgres;
+  
+CREATE TABLE public.re_ensure_pass_through
+(
+  id bigint NOT NULL,
+  chinese_number bigint,
+  is_enabled boolean,
+  weight integer,
+  western_number bigint,
+  reviewprocess_id bigint,
+  CONSTRAINT re_ensure_pass_through_pkey PRIMARY KEY (id),
+  CONSTRAINT fk_8gwgsojrxhkcexc4hy6147kle FOREIGN KEY (reviewprocess_id)
+      REFERENCES public.re_review_process (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE public.re_ensure_pass_through
+  OWNER TO postgres;
+
+/**
+ * re_ensure_pass_through_organization
+ */
+CREATE TABLE public.re_ensure_pass_through_organization
+(
+  re_ensure_pass_through_id bigint NOT NULL,
+  organization_id bigint NOT NULL,
+  CONSTRAINT fk_1ghactwmy1jfbxn6aonoaqakf FOREIGN KEY (organization_id)
+      REFERENCES public.sec_organization (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT fk_chf6g70h37exkekev6ml9m93j FOREIGN KEY (re_ensure_pass_through_id)
+      REFERENCES public.re_ensure_pass_through (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT uk_oaa43m8j0e7pff4ndnocp5b9m UNIQUE (re_ensure_pass_through_id, organization_id)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE public.re_ensure_pass_through_organization
+  OWNER TO postgres;

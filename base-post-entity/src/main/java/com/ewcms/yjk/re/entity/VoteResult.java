@@ -30,6 +30,7 @@ import com.ewcms.yjk.zd.commonname.entity.CommonNameContents;
  * <li>affirmVoteResulted:确认投票结果</li>
  * <li>adjusted:调整操作</li>
  * <li>chosen:是否入围</li>
+ * <li>ensureOrgan:是否确保科室</li>
  * </ul>
  * 
  * @author zhoudongchu
@@ -73,8 +74,11 @@ public class VoteResult extends BaseSequenceEntity<Long> {
 	@Column(name = "abstain_sum")
 	private Integer abstainSum;
 	
-	@Column(name = "chosen")
+	@Column(name = "is_chosen")
 	private Boolean chosen = Boolean.FALSE;
+	
+	@Column(name = "is_ensure_organ")
+	private Boolean ensureOrgan = Boolean.FALSE;
 
 	public Long getReviewMainId() {
 		return reviewMainId;
@@ -168,6 +172,14 @@ public class VoteResult extends BaseSequenceEntity<Long> {
 		this.chosen = chosen;
 	}
 	
+	public Boolean getEnsureOrgan() {
+		return ensureOrgan;
+	}
+
+	public void setEnsureOrgan(Boolean ensureOrgan) {
+		this.ensureOrgan = ensureOrgan;
+	}
+
 	public String getChemicalSubCategory() {
 		return (drugForm != null && drugForm.getCommonNameContents() != null && drugForm.getCommonNameContents().getCommon() != null) ? drugForm.getCommonNameContents().getCommon().getChemicalSubCategory() : "";
 	}

@@ -6,12 +6,14 @@
 		<thead>
 			<tr>
 			    <th data-options="field:'ck',checkbox:true" rowspan="2"/>
-			    <th data-options="field:'id',sortable:true" rowspan="2">编号</th>
-			    <th data-options="field:'weight',sortable:true" rowspan="2">排序号</th>
+			    <th data-options="field:'id',hidden:true" rowspan="2">编号</th>
+			    <th data-options="field:'weight',hidden:true" rowspan="2">排序号</th>
 				<th data-options="field:'ruleCnName',width:150,
 						formatter:function(val,row){
 							return row.reviewBaseRule != null ? row.reviewBaseRule.ruleCnName : '';
 						}" rowspan="2">规格名称</th>
+				<th data-options="field:'givenOrgan',width:150,formatter:formatOperation" rowspan="2">特定科室/病区</th>
+				<th colspan="2">确保申报科室通过数</th>
 				<th data-options="field:'finished', width:100,
 						formatter:function(val,row){
 							if (typeof(val)=='undefined') return '/';
@@ -22,6 +24,8 @@
 				<th data-options="field:'displayColumnRuleCnNames',width:300,formatter:formatTooltip" rowspan="2">显示字段集合</th>
 			</tr>
 			<tr>
+				<th data-options="field:'ensureOrganPassChineseNumber',width:100">中成药</th>
+				<th data-options="field:'ensureOrganPassWesternNumber',width:100">西药</th>
 				<th data-options="field:'generalNameChinese',width:100">中成药</th>
 				<th data-options="field:'generalNameWestern',width:100">西药</th>
 				<th data-options="field:'formulaChinese',width:100">中成药</th>
@@ -84,6 +88,9 @@
 			},
 			onBeforeLoad:function(param){
 				param['parameters']=$('#queryform').serializeObject();
+			},
+			onLoadSuccess:function(row){
+				$('.selectCls').linkbutton({plain:true,iconCls:'icon-connect'});
 			}
 		});
 		
@@ -118,7 +125,22 @@
 		});
 	});
 	
+	function formatOperation(val, row) {
+		var	htmlOperation = '<a class="selectCls" onclick="openEnsurePassThrough(' + row.id + ')" href="javascript:void(0);" style="height:24px;" title="特定科室"/>';
+		if (row.isEnsurePassThrough){
+			htmlOperation += " | 有";
+		} else {
+			htmlOperation += " | 无";
+		}
+		//htmlOperation += "特定科室/病区";
+		return htmlOperation;
+	}
+	
 	function formatTooltip(val, row){
 		return val != null ? '<span title="' + val + '" class="easyui-tooltip">' + val + '</span>' : '';
+	}
+	
+	function openEnsurePassThrough(id){
+		$.ewcms.openWindow({src:'${ctx}/yjk/re/ensurepassthrough/' + id + '/index',title:'科室 - 特定科室'});
 	}
 </script>

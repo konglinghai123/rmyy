@@ -22,6 +22,14 @@
 							</form:select>
 						</td>
 					</tr>
+					<tr>
+						<td><form:label path="ensureOrganPassChineseNumber">确保申报科室通过中成药数：</form:label></td>
+						<td><form:input path="ensureOrganPassChineseNumber" cssClass="validate[required, integer]"/></td>	
+					</tr>
+					<tr>
+						<td><form:label path="ensureOrganPassWesternNumber">确保申报科室通过西药数：</form:label></td>
+						<td><form:input path="ensureOrganPassWesternNumber" cssClass="validate[required, integer]"/></td>	
+					</tr>
 		        	<tr id="generalName1">
 						<td><form:label path="generalNameChinese">拟新增通用名中成药：</form:label></td>
 						<td><form:input path="generalNameChinese" cssClass="validate[required, integer]"/></td>

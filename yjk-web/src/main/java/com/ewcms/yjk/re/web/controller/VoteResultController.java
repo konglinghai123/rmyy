@@ -197,7 +197,7 @@ public class VoteResultController extends BaseController<VoteResult, Long> {
 				}
 				
 				if (EmptyUtil.isCollectionNotEmpty(allUserIds) && allUserIds.size() == countSinged.intValue()){
-					voteResultService.generateCurrentReviewProcessVoteResults(reviewMainId, reviewProcess.getId());
+					voteResultService.generateCurrentVoteResults(reviewMainId, reviewProcess.getId());
 					isResult = true;
 				}
 			} else {

@@ -33,7 +33,8 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
 /**
- * 申报人员过滤打件
+ * 申报人员过滤条件
+ * 
  * <ul>
  * <li>weight:排序</li>
  * <li>director:科主任</li>
@@ -51,6 +52,7 @@ import com.google.common.collect.Sets;
  * <li>departmentNumber:部门人数</li>
  * <li>enabled:是否启用</li>
  * </ul>
+ * 
  * @author wuzhijun
  *
  */

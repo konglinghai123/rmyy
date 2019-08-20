@@ -33,7 +33,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
 /**
- * 评审专家过滤打件
+ * 评审专家过滤条件
  * 
  * <ul>
  * <li>weight:排序</li>

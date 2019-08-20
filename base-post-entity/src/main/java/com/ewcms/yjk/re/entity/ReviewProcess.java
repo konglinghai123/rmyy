@@ -3,13 +3,17 @@ package com.ewcms.yjk.re.entity;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
@@ -28,15 +32,19 @@ import com.google.common.collect.Sets;
 
 /**
  * 评审流程
+ * 
  * <li>reviewMain:评审主表对象</li>
  * <li>reviewBaseRule:评审基本规则对象</li>
  * <li>weight:排序号</li>
  * <li>displayColumns:可显示的字段库对象集合</li>
  * <li>finished:是否投票完成</li>
- * <li>generalNameChinese:新增通用名中成药数量</li>
- * <li>generalNameWestern:新增通用名西药数量</li>
- * <li>formulaChinese:新增剂型/规格中成药数量</li>
- * <li>formulaWestern:新增剂型/规格西药数量</li>
+ * <li>generalNameChinese:通用名中成药通过数量</li>
+ * <li>generalNameWestern:通用名西药通过数量</li>
+ * <li>formulaChinese:剂型/规格中成药通过数量</li>
+ * <li>formulaWestern:剂型/规格西药通过数量</li>
+ * <li>ensureOrganPassChineseNumber:确保申报科室通过中成药数</li>
+ * <li>ensureOrganPassWesternNumber:确保申报科室通过西药数</li>
+ * 
  * @author wuzhijun
  *
  */
@@ -71,6 +79,16 @@ public class ReviewProcess extends BaseSequenceEntity<Long> implements Movable{
 	private Long formulaChinese = 0L;
 	@Column(name = "formula_western")
 	private Long formulaWestern = 0L;
+	@Column(name = "ensure_organ_pass_chinese_number")
+	private Long ensureOrganPassChineseNumber = 0L;
+	@Column(name = "ensure_organ_pass_western_number")
+	private Long ensureOrganPassWesternNumber = 0L;
+	@OneToMany(cascade = { CascadeType.MERGE,
+			CascadeType.REFRESH }, fetch = FetchType.EAGER, targetEntity = EnsurePassThrough.class, mappedBy = "reviewProcess", orphanRemoval = true)
+	@Fetch(FetchMode.SELECT)
+	@Basic(optional = true, fetch = FetchType.EAGER)
+	@OrderBy("weight")
+	private List<EnsurePassThrough> ensurePassThrough;
 	
 	@JSONField(serialize = false)
 	public ReviewMain getReviewMain() {
@@ -154,8 +172,42 @@ public class ReviewProcess extends BaseSequenceEntity<Long> implements Movable{
 	public Long getFormulaWestern() {
 		return formulaWestern;
 	}
-
+	
 	public void setFormulaWestern(Long formulaWestern) {
 		this.formulaWestern = formulaWestern;
+	}
+
+	public Long getEnsureOrganPassChineseNumber() {
+		return ensureOrganPassChineseNumber;
+	}
+
+	public void setEnsureOrganPassChineseNumber(Long ensureOrganPassChineseNumber) {
+		this.ensureOrganPassChineseNumber = ensureOrganPassChineseNumber;
+	}
+
+	public Long getEnsureOrganPassWesternNumber() {
+		return ensureOrganPassWesternNumber;
+	}
+
+	public void setEnsureOrganPassWesternNumber(Long ensureOrganPassWesternNumber) {
+		this.ensureOrganPassWesternNumber = ensureOrganPassWesternNumber;
+	}
+
+	@JSONField(serialize = false)
+	public List<EnsurePassThrough> getEnsurePassThrough() {
+		return ensurePassThrough;
+	}
+	
+	public void addEnsurePassThrough(EnsurePassThrough ensurePassThrough) {
+		ensurePassThrough.setReviewProcess(this);
+		getEnsurePassThrough().add(ensurePassThrough);
+	}
+
+	public void setEnsurePassThrough(List<EnsurePassThrough> ensurePassThrough) {
+		this.ensurePassThrough = ensurePassThrough;
+	}
+	
+	public Boolean getIsEnsurePassThrough() {
+		return (EmptyUtil.isCollectionEmpty(ensurePassThrough)) ? false : true;
 	}
 }
