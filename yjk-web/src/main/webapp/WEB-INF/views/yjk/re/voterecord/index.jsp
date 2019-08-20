@@ -114,7 +114,7 @@
 					<div>
         				<table class="formtable">
         					<tr>
-              					<td width="100%">化药小类分组<input type="checkbox" id="chemicalSub" value="true" checked="checked"></td>
+              					<td width="100%">分组<input type="checkbox" id="chemicalSub" value="true" checked="checked"></td>
               				</tr>
         				</table>
           			</div>

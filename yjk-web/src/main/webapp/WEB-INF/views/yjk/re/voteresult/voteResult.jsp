@@ -265,7 +265,7 @@
         	<form id="queryform" style="padding:0;margin:0;">
         		<table class="formtable">
               		<tr>
-              			<td width="28%">化药小类分组<input type="checkbox" id="chemicalSub" value="true" checked="checked"></td>
+              			<td width="28%">分组<input type="checkbox" id="chemicalSub" value="true" checked="checked"></td>
               			<c:if test="${isClose}">
               			<td width="5%">显示情况</td>
               			<td width="23%">
