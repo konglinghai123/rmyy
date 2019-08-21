@@ -1,7 +1,10 @@
 package com.ewcms.yjk.re.service;
 
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.Map.Entry;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +16,7 @@ import com.ewcms.common.web.validate.AjaxResponse;
 import com.ewcms.security.organization.service.OrganizationService;
 import com.ewcms.security.user.service.UserOrganizationJobService;
 import com.ewcms.yjk.YjkConstants;
+import com.ewcms.yjk.re.entity.EnsurePassThrough;
 import com.ewcms.yjk.re.entity.ReviewMain;
 import com.ewcms.yjk.re.entity.ReviewProcess;
 import com.ewcms.yjk.re.entity.VoteResult;
@@ -22,6 +26,7 @@ import com.ewcms.yjk.sb.entity.DrugForm;
 import com.ewcms.yjk.sp.entity.SystemParameter;
 import com.ewcms.yjk.zd.commonname.entity.DrugCategoryEnum;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 
 @Service
 public class VoteResultService extends BaseService<VoteResult, Long> {
@@ -246,42 +251,6 @@ public class VoteResultService extends BaseService<VoteResult, Long> {
 		return ajaxResponse;
 	}
 	
-//	private void generateSelected(Long reviewMainId, Long reviewProcessId, Long number, DrugCategoryEnum drugCategoryEnum) {
-//		List<VoteResult> voteResults = getVoteResultRepository().findCurrentReviewProcessVoteResults(reviewMainId, reviewProcessId, drugCategoryEnum);
-//		if (EmptyUtil.isCollectionNotEmpty(voteResults)) {
-//			long i = 0;
-//			for (VoteResult voteResult : voteResults) {
-//				if (i < number.longValue()) {
-//					voteResult.setSelected(true);
-//					update(voteResult);
-//				} else {
-//					break;
-//				}
-//				i++;
-//			}
-//		}
-//	}
-//	
-//	public List<VoteResult> generateCurrentReviewProcessVoteResults(Long reviewMainId, Long reviewProcessId){
-//		if(getVoteResultRepository().countByReviewMainIdAndReviewProcessIdAndSelectedTrue(reviewMainId, reviewProcessId).longValue() == 0){
-//			ReviewProcess reviewProcess = reviewProcessService.findOne(reviewProcessId);
-//			if (reviewProcess == null) return Lists.newArrayList();
-//			
-//			String reuleName = reviewProcess.getReviewBaseRule().getRuleName();
-//			if (reuleName.equals(YjkConstants.ACN) || reuleName.equals(YjkConstants.ACNM)) {
-//				generateSelected(reviewMainId, reviewProcessId, reviewProcess.getGeneralNameChinese(), DrugCategoryEnum.Z);
-//				generateSelected(reviewMainId, reviewProcessId, reviewProcess.getGeneralNameWestern(), DrugCategoryEnum.H);
-//			} else if (reuleName.equals(YjkConstants.ASAP) || reuleName.equals(YjkConstants.ASAPM)) {
-//				generateSelected(reviewMainId, reviewProcessId, reviewProcess.getFormulaChinese(), DrugCategoryEnum.Z);
-//				generateSelected(reviewMainId, reviewProcessId, reviewProcess.getFormulaWestern(), DrugCategoryEnum.H);
-//			} else {
-//				return Lists.newArrayList();
-//			}
-//		}
-//		
-//		return findCurrentReviewProcessVoteResults(reviewMainId, reviewProcessId);
-//	}
-	
 	@SuppressWarnings("unchecked")
 	public List<VoteResult> generateCurrentVoteResults(Long reviewMainId, Long reviewProcessId){
 		ReviewMain reviewMain = reviewMainService.findByEnabledTrue();
@@ -289,14 +258,11 @@ public class VoteResultService extends BaseService<VoteResult, Long> {
 		SystemParameter systemParameter = reviewMain.getSystemParameter();
 		if (systemParameter == null) return Lists.newArrayList();
 		
-		List<Long> organizationIds = Collections3.extractToList(organizationService.findAll(), "id");
-		
 		ReviewProcess currentReviewProcess = reviewProcessService.findOne(reviewProcessId);
 		String reuleName = currentReviewProcess.getReviewBaseRule().getRuleName();
 		
 		for (DrugCategoryEnum drugCategoryEnum : DrugCategoryEnum.values()) {
-			Long ensureOrganPassNumber = 0L;// 确保每科室通过数
-			Long matchNumber = 0L;
+			int matchNumber = 0;
 			
 			if (reuleName.equals(YjkConstants.ACN) || reuleName.equals(YjkConstants.ACNM)) {
 				if (drugCategoryEnum.equals(DrugCategoryEnum.H)) {
@@ -312,61 +278,59 @@ public class VoteResultService extends BaseService<VoteResult, Long> {
 				}
 			}
 			
-			if (drugCategoryEnum.equals(DrugCategoryEnum.H)) {
-				ensureOrganPassNumber = currentReviewProcess.getEnsureOrganPassWesternNumber();
-			} else if (drugCategoryEnum.equals(DrugCategoryEnum.Z)) {
-				ensureOrganPassNumber = currentReviewProcess.getEnsureOrganPassChineseNumber();
-			}
+			List<Long> excludeVoteResultIds = Lists.newArrayList();// 有特定科室定义了需排除的投票结果编号记录集
+			int ensureTotalNumber = 0;
 			
-			if (ensureOrganPassNumber.longValue() > 0) {
-				int ensureTotalNumber = 0;
-				List<Long> excludeVoteResultIds = Lists.newArrayList();
-				for (Long organizationId : organizationIds) {
-					Set<Long> userIds = userOrganizationJobService.findUsersByOrganization(organizationId);
-					if (EmptyUtil.isCollectionEmpty(userIds)) continue;
+			List<EnsurePassThrough> ensurePassThroughs = ensurePassThroughService.findByReviewProcessIdAndEnabledTrueOrderByWeightAsc(reviewProcessId);
+			if (EmptyUtil.isCollectionNotEmpty(ensurePassThroughs)) {
+				Map<Long, Integer> organEnsureMap = Maps.newHashMap();
+				for (EnsurePassThrough ensurePassThrough : ensurePassThroughs) {
+					int ensureDrugCategoryNumber = 0;
+					if (drugCategoryEnum.equals(DrugCategoryEnum.H)) {
+						ensureDrugCategoryNumber = ensurePassThrough.getWesternNumber();
+					} else if (drugCategoryEnum.equals(DrugCategoryEnum.Z)) {
+						ensureDrugCategoryNumber = ensurePassThrough.getChineseNumber();
+					}	
 					
-					List<Long> voteResultIds = getVoteResultRepository().findCurrentReviewProcessVoteResults(reviewMainId, reviewProcessId, drugCategoryEnum, userIds);
-					if (EmptyUtil.isCollectionEmpty(voteResultIds)) continue;
-					
-					int ensureNumber = ensurePassThroughService.findEnsureNumber(reviewProcessId, organizationId, drugCategoryEnum);
-					if (ensureNumber <= -1) {// 当特定科室为-1时，代表此编号的组织没有在特定科室定义
-						ensureNumber = Math.min(voteResultIds.size(), ensureOrganPassNumber.intValue());
-					} else {
-						ensureNumber = Math.min(voteResultIds.size(), ensureNumber);
+					List<Long> organizationIds = ensurePassThrough.getOrganiztionIdsList();
+					if (EmptyUtil.isCollectionEmpty(organizationIds)) {
+						organizationIds = Collections3.extractToList(organizationService.findAll(), "id");
 					}
-					
-//					int ensureNumber = Math.min(voteResultIds.size(), ensureOrganPassNumber.intValue());
-					if (ensureNumber <= 0) continue;
-					
-					List<Long> newVoteResultIds = voteResultIds.subList(0, ensureNumber);
-					getVoteResultRepository().ensure(newVoteResultIds);
-
-					excludeVoteResultIds.addAll(newVoteResultIds);
-					ensureTotalNumber += ensureNumber;
+					for (Long organizationId : organizationIds) {
+						organEnsureMap.put(organizationId, ensureDrugCategoryNumber);
+					}
 				}
 				
-				if (matchNumber.intValue() > ensureTotalNumber) {
-					List<VoteResult> voteResults = getVoteResultRepository().findCurrentReviewProcessVoteResults(reviewMainId, reviewProcessId, drugCategoryEnum, excludeVoteResultIds);
-					if (EmptyUtil.isCollectionNotEmpty(voteResults)) {
-						int residueNumber = matchNumber.intValue() - ensureTotalNumber;
-						int i = 0;
-						for (VoteResult voteResult : voteResults) {
-							if (i < residueNumber) {
-								voteResult.setSelected(true);
-								update(voteResult);
-							} else {
-								break;
-							}
-							i++;
-						}
+				Iterator<Entry<Long, Integer>> iterator = organEnsureMap.entrySet().iterator();
+				while (iterator.hasNext()) {
+					Entry<Long, Integer> entry = iterator.next();
+					int ensureOrganNumber = entry.getValue();
+					if (ensureOrganNumber > 0) {
+						Set<Long> userIds = userOrganizationJobService.findUsersByOrganization(entry.getKey());
+						if (EmptyUtil.isCollectionEmpty(userIds)) continue;
+						
+						List<Long> voteResultIds = getVoteResultRepository().findCurrentReviewProcessVoteResults(reviewMainId, reviewProcessId, drugCategoryEnum, userIds);
+						if (EmptyUtil.isCollectionEmpty(voteResultIds)) continue;
+						
+						ensureOrganNumber = Math.min(ensureOrganNumber, voteResultIds.size());
+						
+						if (ensureOrganNumber <= 0) continue;
+						List<Long> newVoteResultIds = voteResultIds.subList(0, ensureOrganNumber);
+						getVoteResultRepository().ensure(newVoteResultIds);
+
+						excludeVoteResultIds.addAll(newVoteResultIds);
+						ensureTotalNumber += ensureOrganNumber;
 					}
 				}
-			} else {
-				List<VoteResult> voteResults = getVoteResultRepository().findCurrentReviewProcessVoteResults(reviewMainId, reviewProcessId, drugCategoryEnum);
+			}
+			
+			if (matchNumber > ensureTotalNumber) {
+				List<VoteResult> voteResults = getVoteResultRepository().findCurrentReviewProcessVoteResults(reviewMainId, reviewProcessId, drugCategoryEnum, excludeVoteResultIds);
 				if (EmptyUtil.isCollectionNotEmpty(voteResults)) {
+					int residueNumber = matchNumber - ensureTotalNumber;
 					int i = 0;
 					for (VoteResult voteResult : voteResults) {
-						if (i < matchNumber.longValue()) {
+						if (i < residueNumber) {
 							voteResult.setSelected(true);
 							update(voteResult);
 						} else {
@@ -375,7 +339,10 @@ public class VoteResultService extends BaseService<VoteResult, Long> {
 						i++;
 					}
 				}
+				
 			}
+			
+			//TODO 处理一品n规处理过程
 		}
 		
 		return findCurrentReviewProcessVoteResults(reviewMainId, reviewProcessId);

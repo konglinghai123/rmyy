@@ -60,6 +60,7 @@ public class VoteMonitor implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((signed == null) ? 0 : signed.hashCode());
 		result = prime * result + ((user == null) ? 0 : user.hashCode());
 		return result;
 	}
@@ -73,6 +74,11 @@ public class VoteMonitor implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		VoteMonitor other = (VoteMonitor) obj;
+		if (signed == null) {
+			if (other.signed != null)
+				return false;
+		} else if (!signed.equals(other.signed))
+			return false;
 		if (user == null) {
 			if (other.user != null)
 				return false;
@@ -80,5 +86,6 @@ public class VoteMonitor implements Serializable {
 			return false;
 		return true;
 	}
+
 
 }

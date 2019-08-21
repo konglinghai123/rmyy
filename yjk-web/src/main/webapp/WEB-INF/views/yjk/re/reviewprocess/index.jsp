@@ -12,12 +12,11 @@
 						formatter:function(val,row){
 							return row.reviewBaseRule != null ? row.reviewBaseRule.ruleCnName : '';
 						}" rowspan="2">规格名称</th>
-				<th data-options="field:'givenOrgan',width:150,formatter:formatOperation" rowspan="2">特定科室/病区</th>
+				<th data-options="field:'givenOrgan',width:130,formatter:formatOperation" rowspan="2">特定科室/病区</th>
 				<th data-options="field:'hospitalData',width:140,
 						formatter:function(val,row){
 							return val?'是':'否';
-						}">是否显示院用数据</th>
-				<th colspan="2">确保申报科室通过数</th>
+						}"  rowspan="2">是否显示院用数据</th>
 				<th data-options="field:'finished', width:100,
 						formatter:function(val,row){
 							if (typeof(val)=='undefined') return '/';
@@ -28,8 +27,6 @@
 				<th data-options="field:'displayColumnRuleCnNames',width:300,formatter:formatTooltip" rowspan="2">显示字段集合</th>
 			</tr>
 			<tr>
-				<th data-options="field:'ensureOrganPassChineseNumber',width:100">中成药</th>
-				<th data-options="field:'ensureOrganPassWesternNumber',width:100">西药</th>
 				<th data-options="field:'generalNameChinese',width:100">中成药</th>
 				<th data-options="field:'generalNameWestern',width:100">西药</th>
 				<th data-options="field:'formulaChinese',width:100">中成药</th>

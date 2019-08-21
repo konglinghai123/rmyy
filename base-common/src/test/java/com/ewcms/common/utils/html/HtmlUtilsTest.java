@@ -1,9 +1,14 @@
 package com.ewcms.common.utils.html;
 
+import java.util.Iterator;
 import java.util.LinkedHashSet;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import org.junit.Assert;
 import org.junit.Test;
+
+import com.google.common.collect.Maps;
 
 /**
  * 
@@ -58,4 +63,23 @@ public class HtmlUtilsTest {
 		}
 	}
 
+	@Test
+	public void testMapIsNull() {
+		Map<Long, Long> map = Maps.newHashMap();
+		map.put(1L, 1L);
+		map.put(2L, 1L);
+		
+		for (Long i = 0L; i <= 3L; i++) {
+			Long value = map.get(i);
+			if (value == null) {
+				map.put(i, 2L);
+			}
+		}
+		
+		Iterator<Entry<Long, Long>> it = map.entrySet().iterator();
+		while (it.hasNext()) {
+			Entry<Long, Long> entry = it.next();
+			System.out.println("key : " + entry.getKey() + " value : " + entry.getValue());
+		}
+	}
 }

@@ -103,6 +103,8 @@ public class ReviewProcessService extends BaseSequenceMovableService<ReviewProce
 		if (dbReviewProcess != null && m.getId().equals(dbReviewProcess.getId())) {
 			ReviewProcessRecord reviewProcessRecord = new ReviewProcessRecord(m.getId(), opUserId, reason + " 评审流程");
 			reviewProcessRecordService.save(reviewProcessRecord);
+		
+			m.setEnsurePassThrough(dbReviewProcess.getEnsurePassThrough());
 			
 			return super.update(m);
 		} else {

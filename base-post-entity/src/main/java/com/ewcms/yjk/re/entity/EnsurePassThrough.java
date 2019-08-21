@@ -58,9 +58,9 @@ public class EnsurePassThrough extends BaseSequenceEntity<Long> implements Movab
 							"re_ensure_pass_through_id", "organization_id" })})
 	private List<Organization> organizations;
 	@Column(name = "chinese_number")
-	private Long chineseNumber = 0L;
+	private Integer chineseNumber = 0;
 	@Column(name = "western_number")
-	private Long westernNumber = 0L;
+	private Integer westernNumber = 0;
 	@Column(name = "is_enabled")
 	private Boolean enabled = Boolean.TRUE;
 	@Column(name = "weight")
@@ -100,19 +100,19 @@ public class EnsurePassThrough extends BaseSequenceEntity<Long> implements Movab
 		return (EmptyUtil.isCollectionNotEmpty(organizations)) ? Collections3.extractToList(organizations, "id") : Lists.newArrayList();
 	}
 
-	public Long getChineseNumber() {
+	public Integer getChineseNumber() {
 		return chineseNumber;
 	}
 
-	public void setChineseNumber(Long chineseNumber) {
+	public void setChineseNumber(Integer chineseNumber) {
 		this.chineseNumber = chineseNumber;
 	}
 
-	public Long getWesternNumber() {
+	public Integer getWesternNumber() {
 		return westernNumber;
 	}
 
-	public void setWesternNumber(Long westernNumber) {
+	public void setWesternNumber(Integer westernNumber) {
 		this.westernNumber = westernNumber;
 	}
 

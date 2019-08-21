@@ -42,8 +42,6 @@ import com.google.common.collect.Sets;
  * <li>generalNameWestern:通用名西药通过数量</li>
  * <li>formulaChinese:剂型/规格中成药通过数量</li>
  * <li>formulaWestern:剂型/规格西药通过数量</li>
- * <li>ensureOrganPassChineseNumber:确保申报科室通过中成药数</li>
- * <li>ensureOrganPassWesternNumber:确保申报科室通过西药数</li>
  * <li>hospitalData:是否显示院用数据</li>
  * 
  * @author wuzhijun
@@ -73,17 +71,13 @@ public class ReviewProcess extends BaseSequenceEntity<Long> implements Movable{
 	@Column(name = "is_finished")
 	private Boolean finished = Boolean.FALSE;
 	@Column(name = "general_name_chinese")
-	private Long generalNameChinese = 0L;
+	private Integer generalNameChinese = 0;
 	@Column(name = "general_name_western")
-	private Long generalNameWestern = 0L;
+	private Integer generalNameWestern = 0;
 	@Column(name = "formula_chinese")
-	private Long formulaChinese = 0L;
+	private Integer formulaChinese = 0;
 	@Column(name = "formula_western")
-	private Long formulaWestern = 0L;
-	@Column(name = "ensure_organ_pass_chinese_number")
-	private Long ensureOrganPassChineseNumber = 0L;
-	@Column(name = "ensure_organ_pass_western_number")
-	private Long ensureOrganPassWesternNumber = 0L;
+	private Integer formulaWestern = 0;
 	@OneToMany(cascade = { CascadeType.MERGE,
 			CascadeType.REFRESH }, fetch = FetchType.EAGER, targetEntity = EnsurePassThrough.class, mappedBy = "reviewProcess", orphanRemoval = true)
 	@Fetch(FetchMode.SELECT)
@@ -148,52 +142,36 @@ public class ReviewProcess extends BaseSequenceEntity<Long> implements Movable{
 		this.weight = weight;
 	}
 
-	public Long getGeneralNameChinese() {
+	public Integer getGeneralNameChinese() {
 		return generalNameChinese;
 	}
 
-	public void setGeneralNameChinese(Long generalNameChinese) {
+	public void setGeneralNameChinese(Integer generalNameChinese) {
 		this.generalNameChinese = generalNameChinese;
 	}
 
-	public Long getGeneralNameWestern() {
+	public Integer getGeneralNameWestern() {
 		return generalNameWestern;
 	}
 
-	public void setGeneralNameWestern(Long generalNameWestern) {
+	public void setGeneralNameWestern(Integer generalNameWestern) {
 		this.generalNameWestern = generalNameWestern;
 	}
 
-	public Long getFormulaChinese() {
+	public Integer getFormulaChinese() {
 		return formulaChinese;
 	}
 
-	public void setFormulaChinese(Long formulaChinese) {
+	public void setFormulaChinese(Integer formulaChinese) {
 		this.formulaChinese = formulaChinese;
 	}
 
-	public Long getFormulaWestern() {
+	public Integer getFormulaWestern() {
 		return formulaWestern;
 	}
 	
-	public void setFormulaWestern(Long formulaWestern) {
+	public void setFormulaWestern(Integer formulaWestern) {
 		this.formulaWestern = formulaWestern;
-	}
-
-	public Long getEnsureOrganPassChineseNumber() {
-		return ensureOrganPassChineseNumber;
-	}
-
-	public void setEnsureOrganPassChineseNumber(Long ensureOrganPassChineseNumber) {
-		this.ensureOrganPassChineseNumber = ensureOrganPassChineseNumber;
-	}
-
-	public Long getEnsureOrganPassWesternNumber() {
-		return ensureOrganPassWesternNumber;
-	}
-
-	public void setEnsureOrganPassWesternNumber(Long ensureOrganPassWesternNumber) {
-		this.ensureOrganPassWesternNumber = ensureOrganPassWesternNumber;
 	}
 
 	@JSONField(serialize = false)

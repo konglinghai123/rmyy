@@ -133,14 +133,13 @@ CREATE TABLE public.re_review_process
 (
   id bigint NOT NULL,
   is_finished boolean,
-  formula_chinese bigint,
-  formula_western bigint,
-  general_name_chinese bigint,
-  general_name_western bigint,
+  formula_chinese integer,
+  formula_western integer,
+  general_name_chinese integer,
+  general_name_western integer,
   weight integer,
   reviewbaserule_id bigint,
   reviewmain_id bigint,
-  ensure_organ_pass_number bigint,
   is_hospital_data boolean,
   CONSTRAINT re_review_process_pkey PRIMARY KEY (id),
   CONSTRAINT fk_49avd1oe4o0dwimaxue8nmkvl FOREIGN KEY (reviewmain_id)
@@ -320,10 +319,10 @@ ALTER TABLE public.seq_re_ensure_pass_through_id
 CREATE TABLE public.re_ensure_pass_through
 (
   id bigint NOT NULL,
-  chinese_number bigint,
+  chinese_number integer,
   is_enabled boolean,
   weight integer,
-  western_number bigint,
+  western_number integer,
   reviewprocess_id bigint,
   CONSTRAINT re_ensure_pass_through_pkey PRIMARY KEY (id),
   CONSTRAINT fk_8gwgsojrxhkcexc4hy6147kle FOREIGN KEY (reviewprocess_id)

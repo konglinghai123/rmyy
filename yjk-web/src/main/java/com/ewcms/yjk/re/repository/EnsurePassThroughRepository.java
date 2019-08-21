@@ -14,4 +14,5 @@ public interface EnsurePassThroughRepository extends BaseRepository<EnsurePassTh
 	@Query("update EnsurePassThrough o set enabled=?2 where o.id in (?1)")
 	void changeStatus(List<Long> ensurePassThroughIds, Boolean newStatus);
 	
+	List<EnsurePassThrough> findByReviewProcessIdAndEnabledTrueOrderByWeightAsc(Long reviewProcessId);
 }
