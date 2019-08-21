@@ -309,7 +309,7 @@ public class VoteResultService extends BaseService<VoteResult, Long> {
 						Set<Long> userIds = userOrganizationJobService.findUsersByOrganization(entry.getKey());
 						if (EmptyUtil.isCollectionEmpty(userIds)) continue;
 						
-						List<Long> voteResultIds = getVoteResultRepository().findCurrentReviewProcessVoteResults(reviewMainId, reviewProcessId, drugCategoryEnum, userIds);
+						List<Long> voteResultIds = getVoteResultRepository().findCurrentReviewProcessUserIdsVoteResults(reviewMainId, reviewProcessId, drugCategoryEnum, userIds);
 						if (EmptyUtil.isCollectionEmpty(voteResultIds)) continue;
 						
 						ensureOrganNumber = Math.min(ensureOrganNumber, voteResultIds.size());
@@ -325,7 +325,13 @@ public class VoteResultService extends BaseService<VoteResult, Long> {
 			}
 			
 			if (matchNumber > ensureTotalNumber) {
-				List<VoteResult> voteResults = getVoteResultRepository().findCurrentReviewProcessVoteResults(reviewMainId, reviewProcessId, drugCategoryEnum, excludeVoteResultIds);
+				List<VoteResult> voteResults = Lists.newArrayList();
+				if (EmptyUtil.isCollectionEmpty(excludeVoteResultIds)) {
+					voteResults = getVoteResultRepository().findCurrentReviewProcessVoteResults(reviewMainId, reviewProcessId, drugCategoryEnum);
+				} else {
+					voteResults = getVoteResultRepository().findCurrentReviewProcessExcludeIdsVoteResults(reviewMainId, reviewProcessId, drugCategoryEnum, excludeVoteResultIds);
+				}
+				
 				if (EmptyUtil.isCollectionNotEmpty(voteResults)) {
 					int residueNumber = matchNumber - ensureTotalNumber;
 					int i = 0;
