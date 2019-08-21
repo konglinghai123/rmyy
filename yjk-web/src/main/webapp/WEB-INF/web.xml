@@ -25,7 +25,12 @@
 	<listener>
 		<listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
 	</listener>
-
+	
+	<!-- 在Spring框架中是如何解决从页面传来的字符串的编码问题的呢？
+    	下面我们来看看Spring框架给我们提供过滤器CharacterEncodingFilter  
+     	这个过滤器就是针对于每次浏览器请求进行过滤的，然后再其之上添加了父类没有的功能即处理字符编码。  
+      	其中encoding用来设置编码格式，forceEncoding用来设置是否理会request.getCharacterEncoding()方法，设置为true则强制覆盖之前的编码格式。
+    -->
 	<filter>
 		<filter-name>Set Character Encoding</filter-name>
 		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
@@ -135,6 +140,7 @@
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
 
+	<!--当系统出现相应代码的错误时，跳转到页面error.jsp-->
 	<error-page>
 		<error-code>404</error-code>
 		<location>/WEB-INF/views/error/error.jsp</location>
@@ -151,6 +157,8 @@
 		<error-code>503</error-code>
 		<location>/WEB-INF/views/error/error.jsp</location>
 	</error-page>
+	
+	<!--当系统出现java.lang.Exception时，跳转到页面error.jsp-->
 	<error-page>
 		<exception-type>java.lang.Exception</exception-type>
 		<location>/WEB-INF/views/error/error.jsp</location>
