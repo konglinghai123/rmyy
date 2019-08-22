@@ -13,6 +13,7 @@ import com.ewcms.common.service.BaseService;
 import com.ewcms.common.utils.Collections3;
 import com.ewcms.common.utils.EmptyUtil;
 import com.ewcms.common.web.validate.AjaxResponse;
+import com.ewcms.security.organization.entity.Organization;
 import com.ewcms.security.organization.service.OrganizationService;
 import com.ewcms.security.user.service.UserOrganizationJobService;
 import com.ewcms.yjk.YjkConstants;
@@ -24,10 +25,24 @@ import com.ewcms.yjk.re.model.VoteMonitor;
 import com.ewcms.yjk.re.repository.VoteResultRepository;
 import com.ewcms.yjk.sb.entity.DrugForm;
 import com.ewcms.yjk.sp.entity.SystemParameter;
+import com.ewcms.yjk.sp.service.SystemParameterService;
+import com.ewcms.yjk.zd.commonname.entity.CommonName;
+import com.ewcms.yjk.zd.commonname.entity.CommonNameContents;
 import com.ewcms.yjk.zd.commonname.entity.DrugCategoryEnum;
+import com.ewcms.yjk.zd.commonname.entity.HospitalContents;
+import com.ewcms.yjk.zd.commonname.service.CommonNameService;
+import com.ewcms.yjk.zd.commonname.service.HospitalContentsService;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
+/**
+ * @author admin
+ *
+ */
+/**
+ * @author admin
+ *
+ */
 @Service
 public class VoteResultService extends BaseService<VoteResult, Long> {
 
@@ -43,6 +58,10 @@ public class VoteResultService extends BaseService<VoteResult, Long> {
 	private UserOrganizationJobService userOrganizationJobService;
 	@Autowired
 	private EnsurePassThroughService ensurePassThroughService;
+	@Autowired
+	private CommonNameService commonNameService;
+	@Autowired
+	private HospitalContentsService hospitalContentsService;
 	
 	private VoteResultRepository getVoteResultRepository(){
 		return (VoteResultRepository)baseRepository;
@@ -376,5 +395,67 @@ public class VoteResultService extends BaseService<VoteResult, Long> {
 	
 	public List<VoteResult> findChosnResult(Long reviewMainId){
 		return getVoteResultRepository().findChosnResult(reviewMainId);
+	}
+	
+	/**
+	 * 取消违反一品N规的入围记录并替补相应的新入围记录
+	 * 
+	 * @param reviewMainId
+	 * @param reviewProcessId
+	 * @return
+	 */
+	private void filterSelectUpperLimt(Long reviewProcessId,Boolean isAddPillAndSpecfication){
+		ReviewMain reviewMain = reviewMainService.findByEnabledTrue();
+		if (reviewMain == null) return;
+		List<VoteResult> voteResults = Lists.newArrayList();
+		voteResults = getVoteResultRepository().findByReviewMainIdAndReviewProcessIdAndSelectedTrue(reviewMain.getId(), reviewProcessId);
+		SystemParameter systemParameter = reviewMain.getSystemParameter();
+		//定义一品N规的系统参数的限数
+		int maxNumber = 0;
+		CommonNameContents vo;
+		for (VoteResult voteResult : voteResults) {
+			vo = voteResult.getCommonNameContents();
+			if (EmptyUtil.isNotNull(systemParameter)) {
+				if(vo.getAdministration().getId()==1){//口服一品两规限数
+					maxNumber = systemParameter.getOralDeclarationLimt().intValue();
+				}else if(vo.getAdministration().getId()==2){//注射一品两规限数
+					maxNumber = systemParameter.getInjectDeclarationLimt().intValue();
+				}else if(vo.getAdministration().getId()==3){//外用及其他一品两规限数
+					maxNumber = systemParameter.getOtherDeclarationLimt().intValue();
+				}
+			}
+			List<CommonName> commonNameList = commonNameService.findByMatchNumber(vo.getCommon().getMatchNumber());
+			List<Long> commonNameIds = Collections3.extractToList(commonNameList, "id");
+			List<VoteResult> sameVoteResults = Lists.newArrayList();
+			if(EmptyUtil.isCollectionNotEmpty(commonNameIds)){ 
+				sameVoteResults =  getVoteResultRepository().findSameVoteResult(reviewMain.getId(), reviewProcessId, commonNameIds, vo.getAdministration().getId());
+			}
+		
+			List<HospitalContents> hospitalContentsList = Lists.newArrayList();
+			if(isAddPillAndSpecfication){
+				hospitalContentsList = hospitalContentsService.findByCommonIdInInAndAdministrationIdAndDeletedFalse(commonNameIds, vo.getAdministration().getId());
+			}
+			
+			int selectMaxNumber = maxNumber - hospitalContentsList.size();
+			
+			int outNumber = sameVoteResults.size() - selectMaxNumber;
+			if(outNumber > 0){//入围数量超过一品N规，要去掉多余的入围记录并替补相应的记录
+				
+				//出围多余的一品N规记录
+				List<VoteResult> outVoteResults = sameVoteResults.subList(sameVoteResults.size()-outNumber, sameVoteResults.size()-1);
+				for (VoteResult outVoteResult : outVoteResults) {
+					outVoteResult.setSelected(Boolean.FALSE);
+					update(outVoteResult);
+				}
+				//替补入围出围的一品N规相应数量的记录
+				List<VoteResult> outAllVoteResults = getVoteResultRepository().findOutVoteResult(reviewMain.getId(), reviewProcessId);
+				List<VoteResult> subVoteResults = outAllVoteResults.subList(0, outNumber-1);
+				for (VoteResult subVoteResult : subVoteResults) {
+					subVoteResult.setSelected(Boolean.TRUE);
+					update(subVoteResult);
+				}
+				voteResults.addAll(subVoteResults);
+			}
+		}
 	}
 }

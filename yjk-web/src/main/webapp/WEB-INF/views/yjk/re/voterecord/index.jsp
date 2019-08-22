@@ -50,7 +50,7 @@
 						<c:otherwise>
 							<th data-options="field:'voteTypeInfo',width:80">投票操作</th>				
 						</c:otherwise>
-						</c:choose>					                        
+						</c:choose>	
 						</tr>    
 					</thead> 
 					<thead>   		
@@ -248,10 +248,11 @@
 							    	}
 							    	parameter += 'selections=' + row.id +'@'+voteTypeValue+'&';
 							    });
-							    if(passTotal>10){
-							    	$.messager.alert('提示', '投票通过的总数量超过3，不能提交！', 'info');
-							    	return;
-							    }
+							    
+							    //if(passTotal>10){
+							    	//$.messager.alert('提示', '投票通过的总数量超过3，不能提交！', 'info');
+							    	//return;
+							    //}
 							    
 						    	$.messager.confirm('提示', '确定要提交当前投票结果吗？<br/><font color="red">提交后不能再修改投票结果了！！！</font>', function(r) {
 									if (r) {
@@ -267,7 +268,7 @@
 								        $.ewcms.removeLoading();
 									}
 								});	
-				    }   
+				    }
 				</script>
 				</c:otherwise>
 				</c:choose>

@@ -10,6 +10,7 @@ import com.ewcms.common.repository.BaseRepository;
 import com.ewcms.yjk.re.entity.VoteResult;
 import com.ewcms.yjk.sb.entity.DrugForm;
 import com.ewcms.yjk.zd.commonname.entity.DrugCategoryEnum;
+import com.ewcms.yjk.zd.commonname.entity.HospitalContents;
 
 public interface VoteResultRepository extends BaseRepository<VoteResult, Long> {
 	Long countByReviewProcessId(Long reviewProcessId);
@@ -94,4 +95,19 @@ public interface VoteResultRepository extends BaseRepository<VoteResult, Long> {
 			+ "where v.reviewMainId=?1 and v.affirmVoteResulted=true and v.chosen=true and v.commonNameContents is not null "
 			+ "order by v.drugForm.commonNameContents.common.drugCategory asc,v.selected desc, v.passSum desc, v.adjusted asc, v.drugForm.commonNameContents.common.commonName asc, drugForm.commonNameContents.pill asc, v.id desc")
 	List<VoteResult> findChosnResult(Long reviewMainId);
+	
+	//查询某个投票流程拟入围的记录
+	List<VoteResult> findByReviewMainIdAndReviewProcessIdAndSelectedTrue(Long reviewMainId, Long reviewProcessId);
+	
+	//查询属于一品的入围记录
+	@Query("from VoteResult v "
+			+ "where v.reviewMainId=?1 and v.reviewProcessId=?2 and v.commonNameContents.common.id in (?3) and v.commonNameContents.administration.id = ?4 and v.selected=true "
+			+ "order by v.passSum desc, v.opposeSum asc, v.abstainSum asc")
+	List<VoteResult> findSameVoteResult(Long reviewMainId, Long reviewProcessId, List<Long> commonIds, Long administrationId);
+	
+	//查询未入围的记录
+	@Query("from VoteResult v "
+			+ "where v.reviewMainId=?1 and v.reviewProcessId=?2  and v.selected=false "
+			+ "order by v.passSum desc, v.opposeSum asc, v.abstainSum asc")
+	List<VoteResult> findOutVoteResult(Long reviewMainId, Long reviewProcessId);
 }
