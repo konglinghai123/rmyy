@@ -214,8 +214,9 @@ public class HomeController {
 				chineseNumber = reviewProcesses.get(i).getFormulaChinese();
 				westernNumber = reviewProcesses.get(i).getFormulaWestern();
 			}
-			reviewRemarks.add("第 " + (i + 1) + " 轮规则名为：" + reviewProcesses.get(i).getReviewBaseRule().getRuleCnName() + "<br>&nbsp;&nbsp;&nbsp;&nbsp;设定" + DrugCategoryEnum.H.getInfo() + " " + westernNumber + " 条，" + DrugCategoryEnum.Z.getInfo() + " " + chineseNumber + " 条, " +  (reviewProcesses.get(i).getIsEnsurePassThrough() ? "有" : "无") + " 特定科室/病区");
+			reviewRemarks.add("第 " + (i + 1) + " 轮规则名为：" + reviewProcesses.get(i).getReviewBaseRule().getRuleCnName() + "<br>&nbsp;&nbsp;&nbsp;&nbsp;设定" + DrugCategoryEnum.H.getInfo() + " " + westernNumber + " 条，" + DrugCategoryEnum.Z.getInfo() + " " + chineseNumber + " 条； " +  (reviewProcesses.get(i).getIsEnsurePassThrough() ? "有" : "无") + " 特定科室/病区");
 		}
+		map.put("reviewSystemParameter", reviewMain.getSystemParameterProjectRemark());
 		map.put("reviewStatistic", reviewStatistics);
 		map.put("reviewRemark", reviewRemarks);
 		

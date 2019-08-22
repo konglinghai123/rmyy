@@ -95,6 +95,7 @@
 					<form:options items="${reviewMainList}" itemValue="id" itemLabel="name"/>
 				</form:select>
 			</legend>
+			<div id="reviewSystemParameter"></div>
 			<table style="width:100%;">
 		    	<tr>
 		           	<td class="portal-column-td">
@@ -118,7 +119,7 @@
 		                   		<div class="panel-icon icon-visit-analysis"></div>
 		                   		<div class="panel-tool"></div>
 		                 	</div>
-			             	<div style="height: 290px; padding: 5px;" title="" class="portal-p panel-body" data-options="closable:true,collapsible:false">
+			             	<div style="height: 280px; padding: 5px;" title="" class="portal-p panel-body" data-options="closable:true,collapsible:false">
 		        				<div id="reviewCountDiv" align="center"></div>
 				    		</div>
 				    	</div>
