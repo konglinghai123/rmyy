@@ -97,7 +97,7 @@ public interface VoteResultRepository extends BaseRepository<VoteResult, Long> {
 	List<VoteResult> findChosnResult(Long reviewMainId);
 	
 	//查询某个投票流程拟入围的记录
-	List<VoteResult> findByReviewMainIdAndReviewProcessIdAndSelectedTrue(Long reviewMainId, Long reviewProcessId);
+	List<VoteResult> findByReviewMainIdAndReviewProcessIdAndDrugFormCommonNameContentsCommonDrugCategoryAndSelectedTrue(Long reviewMainId, Long reviewProcessId, DrugCategoryEnum drugCategoryEnum);
 	
 	//查询属于一品的入围记录
 	@Query("from VoteResult v "
@@ -107,7 +107,7 @@ public interface VoteResultRepository extends BaseRepository<VoteResult, Long> {
 	
 	//查询未入围的记录
 	@Query("from VoteResult v "
-			+ "where v.reviewMainId=?1 and v.reviewProcessId=?2  and v.selected=false "
+			+ "where v.reviewMainId=?1 and v.reviewProcessId=?2 and v.drugForm.commonNameContents.common.drugCategory=?3 and v.selected=false "
 			+ "order by v.passSum desc, v.opposeSum asc, v.abstainSum asc")
-	List<VoteResult> findOutVoteResult(Long reviewMainId, Long reviewProcessId);
+	List<VoteResult> findOutVoteResult(Long reviewMainId, Long reviewProcessId, DrugCategoryEnum drugCategoryEnum);
 }

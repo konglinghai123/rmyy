@@ -2,12 +2,14 @@ package com.ewcms.common.utils.html;
 
 import java.util.Iterator;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
 import org.junit.Assert;
 import org.junit.Test;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 /**
@@ -81,5 +83,20 @@ public class HtmlUtilsTest {
 			Entry<Long, Long> entry = it.next();
 			System.out.println("key : " + entry.getKey() + " value : " + entry.getValue());
 		}
+	}
+	
+	@Test
+	public void testListAdd() {
+		List<Integer> list = Lists.newArrayList();
+		list.add(0);
+		list.add(1);
+		
+		for (Integer i : list) {
+//			if (i == 0) {
+//				list.add(2);
+//			}
+			System.out.println("i : "  + i);
+		}
+
 	}
 }

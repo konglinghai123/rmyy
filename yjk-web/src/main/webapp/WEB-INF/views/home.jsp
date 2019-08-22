@@ -194,9 +194,9 @@
 						     reviewHtml += html + '</table></div>';
 						     $(reviewHtml).appendTo('#reivewRemark');
 						 }
-						 $('#reviewSystemParameter').html();
+						 $('#reviewSystemParameter').html('');
 						 if (data.reviewSystemParameter){
-							 $('#reviewSystemParameter').html('评审申报项目：' + data.reviewSystemParameter);
+							 $('#reviewSystemParameter').html(data.reviewSystemParameter);
 						 }
 						 
 						 reviewCountChart(record.value);

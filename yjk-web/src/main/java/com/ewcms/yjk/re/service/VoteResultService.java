@@ -367,7 +367,11 @@ public class VoteResultService extends BaseService<VoteResult, Long> {
 				
 			}
 			
+			
+			
 			//TODO 处理一品n规处理过程
+			Boolean isAddPillAndSpecfication = currentReviewProcess.getReviewBaseRule().getRuleName().equals(YjkConstants.ASAPM) ? true : false;
+			filterSelectUpperLimt(reviewProcessId, isAddPillAndSpecfication, drugCategoryEnum);
 		}
 		
 		return findCurrentReviewProcessVoteResults(reviewMainId, reviewProcessId);
@@ -404,11 +408,11 @@ public class VoteResultService extends BaseService<VoteResult, Long> {
 	 * @param reviewProcessId
 	 * @return
 	 */
-	private void filterSelectUpperLimt(Long reviewProcessId,Boolean isAddPillAndSpecfication){
+	private void filterSelectUpperLimt(Long reviewProcessId,Boolean isAddPillAndSpecfication, DrugCategoryEnum drugCategoryEnum){
 		ReviewMain reviewMain = reviewMainService.findByEnabledTrue();
 		if (reviewMain == null) return;
 		List<VoteResult> voteResults = Lists.newArrayList();
-		voteResults = getVoteResultRepository().findByReviewMainIdAndReviewProcessIdAndSelectedTrue(reviewMain.getId(), reviewProcessId);
+		voteResults = getVoteResultRepository().findByReviewMainIdAndReviewProcessIdAndDrugFormCommonNameContentsCommonDrugCategoryAndSelectedTrue(reviewMain.getId(), reviewProcessId, drugCategoryEnum);
 		SystemParameter systemParameter = reviewMain.getSystemParameter();
 		//定义一品N规的系统参数的限数
 		int maxNumber = 0;
@@ -448,7 +452,7 @@ public class VoteResultService extends BaseService<VoteResult, Long> {
 					update(outVoteResult);
 				}
 				//替补入围出围的一品N规相应数量的记录
-				List<VoteResult> outAllVoteResults = getVoteResultRepository().findOutVoteResult(reviewMain.getId(), reviewProcessId);
+				List<VoteResult> outAllVoteResults = getVoteResultRepository().findOutVoteResult(reviewMain.getId(), reviewProcessId, drugCategoryEnum);
 				List<VoteResult> subVoteResults = outAllVoteResults.subList(0, outNumber-1);
 				for (VoteResult subVoteResult : subVoteResults) {
 					subVoteResult.setSelected(Boolean.TRUE);

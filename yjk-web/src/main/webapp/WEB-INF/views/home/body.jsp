@@ -95,7 +95,7 @@
 					<form:options items="${reviewMainList}" itemValue="id" itemLabel="name"/>
 				</form:select>
 			</legend>
-			<div id="reviewSystemParameter"></div>
+			评审申报项目：<span id="reviewSystemParameter"></span>
 			<table style="width:100%;">
 		    	<tr>
 		           	<td class="portal-column-td">
