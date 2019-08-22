@@ -36,6 +36,7 @@ import com.ewcms.security.user.web.bind.annotation.CurrentUser;
 import com.ewcms.system.report.entity.TextReport;
 import com.ewcms.system.report.generate.entity.ParameterBuilder;
 import com.ewcms.system.report.service.TextReportService;
+import com.ewcms.yjk.YjkConstants;
 import com.ewcms.yjk.re.entity.ReviewMain;
 import com.ewcms.yjk.re.entity.ReviewProcess;
 import com.ewcms.yjk.re.service.ReviewMainService;
@@ -200,10 +201,23 @@ public class HomeController {
 		if (reviewProcesses == null) return map;
 		
 		List<String> reviewStatistics = Lists.newArrayList();
+		List<String> reviewRemarks = Lists.newArrayList();
 		for (int i = 0; i < reviewProcesses.size(); i++) {
 			reviewStatistics.add("第 " + (i + 1) + " 轮投票结果：" + DrugCategoryEnum.H.getInfo() + "入围 " + voteResultService.countResult(reviewMainId, reviewProcesses.get(i).getId(), DrugCategoryEnum.H) + " 条，" + DrugCategoryEnum.Z.getInfo() + "入围 " + voteResultService.countResult(reviewMainId, reviewProcesses.get(i).getId(), DrugCategoryEnum.Z) + " 条");
+			int chineseNumber = 0;
+			int westernNumber = 0;
+			String ruleName = reviewProcesses.get(i).getReviewBaseRule().getRuleName();
+			if (ruleName.equals(YjkConstants.ACN) || ruleName.equals(YjkConstants.ACNM)) {
+				chineseNumber = reviewProcesses.get(i).getGeneralNameChinese();
+				westernNumber = reviewProcesses.get(i).getGeneralNameWestern();
+			} else {
+				chineseNumber = reviewProcesses.get(i).getFormulaChinese();
+				westernNumber = reviewProcesses.get(i).getFormulaWestern();
+			}
+			reviewRemarks.add("第 " + (i + 1) + " 轮规则名为：" + reviewProcesses.get(i).getReviewBaseRule().getRuleCnName() + "<br>&nbsp;&nbsp;&nbsp;&nbsp;设定" + DrugCategoryEnum.H.getInfo() + " " + westernNumber + " 条，" + DrugCategoryEnum.Z.getInfo() + " " + chineseNumber + " 条, " +  (reviewProcesses.get(i).getIsEnsurePassThrough() ? "有" : "无") + " 特定科室/病区");
 		}
 		map.put("reviewStatistic", reviewStatistics);
+		map.put("reviewRemark", reviewRemarks);
 		
         return map;
 	}

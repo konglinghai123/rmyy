@@ -127,7 +127,7 @@
 		});
 	    
 	    $('#systemParameterId').combobox({
-	    	panelHeight:'auto',
+	    	panelHeight:'200',
 	    	editable:false,
 	    	onSelect:function(record){
 	    		$.ajax({
@@ -163,7 +163,7 @@
 		});
 	    
 	    $('#reviewMainId').combobox({
-	    	panelHeight:'auto',
+	    	panelHeight:'200',
 	    	editable:false,
 	    	onSelect:function(record){
 	    		$.ajax({
@@ -182,7 +182,19 @@
 						     var html = pro.join("");
 						     reviewHtml += html + '</table></div>';
 						     $(reviewHtml).appendTo('#reivewStatistic');
+						 } 
+						 if (data.reviewRemark){
+							 $('#reivewRemark .t-list').empty();
+						     var reviewHtml = '<div class="t-list"><table width="100%">';
+						     var pro = [];
+						     $.each(data.reviewRemark, function(idx, item){
+							 	pro.push('<tr><td style="font-size:14px;">' + item);
+						     });
+						     var html = pro.join("");
+						     reviewHtml += html + '</table></div>';
+						     $(reviewHtml).appendTo('#reivewRemark');
 						 }
+						 
 						 reviewCountChart(record.value);
 					 }
 				});

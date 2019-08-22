@@ -7,7 +7,7 @@
 		<div data-options="region:'west',border:false" style="width:34%;overflow:auto;padding-top:3px;">
 			<fieldset style="height:765px">
 			<legend><b style="font-size:16px;color:red">综合栏</b></legend>
-			<table style="width:99%;">
+			<table style="width:100%;">
 				<tr>
 					<td class="portal-column-td">
 			             <div style="overflow:hidden;padding:0 0 0 0">
@@ -30,7 +30,7 @@
 					<form:options items="${systemParameterList}" itemValue="id" itemLabel="projectRemark"/>
 				</form:select>
 			</legend>
-			<table style="width:99%;">
+			<table style="width:100%;">
 		    	<tr>
 		           	<td class="portal-column-td">
 		            	<div style="overflow:hidden;padding:0 0 0 0">
@@ -66,7 +66,7 @@
 		                   		<div class="panel-tool">
 		                   		</div>
 		                 	</div>
-		                 	<div style="height:320px; padding:5px;" title="" id="tip" class="portal-p panel-body" data-options="closable:true,collapsible:false">
+		                 	<div style="height:310px; padding:5px;" title="" id="tip" class="portal-p panel-body" data-options="closable:true,collapsible:false">
 		                 		<div class="t-list">
 									<table id="ttSystemParameter">
 										<thead>
@@ -95,7 +95,7 @@
 					<form:options items="${reviewMainList}" itemValue="id" itemLabel="name"/>
 				</form:select>
 			</legend>
-			<table style="width:99%;">
+			<table style="width:100%;">
 		    	<tr>
 		           	<td class="portal-column-td">
 		            	<div style="overflow:hidden;padding:0 0 0 0">
@@ -105,7 +105,7 @@
 		                   			<div class="panel-tool">
 		                   			</div>
 		                 		</div>
-		                 		<div style="height: 190px; padding: 5px;" id="reivewStatistic" class="portal-p panel-body" data-options="closable:true,collapsible:false"></div>
+		                 		<div style="height: 120px; padding: 5px;" id="reivewStatistic" class="portal-p panel-body" data-options="closable:true,collapsible:false"></div>
 		               		</div>
 		             	</div>
 					</td>
@@ -124,6 +124,20 @@
 				    	</div>
 		           	</td>
 				</tr>
+				<tr>
+		           	<td class="portal-column-td">
+		            	<div style="overflow:hidden;padding:0 0 0 0">
+		               		<div class="panel" style="margin-bottom:2px;">
+		                 		<div class="panel-header">
+		                   			<div class="panel-title">评审说明栏</div>
+		                   			<div class="panel-tool">
+		                   			</div>
+		                 		</div>
+		                 		<div style="height: 190px; padding: 5px;" id="reivewRemark" class="portal-p panel-body" data-options="closable:true,collapsible:false"></div>
+		               		</div>
+		             	</div>
+					</td>
+		    	</tr>
 		    </table>
 			</fieldset>
 		</div>
