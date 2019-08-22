@@ -188,7 +188,7 @@ public class VoteRecordService extends BaseService<VoteRecord, Long> {
 		}
 
 		if (getVoteRecordRepository().countByUserIdAndReviewProcessId(userId,
-				currentReviewProcessId).intValue() == 0) {// 初次进入投票，初始化需要投票的申报新曾通用名的药品
+				currentReviewProcessId).intValue() == 0) {// 初次进入投票的专家，初始化需要投票的申报新曾通用名的药品
 			List<VoteResult> voteResultList = voteResultService
 					.findByReviewProcessId(currentReviewProcessId);
 			for (VoteResult voteResult : voteResultList) {
