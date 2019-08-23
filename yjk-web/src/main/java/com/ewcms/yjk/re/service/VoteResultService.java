@@ -367,11 +367,11 @@ public class VoteResultService extends BaseService<VoteResult, Long> {
 				
 			}
 			
-			
-			
 			//TODO 处理一品n规处理过程
-			Boolean isAddPillAndSpecfication = currentReviewProcess.getReviewBaseRule().getRuleName().equals(YjkConstants.ASAPM) ? true : false;
-			filterSelectUpperLimt(reviewProcessId, isAddPillAndSpecfication, drugCategoryEnum);
+			if (reuleName.equals(YjkConstants.ACNM) || reuleName.equals(YjkConstants.ASAPM)) {
+				Boolean isAddPillAndSpecfication = currentReviewProcess.getReviewBaseRule().getRuleName().equals(YjkConstants.ASAPM) ? true : false;
+				filterSelectUpperLimt(reviewProcessId, isAddPillAndSpecfication, drugCategoryEnum);
+			}
 		}
 		
 		return findCurrentReviewProcessVoteResults(reviewMainId, reviewProcessId);
@@ -418,7 +418,7 @@ public class VoteResultService extends BaseService<VoteResult, Long> {
 		int maxNumber = 0;
 		CommonNameContents vo;
 		for (VoteResult voteResult : voteResults) {
-			vo = voteResult.getCommonNameContents();
+			vo = voteResult.getDrugForm().getCommonNameContents();
 			if (EmptyUtil.isNotNull(systemParameter)) {
 				if(vo.getAdministration().getId()==1){//口服一品两规限数
 					maxNumber = systemParameter.getOralDeclarationLimt().intValue();
