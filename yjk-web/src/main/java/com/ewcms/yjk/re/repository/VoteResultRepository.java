@@ -108,6 +108,6 @@ public interface VoteResultRepository extends BaseRepository<VoteResult, Long> {
 	//查询未入围的记录
 	@Query("from VoteResult v "
 			+ "where v.reviewMainId=?1 and v.reviewProcessId=?2 and v.drugForm.commonNameContents.common.drugCategory=?3 and v.selected=false "
-			+ "order by v.passSum desc, v.opposeSum asc, v.abstainSum asc")
+			+ "order by v.passSum desc, v.opposeSum asc, v.abstainSum asc, v.drugForm.commonNameContents.common.matchNumber desc, v.drugForm.commonNameContents.administration.id asc , v.id desc")
 	List<VoteResult> findOutVoteResult(Long reviewMainId, Long reviewProcessId, DrugCategoryEnum drugCategoryEnum);
 }

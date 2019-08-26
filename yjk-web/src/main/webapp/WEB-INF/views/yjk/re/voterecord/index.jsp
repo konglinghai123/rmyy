@@ -51,6 +51,15 @@
 							<th data-options="field:'voteTypeInfo',width:80">投票操作</th>				
 						</c:otherwise>
 						</c:choose>	
+						<c:if test="${currentReviewProcess.hospitalData}">	
+							<th data-options="field:'drugForm.commonNameContents.id',width:100,formatter:function(val,row){
+													if(row.drugForm.commonNameContents==null){
+													 	return '';
+													}else{
+														return formatOperation(row.drugForm.commonNameContents.id, row);
+													}
+												}">院用查看</th>
+						</c:if>
 						</tr>    
 					</thead> 
 					<thead>   		
@@ -163,7 +172,16 @@
 							}
 						});
 					});
-				
+					
+					function formatOperation(val, row) {
+
+						return '<a class="verifyCls" onclick="viewHospital(' + val + ');" href="javascript:void(0);" style="height:24px;" title="院用情况">查看</a>';
+					}
+					
+					function viewHospital(id){
+						$.ewcms.openWindow({src:'${ctx}/yjk/re/voterecord/' + id + '/indexhospital',title:'查看院用情况',height:300});
+					}
+					
 					function formatTooltip(val, row){
 						if(val == true){
 							val="是";

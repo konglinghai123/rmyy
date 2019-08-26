@@ -48,10 +48,12 @@ public class VoteRecordController extends BaseCRUDController<VoteRecord, Long> {
 	@Override
 	protected void setCommonData(Model model) {
 		model.addAttribute("isOpenReview", reviewMainService.isOpenReview());
+		
 		if(reviewMainService.isOpenReview()){
 			ReviewMain reviewMain =  reviewMainService.findByEnabledTrue();
 			model.addAttribute("reviewProcessesList", reviewMain.getReviewProcesses());
 			model.addAttribute("currentReviewProcess", reviewProcessService.findCurrentReviewProcess(reviewMain.getId()));
+			
 		}
 		super.setCommonData(model);
 	}
@@ -213,4 +215,8 @@ public class VoteRecordController extends BaseCRUDController<VoteRecord, Long> {
 		return ajaxResponse;
 	}
 	
+	@RequestMapping(value = "{commonNameContentsId}/indexhospital")
+	public String index(@PathVariable(value = "commonNameContentsId") Long commonNameContentsId) {
+		return viewName("indexhospital");
+	}
 }

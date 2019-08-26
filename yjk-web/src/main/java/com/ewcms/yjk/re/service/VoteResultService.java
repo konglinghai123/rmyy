@@ -411,14 +411,34 @@ public class VoteResultService extends BaseService<VoteResult, Long> {
 	private void filterSelectUpperLimt(Long reviewProcessId,Boolean isAddPillAndSpecfication, DrugCategoryEnum drugCategoryEnum){
 		ReviewMain reviewMain = reviewMainService.findByEnabledTrue();
 		if (reviewMain == null) return;
+		int matchNumber = 0;
+		ReviewProcess currentReviewProcess = reviewProcessService.findOne(reviewProcessId);
+		String reuleName = currentReviewProcess.getReviewBaseRule().getRuleName();
+		if (reuleName.equals(YjkConstants.ACN) || reuleName.equals(YjkConstants.ACNM)) {
+			if (drugCategoryEnum.equals(DrugCategoryEnum.H)) {
+				matchNumber = currentReviewProcess.getGeneralNameWestern();
+			} else if (drugCategoryEnum.equals(DrugCategoryEnum.Z)) {
+				matchNumber = currentReviewProcess.getGeneralNameChinese();
+			}
+		} else if (reuleName.equals(YjkConstants.ASAP) || reuleName.equals(YjkConstants.ASAPM)) {
+			if (drugCategoryEnum.equals(DrugCategoryEnum.H)) {
+				matchNumber = currentReviewProcess.getFormulaWestern();
+			} else if (drugCategoryEnum.equals(DrugCategoryEnum.Z)) {
+				matchNumber = currentReviewProcess.getFormulaChinese();
+			}
+		}
+		
 		List<VoteResult> voteResults = Lists.newArrayList();
 		voteResults = getVoteResultRepository().findByReviewMainIdAndReviewProcessIdAndDrugFormCommonNameContentsCommonDrugCategoryAndSelectedTrue(reviewMain.getId(), reviewProcessId, drugCategoryEnum);
 		SystemParameter systemParameter = reviewMain.getSystemParameter();
 		//定义一品N规的系统参数的限数
 		int maxNumber = 0;
 		CommonNameContents vo;
+		//记录出围多余的一品N规记录
+		List<VoteResult> outVoteResults = Lists.newArrayList();
+		
 		for (VoteResult voteResult : voteResults) {
-			vo = voteResult.getDrugForm().getCommonNameContents();
+			vo = voteResult.getCommonNameContents();
 			if (EmptyUtil.isNotNull(systemParameter)) {
 				if(vo.getAdministration().getId()==1){//口服一品两规限数
 					maxNumber = systemParameter.getOralDeclarationLimt().intValue();
@@ -428,38 +448,77 @@ public class VoteResultService extends BaseService<VoteResult, Long> {
 					maxNumber = systemParameter.getOtherDeclarationLimt().intValue();
 				}
 			}
-			List<CommonName> commonNameList = commonNameService.findByMatchNumber(vo.getCommon().getMatchNumber());
-			List<Long> commonNameIds = Collections3.extractToList(commonNameList, "id");
-			List<VoteResult> sameVoteResults = Lists.newArrayList();
-			if(EmptyUtil.isCollectionNotEmpty(commonNameIds)){ 
-				sameVoteResults =  getVoteResultRepository().findSameVoteResult(reviewMain.getId(), reviewProcessId, commonNameIds, vo.getAdministration().getId());
-			}
-		
-			List<HospitalContents> hospitalContentsList = Lists.newArrayList();
-			if(isAddPillAndSpecfication){
-				hospitalContentsList = hospitalContentsService.findByCommonIdInInAndAdministrationIdAndDeletedFalse(commonNameIds, vo.getAdministration().getId());
-			}
+			List<VoteResult> sameVoteResults = matchNumberByVoteResult(vo, reviewProcessId);
+
+			List<HospitalContents> hospitalContentsList = matchNumberByHospital(vo);
 			
 			int selectMaxNumber = maxNumber - hospitalContentsList.size();
 			
 			int outNumber = sameVoteResults.size() - selectMaxNumber;
-			if(outNumber > 0){//入围数量超过一品N规，要去掉多余的入围记录并替补相应的记录
+			if(maxNumber != 0 && outNumber > 0){//入围数量超过一品N规，要去掉多余的入围记录并替补相应的记录
 				
-				//出围多余的一品N规记录
-				List<VoteResult> outVoteResults = sameVoteResults.subList(sameVoteResults.size()-outNumber, sameVoteResults.size()-1);
-				for (VoteResult outVoteResult : outVoteResults) {
-					outVoteResult.setSelected(Boolean.FALSE);
-					update(outVoteResult);
-				}
-				//替补入围出围的一品N规相应数量的记录
-				List<VoteResult> outAllVoteResults = getVoteResultRepository().findOutVoteResult(reviewMain.getId(), reviewProcessId, drugCategoryEnum);
-				List<VoteResult> subVoteResults = outAllVoteResults.subList(0, outNumber-1);
-				for (VoteResult subVoteResult : subVoteResults) {
-					subVoteResult.setSelected(Boolean.TRUE);
-					update(subVoteResult);
-				}
-				voteResults.addAll(subVoteResults);
+				//记录下出围多余的一品N规记录
+				outVoteResults.addAll(sameVoteResults.subList(sameVoteResults.size()-outNumber, sameVoteResults.size()-1));
+
 			}
 		}
+		
+
+		if(voteResults.size()-outVoteResults.size()<matchNumber){//入围的总数小于设置都入围数量，就替补相应的入围记录
+			//替补入围出围的一品N规相应数量的记录
+			List<VoteResult> outAllVoteResults = getVoteResultRepository().findOutVoteResult(reviewMain.getId(), reviewProcessId, drugCategoryEnum);
+			int subIndex = 0;
+			for (VoteResult outAllVoteResult : outAllVoteResults) {
+				vo = outAllVoteResult.getCommonNameContents();
+				if (EmptyUtil.isNotNull(systemParameter)) {
+					if(vo.getAdministration().getId()==1){//口服一品两规限数
+						maxNumber = systemParameter.getOralDeclarationLimt().intValue();
+					}else if(vo.getAdministration().getId()==2){//注射一品两规限数
+						maxNumber = systemParameter.getInjectDeclarationLimt().intValue();
+					}else if(vo.getAdministration().getId()==3){//外用及其他一品两规限数
+						maxNumber = systemParameter.getOtherDeclarationLimt().intValue();
+					}
+				}
+				List<VoteResult> sameVoteResults = matchNumberByVoteResult(vo, reviewProcessId);
+
+				List<HospitalContents> hospitalContentsList = matchNumberByHospital(vo);
+				
+				if(maxNumber-sameVoteResults.size()-hospitalContentsList.size()>0){// 不违规一品N规就替补成入围记录
+					outAllVoteResult.setSelected(Boolean.TRUE);
+					update(outAllVoteResult);
+					subIndex++;
+					if(subIndex == outVoteResults.size()|| subIndex==(matchNumber-voteResults.size()-outVoteResults.size()))break;//替补数量已经达到违规一品N规出围的总数，就终止替补
+				}
+			}
+		}
+		
+		for (VoteResult outVoteResult : outVoteResults) {//将所有违规一品N规的入围记录改成出围
+			outVoteResult.setSelected(Boolean.FALSE);
+			update(outVoteResult);
+		}
+	}
+	
+	private List<VoteResult>  matchNumberByVoteResult(CommonNameContents vo, Long reviewProcessId){
+		List<VoteResult> sameVoteResults = Lists.newArrayList();
+		ReviewMain reviewMain = reviewMainService.findByEnabledTrue();
+		if (reviewMain == null) return sameVoteResults;
+		
+		List<CommonName> commonNameList = commonNameService.findByMatchNumber(vo.getCommon().getMatchNumber());
+		List<Long> commonNameIds = Collections3.extractToList(commonNameList, "id");
+		if(EmptyUtil.isCollectionNotEmpty(commonNameIds)){ 
+			sameVoteResults =  getVoteResultRepository().findSameVoteResult(reviewMain.getId(), reviewProcessId, commonNameIds, vo.getAdministration().getId());
+		}
+		return sameVoteResults;
+	}
+	
+	
+	private List<HospitalContents>  matchNumberByHospital(CommonNameContents vo){
+		List<HospitalContents> sameVoteResults = Lists.newArrayList();
+		List<CommonName> commonNameList = commonNameService.findByMatchNumber(vo.getCommon().getMatchNumber());
+		List<Long> commonNameIds = Collections3.extractToList(commonNameList, "id");
+		if(EmptyUtil.isCollectionNotEmpty(commonNameIds)){ 
+			sameVoteResults =  hospitalContentsService.findByCommonIdInInAndAdministrationIdAndDeletedFalse(commonNameIds, vo.getAdministration().getId());
+		}
+		return sameVoteResults;		
 	}
 }
