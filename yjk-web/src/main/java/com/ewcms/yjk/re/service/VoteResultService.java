@@ -438,7 +438,8 @@ public class VoteResultService extends BaseService<VoteResult, Long> {
 		List<VoteResult> outVoteResults = Lists.newArrayList();
 		
 		for (VoteResult voteResult : voteResults) {
-			vo = voteResult.getCommonNameContents();
+			vo = voteResult.getDrugForm().getCommonNameContents();
+
 			if (EmptyUtil.isNotNull(systemParameter)) {
 				if(vo.getAdministration().getId()==1){//口服一品两规限数
 					maxNumber = systemParameter.getOralDeclarationLimt().intValue();
@@ -521,5 +522,29 @@ public class VoteResultService extends BaseService<VoteResult, Long> {
 		}
 		return sameVoteResults;		
 	}
+	
+	private Boolean isMayTransferIn(Long voteResultId, Long reviewProcessId){
+		VoteResult voteResult = this.findOne(voteResultId);
+		CommonNameContents vo = voteResult.getDrugForm().getCommonNameContents();
+		ReviewMain reviewMain = reviewMainService.findByEnabledTrue();
+		if (reviewMain == null) return Boolean.FALSE;
+		SystemParameter systemParameter = reviewMain.getSystemParameter();
+		int maxNumber = 0;
+		if (EmptyUtil.isNotNull(systemParameter)) {
+			if(vo.getAdministration().getId()==1){//口服一品两规限数
+				maxNumber = systemParameter.getOralDeclarationLimt().intValue();
+			}else if(vo.getAdministration().getId()==2){//注射一品两规限数
+				maxNumber = systemParameter.getInjectDeclarationLimt().intValue();
+			}else if(vo.getAdministration().getId()==3){//外用及其他一品两规限数
+				maxNumber = systemParameter.getOtherDeclarationLimt().intValue();
+			}
+		}
+		
+		List<VoteResult> sameVoteResults = matchNumberByVoteResult(vo, reviewProcessId);
 
+		List<HospitalContents> hospitalContentsList = matchNumberByHospital(vo);
+		
+		if(sameVoteResults.size()+hospitalContentsList.size() < maxNumber || maxNumber == 0)return Boolean.TRUE;
+		return Boolean.FALSE;
+	}
 }
