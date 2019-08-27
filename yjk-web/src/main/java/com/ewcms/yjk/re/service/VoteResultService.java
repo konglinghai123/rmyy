@@ -458,7 +458,7 @@ public class VoteResultService extends BaseService<VoteResult, Long> {
 			if(maxNumber != 0 && outNumber > 0){//入围数量超过一品N规，要去掉多余的入围记录并替补相应的记录
 				
 				//记录下出围多余的一品N规记录
-				outVoteResults.addAll(sameVoteResults.subList(sameVoteResults.size()-outNumber, sameVoteResults.size()-1));
+				outVoteResults.addAll(sameVoteResults.subList(sameVoteResults.size()-outNumber, sameVoteResults.size()));
 
 			}
 		}
@@ -521,4 +521,5 @@ public class VoteResultService extends BaseService<VoteResult, Long> {
 		}
 		return sameVoteResults;		
 	}
+
 }

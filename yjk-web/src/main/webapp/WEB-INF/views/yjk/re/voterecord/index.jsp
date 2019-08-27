@@ -52,7 +52,7 @@
 						</c:otherwise>
 						</c:choose>	
 						<c:if test="${currentReviewProcess.hospitalData}">	
-							<th data-options="field:'drugForm.commonNameContents.id',width:100,formatter:function(val,row){
+							<th data-options="field:'drugForm.commonNameContents.id',width:70,formatter:function(val,row){
 													if(row.drugForm.commonNameContents==null){
 													 	return '';
 													}else{
@@ -146,7 +146,10 @@
 						    groupFormatter:function(value, rows){
 						        return value + ' - ' + rows.length + ' 条';
 						    },
-				            singleSelect: true
+				            singleSelect: true,
+							onLoadSuccess:function(row){
+								$('.previewCls').linkbutton({plain:true,iconCls:'icon-preview'});
+							}
 							<c:if test="${!isExpertSubmitCurrentReview}">		
 				            ,onClickCell: onClickCell,
 				            onEndEdit: onEndEdit
@@ -175,7 +178,7 @@
 					
 					function formatOperation(val, row) {
 
-						return '<a class="verifyCls" onclick="viewHospital(' + val + ');" href="javascript:void(0);" style="height:24px;" title="院用情况">查看</a>';
+						return '<a class="previewCls" onclick="viewHospital(' + val + ');" href="javascript:void(0);" style="height:24px;" title="院用情况"/>';
 					}
 					
 					function viewHospital(id){

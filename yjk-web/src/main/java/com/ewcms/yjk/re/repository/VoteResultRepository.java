@@ -20,7 +20,7 @@ public interface VoteResultRepository extends BaseRepository<VoteResult, Long> {
 	
 	@Query("select c.drugForm "
 			+ "from VoteResult c "
-			+ "where c.reviewMainId=?1 and c.drugForm.declareCategory=?2 and c.selected=true and c.affirmVoteResulted=true")
+			+ "where c.reviewMainId=?1 and c.drugForm.declareCategory=?2 and c.chosen=true and c.affirmVoteResulted=true")
 	List<DrugForm> findSelectedDrugForm(Long reviewMainId, String declareCategory);
 	
 	@Query("from VoteResult v "
