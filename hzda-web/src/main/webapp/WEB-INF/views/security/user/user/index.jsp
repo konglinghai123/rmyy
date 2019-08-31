@@ -34,8 +34,8 @@
 	</table>
 	<div id="tb" style="padding:5px;height:auto;">
 		<div style="margin-bottom:2px">
-			<a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true" onclick="$.ewcms.add({title:'新增',width:750,height:565});">新增</a>
-			<a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-edit',plain:true" onclick="$.ewcms.edit({title:'修改',width:750,height:565});">修改</a>
+			<a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true" onclick="$.ewcms.add({title:'新增',width:750,height:365});">新增</a>
+			<a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-edit',plain:true" onclick="$.ewcms.edit({title:'修改',width:750,height:365});">修改</a>
 			<a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-remove',plain:true" onclick="$.ewcms.remove({title:'删除'});">删除</a>
 			<a id="tb-password" href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-password',plain:true">修改密码</a>
 			<a id="tb-recycle" href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-recycle',plain:true">还原删除用户</a>

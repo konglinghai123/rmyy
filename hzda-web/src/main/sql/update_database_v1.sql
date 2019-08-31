@@ -72,3 +72,29 @@ ALTER TABLE public.hzda_risk_evaluation ADD COLUMN weight bigint;
 ALTER TABLE public.hzda_fracture ADD COLUMN format_name character varying(255);
 ALTER TABLE public.hzda_fracture ADD COLUMN upload_picture bytea;
 ALTER TABLE public.hzda_bone_density ADD COLUMN id_no character varying(255);
+
+CREATE SEQUENCE public.hzda_followup_time_id
+  INCREMENT 1
+  MINVALUE 1
+  MAXVALUE 9223372036854775807
+  START 1
+  CACHE 1;
+ALTER TABLE public.hzda_followup_time_id
+  OWNER TO postgres;
+
+CREATE TABLE public.hzda_followup_time
+(
+  id bigint NOT NULL,
+  general_information_id bigint NOT NULL,
+  next_time date,
+  organization_id bigint,
+  user_id bigint NOT NULL,
+  CONSTRAINT hzda_followup_time_pkey PRIMARY KEY (id),
+  CONSTRAINT uk_g9aaxoupnxrsk8jd0lgka3lhc UNIQUE (general_information_id)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE public.hzda_followup_time
+  OWNER TO postgres;
+

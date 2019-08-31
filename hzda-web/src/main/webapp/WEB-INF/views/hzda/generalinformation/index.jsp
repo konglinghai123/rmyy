@@ -106,7 +106,7 @@
 				$('#ddv-' + rowIndex).panel({
 					border:true,
 					cache:false,
-					content: '<iframe src="' + pathname + '/' + rowData.id + '" frameborder="0" width="60%" height="300px" scrolling="auto"></iframe>',
+					content: '<iframe src="' + pathname + '/' + rowData.id + '" frameborder="0" width="60%" height="400px" scrolling="auto"></iframe>',
 					onLoad:function(){
 						$('#tt').datagrid('fixDetailRowHeight',rowIndex);
 					}

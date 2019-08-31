@@ -52,7 +52,6 @@ public class Diagnosis extends BaseSequenceEntity<Long>{
 	@Column(name = "general_information_id", nullable = false)
 	private Long generalInformationId;
 
-
 	@Column(name = "is_bone_normal")
 	private Boolean boneNormal;
 	@Column(name = "is_osteopenia")

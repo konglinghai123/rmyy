@@ -124,6 +124,17 @@
 				$(this).combobox('setValue', theme);
 			}
 		});
+	    
+	    $('#ttFollowupTime').datagrid({
+	    	url:'${ctx}/hzda/generalinformation/followupTime/query',
+	    	height:300,
+	    	nowrap:true,
+	    	pagination:true,
+	    	rownumbers:true,
+	    	striped:true,
+	    	pageSize:10
+	    })
+	    
 	    function onChangeTheme(theme){
 	    	$.cookie('hzda-theme', theme);
 			var link = $('head').find('link:first');

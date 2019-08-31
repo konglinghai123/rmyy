@@ -54,6 +54,9 @@
 		<div title="用药记录" style="padding:2px;overflow:hidden;">
 			<iframe id="editmedicationrecordifr"  name="editmedicationrecordifr" class="editifr" src=""></iframe> 
 		</div>
+		<div title="下一次随访时间" style="padding:2px;overflow:hidden;">
+			<iframe id="editfollowuptimeifr"  name="editfollowuptimeifr" class="editifr" src=""></iframe> 
+		</div>
 	</div>
 <ewcms:footer/>
 <script type="text/javascript">
@@ -94,6 +97,8 @@
 					$('#editfractureotherifr').attr('src','${ctx}/hzda/fractureother/index/${generalInformationId}');
 				} else if (title == '用药记录'){
 					$('#editmedicationrecordifr').attr('src','${ctx}/hzda/medicationrecord/index/${generalInformationId}');
+				} else if (title == '下一次随访时间'){
+					$('#editfollowuptimeifr').attr('src','${ctx}/hzda/followuptime/index/${generalInformationId}');
 				}
 			}
 		});

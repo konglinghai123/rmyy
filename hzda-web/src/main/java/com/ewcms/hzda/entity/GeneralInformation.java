@@ -51,6 +51,7 @@ import com.ewcms.hzda.zd.entity.Nation;
  * <li>specialTabNumber:特殊患者标记(肾移植)编号</li>
  * <li>eGFR:eGFR</li>
  * <li>remakrs:备注</li>
+ * <li>nextTime:提醒时间</li>
  * <li>
  * </ul>
  * 
@@ -135,6 +136,8 @@ public class GeneralInformation extends BaseSequenceEntity<Long> {
 	private String eGFR;
 	@Column(name = "remakrs", columnDefinition = "text")
 	private String remakrs;
+	@Formula(value = "(select f.next_time from hzda_followup_time f where f.general_information_id=id order by f.next_time desc limit 1)")
+	private Date nextTime;
 
 	public Long getUserId() {
 		return userId;
@@ -342,4 +345,8 @@ public class GeneralInformation extends BaseSequenceEntity<Long> {
 		return organizationName;
 	}
 
+	@JSONField(format = "yyyy-MM-dd")
+	public Date getNextTime() {
+		return nextTime;
+	}
 }
