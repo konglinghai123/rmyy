@@ -21,7 +21,7 @@
 										<thead>
 											<tr>
 											    <th data-options="field:'ck',checkbox:true"/>
-											    <th data-options="field:'id',sortable:true,width:80">编号</th>
+											    <th data-options="field:'id',hidden:true">编号</th>
 												<th data-options="field:'recordingTime',sortable:true,width:140">记录日期</th>
 												<th data-options="field:'realName',sortable:true,width:120">建档医生</th>
 												<th data-options="field:'organizationName',sortable:true,width:120">建档医院</th>

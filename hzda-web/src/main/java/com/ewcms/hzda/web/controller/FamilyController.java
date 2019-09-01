@@ -31,6 +31,10 @@ public class FamilyController extends BaseCRUDController<Family, Long> {
 	private FamilyService getFamilyService() {
 		return (FamilyService) baseService;
 	}
+	
+	public FamilyController() {
+		setResourceIdentity("hzda:family");
+	}
 
 	@Override
 	public String index(Model model) {

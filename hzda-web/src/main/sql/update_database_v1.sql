@@ -88,6 +88,9 @@ CREATE TABLE public.hzda_followup_time
   general_information_id bigint NOT NULL,
   next_time date,
   organization_id bigint,
+  is_sms boolean,
+  sms_date date,
+  is_tip boolean,
   user_id bigint NOT NULL,
   CONSTRAINT hzda_followup_time_pkey PRIMARY KEY (id),
   CONSTRAINT uk_g9aaxoupnxrsk8jd0lgka3lhc UNIQUE (general_information_id)
@@ -97,4 +100,47 @@ WITH (
 );
 ALTER TABLE public.hzda_followup_time
   OWNER TO postgres;
+  
+
+ALTER TABLE public.hzda_anamnesis ADD COLUMN aeds_duration_unit character varying(255);
+ALTER TABLE public.hzda_anamnesis ADD COLUMN aluminum_preparation_duration_unit character varying(255);
+ALTER TABLE public.hzda_anamnesis ADD COLUMN aromatase_inhibitor_duration_unit character varying(255);
+ALTER TABLE public.hzda_anamnesis ADD COLUMN calcitonin_time_unit character varying(255);
+ALTER TABLE public.hzda_anamnesis ADD COLUMN calcium_time_unit character varying(255);
+ALTER TABLE public.hzda_anamnesis ADD COLUMN ciclosporin_bc_unit character varying(255);
+ALTER TABLE public.hzda_anamnesis ADD COLUMN ciclosporin_current_dose_unit character varying(255);
+ALTER TABLE public.hzda_anamnesis ADD COLUMN ciclosporin_duration_unit character varying(255);
+ALTER TABLE public.hzda_anamnesis ADD COLUMN ciclosporin_initial_dose_unit character varying(255);
+ALTER TABLE public.hzda_anamnesis ADD COLUMN diphosphonate_time_unit character varying(255);
+ALTER TABLE public.hzda_anamnesis ADD COLUMN dxm_current_dose_unit character varying(255);
+ALTER TABLE public.hzda_anamnesis ADD COLUMN dxm_duration_unit character varying(255);
+ALTER TABLE public.hzda_anamnesis ADD COLUMN dxm_initial_dose_unit character varying(255);
+ALTER TABLE public.hzda_anamnesis ADD COLUMN glucocorticoid_other_current_dose_unit character varying(255);
+ALTER TABLE public.hzda_anamnesis ADD COLUMN glucocorticoid_other_duration_unit character varying(255);
+ALTER TABLE public.hzda_anamnesis ADD COLUMN glucocorticoid_other_initial_dose_unit character varying(255);
+ALTER TABLE public.hzda_anamnesis ADD COLUMN heparin_duration_unit character varying(255);
+ALTER TABLE public.hzda_anamnesis ADD COLUMN imuran_current_dose_unit character varying(255);
+ALTER TABLE public.hzda_anamnesis ADD COLUMN imuran_duration_unit character varying(255);
+ALTER TABLE public.hzda_anamnesis ADD COLUMN imuran_initial_dose_unit character varying(255);
+ALTER TABLE public.hzda_anamnesis ADD COLUMN lastother_duration_unit character varying(255);
+ALTER TABLE public.hzda_anamnesis ADD COLUMN lithium_preparations_duration_unit character varying(255);
+ALTER TABLE public.hzda_anamnesis ADD COLUMN mmf_current_dose_unit character varying(255);
+ALTER TABLE public.hzda_anamnesis ADD COLUMN mmf_duration_unit character varying(255);
+ALTER TABLE public.hzda_anamnesis ADD COLUMN mmfinitial_dose_unit character varying(255);
+ALTER TABLE public.hzda_anamnesis ADD COLUMN mp_current_dose_unit character varying(255);
+ALTER TABLE public.hzda_anamnesis ADD COLUMN mp_duration_unit character varying(255);
+ALTER TABLE public.hzda_anamnesis ADD COLUMN mpinitial_dose_unit character varying(255);
+ALTER TABLE public.hzda_anamnesis ADD COLUMN prednisolone_current_dose_unit character varying(255);
+ALTER TABLE public.hzda_anamnesis ADD COLUMN prednisolone_duration_unit character varying(255);
+ALTER TABLE public.hzda_anamnesis ADD COLUMN prednisolone_initial_dose_unit character varying(255);
+ALTER TABLE public.hzda_anamnesis ADD COLUMN prednisone_current_dose_unit character varying(255);
+ALTER TABLE public.hzda_anamnesis ADD COLUMN prednisone_duration_unit character varying(255);
+ALTER TABLE public.hzda_anamnesis ADD COLUMN prednisone_initial_dose_unit character varying(255);
+ALTER TABLE public.hzda_anamnesis ADD COLUMN serm_time_unit character varying(255);
+ALTER TABLE public.hzda_anamnesis ADD COLUMN shard_duration_unit character varying(255);
+ALTER TABLE public.hzda_anamnesis ADD COLUMN tacrolimus_bc_unit character varying(255);
+ALTER TABLE public.hzda_anamnesis ADD COLUMN tacrolimus_current_dose_unit character varying(255);
+ALTER TABLE public.hzda_anamnesis ADD COLUMN tacrolimus_duration_unit character varying(255);
+ALTER TABLE public.hzda_anamnesis ADD COLUMN tacrolimus_initial_dose_unit character varying(255);
+ALTER TABLE public.hzda_anamnesis ADD COLUMN vitamin_d_time_unit character varying(255);
 

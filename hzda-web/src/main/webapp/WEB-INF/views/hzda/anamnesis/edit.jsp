@@ -135,27 +135,57 @@
 			  						<td width="20%"><form:checkbox path="calcium"/>钙剂&nbsp;&nbsp;</td>
 			  						<td width="30%">是否规律用药&nbsp;&nbsp;<form:radiobuttons path="calciumLaw" items="${booleanList}" itemLabel="info" delimiter="&nbsp;"/>
 			  						</td>
-			  						<td width="50%">用药总时间<form:input path="calciumDuration" size="3"/></td>
+			  						<td width="50%">
+			  							用药总时间<form:input path="calciumDuration" size="3"/>
+			  							<form:select path="calciumTimeUnit" cssClass="easyui-combobox"  cssStyle="width:80px;" data-options="panelHeight:'auto',editable:false">
+							  				<form:option value="" label="请选择"/>
+							  				<form:options items="${timeUnitList}" itemLabel="info"/>
+										</form:select>
+			  						</td>
 			  					</tr>
 			  					<tr>
 			  						<td><form:checkbox path="vitaminD"/>维生素D及活性维生素D&nbsp;&nbsp;</td>
 			  						<td>是否规律用药&nbsp;&nbsp;<form:radiobuttons path="vitaminDLaw" items="${booleanList}" itemLabel="info" delimiter="&nbsp;"/></td>
-			  						<td>用药总时间<form:input path="vitaminDDuration" size="3"/></td>
+			  						<td>
+			  							用药总时间<form:input path="vitaminDDuration" size="3"/>
+			  							<form:select path="vitaminDTimeUnit" cssClass="easyui-combobox"  cssStyle="width:80px;" data-options="panelHeight:'auto',editable:false">
+							  				<form:option value="" label="请选择"/>
+							  				<form:options items="${timeUnitList}" itemLabel="info"/>
+										</form:select>
+			  						</td>
 			  					</tr>
 			  					<tr>
 			  						<td><form:checkbox path="diphosphonate"/>双磷酸盐&nbsp;&nbsp;</td>
 			  						<td>是否规律用药&nbsp;&nbsp;<form:radiobuttons path="diphosphonateLaw" items="${booleanList}" itemLabel="info" delimiter="&nbsp;"/></td>
-			  						<td>用药总时间<form:input path="diphosphonateDuration" size="3"/></td>
+			  						<td>
+			  							用药总时间<form:input path="diphosphonateDuration" size="3"/>
+			  							<form:select path="diphosphonateTimeUnit" cssClass="easyui-combobox"  cssStyle="width:80px;" data-options="panelHeight:'auto',editable:false">
+							  				<form:option value="" label="请选择"/>
+							  				<form:options items="${timeUnitList}" itemLabel="info"/>
+										</form:select>
+			  						</td>
 			  					</tr>
 			  					<tr>
 			  						<td><form:checkbox path="calcitonin"/>降钙素类&nbsp;&nbsp;</td>
 			  						<td>是否规律用药&nbsp;&nbsp;<form:radiobuttons path="calcitoninLaw" items="${booleanList}" itemLabel="info" delimiter="&nbsp;"/></td>
-			  						<td>用药总时间<form:input path="calcitoninDuration" size="3"/></td>
+			  						<td>
+			  							用药总时间<form:input path="calcitoninDuration" size="3"/>
+			  							<form:select path="calcitoninTimeUnit" cssClass="easyui-combobox"  cssStyle="width:80px;" data-options="panelHeight:'auto',editable:false">
+							  				<form:option value="" label="请选择"/>
+							  				<form:options items="${timeUnitList}" itemLabel="info"/>
+										</form:select>
+			  						</td>
 			  					</tr>
 			  					<tr>
 			  						<td><form:checkbox path="serm"/>选择性雌激素受体调节剂&nbsp;&nbsp;</td>
 			  						<td>是否规律用药&nbsp;&nbsp;<form:radiobuttons path="sermLaw" items="${booleanList}" itemLabel="info" delimiter="&nbsp;"/></td>
-			  						<td>用药总时间<form:input path="sermDuration" size="3"/></td>
+			  						<td>
+			  							用药总时间<form:input path="sermDuration" size="3"/>
+			  							<form:select path="sermTimeUnit" cssClass="easyui-combobox"  cssStyle="width:80px;" data-options="panelHeight:'auto',editable:false">
+							  				<form:option value="" label="请选择"/>
+							  				<form:options items="${timeUnitList}" itemLabel="info"/>
+										</form:select>
+			  						</td>
 			  					</tr>
 			  				</table>
 			  			</td>
@@ -169,63 +199,231 @@
 			  				<table style="border:0px solid; padding:0px;" class="formtable">
 			  					<tr>
 			  						<td width="10%"><form:checkbox path="prednisone"/>泼尼松&nbsp;&nbsp;</td>
-			  						<td width="20%">起始剂量<form:input path="prednisoneInitialDose" size="3"/></td>
-			  						<td width="20%">目前剂量<form:input path="prednisoneCurrentDose" size="3"/></td>
-			  						<td width="50%">用药总时间<form:input path="prednisoneDuration" size="3"/></td>
+			  						<td width="20%">
+			  							起始剂量<form:input path="prednisoneInitialDose" size="3"/>
+			  							<form:select path="prednisoneInitialDoseUnit" cssClass="easyui-combobox"  cssStyle="width:80px;" data-options="panelHeight:'auto',editable:false">
+							  				<form:option value="" label="请选择"/>
+							  				<form:options items="${doseUnitList}" itemLabel="info"/>
+										</form:select>
+			  						</td>
+			  						<td width="20%">
+			  							目前剂量<form:input path="prednisoneCurrentDose" size="3"/>
+			  							<form:select path="prednisoneCurrentDoseUnit" cssClass="easyui-combobox"  cssStyle="width:80px;" data-options="panelHeight:'auto',editable:false">
+							  				<form:option value="" label="请选择"/>
+							  				<form:options items="${doseUnitList}" itemLabel="info"/>
+										</form:select>
+			  						</td>
+			  						<td width="50%">
+			  							用药总时间<form:input path="prednisoneDuration" size="3"/>
+			  							<form:select path="prednisoneDurationUnit" cssClass="easyui-combobox"  cssStyle="width:80px;" data-options="panelHeight:'auto',editable:false">
+							  				<form:option value="" label="请选择"/>
+							  				<form:options items="${timeUnitList}" itemLabel="info"/>
+										</form:select>
+			  						</td>
 			  					</tr>
 			  					<tr>
 			  						<td><form:checkbox path="prednisolone"/>泼尼松龙&nbsp;&nbsp;</td>
-			  						<td>起始剂量<form:input path="prednisoloneInitialDose" size="3"/></td>
-			  						<td>目前剂量<form:input path="prednisoloneCurrentDose" size="3"/></td>
-			  						<td>用药总时间<form:input path="prednisoloneDuration" size="3"/></td>
+			  						<td>
+			  							起始剂量<form:input path="prednisoloneInitialDose" size="3"/>
+			  							<form:select path="prednisoloneInitialDoseUnit" cssClass="easyui-combobox"  cssStyle="width:80px;" data-options="panelHeight:'auto',editable:false">
+							  				<form:option value="" label="请选择"/>
+							  				<form:options items="${doseUnitList}" itemLabel="info"/>
+										</form:select>
+			  						</td>
+			  						<td>
+			  							目前剂量<form:input path="prednisoloneCurrentDose" size="3"/>
+			  							<form:select path="prednisoloneCurrentDoseUnit" cssClass="easyui-combobox"  cssStyle="width:80px;" data-options="panelHeight:'auto',editable:false">
+							  				<form:option value="" label="请选择"/>
+							  				<form:options items="${doseUnitList}" itemLabel="info"/>
+										</form:select>
+			  						</td>
+			  						<td>
+			  							用药总时间<form:input path="prednisoloneDuration" size="3"/>
+			  							<form:select path="prednisoloneDurationUnit" cssClass="easyui-combobox"  cssStyle="width:80px;" data-options="panelHeight:'auto',editable:false">
+							  				<form:option value="" label="请选择"/>
+							  				<form:options items="${timeUnitList}" itemLabel="info"/>
+										</form:select>
+			  						</td>
 			  					</tr>
 			  					<tr>
 			  						<td><form:checkbox path="mp"/>甲强龙&nbsp;&nbsp;</td>
-			  						<td>起始剂量<form:input path="mpInitialDose" size="3"/></td>
-			  						<td>目前剂量<form:input path="mpCurrentDose" size="3"/></td>
-			  						<td>用药总时间<form:input path="mpDuration" size="3"/></td>
+			  						<td>
+			  							起始剂量<form:input path="mpInitialDose" size="3"/>
+			  							<form:select path="mpInitialDoseUnit" cssClass="easyui-combobox"  cssStyle="width:80px;" data-options="panelHeight:'auto',editable:false">
+							  				<form:option value="" label="请选择"/>
+							  				<form:options items="${doseUnitList}" itemLabel="info"/>
+										</form:select>
+			  						</td>
+			  						<td>
+			  							目前剂量<form:input path="mpCurrentDose" size="3"/>
+			  							<form:select path="mpCurrentDoseUnit" cssClass="easyui-combobox"  cssStyle="width:80px;" data-options="panelHeight:'auto',editable:false">
+							  				<form:option value="" label="请选择"/>
+							  				<form:options items="${doseUnitList}" itemLabel="info"/>
+										</form:select>
+			  						</td>
+			  						<td>
+			  							用药总时间<form:input path="mpDuration" size="3"/>
+			  							<form:select path="mpDurationUnit" cssClass="easyui-combobox"  cssStyle="width:80px;" data-options="panelHeight:'auto',editable:false">
+							  				<form:option value="" label="请选择"/>
+							  				<form:options items="${timeUnitList}" itemLabel="info"/>
+										</form:select>
+			  						</td>
 			  					</tr>
 			  					<tr>
 			  						<td><form:checkbox path="dxm"/>地塞米松&nbsp;&nbsp;</td>
-			  						<td>起始剂量<form:input path="dxmInitialDose" size="3"/></td>
-			  						<td>目前剂量<form:input path="dxmCurrentDose" size="3"/></td>
-			  						<td>用药总时间<form:input path="dxmDuration" size="3"/></td>
+			  						<td>
+			  							起始剂量<form:input path="dxmInitialDose" size="3"/>
+			  							<form:select path="dxmInitialDoseUnit" cssClass="easyui-combobox"  cssStyle="width:80px;" data-options="panelHeight:'auto',editable:false">
+							  				<form:option value="" label="请选择"/>
+							  				<form:options items="${doseUnitList}" itemLabel="info"/>
+										</form:select>
+			  						</td>
+			  						<td>
+			  							目前剂量<form:input path="dxmCurrentDose" size="3"/>
+			  							<form:select path="dxmCurrentDoseUnit" cssClass="easyui-combobox"  cssStyle="width:80px;" data-options="panelHeight:'auto',editable:false">
+							  				<form:option value="" label="请选择"/>
+							  				<form:options items="${doseUnitList}" itemLabel="info"/>
+										</form:select>
+			  						</td>
+			  						<td>
+			  							用药总时间<form:input path="dxmDuration" size="3"/>
+			  							<form:select path="dxmDurationUnit" cssClass="easyui-combobox"  cssStyle="width:80px;" data-options="panelHeight:'auto',editable:false">
+							  				<form:option value="" label="请选择"/>
+							  				<form:options items="${timeUnitList}" itemLabel="info"/>
+										</form:select>
+			  						</td>
 			  					</tr>
 			  					<tr>
 			  						<td><form:checkbox path="imuran"/>硫唑嘌呤&nbsp;&nbsp;</td>
-			  						<td>起始剂量<form:input path="imuranInitialDose" size="3"/></td>
-			  						<td>目前剂量<form:input path="imuranCurrentDose" size="3"/></td>
-			  						<td>用药总时间<form:input path="imuranDuration" size="3"/></td>
+			  						<td>
+			  							起始剂量<form:input path="imuranInitialDose" size="3"/>
+			  							<form:select path="imuranInitialDoseUnit" cssClass="easyui-combobox"  cssStyle="width:80px;" data-options="panelHeight:'auto',editable:false">
+							  				<form:option value="" label="请选择"/>
+							  				<form:options items="${doseUnitList}" itemLabel="info"/>
+										</form:select>
+			  						</td>
+			  						<td>
+			  							目前剂量<form:input path="imuranCurrentDose" size="3"/>
+			  							<form:select path="imuranCurrentDoseUnit" cssClass="easyui-combobox"  cssStyle="width:80px;" data-options="panelHeight:'auto',editable:false">
+							  				<form:option value="" label="请选择"/>
+							  				<form:options items="${doseUnitList}" itemLabel="info"/>
+										</form:select>
+			  						</td>
+			  						<td>
+			  							用药总时间<form:input path="imuranDuration" size="3"/>
+			  							<form:select path="imuranDurationUnit" cssClass="easyui-combobox"  cssStyle="width:80px;" data-options="panelHeight:'auto',editable:false">
+							  				<form:option value="" label="请选择"/>
+							  				<form:options items="${timeUnitList}" itemLabel="info"/>
+										</form:select>
+			  						</td>
 			  					</tr>
 			  					<tr>
 			  						<td><form:checkbox path="ciclosporin"/>环孢素&nbsp;&nbsp;</td>
-			  						<td>起始剂量<form:input path="ciclosporinInitialDose" size="3"/></td>
-			  						<td>目前剂量<form:input path="ciclosporinCurrentDose" size="3"/></td>
 			  						<td>
-			  							用药总时间<form:input path="ciclosporinDuration" size="3"/>&nbsp;&nbsp;
+			  							起始剂量<form:input path="ciclosporinInitialDose" size="3"/>
+			  							<form:select path="ciclosporinInitialDoseUnit" cssClass="easyui-combobox"  cssStyle="width:80px;" data-options="panelHeight:'auto',editable:false">
+							  				<form:option value="" label="请选择"/>
+							  				<form:options items="${doseUnitList}" itemLabel="info"/>
+										</form:select>
+			  						</td>
+			  						<td>
+			  							目前剂量<form:input path="ciclosporinCurrentDose" size="3"/>
+			  							<form:select path="ciclosporinCurrentDoseUnit" cssClass="easyui-combobox"  cssStyle="width:80px;" data-options="panelHeight:'auto',editable:false">
+							  				<form:option value="" label="请选择"/>
+							  				<form:options items="${doseUnitList}" itemLabel="info"/>
+										</form:select>
+			  						</td>
+			  						<td>
+			  							用药总时间<form:input path="ciclosporinDuration" size="3"/>
+			  							<form:select path="ciclosporinDurationUnit" cssClass="easyui-combobox"  cssStyle="width:80px;" data-options="panelHeight:'auto',editable:false">
+							  				<form:option value="" label="请选择"/>
+							  				<form:options items="${timeUnitList}" itemLabel="info"/>
+										</form:select>
+			  							&nbsp;&nbsp;&nbsp;&nbsp;
 			  							血药浓度<form:input path="ciclosporinBC" size="3"/>
+			  							<form:select path="ciclosporinBCUnit" cssClass="easyui-combobox"  cssStyle="width:80px;" data-options="panelHeight:'auto',editable:false">
+							  				<form:option value="" label="请选择"/>
+							  				<form:options items="${bcUnitList}" itemLabel="info"/>
+										</form:select>
 			  						</td>
 			  					</tr>
 			  					<tr>
 			  						<td><form:checkbox path="tacrolimus"/>他克莫司&nbsp;&nbsp;</td>
-			  						<td>起始剂量<form:input path="tacrolimusInitialDose" size="3"/></td>
-			  						<td>目前剂量<form:input path="tacrolimusCurrentDose" size="3"/></td>
 			  						<td>
-			  							用药总时间<form:input path="tacrolimusDuration" size="3"/>&nbsp;&nbsp;
+			  							起始剂量<form:input path="tacrolimusInitialDose" size="3"/>
+			  							<form:select path="tacrolimusInitialDoseUnit" cssClass="easyui-combobox"  cssStyle="width:80px;" data-options="panelHeight:'auto',editable:false">
+							  				<form:option value="" label="请选择"/>
+							  				<form:options items="${doseUnitList}" itemLabel="info"/>
+										</form:select>
+			  						</td>
+			  						<td>
+			  							目前剂量<form:input path="tacrolimusCurrentDose" size="3"/>
+			  							<form:select path="tacrolimusCurrentDoseUnit" cssClass="easyui-combobox"  cssStyle="width:80px;" data-options="panelHeight:'auto',editable:false">
+							  				<form:option value="" label="请选择"/>
+							  				<form:options items="${doseUnitList}" itemLabel="info"/>
+										</form:select>
+			  						</td>
+			  						<td>
+			  							用药总时间<form:input path="tacrolimusDuration" size="3"/>
+			  							<form:select path="tacrolimusDurationUnit" cssClass="easyui-combobox"  cssStyle="width:80px;" data-options="panelHeight:'auto',editable:false">
+							  				<form:option value="" label="请选择"/>
+							  				<form:options items="${timeUnitList}" itemLabel="info"/>
+										</form:select>
+			  							&nbsp;&nbsp;&nbsp;&nbsp;
 			  							血药浓度<form:input path="tacrolimusBC" size="3"/>
+			  							<form:select path="tacrolimusBCUnit" cssClass="easyui-combobox"  cssStyle="width:80px;" data-options="panelHeight:'auto',editable:false">
+							  				<form:option value="" label="请选择"/>
+							  				<form:options items="${bcUnitList}" itemLabel="info"/>
+										</form:select>
 			  						</td>
 			  					</tr>
 			  					<tr>
 			  						<td><form:checkbox path="mmf"/>吗替麦考酚酯&nbsp;&nbsp;</td>
-			  						<td>起始剂量<form:input path="mmfInitialDose" size="3"/></td>
-			  						<td>目前剂量<form:input path="mmfCurrentDose" size="3"/></td>
-			  						<td>用药总时间<form:input path="mmfDuration" size="3"/></td>
+			  						<td>
+			  							起始剂量<form:input path="mmfInitialDose" size="3"/>
+			  							<form:select path="mmfInitialDoseUnit" cssClass="easyui-combobox"  cssStyle="width:80px;" data-options="panelHeight:'auto',editable:false">
+							  				<form:option value="" label="请选择"/>
+							  				<form:options items="${doseUnitList}" itemLabel="info"/>
+										</form:select>
+			  						</td>
+			  						<td>
+			  							目前剂量<form:input path="mmfCurrentDose" size="3"/>
+			  							<form:select path="mmfCurrentDoseUnit" cssClass="easyui-combobox"  cssStyle="width:80px;" data-options="panelHeight:'auto',editable:false">
+							  				<form:option value="" label="请选择"/>
+							  				<form:options items="${doseUnitList}" itemLabel="info"/>
+										</form:select>
+			  						</td>
+			  						<td>
+			  							用药总时间<form:input path="mmfDuration" size="3"/>
+			  							<form:select path="mmfDurationUnit" cssClass="easyui-combobox"  cssStyle="width:80px;" data-options="panelHeight:'auto',editable:false">
+							  				<form:option value="" label="请选择"/>
+							  				<form:options items="${timeUnitList}" itemLabel="info"/>
+										</form:select>
+			  						</td>
 			  					</tr>
 			  					<tr>
 			  						<td><form:checkbox path="glucocorticoidOther"/>其他&nbsp;&nbsp;</td>
-			  						<td>起始剂量<form:input path="glucocorticoidOtherInitialDose" size="3"/></td>
-			  						<td>目前剂量<form:input path="glucocorticoidOtherCurrentDose" size="3"/></td>
-			  						<td>用药总时间<form:input path="glucocorticoidOtherDuration" size="3"/></td>
+			  						<td>
+			  							起始剂量<form:input path="glucocorticoidOtherInitialDose" size="3"/>
+			  							<form:select path="glucocorticoidOtherInitialDoseUnit" cssClass="easyui-combobox"  cssStyle="width:80px;" data-options="panelHeight:'auto',editable:false">
+							  				<form:option value="" label="请选择"/>
+							  				<form:options items="${doseUnitList}" itemLabel="info"/>
+										</form:select>
+			  						</td>
+			  						<td>
+			  							目前剂量<form:input path="glucocorticoidOtherCurrentDose" size="3"/>
+			  							<form:select path="glucocorticoidOtherCurrentDoseUnit" cssClass="easyui-combobox"  cssStyle="width:80px;" data-options="panelHeight:'auto',editable:false">
+							  				<form:option value="" label="请选择"/>
+							  				<form:options items="${doseUnitList}" itemLabel="info"/>
+										</form:select>
+			  						</td>
+			  						<td>
+			  							用药总时间<form:input path="glucocorticoidOtherDuration" size="3"/>
+			  							<form:select path="glucocorticoidOtherDurationUnit" cssClass="easyui-combobox"  cssStyle="width:80px;" data-options="panelHeight:'auto',editable:false">
+							  				<form:option value="" label="请选择"/>
+							  				<form:options items="${timeUnitList}" itemLabel="info"/>
+										</form:select>
+			  						</td>
 			  					</tr>
 			  				</table>
 			  			</td>
@@ -233,13 +431,48 @@
 					<tr>
 						<td>其他：</td>
 						<td>
-							<form:checkbox path="shard"/>性激素及其相关药物&nbsp;&nbsp;&nbsp;&nbsp;用药时长<form:input path="shardDuration" size="3"/><br/>
-							<form:checkbox path="aeds"/>抗癫痫药物&nbsp;&nbsp;&nbsp;&nbsp;用药时长<form:input path="aedsDuration" size="3"/><br/>
-							<form:checkbox path="aluminumPreparation"/>铝制剂&nbsp;&nbsp;&nbsp;&nbsp;用药时长<form:input path="aluminumPreparationDuration" size="3"/><br/>
-							<form:checkbox path="lithiumPreparations"/>锂制剂&nbsp;&nbsp;&nbsp;&nbsp;用药时长<form:input path="lithiumPreparationsDuration" size="3"/><br/>
-							<form:checkbox path="heparin"/>肝素&nbsp;&nbsp;&nbsp;&nbsp;用药时长<form:input path="heparinDuration" size="3"/><br/>
-							<form:checkbox path="aromataseInhibitor"/>芳重化酶抵制剂&nbsp;&nbsp;&nbsp;&nbsp;用药时长<form:input path="aromataseInhibitorDuration" size="3"/><br/>
-							<form:checkbox path="lastOther"/>其他<form:input path="lastOtherDesc" size="3"/>用药时长<form:input path="lastOtherDuration" size="3"/><br/>
+							<form:checkbox path="shard"/>性激素及其相关药物&nbsp;&nbsp;&nbsp;&nbsp;用药时长<form:input path="shardDuration" size="3"/>
+							<form:select path="shardDurationUnit" cssClass="easyui-combobox"  cssStyle="width:80px;" data-options="panelHeight:'auto',editable:false">
+							  	<form:option value="" label="请选择"/>
+							  	<form:options items="${timeUnitList}" itemLabel="info"/>
+							</form:select>
+							<br/>
+							<form:checkbox path="aeds"/>抗癫痫药物&nbsp;&nbsp;&nbsp;&nbsp;用药时长<form:input path="aedsDuration" size="3"/>
+							<form:select path="aedsDurationUnit" cssClass="easyui-combobox"  cssStyle="width:80px;" data-options="panelHeight:'auto',editable:false">
+							  	<form:option value="" label="请选择"/>
+							  	<form:options items="${timeUnitList}" itemLabel="info"/>
+							</form:select>
+							<br/>
+							<form:checkbox path="aluminumPreparation"/>铝制剂&nbsp;&nbsp;&nbsp;&nbsp;用药时长<form:input path="aluminumPreparationDuration" size="3"/>
+							<form:select path="aluminumPreparationDurationUnit" cssClass="easyui-combobox"  cssStyle="width:80px;" data-options="panelHeight:'auto',editable:false">
+							  	<form:option value="" label="请选择"/>
+							  	<form:options items="${timeUnitList}" itemLabel="info"/>
+							</form:select>
+							<br/>
+							<form:checkbox path="lithiumPreparations"/>锂制剂&nbsp;&nbsp;&nbsp;&nbsp;用药时长<form:input path="lithiumPreparationsDuration" size="3"/>
+							<form:select path="lithiumPreparationsDurationUnit" cssClass="easyui-combobox"  cssStyle="width:80px;" data-options="panelHeight:'auto',editable:false">
+							  	<form:option value="" label="请选择"/>
+							  	<form:options items="${timeUnitList}" itemLabel="info"/>
+							</form:select>
+							<br/>
+							<form:checkbox path="heparin"/>肝素&nbsp;&nbsp;&nbsp;&nbsp;用药时长<form:input path="heparinDuration" size="3"/>
+							<form:select path="heparinDurationUnit" cssClass="easyui-combobox"  cssStyle="width:80px;" data-options="panelHeight:'auto',editable:false">
+							  	<form:option value="" label="请选择"/>
+							  	<form:options items="${timeUnitList}" itemLabel="info"/>
+							</form:select>
+							<br/>
+							<form:checkbox path="aromataseInhibitor"/>芳重化酶抵制剂&nbsp;&nbsp;&nbsp;&nbsp;用药时长<form:input path="aromataseInhibitorDuration" size="3"/>
+							<form:select path="aromataseInhibitorDurationUnit" cssClass="easyui-combobox"  cssStyle="width:80px;" data-options="panelHeight:'auto',editable:false">
+							  	<form:option value="" label="请选择"/>
+							  	<form:options items="${timeUnitList}" itemLabel="info"/>
+							</form:select>
+							<br/>
+							<form:checkbox path="lastOther"/>其他<form:input path="lastOtherDesc" size="3"/>用药时长<form:input path="lastOtherDuration" size="3"/>
+							<form:select path="lastOtherDurationUnit" cssClass="easyui-combobox"  cssStyle="width:80px;" data-options="panelHeight:'auto',editable:false">
+							  	<form:option value="" label="请选择"/>
+							  	<form:options items="${timeUnitList}" itemLabel="info"/>
+							</form:select>
+							<br/>
 						</td>
 					</tr>
 				</table>

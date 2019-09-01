@@ -31,6 +31,10 @@ public class PersonalController extends BaseCRUDController<Personal, Long> {
 	private PersonalService getPersonalService() {
 		return (PersonalService) baseService;
 	}
+	
+	public PersonalController() {
+		setResourceIdentity("hzda:personal");
+	}
 
 	@Override
 	public String index(Model model) {

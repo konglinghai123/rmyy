@@ -19,7 +19,10 @@ import com.ewcms.common.entity.enums.BooleanEnum;
 import com.ewcms.common.utils.MessageUtils;
 import com.ewcms.common.web.controller.BaseCRUDController;
 import com.ewcms.hzda.entity.Anamnesis;
+import com.ewcms.hzda.entity.BCEnum;
+import com.ewcms.hzda.entity.DoseUnitEnum;
 import com.ewcms.hzda.entity.GeneralInformation;
+import com.ewcms.hzda.entity.TimeUnitEnum;
 import com.ewcms.hzda.service.AnamnesisService;
 import com.ewcms.hzda.web.controller.util.HzdaUtil;
 import com.ewcms.security.user.entity.User;
@@ -35,6 +38,7 @@ public class AnamnesisController extends BaseCRUDController<Anamnesis, Long> {
 	
 	public AnamnesisController() {
 		setListAlsoSetCommonData(true);
+		setResourceIdentity("hzda:anamnesis");
 	}
 
 	@Override
@@ -46,6 +50,9 @@ public class AnamnesisController extends BaseCRUDController<Anamnesis, Long> {
 	protected void setCommonData(Model model) {
 		super.setCommonData(model);
 		model.addAttribute("booleanList", BooleanEnum.values());
+		model.addAttribute("timeUnitList", TimeUnitEnum.values());
+		model.addAttribute("doseUnitList", DoseUnitEnum.values());
+		model.addAttribute("bcList", BCEnum.values());
 	}
 	
 	@RequestMapping(value = "index/{generalInformationId}")

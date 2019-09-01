@@ -2,6 +2,8 @@ package com.ewcms.hzda.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -85,72 +87,113 @@ import com.ewcms.common.entity.BaseSequenceEntity;
  * <li>calcium:钙剂</li>
  * <li>calciumLaw:钙剂是否规律用药</li>
  * <li>calciumDuration:钙剂用药总时间</li>
+ * <li>calciumTimeUnit:钙剂用药总时间单位</li>
  * <li>vitaminD:维生素D及活性维生素D</li>
  * <li>vitaminDLaw:维生素D及活性维生素D是否规律用药</li>
  * <li>vitaminDDuration:维生素D及活性维生素D用药总时间</li>
+ * <li>vitaminDTimeUnit:维生素D及活性维生素D总时间单位</li>
  * <li>diphosphonate:双磷酸盐</li>
  * <li>diphosphonateLaw:双磷酸盐是否规律用药</li>
  * <li>diphosphonateDuration:双磷酸盐用药总时间</li>
+ * <li>diphosphonateTimeUnit:双磷酸盐用药总时间单位</li>
  * <li>calcitonin:降钙素类</li>
  * <li>calcitoninLaw:降钙素类否规律用药</li>
  * <li>calcitoninDuration:降钙素类用药总时间</li>
+ * <li>calcitoninTimeUnit:降钙素类用药总时间单位</li>
  * <li>serm:选择性雌激素受体调节剂</li>
  * <li>sermLaw:选择性雌激素受体调节剂是否规律用药</li>
  * <li>sermDuration:选择性雌激素受体调节剂用药总时间</li>
+ * <li>sermTimeUnit:选择性雌激素受体调节剂用药总时间单位</li>
  * <li>glucocorticoidUnused:肾上腺糖皮质激素未使用过</li>
  * <li>prednisone:泼尼松</li>
  * <li>prednisoneInitialDose:泼尼松起始剂量</li>
+ * <li>prednisoneInitialDoseUnit:泼尼松起始剂量单位</li>
  * <li>prednisoneCurrentDose:泼尼松目前剂量</li>
+ * <li>prednisoneCurrentDoseUnit:泼尼松目前剂量单位</li>
  * <li>prednisoneDuration:泼尼松用药总时间</li>
+ * <li>prednisoneDurationUnit:泼尼松用药总时间</li>
  * <li>prednisolone:泼尼松龙</li>
  * <li>prednisoloneInitialDose:泼尼松龙起始剂量</li>
+ * <li>prednisoloneInitialDoseUnit:泼尼松龙起始剂量单位</li>
  * <li>prednisoloneCurrentDose:泼尼松龙目前剂量</li>
+ * <li>prednisoloneCurrentDoseUnit:泼尼松龙目前剂量单位</li>
  * <li>prednisoloneDuration:泼尼松龙用药总时间</li>
+ * <li>prednisoloneDurationUnit:泼尼松龙用药总时间单位</li>
  * <li>mp:甲强龙</li>
  * <li>mpInitialDose:甲强龙起始剂量</li>
+ * <li>mpInitialDoseUnit:甲强龙起始剂量单位</li>
  * <li>mpCurrentDose:甲强龙目前剂量</li>
+ * <li>mpCurrentDoseUnit:甲强龙目前剂量单位</li>
  * <li>mpDuration:甲强龙用药总时间</li>
+ * <li>mpDurationUnit:甲强龙用药总时间单位</li>
  * <li>dxm:地塞米松</li>
  * <li>dxmInitialDose:地塞米松起始剂量</li>
+ * <li>dxmInitialDoseUnit:地塞米松起始剂量单位</li>
  * <li>dxmCurrentDose:地塞米松目前剂量</li>
+ * <li>dxmCurrentDoseUnit:地塞米松目前剂量单位</li>
  * <li>dxmDuration:地塞米松用药总时间</li>
+ * <li>dxmDurationUnit:地塞米松用药总时间单位</li>
  * <li>imuran:硫唑嘌呤</li>
  * <li>imuranInitialDose:硫唑嘌呤起始剂量</li>
+ * <li>imuranInitialDoseUnit:硫唑嘌呤起始剂量单位</li>
  * <li>imuranCurrentDose:硫唑嘌呤目前剂量</li>
+ * <li>imuranCurrentDoseUnit:硫唑嘌呤目前剂量单位</li>
  * <li>imuranDuration:硫唑嘌呤用药总时间</li>
+ * <li>imuranDurationUnit:硫唑嘌呤用药总时间单位</li>
  * <li>ciclosporin:环孢素</li>
  * <li>ciclosporinInitialDose:环孢素起始剂量</li>
+ * <li>ciclosporinInitialDoseUnit:环孢素起始剂量单位</li>
  * <li>ciclosporinCurrentDose:环孢素目前剂量</li>
+ * <li>ciclosporinCurrentDoseUnit:环孢素目前剂量单位</li>
  * <li>ciclosporinDuration:环孢素用药总时间</li>
+ * <li>ciclosporinDurationUnit:环孢素用药总时间单位</li>
  * <li>ciclosporinBC:环孢素血药浓度</li>
+ * <li>ciclosporinBCUnit:环孢素血药浓度单位</li>
  * <li>tacrolimus:他克莫司</li>
  * <li>tacrolimusInitialDose:他克莫司起始剂量</li>
+ * <li>tacrolimusInitialDoseUnit:他克莫司起始剂量单位</li>
  * <li>tacrolimusCurrentDose:他克莫司目前剂量</li>
+ * <li>tacrolimusCurrentDoseUnit:他克莫司目前剂量单位</li>
  * <li>tacrolimusDuration:他克莫司用药总时间</li>
+ * <li>tacrolimusDurationUnit:他克莫司用药总时间单位</li>
  * <li>tacrolimusBC:他克莫司血药浓度</li>
+ * <li>tacrolimusBCUnit:他克莫司血药浓度单位</li>
  * <li>mmf:吗替麦考酚酯</li>
  * <li>mmfInitialDose:吗替麦考酚酯起始剂量</li>
+ * <li>mmfInitialDoseUnit:吗替麦考酚酯起始剂量单位</li>
  * <li>mmfCurrentDose:吗替麦考酚酯目前剂量</li>
+ * <li>mmfCurrentDoseUnit:吗替麦考酚酯目前剂量单位</li>
  * <li>mmfDuration:吗替麦考酚酯用药总时间</li>
+ * <li>mmfDurationUnit:吗替麦考酚酯用药总时间单位</li>
  * <li>glucocorticoidOther:肾上腺糖皮质激素其他</li>
  * <li>glucocorticoidOtherInitialDose:肾上腺糖皮质激素其他起始剂量</li>
+ * <li>glucocorticoidOtherInitialDoseUnit:肾上腺糖皮质激素其他起始剂量单位</li>
  * <li>glucocorticoidOtherCurrentDose:肾上腺糖皮质激素其他目前剂量</li>
+ * <li>glucocorticoidOtherCurrentDoseUnit:肾上腺糖皮质激素其他目前剂量单位</li>
  * <li>glucocorticoidOtherDuration:肾上腺糖皮质激素其他用药总时间</li>
+ * <li>glucocorticoidOtherDurationUnit:肾上腺糖皮质激素其他用药总时间单位</li>
  * <li>shard:性激素及其相关药物</li>
  * <li>shardDuration:性激素及其相关药物时长</li>
+ * <li>shardDurationUnit:性激素及其相关药物时长单位</li>
  * <li>aeds:抗癫痫药物</li>
  * <li>aedsDuration:抗癫痫药物时长</li>
+ * <li>aedsDurationUnit:抗癫痫药物时长单位</li>
  * <li>aluminumPreparation:铝制剂</li>
  * <li>aluminumPreparationDuration:铝制剂时长</li>
+ * <li>aluminumPreparationDurationUnit:铝制剂时长单位</li>
  * <li>lithiumPreparations:锂制剂</li>
  * <li>lithiumPreparationsDuration:锂制剂时长</li>
+ * <li>lithiumPreparationsDurationUnit:锂制剂时长单位</li>
  * <li>heparin:肝素</li>
  * <li>heparinDuration:肝素时长</li>
+ * <li>heparinDurationUnit:肝素时长单位</li>
  * <li>aromataseInhibitor:芳重化酶抵制剂</li>
  * <li>aromataseInhibitorDuration:芳重化酶抵制剂时长</li>
+ * <li>aromataseInhibitorDurationUnit:芳重化酶抵制剂时长单位</li>
  * <li>lastOther:其他</li>
  * <li>lastOtherDesc:其他说明</li>
  * <li>lastOtherDuration:其他时长</li>
+ * <li>lastOtherDurationUnit:其他时长单位</li>
  * </ul>
  * 
  * @author wuzhijun
@@ -308,30 +351,45 @@ public class Anamnesis extends BaseSequenceEntity<Long> {
 	private Boolean calciumLaw;
 	@Column(name = "calcium_duration")
 	private String calciumDuration;
+	@Column(name = "calcium_time_unit")
+	@Enumerated(EnumType.STRING)
+	private TimeUnitEnum calciumTimeUnit;
 	@Column(name = "is_vitamin_d")
 	private Boolean vitaminD;
 	@Column(name = "is_vitamin_d_law")
 	private Boolean vitaminDLaw;
 	@Column(name = "vitamin_d_duration")
 	private String vitaminDDuration;
+	@Column(name = "vitamin_d_time_unit")
+	@Enumerated(EnumType.STRING)
+	private TimeUnitEnum vitaminDTimeUnit;
 	@Column(name = "is_diphosphonate")
 	private Boolean diphosphonate;
 	@Column(name = "is_diphosphonate_law")
 	private Boolean diphosphonateLaw;
 	@Column(name = "diphosphonate_duration")
 	private String diphosphonateDuration;
+	@Column(name = "diphosphonate_time_unit")
+	@Enumerated(EnumType.STRING)
+	private TimeUnitEnum diphosphonateTimeUnit;
 	@Column(name = "is_calcitonin")
 	private Boolean calcitonin;
 	@Column(name = "is_calcitonin_law")
 	private Boolean calcitoninLaw;
 	@Column(name = "calcitonin_duration")
 	private String calcitoninDuration;
+	@Column(name = "calcitonin_time_unit")
+	@Enumerated(EnumType.STRING)
+	private TimeUnitEnum calcitoninTimeUnit;
 	@Column(name = "is_serm")
 	private Boolean serm;
 	@Column(name = "is_serm_law")
 	private Boolean sermLaw;
 	@Column(name = "serm_duration")
 	private String sermDuration;
+	@Column(name = "serm_time_unit")
+	@Enumerated(EnumType.STRING)
+	private TimeUnitEnum sermTimeUnit;
 	@Column(name = "is_glucocorticoid_unused")
 	private Boolean glucocorticoidUnused;
 	@Column(name = "is_prednisone")
@@ -440,6 +498,114 @@ public class Anamnesis extends BaseSequenceEntity<Long> {
 	private String lastOtherDesc;
 	@Column(name = "last_other_duration")
 	private String lastOtherDuration;
+	@Column(name = "prednisone_initial_dose_unit")
+	@Enumerated(EnumType.STRING)
+	private DoseUnitEnum prednisoneInitialDoseUnit;
+	@Column(name = "prednisone_current_dose_unit")
+	@Enumerated(EnumType.STRING)
+	private DoseUnitEnum prednisoneCurrentDoseUnit;
+	@Column(name = "prednisone_duration_unit")
+	@Enumerated(EnumType.STRING)
+	private TimeUnitEnum prednisoneDurationUnit;
+	@Column(name = "prednisolone_initial_dose_unit")
+	@Enumerated(EnumType.STRING)
+	private DoseUnitEnum prednisoloneInitialDoseUnit;
+	@Column(name = "prednisolone_current_dose_unit")
+	@Enumerated(EnumType.STRING)
+	private DoseUnitEnum prednisoloneCurrentDoseUnit;
+	@Column(name = "prednisolone_duration_unit")
+	@Enumerated(EnumType.STRING)
+	private TimeUnitEnum prednisoloneDurationUnit;
+	@Column(name = "mpInitial_dose_unit")
+	@Enumerated(EnumType.STRING)
+	private DoseUnitEnum mpInitialDoseUnit;
+	@Column(name = "mp_current_dose_unit")
+	@Enumerated(EnumType.STRING)
+	private DoseUnitEnum mpCurrentDoseUnit;
+	@Column(name = "mp_duration_unit")
+	@Enumerated(EnumType.STRING)
+	private TimeUnitEnum mpDurationUnit;
+	@Column(name = "dxm_initial_dose_unit")
+	@Enumerated(EnumType.STRING)
+	private DoseUnitEnum dxmInitialDoseUnit;
+	@Column(name = "dxm_current_dose_unit")
+	@Enumerated(EnumType.STRING)
+	private DoseUnitEnum dxmCurrentDoseUnit;
+	@Column(name = "dxm_duration_unit")
+	@Enumerated(EnumType.STRING)
+	private TimeUnitEnum dxmDurationUnit;
+	@Column(name = "imuran_initial_dose_unit")
+	@Enumerated(EnumType.STRING)
+	private DoseUnitEnum imuranInitialDoseUnit;
+	@Column(name = "imuran_current_dose_unit")
+	@Enumerated(EnumType.STRING)
+	private DoseUnitEnum imuranCurrentDoseUnit;
+	@Column(name = "imuran_duration_unit")
+	@Enumerated(EnumType.STRING)
+	private TimeUnitEnum imuranDurationUnit;
+	@Column(name = "ciclosporin_initial_dose_unit")
+	@Enumerated(EnumType.STRING)
+	private DoseUnitEnum ciclosporinInitialDoseUnit;
+	@Column(name = "ciclosporin_current_dose_unit")
+	@Enumerated(EnumType.STRING)
+	private DoseUnitEnum ciclosporinCurrentDoseUnit;
+	@Column(name = "ciclosporin_duration_unit")
+	@Enumerated(EnumType.STRING)
+	private TimeUnitEnum ciclosporinDurationUnit;
+	@Column(name = "ciclosporin_bc_unit")
+	@Enumerated(EnumType.STRING)
+	private BCEnum ciclosporinBCUnit;
+	@Column(name = "tacrolimus_initial_dose_unit")
+	@Enumerated(EnumType.STRING)
+	private DoseUnitEnum tacrolimusInitialDoseUnit;
+	@Column(name = "tacrolimus_current_dose_unit")
+	@Enumerated(EnumType.STRING)
+	private DoseUnitEnum tacrolimusCurrentDoseUnit;
+	@Column(name = "tacrolimus_duration_unit")
+	@Enumerated(EnumType.STRING)
+	private TimeUnitEnum tacrolimusDurationUnit;
+	@Column(name = "tacrolimus_bc_unit")
+	@Enumerated(EnumType.STRING)
+	private BCEnum tacrolimusBCUnit;
+	@Column(name = "mmfInitial_dose_unit")
+	@Enumerated(EnumType.STRING)
+	private DoseUnitEnum mmfInitialDoseUnit;
+	@Column(name = "mmf_current_dose_unit")
+	@Enumerated(EnumType.STRING)
+	private DoseUnitEnum mmfCurrentDoseUnit;
+	@Column(name = "mmf_duration_unit")
+	@Enumerated(EnumType.STRING)
+	private TimeUnitEnum mmfDurationUnit;
+	@Column(name = "glucocorticoid_other_initial_dose_unit")
+	@Enumerated(EnumType.STRING)
+	private DoseUnitEnum glucocorticoidOtherInitialDoseUnit;
+	@Column(name = "glucocorticoid_other_current_dose_unit")
+	@Enumerated(EnumType.STRING)
+	private DoseUnitEnum glucocorticoidOtherCurrentDoseUnit;
+	@Column(name = "glucocorticoid_other_duration_unit")
+	@Enumerated(EnumType.STRING)
+	private TimeUnitEnum glucocorticoidOtherDurationUnit;
+	@Column(name = "shard_duration_unit")
+	@Enumerated(EnumType.STRING)
+	private TimeUnitEnum shardDurationUnit;
+	@Column(name = "aeds_duration_unit")
+	@Enumerated(EnumType.STRING)
+	private TimeUnitEnum aedsDurationUnit;
+	@Column(name = "aluminum_preparation_duration_unit")
+	@Enumerated(EnumType.STRING)
+	private TimeUnitEnum aluminumPreparationDurationUnit;
+	@Column(name = "lithium_preparations_duration_unit")
+	@Enumerated(EnumType.STRING)
+	private TimeUnitEnum lithiumPreparationsDurationUnit;
+	@Column(name = "heparin_duration_unit")
+	@Enumerated(EnumType.STRING)
+	private TimeUnitEnum heparinDurationUnit;
+	@Column(name = "aromatase_inhibitor_duration_unit")
+	@Enumerated(EnumType.STRING)
+	private TimeUnitEnum aromataseInhibitorDurationUnit;
+	@Column(name = "lastOther_duration_unit")
+	@Enumerated(EnumType.STRING)
+	private TimeUnitEnum lastOtherDurationUnit;
 
 	public Long getUserId() {
 		return userId;
@@ -1536,6 +1702,340 @@ public class Anamnesis extends BaseSequenceEntity<Long> {
 	public void setLastOtherDuration(String lastOtherDuration) {
 		this.lastOtherDuration = lastOtherDuration;
 	}
-	
-	
+
+	public TimeUnitEnum getCalciumTimeUnit() {
+		return calciumTimeUnit;
+	}
+
+	public void setCalciumTimeUnit(TimeUnitEnum calciumTimeUnit) {
+		this.calciumTimeUnit = calciumTimeUnit;
+	}
+
+	public TimeUnitEnum getVitaminDTimeUnit() {
+		return vitaminDTimeUnit;
+	}
+
+	public void setVitaminDTimeUnit(TimeUnitEnum vitaminDTimeUnit) {
+		this.vitaminDTimeUnit = vitaminDTimeUnit;
+	}
+
+	public TimeUnitEnum getDiphosphonateTimeUnit() {
+		return diphosphonateTimeUnit;
+	}
+
+	public void setDiphosphonateTimeUnit(TimeUnitEnum diphosphonateTimeUnit) {
+		this.diphosphonateTimeUnit = diphosphonateTimeUnit;
+	}
+
+	public TimeUnitEnum getCalcitoninTimeUnit() {
+		return calcitoninTimeUnit;
+	}
+
+	public void setCalcitoninTimeUnit(TimeUnitEnum calcitoninTimeUnit) {
+		this.calcitoninTimeUnit = calcitoninTimeUnit;
+	}
+
+	public TimeUnitEnum getSermTimeUnit() {
+		return sermTimeUnit;
+	}
+
+	public void setSermTimeUnit(TimeUnitEnum sermTimeUnit) {
+		this.sermTimeUnit = sermTimeUnit;
+	}
+
+	public DoseUnitEnum getPrednisoneInitialDoseUnit() {
+		return prednisoneInitialDoseUnit;
+	}
+
+	public void setPrednisoneInitialDoseUnit(DoseUnitEnum prednisoneInitialDoseUnit) {
+		this.prednisoneInitialDoseUnit = prednisoneInitialDoseUnit;
+	}
+
+	public DoseUnitEnum getPrednisoneCurrentDoseUnit() {
+		return prednisoneCurrentDoseUnit;
+	}
+
+	public void setPrednisoneCurrentDoseUnit(DoseUnitEnum prednisoneCurrentDoseUnit) {
+		this.prednisoneCurrentDoseUnit = prednisoneCurrentDoseUnit;
+	}
+
+	public TimeUnitEnum getPrednisoneDurationUnit() {
+		return prednisoneDurationUnit;
+	}
+
+	public void setPrednisoneDurationUnit(TimeUnitEnum prednisoneDurationUnit) {
+		this.prednisoneDurationUnit = prednisoneDurationUnit;
+	}
+
+	public DoseUnitEnum getPrednisoloneInitialDoseUnit() {
+		return prednisoloneInitialDoseUnit;
+	}
+
+	public void setPrednisoloneInitialDoseUnit(DoseUnitEnum prednisoloneInitialDoseUnit) {
+		this.prednisoloneInitialDoseUnit = prednisoloneInitialDoseUnit;
+	}
+
+	public DoseUnitEnum getPrednisoloneCurrentDoseUnit() {
+		return prednisoloneCurrentDoseUnit;
+	}
+
+	public void setPrednisoloneCurrentDoseUnit(DoseUnitEnum prednisoloneCurrentDoseUnit) {
+		this.prednisoloneCurrentDoseUnit = prednisoloneCurrentDoseUnit;
+	}
+
+	public TimeUnitEnum getPrednisoloneDurationUnit() {
+		return prednisoloneDurationUnit;
+	}
+
+	public void setPrednisoloneDurationUnit(TimeUnitEnum prednisoloneDurationUnit) {
+		this.prednisoloneDurationUnit = prednisoloneDurationUnit;
+	}
+
+	public DoseUnitEnum getMpInitialDoseUnit() {
+		return mpInitialDoseUnit;
+	}
+
+	public void setMpInitialDoseUnit(DoseUnitEnum mpInitialDoseUnit) {
+		this.mpInitialDoseUnit = mpInitialDoseUnit;
+	}
+
+	public DoseUnitEnum getMpCurrentDoseUnit() {
+		return mpCurrentDoseUnit;
+	}
+
+	public void setMpCurrentDoseUnit(DoseUnitEnum mpCurrentDoseUnit) {
+		this.mpCurrentDoseUnit = mpCurrentDoseUnit;
+	}
+
+	public TimeUnitEnum getMpDurationUnit() {
+		return mpDurationUnit;
+	}
+
+	public void setMpDurationUnit(TimeUnitEnum mpDurationUnit) {
+		this.mpDurationUnit = mpDurationUnit;
+	}
+
+	public DoseUnitEnum getDxmInitialDoseUnit() {
+		return dxmInitialDoseUnit;
+	}
+
+	public void setDxmInitialDoseUnit(DoseUnitEnum dxmInitialDoseUnit) {
+		this.dxmInitialDoseUnit = dxmInitialDoseUnit;
+	}
+
+	public DoseUnitEnum getDxmCurrentDoseUnit() {
+		return dxmCurrentDoseUnit;
+	}
+
+	public void setDxmCurrentDoseUnit(DoseUnitEnum dxmCurrentDoseUnit) {
+		this.dxmCurrentDoseUnit = dxmCurrentDoseUnit;
+	}
+
+	public TimeUnitEnum getDxmDurationUnit() {
+		return dxmDurationUnit;
+	}
+
+	public void setDxmDurationUnit(TimeUnitEnum dxmDurationUnit) {
+		this.dxmDurationUnit = dxmDurationUnit;
+	}
+
+	public DoseUnitEnum getImuranInitialDoseUnit() {
+		return imuranInitialDoseUnit;
+	}
+
+	public void setImuranInitialDoseUnit(DoseUnitEnum imuranInitialDoseUnit) {
+		this.imuranInitialDoseUnit = imuranInitialDoseUnit;
+	}
+
+	public DoseUnitEnum getImuranCurrentDoseUnit() {
+		return imuranCurrentDoseUnit;
+	}
+
+	public void setImuranCurrentDoseUnit(DoseUnitEnum imuranCurrentDoseUnit) {
+		this.imuranCurrentDoseUnit = imuranCurrentDoseUnit;
+	}
+
+	public TimeUnitEnum getImuranDurationUnit() {
+		return imuranDurationUnit;
+	}
+
+	public void setImuranDurationUnit(TimeUnitEnum imuranDurationUnit) {
+		this.imuranDurationUnit = imuranDurationUnit;
+	}
+
+	public DoseUnitEnum getCiclosporinInitialDoseUnit() {
+		return ciclosporinInitialDoseUnit;
+	}
+
+	public void setCiclosporinInitialDoseUnit(DoseUnitEnum ciclosporinInitialDoseUnit) {
+		this.ciclosporinInitialDoseUnit = ciclosporinInitialDoseUnit;
+	}
+
+	public DoseUnitEnum getCiclosporinCurrentDoseUnit() {
+		return ciclosporinCurrentDoseUnit;
+	}
+
+	public void setCiclosporinCurrentDoseUnit(DoseUnitEnum ciclosporinCurrentDoseUnit) {
+		this.ciclosporinCurrentDoseUnit = ciclosporinCurrentDoseUnit;
+	}
+
+	public TimeUnitEnum getCiclosporinDurationUnit() {
+		return ciclosporinDurationUnit;
+	}
+
+	public void setCiclosporinDurationUnit(TimeUnitEnum ciclosporinDurationUnit) {
+		this.ciclosporinDurationUnit = ciclosporinDurationUnit;
+	}
+
+	public BCEnum getCiclosporinBCUnit() {
+		return ciclosporinBCUnit;
+	}
+
+	public void setCiclosporinBCUnit(BCEnum ciclosporinBCUnit) {
+		this.ciclosporinBCUnit = ciclosporinBCUnit;
+	}
+
+	public DoseUnitEnum getTacrolimusInitialDoseUnit() {
+		return tacrolimusInitialDoseUnit;
+	}
+
+	public void setTacrolimusInitialDoseUnit(DoseUnitEnum tacrolimusInitialDoseUnit) {
+		this.tacrolimusInitialDoseUnit = tacrolimusInitialDoseUnit;
+	}
+
+	public DoseUnitEnum getTacrolimusCurrentDoseUnit() {
+		return tacrolimusCurrentDoseUnit;
+	}
+
+	public void setTacrolimusCurrentDoseUnit(DoseUnitEnum tacrolimusCurrentDoseUnit) {
+		this.tacrolimusCurrentDoseUnit = tacrolimusCurrentDoseUnit;
+	}
+
+	public TimeUnitEnum getTacrolimusDurationUnit() {
+		return tacrolimusDurationUnit;
+	}
+
+	public void setTacrolimusDurationUnit(TimeUnitEnum tacrolimusDurationUnit) {
+		this.tacrolimusDurationUnit = tacrolimusDurationUnit;
+	}
+
+	public BCEnum getTacrolimusBCUnit() {
+		return tacrolimusBCUnit;
+	}
+
+	public void setTacrolimusBCUnit(BCEnum tacrolimusBCUnit) {
+		this.tacrolimusBCUnit = tacrolimusBCUnit;
+	}
+
+	public DoseUnitEnum getMmfInitialDoseUnit() {
+		return mmfInitialDoseUnit;
+	}
+
+	public void setMmfInitialDoseUnit(DoseUnitEnum mmfInitialDoseUnit) {
+		this.mmfInitialDoseUnit = mmfInitialDoseUnit;
+	}
+
+	public DoseUnitEnum getMmfCurrentDoseUnit() {
+		return mmfCurrentDoseUnit;
+	}
+
+	public void setMmfCurrentDoseUnit(DoseUnitEnum mmfCurrentDoseUnit) {
+		this.mmfCurrentDoseUnit = mmfCurrentDoseUnit;
+	}
+
+	public TimeUnitEnum getMmfDurationUnit() {
+		return mmfDurationUnit;
+	}
+
+	public void setMmfDurationUnit(TimeUnitEnum mmfDurationUnit) {
+		this.mmfDurationUnit = mmfDurationUnit;
+	}
+
+	public DoseUnitEnum getGlucocorticoidOtherInitialDoseUnit() {
+		return glucocorticoidOtherInitialDoseUnit;
+	}
+
+	public void setGlucocorticoidOtherInitialDoseUnit(DoseUnitEnum glucocorticoidOtherInitialDoseUnit) {
+		this.glucocorticoidOtherInitialDoseUnit = glucocorticoidOtherInitialDoseUnit;
+	}
+
+	public DoseUnitEnum getGlucocorticoidOtherCurrentDoseUnit() {
+		return glucocorticoidOtherCurrentDoseUnit;
+	}
+
+	public void setGlucocorticoidOtherCurrentDoseUnit(DoseUnitEnum glucocorticoidOtherCurrentDoseUnit) {
+		this.glucocorticoidOtherCurrentDoseUnit = glucocorticoidOtherCurrentDoseUnit;
+	}
+
+	public TimeUnitEnum getGlucocorticoidOtherDurationUnit() {
+		return glucocorticoidOtherDurationUnit;
+	}
+
+	public void setGlucocorticoidOtherDurationUnit(TimeUnitEnum glucocorticoidOtherDurationUnit) {
+		this.glucocorticoidOtherDurationUnit = glucocorticoidOtherDurationUnit;
+	}
+
+	public TimeUnitEnum getShardDurationUnit() {
+		return shardDurationUnit;
+	}
+
+	public void setShardDurationUnit(TimeUnitEnum shardDurationUnit) {
+		this.shardDurationUnit = shardDurationUnit;
+	}
+
+	public TimeUnitEnum getAedsDurationUnit() {
+		return aedsDurationUnit;
+	}
+
+	public void setAedsDurationUnit(TimeUnitEnum aedsDurationUnit) {
+		this.aedsDurationUnit = aedsDurationUnit;
+	}
+
+	public TimeUnitEnum getAluminumPreparationDurationUnit() {
+		return aluminumPreparationDurationUnit;
+	}
+
+	public void setAluminumPreparationDurationUnit(TimeUnitEnum aluminumPreparationDurationUnit) {
+		this.aluminumPreparationDurationUnit = aluminumPreparationDurationUnit;
+	}
+
+	public TimeUnitEnum getLithiumPreparationsDurationUnit() {
+		return lithiumPreparationsDurationUnit;
+	}
+
+	public void setLithiumPreparationsDurationUnit(TimeUnitEnum lithiumPreparationsDurationUnit) {
+		this.lithiumPreparationsDurationUnit = lithiumPreparationsDurationUnit;
+	}
+
+	public TimeUnitEnum getHeparinDurationUnit() {
+		return heparinDurationUnit;
+	}
+
+	public void setHeparinDurationUnit(TimeUnitEnum heparinDurationUnit) {
+		this.heparinDurationUnit = heparinDurationUnit;
+	}
+
+	public TimeUnitEnum getAromataseInhibitorDurationUnit() {
+		return aromataseInhibitorDurationUnit;
+	}
+
+	public void setAromataseInhibitorDurationUnit(TimeUnitEnum aromataseInhibitorDurationUnit) {
+		this.aromataseInhibitorDurationUnit = aromataseInhibitorDurationUnit;
+	}
+
+	public TimeUnitEnum getLastOtherDurationUnit() {
+		return lastOtherDurationUnit;
+	}
+
+	public void setLastOtherDurationUnit(TimeUnitEnum lastOtherDurationUnit) {
+		this.lastOtherDurationUnit = lastOtherDurationUnit;
+	}
+
+	public void setRealName(String realName) {
+		this.realName = realName;
+	}
+
+	public void setOrganizationName(String organizationName) {
+		this.organizationName = organizationName;
+	}
 }

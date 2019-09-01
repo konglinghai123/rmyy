@@ -32,6 +32,10 @@ public class PresentIllnessController extends BaseCRUDController<PresentIllness,
 		return (PresentIllnessService) baseService;
 	}
 	
+	public PresentIllnessController() {
+		setResourceIdentity("hzda:presentillness");
+	}
+	
 	@Override
 	public String index(Model model) {
 		return HzdaUtil.HZDA_GENERAL_INFORMATION_INDEX_URL;

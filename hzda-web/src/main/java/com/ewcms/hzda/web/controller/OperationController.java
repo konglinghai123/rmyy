@@ -32,6 +32,10 @@ public class OperationController extends BaseCRUDController<Operation, Long> {
 		return (OperationService) baseService;
 	}
 
+	public OperationController() {
+		setResourceIdentity("hzda:operation");
+	}
+	
 	@Override
 	public String index(Model model) {
 		return HzdaUtil.HZDA_GENERAL_INFORMATION_INDEX_URL;

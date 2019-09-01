@@ -32,6 +32,10 @@ public class DiagnosisController extends BaseCRUDController<Diagnosis, Long> {
 		return (DiagnosisService) baseService;
 	}
 	
+	public DiagnosisController() {
+		setResourceIdentity("hzda:diagnosis");
+	}
+	
 	@Override
 	public String index(Model model) {
 		return HzdaUtil.HZDA_GENERAL_INFORMATION_INDEX_URL;

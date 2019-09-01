@@ -35,7 +35,9 @@ public class CataclasisController extends BaseCRUDController<Cataclasis, Long> {
 	
 	public CataclasisController() {
 		setListAlsoSetCommonData(true);
+		setResourceIdentity("hzda:cataclasis");
 	}
+	
 	
 	@Override
 	public String index(Model model) {

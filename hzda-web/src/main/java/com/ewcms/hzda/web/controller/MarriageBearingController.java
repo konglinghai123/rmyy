@@ -32,6 +32,10 @@ public class MarriageBearingController extends BaseCRUDController<MarriageBearin
 	private MarriageBearingService getMarriageBearingService() {
 		return (MarriageBearingService) baseService;
 	}
+	
+	public MarriageBearingController() {
+		setResourceIdentity("hzda:marriagebearing");
+	}
 
 	@Override
 	public String index(Model model) {

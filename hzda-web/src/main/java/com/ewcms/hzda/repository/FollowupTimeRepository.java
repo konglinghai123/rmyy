@@ -10,6 +10,6 @@ import com.ewcms.hzda.entity.FollowupTime;
 
 public interface FollowupTimeRepository extends BaseRepository<FollowupTime, Long>{
 	
-	@Query("select f.generalInformationId from FollowupTime f where (f.nextTime>=?1 and f.nextTime<=?2) and f.tip=false order by f.nextTime desc")
+	@Query("select f.generalInformationId from FollowupTime f where (f.nextTime>=?1 and f.nextTime<=?2) and f.tip=true order by f.nextTime desc")
 	Set<Long> findByLastMonth(Date startDate, Date endDate);
 }

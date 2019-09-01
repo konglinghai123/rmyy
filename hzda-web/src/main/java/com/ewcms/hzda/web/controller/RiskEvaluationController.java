@@ -36,6 +36,7 @@ public class RiskEvaluationController extends BaseCRUDController<RiskEvaluation,
 	
 	public RiskEvaluationController() {
 		setListAlsoSetCommonData(true);
+		setResourceIdentity("hzda:riskevaluation");
 	}
 
 	@Override

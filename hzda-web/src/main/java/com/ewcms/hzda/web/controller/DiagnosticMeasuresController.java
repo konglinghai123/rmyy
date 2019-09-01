@@ -32,7 +32,6 @@ public class DiagnosticMeasuresController extends BaseCRUDController<DiagnosticM
 	}
 	
 	public DiagnosticMeasuresController() {
-		// setListAlsoSetCommonData(true);
 		setResourceIdentity("hzda:diagnosticmeasures");
 	}
 	

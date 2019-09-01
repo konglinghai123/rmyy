@@ -56,9 +56,9 @@ public class FollowupTime extends BaseSequenceEntity<Long> {
 	@Temporal(TemporalType.DATE)
 	private Date nextTime;
 	@Column(name = "is_tip")
-	private Boolean tip;
+	private Boolean tip = Boolean.TRUE;
 	@Column(name = "is_sms")
-	private Boolean sms;
+	private Boolean sms = Boolean.FALSE;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	@Column(name = "sms_date")
 	@Temporal(TemporalType.DATE)

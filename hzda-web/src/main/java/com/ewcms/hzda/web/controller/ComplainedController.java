@@ -31,6 +31,10 @@ public class ComplainedController extends BaseCRUDController<Complained, Long> {
 	private ComplainedService getComplainedService() {
 		return (ComplainedService) baseService;
 	}
+	
+	public ComplainedController() {
+		setResourceIdentity("hzda:complained");
+	}
 
 	@Override
 	public String index(Model model) {

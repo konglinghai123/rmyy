@@ -32,6 +32,10 @@ public class ExaminedController extends BaseCRUDController<Examined, Long> {
 		return (ExaminedService) baseService;
 	}
 	
+	public ExaminedController() {
+		setResourceIdentity("hzda:examined");
+	}
+	
 	@Override
 	public String index(Model model) {
 		return HzdaUtil.HZDA_GENERAL_INFORMATION_INDEX_URL;

@@ -32,6 +32,10 @@ public class RenalTransplantController extends BaseCRUDController<RenalTransplan
 		return (RenalTransplantService) baseService;
 	}
 	
+	public RenalTransplantController() {
+		setResourceIdentity("hzda:renaltransplant");
+	}
+	
 	@Override
 	public String index(Model model) {
 		return HzdaUtil.HZDA_GENERAL_INFORMATION_INDEX_URL;

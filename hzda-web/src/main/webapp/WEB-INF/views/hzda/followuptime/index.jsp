@@ -7,7 +7,20 @@
 			<tr>
 			    <th data-options="field:'ck',checkbox:true"></th>
 			    <th data-options="field:'id',hidden:true">编号</th>
-			    <th data-options="field:'nextTime',width:200">下一次随访时间</th>
+			    <th data-options="field:'nextTime',sortable:true,width:150">下一次随访时间</th>
+			    <th data-options="field:'tip',width:100,
+						formatter:function(val,row){
+							if (val != null) {
+								return val ? '是':'否';
+							}
+						}">是否提醒</th>
+				<th data-options="field:'sms',width:100,
+						formatter:function(val,row){
+							if (val != null) {
+								return val ? '是':'否';
+							}
+						}">是否短信通知</th>
+				<th data-options="field:'smsDate',sortable:true,width:150">发送时间</th>
 			</tr>
 		</thead>
 	</table>

@@ -8,6 +8,7 @@ import javax.validation.Valid;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,7 +35,6 @@ import com.ewcms.security.user.web.bind.annotation.CurrentUser;
 public class ExaminationLaboratoryResultsController extends	BaseCRUDController<ExaminationLaboratoryResults, Long> {
 
 	public ExaminationLaboratoryResultsController() {
-		// setListAlsoSetCommonData(true);
 		setResourceIdentity("hzda:examinationlaboratoryresults");
 	}
 
@@ -97,14 +97,29 @@ public class ExaminationLaboratoryResultsController extends	BaseCRUDController<E
 		m.setOrganizationId(user.getOrganizationJobs().get(0).getOrganizationId());
 		m.setGeneralInformationId(generalInformationId);
 		
-		if (m.getId() != null) {
-			model.addAttribute("lastM", JSON.toJSONString(baseService.update(m)));
-		} else {
+		if (m.getId() != null && StringUtils.hasText(m.getId().toString())) {
+	        if (permissionList != null) {
+	            this.permissionList.assertHasUpdatePermission();
+	        }
 			
+	        ExaminationLaboratoryResults lastM = baseService.update(m);
+			
+			selections.remove(0);
+			if (selections == null || selections.isEmpty()) {
+				model.addAttribute("close", true);
+			}
+			model.addAttribute("lastM", JSON.toJSONString(lastM));
+		} else {
+	        if (permissionList != null) {
+	            this.permissionList.assertHasCreatePermission();
+	        }
+			
+	        ExaminationLaboratoryResults lastM = baseService.save(m);
+	        
 			model.addAttribute("m", newModel());
-			model.addAttribute("lastM", JSON.toJSONString(baseService.save(m)));
+			model.addAttribute("lastM", JSON.toJSONString(lastM));
 		}
-
+		
 		return showSaveForm(generalInformationId, model, selections);
 	}
 	

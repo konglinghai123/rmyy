@@ -32,7 +32,6 @@ public class FractureOtherController extends BaseCRUDController<FractureOther, L
 	}
 	
 	public FractureOtherController() {
-		// setListAlsoSetCommonData(true);
 		setResourceIdentity("hzda:fractureother");
 	}
 	

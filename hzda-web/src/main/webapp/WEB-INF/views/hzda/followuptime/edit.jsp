@@ -14,7 +14,9 @@
 			  	<table class="formtable">
 					<tr>
 						<td width="20%"><form:label path="nextTime">下一次随访时间：</form:label></td>
-						<td width="30%"><form:input path="nextTime"  class="easyui-datebox" style="width:120px"  /></td>
+						<td width="30%"><form:input path="nextTime"  class="easyui-datebox" style="width:120px"/></td>
+						<td width="20%"><form:label path="tip">是否提醒：</form:label></td>
+						<td width="30%"><form:radiobuttons path="tip" items="${booleanList}" itemLabel="info" delimiter="&nbsp;"/></td>
 					</tr>
 				</table>
 			</form:form>
