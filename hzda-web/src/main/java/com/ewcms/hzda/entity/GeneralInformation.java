@@ -136,6 +136,8 @@ public class GeneralInformation extends BaseSequenceEntity<Long> {
 	private String eGFR;
 	@Column(name = "remakrs", columnDefinition = "text")
 	private String remakrs;
+	@Formula(value = "(select f.id from hzda_followup_time f where f.general_information_id=id order by f.next_time desc limit 1)")
+	private Long followupTimeId;
 	@Formula(value = "(select f.next_time from hzda_followup_time f where f.general_information_id=id order by f.next_time desc limit 1)")
 	private Date nextTime;
 
@@ -343,6 +345,10 @@ public class GeneralInformation extends BaseSequenceEntity<Long> {
 
 	public String getOrganizationName() {
 		return organizationName;
+	}
+
+	public Long getFollowupTimeId() {
+		return followupTimeId;
 	}
 
 	@JSONField(format = "yyyy-MM-dd")

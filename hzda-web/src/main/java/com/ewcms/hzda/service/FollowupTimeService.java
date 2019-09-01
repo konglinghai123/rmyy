@@ -7,6 +7,7 @@ import java.util.Set;
 import org.springframework.stereotype.Service;
 
 import com.ewcms.common.service.BaseService;
+import com.ewcms.common.utils.EmptyUtil;
 import com.ewcms.hzda.entity.FollowupTime;
 import com.ewcms.hzda.repository.FollowupTimeRepository;
 
@@ -26,6 +27,14 @@ public class FollowupTimeService extends BaseService<FollowupTime, Long>{
         Date endDate = calendar.getTime();
         
 		return getFollowupTimeRepository().findByLastMonth(startDate, endDate);
+	}
+	
+	public void close(Long id) {
+		FollowupTime followupTime = findOne(id);
+		if (EmptyUtil.isNotNull(followupTime)) {
+			followupTime.setTip(false);
+			update(followupTime);
+		}
 	}
 	
 }

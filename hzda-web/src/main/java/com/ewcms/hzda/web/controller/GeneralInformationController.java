@@ -24,7 +24,9 @@ import com.ewcms.common.entity.enums.BooleanEnum;
 import com.ewcms.common.entity.search.SearchParameter;
 import com.ewcms.common.utils.EmptyUtil;
 import com.ewcms.common.web.controller.BaseCRUDController;
+import com.ewcms.common.web.validate.AjaxResponse;
 import com.ewcms.hzda.entity.GeneralInformation;
+import com.ewcms.hzda.service.FollowupTimeService;
 import com.ewcms.hzda.service.GeneralInformationService;
 import com.ewcms.hzda.zd.service.NationService;
 import com.ewcms.security.user.entity.User;
@@ -40,6 +42,8 @@ public class GeneralInformationController extends BaseCRUDController<GeneralInfo
 	
 	@Autowired
 	private NationService nationService;
+	@Autowired
+	private FollowupTimeService followupTimeService;
 	
 	public GeneralInformationController() {
 		setListAlsoSetCommonData(true);
@@ -109,4 +113,11 @@ public class GeneralInformationController extends BaseCRUDController<GeneralInfo
 		return resultMap;
 	}
 
+	@RequestMapping(value = "/followupTime/close")
+	@ResponseBody
+	public AjaxResponse closeFollowup(@RequestParam(value = "followupTimeId")Long followupTimeId){
+        AjaxResponse ajaxResponse = new AjaxResponse("关闭提醒成功！");
+        followupTimeService.close(followupTimeId);
+		return ajaxResponse;
+	}
 }

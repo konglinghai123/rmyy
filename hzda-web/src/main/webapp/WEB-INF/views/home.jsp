@@ -132,20 +132,42 @@
 	    	pagination:true,
 	    	rownumbers:true,
 	    	striped:true,
-	    	pageSize:10
+	    	pageSize:10,
+	    	onLoadSuccess:function(row){
+	    		$('.closeCls').linkbutton({plain:true,iconCls:'icon-exit'});
+	    	}
 	    })
-	    
-	    function onChangeTheme(theme){
-	    	$.cookie('hzda-theme', theme);
-			var link = $('head').find('link:first');
-			link.attr('href', '${ctx}/static/easyui/themes/'+theme+'/easyui.css');
-			try{
-				var childLink = $('iframe').contents().find('link:first');
-				childLink.attr('href', '${ctx}/static/easyui/themes/'+theme+'/easyui.css');
-			}catch(err){
-			}
-		}
 	    
 	    var poll = new Poll();
 	});
+	
+	function onChangeTheme(theme){
+    	$.cookie('hzda-theme', theme);
+		var link = $('head').find('link:first');
+		link.attr('href', '${ctx}/static/easyui/themes/'+theme+'/easyui.css');
+		try{
+			var childLink = $('iframe').contents().find('link:first');
+			childLink.attr('href', '${ctx}/static/easyui/themes/'+theme+'/easyui.css');
+		}catch(err){
+		}
+	}
+	
+	function formatOperation(val, row) {
+		return '<a class="closeCls" onclick="closeFollowup(' + row.followupTimeId + ')" href="javascript:void(0);" style="height:24px;" title="关闭提醒"/>';
+	}
+	
+	function closeFollowup(followupTimeId){
+		$.messager.confirm('提示', '确定要关闭此人员的提醒吗？', function(r) {
+			if (r) {
+				$.ewcms.addLoading();
+				$.post('${ctx}/hzda/generalinformation/followupTime/close',{'followupTimeId':followupTimeId}, function(result) {
+					if (result.success) {
+						$('#ttFollowupTime').datagrid('reload');
+					}
+					$.messager.alert('提示', result.message, 'info');
+					$.ewcms.removeLoading();
+				});
+			}
+		});
+	}
 </script>

@@ -37,7 +37,7 @@
 						<td>6.<form:radiobuttons path="omt6" items="${booleanList}" itemLabel="info" delimiter="&nbsp;"/></td>
 					</tr>
 					<tr>
-						<td>7.您是否体重过轻（BMI值少于19kg/m2）？</td>
+						<td>7.您是否体重过轻（BMI值少于19kg/m&sup2）？</td>
 						<td>7.<form:radiobuttons path="omt7" items="${booleanList}" itemLabel="info" delimiter="&nbsp;"/></td>
 					</tr>
 					<tr>
