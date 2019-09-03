@@ -17,6 +17,7 @@ import com.ewcms.security.organization.entity.Organization;
 import com.ewcms.security.organization.service.OrganizationService;
 import com.ewcms.security.user.service.UserOrganizationJobService;
 import com.ewcms.yjk.YjkConstants;
+import com.ewcms.yjk.re.entity.AdjustedEnum;
 import com.ewcms.yjk.re.entity.EnsurePassThrough;
 import com.ewcms.yjk.re.entity.ReviewMain;
 import com.ewcms.yjk.re.entity.ReviewProcess;
@@ -115,7 +116,16 @@ public class VoteResultService extends BaseService<VoteResult, Long> {
 				ajaxResponse.setSuccess(Boolean.FALSE);
 			} else {
 				Long reviewProcessId = reviewProcess.getId();
-				getVoteResultRepository().transferIn(reviewMainId, reviewProcessId, voteResultIds);
+				for (Long voteResultId : voteResultIds) {
+					if (isMayTransferIn(voteResultId, reviewProcessId)) {
+						VoteResult voteResult = findOne(voteResultId);
+						if (!voteResult.getSelected() && !voteResult.getAffirmVoteResulted()) {
+							voteResult.setAdjusted(AdjustedEnum.transferIn);
+							update(voteResult);
+						}
+					}
+				}
+//				getVoteResultRepository().transferIn(reviewMainId, reviewProcessId, voteResultIds);
 			}
 		}
 		ajaxResponse.setMessage(message);
@@ -544,7 +554,7 @@ public class VoteResultService extends BaseService<VoteResult, Long> {
 
 		List<HospitalContents> hospitalContentsList = matchNumberByHospital(vo);
 		
-		if(sameVoteResults.size()+hospitalContentsList.size() < maxNumber || maxNumber == 0)return Boolean.TRUE;
+		if(sameVoteResults.size() + hospitalContentsList.size() < maxNumber || maxNumber == 0)return Boolean.TRUE;
 		return Boolean.FALSE;
 	}
 }

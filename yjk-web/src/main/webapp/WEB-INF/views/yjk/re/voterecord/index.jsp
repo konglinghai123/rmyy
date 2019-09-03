@@ -148,6 +148,7 @@
 						    },
 				            singleSelect: true,
 							onLoadSuccess:function(row){
+								$(this).datagrid('fixRownumber');
 								$('.previewCls').linkbutton({plain:true,iconCls:'icon-preview'});
 							}
 							<c:if test="${!isExpertSubmitCurrentReview}">		

@@ -10,7 +10,6 @@ import com.ewcms.common.repository.BaseRepository;
 import com.ewcms.yjk.re.entity.VoteResult;
 import com.ewcms.yjk.sb.entity.DrugForm;
 import com.ewcms.yjk.zd.commonname.entity.DrugCategoryEnum;
-import com.ewcms.yjk.zd.commonname.entity.HospitalContents;
 
 public interface VoteResultRepository extends BaseRepository<VoteResult, Long> {
 	Long countByReviewProcessId(Long reviewProcessId);
