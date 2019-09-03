@@ -1,11 +1,11 @@
 insert into sec_resource(id, icon, identity, name, parent_id, parent_ids, is_show, style, url, weight) values
 (122,'rmyy-yjk-reviewbaserule-tree','reviewbaserule','基本规则',125,'0/1/102/125/','true',null,'/yjk/re/zd/reviewbaserule/index',7)
-,(123,'rmyy-yjk-displaycolumn-tre','displaycolumn','显示字段',125,'0/1/102/125/','true',null,'/yjk/re/zd/displaycolumn/index',8)
+,(123,'rmyy-yjk-displaycolumn-tree','displaycolumn','显示字段',125,'0/1/102/125/','true',null,'/yjk/re/zd/displaycolumn/index',8)
 ,(124,'ztree_file','','申报管理',102,'0/1/102/','true',null,'',17)
 ,(125,'ztree_file','','评审管理',102,'0/1/102/','true',null,'',19)
 ,(126,'ztree_file','','字典库',102,'0/1/102/','true',null,'',20)
 ,(127,'rmyy-yjk-voterecord-tree','re:voterecord','新药投票',62,'0/1/62/','true',null,'/yjk/re/voterecord/index',4)
-,(128,'ztree_file','uservote','用户投票情况',125,'0/1/102/125/','true',null,'/yjk/re/uservote/index',5)
+,(128,'rmyy-yjk-uservote-tree','uservote','用户投票情况',125,'0/1/102/125/','true',null,'/yjk/re/uservote/index',5)
 ,(129,'rmyy-yjk-voteresult-tree','voteresult','投票监控',125,'0/1/102/125/','true',null,'/yjk/re/voteresult/index',4)
 ,(130,'rmyy-yjk-drugvote-tree','drugvote','药品投票情况',125,'0/1/102/125/','true',null,'/yjk/re/drugvote/index',6)
 ,(131,'rmyy-system-notice-tree','notice','公告栏',6,'0/1/6/','true',null,'/system/notice/index',1)
