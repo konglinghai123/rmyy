@@ -307,7 +307,7 @@ public class VoteResultService extends BaseService<VoteResult, Long> {
 			
 			List<Long> excludeVoteResultIds = Lists.newArrayList();// 有特定科室定义了需排除的投票结果编号记录集
 			
-			int ensureTotalNumber = 0;
+			//int ensureTotalNumber = 0;
 			
 			List<EnsurePassThrough> ensurePassThroughs = ensurePassThroughService.findByReviewProcessIdAndEnabledTrueOrderByWeightAsc(reviewProcessId);
 			if (EmptyUtil.isCollectionNotEmpty(ensurePassThroughs)) {
@@ -342,12 +342,15 @@ public class VoteResultService extends BaseService<VoteResult, Long> {
 						getVoteResultRepository().ensure(newVoteResultIds);
 	
 						excludeVoteResultIds.addAll(newVoteResultIds);
-						ensureTotalNumber += ensureNumber;
+						//ensureTotalNumber += ensureNumber;
+						
+						//TODO 未把中西药数量与设定数量进行比对
 					}
 				}
 			}
 			
 			for (DrugCategoryEnum drugCategoryEnum : DrugCategoryEnum.values()) {
+				Long ensureTotalNumber = getVoteResultRepository().countByReviewProcessIdAndSelectedTrueAndEnsureOrganTrueAndDrugFormCommonNameContentsCommonDrugCategory(reviewProcessId, drugCategoryEnum);
 				int matchNumber = 0;
 				
 				if (reuleName.equals(YjkConstants.ACN) || reuleName.equals(YjkConstants.ACNM)) {
@@ -364,7 +367,7 @@ public class VoteResultService extends BaseService<VoteResult, Long> {
 					}
 				}
 				
-				if (matchNumber > ensureTotalNumber) {
+				if (matchNumber > ensureTotalNumber.intValue()) {
 					List<VoteResult> voteResults = Lists.newArrayList();
 					if (EmptyUtil.isCollectionEmpty(excludeVoteResultIds)) {
 						voteResults = getVoteResultRepository().findCurrentReviewProcessVoteResults(reviewMainId, reviewProcessId, drugCategoryEnum);
@@ -373,7 +376,7 @@ public class VoteResultService extends BaseService<VoteResult, Long> {
 					}
 					
 					if (EmptyUtil.isCollectionNotEmpty(voteResults)) {
-						int residueNumber = matchNumber - ensureTotalNumber;
+						int residueNumber = matchNumber - ensureTotalNumber.intValue();
 						int i = 0;
 						for (VoteResult voteResult : voteResults) {
 							if (i < residueNumber) {
