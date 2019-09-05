@@ -85,7 +85,9 @@ public class DrugFormService extends BaseService<DrugForm, Long> {
 	public List<DrugForm> findByAuditStatusAndSystemParameterIdOrderByIdAsc(AuditStatusEnum auditStatus, Long systemParameterId){
 		return getDrugFormRepository().findByAuditStatusAndSystemParameterIdOrderByIdAsc(auditStatus, systemParameterId);
 	}
-	
+	public String findOrganizationNames(String commonName, int administrationId){
+		return getDrugFormRepository().findOrganizationNames(commonName, administrationId);
+	}
 	/**
 	 * 新药填写，满足一品两规和特殊药品规则的才能填写入库
 	 * 

@@ -149,7 +149,6 @@
 				            singleSelect: true,
 							onLoadSuccess:function(row){
 								$(this).datagrid('fixRownumber');
-								$('.previewCls').linkbutton({plain:true,iconCls:'icon-preview'});
 							}
 							<c:if test="${!isExpertSubmitCurrentReview}">		
 				            ,onClickCell: onClickCell,
@@ -179,11 +178,11 @@
 					
 					function formatOperation(val, row) {
 
-						return '<a class="previewCls" onclick="viewHospital(' + val + ');" href="javascript:void(0);" style="height:24px;" title="院用情况"/>';
+						return '<a onclick="viewHospital(' + val + ');" href="javascript:void(0);" style="height:24px;" title="院用情况">查看</a>';
 					}
 					
 					function viewHospital(id){
-						$.ewcms.openWindow({src:'${ctx}/yjk/re/voterecord/' + id + '/indexhospital',title:'查看院用情况',height:300});
+						$.ewcms.openWindow({src:'${ctx}/yjk/re/voterecord/' + id + '/indexhospital',title:'查看院用情况',height:300,isRefresh:false});
 					}
 					
 					function formatTooltip(val, row){
@@ -275,7 +274,6 @@
 							    	//$.messager.alert('提示', '投票通过的总数量超过3，不能提交！', 'info');
 							    	//return;
 							    //}
-							    
 						    	$.messager.confirm('提示', '确定要提交当前投票结果吗？<br/><font color="red">提交后不能再修改投票结果了！！！</font>', function(r) {
 									if (r) {
 										$.ewcms.addLoading();
@@ -285,9 +283,10 @@
 								        		window.location.reload();
 								        	}else{
 								        		$.messager.alert('提示', data.message, 'info');
+								        		 $.ewcms.removeLoading();
 								        	}
 								        });
-								        $.ewcms.removeLoading();
+								       
 									}
 								});	
 				    }

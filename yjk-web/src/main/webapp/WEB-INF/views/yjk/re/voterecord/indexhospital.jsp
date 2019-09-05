@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/views/jspf/taglibs.jspf" %>
 
 <ewcms:head title="匹配的医院药品目录"/>
-	<table id="tt2" class="easyui-datagrid" data-options="url:'${ctx}/yjk/zd/hospitalcontents/${commonNameContentsId}/query',nowrap:true,rownumbers:true,striped:true,pageSize:10">
+	<table id="tt2" class="easyui-datagrid" data-options="url:'${ctx}/yjk/zd/hospitalcontents/${commonNameContentsId}/query',nowrap:true,rownumbers:true,fit:true,striped:true,pageSize:10">
 		<thead>
 			<tr>
 			    <th data-options="field:'id',hidden:true">编号</th>	
