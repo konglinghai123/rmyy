@@ -60,9 +60,9 @@ public interface VoteResultRepository extends BaseRepository<VoteResult, Long> {
 	List<VoteResult> findCurrentReviewProcessVoteResults(Long reviewMainId, Long reviewProcessId, DrugCategoryEnum drugCategoryEnum);
 	
 	@Query("select v.id from VoteResult v "
-			+ "where v.reviewMainId=?1 and v.reviewProcessId=?2 and v.drugForm.commonNameContents.common.drugCategory=?3 and v.drugForm.userId in (?4) "
+			+ "where v.reviewMainId=?1 and v.reviewProcessId=?2 and v.drugForm.userId in (?3) "
 			+ "order by v.passSum desc, v.opposeSum asc, v.abstainSum asc, v.drugForm.commonNameContents.common.matchNumber desc, v.drugForm.commonNameContents.administration.id asc ,v.selected desc, v.id desc")
-	List<Long> findCurrentReviewProcessUserIdsVoteResults(Long reviewMainId, Long reviewProcessId, DrugCategoryEnum drugCategoryEnum, Set<Long> userIds);
+	List<Long> findCurrentReviewProcessUserIdsVoteResults(Long reviewMainId, Long reviewProcessId, Set<Long> userIds);
 	
 	@Modifying
 	@Query("update VoteResult v "
@@ -103,4 +103,8 @@ public interface VoteResultRepository extends BaseRepository<VoteResult, Long> {
 			+ "where v.reviewMainId=?1 and v.reviewProcessId=?2 and v.drugForm.commonNameContents.common.drugCategory=?3 and v.selected=false "
 			+ "order by v.passSum desc, v.opposeSum asc, v.abstainSum asc, v.drugForm.commonNameContents.common.matchNumber desc, v.drugForm.commonNameContents.administration.id asc , v.id desc")
 	List<VoteResult> findOutVoteResult(Long reviewMainId, Long reviewProcessId, DrugCategoryEnum drugCategoryEnum);
+	
+	Long countByReviewProcessIdAndSelectedTrue(Long reviewProcessId);
+	
+	Long countByReviewProcessIdAndSelectedTrueAndEnsureOrganTrueAndDrugFormCommonNameContentsCommonDrugCategory(Long reviewProcessId, DrugCategoryEnum drugCategoryEnum);
 }

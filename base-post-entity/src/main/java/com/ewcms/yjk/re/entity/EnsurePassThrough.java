@@ -32,8 +32,7 @@ import com.google.common.collect.Sets;
  * 
  * <ul>
  * <li>organizations:科室对象集合</li>
- * <li>chineseNumber:确保申报科室通过中成药数</li>
- * <li>westernNumber:确保申报科室通过西药数</li>
+ * <li>number:确保申报科室通过数</li>
  * <li>weight:排序</li>
  * <li>enabled:是否启用</li>
  * </ul>
@@ -57,10 +56,8 @@ public class EnsurePassThrough extends BaseSequenceEntity<Long> implements Movab
 					@JoinColumn(name = "organization_id", referencedColumnName = "id") }, uniqueConstraints = {@UniqueConstraint(columnNames = {
 							"re_ensure_pass_through_id", "organization_id" })})
 	private List<Organization> organizations;
-	@Column(name = "chinese_number")
-	private Integer chineseNumber = 0;
-	@Column(name = "western_number")
-	private Integer westernNumber = 0;
+	@Column(name = "number")
+	private Integer number = 0;
 	@Column(name = "is_enabled")
 	private Boolean enabled = Boolean.TRUE;
 	@Column(name = "weight")
@@ -100,20 +97,12 @@ public class EnsurePassThrough extends BaseSequenceEntity<Long> implements Movab
 		return (EmptyUtil.isCollectionNotEmpty(organizations)) ? Collections3.extractToList(organizations, "id") : Lists.newArrayList();
 	}
 
-	public Integer getChineseNumber() {
-		return chineseNumber;
+	public Integer getNumber() {
+		return number;
 	}
 
-	public void setChineseNumber(Integer chineseNumber) {
-		this.chineseNumber = chineseNumber;
-	}
-
-	public Integer getWesternNumber() {
-		return westernNumber;
-	}
-
-	public void setWesternNumber(Integer westernNumber) {
-		this.westernNumber = westernNumber;
+	public void setNumber(Integer number) {
+		this.number = number;
 	}
 
 	public Boolean getEnabled() {
