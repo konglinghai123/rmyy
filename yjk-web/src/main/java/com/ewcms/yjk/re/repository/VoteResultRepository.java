@@ -16,7 +16,7 @@ public interface VoteResultRepository extends BaseRepository<VoteResult, Long> {
 	List<VoteResult> findByReviewProcessId(Long reviewProcessId);
 	VoteResult findByDrugFormIdAndReviewProcessId(Long drugFormId, Long reviewProcessId);
 	VoteResult findByCommonNameContentsIdAndReviewProcessId(Long commonNameContentsId, Long reviewProcessId);
-	
+	Long countByReviewProcessIdAndDrugFormCommonNameContentsAdministrationIdAndDrugFormCommonNameContentsCommonCommonName(Long reviewProcessId,Long administrationId, String commonName);
 	@Query("select c.drugForm "
 			+ "from VoteResult c "
 			+ "where c.reviewMainId=?1 and c.drugForm.declareCategory=?2 and c.chosen=true and c.affirmVoteResulted=true")

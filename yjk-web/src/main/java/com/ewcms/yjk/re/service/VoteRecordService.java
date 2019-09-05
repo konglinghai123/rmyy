@@ -89,23 +89,25 @@ public class VoteRecordService extends BaseService<VoteRecord, Long> {
 		ReviewMain reviewMainEnable = reviewMainService.findByEnabledTrue();
 		if (reviewMainEnable == null)
 			return "评审还未启动！";
-		Boolean isExitsResult = voteResultService
+		Boolean isExistResult = voteResultService
 				.countByReviewProcessId(currentReviewProcessId) == 0 ? Boolean.FALSE
 				: Boolean.TRUE;// 判断是否已经有投票结果记录，没有就初始初始投票结果都为0的记录
-		if (!isExitsResult) {
+		if (!isExistResult) {
 			List<DrugForm> validDrugFormList = drugFormService
 					.findByAuditStatusAndSystemParameterIdAndDeclareCategoryAndReviewedFalseOrderByIdAsc(
 							AuditStatusEnum.passed, reviewMainEnable.getSystemParameter().getId(),declareCategory);
 			for (DrugForm drugForm : validDrugFormList) {
-				VoteResult voteResult = new VoteResult();
-				voteResult.setReviewMainId(reviewMainEnable.getId());
-				voteResult.setReviewProcessId(currentReviewProcessId);
-				voteResult.setDrugForm(drugForm);
-				voteResult.setOpposeSum(0);
-				voteResult.setPassSum(0);
-				voteResult.setAbstainSum(0);
-				voteResultService.save(voteResult);
-
+				Boolean isExistCommonName = voteResultService.countByReviewProcessIdAndDrugFormCommonNameContentsAdministrationIdAndDrugFormCommonNameContentsCommonCommonName(currentReviewProcessId, drugForm.getCommonNameContents().getAdministration().getId(),  drugForm.getCommonNameContents().getCommon().getCommonName())==0?Boolean.FALSE:Boolean.TRUE;
+				if (!isExistCommonName) {
+					VoteResult voteResult = new VoteResult();
+					voteResult.setReviewMainId(reviewMainEnable.getId());
+					voteResult.setReviewProcessId(currentReviewProcessId);
+					voteResult.setDrugForm(drugForm);
+					voteResult.setOpposeSum(0);
+					voteResult.setPassSum(0);
+					voteResult.setAbstainSum(0);
+					voteResultService.save(voteResult);
+				}
 			}
 		}
 
@@ -121,6 +123,7 @@ public class VoteRecordService extends BaseService<VoteRecord, Long> {
 				vo.setReviewProcessId(voteResult.getReviewProcessId());
 				vo.setDrugForm(voteResult.getDrugForm());
 				vo.setCommonNameContents(voteResult.getCommonNameContents());
+				vo.setOrganizationNames(drugFormService.findOrganizationNames(voteResult.getDrugForm().getCommonNameContents().getCommon().getCommonName(), voteResult.getDrugForm().getCommonNameContents().getAdministration().getId().intValue()));
 				getVoteRecordRepository().save(vo);
 			}
 		}

@@ -95,6 +95,10 @@ public class VoteResultService extends BaseService<VoteResult, Long> {
 		return getVoteResultRepository().findByCommonNameContentsIdAndReviewProcessId(commonNameContentsId, reviewProcessId);
 	}
 	
+	public Long countByReviewProcessIdAndDrugFormCommonNameContentsAdministrationIdAndDrugFormCommonNameContentsCommonCommonName(Long reviewProcessId,Long administrationId, String commonName){
+		return getVoteResultRepository().countByReviewProcessIdAndDrugFormCommonNameContentsAdministrationIdAndDrugFormCommonNameContentsCommonCommonName(reviewProcessId, administrationId, commonName);
+	}
+	
 	/**
 	 * 调整入围
 	 * 

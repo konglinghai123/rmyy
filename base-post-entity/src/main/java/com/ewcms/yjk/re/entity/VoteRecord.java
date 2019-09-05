@@ -32,6 +32,7 @@ import com.ewcms.yjk.zd.commonname.entity.CommonNameContents;
  *  <li>submitted:提交标志</li>
  *  <li>reviewProcessId:投票流程Id</li>
  *  <li>signed:是否签字</li>
+ *  <li>organizationNames:组织名称集</li>
  * </ul>
  * 
  * @author zhoudongchu
@@ -72,6 +73,9 @@ public class VoteRecord extends BaseSequenceEntity<Long> {
 	
 	@Column(name = "is_signed")
 	private Boolean signed = Boolean.FALSE;
+	
+	@Column(name = "organization_names")
+	private String organizationNames;
 	
 	public Long getUserId() {
 		return userId;
@@ -152,4 +156,14 @@ public class VoteRecord extends BaseSequenceEntity<Long> {
 	public String getChemicalSubCategory() {
 		return (drugForm != null && drugForm.getCommonNameContents() != null && drugForm.getCommonNameContents().getCommon() != null) ? drugForm.getCommonNameContents().getCommon().getChemicalSubCategory() : "";
 	}
+
+	public String getOrganizationNames() {
+		return organizationNames;
+	}
+
+	public void setOrganizationNames(String organizationNames) {
+		this.organizationNames = organizationNames;
+	}
+	
+	
 }

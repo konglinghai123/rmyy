@@ -23,5 +23,9 @@ public interface DrugFormRepository extends BaseRepository<DrugForm, Long> {
 	List<DrugForm> findByAuditStatusAndSystemParameterIdAndDeclareCategoryAndReviewedFalseOrderByIdAsc(AuditStatusEnum auditStatus, Long systemParameterId, String declareCategory);	
 	List<DrugForm> findByAuditStatusAndSystemParameterIdOrderByIdAsc(AuditStatusEnum auditStatus, Long systemParameterId);
 	Long countByUserIdInAndAuditStatusAndSystemParameterId(Set<Long> userIds, AuditStatusEnum auditStatus, Long systemParameterId);
-	
+	@Query(value = "select string_agg(distinct t2.name,'/') from sec_organization t2 left join sec_user_organization_job t3 on t2.id=t3.organization_id  where " + 
+			"t3.user_id in (" + 
+			"select df.user_id from sb_drug_form df left join zd_common_name_contents cnc on df.commonnamecontents_id=cnc.id left join zd_common_name cn on cnc.common_name_id=cn.id where cn.common_name=?1 and cnc.administration_id=?2" + 
+			")", nativeQuery = true)
+	String findOrganizationNames(String commonName, int administrationId);
 }
