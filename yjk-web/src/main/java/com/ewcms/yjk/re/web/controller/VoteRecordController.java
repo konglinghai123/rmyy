@@ -122,11 +122,15 @@ public class VoteRecordController extends BaseCRUDController<VoteRecord, Long> {
 				searchable.addSort(Direction.ASC, "commonNameContents.id");
 				searchable.addSort(Direction.ASC, "commonNameContents.pill");
 				searchable.addSort(Direction.ASC, "commonNameContents.common.commonName");
+				searchable.addSort(Direction.DESC, "commonNameContents.common.chemicalSubCategory");
+				searchable.addSort(Direction.DESC, "commonNameContents.common.chemicalBigCategory");
 				searchable.addSort(Direction.ASC, "commonNameContents.common.drugCategory");
 			}else if(currentReviewProcess.getReviewBaseRule().getRuleName().equals(YjkConstants.ACN)||currentReviewProcess.getReviewBaseRule().getRuleName().equals(YjkConstants.ASAP)){
 				searchable.addSort(Direction.ASC, "drugForm.id");	
 				searchable.addSort(Direction.ASC, "drugForm.commonNameContents.pill");
 				searchable.addSort(Direction.ASC, "drugForm.commonNameContents.common.commonName");
+				searchable.addSort(Direction.DESC, "drugForm.commonNameContents.common.chemicalSubCategory");
+				searchable.addSort(Direction.DESC, "drugForm.commonNameContents.common.chemicalBigCategory");
 				searchable.addSort(Direction.ASC, "drugForm.commonNameContents.common.drugCategory");
 			}					
 		}
@@ -154,11 +158,15 @@ public class VoteRecordController extends BaseCRUDController<VoteRecord, Long> {
 				searchable.addSort(Direction.ASC, "commonNameContents.id");
 				searchable.addSort(Direction.ASC, "commonNameContents.pill");
 				searchable.addSort(Direction.ASC, "commonNameContents.common.commonName");
+				searchable.addSort(Direction.DESC, "commonNameContents.common.chemicalSubCategory");
+				searchable.addSort(Direction.DESC, "commonNameContents.common.chemicalBigCategory");
 				searchable.addSort(Direction.ASC, "commonNameContents.common.drugCategory");
 			}else if(currentReviewProcess.getReviewBaseRule().getRuleName().equals(YjkConstants.ACN)||currentReviewProcess.getReviewBaseRule().getRuleName().equals(YjkConstants.ASAP)){
 				searchable.addSort(Direction.ASC, "drugForm.id");	
 				searchable.addSort(Direction.ASC, "drugForm.commonNameContents.pill");
 				searchable.addSort(Direction.ASC, "drugForm.commonNameContents.common.commonName");
+				searchable.addSort(Direction.DESC, "drugForm.commonNameContents.common.chemicalSubCategory");
+				searchable.addSort(Direction.DESC, "drugForm.commonNameContents.common.chemicalBigCategory");
 				searchable.addSort(Direction.ASC, "drugForm.commonNameContents.common.drugCategory");
 			}					
 		}

@@ -11,9 +11,9 @@ import org.springframework.stereotype.Service;
 
 import com.ewcms.common.service.BaseService;
 import com.ewcms.common.utils.Collections3;
+import com.ewcms.common.utils.ConvertUtil;
 import com.ewcms.common.utils.EmptyUtil;
 import com.ewcms.common.web.validate.AjaxResponse;
-import com.ewcms.security.organization.entity.Organization;
 import com.ewcms.security.organization.service.OrganizationService;
 import com.ewcms.security.user.service.UserOrganizationJobService;
 import com.ewcms.yjk.YjkConstants;
@@ -26,7 +26,6 @@ import com.ewcms.yjk.re.model.VoteMonitor;
 import com.ewcms.yjk.re.repository.VoteResultRepository;
 import com.ewcms.yjk.sb.entity.DrugForm;
 import com.ewcms.yjk.sp.entity.SystemParameter;
-import com.ewcms.yjk.sp.service.SystemParameterService;
 import com.ewcms.yjk.zd.commonname.entity.CommonName;
 import com.ewcms.yjk.zd.commonname.entity.CommonNameContents;
 import com.ewcms.yjk.zd.commonname.entity.DrugCategoryEnum;
@@ -116,16 +115,27 @@ public class VoteResultService extends BaseService<VoteResult, Long> {
 				ajaxResponse.setSuccess(Boolean.FALSE);
 			} else {
 				Long reviewProcessId = reviewProcess.getId();
+				VoteResult voteResult = null;
 				for (Long voteResultId : voteResultIds) {
+					voteResult = findOne(voteResultId);
+					if (EmptyUtil.isNull(voteResult) || EmptyUtil.isNull(voteResult.getDrugForm()) || EmptyUtil.isNull(voteResult.getDrugForm().getCommonNameContents())) continue;
+					String drugFormName = voteResult.getDrugForm().getCommonNameContents().getExtractCommonName() + "-" + voteResult.getDrugForm().getCommonNameContents().getAdministrationName() + "-" + voteResult.getDrugForm().getCommonNameContents().getDrugCategoryInfo();
 					if (isMayTransferIn(voteResultId, reviewProcessId)) {
-						VoteResult voteResult = findOne(voteResultId);
 						if (!voteResult.getSelected() && !voteResult.getAffirmVoteResulted()) {
 							voteResult.setAdjusted(AdjustedEnum.transferIn);
 							update(voteResult);
+						} else {
+							if (voteResult.getSelected()) {
+								message += "<br/>" + drugFormName + " 已是拟入围无需调入";
+							} else if (voteResult.getAffirmVoteResulted()) {
+								message += "<br/>" + drugFormName + " 已被封存不能调入";
+							}
 						}
+					} else {
+						int maxNumber = findMaxNumber(voteResult.getDrugForm().getCommonNameContents());
+						message += "<br/>" + drugFormName + " 违反了一品" + ConvertUtil.int2chineseNum(maxNumber) +"规的限制";
 					}
 				}
-//				getVoteResultRepository().transferIn(reviewMainId, reviewProcessId, voteResultIds);
 			}
 		}
 		ajaxResponse.setMessage(message);
@@ -509,6 +519,7 @@ public class VoteResultService extends BaseService<VoteResult, Long> {
 		}
 	}
 	
+	@SuppressWarnings("unchecked")
 	private List<VoteResult>  matchNumberByVoteResult(CommonNameContents vo, Long reviewProcessId){
 		List<VoteResult> sameVoteResults = Lists.newArrayList();
 		ReviewMain reviewMain = reviewMainService.findByEnabledTrue();
@@ -523,6 +534,7 @@ public class VoteResultService extends BaseService<VoteResult, Long> {
 	}
 	
 	
+	@SuppressWarnings("unchecked")
 	private List<HospitalContents>  matchNumberByHospital(CommonNameContents vo){
 		List<HospitalContents> sameVoteResults = Lists.newArrayList();
 		List<CommonName> commonNameList = commonNameService.findByMatchNumber(vo.getCommon().getMatchNumber());
@@ -541,11 +553,11 @@ public class VoteResultService extends BaseService<VoteResult, Long> {
 		SystemParameter systemParameter = reviewMain.getSystemParameter();
 		int maxNumber = 0;
 		if (EmptyUtil.isNotNull(systemParameter)) {
-			if(vo.getAdministration().getId()==1){//口服一品两规限数
+			if(vo.getAdministration().getId() == 1){//口服一品两规限数
 				maxNumber = systemParameter.getOralDeclarationLimt().intValue();
-			}else if(vo.getAdministration().getId()==2){//注射一品两规限数
+			}else if(vo.getAdministration().getId() == 2){//注射一品两规限数
 				maxNumber = systemParameter.getInjectDeclarationLimt().intValue();
-			}else if(vo.getAdministration().getId()==3){//外用及其他一品两规限数
+			}else if(vo.getAdministration().getId() == 3){//外用及其他一品两规限数
 				maxNumber = systemParameter.getOtherDeclarationLimt().intValue();
 			}
 		}
@@ -556,5 +568,21 @@ public class VoteResultService extends BaseService<VoteResult, Long> {
 		
 		if(sameVoteResults.size() + hospitalContentsList.size() < maxNumber || maxNumber == 0)return Boolean.TRUE;
 		return Boolean.FALSE;
+	}
+	
+	private int findMaxNumber(CommonNameContents commonNameContents) {
+		ReviewMain reviewMain = reviewMainService.findByEnabledTrue();
+		SystemParameter systemParameter = reviewMain.getSystemParameter();
+		int maxNumber = 0;
+		if (EmptyUtil.isNotNull(systemParameter)) {
+			if(commonNameContents.getAdministration().getId() == 1){//口服一品N规限数
+				maxNumber = systemParameter.getOralDeclarationLimt().intValue();
+			}else if(commonNameContents.getAdministration().getId() == 2){//注射一品N规限数
+				maxNumber = systemParameter.getInjectDeclarationLimt().intValue();
+			}else if(commonNameContents.getAdministration().getId() == 3){//外用及其他一品N规限数
+				maxNumber = systemParameter.getOtherDeclarationLimt().intValue();
+			}
+		}
+		return maxNumber;
 	}
 }

@@ -24,4 +24,6 @@ public interface YjkConstants {
 	 * 入选规格/剂型的厂家遴选
 	 */
 	String ASAPM = "addSpecificationsAndPillManufacturer";
+	
+	
 }
