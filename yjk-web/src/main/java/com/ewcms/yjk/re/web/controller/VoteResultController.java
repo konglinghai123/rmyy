@@ -175,6 +175,7 @@ public class VoteResultController extends BaseController<VoteResult, Long> {
 			Long reviewMainId = reviewMain.getId();
 			ReviewProcess reviewProcess = reviewProcessService.findCurrentReviewProcess(reviewMainId);
 			if (reviewProcess != null) {
+				model.addAttribute("statisticalNotes", voteResultService.statisticalNotes(reviewProcess.getId()));
 				List<ReviewProcess> reviewProcesses = reviewProcessService.findByReviewMainIdAndFinishedFalseOrderByWeightDesc(reviewMainId);
 				if (EmptyUtil.isCollectionNotEmpty(reviewProcesses) && reviewProcesses.get(0).equals(reviewProcess)) {
 					isNextEnable = false;

@@ -15,15 +15,11 @@
 			  	<table class="formtable">
 					<tr>
 						<td width="30%"><form:label path="organizations">科室/病区：</form:label></td>
-						<td width="70%"><form:input path="organizations" cssClass="easyui-combotree" data-options="url:'${ctx}/security/organization/organization/tree',editable:false,multiple:true,width:200,editable:false,multiple:true,onlyLeafCheck:true,onBeforeSelect:function(node){return false;}"/><font color="red">不选择为所有科室</font></td>
+						<td width="70%"><form:input path="organizations"/><font color="red">不选择为所有科室</font></td>
 					</tr>	
 					<tr>
-						<td><form:label path="chineseNumber">确保申报科室通过中成药数：</form:label></td>
-						<td><form:input path="chineseNumber" cssClass="validate[custom[integer]]" maxlength="4" size="10"/></td>
-					</tr>
-					<tr>
-						<td><form:label path="westernNumber">确保申报科室通过西药数：</form:label></td>
-						<td><form:input path="westernNumber" cssClass="validate[custom[integer]]" maxlength="4" size="10"/></td>
+						<td><form:label path="passNumber">确保申报科室通过数：</form:label></td>
+						<td><form:input path="passNumber" cssClass="validate[custom[integer]]" maxlength="4" size="10"/></td>
 					</tr>
 				</table>
 			</form:form>
@@ -50,6 +46,16 @@
 	    	</c:otherwise>
 	    </c:choose>
 	    
+	    $('#organizations').combotree({
+	    	url:'${ctx}/security/organization/organization/tree',
+	    	editable:false,
+	    	multiple:true,
+	    	width:200,
+	    	onlyLeafCheck:true,
+	    	onBeforeSelect:function(node){
+	    		return false;
+	    	}
+	    })
 	    $('#organizations').combotree('setValues', ${m.organizationIds});
 	});
 	

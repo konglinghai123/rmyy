@@ -60,6 +60,13 @@
 		</thead>
 	</table>
 	<div id="tb" style="padding:5px;height:auto;">
+		<div>
+        	<table class="formtable">
+              	<tr>
+              		<td width="30%">统计说明：${statisticalNotes}</td>
+           		</tr>
+           	</table>
+    	</div>
 	</div>
 <ewcms:footer/>
 <script type="text/javascript" src="${ctx}/static/easyui/ext/datagrid-detailview.js"></script>

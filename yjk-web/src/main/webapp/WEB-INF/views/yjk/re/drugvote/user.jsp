@@ -64,7 +64,6 @@
 			border:true,
 			singleSelect:true,
 			onLoadSuccess:function(row){
-				
 			}
 		});
 	});

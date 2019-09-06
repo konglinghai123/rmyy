@@ -7,7 +7,9 @@ import org.springframework.data.jpa.repository.Query;
 
 import com.ewcms.common.repository.BaseRepository;
 import com.ewcms.yjk.re.entity.VoteRecord;
+import com.ewcms.yjk.re.entity.VoteTypeEnum;
 import com.ewcms.yjk.re.model.VoteMonitor;
+import com.ewcms.yjk.zd.commonname.entity.DrugCategoryEnum;
 
 public interface VoteRecordRepository extends BaseRepository<VoteRecord, Long> {
 	
@@ -66,5 +68,9 @@ public interface VoteRecordRepository extends BaseRepository<VoteRecord, Long> {
 	@Query("select count(distinct v.userId) from VoteRecord v where v.reviewMainId=?1 and v.reviewProcessId=?2 and v.submitted=true and v.signed=true")
 	Long findSubmittedAndSinged(Long reviewMainId, Long reviewProcessId);
 
-
+	Long countByUserIdAndReviewProcessIdAndDrugFormCommonNameContentsCommonDrugCategory(Long userId, Long reviewProcessId, DrugCategoryEnum drugCategoryEnum);
+	
+	Long countByUserIdAndReviewProcessIdAndVoteTypeEnum(Long userId, Long reviewProcessId, VoteTypeEnum voteTypeEnum);
+	
+	Long countByUserIdAndReviewProcessIdAndVoteTypeEnumAndDrugFormCommonNameContentsCommonDrugCategory(Long userId, Long reviewProcessId, VoteTypeEnum voteTypeEnum, DrugCategoryEnum drugCategoryEnum);
 }

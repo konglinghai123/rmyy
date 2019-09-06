@@ -24,6 +24,7 @@ import com.ewcms.yjk.sb.entity.DrugForm;
 import com.ewcms.yjk.sb.service.DrugFormService;
 import com.ewcms.yjk.zd.commonname.entity.CommonName;
 import com.ewcms.yjk.zd.commonname.entity.CommonNameContents;
+import com.ewcms.yjk.zd.commonname.entity.DrugCategoryEnum;
 import com.ewcms.yjk.zd.commonname.service.CommonNameContentsService;
 import com.ewcms.yjk.zd.commonname.service.CommonNameService;
 import com.ewcms.yjk.zd.commonname.service.HospitalContentsService;
@@ -404,4 +405,25 @@ public class VoteRecordService extends BaseService<VoteRecord, Long> {
 	public Long findSubmittedAndSinged(Long reviewMainId, Long reviewProcessId) {
 		return getVoteRecordRepository().findSubmittedAndSinged(reviewMainId, reviewProcessId);
 	}
+	
+	public String statisticalNotes(Long userId, Long reviewProcessId) {
+		Long recordNumber = getVoteRecordRepository().countByUserIdAndReviewProcessId(userId, reviewProcessId);//投票的药品数
+		Long hRecordNumber = getVoteRecordRepository().countByUserIdAndReviewProcessIdAndDrugFormCommonNameContentsCommonDrugCategory(userId, reviewProcessId, DrugCategoryEnum.H);//投票的西药数量
+		Long zRecordNumber = getVoteRecordRepository().countByUserIdAndReviewProcessIdAndDrugFormCommonNameContentsCommonDrugCategory(userId, reviewProcessId, DrugCategoryEnum.Z);//投票的中成药数量
+		
+		Long passNumber = getVoteRecordRepository().countByUserIdAndReviewProcessIdAndVoteTypeEnum(userId, reviewProcessId, VoteTypeEnum.pass);
+		Long hPassNumber = getVoteRecordRepository().countByUserIdAndReviewProcessIdAndVoteTypeEnumAndDrugFormCommonNameContentsCommonDrugCategory(userId, reviewProcessId, VoteTypeEnum.pass, DrugCategoryEnum.H);
+		Long zPassNumber = getVoteRecordRepository().countByUserIdAndReviewProcessIdAndVoteTypeEnumAndDrugFormCommonNameContentsCommonDrugCategory(userId, reviewProcessId, VoteTypeEnum.pass, DrugCategoryEnum.Z);
+		
+		Long opposeNumber = getVoteRecordRepository().countByUserIdAndReviewProcessIdAndVoteTypeEnum(userId, reviewProcessId, VoteTypeEnum.oppose);
+		Long hOpposeNumber = getVoteRecordRepository().countByUserIdAndReviewProcessIdAndVoteTypeEnumAndDrugFormCommonNameContentsCommonDrugCategory(userId, reviewProcessId, VoteTypeEnum.oppose, DrugCategoryEnum.H);
+		Long zOpposeNumber = getVoteRecordRepository().countByUserIdAndReviewProcessIdAndVoteTypeEnumAndDrugFormCommonNameContentsCommonDrugCategory(userId, reviewProcessId, VoteTypeEnum.oppose, DrugCategoryEnum.Z);
+
+		Long abstainNumber = getVoteRecordRepository().countByUserIdAndReviewProcessIdAndVoteTypeEnum(userId, reviewProcessId, VoteTypeEnum.abstain);
+		Long hAbstainNumber = getVoteRecordRepository().countByUserIdAndReviewProcessIdAndVoteTypeEnumAndDrugFormCommonNameContentsCommonDrugCategory(userId, reviewProcessId, VoteTypeEnum.abstain, DrugCategoryEnum.H);
+		Long zAbstainNumber = getVoteRecordRepository().countByUserIdAndReviewProcessIdAndVoteTypeEnumAndDrugFormCommonNameContentsCommonDrugCategory(userId, reviewProcessId, VoteTypeEnum.abstain, DrugCategoryEnum.Z);
+		
+		return String.format("药品总数：%d个（西药：%d，中成药：%d）；通过数：%d（西药：%d，中成药：%d）；反对数：%d（西药：%d，中成药：%d）；弃权数：%d（西药：%d，中成药：%d）。", recordNumber, hRecordNumber, zRecordNumber, passNumber, hPassNumber, zPassNumber, opposeNumber, hOpposeNumber, zOpposeNumber, abstainNumber, hAbstainNumber, zAbstainNumber);
+	}
+
 }

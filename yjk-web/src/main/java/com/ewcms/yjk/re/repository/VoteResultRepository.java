@@ -107,4 +107,10 @@ public interface VoteResultRepository extends BaseRepository<VoteResult, Long> {
 	Long countByReviewProcessIdAndSelectedTrue(Long reviewProcessId);
 	
 	Long countByReviewProcessIdAndSelectedTrueAndEnsureOrganTrueAndDrugFormCommonNameContentsCommonDrugCategory(Long reviewProcessId, DrugCategoryEnum drugCategoryEnum);
+	
+	Long countByReviewProcessIdAndSelectedTrueAndEnsureOrganTrue(Long reviewProcessId);
+	
+	Long countByReviewProcessIdAndDrugFormCommonNameContentsCommonDrugCategory(Long reviewProcessId, DrugCategoryEnum drugCategoryEnum);
+	
+	Long countByReviewProcessIdAndSelectedTrueAndDrugFormCommonNameContentsCommonDrugCategory(Long reviewProcessId, DrugCategoryEnum drugCategoryEnum);
 }

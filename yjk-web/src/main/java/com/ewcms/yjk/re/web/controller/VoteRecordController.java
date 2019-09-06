@@ -77,6 +77,7 @@ public class VoteRecordController extends BaseCRUDController<VoteRecord, Long> {
 			Boolean isExpertSubmitCurrentReview = false;
 			ReviewProcess currentReviewProcess = reviewProcessService.findCurrentReviewProcess(reviewMain.getId());
 			if (currentReviewProcess != null) { 
+				model.addAttribute("statisticalNotes", getVoteRecordService().statisticalNotes(user.getId(), currentReviewProcess.getId()));
 				isReivewProcess = true;
 				isExpertSubmitCurrentReview = getVoteRecordService().expertSubmitCurrentReview(user.getId(), currentReviewProcess.getId());
 				model.addAttribute("reviewProcessId", currentReviewProcess.getId());

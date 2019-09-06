@@ -75,6 +75,7 @@ public class DrugVoteController extends BaseController<VoteRecord, Long>{
 	
 	@RequestMapping(value = "{reviewProcessId}/record")
 	public String record(@PathVariable(value = "reviewProcessId") ReviewProcess reviewProcess, @RequestParam(value = "reviewMainId", required = false) Long reviewMainId, Model model) {
+		model.addAttribute("statisticalNotes", voteResultService.statisticalNotes(reviewProcess.getId()));
 		model.addAttribute("reviewProcess", reviewProcess);
 		model.addAttribute("reviewMainId", reviewMainId);
 		return viewName("record");

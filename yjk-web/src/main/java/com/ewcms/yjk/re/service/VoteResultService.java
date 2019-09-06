@@ -39,10 +39,6 @@ import com.google.common.collect.Maps;
  * @author admin
  *
  */
-/**
- * @author admin
- *
- */
 @Service
 public class VoteResultService extends BaseService<VoteResult, Long> {
 
@@ -313,7 +309,7 @@ public class VoteResultService extends BaseService<VoteResult, Long> {
 			if (EmptyUtil.isCollectionNotEmpty(ensurePassThroughs)) {
 				Map<Long, Integer> organEnsureMap = Maps.newHashMap();
 				for (EnsurePassThrough ensurePassThrough : ensurePassThroughs) {
-					int ensureNumber = ensurePassThrough.getNumber();
+					int ensureNumber = ensurePassThrough.getPassNumber();
 					
 					List<Long> organizationIds = ensurePassThrough.getOrganiztionIdsList();
 					if (EmptyUtil.isCollectionEmpty(organizationIds)) {
@@ -589,5 +585,21 @@ public class VoteResultService extends BaseService<VoteResult, Long> {
 			}
 		}
 		return maxNumber;
+	}
+	
+	public String statisticalNotes(Long reviewProcessId) {
+		Long resultNumber = getVoteResultRepository().countByReviewProcessId(reviewProcessId);//投票的药品数
+		Long hResultNumber = getVoteResultRepository().countByReviewProcessIdAndDrugFormCommonNameContentsCommonDrugCategory(reviewProcessId, DrugCategoryEnum.H);//投票的西药数量
+		Long zResultNumber = getVoteResultRepository().countByReviewProcessIdAndDrugFormCommonNameContentsCommonDrugCategory(reviewProcessId, DrugCategoryEnum.Z);//投票的中成药数量
+		
+		Long selectedNumber = getVoteResultRepository().countByReviewProcessIdAndSelectedTrue(reviewProcessId);//拟入围数
+		Long hSelectedNumber = getVoteResultRepository().countByReviewProcessIdAndSelectedTrueAndDrugFormCommonNameContentsCommonDrugCategory(reviewProcessId, DrugCategoryEnum.H);//拟入围的西药数量
+		Long zSelectedNumber = getVoteResultRepository().countByReviewProcessIdAndSelectedTrueAndDrugFormCommonNameContentsCommonDrugCategory(reviewProcessId, DrugCategoryEnum.Z);//拟入围的中成药数量
+		
+		Long ensureOrganNumber = getVoteResultRepository().countByReviewProcessIdAndSelectedTrueAndEnsureOrganTrue(reviewProcessId);//确保科室入围数
+		Long hEnsureOrganNumber = getVoteResultRepository().countByReviewProcessIdAndSelectedTrueAndEnsureOrganTrueAndDrugFormCommonNameContentsCommonDrugCategory(reviewProcessId, DrugCategoryEnum.H);//确保科室的西药数量
+		Long zEnsureOrganNumber = getVoteResultRepository().countByReviewProcessIdAndSelectedTrueAndEnsureOrganTrueAndDrugFormCommonNameContentsCommonDrugCategory(reviewProcessId, DrugCategoryEnum.Z);//确保科室的中成药数量
+		
+		return String.format("药品总数：%d个（西药：%d，中成药：%d）；拟入围药品总数：%d（西药：%d，中成药：%d）；确保科室入围数：%d（西药：%d，中成药：%d）。", resultNumber, hResultNumber, zResultNumber, selectedNumber, hSelectedNumber, zSelectedNumber, ensureOrganNumber, hEnsureOrganNumber, zEnsureOrganNumber);
 	}
 }

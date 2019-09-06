@@ -250,6 +250,7 @@ CREATE TABLE public.re_vote_record
   drugform_id bigint,
   is_signed boolean,
   commonnamecontents_id bigint,
+  organization_names character varying,
   CONSTRAINT re_vote_record_pkey PRIMARY KEY (id),
   CONSTRAINT fk_k6d08qty3ln4irbptn6upd5xi FOREIGN KEY (drugform_id)
       REFERENCES public.sb_drug_form (id) MATCH SIMPLE
@@ -261,7 +262,6 @@ WITH (
 ALTER TABLE public.re_vote_record
   OWNER TO postgres;
   
-
 /*
  * re_vote_result
  */
@@ -319,10 +319,9 @@ ALTER TABLE public.seq_re_ensure_pass_through_id
 CREATE TABLE public.re_ensure_pass_through
 (
   id bigint NOT NULL,
-  chinese_number integer,
   is_enabled boolean,
   weight integer,
-  western_number integer,
+  pass_number integer,
   reviewprocess_id bigint,
   CONSTRAINT re_ensure_pass_through_pkey PRIMARY KEY (id),
   CONSTRAINT fk_8gwgsojrxhkcexc4hy6147kle FOREIGN KEY (reviewprocess_id)
@@ -334,6 +333,8 @@ WITH (
 );
 ALTER TABLE public.re_ensure_pass_through
   OWNER TO postgres;
+
+
 
 /**
  * re_ensure_pass_through_organization

@@ -5,19 +5,15 @@
 	<table id="tt">
 		<thead>
 			<tr>
-			    <th data-options="field:'ck',checkbox:true" rowspan="2"/>
-			    <th data-options="field:'id',sortable:true" rowspan="2">编号</th>
-			    <th data-options="field:'weight',hidden:true" rowspan="2">排序号</th>
-				<th data-options="field:'organizationNames',width:300" rowspan="2">科室/病区</th>
-				<th colspan="2">确保申报科室通过数</th>
+			    <th data-options="field:'ck',checkbox:true"/>
+			    <th data-options="field:'id',sortable:true">编号</th>
+			    <th data-options="field:'weight',hidden:true">排序号</th>
+				<th data-options="field:'organizationNames',width:300">科室/病区</th>
+				<th data-options="field:'passNumber',width:100">确保申报科室通过数</th>
 				<th data-options="field:'enabled',width:80,
 						formatter:function(val,row){
 							return val ? '是' : '否';
-						}" rowspan="2">是否启用</th>
-			</tr>
-			<tr>
-				<th data-options="field:'chineseNumber',width:100">中成药</th>
-				<th data-options="field:'westernNumber',width:100">西药</th>
+						}">是否启用</th>
 			</tr>
 		</thead>
 	</table>
