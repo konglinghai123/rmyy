@@ -29,6 +29,18 @@ public class FollowupTimeService extends BaseService<FollowupTime, Long>{
 		return getFollowupTimeRepository().findByLastMonth(startDate, endDate);
 	}
 	
+	public Set<FollowupTime> findSmsByLastMonth(){
+		Date startDate = new Date();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(startDate); 
+        
+        calendar.set(Calendar.MONTH, calendar.get(Calendar.MONTH) + 1); 
+        Date endDate = calendar.getTime();
+        
+		return getFollowupTimeRepository().findSmsByLastMonth(startDate, endDate);
+	}
+	
+	
 	public void close(Long id) {
 		FollowupTime followupTime = findOne(id);
 		if (EmptyUtil.isNotNull(followupTime)) {

@@ -29,7 +29,7 @@ import com.ewcms.hzda.zd.entity.Nation;
  * <li>userId:医生编号</li>
  * <li>realName:医生姓名</li>
  * <li>organizationId:医院编号</li>
- * <li>organizationNames:医院名称</li>
+ * <li>organizationName:医院名称</li>
  * <li>recordingTime:记录时间</li>
  * <li>totalNumber:总编号</li>
  * <li>transplantNumber:移植编号</li>

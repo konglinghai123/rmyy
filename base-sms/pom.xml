@@ -8,11 +8,11 @@
 		<relativePath>../parent/pom.xml</relativePath>
 	</parent>
 	
-	<artifactId>empi-sms</artifactId>
+	<artifactId>base-sms</artifactId>
 	<packaging>jar</packaging>
-	<name>empi-sms</name>
+	<name>base-sms</name>
 	<description>sms</description>
-	<url>https://github.com/ewcmsfree/rmyy/empi-sms</url>
+	<url>https://github.com/ewcmsfree/rmyy/base-sms</url>
 
 	<properties>
 		<support.basedir>${project.parent.parent.basedir}/src/support</support.basedir>

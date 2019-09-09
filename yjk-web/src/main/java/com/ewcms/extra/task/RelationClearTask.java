@@ -17,7 +17,6 @@ import com.ewcms.security.user.task.UserClearRelationTask;
 @Service("relationClearTask")
 public class RelationClearTask {
 
-
     @Autowired
     private UserClearRelationTask userClearRelationTask;
     @Autowired

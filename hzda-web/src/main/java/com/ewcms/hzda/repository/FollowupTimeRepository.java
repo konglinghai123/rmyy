@@ -12,4 +12,7 @@ public interface FollowupTimeRepository extends BaseRepository<FollowupTime, Lon
 	
 	@Query("select f.generalInformationId from FollowupTime f where (f.nextTime>=?1 and f.nextTime<=?2 and f.tip=true) or (f.nextTime<=?1 and f.tip=true) order by f.nextTime desc")
 	Set<Long> findByLastMonth(Date startDate, Date endDate);
+	
+	@Query("from FollowupTime f where f.nextTime>=?1 and f.nextTime<=?2 and f.tip=true and f.sms=false and f.smsDate is null order by f.nextTime desc")
+	Set<FollowupTime> findSmsByLastMonth(Date startDate, Date endDate);
 }

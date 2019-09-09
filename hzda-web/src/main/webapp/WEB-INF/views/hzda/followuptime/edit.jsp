@@ -8,6 +8,11 @@
 		 	<form:form id="editForm" action="${ctx}/hzda/followuptime/save/${generalInformationId}" method="post" commandName="m" class="form-horizontal">
 		    	<ewcms:showGlobalError commandName="m"/>
 		    	<form:hidden path="id"/>
+		    	<form:hidden path="code"/>
+		    	<form:hidden path="message"/>
+		    	<form:hidden path="requestId"/>
+		    	<form:hidden path="sms"/>
+		    	<form:hidden path="smsDate"/>
 		    	<c:forEach var="selection" items="${selections}">
 	  				<input type="hidden" name="selections" value="${selection}" />
 				</c:forEach>

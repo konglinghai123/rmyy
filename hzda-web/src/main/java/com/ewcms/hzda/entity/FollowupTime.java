@@ -28,6 +28,9 @@ import com.ewcms.common.entity.BaseSequenceEntity;
  * <li>tip:是否提醒</li>
  * <li>sms:是否短信通知</li>
  * <li>smsDate:短信发送时间</li>
+ * <li>code:返回消息代码</li>
+ * <li>message:返回说明</li>
+ * <li>requestId:请求ID</li>
  * </ul>
  * 
  * @author wu_zhijun
@@ -63,6 +66,12 @@ public class FollowupTime extends BaseSequenceEntity<Long> {
 	@Column(name = "sms_date")
 	@Temporal(TemporalType.DATE)
 	private Date smsDate;
+	@Column(name = "code")
+	private String code;
+	@Column(name = "message")
+	private String message;
+	@Column(name = "requestId")
+	private String requestId;
 
 	public Long getUserId() {
 		return userId;
@@ -135,5 +144,29 @@ public class FollowupTime extends BaseSequenceEntity<Long> {
 
 	public void setSmsDate(Date smsDate) {
 		this.smsDate = smsDate;
+	}
+
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
+	}
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
+
+	public String getRequestId() {
+		return requestId;
+	}
+
+	public void setRequestId(String requestId) {
+		this.requestId = requestId;
 	}
 }

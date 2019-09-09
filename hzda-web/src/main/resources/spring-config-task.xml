@@ -8,8 +8,11 @@
 	<!-- 如下实现是通过线程池执行的 -->
 	<task:scheduler id="scheduler" pool-size="10" />
 	<task:annotation-driven scheduler="scheduler" executor="executor" proxy-target-class="true" />
-
-
+	
+	<task:scheduled-tasks scheduler="scheduler">
+		<!--自动发送短信通知 每天16点执行 -->
+		<task:scheduled ref="sendSmsTask" method="autoSendSms" cron="0 0 16 * * ?" />
+	</task:scheduled-tasks>
 
 	<!--&lt;!&ndash; 使用quartz执行任务调度 shiro也是使用它 &ndash;&gt; -->
 	<!--<bean id="scheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean" 

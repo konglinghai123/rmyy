@@ -21,6 +21,16 @@
 							}
 						}">是否短信通知</th>
 				<th data-options="field:'smsDate',sortable:true,width:150">发送时间</th>
+				<th data-options="field:'message',sortable:true,width:200,
+						formatter:function(val,row){
+							if (val != null) {
+								if (val == 'OK'){
+									return '发送成功';
+								} else {
+									return val;
+								}
+							}
+						}">发送说明</th>
 			</tr>
 		</thead>
 	</table>
