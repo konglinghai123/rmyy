@@ -1,15 +1,12 @@
 package com.ewcms.hzda.web.controller;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -24,10 +21,7 @@ import com.ewcms.common.entity.enums.BooleanEnum;
 import com.ewcms.common.entity.search.SearchParameter;
 import com.ewcms.common.utils.EmptyUtil;
 import com.ewcms.common.web.controller.BaseCRUDController;
-import com.ewcms.common.web.validate.AjaxResponse;
 import com.ewcms.hzda.entity.GeneralInformation;
-import com.ewcms.hzda.service.FollowupTimeService;
-import com.ewcms.hzda.service.GeneralInformationService;
 import com.ewcms.hzda.zd.service.NationService;
 import com.ewcms.security.user.entity.User;
 import com.ewcms.security.user.web.bind.annotation.CurrentUser;
@@ -36,14 +30,8 @@ import com.ewcms.security.user.web.bind.annotation.CurrentUser;
 @RequestMapping(value = "/hzda/generalinformation")
 public class GeneralInformationController extends BaseCRUDController<GeneralInformation, Long> {
 
-	private GeneralInformationService getGeneralInformationService() {
-		return (GeneralInformationService) baseService;
-	}
-	
 	@Autowired
 	private NationService nationService;
-	@Autowired
-	private FollowupTimeService followupTimeService;
 	
 	public GeneralInformationController() {
 		setListAlsoSetCommonData(true);
@@ -75,6 +63,8 @@ public class GeneralInformationController extends BaseCRUDController<GeneralInfo
 		if (!user.getAdmin()) {
 			searchParameter.getParameters().put("EQ_userId", user.getId());
 		}
+		searchParameter.getSorts().put("id", Direction.DESC);
+		
 		return super.query(searchParameter, model);
 	}
 	
@@ -91,33 +81,5 @@ public class GeneralInformationController extends BaseCRUDController<GeneralInfo
 			generalInformation.setOrganizationId(user.getOrganizationJobs().get(0).getOrganizationId());
 		}
 		return super.save(model, generalInformation, result, selections);
-	}
-	
-	@RequestMapping(value = "/followupTime/query")
-	@ResponseBody
-	public Map<String, Object> followupTimeQuery(@CurrentUser User user, @ModelAttribute SearchParameter<Long> searchParameter, Model model) {
-		Long userId = null;
-		if (!user.getAdmin()) {
-			userId = user.getId();
-		}
-		
-		Pageable pageable = new PageRequest(searchParameter.getPage() - 1, searchParameter.getRows());
-		
-		Page<GeneralInformation> pages = getGeneralInformationService().findFollowupTime(userId, pageable);
-		
-		Map<String, Object> resultMap = new HashMap<String, Object>(2);
-		
-		resultMap.put("total", pages.getTotalElements());
-		resultMap.put("rows", pages.getContent());
-		
-		return resultMap;
-	}
-
-	@RequestMapping(value = "/followupTime/close")
-	@ResponseBody
-	public AjaxResponse closeFollowup(@RequestParam(value = "followupTimeId")Long followupTimeId){
-        AjaxResponse ajaxResponse = new AjaxResponse("关闭提醒成功！");
-        followupTimeService.close(followupTimeId);
-		return ajaxResponse;
 	}
 }

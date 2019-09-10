@@ -1,7 +1,6 @@
 package com.ewcms.sms;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 
 import com.aliyuncs.CommonRequest;
 import com.aliyuncs.CommonResponse;
@@ -13,19 +12,18 @@ import com.aliyuncs.http.MethodType;
 import com.aliyuncs.profile.DefaultProfile;
 import com.aliyuncs.profile.IClientProfile;
 
-@Component
 public class SmsUtil {
-	@Value("${domain}")
+	@Value(value = "${domain}")
 	private String domain;
-	@Value("${RegionId}")
+	@Value(value = "${RegionId}")
 	private String RegionId;
-	@Value("${accessKeyId}")
+	@Value(value = "${accessKeyId}")
 	private String accessKeyId;
-	@Value("${accessKeySecret}")
+	@Value(value = "${accessKeySecret}")
 	private String accessKeySecret;
-	@Value("${signName}")
+	@Value(value = "${signName}")
 	private String signName;
-	@Value("${templateCode}")
+	@Value(value = "${templateCode}")
 	private String templateCode;
 
 	public String sendSms(String phone, String param) {

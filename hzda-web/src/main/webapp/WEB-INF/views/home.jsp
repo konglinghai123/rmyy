@@ -126,7 +126,7 @@
 		});
 	    
 	    $('#ttFollowupTime').datagrid({
-	    	url:'${ctx}/hzda/generalinformation/followupTime/query',
+	    	url:'${ctx}/followupTime/query',
 	    	height:300,
 	    	nowrap:true,
 	    	pagination:true,
@@ -160,7 +160,7 @@
 		$.messager.confirm('提示', '确定要关闭此人员的提醒吗？', function(r) {
 			if (r) {
 				$.ewcms.addLoading();
-				$.post('${ctx}/hzda/generalinformation/followupTime/close',{'followupTimeId':followupTimeId}, function(result) {
+				$.post('${ctx}/followupTime/close',{'followupTimeId':followupTimeId}, function(result) {
 					if (result.success) {
 						$('#ttFollowupTime').datagrid('reload');
 					}

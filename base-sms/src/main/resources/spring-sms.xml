@@ -6,6 +6,6 @@
           http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
-	<context:property-placeholder location="classpath:sms.properties" />
-
+	<!-- sms工具类bean -->
+	<bean id="smsUtil" class="com.ewcms.sms.SmsUtil" />
 </beans>

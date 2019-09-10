@@ -57,12 +57,13 @@ ALTER TABLE public.hzda_general_information ADD COLUMN is_special_tab boolean;
 ALTER TABLE public.hzda_general_information ADD COLUMN special_tab_number character varying(255);
 ALTER TABLE public.hzda_general_information ADD COLUMN egfr character varying(255);
 
-ALTER TABLE public.hzda_general_information DROP COLUMN age;
-ALTER TABLE public.hzda_general_information DROP COLUMN osta;
-ALTER TABLE public.hzda_general_information DROP COLUMN frax_main;
-ALTER TABLE public.hzda_general_information DROP COLUMN frax_hipbone;
-ALTER TABLE public.hzda_general_information DROP COLUMN weight;
-
+/**
+ * ALTER TABLE public.hzda_general_information DROP COLUMN age;
+ * ALTER TABLE public.hzda_general_information DROP COLUMN osta;
+ * ALTER TABLE public.hzda_general_information DROP COLUMN frax_main;
+ * ALTER TABLE public.hzda_general_information DROP COLUMN frax_hipbone;
+ * ALTER TABLE public.hzda_general_information DROP COLUMN weight;
+*/
 ALTER TABLE public.hzda_risk_evaluation ADD COLUMN age bigint;
 ALTER TABLE public.hzda_risk_evaluation ADD COLUMN osta character varying(255);
 ALTER TABLE public.hzda_risk_evaluation ADD COLUMN frax_main character varying(255);
@@ -92,6 +93,9 @@ CREATE TABLE public.hzda_followup_time
   sms_date date,
   is_tip boolean,
   user_id bigint NOT NULL,
+  code character varying(255),
+  message character varying(255),
+  requestId character varying(255),
   CONSTRAINT hzda_followup_time_pkey PRIMARY KEY (id),
   CONSTRAINT uk_g9aaxoupnxrsk8jd0lgka3lhc UNIQUE (general_information_id)
 )

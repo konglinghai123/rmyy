@@ -1,15 +1,28 @@
 package com.ewcms.web.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.ewcms.common.entity.search.SearchParameter;
+import com.ewcms.common.web.validate.AjaxResponse;
 import com.ewcms.extra.push.PushService;
+import com.ewcms.hzda.entity.GeneralInformation;
+import com.ewcms.hzda.service.FollowupTimeService;
+import com.ewcms.hzda.service.GeneralInformationService;
 import com.ewcms.personal.calendar.service.CalendarService;
 import com.ewcms.security.resource.entity.Menu;
 import com.ewcms.security.resource.service.ResourceService;
@@ -25,7 +38,10 @@ public class HomeController {
     private PushService pushApiService;
     @Autowired
     private CalendarService calendarService;
-
+    @Autowired
+    private GeneralInformationService generalInformationService;
+    @Autowired
+    private FollowupTimeService followupTimeService;
 
 	@RequestMapping(value = "home")
 	public String home(@CurrentUser User user, Model model){
@@ -49,5 +65,33 @@ public class HomeController {
         model.addAttribute("calendarCount", calendarService.countRecentlyCalendar(user.getId(), 2));
 
 		return "home";
+	}
+	
+	@RequestMapping(value = "/followupTime/query")
+	@ResponseBody
+	public Map<String, Object> followupTimeQuery(@CurrentUser User user, @ModelAttribute SearchParameter<Long> searchParameter, Model model) {
+		Long userId = null;
+		if (!user.getAdmin()) {
+			userId = user.getId();
+		}
+		
+		Pageable pageable = new PageRequest(searchParameter.getPage() - 1, searchParameter.getRows());
+		
+		Page<GeneralInformation> pages = generalInformationService.findFollowupTime(userId, pageable);
+		
+		Map<String, Object> resultMap = new HashMap<String, Object>(2);
+		
+		resultMap.put("total", pages.getTotalElements());
+		resultMap.put("rows", pages.getContent());
+		
+		return resultMap;
+	}
+
+	@RequestMapping(value = "/followupTime/close")
+	@ResponseBody
+	public AjaxResponse closeFollowup(@RequestParam(value = "followupTimeId")Long followupTimeId){
+        AjaxResponse ajaxResponse = new AjaxResponse("关闭提醒成功！");
+        followupTimeService.close(followupTimeId);
+		return ajaxResponse;
 	}
 }
