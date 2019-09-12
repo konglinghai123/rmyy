@@ -94,9 +94,16 @@ public interface VoteResultRepository extends BaseRepository<VoteResult, Long> {
 	
 	//查询属于一品的入围记录
 	@Query("from VoteResult v "
-			+ "where v.reviewMainId=?1 and v.reviewProcessId=?2 and v.commonNameContents.common.id in (?3) and v.commonNameContents.administration.id = ?4 and v.selected=true "
+			+ "where v.reviewMainId=?1 and v.reviewProcessId=?2 and v.commonNameContents.common.id in (?3) and v.commonNameContents.administration.id = ?4 and v.selected=true  "
 			+ "order by v.passSum desc, v.opposeSum asc, v.abstainSum asc")
 	List<VoteResult> findSameVoteResult(Long reviewMainId, Long reviewProcessId, List<Long> commonIds, Long administrationId);
+	
+	//查询属于一品的入围记录
+	@Query("from VoteResult v "
+			+ "where v.reviewMainId=?1 and v.reviewProcessId=?2 and v.commonNameContents.common.id in (?3) and v.commonNameContents.administration.id = ?4 and "+
+			"((v.selected=true and v.adjusted is null ) or (v.selected=false and v.adjusted = 'transferIn'))"
+			+ "order by v.passSum desc, v.opposeSum asc, v.abstainSum asc")
+	List<VoteResult> findSameVoteResultIncludeTranIn(Long reviewMainId, Long reviewProcessId, List<Long> commonIds, Long administrationId);
 	
 	//查询未入围的记录
 	@Query("from VoteResult v "

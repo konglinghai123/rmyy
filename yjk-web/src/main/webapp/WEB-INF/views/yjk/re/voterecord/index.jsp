@@ -179,7 +179,7 @@
 					
 					function formatOperation(val, row) {
 
-						return '<a onclick="viewHospital(' + val + ');" href="javascript:void(0);" style="height:24px;" title="院用情况">查看</a>';
+						return '<a style="text-decoration:none;" onclick="viewHospital(' + val + ');" href="javascript:void(0);" style="height:24px;" title="院用情况">查看</a>';
 					}
 					
 					function viewHospital(id){
@@ -187,9 +187,9 @@
 					}
 					
 					function formatTooltip(val, row){
-						if(val == true){
+						if(val == 'true'){
 							val="是";
-						}else if(val == false){
+						}else if(val == 'false'){
 							val="否";
 						}
 						return val != null ? '<span title="' + val + '" class="easyui-tooltip">' + val + '</span>' : '';

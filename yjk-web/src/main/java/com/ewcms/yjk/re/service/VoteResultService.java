@@ -1,9 +1,12 @@
 package com.ewcms.yjk.re.service;
 
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeSet;
 import java.util.Map.Entry;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -478,15 +481,13 @@ public class VoteResultService extends BaseService<VoteResult, Long> {
 			
 			int outNumber = sameVoteResults.size() - selectMaxNumber;
 			if(maxNumber != 0 && outNumber > 0){//入围数量超过一品N规，要去掉多余的入围记录并替补相应的记录
-				
 				//记录下出围多余的一品N规记录
 				outVoteResults.addAll(sameVoteResults.subList(sameVoteResults.size()-outNumber, sameVoteResults.size()));
-
 			}
 		}
-		
+		List<VoteResult> distOutVoteResults = removeAdministrationDuplicateOrder(outVoteResults);//去除重复的出围多余的一品N规记录
 
-		if(voteResults.size()-outVoteResults.size()<matchNumber){//入围的总数小于设置都入围数量，就替补相应的入围记录
+		if(voteResults.size()-distOutVoteResults.size()<matchNumber){//入围的总数小于设置都入围数量，就替补相应的入围记录
 			//替补入围出围的一品N规相应数量的记录
 			List<VoteResult> outAllVoteResults = getVoteResultRepository().findOutVoteResult(reviewMain.getId(), reviewProcessId, drugCategoryEnum);
 			int subIndex = 0;
@@ -509,17 +510,39 @@ public class VoteResultService extends BaseService<VoteResult, Long> {
 					outAllVoteResult.setSelected(Boolean.TRUE);
 					update(outAllVoteResult);
 					subIndex++;
-					if(subIndex == outVoteResults.size()|| subIndex==(matchNumber-voteResults.size()-outVoteResults.size()))break;//替补数量已经达到违规一品N规出围的总数，就终止替补
+					if(subIndex == distOutVoteResults.size()|| subIndex+(voteResults.size()-distOutVoteResults.size()) == matchNumber){
+						break;//替补数量已经达到违规一品N规出围的总数，就终止替补
+					}
 				}
 			}
 		}
 		
-		for (VoteResult outVoteResult : outVoteResults) {//将所有违规一品N规的入围记录改成出围
+		for (VoteResult outVoteResult : distOutVoteResults) {//将所有违规一品N规的入围记录改成出围
 			outVoteResult.setSelected(Boolean.FALSE);
 			update(outVoteResult);
 		}
 	}
 	
+    /**
+     * 去重给药途径
+     * 
+     * @param orderList
+     * @return
+     * @author jqlin
+     */
+    private static List<VoteResult> removeAdministrationDuplicateOrder(List<VoteResult> orderList) {
+        Set<VoteResult> set = new TreeSet<VoteResult>(new Comparator<VoteResult>() {
+            @Override
+            public int compare(VoteResult a, VoteResult b) {
+                // 字符串则按照asicc码升序排列
+                return a.getId().compareTo(b.getId());
+            }
+        });
+        
+        set.addAll(orderList);
+        return new ArrayList<VoteResult>(set);
+    }  	
+    
 	@SuppressWarnings("unchecked")
 	private List<VoteResult>  matchNumberByVoteResult(CommonNameContents vo, Long reviewProcessId){
 		List<VoteResult> sameVoteResults = Lists.newArrayList();
@@ -534,6 +557,19 @@ public class VoteResultService extends BaseService<VoteResult, Long> {
 		return sameVoteResults;
 	}
 	
+	@SuppressWarnings("unchecked")
+	private List<VoteResult>  matchNumberByVoteResultTranIn(CommonNameContents vo, Long reviewProcessId){
+		List<VoteResult> sameVoteResults = Lists.newArrayList();
+		ReviewMain reviewMain = reviewMainService.findByEnabledTrue();
+		if (reviewMain == null) return sameVoteResults;
+		
+		List<CommonName> commonNameList = commonNameService.findByMatchNumber(vo.getCommon().getMatchNumber());
+		List<Long> commonNameIds = Collections3.extractToList(commonNameList, "id");
+		if(EmptyUtil.isCollectionNotEmpty(commonNameIds)){ 
+			sameVoteResults =  getVoteResultRepository().findSameVoteResultIncludeTranIn(reviewMain.getId(), reviewProcessId, commonNameIds, vo.getAdministration().getId());
+		}
+		return sameVoteResults;
+	}	
 	
 	@SuppressWarnings("unchecked")
 	private List<HospitalContents>  matchNumberByHospital(CommonNameContents vo){
@@ -563,7 +599,7 @@ public class VoteResultService extends BaseService<VoteResult, Long> {
 			}
 		}
 		
-		List<VoteResult> sameVoteResults = matchNumberByVoteResult(vo, reviewProcessId);
+		List<VoteResult> sameVoteResults = matchNumberByVoteResultTranIn(vo, reviewProcessId);
 
 		List<HospitalContents> hospitalContentsList = matchNumberByHospital(vo);
 		
