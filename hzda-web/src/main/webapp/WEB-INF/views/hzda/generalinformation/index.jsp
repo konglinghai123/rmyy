@@ -98,6 +98,8 @@
 						</td>
             			<td>备注</td>
            				<td><input type="text" id="likeRemarks" name="LIKE_remakrs" style="width:120px;"/></td>
+            			<td>出生日期</td>
+           				<td colspan="3"><input type="text" id="gteBirthday" name="GTE_birthday" class="easyui-datebox" style="width:125px" data-options="editable:false"/> 至 <input type="text" id="lteBirthday" name="LTE_birthday" class="easyui-datebox" style="width:125px" data-options="editable:false"/></td>
            			</tr>
            		</table>
           </form>
@@ -144,6 +146,8 @@
 			$.cookie('gteRecordingTime-${user.username}', $('#gteRecordingTime').datebox('getValue'), {path: '${ctx}/hzda'});
 			$.cookie('lteRecordingTime-${user.username}', $('#lteRecordingTime').datebox('getValue'), {path: '${ctx}/hzda'});
 			$.cookie('likeRemarks-${user.username}', $('#likeRemarks').val(), {path: '${ctx}/hzda'});
+			$.cookie('gteBirthday-${user.username}', $('#gteBirthday').datebox('getValue'), {path: '${ctx}/hzda'});
+			$.cookie('lteBirthday-${user.username}', $('#lteBirthday').datebox('getValue'), {path: '${ctx}/hzda'});
 			$.ewcms.query();
 		});
 		$('#tb-clear').bind('click', function(){
@@ -156,6 +160,8 @@
 			$.cookie('gteRecordingTime-${user.username}', null);
 			$.cookie('lteRecordingTime-${user.username}', null);
 			$.cookie('eqSpecialTab-${user.username}', null);
+			$.cookie('gteBirthday-${user.username}', null);
+			$.cookie('lteBirthday-${user.username}', null);
 			$('#queryform').form('reset');
 		});
 		
@@ -211,6 +217,18 @@
 			if (likeRemarks != null && likeRemarks != '') {
 				isClick = true;
 				$('#likeRemarks').val(likeRemarks);
+			}
+			
+			var gteBirthday = $.cookie('gteBirthday-${user.username}');
+			if (gteBirthday != null && gteBirthday != '') {
+				isClick = true;
+				$('#gteBirthday').datebox('setValue', gteBirthday); 
+			}
+			
+			var lteBirthday = $.cookie('lteBirthday-${user.username}');
+			if (lteBirthday != null && lteBirthday != '') {
+				isClick = true;
+				$('#lteBirthday').datebox('setValue', lteBirthday); 
 			}
 			
 			if (isClick){
