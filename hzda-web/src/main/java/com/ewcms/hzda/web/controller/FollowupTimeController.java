@@ -27,6 +27,7 @@ import com.ewcms.common.entity.search.Searchable;
 import com.ewcms.common.web.controller.BaseCRUDController;
 import com.ewcms.common.web.validate.AjaxResponse;
 import com.ewcms.hzda.entity.FollowupTime;
+import com.ewcms.hzda.entity.GeneralInformation;
 import com.ewcms.hzda.web.controller.util.HzdaUtil;
 import com.ewcms.security.user.entity.User;
 import com.ewcms.security.user.web.bind.annotation.CurrentUser;
@@ -41,16 +42,18 @@ public class FollowupTimeController extends BaseCRUDController<FollowupTime, Lon
 	}
 	
 	@Override
-	public String index(Model model) {
-		return HzdaUtil.HZDA_GENERAL_INFORMATION_INDEX_URL;
-	}
-	
-	@Override
 	protected void setCommonData(Model model) {
 		super.setCommonData(model);
+		model.addAttribute("sexList", GeneralInformation.Sex.values());
 		model.addAttribute("booleanList", BooleanEnum.values());
 	}
-	
+
+	@Override
+	public String index(Model model) {
+		setCommonData(model);
+		return HzdaUtil.HZDA_GENERAL_INFORMATION_INDEX_URL;
+	}
+		
 	@RequestMapping(value = "index/{generalInformationId}")
 	public String index(@PathVariable(value = "generalInformationId")Long generalInformationId, Model model){
 		return super.index(model);

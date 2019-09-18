@@ -9,7 +9,7 @@
 			    <th data-options="field:'id',sortable:true,width:100" rowspan="2">编号</th>
 				<th data-options="field:'recordingTime',sortable:true,width:140" rowspan="2">记录日期</th>
 				<th data-options="field:'realName',sortable:true,width:120" rowspan="2">建档医生</th>
-				<th data-options="field:'organizationName',sortable:true,width:120" rowspan="2">建档医院</th>
+				<th data-options="field:'organizationName',sortable:true,width:260" rowspan="2">建档医院</th>
 				<th data-options="field:'transplantNumber',sortable:true,width:100" rowspan="2">移植编号</th>
 				<th data-options="field:'name',sortable:true,width:120" rowspan="2">姓名</th>
 				<th data-options="field:'hospitalizationNumber',sortable:true,width:100" rowspan="2">住院号</th>
@@ -66,9 +66,9 @@
               			<td width="5%">姓名</td>
               			<td width="23%"><input type="text" id="likeName" name="LIKE_name" style="width:120px;"/></td>
               			<td width="5%">手机号码</td>
-    					<td width="23"><input type="text" name="LIKE_mobilePhoneNumber" style="width:120px"/></td>
+    					<td width="23"><input type="text" id="likeMobilePhoneNumber" name="LIKE_mobilePhoneNumber" style="width:120px"/></td>
            				<td width="5%">证件号</td>
-           				<td width="23%"><input type="text" name="LIKE_certificateNumber" style="width:120px;"/></td>
+           				<td width="23%"><input type="text" id="likeCertificateNumber" name="LIKE_certificateNumber" style="width:120px;"/></td>
               			<td width="16%" colspan="2">
             				<a id="tb-query" href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-search'">查询</a>
            					<a id="tb-clear" href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-clear'">清除</a>
@@ -76,8 +76,28 @@
            				</td>
            			</tr>
            			<tr style="display: none;">
-           				<td>记录日期</td>
-           				<td colspan="2"><input type="text" id="recordingTime" name="GTE_recordingTime" class="easyui-datetimebox" style="width:145px" data-options="editable:false"/> 至 <input type="text" id="recordingTime" name="LTE_recordingTime" class="easyui-datetimebox" style="width:145px" data-options="editable:false"/></td>
+           				<td>性别</td>
+           				<td>
+           					<form:select id="eqSex" name="EQ_sex" path="sexList" cssClass="easyui-combobox" cssStyle="width:120px;" data-options="panelHeight:'auto',editable:false">
+					  			<form:option value="" label="请选择"/>
+					  			<form:options items="${sexList}" itemLabel="description"/>
+							</form:select>
+           				</td>
+           				<td>移植编号</td>
+           				<td><input type="text" id="likeTransplantNumber" name="LIKE_transplantNumber" style="width:120px;"/></td>
+            			<td>记录日期</td>
+           				<td colspan="3"><input type="text" id="gteRecordingTime" name="GTE_recordingTime" class="easyui-datebox" style="width:125px" data-options="editable:false"/> 至 <input type="text" id="lteRecordingTime" name="LTE_recordingTime" class="easyui-datebox" style="width:125px" data-options="editable:false"/></td>
+           			</tr>
+           			<tr style="display: none;">
+           				<td>特殊患者标记</td>
+           				<td>
+							<form:select id="eqSpecialTab" name="EQ_specialTab" path="booleanList" cssClass="easyui-combobox"  cssStyle="width:120px;" data-options="panelHeight:'auto',editable:false">
+					  			<form:option value="" label="请选择"/>
+					  			<form:options items="${booleanList}" itemLabel="info"/>
+							</form:select>
+						</td>
+            			<td>备注</td>
+           				<td><input type="text" id="likeRemarks" name="LIKE_remakrs" style="width:120px;"/></td>
            			</tr>
            		</table>
           </form>
@@ -116,19 +136,88 @@
 		});
 		$('#tb-query').bind('click', function(){
 			$.cookie('likeName-${user.username}', $('#likeName').val(), {path: '${ctx}/hzda'});
+			$.cookie('likeMobilePhoneNumber-${user.username}', $('#likeMobilePhoneNumber').val(), {path: '${ctx}/hzda'});
+			$.cookie('likeCertificateNumber-${user.username}', $('#likeCertificateNumber').val(), {path: '${ctx}/hzda'});
+			$.cookie('eqSex-${user.username}', $('#eqSex').combobox('getValue'), {path: '${ctx}/hzda'});
+			$.cookie('likeTransplantNumber-${user.username}', $('#likeTransplantNumber').val(), {path: '${ctx}/hzda'});
+			$.cookie('eqSpecialTab-${user.username}', $('#eqSpecialTab').combobox('getValue'), {path: '${ctx}/hzda'});
+			$.cookie('gteRecordingTime-${user.username}', $('#gteRecordingTime').datebox('getValue'), {path: '${ctx}/hzda'});
+			$.cookie('lteRecordingTime-${user.username}', $('#lteRecordingTime').datebox('getValue'), {path: '${ctx}/hzda'});
+			$.cookie('likeRemarks-${user.username}', $('#likeRemarks').val(), {path: '${ctx}/hzda'});
 			$.ewcms.query();
 		});
 		$('#tb-clear').bind('click', function(){
 			$.cookie('likeName-${user.username}', null); 
+			$.cookie('likeMobilePhoneNumber-${user.username}', null); 
+			$.cookie('likeCertificateNumber-${user.username}', null); 
+			$.cookie('eqSex-${user.username}', null);
+			$.cookie('likeTransplantNumber-${user.username}', null);
+			$.cookie('likeRemarks-${user.username}', null); 
+			$.cookie('gteRecordingTime-${user.username}', null);
+			$.cookie('lteRecordingTime-${user.username}', null);
+			$.cookie('eqSpecialTab-${user.username}', null);
 			$('#queryform').form('reset');
 		});
 		
 		try{
+			var isClick = false;
+			
 			var likeName = $.cookie('likeName-${user.username}');
 			if (likeName != null && likeName != '') {
 				$('#likeName').val(likeName);
-				$.ewcms.query();
 			}
+			
+			var likeMobilePhoneNumber = $.cookie('likeMobilePhoneNumber-${user.username}');
+			if (likeMobilePhoneNumber != null && likeMobilePhoneNumber != '') {
+				$('#likeMobilePhoneNumber').val(likeMobilePhoneNumber);
+			}
+			
+			var likeCertificateNumber = $.cookie('likeCertificateNumber-${user.username}');
+			if (likeCertificateNumber != null && likeCertificateNumber != '') {
+				$('#likeCertificateNumber').val(likeCertificateNumber);
+			}
+			
+			var eqSex = $.cookie('eqSex-${user.username}');
+			if (eqSex != null && eqSex != '') {
+				isClick = true;
+				$('#eqSex').combobox('setValue', eqSex); 
+			}
+			
+			var likeTransplantNumber = $.cookie('likeTransplantNumber-${user.username}');
+			if (likeTransplantNumber != null && likeTransplantNumber != '') {
+				isClick = true;
+				$('#likeTransplantNumber').val(likeTransplantNumber);
+			}
+			
+			var eqSpecialTab = $.cookie('eqSpecialTab-${user.username}');
+			if (eqSpecialTab != null && eqSpecialTab != '') {
+				isClick = true;
+				$('#eqSpecialTab').combobox('setValue', eqSpecialTab); 
+			}
+			
+			var gteRecordingTime = $.cookie('gteRecordingTime-${user.username}');
+			if (gteRecordingTime != null && gteRecordingTime != '') {
+				isClick = true;
+				$('#gteRecordingTime').datebox('setValue', gteRecordingTime); 
+			}
+			
+			var lteRecordingTime = $.cookie('lteRecordingTime-${user.username}');
+			if (lteRecordingTime != null && lteRecordingTime != '') {
+				isClick = true;
+				$('#lteRecordingTime').datebox('setValue', lteRecordingTime); 
+			}
+			
+			var likeRemarks = $.cookie('likeRemarks-${user.username}');
+			if (likeRemarks != null && likeRemarks != '') {
+				isClick = true;
+				$('#likeRemarks').val(likeRemarks);
+			}
+			
+			if (isClick){
+				$('#tb-more').click();
+			}
+			
+			$.ewcms.query();
 		}catch(err){
 		}
 	});

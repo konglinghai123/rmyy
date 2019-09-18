@@ -40,16 +40,18 @@ public class RiskEvaluationController extends BaseCRUDController<RiskEvaluation,
 	}
 
 	@Override
-	public String index(Model model) {
-		return HzdaUtil.HZDA_GENERAL_INFORMATION_INDEX_URL;
+	protected void setCommonData(Model model) {
+		super.setCommonData(model);
+		model.addAttribute("sexList", GeneralInformation.Sex.values());
+		model.addAttribute("booleanList", BooleanEnum.values());
 	}
 
 	@Override
-	protected void setCommonData(Model model) {
-		super.setCommonData(model);
-		model.addAttribute("booleanList", BooleanEnum.values());
+	public String index(Model model) {
+		setCommonData(model);
+		return HzdaUtil.HZDA_GENERAL_INFORMATION_INDEX_URL;
 	}
-	
+
 	@RequestMapping(value = "index/{generalInformationId}")
 	public String showSaveForm(@CurrentUser User user,
 			@PathVariable(value = "generalInformationId") GeneralInformation generalInformation, Model model, RedirectAttributes redirectAttributes) {

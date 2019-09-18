@@ -43,12 +43,14 @@ public class AnamnesisController extends BaseCRUDController<Anamnesis, Long> {
 
 	@Override
 	public String index(Model model) {
+		setCommonData(model);
 		return HzdaUtil.HZDA_GENERAL_INFORMATION_INDEX_URL;
 	}
 
 	@Override
 	protected void setCommonData(Model model) {
 		super.setCommonData(model);
+		model.addAttribute("sexList", GeneralInformation.Sex.values());
 		model.addAttribute("booleanList", BooleanEnum.values());
 		model.addAttribute("timeUnitList", TimeUnitEnum.values());
 		model.addAttribute("doseUnitList", DoseUnitEnum.values());

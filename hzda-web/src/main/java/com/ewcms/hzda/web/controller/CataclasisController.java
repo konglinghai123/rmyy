@@ -38,19 +38,19 @@ public class CataclasisController extends BaseCRUDController<Cataclasis, Long> {
 		setResourceIdentity("hzda:cataclasis");
 	}
 	
-	
-	@Override
-	public String index(Model model) {
-		return HzdaUtil.HZDA_GENERAL_INFORMATION_INDEX_URL;
-	}
-	
 	@Override
 	protected void setCommonData(Model model) {
 		super.setCommonData(model);
+		model.addAttribute("sexList", GeneralInformation.Sex.values());
 		model.addAttribute("booleanList", BooleanEnum.values());
 	}
-
-
+	
+	@Override
+	public String index(Model model) {
+		setCommonData(model);
+		return HzdaUtil.HZDA_GENERAL_INFORMATION_INDEX_URL;
+	}
+	
 	@RequestMapping(value = "index/{generalInformationId}")
 	public String showSaveForm(@CurrentUser User user,
 			@PathVariable(value = "generalInformationId") GeneralInformation generalInformation, Model model, RedirectAttributes redirectAttributes) {

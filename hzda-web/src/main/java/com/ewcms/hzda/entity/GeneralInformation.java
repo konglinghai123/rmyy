@@ -87,6 +87,8 @@ public class GeneralInformation extends BaseSequenceEntity<Long> {
 	private Long organizationId;
 	@Formula(value = "(select s_o.name from sec_organization s_o where s_o.id=organization_id)")
 	private String organizationName;
+	@Formula(value = "(select s_o.telephone from sec_organization s_o where s_o.id=organization_id)")
+	private String telephone;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	@Column(name = "recording_time", columnDefinition = "Timestamp default CURRENT_DATE", insertable = false, updatable = false)
 	@Temporal(TemporalType.DATE)
@@ -345,6 +347,10 @@ public class GeneralInformation extends BaseSequenceEntity<Long> {
 
 	public String getOrganizationName() {
 		return organizationName;
+	}
+
+	public String getTelephone() {
+		return telephone;
 	}
 
 	public Long getFollowupTimeId() {

@@ -23,6 +23,7 @@
 											    <th data-options="field:'ck',checkbox:true"/>
 											    <th data-options="field:'id',hidden:true">编号</th>
 											    <th data-options="field:'operator',width:80,align:'center',formatter:formatOperation">取消提醒</th>
+											    <th data-options="field:'nextTime',sortable:true,width:130">下一次随访时间</th>
 												<th data-options="field:'recordingTime',sortable:true,width:140">记录日期</th>
 												<th data-options="field:'realName',sortable:true,width:120">建档医生</th>
 												<th data-options="field:'organizationName',sortable:true,width:120">建档医院</th>
@@ -34,7 +35,6 @@
 												<th data-options="field:'birthday',sortable:true,width:130">出生年月</th>
 												<th data-options="field:'mobilePhoneNumber',sortable:true,width:100">手机号码</th>
 												<th data-options="field:'followupTimeId',hidden:true">随防编号</th>
-												<th data-options="field:'nextTime',sortable:true,width:130">下一次随访时间</th>
 											</tr>
 										</thead>
 									</table>

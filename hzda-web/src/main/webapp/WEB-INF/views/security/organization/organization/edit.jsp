@@ -18,7 +18,11 @@
 		        		<tr>
 				  			<td width="20%"><form:label path="name">织织名称：</form:label></td>
 				  			<td width="80%"><form:input path="name" readonly="true" size="40"/></td>
-			    		</tr> 	
+			    		</tr>
+			    		<tr>
+				  			<td><form:label path="telephone">联系电话：</form:label></td>
+				  			<td><form:input path="telephone"/></td>
+			    		</tr>	
 			    		<tr>
 	             			<td><form:label path="icon">图标：</form:label></td>
 			  				<td>

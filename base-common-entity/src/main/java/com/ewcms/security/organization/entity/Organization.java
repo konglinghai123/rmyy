@@ -59,6 +59,8 @@ public class Organization extends BaseSequenceEntity<Long> implements Treeable<L
     private int hasChildren;
     @Column(name = "is_show")
     private Boolean show = Boolean.TRUE;
+    @Column(name = "telephone")
+    private String telephone;
 
     public Organization() {
     }
@@ -203,4 +205,11 @@ public class Organization extends BaseSequenceEntity<Long> implements Treeable<L
         return "ztree_leaf";
     }
 
+	public String getTelephone() {
+		return telephone;
+	}
+
+	public void setTelephone(String telephone) {
+		this.telephone = telephone;
+	}
 }

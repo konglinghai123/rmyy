@@ -26,6 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.alibaba.fastjson.JSON;
+import com.ewcms.common.entity.enums.BooleanEnum;
 import com.ewcms.common.entity.search.SearchHelper;
 import com.ewcms.common.entity.search.SearchOperator;
 import com.ewcms.common.entity.search.SearchParameter;
@@ -35,6 +36,7 @@ import com.ewcms.common.web.controller.BaseCRUDController;
 import com.ewcms.common.web.validate.AjaxResponse;
 import com.ewcms.hzda.entity.BoneDensity;
 import com.ewcms.hzda.entity.Fracture;
+import com.ewcms.hzda.entity.GeneralInformation;
 import com.ewcms.hzda.web.controller.util.HzdaUtil;
 import com.ewcms.security.user.entity.User;
 import com.ewcms.security.user.web.bind.annotation.CurrentUser;
@@ -48,7 +50,15 @@ public class FractureController extends BaseCRUDController<Fracture, Long> {
 	}
 
 	@Override
+	protected void setCommonData(Model model) {
+		super.setCommonData(model);
+		model.addAttribute("sexList", GeneralInformation.Sex.values());
+		model.addAttribute("booleanList", BooleanEnum.values());
+	}
+
+	@Override
 	public String index(Model model) {
+		setCommonData(model);
 		return HzdaUtil.HZDA_GENERAL_INFORMATION_INDEX_URL;
 	}
 

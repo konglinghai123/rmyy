@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.ewcms.common.Constants;
+import com.ewcms.common.entity.enums.BooleanEnum;
 import com.ewcms.common.utils.MessageUtils;
 import com.ewcms.common.web.controller.BaseCRUDController;
 import com.ewcms.hzda.entity.GeneralInformation;
@@ -35,9 +36,17 @@ public class OperationController extends BaseCRUDController<Operation, Long> {
 	public OperationController() {
 		setResourceIdentity("hzda:operation");
 	}
-	
+
+	@Override
+	protected void setCommonData(Model model) {
+		super.setCommonData(model);
+		model.addAttribute("sexList", GeneralInformation.Sex.values());
+		model.addAttribute("booleanList", BooleanEnum.values());
+	}
+
 	@Override
 	public String index(Model model) {
+		setCommonData(model);
 		return HzdaUtil.HZDA_GENERAL_INFORMATION_INDEX_URL;
 	}
 

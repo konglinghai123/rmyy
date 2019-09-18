@@ -148,3 +148,5 @@ ALTER TABLE public.hzda_anamnesis ADD COLUMN tacrolimus_duration_unit character 
 ALTER TABLE public.hzda_anamnesis ADD COLUMN tacrolimus_initial_dose_unit character varying(255);
 ALTER TABLE public.hzda_anamnesis ADD COLUMN vitamin_d_time_unit character varying(255);
 
+
+ALTER TABLE public.sec_organization ADD COLUMN telephone character varying(255);
