@@ -60,6 +60,20 @@ public class FollowupTimeService extends BaseService<FollowupTime, Long>{
 	}
 	
 	public void updateSms(FollowupTime followupTime) {
+		if (followupTime.getNextTime() == null) return;
+		
+		Date smsDate = new Date();
+		if (followupTime.getNextTime().getTime() < (new Date()).getTime()) {
+			followupTime.setCode("");
+			followupTime.setMessage("提醒设置时间已过不能发送提醒短信");
+			followupTime.setRequestId("");
+			followupTime.setSms(true);
+			followupTime.setSmsDate(smsDate);
+			
+			update(followupTime);
+			return;
+		}
+		
 		Long generalInformationId = followupTime.getGeneralInformationId();
 		GeneralInformation generalInformation = generalInformationService.findOne(generalInformationId);
 		if (generalInformation == null) return;
@@ -67,12 +81,13 @@ public class FollowupTimeService extends BaseService<FollowupTime, Long>{
 		String name = generalInformation.getName();
 		String organizationName = generalInformation.getOrganizationName();
 		String telephone = generalInformation.getTelephone();
+		
 		if (EmptyUtil.isStringEmpty(phone)) {
 			followupTime.setCode("isv.MOBILE_NUMBER_ILLEGAL");
 			followupTime.setMessage("无效号码");
 			followupTime.setRequestId("27d7d838-9387-4f10-a12f-b8e398e3d2a7");
 			followupTime.setSms(true);
-			followupTime.setSmsDate(new Date());
+			followupTime.setSmsDate(smsDate);
 			
 			update(followupTime);
 		} else {
@@ -87,12 +102,12 @@ public class FollowupTimeService extends BaseService<FollowupTime, Long>{
 			String data = smsUtil.sendSms(phone, param, isTelephone);
 			if (EmptyUtil.isStringNotEmpty(data)) {
 				JSONObject jsonObject = JSON.parseObject(data);
-				followupTime.setCode(jsonObject.getString("code"));
-				followupTime.setMessage(jsonObject.getString("message"));
+				followupTime.setCode(jsonObject.getString("Code"));
+				followupTime.setMessage(jsonObject.getString("Message"));
 				followupTime.setRequestId(jsonObject.getString("RequestId"));
 				
 				followupTime.setSms(true);
-				followupTime.setSmsDate(new Date());
+				followupTime.setSmsDate(smsDate);
 				
 				update(followupTime);
 			}

@@ -27,9 +27,9 @@ public class SmsTest {
 		request.setAction("SendSms");
 		request.putQueryParameter("RegionId", "cn-hangzhou");
 		request.putQueryParameter("PhoneNumbers", "18970986887");
-		request.putQueryParameter("SignName", "吴智俊");
-		request.putQueryParameter("TemplateCode", "SMS_174020131");
-		request.putQueryParameter("TemplateParam", "{\"name\":\"黄水金\",\"date\":\"2019-10-10\",\"organizationName\":\"江西省人民医院\"}");
+		request.putQueryParameter("SignName", "赣凯科技");
+		request.putQueryParameter("TemplateCode", "SMS_174275095");
+		request.putQueryParameter("TemplateParam", "{\"name\":\"黄水金\",\"date\":\"2019-10-10\",\"organizationName\":\"江西省人民医院骨质疏松门诊\",\"telephone\":\"13361653980\"}");
 
 		try {
 			CommonResponse response = client.getCommonResponse(request);

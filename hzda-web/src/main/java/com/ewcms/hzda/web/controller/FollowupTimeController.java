@@ -28,6 +28,7 @@ import com.ewcms.common.web.controller.BaseCRUDController;
 import com.ewcms.common.web.validate.AjaxResponse;
 import com.ewcms.hzda.entity.FollowupTime;
 import com.ewcms.hzda.entity.GeneralInformation;
+import com.ewcms.hzda.service.FollowupTimeService;
 import com.ewcms.hzda.web.controller.util.HzdaUtil;
 import com.ewcms.security.user.entity.User;
 import com.ewcms.security.user.web.bind.annotation.CurrentUser;
@@ -35,6 +36,10 @@ import com.ewcms.security.user.web.bind.annotation.CurrentUser;
 @Controller
 @RequestMapping(value = "/hzda/followuptime")
 public class FollowupTimeController extends BaseCRUDController<FollowupTime, Long>{
+	
+	private FollowupTimeService getFollowupTimeService() {
+		return (FollowupTimeService) baseService;
+	}
 	
 	public FollowupTimeController() {
 		setListAlsoSetCommonData(true);
@@ -146,5 +151,17 @@ public class FollowupTimeController extends BaseCRUDController<FollowupTime, Lon
 	@ResponseBody
 	public AjaxResponse delete(@RequestParam(required = false) List<Long> selections, @PathVariable(value = "generalInformationId") Long generalInformationId){
 		return super.delete(selections);
+	}
+	
+	@RequestMapping(value = "send")
+	@ResponseBody
+	public AjaxResponse send(@RequestParam(value = "id")FollowupTime followupTime) {
+		AjaxResponse ajaxResponse = new AjaxResponse("发送成功！");
+		getFollowupTimeService().updateSms(followupTime);
+		if (!followupTime.getMessage().equals("OK")) {
+			ajaxResponse.setSuccess(Boolean.FALSE);
+			ajaxResponse.setMessage(followupTime.getMessage());
+		}
+		return ajaxResponse;
 	}
 }

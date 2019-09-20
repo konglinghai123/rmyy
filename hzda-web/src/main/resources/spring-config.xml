@@ -216,12 +216,12 @@
 	<import resource="spring-externalds.xml" />
 	<import resource="spring-shiro.xml" />
 	<import resource="spring-scheduling.xml"/>
+	<import resource="spring-sms.xml" />
 
 	<import resource="spring-config-cache.xml" />
 	<import resource="spring-config-task.xml" />
 	<import resource="spring-config-shiro.xml" />
 	<import resource="spring-config-monitor.xml" />
 
-	<import resource="spring-sms.xml" />
 	<!--<import resource="spring-speed-up.xml"/> -->
 </beans>

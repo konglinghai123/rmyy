@@ -96,6 +96,9 @@
 				    	<li class="user_bottom_c"></li>
 					    <li class="user_bottom_r"></li>
 					</ul>
+					<ul style="text-align: center">
+						<span><font color="white">赣ICP备19012549号-1</font></span>
+					</ul>
 				</dd>
 			</dl>
 		</div>
