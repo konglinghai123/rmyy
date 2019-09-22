@@ -124,7 +124,7 @@
         				<table class="formtable">
         					<tr>
         						<!-- <td width="10%">分组<input type="checkbox" id="chemicalSub" value="true" checked="checked"></td> -->
-        						<td width="90%">统计说明：${statisticalNotes}</td>
+        						<td width="90%">统计说明：<span id="statisticalNotes">${statisticalNotes}</span></td>
               				</tr>
         				</table>
           			</div>
@@ -251,6 +251,9 @@
 					    });
 				
 				        $.post('${ctx}/yjk/re/voterecord/savevote', parameter, function (data) {
+				        	if (data.success){
+				        		$('#statisticalNotes').text(data.value);
+				        	}
 				        	$.messager.alert('提示', data.message, 'info');
 				        });
 				    }

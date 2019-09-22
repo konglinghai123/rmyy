@@ -11,6 +11,7 @@ public class AjaxResponse implements Serializable {
 	
 	private Boolean success;
     private String message;
+    private String value;
 
     public AjaxResponse() {
         this(Boolean.TRUE, "操作成功");
@@ -38,7 +39,6 @@ public class AjaxResponse implements Serializable {
         }
     }
 
-
     public static AjaxResponse fail() {
         return fail(null);
     }
@@ -55,7 +55,6 @@ public class AjaxResponse implements Serializable {
         return new AjaxResponse(Boolean.TRUE, message);
     }
 
-
     public Boolean getSuccess() {
         return success;
     }
@@ -71,4 +70,12 @@ public class AjaxResponse implements Serializable {
     public void setMessage(String message) {
         this.message = message;
     }
+
+	public String getValue() {
+		return value;
+	}
+
+	public void setValue(String value) {
+		this.value = value;
+	}
 }

@@ -77,7 +77,6 @@ public class VoteRecordController extends BaseCRUDController<VoteRecord, Long> {
 			Boolean isExpertSubmitCurrentReview = false;
 			ReviewProcess currentReviewProcess = reviewProcessService.findCurrentReviewProcess(reviewMain.getId());
 			if (currentReviewProcess != null) { 
-				model.addAttribute("statisticalNotes", getVoteRecordService().statisticalNotes(user.getId(), currentReviewProcess.getId()));
 				isReivewProcess = true;
 				isExpertSubmitCurrentReview = getVoteRecordService().expertSubmitCurrentReview(user.getId(), currentReviewProcess.getId());
 				model.addAttribute("reviewProcessId", currentReviewProcess.getId());
@@ -95,6 +94,7 @@ public class VoteRecordController extends BaseCRUDController<VoteRecord, Long> {
 						getVoteRecordService().expertStartVoteAddSpecificationsAndPillManufacturer(user.getId(),currentReviewProcess.getId());
 					}	
 				}
+				model.addAttribute("statisticalNotes", getVoteRecordService().statisticalNotes(user.getId(), currentReviewProcess.getId()));
 			}
 			
 			model.addAttribute("isExpertSubmitCurrentReview", isExpertSubmitCurrentReview);
@@ -196,10 +196,15 @@ public class VoteRecordController extends BaseCRUDController<VoteRecord, Long> {
 	 */
 	@RequestMapping(value = "savevote", method = RequestMethod.POST)
 	@ResponseBody
-	public AjaxResponse saveVote(@CurrentUser User user, @RequestParam(required = false) List<String> selections) {
+	public AjaxResponse saveVote(@CurrentUser User user, @RequestParam(required = false) List<String> selections, Model model) {
 		AjaxResponse ajaxResponse = new AjaxResponse("保存成功！");
 		try {
 			getVoteRecordService().saveVote(user.getId(), selections);
+			ReviewMain reviewMain =  reviewMainService.findByEnabledTrue();
+			if (reviewMain != null) {
+				ReviewProcess currentReviewProcess = reviewProcessService.findCurrentReviewProcess(reviewMain.getId());
+				ajaxResponse.setValue(getVoteRecordService().statisticalNotes(user.getId(), currentReviewProcess.getId()));
+			}
 		} catch (Exception e) {
 			ajaxResponse.setSuccess(Boolean.FALSE);
 			ajaxResponse.setMessage("保存失败！");
@@ -217,6 +222,11 @@ public class VoteRecordController extends BaseCRUDController<VoteRecord, Long> {
 		AjaxResponse ajaxResponse = new AjaxResponse("提交成功！");
 		try {
 			getVoteRecordService().submitVote(user.getId(), selections);
+			ReviewMain reviewMain =  reviewMainService.findByEnabledTrue();
+			if (reviewMain != null) {
+				ReviewProcess currentReviewProcess = reviewProcessService.findCurrentReviewProcess(reviewMain.getId());
+				ajaxResponse.setValue(getVoteRecordService().statisticalNotes(user.getId(), currentReviewProcess.getId()));
+			}
 		} catch (Exception e) {
 			ajaxResponse.setSuccess(Boolean.FALSE);
 			ajaxResponse.setMessage("提交失败！");
