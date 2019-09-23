@@ -24,17 +24,38 @@
 											    <th data-options="field:'id',hidden:true">编号</th>
 											    <th data-options="field:'operator',width:80,align:'center',formatter:formatOperation">取消提醒</th>
 											    <th data-options="field:'nextTime',sortable:true,width:130">下一次随访时间</th>
-												<th data-options="field:'recordingTime',sortable:true,width:140">记录日期</th>
-												<th data-options="field:'realName',sortable:true,width:120">建档医生</th>
-												<th data-options="field:'organizationName',sortable:true,width:120">建档医院</th>
-												<th data-options="field:'name',sortable:true,width:120">姓名</th>
+												<th data-options="field:'generalInformation.recordingTime',sortable:true,width:140,
+														formatter:function(val,row){
+															return row.generalInformation.recordingTime;
+														}">记录日期</th>
+												<th data-options="field:'generalInformation.realName',sortable:true,width:120,
+														formatter:function(val,row){
+															return row.generalInformation.realName;
+														}">建档医生</th>
+												<th data-options="field:'generalInformation.organizationName',sortable:true,width:120,
+														formatter:function(val,row){
+															return row.generalInformation.organizationName;
+														}">建档医院</th>
+												<th data-options="field:'generalInformation.name',sortable:true,width:120,
+														formatter:function(val,row){
+															return row.generalInformation.name;
+														}">姓名</th>
 												<th data-options="field:'sex',width:60,sortable:true,
 														formatter:function(val,row){
-															return row.sexDescription;
+															return row.generalInformation.sexDescription;
 														}">性别</th>
-												<th data-options="field:'birthday',sortable:true,width:130">出生年月</th>
-												<th data-options="field:'mobilePhoneNumber',sortable:true,width:100">手机号码</th>
-												<th data-options="field:'followupTimeId',hidden:true">随防编号</th>
+												<th data-options="field:'generalInformation.birthday',sortable:true,width:130,
+														formatter:function(val,row){
+															return row.generalInformation.birthday;
+														}">出生年月</th>
+												<th data-options="field:'generalInformation.mobilePhoneNumber',sortable:true,width:100,
+														formatter:function(val,row){
+															return row.generalInformation.mobilePhoneNumber;
+														}">手机号码</th>
+												<th data-options="field:'generalInformation.followupTimeId',hidden:true,
+														formatter:function(val,row){
+															return row.generalInformation.followupTimeId;
+														}">随防编号</th>
 											</tr>
 										</thead>
 									</table>

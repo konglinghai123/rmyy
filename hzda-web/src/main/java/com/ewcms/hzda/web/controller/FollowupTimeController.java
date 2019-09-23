@@ -74,9 +74,9 @@ public class FollowupTimeController extends BaseCRUDController<FollowupTime, Lon
 	@ResponseBody
 	public List<FollowupTime> query(@ModelAttribute SearchParameter<Long> searchParameter, @PathVariable(value = "generalInformationId")Long generalInformationId){
 		Searchable searchable = SearchHelper.parameterConverSearchable(searchParameter, FollowupTime.class);
-		searchable.addSearchFilter("generalInformationId", SearchOperator.EQ, generalInformationId);
-		searchable.addSort(Direction.DESC, "nextTime");
+		searchable.addSearchFilter("generalInformation.id", SearchOperator.EQ, generalInformationId);
 		searchable.addSort(Direction.DESC, "id");
+		searchable.addSort(Direction.DESC, "nextTime");
 		
 		return baseService.findAllWithSort(searchable);
 	}
@@ -99,7 +99,7 @@ public class FollowupTimeController extends BaseCRUDController<FollowupTime, Lon
 	}
 	
 	@RequestMapping(value = "save/{generalInformationId}", method = RequestMethod.POST)
-	public String save(Model model, @Valid @ModelAttribute("m") FollowupTime m, BindingResult result, @CurrentUser User user, @PathVariable(value = "generalInformationId") Long generalInformationId, @RequestParam(required = false) List<Long> selections, RedirectAttributes redirectAttributes) {
+	public String save(Model model, @Valid @ModelAttribute("m") FollowupTime m, BindingResult result, @CurrentUser User user, @PathVariable(value = "generalInformationId") GeneralInformation generalInformation, @RequestParam(required = false) List<Long> selections, RedirectAttributes redirectAttributes) {
 		if (hasError(m, result)) {
 			return showSaveForm(model, selections);
 		}
@@ -112,7 +112,7 @@ public class FollowupTimeController extends BaseCRUDController<FollowupTime, Lon
 		
 		m.setUserId(user.getId());
 		m.setOrganizationId(user.getOrganizationJobs().get(0).getOrganizationId());
-		m.setGeneralInformationId(generalInformationId);
+		m.setGeneralInformation(generalInformation);
 		
 		if (m.getId() != null && StringUtils.hasText(m.getId().toString())) {
 	        if (permissionList != null) {
@@ -137,7 +137,7 @@ public class FollowupTimeController extends BaseCRUDController<FollowupTime, Lon
 			model.addAttribute("lastM", JSON.toJSONString(lastM));
 		}
 		
-		return showSaveForm(generalInformationId, model, selections);
+		return showSaveForm(generalInformation.getId(), model, selections);
 	}
 	
 	@RequestMapping(value = "delete/discard")

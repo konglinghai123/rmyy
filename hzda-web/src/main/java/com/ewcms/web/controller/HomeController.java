@@ -8,8 +8,6 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -20,9 +18,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.ewcms.common.entity.search.SearchParameter;
 import com.ewcms.common.web.validate.AjaxResponse;
 import com.ewcms.extra.push.PushService;
-import com.ewcms.hzda.entity.GeneralInformation;
+import com.ewcms.hzda.entity.FollowupTime;
 import com.ewcms.hzda.service.FollowupTimeService;
-import com.ewcms.hzda.service.GeneralInformationService;
 import com.ewcms.personal.calendar.service.CalendarService;
 import com.ewcms.security.resource.entity.Menu;
 import com.ewcms.security.resource.service.ResourceService;
@@ -38,8 +35,6 @@ public class HomeController {
     private PushService pushApiService;
     @Autowired
     private CalendarService calendarService;
-    @Autowired
-    private GeneralInformationService generalInformationService;
     @Autowired
     private FollowupTimeService followupTimeService;
 
@@ -75,9 +70,7 @@ public class HomeController {
 			userId = user.getId();
 		}
 		
-		Pageable pageable = new PageRequest(searchParameter.getPage() - 1, searchParameter.getRows());
-		
-		Page<GeneralInformation> pages = generalInformationService.findFollowupTime(userId, pageable);
+		Page<FollowupTime> pages = followupTimeService.findFollowupTime(userId, searchParameter);
 		
 		Map<String, Object> resultMap = new HashMap<String, Object>(2);
 		

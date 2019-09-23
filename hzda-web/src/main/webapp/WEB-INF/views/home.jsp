@@ -153,7 +153,7 @@
 	}
 	
 	function formatOperation(val, row) {
-		return '<a class="closeCls" onclick="closeFollowup(' + row.followupTimeId + ')" href="javascript:void(0);" style="height:24px;" title="关闭提醒"/>';
+		return '<a class="closeCls" onclick="closeFollowup(' + row.id + ')" href="javascript:void(0);" style="height:24px;" title="关闭提醒"/>';
 	}
 	
 	function closeFollowup(followupTimeId){

@@ -5,10 +5,14 @@ import java.util.Date;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.ewcms.common.entity.search.SearchHelper;
+import com.ewcms.common.entity.search.SearchParameter;
+import com.ewcms.common.entity.search.Searchable;
 import com.ewcms.common.service.BaseService;
 import com.ewcms.common.utils.EmptyUtil;
 import com.ewcms.hzda.entity.FollowupTime;
@@ -24,20 +28,7 @@ public class FollowupTimeService extends BaseService<FollowupTime, Long>{
 	}
 	
 	@Autowired
-	private GeneralInformationService generalInformationService;
-	@Autowired
 	private SmsUtil smsUtil;
-	
-	public Set<Long> findByLastMonth(){
-		Date startDate = new Date();
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(startDate); 
-        
-        calendar.set(Calendar.MONTH, calendar.get(Calendar.MONTH) + 1); 
-        Date endDate = calendar.getTime();
-        
-		return getFollowupTimeRepository().findByLastMonth(startDate, endDate);
-	}
 	
 	public Set<FollowupTime> findSmsByLastMonth(){
 		Date startDate = new Date();
@@ -50,10 +41,22 @@ public class FollowupTimeService extends BaseService<FollowupTime, Long>{
 		return getFollowupTimeRepository().findSmsByLastMonth(startDate, endDate);
 	}
 	
+	public Page<FollowupTime> findFollowupTime(Long userId, SearchParameter<Long> searchParameter){
+		Date startDate = new Date();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(startDate); 
+        
+        calendar.set(Calendar.MONTH, calendar.get(Calendar.MONTH) + 1); 
+        Date endDate = calendar.getTime();
+		
+        Searchable searchable = SearchHelper.parameterConverSearchable(searchParameter, FollowupTime.class);
+		return getFollowupTimeRepository().findByLastMonth(startDate, endDate, userId, searchable.getPage());
+	}
+
 	
 	public void close(Long id) {
 		FollowupTime followupTime = findOne(id);
-		if (EmptyUtil.isNotNull(followupTime)) {
+		if (EmptyUtil.isNotNull(followupTime)) {	
 			followupTime.setTip(false);
 			update(followupTime);
 		}
@@ -74,8 +77,7 @@ public class FollowupTimeService extends BaseService<FollowupTime, Long>{
 			return;
 		}
 		
-		Long generalInformationId = followupTime.getGeneralInformationId();
-		GeneralInformation generalInformation = generalInformationService.findOne(generalInformationId);
+		GeneralInformation generalInformation = followupTime.getGeneralInformation();
 		if (generalInformation == null) return;
 		String phone = generalInformation.getMobilePhoneNumber();
 		String name = generalInformation.getName();

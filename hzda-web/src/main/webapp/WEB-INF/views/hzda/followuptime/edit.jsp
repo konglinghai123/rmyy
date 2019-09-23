@@ -13,6 +13,7 @@
 		    	<form:hidden path="requestId"/>
 		    	<form:hidden path="sms"/>
 		    	<form:hidden path="smsDate"/>
+		    	<input id="generalInformation.id" name="generalInformation.id" value="${generalInformationId}" type="hidden"/>
 		    	<c:forEach var="selection" items="${selections}">
 	  				<input type="hidden" name="selections" value="${selection}" />
 				</c:forEach>

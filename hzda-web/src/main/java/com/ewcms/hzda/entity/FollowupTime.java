@@ -4,11 +4,15 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.Formula;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -51,8 +55,9 @@ public class FollowupTime extends BaseSequenceEntity<Long> {
 	private Long organizationId;
 	@Formula(value = "(select s_o.name from sec_organization s_o where s_o.id=organization_id)")
 	private String organizationName;
-	@Column(name = "general_information_id", nullable = false)
-	private Long generalInformationId;
+	@ManyToOne(optional = true, fetch = FetchType.EAGER)
+    @Fetch(FetchMode.SELECT)
+	private GeneralInformation generalInformation;
 
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	@Column(name = "next_time")
@@ -105,12 +110,12 @@ public class FollowupTime extends BaseSequenceEntity<Long> {
 		this.organizationName = organizationName;
 	}
 
-	public Long getGeneralInformationId() {
-		return generalInformationId;
+	public GeneralInformation getGeneralInformation() {
+		return generalInformation;
 	}
 
-	public void setGeneralInformationId(Long generalInformationId) {
-		this.generalInformationId = generalInformationId;
+	public void setGeneralInformation(GeneralInformation generalInformation) {
+		this.generalInformation = generalInformation;
 	}
 
 	@JSONField(format = "yyyy-MM-dd")
