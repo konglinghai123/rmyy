@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ewcms.common.entity.search.SearchParameter;
 import com.ewcms.common.entity.search.Searchable;
+import com.ewcms.common.utils.EmptyUtil;
 import com.ewcms.common.web.controller.BaseCRUDController;
 import com.ewcms.common.web.validate.AjaxResponse;
 import com.ewcms.security.user.entity.User;
@@ -53,7 +54,6 @@ public class VoteRecordController extends BaseCRUDController<VoteRecord, Long> {
 			ReviewMain reviewMain =  reviewMainService.findByEnabledTrue();
 			model.addAttribute("reviewProcessesList", reviewMain.getReviewProcesses());
 			model.addAttribute("currentReviewProcess", reviewProcessService.findCurrentReviewProcess(reviewMain.getId()));
-			
 		}
 		super.setCommonData(model);
 	}
@@ -96,7 +96,13 @@ public class VoteRecordController extends BaseCRUDController<VoteRecord, Long> {
 				}
 				model.addAttribute("statisticalNotes", getVoteRecordService().statisticalNotes(user.getId(), currentReviewProcess.getId()));
 			}
+			Boolean isNextEnable = true;
+			List<ReviewProcess> reviewProcesses = reviewProcessService.findByReviewMainIdAndFinishedFalseOrderByWeightDesc(reviewMain.getId());
+			if (EmptyUtil.isCollectionNotEmpty(reviewProcesses) && reviewProcesses.get(0).equals(currentReviewProcess)) {
+				isNextEnable = false;
+			}
 			
+			model.addAttribute("isNextEnable", isNextEnable);
 			model.addAttribute("isExpertSubmitCurrentReview", isExpertSubmitCurrentReview);
 		}
 		model.addAttribute("isReivewProcess", isReivewProcess);

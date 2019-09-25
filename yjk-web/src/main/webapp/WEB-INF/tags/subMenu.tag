@@ -14,7 +14,7 @@
 	<c:when test="${style eq tree}">
 		<c:choose>
 			<c:when test="${!menu.hasChildren}">
-				<li data-options="iconCls:'${menu.icon}'"><span><a href="javascript:$.ewcms.openTab({id:'#tab-${menu.oneLevelId}', title:'${menu.name}',src:'<%=menuUrl(request, menu.getUrl())%>'})" title="${menu.name}">${menu.name}</a></span></li>
+				<li data-options="iconCls:'${menu.icon}'"><span><a  href="javascript:void(0)" onclick="javascript:ewcmsOpenTab('#tab-${menu.oneLevelId}','${menu.name}', '<%=menuUrl(request, menu.getUrl())%>');" title="${menu.name}">${menu.name}</a></span></li>
 			</c:when>
 			<c:otherwise>
 				<li data-options="iconCls:'${menu.icon}'"><span><a href="javascript:void(0)" title="${menu.name}">${menu.name}</a></span>
@@ -37,7 +37,7 @@
 		<c:choose>
 			<c:when test="${!menu.hasChildren}">
 				<div class="nav-item">
-					<a href="javascript:$.ewcms.openTab({id:'#tab-${menu.oneLevelId}', title:'${menu.name}',src:'<%=menuUrl(request, menu.getUrl())%>'})"  title="${menu.name}">
+					<a   href="javascript:void(0)" onclick="javascript:ewcmsOpenTab('#tab-${menu.oneLevelId}','${menu.name}', '<%=menuUrl(request, menu.getUrl())%>');"  title="${menu.name}">
 				        <img class="${iconCls}" style="border:0"/><br/>
 				        <span>${menu.name}</span>
 				    </a>
@@ -74,3 +74,21 @@
         return ctx + url;
     }
 %>
+<script>
+	var isClick=true;
+	function ewcmsOpenTab(id, title, src){
+		if(title=='新药投票'){
+			if(isClick){
+				isClick=false;
+				 $.ewcms.openTab({id:id, title:title,src:src});
+			}
+		   
+			setTimeout(function() {
+				isClick=true;
+			}, 60000);//1分钟内不能重复点击
+			
+		}else{
+			 $.ewcms.openTab({id:id, title:title, src:src});
+		}
+	}
+</script>

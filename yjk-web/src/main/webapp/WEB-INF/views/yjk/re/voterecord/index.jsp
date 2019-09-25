@@ -115,7 +115,14 @@
 								<a id="tb-edit" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-edit',toggle:true" onclick="javascript:submitVote();">提交</a>
 							</c:when>
 							<c:otherwise>
-								<font color="red" style="font-size:14px;">当前阶段评审投票你已提交，请等待下一阶段的评审投票！</font>
+								<c:choose>
+									<c:when test="${isNextEnable}">
+										<font color="red" style="font-size:14px;">当前阶段评审投票你已提交，请等待下一阶段的评审投票！</font>
+									</c:when>
+									<c:otherwise>
+										<font color="red" style="font-size:14px;">当前阶段评审投票你已提交，所有投票已完成！</font>
+									</c:otherwise>
+								</c:choose>								
 								<a id="icon-refresh" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-reload',toggle:true" onclick="javascript:window.location.reload();;">刷新</a>
 							</c:otherwise>
 						</c:choose>			
@@ -187,12 +194,14 @@
 					}
 					
 					function formatTooltip(val, row){
-						if(val == 'true'){
+
+						val != null ? '<span title="' + val + '" class="easyui-tooltip">' + val + '</span>' : '';
+						if(val.toString() == 'true'){
 							val="是";
-						}else if(val == 'false'){
+						}else if(val.toString() == 'false'){
 							val="否";
 						}
-						return val != null ? '<span title="' + val + '" class="easyui-tooltip">' + val + '</span>' : '';
+						return val;
 					}
 					
 				    var editIndex = undefined;
