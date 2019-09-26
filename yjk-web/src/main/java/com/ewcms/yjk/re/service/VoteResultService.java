@@ -173,7 +173,7 @@ public class VoteResultService extends BaseService<VoteResult, Long> {
 	}
 	
 	/**
-	 * 取肖调整
+	 * 取消调整
 	 * 
 	 * @param voteResultId 
 	 * @return
@@ -198,8 +198,14 @@ public class VoteResultService extends BaseService<VoteResult, Long> {
 						message = "此条记录结果已封存，不能取消调整操作！";
 						ajaxResponse.setSuccess(Boolean.FALSE);
 					} else {
-						voteResult.setAdjusted(null);
-						update(voteResult);
+						if (isMayTransferIn(voteResultId, reviewProcess.getId())) {
+							voteResult.setAdjusted(null);
+							update(voteResult);
+						} else {
+							String drugFormName = voteResult.getDrugForm().getCommonNameContents().getExtractCommonName() + "-" + voteResult.getDrugForm().getCommonNameContents().getAdministrationName() + "-" + voteResult.getDrugForm().getCommonNameContents().getDrugCategoryInfo();
+							int maxNumber = findMaxNumber(voteResult.getDrugForm().getCommonNameContents());
+							message += "<br/>" + drugFormName + " 违反了一品" + ConvertUtil.int2chineseNum(maxNumber) +"规的限制";
+						}
 					}
 				}
 			}
