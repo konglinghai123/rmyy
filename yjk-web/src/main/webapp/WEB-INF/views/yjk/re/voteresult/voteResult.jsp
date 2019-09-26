@@ -266,7 +266,7 @@
         		<table class="formtable">
               		<tr>
               			<td width="20%">分组<input type="checkbox" id="chemicalSub" value="true" checked="checked"></td>
-              			<td width="30%">统计说明：${statisticalNotes}</td>
+              			<td width="30%">${statisticalNotes}</td>
               			<c:if test="${isClose}">
               			<td width="5%">显示情况</td>
               			<td width="23%">

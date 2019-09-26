@@ -642,6 +642,6 @@ public class VoteResultService extends BaseService<VoteResult, Long> {
 		Long hEnsureOrganNumber = getVoteResultRepository().countByReviewProcessIdAndSelectedTrueAndEnsureOrganTrueAndDrugFormCommonNameContentsCommonDrugCategory(reviewProcessId, DrugCategoryEnum.H);//确保科室的西药数量
 		Long zEnsureOrganNumber = getVoteResultRepository().countByReviewProcessIdAndSelectedTrueAndEnsureOrganTrueAndDrugFormCommonNameContentsCommonDrugCategory(reviewProcessId, DrugCategoryEnum.Z);//确保科室的中成药数量
 		
-		return String.format("药品总数：%d个（西药：%d，中成药：%d）；拟入围药品总数：%d（西药：%d，中成药：%d）；确保科室入围数：%d（西药：%d，中成药：%d）。", resultNumber, hResultNumber, zResultNumber, selectedNumber, hSelectedNumber, zSelectedNumber, ensureOrganNumber, hEnsureOrganNumber, zEnsureOrganNumber);
+		return String.format("统计说明：药品总数：%d个（西药：%d，中成药：%d）；拟入围药品总数：%d（西药：%d，中成药：%d）；确保科室入围数：%d（西药：%d，中成药：%d）。", resultNumber, hResultNumber, zResultNumber, selectedNumber, hSelectedNumber, zSelectedNumber, ensureOrganNumber, hEnsureOrganNumber, zEnsureOrganNumber);
 	}
 }
