@@ -266,12 +266,14 @@
 				        	$.messager.alert('提示', data.message, 'info');
 				        });
 				    }
-				    
+					var isClick=true;
 				    function submitVote(){
-						    	onClickCell(0, 'voteTypeInfo');
-						    	var rows = $('#tt').datagrid('getRows');
-							    var parameter='',voteTypeValue='',passTotal=0;
-							    $.each(rows,function(index,row){
+						if(isClick){
+							isClick=false;
+						    onClickCell(0, 'voteTypeInfo');
+						    var rows = $('#tt').datagrid('getRows');
+							var parameter='',voteTypeValue='',passTotal=0;
+							$.each(rows,function(index,row){
 							    	if(row.voteTypeInfo=='通过'){
 							    		voteTypeValue='pass';
 							    		passTotal++
@@ -281,13 +283,13 @@
 							    		voteTypeValue='abstain';
 							    	}
 							    	parameter += 'selections=' + row.id +'@'+voteTypeValue+'&';
-							    });
+							});
 							    
 							    //if(passTotal>10){
 							    	//$.messager.alert('提示', '投票通过的总数量超过3，不能提交！', 'info');
 							    	//return;
 							    //}
-						    	$.messager.confirm('提示', '确定要提交当前投票结果吗？<br/><font color="red">提交后不能再修改投票结果了！！！</font>', function(r) {
+						   	$.messager.confirm('提示', '确定要提交当前投票结果吗？<br/><font color="red">提交后不能再修改投票结果了！！！</font>', function(r) {
 									if (r) {
 										$.ewcms.addLoading();
 								        $.post('${ctx}/yjk/re/voterecord/submitvote', parameter, function (data) {
@@ -299,9 +301,12 @@
 								        		 $.ewcms.removeLoading();
 								        	}
 								        });
-								       
 									}
-								});	
+							});	
+							setTimeout(function() {
+								isClick=true;
+							}, 5000);//5秒内不能重复点击
+						}
 				    }
 				</script>
 				</c:otherwise>

@@ -262,11 +262,9 @@ public class VoteRecordService extends BaseService<VoteRecord, Long> {
 						if (voteTypeEnum.equals(VoteTypeEnum.pass)) {
 							voteResult.setPassSum(voteResult.getPassSum() + 1);
 						} else if (voteTypeEnum.equals(VoteTypeEnum.oppose)) {
-							voteResult
-									.setOpposeSum(voteResult.getOpposeSum() + 1);
+							voteResult.setOpposeSum(voteResult.getOpposeSum() + 1);
 						} else if (voteTypeEnum.equals(VoteTypeEnum.abstain)) {
-							voteResult
-									.setAbstainSum(voteResult.getAbstainSum() + 1);
+							voteResult.setAbstainSum(voteResult.getAbstainSum() + 1);
 						}
 						voteResultService.save(voteResult);
 					}

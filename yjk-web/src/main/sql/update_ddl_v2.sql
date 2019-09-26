@@ -237,7 +237,8 @@ CREATE SEQUENCE public.seq_re_vote_record_id
   CACHE 1;
 ALTER TABLE public.seq_re_vote_record_id
   OWNER TO postgres;
- 
+ALTER TABLE re_vote_record ADD COLUMN organization_names character varying(255);
+
 CREATE TABLE public.re_vote_record
 (
   id bigint NOT NULL,

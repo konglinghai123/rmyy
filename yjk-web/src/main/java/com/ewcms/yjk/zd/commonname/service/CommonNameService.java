@@ -146,8 +146,8 @@ public class CommonNameService extends BaseService<CommonName, Long> {
 								}								
 							}
 					}
-					
-					if (EmptyUtil.isNull(findByMatchNumberAndCommonName(commonName.getMatchNumber(),commonName.getCommonName()))) {
+					CommonName existCommonName = findByMatchNumberAndCommonName(commonName.getMatchNumber(),commonName.getCommonName());
+					if (EmptyUtil.isNull(existCommonName)) {
 						super.saveAndFlush(commonName);
 					}else{
 						noSave.add(i + 1);
