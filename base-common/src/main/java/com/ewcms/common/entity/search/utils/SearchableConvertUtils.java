@@ -50,7 +50,7 @@ public final class SearchableConvertUtils {
                     } catch (Exception e) {
                         throw new SearchException("conversionService is null, " +
                                 "search param convert must use conversionService. " +
-                                "please see [com.sishuok.es.common.entity.search.utils." +
+                                "please see [com.ewcms.common.entity.search.utils." +
                                 "SearchableConvertUtils#setConversionService]");
                     }
                 }
@@ -152,7 +152,6 @@ public final class SearchableConvertUtils {
 
         Object newValue;
         try {
-
             beanWrapper.setPropertyValue(entityProperty, value);
             newValue = beanWrapper.getPropertyValue(entityProperty);
         } catch (InvalidPropertyException e) {

@@ -2,6 +2,7 @@ package com.ewcms.security.user.entity;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.ewcms.common.entity.BaseSequenceEntity;
+import com.ewcms.common.entity.enums.SexEnum;
 import com.ewcms.common.plugin.entity.LogicDeleteable;
 import com.ewcms.common.repository.support.annotation.EnableQueryCache;
 import com.ewcms.common.utils.EmptyUtil;
@@ -62,20 +63,6 @@ public class User extends BaseSequenceEntity<Long> implements LogicDeleteable {
 	
 	private static final long serialVersionUID = -6104610983204668263L;
 	
-	public enum Sex {
-		MALE("男"), FEMALE("女");
-
-		private String description;
-
-		private Sex(String description) {
-			this.description = description;
-		}
-
-		public String getDescription() {
-			return description;
-		}
-	}
-	
     @NotNull(message = "{not.null}")
 //    @Pattern(regexp = PatternUtils.USERNAME_PATTERN, message = "{user.username.not.valid}")
     @Column(name = "username")
@@ -115,7 +102,7 @@ public class User extends BaseSequenceEntity<Long> implements LogicDeleteable {
     private String realname;
     @Enumerated(EnumType.STRING)
     @Column(name = "sex")
-	private Sex sex = Sex.MALE;
+	private SexEnum sex = SexEnum.MALE;
 	@Formula(value = "(select string_agg(t2.name,',') from sec_organization t2  where t2.id in (select t1.organization_id from sec_user_organization_job t1 where t1.user_id=id))")
 	private String organizationNames;
 
@@ -249,16 +236,16 @@ public class User extends BaseSequenceEntity<Long> implements LogicDeleteable {
 		return this.username + (EmptyUtil.isStringNotEmpty(this.realname) ? "(" + this.realname + ")" : ""); 
 	}
 
-	public Sex getSex() {
+	public SexEnum getSex() {
 		return sex;
 	}
 
-	public void setSex(Sex sex) {
+	public void setSex(SexEnum sex) {
 		this.sex = sex;
 	}
 	
-	public String getSexDescription() {
-		return sex == null ? "" : sex.getDescription();
+	public String getSexInfo() {
+		return sex == null ? "" : sex.getInfo();
 	}
 
 	public String getOrganizationNames() {

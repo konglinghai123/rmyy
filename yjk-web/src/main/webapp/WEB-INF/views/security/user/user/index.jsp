@@ -11,7 +11,7 @@
 				<th data-options="field:'realname',width:150,sortable:true">姓名</th>
 				<th data-options="field:'sex',width:60,sortable:true,
 						formatter:function(val,row){
-							return row.sexDescription;
+							return row.sexInfo;
 						}">性别</th>
 				<th data-options="field:'email',width:200,sortable:true">邮箱</th>
 				<th data-options="field:'mobilePhoneNumber',width:100,sortable:true">手机号</th>

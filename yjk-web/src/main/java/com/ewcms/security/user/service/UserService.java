@@ -1,5 +1,6 @@
 package com.ewcms.security.user.service;
 
+import com.ewcms.common.entity.enums.SexEnum;
 import com.ewcms.common.entity.search.SearchOperator;
 import com.ewcms.common.entity.search.Searchable;
 import com.ewcms.common.service.BaseService;
@@ -17,7 +18,6 @@ import com.ewcms.security.dictionary.service.TechnicalTitleService;
 import com.ewcms.security.organization.entity.Organization;
 import com.ewcms.security.organization.service.OrganizationService;
 import com.ewcms.security.user.entity.User;
-import com.ewcms.security.user.entity.User.Sex;
 import com.ewcms.security.user.entity.UserOrganizationJob;
 import com.ewcms.security.user.entity.UserStatus;
 import com.ewcms.security.user.exception.UserBlockedException;
@@ -335,7 +335,7 @@ public class UserService extends BaseService<User, Long> {
 							String sex = rows.getCell(j).getStringCellValue().trim();
 							if (EmptyUtil.isStringNotEmpty(sex)) {
 								if (sex.equals("女")) {
-									user.setSex(Sex.FEMALE);
+									user.setSex(SexEnum.FEMALE);
 								}
 							}
 						} else if (columnNames[j].equals("技术职称（资格）")) {

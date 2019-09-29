@@ -1,13 +1,12 @@
 package com.ewcms.system.report.generate.service.text;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 
 import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-
 
 import com.ewcms.system.report.exception.ReportException;
 
@@ -27,19 +26,11 @@ public class PdfGenerateService extends BaseTextGenerateServiceable {
 	private static final Logger logger = LoggerFactory.getLogger(PdfGenerateService.class);
 
     protected byte[] generate(JasperPrint jasperPrint, HttpServletResponse response) {
-
-        try {
-
-            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-            // PDDocument pdf = PDDocument.load(in);
-
-            // JasperExportManager.exportReportToPdfStream(jasperPrint, out);
-
-            JRPdfExporter exporter = new JRPdfExporter();
-            exporter.setParameter(JRPdfExporterParameter.JASPER_PRINT,
-                    jasperPrint);
-            exporter.setParameter(JRPdfExporterParameter.OUTPUT_STREAM,
-                    byteArrayOutputStream);
+    	try(ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream()) {
+    		JRPdfExporter exporter = new JRPdfExporter();
+    		
+            exporter.setParameter(JRPdfExporterParameter.JASPER_PRINT, jasperPrint);
+            exporter.setParameter(JRPdfExporterParameter.OUTPUT_STREAM, byteArrayOutputStream);
             exporter.exportReport();
 
             byte[] bytes = byteArrayOutputStream.toByteArray();
@@ -54,12 +45,15 @@ public class PdfGenerateService extends BaseTextGenerateServiceable {
             // 加密PDF文档
             // pdf.setEncryptionDictionary(pdfEncryption());
             // pdf.encrypt("www.jict.org", null);
-        } catch (JRException e) {
+    	} catch (IOException e) {
+            logger.error("Pdf Generate Exception", e);
+            throw new ReportException("report.text.pdf.error", null);
+    	} catch (JRException e) {
             logger.error("Pdf Generate Exception", e);
             throw new ReportException("report.text.pdf.error", null);
         }
-
     }
+    
     // private PDStandardEncryption pdfEncryption(){
     //
     // PDStandardEncryption encryption = new PDStandardEncryption();

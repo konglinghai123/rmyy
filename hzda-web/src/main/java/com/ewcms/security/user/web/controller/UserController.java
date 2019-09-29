@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ewcms.common.entity.enums.BooleanEnum;
+import com.ewcms.common.entity.enums.SexEnum;
 import com.ewcms.common.entity.search.SearchOperator;
 import com.ewcms.common.entity.search.Searchable;
 import com.ewcms.common.utils.EmptyUtil;
@@ -52,7 +53,7 @@ public class UserController extends BaseCRUDController<User, Long> {
 		super.setCommonData(model);
 		model.addAttribute("statusList", UserStatus.values());
 		model.addAttribute("booleanList", BooleanEnum.values());
-		model.addAttribute("sexList", User.Sex.values());
+		model.addAttribute("sexList", SexEnum.values());
 	}
 	
 	@Override

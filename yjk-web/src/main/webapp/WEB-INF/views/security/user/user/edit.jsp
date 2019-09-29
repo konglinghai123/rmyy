@@ -51,7 +51,7 @@
 			        </tr>
 			        <tr>
 			        	<td><form:label path="sex">性别：</form:label></td>
-			        	<td><form:radiobuttons path="sex" items="${sexList}" itemLabel="description" delimiter="&nbsp;"/>
+			        	<td><form:radiobuttons path="sex" items="${sexList}" itemLabel="info" delimiter="&nbsp;"/>
 			        </tr>
 					<tr>
 						<td><form:label path="departmentAttribute">科室属性：</form:label></td>
