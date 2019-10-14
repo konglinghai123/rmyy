@@ -194,14 +194,13 @@
 					}
 					
 					function formatTooltip(val, row){
-
-						val != null ? '<span title="' + val + '" class="easyui-tooltip">' + val + '</span>' : '';
+						var temp = val != null ? '<span title="' + val + '" class="easyui-tooltip">' + val + '</span>' : '';
 						if(val.toString() == 'true'){
-							val="是";
+							temp = '是';
 						}else if(val.toString() == 'false'){
-							val="否";
+							temp = '否';
 						}
-						return val;
+						return temp;
 					}
 					
 				    var editIndex = undefined;
