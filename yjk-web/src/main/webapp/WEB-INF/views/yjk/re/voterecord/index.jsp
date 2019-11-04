@@ -123,7 +123,7 @@
 										<font color="red" style="font-size:14px;">当前阶段评审投票你已提交，所有投票已完成！</font>
 									</c:otherwise>
 								</c:choose>								
-								<a id="icon-refresh" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-reload',toggle:true" onclick="javascript:window.location.reload();;">刷新</a>
+								<a id="icon-refresh" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-reload',toggle:true" onclick="javascript:windowReload();">刷新</a>
 							</c:otherwise>
 						</c:choose>			
 					</div>
@@ -306,6 +306,14 @@
 								isClick=true;
 							}, 5000);//5秒内不能重复点击
 						}
+				    }
+				    
+				    isReload=true;
+				    function windowReload(){
+				    	if(isReload){
+				    		window.location.reload();
+				    		isReload=false;
+				    	}
 				    }
 				</script>
 				</c:otherwise>

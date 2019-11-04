@@ -6,7 +6,7 @@
 		<thead>
 			<tr>
 			    <th data-options="field:'ck',checkbox:true" rowspan="2"/>
-			    <th data-options="field:'id',hidden:true" rowspan="2">编号</th>
+			    <th data-options="field:'id'" rowspan="2">编号</th>
 			    <th data-options="field:'weight',hidden:true" rowspan="2">排序号</th>
 				<th data-options="field:'ruleCnName',width:150,
 						formatter:function(val,row){
