@@ -19,8 +19,10 @@ import com.ewcms.security.user.entity.User;
 import com.ewcms.security.user.entity.UserStatus;
 import com.ewcms.security.user.service.UserOrganizationJobService;
 import com.ewcms.security.user.service.UserService;
+import com.ewcms.yjk.YjkConstants;
 import com.ewcms.yjk.re.entity.ReviewExpert;
 import com.ewcms.yjk.re.entity.ReviewMain;
+import com.ewcms.yjk.re.entity.ReviewProcess;
 import com.ewcms.yjk.re.repository.ReviewMainRepository;
 import com.ewcms.yjk.sp.entity.SystemParameter;
 import com.ewcms.yjk.sp.service.SystemParameterService;
@@ -51,7 +53,10 @@ public class ReviewMainService extends BaseService<ReviewMain, Long> {
 	private AutomaticAuthService automaticAuthService;
 	@Autowired
 	private SystemParameterService systemParameterService;
-
+	@Autowired
+	private ReviewProcessService reviewProcessService;
+	@Autowired
+	private VoteRecordService voteRecordService;
 	@Override
 	public ReviewMain update(ReviewMain reviewMain) {
 		ReviewMain dbReviewMain = findOne(reviewMain.getId());
@@ -234,6 +239,15 @@ public class ReviewMainService extends BaseService<ReviewMain, Long> {
 		automaticAuthService.automaticAddAuth(ROLE_NAME, ROLE_IDENTIFICATION, GROUP_NAME, userIds, Boolean.TRUE, RESOURCE_ID);
 		super.update(reviewMain);
 		
+		ReviewProcess currentReviewProcess = reviewProcessService.findCurrentReviewProcess(reviewMain.getId());
+		if(currentReviewProcess != null){
+			if(currentReviewProcess.getReviewBaseRule().getRuleName().equals(YjkConstants.ACN)){
+				voteRecordService.initDrugFormVoteResult(currentReviewProcess.getId(), "新增通用名");
+			}
+			if(currentReviewProcess.getReviewBaseRule().getRuleName().equals(YjkConstants.ASAP)){
+				voteRecordService.initDrugFormVoteResult(currentReviewProcess.getId(), "新增规格/剂型");
+			}	
+		}
 		return new AjaxResponse(Boolean.TRUE, "评审流程开启成功！");
 	}
 

@@ -118,12 +118,12 @@
 								<c:choose>
 									<c:when test="${isNextEnable}">
 										<font color="red" style="font-size:14px;">当前阶段评审投票你已提交，请等待下一阶段的评审投票！</font>
+										<a id="icon-refresh" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-reload',toggle:true" onclick="javascript:windowReload();">刷新</a>
 									</c:when>
 									<c:otherwise>
 										<font color="red" style="font-size:14px;">当前阶段评审投票你已提交，所有投票已完成！</font>
 									</c:otherwise>
 								</c:choose>								
-								<a id="icon-refresh" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-reload',toggle:true" onclick="javascript:windowReload();">刷新</a>
 							</c:otherwise>
 						</c:choose>			
 					</div>

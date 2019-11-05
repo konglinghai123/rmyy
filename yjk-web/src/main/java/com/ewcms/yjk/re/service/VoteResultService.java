@@ -296,6 +296,25 @@ public class VoteResultService extends BaseService<VoteResult, Long> {
 		}
 		
 		ajaxResponse.setMessage(message);
+		if(ajaxResponse.getSuccess()){
+			ReviewProcess currentReviewProcess = reviewProcessService.findCurrentReviewProcess(reviewMain.getId());
+			if(currentReviewProcess != null){
+				if(currentReviewProcess.getReviewBaseRule().getRuleName().equals(YjkConstants.ACN)){
+					voteRecordService.initDrugFormVoteResult(currentReviewProcess.getId(), "新增通用名");
+				}
+				if(currentReviewProcess.getReviewBaseRule().getRuleName().equals(YjkConstants.ASAP)){
+					voteRecordService.initDrugFormVoteResult(currentReviewProcess.getId(), "新增规格/剂型");
+				}
+				if(currentReviewProcess.getReviewBaseRule().getRuleName().equals(YjkConstants.ACNM)){
+					voteRecordService.initCommonNameManufacturerVoteResult(currentReviewProcess.getId(), "新增通用名");
+	
+				}	
+				if(currentReviewProcess.getReviewBaseRule().getRuleName().equals(YjkConstants.ASAPM)){
+					voteRecordService.initCommonNameManufacturerVoteResult(currentReviewProcess.getId(), "新增规格/剂型");
+				}	
+			}
+		}
+	
 		return ajaxResponse;
 	}
 	

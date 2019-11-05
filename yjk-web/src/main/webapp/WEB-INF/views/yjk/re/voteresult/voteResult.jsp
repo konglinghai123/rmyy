@@ -422,6 +422,7 @@
 	$('#tb-next').bind('click', function(){
     	$.messager.confirm('提示', '确认要进入下一轮投票流程吗？', function(r){
 			if (r){
+				$.ewcms.addLoading();
 				$.post('${ctx}/yjk/re/voteresult/next', {reason:'进入下一轮'}, function(result) {
 					if (result.success){
 						$('#tt').datagrid('clearSelections');
