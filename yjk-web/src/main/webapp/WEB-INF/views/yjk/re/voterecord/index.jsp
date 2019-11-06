@@ -94,7 +94,7 @@
 				</table>
 				<div id="tb" style="padding:5px;height:auto;">
 			        <div class="toolbar" style="margin-bottom:2px">
-						投票流程：
+						评审流程：
 						<c:forEach items="${reviewProcessesList}" var="reviewProcess" varStatus="status">
 							<c:choose>
 								<c:when test="${reviewProcess.reviewBaseRule.ruleName == currentReviewProcess.reviewBaseRule.ruleName}">
@@ -121,7 +121,7 @@
 										<a id="icon-refresh" href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-reload',toggle:true" onclick="javascript:windowReload();">刷新</a>
 									</c:when>
 									<c:otherwise>
-										<font color="red" style="font-size:14px;">当前阶段评审投票你已提交，所有投票已完成！</font>
+										<font color="red" style="font-size:14px;">当前阶段评审投票你已提交，所有评审投票已完成！</font>
 									</c:otherwise>
 								</c:choose>								
 							</c:otherwise>

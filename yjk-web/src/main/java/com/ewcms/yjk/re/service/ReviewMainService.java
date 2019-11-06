@@ -56,7 +56,7 @@ public class ReviewMainService extends BaseService<ReviewMain, Long> {
 	@Autowired
 	private ReviewProcessService reviewProcessService;
 	@Autowired
-	private VoteRecordService voteRecordService;
+	private VoteResultService voteResultService;
 	@Override
 	public ReviewMain update(ReviewMain reviewMain) {
 		ReviewMain dbReviewMain = findOne(reviewMain.getId());
@@ -242,10 +242,10 @@ public class ReviewMainService extends BaseService<ReviewMain, Long> {
 		ReviewProcess currentReviewProcess = reviewProcessService.findCurrentReviewProcess(reviewMain.getId());
 		if(currentReviewProcess != null){
 			if(currentReviewProcess.getReviewBaseRule().getRuleName().equals(YjkConstants.ACN)){
-				voteRecordService.initDrugFormVoteResult(currentReviewProcess.getId(), "新增通用名");
+				voteResultService.initDrugFormVoteResult(currentReviewProcess.getId(), "新增通用名");
 			}
 			if(currentReviewProcess.getReviewBaseRule().getRuleName().equals(YjkConstants.ASAP)){
-				voteRecordService.initDrugFormVoteResult(currentReviewProcess.getId(), "新增规格/剂型");
+				voteResultService.initDrugFormVoteResult(currentReviewProcess.getId(), "新增规格/剂型");
 			}	
 		}
 		return new AjaxResponse(Boolean.TRUE, "评审流程开启成功！");

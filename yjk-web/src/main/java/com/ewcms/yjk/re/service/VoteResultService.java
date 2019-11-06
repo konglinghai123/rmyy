@@ -27,12 +27,15 @@ import com.ewcms.yjk.re.entity.ReviewProcess;
 import com.ewcms.yjk.re.entity.VoteResult;
 import com.ewcms.yjk.re.model.VoteMonitor;
 import com.ewcms.yjk.re.repository.VoteResultRepository;
+import com.ewcms.yjk.sb.entity.AuditStatusEnum;
 import com.ewcms.yjk.sb.entity.DrugForm;
+import com.ewcms.yjk.sb.service.DrugFormService;
 import com.ewcms.yjk.sp.entity.SystemParameter;
 import com.ewcms.yjk.zd.commonname.entity.CommonName;
 import com.ewcms.yjk.zd.commonname.entity.CommonNameContents;
 import com.ewcms.yjk.zd.commonname.entity.DrugCategoryEnum;
 import com.ewcms.yjk.zd.commonname.entity.HospitalContents;
+import com.ewcms.yjk.zd.commonname.service.CommonNameContentsService;
 import com.ewcms.yjk.zd.commonname.service.CommonNameService;
 import com.ewcms.yjk.zd.commonname.service.HospitalContentsService;
 import com.google.common.collect.Lists;
@@ -61,6 +64,10 @@ public class VoteResultService extends BaseService<VoteResult, Long> {
 	private CommonNameService commonNameService;
 	@Autowired
 	private HospitalContentsService hospitalContentsService;
+	@Autowired
+	private DrugFormService drugFormService;
+	@Autowired
+	private CommonNameContentsService commonNameContentsService;
 	
 	private VoteResultRepository getVoteResultRepository(){
 		return (VoteResultRepository)baseRepository;
@@ -300,17 +307,17 @@ public class VoteResultService extends BaseService<VoteResult, Long> {
 			ReviewProcess currentReviewProcess = reviewProcessService.findCurrentReviewProcess(reviewMain.getId());
 			if(currentReviewProcess != null){
 				if(currentReviewProcess.getReviewBaseRule().getRuleName().equals(YjkConstants.ACN)){
-					voteRecordService.initDrugFormVoteResult(currentReviewProcess.getId(), "新增通用名");
+					initDrugFormVoteResult(currentReviewProcess.getId(), "新增通用名");
 				}
 				if(currentReviewProcess.getReviewBaseRule().getRuleName().equals(YjkConstants.ASAP)){
-					voteRecordService.initDrugFormVoteResult(currentReviewProcess.getId(), "新增规格/剂型");
+					initDrugFormVoteResult(currentReviewProcess.getId(), "新增规格/剂型");
 				}
 				if(currentReviewProcess.getReviewBaseRule().getRuleName().equals(YjkConstants.ACNM)){
-					voteRecordService.initCommonNameManufacturerVoteResult(currentReviewProcess.getId(), "新增通用名");
+					initCommonNameManufacturerVoteResult(currentReviewProcess.getId(), "新增通用名");
 	
 				}	
 				if(currentReviewProcess.getReviewBaseRule().getRuleName().equals(YjkConstants.ASAPM)){
-					voteRecordService.initCommonNameManufacturerVoteResult(currentReviewProcess.getId(), "新增规格/剂型");
+					initCommonNameManufacturerVoteResult(currentReviewProcess.getId(), "新增规格/剂型");
 				}	
 			}
 		}
@@ -663,4 +670,78 @@ public class VoteResultService extends BaseService<VoteResult, Long> {
 		
 		return String.format("统计说明：药品总数：%d个（西药：%d，中成药：%d）；拟入围药品总数：%d（西药：%d，中成药：%d）；确保科室入围数：%d（西药：%d，中成药：%d）。", resultNumber, hResultNumber, zResultNumber, selectedNumber, hSelectedNumber, zSelectedNumber, ensureOrganNumber, hEnsureOrganNumber, zEnsureOrganNumber);
 	}
+	
+	public String initDrugFormVoteResult(Long currentReviewProcessId, String declareCategory){
+		ReviewMain reviewMainEnable = reviewMainService.findByEnabledTrue();
+		if (reviewMainEnable == null)
+			return "评审还未启动！";
+		Boolean isExistResult = getVoteResultRepository()
+					.countByReviewProcessId(currentReviewProcessId).longValue() == 0 ? Boolean.FALSE
+					: Boolean.TRUE;// 判断当前评审过程是否已经初始投票结果记录，没有就初始初始投票结果都为0的记录
+		if (!isExistResult) {
+			List<DrugForm> validDrugFormList = drugFormService
+						.findByAuditStatusAndSystemParameterIdAndDeclareCategoryAndReviewedFalseOrderByIdAsc(
+								AuditStatusEnum.passed, reviewMainEnable.getSystemParameter().getId(),declareCategory);
+			for (DrugForm drugForm : validDrugFormList) {
+				Boolean isExistCommonName =  getVoteResultRepository().countByReviewProcessIdAndDrugFormCommonNameContentsAdministrationIdAndDrugFormCommonNameContentsCommonCommonName(currentReviewProcessId, drugForm.getCommonNameContents().getAdministration().getId(),  drugForm.getCommonNameContents().getCommon().getCommonName()).longValue()==0?Boolean.FALSE:Boolean.TRUE;
+				if (!isExistCommonName) {
+					VoteResult voteResult = new VoteResult();
+					voteResult.setReviewMainId(reviewMainEnable.getId());
+					voteResult.setReviewProcessId(currentReviewProcessId);
+					voteResult.setDrugForm(drugForm);
+					voteResult.setOpposeSum(0);
+					voteResult.setPassSum(0);
+					voteResult.setAbstainSum(0);
+					super.save(voteResult);
+				}
+			}
+		}
+		return currentReviewProcessId.toString();
+	}
+	
+	
+	public  String initCommonNameManufacturerVoteResult(Long currentReviewProcessId,String declareCategory) {
+		ReviewMain reviewMainEnable = reviewMainService.findByEnabledTrue();
+		if (reviewMainEnable == null)
+			return "评审还未启动！";
+
+			Boolean isExitsResult =  getVoteResultRepository()
+					.countByReviewProcessId(currentReviewProcessId).longValue() == 0 ? Boolean.FALSE
+					: Boolean.TRUE;// 判断是否已经有投票结果记录，没有就初始初始投票结果都为0的记录
+			if (!isExitsResult) {
+				List<DrugForm> selectedDrugFormList =  getVoteResultRepository()
+						.findSelectedDrugForm(reviewMainEnable.getId(), declareCategory);
+				for (DrugForm drugForm : selectedDrugFormList) {
+					CommonNameContents commonNameContentsvo = commonNameContentsService
+							.findOne(drugForm.getCommonNameContents().getId());
+					List<CommonName> commonNames = commonNameService
+							.findByMatchNumber(commonNameContentsvo.getCommon()
+									.getMatchNumber());
+					List<Long> commonNameIds = Collections3.extractToList(
+							commonNames, "id");
+					List<CommonNameContents> machCommonNameContentsList = commonNameContentsService
+							.findByCommonIdInAndAdministrationIdAndDeletedFalseAndDeclaredTrue(
+									commonNameIds, commonNameContentsvo
+											.getAdministration().getId());
+					for (CommonNameContents commonNameContents : machCommonNameContentsList) {
+						if( getVoteResultRepository().findByCommonNameContentsIdAndReviewProcessId(commonNameContents.getId(), currentReviewProcessId)==null){//已经存在的大总目录不再进入投票
+							if (hospitalContentsService.countByBidDrugIdAndDeletedFalse(commonNameContents.getBidDrugId()).longValue()==0) {//院用目录已存在的不进行投票
+								VoteResult voteResult = new VoteResult();
+								voteResult.setReviewMainId(reviewMainEnable.getId());
+								voteResult.setReviewProcessId(currentReviewProcessId);
+								voteResult.setDrugForm(drugForm);
+								voteResult.setOpposeSum(0);
+								voteResult.setPassSum(0);
+								voteResult.setAbstainSum(0);
+								voteResult.setCommonNameContents(commonNameContents);
+								super.save(voteResult);
+							}
+						}
+					}
+				}
+			}
+			
+			return currentReviewProcessId.toString();
+	}
+
 }
