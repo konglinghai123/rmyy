@@ -15,6 +15,10 @@
 						formatter:function(val,row){
 							return val ? '是' : '否';
 						}">是否拟入围</th>
+				<th data-options="field:'ensureOrgan',width:100,
+						formatter:function(val,row){
+							return val ? '是' : '';
+						}">是否确保科室</th>						
 				<th data-options="field:'adjustedInfo',width:90">调入/调出</th>
 				<th data-options="field:'affirmVoteResulted',width:90,
 						formatter:function(val,row){
@@ -63,7 +67,7 @@
 		<div>
         	<table class="formtable">
               	<tr>
-              		<td width="30%">统计说明：${statisticalNotes}</td>
+              		<td width="30%">${statisticalNotes}</td>
            		</tr>
            	</table>
     	</div>

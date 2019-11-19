@@ -100,7 +100,7 @@ public class VoteRecordService extends BaseService<VoteRecord, Long> {
 				vo.setReviewProcessId(voteResult.getReviewProcessId());
 				vo.setDrugForm(voteResult.getDrugForm());
 				//vo.setCommonNameContents(voteResult.getCommonNameContents());
-				vo.setOrganizationNames(drugFormService.findOrganizationNames(voteResult.getDrugForm().getCommonNameContents().getCommon().getCommonName(), voteResult.getDrugForm().getCommonNameContents().getAdministration().getId().intValue()));
+				vo.setOrganizationNames(voteResult.getOrganizationNames());
 				getVoteRecordRepository().save(vo);
 			}
 		}
@@ -147,6 +147,7 @@ public class VoteRecordService extends BaseService<VoteRecord, Long> {
 				vo.setReviewMainId(reviewMainEnable.getId());
 				vo.setReviewProcessId(voteResult.getReviewProcessId());
 				vo.setDrugForm(voteResult.getDrugForm());
+				vo.setOrganizationNames(voteResult.getOrganizationNames());
 				vo.setCommonNameContents(voteResult.getCommonNameContents());
 				getVoteRecordRepository().save(vo);
 			}

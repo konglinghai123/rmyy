@@ -31,6 +31,7 @@ import com.ewcms.yjk.zd.commonname.entity.CommonNameContents;
  * <li>adjusted:调整操作</li>
  * <li>chosen:是否入围</li>
  * <li>ensureOrgan:是否确保科室</li>
+ * <li>organizationNames:组织名称集</li>
  * </ul>
  * 
  * @author zhoudongchu
@@ -79,7 +80,10 @@ public class VoteResult extends BaseSequenceEntity<Long> {
 	
 	@Column(name = "is_ensure_organ")
 	private Boolean ensureOrgan = Boolean.FALSE;
-
+	
+	@Column(name = "organization_names")
+	private String organizationNames;
+	
 	public Long getReviewMainId() {
 		return reviewMainId;
 	}
@@ -178,6 +182,14 @@ public class VoteResult extends BaseSequenceEntity<Long> {
 
 	public void setEnsureOrgan(Boolean ensureOrgan) {
 		this.ensureOrgan = ensureOrgan;
+	}
+
+	public String getOrganizationNames() {
+		return organizationNames;
+	}
+
+	public void setOrganizationNames(String organizationNames) {
+		this.organizationNames = organizationNames;
 	}
 
 	public String getChemicalSubCategory() {

@@ -517,7 +517,7 @@ public class VoteResultService extends BaseService<VoteResult, Long> {
 				outVoteResults.addAll(sameVoteResults.subList(sameVoteResults.size()-outNumber, sameVoteResults.size()));
 			}
 		}
-		List<VoteResult> distOutVoteResults = removeAdministrationDuplicateOrder(outVoteResults);//去除重复的出围多余的一品N规记录
+		List<VoteResult> distOutVoteResults = removeAdministrationDuplicateOrder(outVoteResults);//去除重复的违规品N规出围的一记录
 
 		if(voteResults.size()-distOutVoteResults.size()<matchNumber){//入围的总数小于设置都入围数量，就替补相应的入围记录
 			//替补入围出围的一品N规相应数量的记录
@@ -671,6 +671,10 @@ public class VoteResultService extends BaseService<VoteResult, Long> {
 		return String.format("统计说明：药品总数：%d个（西药：%d，中成药：%d）；拟入围药品总数：%d（西药：%d，中成药：%d）；确保科室入围数：%d（西药：%d，中成药：%d）。", resultNumber, hResultNumber, zResultNumber, selectedNumber, hSelectedNumber, zSelectedNumber, ensureOrganNumber, hEnsureOrganNumber, zEnsureOrganNumber);
 	}
 	
+	/**
+	 * 初始化新增通用名或新增规格的投票结果记录
+	 * 
+	 */
 	public String initDrugFormVoteResult(Long currentReviewProcessId, String declareCategory){
 		ReviewMain reviewMainEnable = reviewMainService.findByEnabledTrue();
 		if (reviewMainEnable == null)
@@ -689,6 +693,7 @@ public class VoteResultService extends BaseService<VoteResult, Long> {
 					voteResult.setReviewMainId(reviewMainEnable.getId());
 					voteResult.setReviewProcessId(currentReviewProcessId);
 					voteResult.setDrugForm(drugForm);
+					voteResult.setOrganizationNames(drugFormService.findOrganizationNames(drugForm.getCommonNameContents().getCommon().getCommonName(), drugForm.getCommonNameContents().getAdministration().getId().intValue()));
 					voteResult.setOpposeSum(0);
 					voteResult.setPassSum(0);
 					voteResult.setAbstainSum(0);
@@ -699,7 +704,10 @@ public class VoteResultService extends BaseService<VoteResult, Long> {
 		return currentReviewProcessId.toString();
 	}
 	
-	
+	/**
+	 * 初始化新增通用名或新增规格的厂家遴选投票结果记录
+	 * 
+	 */
 	public  String initCommonNameManufacturerVoteResult(Long currentReviewProcessId,String declareCategory) {
 		ReviewMain reviewMainEnable = reviewMainService.findByEnabledTrue();
 		if (reviewMainEnable == null)
@@ -730,6 +738,7 @@ public class VoteResultService extends BaseService<VoteResult, Long> {
 								voteResult.setReviewMainId(reviewMainEnable.getId());
 								voteResult.setReviewProcessId(currentReviewProcessId);
 								voteResult.setDrugForm(drugForm);
+								voteResult.setOrganizationNames("");
 								voteResult.setOpposeSum(0);
 								voteResult.setPassSum(0);
 								voteResult.setAbstainSum(0);

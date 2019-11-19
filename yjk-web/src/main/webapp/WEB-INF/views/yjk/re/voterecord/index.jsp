@@ -78,14 +78,21 @@
 												}">${displayColumn.ruleCnName}</th>  						
 									</c:when>
 									<c:otherwise>
-										<th data-options="field:'${fn:substring(displayColumn.ruleName,9,fn:length(displayColumn.ruleName))}',width:${displayColumn.width},
-												formatter:function(val,row){
-													if(row.commonNameContents==null){
-													 	return '';
-													}else{
-														return formatTooltip(row.${fn:substring(displayColumn.ruleName,9,fn:length(displayColumn.ruleName))}, row);
-													}
-												}">${displayColumn.ruleCnName}</th>  						
+										<c:choose>
+											<c:when test="${displayColumn.ruleName == 'organizationNames'}">
+												<th data-options="field:'${displayColumn.ruleName}'">${displayColumn.ruleCnName}</th>
+											</c:when>
+											<c:otherwise>
+												<th data-options="field:'${fn:substring(displayColumn.ruleName,9,fn:length(displayColumn.ruleName))}',width:${displayColumn.width},
+													formatter:function(val,row){
+														if(row.commonNameContents==null){
+														 	return '';
+														}else{
+															return formatTooltip(row.${fn:substring(displayColumn.ruleName,9,fn:length(displayColumn.ruleName))}, row);
+														}
+												}">${displayColumn.ruleCnName}</th>  
+											</c:otherwise>
+										</c:choose>									
 									</c:otherwise>
 								</c:choose>
 			 				</c:forEach>
